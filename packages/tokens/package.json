@@ -1,0 +1,33 @@
+{
+  "name": "@meda/tokens",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/src/index.js",
+      "require": "./dist/src/index.cjs",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./tailwind": {
+      "import": "./dist/generated/tailwind-preset.js",
+      "require": "./dist/generated/tailwind-preset.cjs",
+      "types": "./dist/generated/tailwind-preset.d.ts"
+    },
+    "./css": "./generated/css-variables.css"
+  },
+  "files": ["dist", "generated"],
+  "scripts": {
+    "build:tokens": "tsx scripts/build-tokens.ts",
+    "build": "pnpm build:tokens && tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
