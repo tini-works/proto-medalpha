@@ -1,49 +1,75 @@
-# Proto MedAlpha Workspace
+# Proto MedAlpha
 
-Polyrepo workspace for the MedAlpha healthcare product prototype.
+Monorepo for the MedAlpha healthcare product prototype.
 
-## Quick Start (New Team Members)
+## Quick Start
 
 ```bash
-# 1. Clone the workspace meta repo
+# Clone the repo
 git clone git@github.com:tini-works/proto-medalpha.git
 cd proto-medalpha
 
-# 2. Clone all child repos and set up links
-./scripts/clone-workspace.sh
+# Install dependencies
+pnpm install
+
+# Build packages
+pnpm build:packages
+
+# Start an app
+pnpm dev:admin          # Web admin at http://localhost:5173
+pnpm dev:design-system  # Storybook at http://localhost:6006
+pnpm dev:mobile         # Expo dev server
 ```
 
 ## Structure
 
 ```
-proto-medalpha/           # This repo (meta/workspace)
-├── infra/                # Shared configs (ESLint, TypeScript, Prettier)
-├── scripts/              # Workspace automation
-├── docs/                 # Design docs and plans
-├── design-system/        # @meda/tokens + @meda/ui packages
-├── ma-admin/             # React web admin app
-└── ma-mobile/            # Expo React Native app
+proto-medalpha/
+├── packages/
+│   ├── tokens/          # @meda/tokens - Design tokens
+│   └── ui/              # @meda/ui - React components
+│
+├── apps/
+│   ├── admin/           # Web admin (Vite + React)
+│   ├── mobile/          # Mobile app (Expo)
+│   └── design-system/   # Storybook documentation
+│
+└── docs/                # Design docs and plans
 ```
 
-## Daily Workflow
+## Development
 
 | Task | Command |
 |------|---------|
-| Start design system docs | `cd design-system && pnpm storybook` |
-| Start admin app | `cd ma-admin && pnpm dev` |
-| Start mobile app | `cd ma-mobile && pnpm start` |
-| Re-link after token changes | `./scripts/dev-link.sh` |
-| Push all repos | `./scripts/push-all.sh` |
+| Start admin app | `pnpm dev:admin` |
+| Start mobile app | `pnpm dev:mobile` |
+| Start Storybook | `pnpm dev:design-system` |
+| Build all packages | `pnpm build:packages` |
+| Build everything | `pnpm build` |
+| Clean all | `pnpm clean` |
 
-## Repositories
+## Packages
 
-| Repo | Purpose |
-|------|---------|
-| [proto-medalpha](https://github.com/tini-works/proto-medalpha) | Workspace meta repo |
-| [meda-design-system](https://github.com/tini-works/meda-design-system) | Design tokens + UI components |
-| [ma-admin](https://github.com/tini-works/ma-admin) | Admin web application |
-| [ma-mobile](https://github.com/tini-works/ma-mobile) | Mobile application |
+### @meda/tokens
 
-## Architecture
+Design tokens exported as:
+- TypeScript constants (for React Native)
+- Tailwind preset (for web apps)
+- CSS variables
 
-See [docs/plans/2026-01-15-polyrepo-workspace-design.md](docs/plans/2026-01-15-polyrepo-workspace-design.md) for full architecture documentation.
+### @meda/ui
+
+React components (Button, Input, Card) using Tailwind CSS classes.
+
+## Adding Dependencies
+
+```bash
+# Add to a specific package
+pnpm --filter @meda/ui add lodash
+
+# Add to an app
+pnpm --filter admin add react-router-dom
+
+# Add to root (dev tools)
+pnpm add -D -w prettier
+```
