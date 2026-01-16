@@ -1,6 +1,6 @@
 {
   "installCommand": "npm install -g pnpm@9.15.0 && pnpm install",
-  "buildCommand": "pnpm build:packages && pnpm --filter admin build",
+  "buildCommand": "pnpm --filter @meda/tokens build && pnpm --filter @meda/ui build && pnpm --filter admin build",
   "outputDirectory": "apps/admin/dist"
 }
 
