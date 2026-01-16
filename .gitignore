@@ -18,6 +18,7 @@ packages/tokens/generated/
 # IDE
 .idea/
 .vscode/
+.cursor/
 
 # Environment
 .env

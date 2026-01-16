@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality - MedAlpha Product Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html">
+          <h1>MedAlpha</h1>
+          <span>Product Brief</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Overview</div>
+          <a href="index.html#vision" class="nav-link">Vision</a>
+          <a href="index.html#problem" class="nav-link">Problem</a>
+          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
+          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Users</div>
+          <a href="users.html#personas" class="nav-link">Personas</a>
+          <a href="users.html#journeys" class="nav-link">Journeys</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Product</div>
+          <a href="product.html#features" class="nav-link">Features</a>
+          <a href="product.html#screens" class="nav-link">Screens</a>
+          <a href="product.html#partners" class="nav-link">Partners</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Design</div>
+          <a href="design.html#tokens" class="nav-link">Tokens</a>
+          <a href="design.html#system" class="nav-link">System</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Quality</div>
+          <a href="quality.html#criteria" class="nav-link active">Criteria</a>
+          <a href="quality.html#risks" class="nav-link">Risks</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <h1 class="page-title">Quality</h1>
+      <p class="page-subtitle">Acceptance criteria and risk analysis</p>
+
+      <!-- Criteria -->
+      <section class="section" id="criteria">
+        <h2 class="section-title">Acceptance Criteria</h2>
+
+        <p class="lead">
+          Complaint-derived, testable criteria that are binary, observable, and falsifiable.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Appointment Booking</h3>
+          <div style="background: var(--background); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+            <strong style="font-size: 0.85rem;">Complaint: "Slots shown but not bookable"</strong>
+            <ul style="margin: var(--space-sm) 0 0 var(--space-md); font-size: 0.85rem; color: var(--foreground-secondary);">
+              <li>Given slot shown as available, when user taps "Book", then booking succeeds or slot removed within ≤2s</li>
+              <li>System must not display slot unless backend confirms availability within last 60 seconds</li>
+            </ul>
+          </div>
+          <div style="background: var(--background); padding: var(--space-md); border-radius: var(--radius-md);">
+            <strong style="font-size: 0.85rem;">Complaint: "Doctor cancelled, left alone"</strong>
+            <ul style="margin: var(--space-sm) 0 0 var(--space-md); font-size: 0.85rem; color: var(--foreground-secondary);">
+              <li>Given provider cancels, user receives notification within 5 minutes</li>
+              <li>Notification includes: who cancelled, reason category, action to rebook</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Prescription Redemption</h3>
+          <div style="background: var(--background); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+            <strong style="font-size: 0.85rem;">Complaint: "Don't know where my prescription is"</strong>
+            <ul style="margin: var(--space-sm) 0 0 var(--space-md); font-size: 0.85rem; color: var(--foreground-secondary);">
+              <li>App displays step-based status: Issued → Retrieved → Sent → Ready</li>
+              <li>Each state includes plain-language explanation and timestamp</li>
+            </ul>
+          </div>
+          <div style="background: var(--background); padding: var(--space-md); border-radius: var(--radius-md);">
+            <strong style="font-size: 0.85rem;">Complaint: "NFC fails, don't know what to do"</strong>
+            <ul style="margin: var(--space-sm) 0 0 var(--space-md); font-size: 0.85rem; color: var(--foreground-secondary);">
+              <li>If NFC fails, system explains likely cause in plain language</li>
+              <li>User offered ≥2 recovery options (retry, switch mode, help)</li>
+              <li>User can exit NFC flow without losing progress</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Cross-Cutting Quality Gate</h3>
+          <div style="background: rgba(220, 38, 38, 0.05); padding: var(--space-md); border-radius: var(--radius-md); border-left: 3px solid var(--error);">
+            <p style="margin: 0; font-size: 0.9rem;"><strong>A feature cannot ship if:</strong></p>
+            <ul style="margin: var(--space-sm) 0 0 var(--space-md); font-size: 0.85rem; color: var(--foreground-secondary);">
+              <li>User cannot answer at any point: What happened? What's happening? What's next?</li>
+              <li>Any failure implicitly blames the user without evidence</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Risks -->
+      <section class="section" id="risks">
+        <h2 class="section-title">Risk Analysis</h2>
+
+        <p class="lead">
+          Top risks from social listening, ranked by criticality if the assumption is wrong.
+        </p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Risk</th>
+                <th>Level</th>
+                <th>Why Critical</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Slot availability not validated before display</td>
+                <td><span class="badge risk-critical">Critical</span></td>
+                <td>Core promise broken — users see lies</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>NFC failure has no recovery path</td>
+                <td><span class="badge risk-critical">Critical</span></td>
+                <td>User blocked from prescription flow</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Provider cancellations don't notify users</td>
+                <td><span class="badge risk-critical">Critical</span></td>
+                <td>User abandoned without appointment</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Prescription data doesn't reach pharmacy</td>
+                <td><span class="badge risk-critical">Critical</span></td>
+                <td>Prescription unusable</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Store staff can't access booking system</td>
+                <td><span class="badge risk-critical">Critical</span></td>
+                <td>Real-world failure, embarrassment</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Telemedicine WebView unreliable</td>
+                <td><span class="badge risk-high">High</span></td>
+                <td>Paid for unusable service</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Status updates don't propagate</td>
+                <td><span class="badge risk-high">High</span></td>
+                <td>Trust erosion — users in the dark</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>Exiting NFC loses progress</td>
+                <td><span class="badge risk-high">High</span></td>
+                <td>Frustration, forced restart</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>Booking reference not findable by staff</td>
+                <td><span class="badge risk-high">High</span></td>
+                <td>Defeats purpose of booking</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>No recovery options after cancellation</td>
+                <td><span class="badge risk-high">High</span></td>
+                <td>User stranded, no path forward</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" style="margin-top: var(--space-lg);">
+          <h3 class="subsection-title" style="margin-top: 0;">Key Insight</h3>
+          <p style="margin: 0;">
+            Most critical failures occur at <strong>system boundaries</strong> — where MedAlpha hands off to partners
+            (Curaay, Teleclinic, gematik, store systems). The app can't control partner reliability, but it <strong>can</strong> control:
+          </p>
+          <ul style="margin-top: var(--space-sm); padding-left: var(--space-lg);">
+            <li>Pre-validation before showing options</li>
+            <li>Graceful degradation when partners fail</li>
+            <li>Clear communication about what went wrong</li>
+            <li>Actionable recovery paths</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      if (window.innerWidth <= 768 &&
+          !sidebar.contains(e.target) &&
+          !toggle.contains(e.target) &&
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

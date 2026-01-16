@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product - MedAlpha Product Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html">
+          <h1>MedAlpha</h1>
+          <span>Product Brief</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Overview</div>
+          <a href="index.html#vision" class="nav-link">Vision</a>
+          <a href="index.html#problem" class="nav-link">Problem</a>
+          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
+          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Users</div>
+          <a href="users.html#personas" class="nav-link">Personas</a>
+          <a href="users.html#journeys" class="nav-link">Journeys</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Product</div>
+          <a href="product.html#features" class="nav-link active">Features</a>
+          <a href="product.html#screens" class="nav-link">Screens</a>
+          <a href="product.html#partners" class="nav-link">Partners</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Design</div>
+          <a href="design.html#tokens" class="nav-link">Tokens</a>
+          <a href="design.html#system" class="nav-link">System</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Quality</div>
+          <a href="quality.html#criteria" class="nav-link">Criteria</a>
+          <a href="quality.html#risks" class="nav-link">Risks</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <h1 class="page-title">Product</h1>
+      <p class="page-subtitle">Features, screens, and partner integrations</p>
+
+      <!-- Features -->
+      <section class="section" id="features">
+        <h2 class="section-title">Features</h2>
+
+        <p class="lead">
+          Four core capabilities that address the fragmented healthcare experience.
+        </p>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📅</div>
+              <div>
+                <div class="card-title">Appointment Booking</div>
+                <div class="card-subtitle">Via Curaay</div>
+              </div>
+            </div>
+            <p>Find doctors, select times, book in-person or video appointments without phone calls.</p>
+            <span class="badge badge-success">Primary Feature</span>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📹</div>
+              <div>
+                <div class="card-title">Telemedicine</div>
+                <div class="card-subtitle">Via Teleclinic</div>
+              </div>
+            </div>
+            <p>Video consultations with licensed doctors. Get advice, prescriptions, and referrals remotely.</p>
+            <span class="badge badge-success">Primary Feature</span>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">💊</div>
+              <div>
+                <div class="card-title">Prescription Redemption</div>
+                <div class="card-subtitle">Via Cardlink + Apo Group</div>
+              </div>
+            </div>
+            <p>Scan eGK via NFC, choose online delivery or local pharmacy pickup. Track order status.</p>
+            <span class="badge badge-success">Primary Feature</span>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🏪</div>
+              <div>
+                <div class="card-title">Pharmacy Search</div>
+                <div class="card-subtitle">Via Google Maps</div>
+              </div>
+            </div>
+            <p>Find nearby pharmacies, check hours, get directions for immediate medication needs.</p>
+            <span class="badge badge-primary">Supporting Feature</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screens -->
+      <section class="section" id="screens">
+        <h2 class="section-title">App Structure</h2>
+
+        <p class="lead">
+          Five-tab navigation reflecting the core jobs: get care, get medication, track outcomes.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Navigation Model</h3>
+          <div class="flow" style="justify-content: center;">
+            <div class="flow-box highlight">Home</div>
+            <div class="flow-box">Appointments</div>
+            <div class="flow-box">Prescriptions</div>
+            <div class="flow-box">History</div>
+            <div class="flow-box">Profile</div>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Domain</th>
+                <th>Key Screens</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Entry & Account</strong></td>
+                <td>Splash, Onboarding, Login, Registration, Profile Completion</td>
+                <td>No feature access without completed profile</td>
+              </tr>
+              <tr>
+                <td><strong>Home</strong></td>
+                <td>Dashboard with CTAs, Contextual Reminders</td>
+                <td>Orientation + re-entry point</td>
+              </tr>
+              <tr>
+                <td><strong>Booking</strong></td>
+                <td>Type Selection, Specialty, Doctor List, Date/Time, Summary, Confirmation</td>
+                <td>Linear flow, binding confirmation</td>
+              </tr>
+              <tr>
+                <td><strong>Telemedicine</strong></td>
+                <td>Entry, Questionnaire, Waiting Room, Video Call, Summary</td>
+                <td>Wraps Teleclinic WebView</td>
+              </tr>
+              <tr>
+                <td><strong>Prescription</strong></td>
+                <td>Entry, Pharmacy Choice, NFC Scan, Prescription List, Order Confirmation</td>
+                <td>Pharmacy choice is explicit, irreversible per flow</td>
+              </tr>
+              <tr>
+                <td><strong>History</strong></td>
+                <td>Overview, Appointment History, Prescription History, Detail Views</td>
+                <td>Trust anchor, audit trail</td>
+              </tr>
+              <tr>
+                <td><strong>Profile</strong></td>
+                <td>Personal Data, Insurance, Preferences, Accessibility, Notifications</td>
+                <td>Boring, predictable, no promotions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Partners -->
+      <section class="section" id="partners">
+        <h2 class="section-title">Partner Integration</h2>
+
+        <p class="lead">
+          Co-branded experience where partners are visible but MedAlpha owns the user journey.
+        </p>
+
+        <div class="card">
+          <div class="partner-card">
+            <div class="partner-logo">CUR</div>
+            <div class="partner-info">
+              <h4>Curaay</h4>
+              <p>In-person appointment booking. API for availability and booking confirmation.</p>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div class="partner-logo">TLC</div>
+            <div class="partner-info">
+              <h4>Teleclinic</h4>
+              <p>Telemedicine video consultations. Embedded video, questionnaire, and summary.</p>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div class="partner-logo">GEM</div>
+            <div class="partner-info">
+              <h4>Cardlink / gematik</h4>
+              <p>E-prescription retrieval via NFC. Scans eGK to extract prescription tokens.</p>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div class="partner-logo">APO</div>
+            <div class="partner-info">
+              <h4>Apo Group</h4>
+              <p>Online pharmacy and prescription delivery. Order placement and tracking.</p>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div class="partner-logo">MAP</div>
+            <div class="partner-info">
+              <h4>Google Maps</h4>
+              <p>Pharmacy search and directions. Location services for offline redemption.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: var(--space-md);">
+          <h3 class="subsection-title" style="margin-top: 0;">Co-Branding Model</h3>
+          <pre style="background: var(--background); padding: var(--space-md); border-radius: var(--radius-md); font-size: 0.8rem; overflow-x: auto;">
+┌─────────────────────────────────────┐
+│  MedAlpha                           │  ← MedAlpha brand
+├─────────────────────────────────────┤
+│                                     │
+│  [Feature Content]                  │  ← Unified experience
+│                                     │
+│  ───────────────────────────────── │
+│  Powered by Teleclinic    [logo]   │  ← Partner attribution
+└─────────────────────────────────────┘</pre>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      if (window.innerWidth <= 768 &&
+          !sidebar.contains(e.target) &&
+          !toggle.contains(e.target) &&
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

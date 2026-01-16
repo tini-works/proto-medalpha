@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overview - MedAlpha Product Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html">
+          <h1>MedAlpha</h1>
+          <span>Product Brief</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Overview</div>
+          <a href="index.html#vision" class="nav-link active">Vision</a>
+          <a href="index.html#problem" class="nav-link">Problem</a>
+          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
+          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Users</div>
+          <a href="users.html#personas" class="nav-link">Personas</a>
+          <a href="users.html#journeys" class="nav-link">Journeys</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Product</div>
+          <a href="product.html#features" class="nav-link">Features</a>
+          <a href="product.html#screens" class="nav-link">Screens</a>
+          <a href="product.html#partners" class="nav-link">Partners</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Design</div>
+          <a href="design.html#tokens" class="nav-link">Tokens</a>
+          <a href="design.html#system" class="nav-link">System</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Quality</div>
+          <a href="quality.html#criteria" class="nav-link">Criteria</a>
+          <a href="quality.html#risks" class="nav-link">Risks</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <!-- HERO -->
+      <div class="hero">
+        <h1>MedAlpha</h1>
+        <p class="tagline">Your complete healthcare companion</p>
+        <p class="description">
+          A trusted, accessible healthcare companion for dm-drogerie markt customers across Europe.
+          Enables appointment booking, telemedicine consultations, and prescription redemption through
+          a single, intuitive mobile experience that works for everyone.
+        </p>
+      </div>
+
+      <!-- Vision -->
+      <section class="section" id="vision">
+        <h2 class="section-title">Vision</h2>
+
+        <p class="lead">
+          Extend the dm brand into healthcare services via partner integrations, creating a unified
+          experience for booking, telemedicine, and prescription redemption.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Value Proposition</h3>
+          <p><strong>Core promise:</strong> One trusted app for all your healthcare needs.</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Differentiator</th>
+                  <th>Implementation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>dm brand trust</strong></td>
+                  <td>12.5M existing app users, 27.5% market share</td>
+                </tr>
+                <tr>
+                  <td><strong>Complete journey</strong></td>
+                  <td>Booking → Consultation → Prescription → Delivery</td>
+                </tr>
+                <tr>
+                  <td><strong>Universal accessibility</strong></td>
+                  <td>Works for ages 23 to 68 equally well</td>
+                </tr>
+                <tr>
+                  <td><strong>Co-branded quality</strong></td>
+                  <td>"Powered by Teleclinic" signals professional partners</td>
+                </tr>
+                <tr>
+                  <td><strong>German-first</strong></td>
+                  <td>14+ language support for European footprint</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Problem -->
+      <section class="section" id="problem">
+        <h2 class="section-title">Problem</h2>
+
+        <p class="lead">
+          dm customers need healthcare services but face fragmented experiences across multiple apps,
+          confusing processes, and inconsistent quality.
+        </p>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📅</div>
+              <div>
+                <div class="card-title">Appointment Booking</div>
+                <div class="card-subtitle">Calling clinics, waiting on hold</div>
+              </div>
+            </div>
+            <p>Requires phone calls, navigating complex scheduling, no unified view.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">💊</div>
+              <div>
+                <div class="card-title">E-Prescription</div>
+                <div class="card-subtitle">Confusing NFC/gematik system</div>
+              </div>
+            </div>
+            <p>Especially difficult for older users unfamiliar with digital health cards.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📹</div>
+              <div>
+                <div class="card-title">Telemedicine</div>
+                <div class="card-subtitle">Scattered across apps</div>
+              </div>
+            </div>
+            <p>Multiple apps with inconsistent quality and no integration with prescriptions.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🏪</div>
+              <div>
+                <div class="card-title">Pharmacy Search</div>
+                <div class="card-subtitle">Separate apps/browsers</div>
+              </div>
+            </div>
+            <p>No connection between prescription issuance and pharmacy availability.</p>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Competitive Gaps We Fill</h3>
+        <div class="card">
+          <ul class="feature-list">
+            <li><strong>No app combines</strong> booking + telemedicine + prescription + pharmacy in one experience</li>
+            <li><strong>Insurance apps</strong> are member-only; MedAlpha is universal</li>
+            <li><strong>Booking apps</strong> (Doctolib, Jameda) stop at appointments</li>
+            <li><strong>Pharmacy apps</strong> (Shop Apotheke) don't offer consultations</li>
+            <li><strong>dm brand trust</strong> provides differentiation in crowded market</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Hypothesis -->
+      <section class="section" id="hypothesis">
+        <h2 class="section-title">Hypothesis</h2>
+
+        <p class="lead">
+          Core bets we're making about why MedAlpha will succeed.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Primary Hypotheses</h3>
+
+          <div class="hypothesis-item">
+            <span class="badge badge-primary">H1</span>
+            <div>
+              <strong>dm brand trust transfers to healthcare</strong>
+              <p>Customers who trust dm for personal care will trust dm for healthcare services.</p>
+            </div>
+          </div>
+
+          <div class="hypothesis-item">
+            <span class="badge badge-primary">H2</span>
+            <div>
+              <strong>One integrated app beats multiple single-purpose apps</strong>
+              <p>Users will prefer a unified experience over switching between booking, telemedicine, and pharmacy apps.</p>
+            </div>
+          </div>
+
+          <div class="hypothesis-item">
+            <span class="badge badge-primary">H3</span>
+            <div>
+              <strong>Accessibility unlocks underserved segments</strong>
+              <p>An app designed for Helga (68) will also serve everyone else, while competitors neglect older users.</p>
+            </div>
+          </div>
+
+          <div class="hypothesis-item">
+            <span class="badge badge-primary">H4</span>
+            <div>
+              <strong>Co-branding signals quality without dm liability</strong>
+              <p>"Powered by Teleclinic" provides medical credibility while dm owns the experience.</p>
+            </div>
+          </div>
+
+          <div class="hypothesis-item" style="margin-bottom: 0;">
+            <span class="badge badge-primary">H5</span>
+            <div>
+              <strong>E-prescription complexity creates market opportunity</strong>
+              <p>The gematik/NFC flow is confusing enough that a well-designed guide creates defensible value.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Assumptions -->
+      <section class="section" id="assumptions">
+        <h2 class="section-title">Assumptions</h2>
+
+        <p class="lead">
+          Testable assumptions extracted from social listening and research, organized by complaint type and ranked by risk.
+        </p>
+
+        <!-- Complaint Type Tabs -->
+        <div class="assumption-tabs" role="tablist">
+          <button class="assumption-tab active" role="tab" aria-selected="true" data-tab="functional" onclick="switchTab('functional')">
+            Functional
+            <span class="tab-badge badge-success">26</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="behavioural" onclick="switchTab('behavioural')">
+            Behavioural
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="informational" onclick="switchTab('informational')">
+            Informational
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="interaction" onclick="switchTab('interaction')">
+            Interaction
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="visual" onclick="switchTab('visual')">
+            Visual
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="expectation" onclick="switchTab('expectation')">
+            Expectation
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="emotional" onclick="switchTab('emotional')">
+            Emotional
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="continuity" onclick="switchTab('continuity')">
+            Continuity
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+          <button class="assumption-tab" role="tab" aria-selected="false" data-tab="equity" onclick="switchTab('equity')">
+            Equity
+            <span class="tab-badge badge-muted">Pending</span>
+          </button>
+        </div>
+
+        <!-- Tab Content: Functional -->
+        <div class="tab-content active" id="tab-functional" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Functional Assumptions</h3>
+            <p class="tab-question">"The system does not do what it claims to do."</p>
+          </div>
+
+        <!-- Stats Overview -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-number">26</div>
+            <div class="stat-label">Total Assumptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number critical">10</div>
+            <div class="stat-label">Critical Risk</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number high">12</div>
+            <div class="stat-label">High Risk</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Domains</div>
+          </div>
+        </div>
+
+        <!-- 1. Appointment Booking - Slots -->
+        <div class="complaint-section">
+          <div class="complaint-header">
+            <span class="complaint-icon">📅</span>
+            <div>
+              <div class="complaint-title">Appointment Booking</div>
+              <div class="complaint-quote">"Slots look available but cannot be booked"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Real-time availability sync exists between Curaay API and our display</div>
+              <div class="assumption-cell test" data-label="Test">Given slot displayed as available, when user attempts booking within 60s, then booking succeeds ≥95%</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Slot availability is validated before display</div>
+              <div class="assumption-cell test" data-label="Test">Given backend confirms slot unavailable, then slot never renders in UI</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Users understand why a visible slot fails</div>
+              <div class="assumption-cell test" data-label="Test">Given slot becomes unavailable mid-flow, then user sees reason + alternatives within 2s</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">The Curaay API returns accurate availability data</div>
+              <div class="assumption-cell test" data-label="Test">Given Curaay reports slot available, then corresponding clinic can actually accept booking</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Appointment Booking - Cancellations -->
+        <div class="complaint-section">
+          <div class="complaint-header" style="background: var(--primary-dark);">
+            <span class="complaint-icon">❌</span>
+            <div>
+              <div class="complaint-title">Appointment Booking</div>
+              <div class="complaint-quote">"The doctor cancelled and I was left alone"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Provider cancellations trigger user notifications</div>
+              <div class="assumption-cell test" data-label="Test">Given provider cancels, then user receives notification within 5 minutes</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Users have actionable recovery options</div>
+              <div class="assumption-cell test" data-label="Test">Given cancellation notification, then user can rebook or contact support in ≤2 taps</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Cancellation reason is available and displayed</div>
+              <div class="assumption-cell test" data-label="Test">Given provider cancellation, then reason category is shown to user</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">We receive cancellation events from partner systems</div>
+              <div class="assumption-cell test" data-label="Test">Given partner system cancels booking, then our system receives event within 60s</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Prescription Redemption - ePrescriptions -->
+        <div class="complaint-section">
+          <div class="complaint-header" style="background: #2E7D32;">
+            <span class="complaint-icon">💊</span>
+            <div>
+              <div class="complaint-title">Prescription Redemption</div>
+              <div class="complaint-quote">"ePrescriptions not retrievable by pharmacies"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Prescription data successfully transmits to pharmacy systems</div>
+              <div class="assumption-cell test" data-label="Test">Given user completes redemption, then pharmacy retrieves via gematik within 5 min</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Our NFC scan correctly extracts prescription tokens</div>
+              <div class="assumption-cell test" data-label="Test">Given valid eGK with prescription, then token extraction matches gematik records</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Pharmacies have compatible systems</div>
+              <div class="assumption-cell test" data-label="Test">Given prescription sent, then pharmacy system version is compatible</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">gematik infrastructure is reliable</div>
+              <div class="assumption-cell test" data-label="Test">Given retrieval request, then gematik responds successfully ≥99%</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Prescription Redemption - NFC -->
+        <div class="complaint-section">
+          <div class="complaint-header" style="background: #16A34A;">
+            <span class="complaint-icon">📱</span>
+            <div>
+              <div class="complaint-title">Prescription Redemption</div>
+              <div class="complaint-quote">"NFC scanning fails or blocks progress"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">User's device supports NFC for eGK scanning</div>
+              <div class="assumption-cell test" data-label="Test">Given user enters NFC flow, then device capability verified before scan attempt</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Users know how to position card for NFC</div>
+              <div class="assumption-cell test" data-label="Test">Given scan instructions, then first-attempt success rate ≥70%</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">NFC failure has clear recovery paths</div>
+              <div class="assumption-cell test" data-label="Test">Given NFC failure, then user sees ≥2 recovery options (retry, manual, help)</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Users can exit NFC flow without losing progress</div>
+              <div class="assumption-cell test" data-label="Test">Given user abandons NFC mid-flow, then previous selections persist</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Failure messages distinguish user vs system error</div>
+              <div class="assumption-cell test" data-label="Test">Given NFC failure, then message correctly identifies cause</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Telemedicine -->
+        <div class="complaint-section">
+          <div class="complaint-header" style="background: #7C3AED;">
+            <span class="complaint-icon">📹</span>
+            <div>
+              <div class="complaint-title">Telemedicine</div>
+              <div class="complaint-quote">"Sessions drop or do not start"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Teleclinic WebView loads reliably</div>
+              <div class="assumption-cell test" data-label="Test">Given user enters telemedicine flow, then WebView initializes within 5s ≥95%</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Network connectivity is checked before session</div>
+              <div class="assumption-cell test" data-label="Test">Given user attempts to start call, then network warning shown if connectivity poor</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Session can recover from brief disconnection</div>
+              <div class="assumption-cell test" data-label="Test">Given connection drops &lt;30s, then session resumes without re-auth</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Doctor is actually available at scheduled time</div>
+              <div class="assumption-cell test" data-label="Test">Given scheduled appointment, then doctor joins within 5 min of slot start</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Users know what to do if session fails</div>
+              <div class="assumption-cell test" data-label="Test">Given session failure, then user sees specific next steps</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Offline/In-Store -->
+        <div class="complaint-section">
+          <div class="complaint-header" style="background: #EA580C;">
+            <span class="complaint-icon">🏪</span>
+            <div>
+              <div class="complaint-title">Offline/In-Store Integration</div>
+              <div class="complaint-quote">"In-store bookings not recognised by staff"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Store staff have access to booking system</div>
+              <div class="assumption-cell test" data-label="Test">Given booking made in app, then staff can view via their terminal</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Booking reference is usable by staff</div>
+              <div class="assumption-cell test" data-label="Test">Given user shows reference, then staff locates booking in ≤30 seconds</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Real-time sync exists between app and store</div>
+              <div class="assumption-cell test" data-label="Test">Given booking created, then store system reflects within 2 minutes</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">App clearly states if store access not guaranteed</div>
+              <div class="assumption-cell test" data-label="Test">Given booking without guaranteed access, then app warns before confirm</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Status Tracking -->
+        <div class="complaint-section">
+          <div class="complaint-header" style="background: #0891B2;">
+            <span class="complaint-icon">🔄</span>
+            <div>
+              <div class="complaint-title">Status & Progress Tracking</div>
+              <div class="complaint-quote">"Statuses stuck or never updated"</div>
+            </div>
+          </div>
+          <div class="assumption-grid">
+            <div class="assumption-row header">
+              <div class="assumption-cell">Implicit Assumption</div>
+              <div class="assumption-cell">Testable Form</div>
+              <div class="assumption-cell">Risk</div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Status polling or push works reliably</div>
+              <div class="assumption-cell test" data-label="Test">Given status change in backend, then UI reflects within 60 seconds</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">All status transitions are captured</div>
+              <div class="assumption-cell test" data-label="Test">Given any state change, then history shows complete trail</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Users can force-refresh status</div>
+              <div class="assumption-cell test" data-label="Test">Given pull-to-refresh, then current status fetched from source of truth</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-high">High</span></div>
+            </div>
+            <div class="assumption-row">
+              <div class="assumption-cell" data-label="Assumption">Backend status events are not silently dropped</div>
+              <div class="assumption-cell test" data-label="Test">Given partner sends status update, then system processes within 5 min</div>
+              <div class="assumption-cell risk" data-label="Risk"><span class="badge risk-critical">Critical</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Pattern -->
+        <div class="card" style="margin-top: var(--space-lg); border-left: 4px solid var(--primary);">
+          <h3 class="subsection-title" style="margin-top: 0;">Pattern Observed</h3>
+          <p style="margin-bottom: var(--space-md);">
+            Most critical failures happen at <strong>system boundaries</strong> — where MedAlpha hands off to partners (Curaay, Teleclinic, gematik, store systems).
+          </p>
+          <p style="margin: 0;">
+            <strong>Recommendation:</strong> Treat every external integration as "untrusted" and design defensive UX:
+          </p>
+          <ul style="margin-top: var(--space-sm); padding-left: var(--space-lg); color: var(--foreground-secondary);">
+            <li>Pre-validation before showing options</li>
+            <li>Graceful degradation when partners fail</li>
+            <li>Clear communication about what went wrong</li>
+            <li>Actionable recovery paths always available</li>
+          </ul>
+        </div>
+        </div><!-- End Tab Content: Functional -->
+
+        <!-- Tab Content: Behavioural -->
+        <div class="tab-content" id="tab-behavioural" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Behavioural Assumptions</h3>
+            <p class="tab-question">"The system behaves in ways I cannot predict or influence."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">🔮</div>
+            <h4>Analysis Pending</h4>
+            <p>Behavioural assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Availability changes mid-flow without explanation</li>
+              <li>Prescriptions "disappear" between systems</li>
+              <li>App actions trigger silent backend changes</li>
+              <li>Users cannot tell who is responsible for a failure</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Informational -->
+        <div class="tab-content" id="tab-informational" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Informational Assumptions</h3>
+            <p class="tab-question">"I am missing critical information to make sense of what is happening."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">📋</div>
+            <h4>Analysis Pending</h4>
+            <p>Informational assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Vague status labels ("in progress")</li>
+              <li>No explanation of ePrescription lifecycle</li>
+              <li>Missing expectations for telemedicine outcomes</li>
+              <li>Error messages without cause or resolution</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Interaction -->
+        <div class="tab-content" id="tab-interaction" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Interaction & Flow Assumptions</h3>
+            <p class="tab-question">"This takes more effort than it should."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">🔄</div>
+            <h4>Analysis Pending</h4>
+            <p>Interaction assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Long questionnaires for simple bookings</li>
+              <li>Repeated data entry across flows</li>
+              <li>Mandatory steps with no clear value</li>
+              <li>Hard stops without safe exit or save state</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Visual -->
+        <div class="tab-content" id="tab-visual" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Visual & Perceptual Assumptions</h3>
+            <p class="tab-question">"What I see does not match what is real or important."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">👁️</div>
+            <h4>Analysis Pending</h4>
+            <p>Visual assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Availability visually overstated</li>
+              <li>Important confirmations buried or easy to miss</li>
+              <li>Status changes not visually distinct</li>
+              <li>Poor contrast or readability in critical flows</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Expectation -->
+        <div class="tab-content" id="tab-expectation" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Expectation Management Assumptions</h3>
+            <p class="tab-question">"I expected one thing and got another."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">🎯</div>
+            <h4>Analysis Pending</h4>
+            <p>Expectation assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Telemedicine perceived as diagnosis rather than advice</li>
+              <li>Booking perceived as guaranteed rather than tentative</li>
+              <li>Pharmacy visit expected to be instant but requires waiting</li>
+              <li>Delivery times assumed rather than confirmed</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Emotional -->
+        <div class="tab-content" id="tab-emotional" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Emotional Assumptions</h3>
+            <p class="tab-question">"This made me feel stressed, blamed, or powerless."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">💔</div>
+            <h4>Analysis Pending</h4>
+            <p>Emotional assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Feeling blamed for technical failures</li>
+              <li>Anxiety about missing medication</li>
+              <li>Fear of doing something wrong</li>
+              <li>Embarrassment around sensitive prescriptions</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Continuity -->
+        <div class="tab-content" id="tab-continuity" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Service Continuity Assumptions</h3>
+            <p class="tab-question">"The experience breaks when moving between systems or people."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">🔗</div>
+            <h4>Analysis Pending</h4>
+            <p>Continuity assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>App vs pharmacy inconsistency</li>
+              <li>App vs store staff mismatch</li>
+              <li>App vs doctor actions not aligned</li>
+              <li>No single source of truth</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab Content: Equity -->
+        <div class="tab-content" id="tab-equity" role="tabpanel">
+          <div class="tab-header">
+            <h3 class="tab-title">Equity & Accessibility Assumptions</h3>
+            <p class="tab-question">"This works for others, not for me."</p>
+          </div>
+          <div class="pending-content">
+            <div class="pending-icon">♿</div>
+            <h4>Analysis Pending</h4>
+            <p>Equity assumptions will be extracted from complaints about:</p>
+            <ul>
+              <li>Flows too complex for moderate digital literacy</li>
+              <li>Small text or low contrast in critical steps</li>
+              <li>No assistance or fallback for NFC or video</li>
+              <li>Assumptions of stable internet or modern devices</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      if (window.innerWidth <= 768 &&
+          !sidebar.contains(e.target) &&
+          !toggle.contains(e.target) &&
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    function switchTab(tabName) {
+      // Remove active from all tabs and content
+      document.querySelectorAll('.assumption-tab').forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // Add active to selected tab and content
+      const selectedTab = document.querySelector(`.assumption-tab[data-tab="${tabName}"]`);
+      const selectedContent = document.getElementById(`tab-${tabName}`);
+
+      if (selectedTab) {
+        selectedTab.classList.add('active');
+        selectedTab.setAttribute('aria-selected', 'true');
+      }
+      if (selectedContent) {
+        selectedContent.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

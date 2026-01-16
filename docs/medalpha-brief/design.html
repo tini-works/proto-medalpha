@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design - MedAlpha Product Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html">
+          <h1>MedAlpha</h1>
+          <span>Product Brief</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Overview</div>
+          <a href="index.html#vision" class="nav-link">Vision</a>
+          <a href="index.html#problem" class="nav-link">Problem</a>
+          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
+          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Users</div>
+          <a href="users.html#personas" class="nav-link">Personas</a>
+          <a href="users.html#journeys" class="nav-link">Journeys</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Product</div>
+          <a href="product.html#features" class="nav-link">Features</a>
+          <a href="product.html#screens" class="nav-link">Screens</a>
+          <a href="product.html#partners" class="nav-link">Partners</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Design</div>
+          <a href="design.html#tokens" class="nav-link active">Tokens</a>
+          <a href="design.html#system" class="nav-link">System</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Quality</div>
+          <a href="quality.html#criteria" class="nav-link">Criteria</a>
+          <a href="quality.html#risks" class="nav-link">Risks</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <h1 class="page-title">Design</h1>
+      <p class="page-subtitle">Visual foundation based on "dm Clinical Trust"</p>
+
+      <!-- Tokens -->
+      <section class="section" id="tokens">
+        <h2 class="section-title">Design Tokens</h2>
+
+        <p class="lead">
+          Professional, accessible, blue-dominant visual language.
+        </p>
+
+        <h3 class="subsection-title">Color Palette</h3>
+
+        <h4 style="font-size: 0.9rem; color: var(--foreground-secondary); margin-bottom: var(--space-sm);">Primary</h4>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0C3D91;"></div>
+            <div class="swatch-name">Primary</div>
+            <div class="swatch-hex">#0C3D91</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #1E5BB8;"></div>
+            <div class="swatch-name">Primary Light</div>
+            <div class="swatch-hex">#1E5BB8</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #082B6A;"></div>
+            <div class="swatch-name">Primary Dark</div>
+            <div class="swatch-hex">#082B6A</div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.9rem; color: var(--foreground-secondary); margin-bottom: var(--space-sm); margin-top: var(--space-lg);">Brand Accents</h4>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #EE161F;"></div>
+            <div class="swatch-name">Secondary (dm Red)</div>
+            <div class="swatch-hex">#EE161F</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #FFC603;"></div>
+            <div class="swatch-name">Accent (dm Yellow)</div>
+            <div class="swatch-hex">#FFC603</div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.9rem; color: var(--foreground-secondary); margin-bottom: var(--space-sm); margin-top: var(--space-lg);">Semantic</h4>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #2E7D32;"></div>
+            <div class="swatch-name">Success</div>
+            <div class="swatch-hex">#2E7D32</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F59E0B;"></div>
+            <div class="swatch-name">Warning</div>
+            <div class="swatch-hex">#F59E0B</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #DC2626;"></div>
+            <div class="swatch-name">Error</div>
+            <div class="swatch-hex">#DC2626</div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.9rem; color: var(--foreground-secondary); margin-bottom: var(--space-sm); margin-top: var(--space-lg);">Neutrals</h4>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F5F7FA; border: 1px solid var(--border);"></div>
+            <div class="swatch-name">Background</div>
+            <div class="swatch-hex">#F5F7FA</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #1A1A2E;"></div>
+            <div class="swatch-name">Foreground</div>
+            <div class="swatch-hex">#1A1A2E</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #5A6178;"></div>
+            <div class="swatch-name">Secondary Text</div>
+            <div class="swatch-hex">#5A6178</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #E2E8F0;"></div>
+            <div class="swatch-name">Border</div>
+            <div class="swatch-hex">#E2E8F0</div>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Typography</h3>
+        <div class="card">
+          <div style="margin-bottom: var(--space-md);">
+            <div style="font-size: 1.75rem; font-weight: 700; line-height: 2.25rem;">H1 - Page Titles (28px/700)</div>
+          </div>
+          <div style="margin-bottom: var(--space-md);">
+            <div style="font-size: 1.375rem; font-weight: 600; line-height: 1.875rem;">H2 - Section Headers (22px/600)</div>
+          </div>
+          <div style="margin-bottom: var(--space-md);">
+            <div style="font-size: 1.125rem; font-weight: 600; line-height: 1.625rem;">H3 - Card Titles (18px/600)</div>
+          </div>
+          <div style="margin-bottom: var(--space-md);">
+            <div style="font-size: 1rem; line-height: 1.5rem;">Body - Default text (16px/400)</div>
+          </div>
+          <div style="margin-bottom: var(--space-md);">
+            <div style="font-size: 0.875rem; line-height: 1.25rem; color: var(--foreground-secondary);">Caption - Labels, metadata (14px/400)</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; line-height: 1rem; color: var(--foreground-muted);">Small - Fine print (12px/400)</div>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Spacing & Radius</h3>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Value</th>
+                  <th>Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>space-xs</td><td>4px</td><td>Tight gaps, icon padding</td></tr>
+                <tr><td>space-sm</td><td>8px</td><td>Default gap, button padding</td></tr>
+                <tr><td>space-md</td><td>16px</td><td>Card padding, screen padding</td></tr>
+                <tr><td>space-lg</td><td>24px</td><td>Section gaps</td></tr>
+                <tr><td>space-xl</td><td>32px</td><td>Large section separation</td></tr>
+                <tr><td>radius-sm</td><td>8px</td><td>Chips, badges</td></tr>
+                <tr><td>radius-md</td><td>12px</td><td>Inputs, buttons</td></tr>
+                <tr><td>radius-lg</td><td>16px</td><td>Cards, panels</td></tr>
+                <tr><td>radius-xl</td><td>20px</td><td>Bottom sheets, modals</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- System -->
+      <section class="section" id="system">
+        <h2 class="section-title">Design System</h2>
+
+        <p class="lead">
+          Component patterns and accessibility requirements.
+        </p>
+
+        <h3 class="subsection-title">UX Principles</h3>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-title" style="margin-bottom: var(--space-sm);">Explicit over Implicit</div>
+            <p style="margin: 0;">Tell users what will happen before it happens.</p>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom: var(--space-sm);">Progress over Perfection</div>
+            <p style="margin: 0;">Step indicators, partial saves, clear progress.</p>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom: var(--space-sm);">Recovery over Prevention</div>
+            <p style="margin: 0;">Easy undo, edit, cancel rather than blocking warnings.</p>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom: var(--space-sm);">Confirmation over Assumption</div>
+            <p style="margin: 0;">Always confirm critical actions (booking, ordering).</p>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Accessibility</h3>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Standard</th>
+                  <th>Enhanced (Helga Mode)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Base font size</td>
+                  <td>16px</td>
+                  <td>18px</td>
+                </tr>
+                <tr>
+                  <td>Touch targets</td>
+                  <td>44×44px</td>
+                  <td>48×48px</td>
+                </tr>
+                <tr>
+                  <td>Contrast ratio</td>
+                  <td>4.5:1</td>
+                  <td>7:1</td>
+                </tr>
+                <tr>
+                  <td>Focus ring</td>
+                  <td>2px</td>
+                  <td>3px</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top: var(--space-md); font-size: 0.875rem; color: var(--foreground-secondary);">
+            <strong>Accessibility is baseline.</strong> If Helga can't use it, redesign it.
+          </p>
+        </div>
+
+        <h3 class="subsection-title">State Coverage</h3>
+        <div class="card">
+          <p style="margin-bottom: var(--space-md);">Every screen must handle these states:</p>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+            <span class="badge badge-primary">Default</span>
+            <span class="badge badge-primary">Empty</span>
+            <span class="badge badge-primary">Loading</span>
+            <span class="badge badge-primary">Error</span>
+            <span class="badge badge-primary">Success</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      if (window.innerWidth <= 768 &&
+          !sidebar.contains(e.target) &&
+          !toggle.contains(e.target) &&
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

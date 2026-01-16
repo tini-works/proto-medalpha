@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users - MedAlpha Product Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <a href="index.html">
+          <h1>MedAlpha</h1>
+          <span>Product Brief</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Overview</div>
+          <a href="index.html#vision" class="nav-link">Vision</a>
+          <a href="index.html#problem" class="nav-link">Problem</a>
+          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
+          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Users</div>
+          <a href="users.html#personas" class="nav-link active">Personas</a>
+          <a href="users.html#journeys" class="nav-link">Journeys</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Product</div>
+          <a href="product.html#features" class="nav-link">Features</a>
+          <a href="product.html#screens" class="nav-link">Screens</a>
+          <a href="product.html#partners" class="nav-link">Partners</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Design</div>
+          <a href="design.html#tokens" class="nav-link">Tokens</a>
+          <a href="design.html#system" class="nav-link">System</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-group-title">Quality</div>
+          <a href="quality.html#criteria" class="nav-link">Criteria</a>
+          <a href="quality.html#risks" class="nav-link">Risks</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <h1 class="page-title">Users</h1>
+      <p class="page-subtitle">Who we serve and how they use MedAlpha</p>
+
+      <!-- Personas -->
+      <section class="section" id="personas">
+        <h2 class="section-title">Personas</h2>
+
+        <p class="lead">
+          Five key user segments spanning digital literacy levels from very high to moderate.
+        </p>
+
+        <div class="card-grid">
+          <!-- Sarah -->
+          <div class="persona-card">
+            <div class="persona-header">
+              <div class="persona-avatar">S</div>
+              <div>
+                <div class="persona-name">Sarah</div>
+                <div class="persona-age">34, Working Mother</div>
+              </div>
+            </div>
+            <div class="persona-label">Goal</div>
+            <div class="persona-goal">Manage family health efficiently without sacrificing time</div>
+            <div class="persona-label">Key Needs</div>
+            <ul class="persona-needs">
+              <li>Quick booking for whole family</li>
+              <li>Prescription refills for children</li>
+              <li>Telemedicine for minor ailments</li>
+            </ul>
+            <div class="persona-quit-trigger">
+              <strong>Quits if:</strong> Too slow, can't book for family members easily
+            </div>
+            <span class="persona-digital-skill">Digital Skill: High</span>
+          </div>
+
+          <!-- Marc -->
+          <div class="persona-card">
+            <div class="persona-header">
+              <div class="persona-avatar">M</div>
+              <div>
+                <div class="persona-name">Marc</div>
+                <div class="persona-age">42, Health-Conscious Professional</div>
+              </div>
+            </div>
+            <div class="persona-label">Goal</div>
+            <div class="persona-goal">Proactive health management with maximum convenience</div>
+            <div class="persona-label">Key Needs</div>
+            <ul class="persona-needs">
+              <li>On-demand consultations</li>
+              <li>Preventive check-ups</li>
+              <li>Time efficiency above all</li>
+            </ul>
+            <div class="persona-quit-trigger">
+              <strong>Quits if:</strong> Wastes his time, poor video quality
+            </div>
+            <span class="persona-digital-skill">Digital Skill: Very High</span>
+          </div>
+
+          <!-- Helga -->
+          <div class="persona-card">
+            <div class="persona-header">
+              <div class="persona-avatar">H</div>
+              <div>
+                <div class="persona-name">Helga</div>
+                <div class="persona-age">68, Senior with Chronic Conditions</div>
+              </div>
+            </div>
+            <div class="persona-label">Goal</div>
+            <div class="persona-goal">Reliably manage medications and reduce travel burden</div>
+            <div class="persona-label">Key Needs</div>
+            <ul class="persona-needs">
+              <li>Simple prescription flow</li>
+              <li>Accessible, large UI</li>
+              <li>Step-by-step guidance</li>
+            </ul>
+            <div class="persona-quit-trigger">
+              <strong>Quits if:</strong> Confusing flow, too many steps, unclear outcomes
+            </div>
+            <span class="persona-digital-skill">Digital Skill: Moderate</span>
+          </div>
+
+          <!-- Elena -->
+          <div class="persona-card">
+            <div class="persona-header">
+              <div class="persona-avatar">E</div>
+              <div>
+                <div class="persona-name">Elena</div>
+                <div class="persona-age">23, Wellness Enthusiast</div>
+              </div>
+            </div>
+            <div class="persona-label">Goal</div>
+            <div class="persona-goal">Affordable, trendy health and beauty solutions</div>
+            <div class="persona-label">Key Needs</div>
+            <ul class="persona-needs">
+              <li>Discreet ordering</li>
+              <li>Dermatology consults</li>
+              <li>Modern, fast experience</li>
+            </ul>
+            <div class="persona-quit-trigger">
+              <strong>Quits if:</strong> Feels outdated, not discreet enough
+            </div>
+            <span class="persona-digital-skill">Digital Skill: Very High</span>
+          </div>
+
+          <!-- Thomas -->
+          <div class="persona-card">
+            <div class="persona-header">
+              <div class="persona-avatar">T</div>
+              <div>
+                <div class="persona-name">Thomas</div>
+                <div class="persona-age">51, Value-Driven Pragmatist</div>
+              </div>
+            </div>
+            <div class="persona-label">Goal</div>
+            <div class="persona-goal">Save money and time on routine health needs</div>
+            <div class="persona-label">Key Needs</div>
+            <ul class="persona-needs">
+              <li>Transparent pricing</li>
+              <li>Clear confirmations</li>
+              <li>No hidden complexity</li>
+            </ul>
+            <div class="persona-quit-trigger">
+              <strong>Quits if:</strong> Hidden costs, unclear confirmations
+            </div>
+            <span class="persona-digital-skill">Digital Skill: Moderate</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Journeys -->
+      <section class="section" id="journeys">
+        <h2 class="section-title">User Journeys</h2>
+
+        <p class="lead">
+          Three core flows that represent the primary use cases.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Flow 1: Book Appointment → Redeem Prescription</h3>
+          <div class="flow">
+            <div class="flow-box highlight">Home</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Book Appointment</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Curaay Booking</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Confirmation</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Appointment</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Push Notification</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box highlight">Redeem Rx</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Flow 2: Telemedicine → Instant Prescription</h3>
+          <div class="flow">
+            <div class="flow-box highlight">Home</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Video Consult</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Teleclinic WebView</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">E-Rx Issued</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">NFC Scan</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box highlight">Online/Offline Redemption</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title" style="margin-top: 0;">Flow 3: Repeat Prescription (Senior-Safe)</h3>
+          <div class="flow">
+            <div class="flow-box highlight">Home Reminder</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Prescriptions</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Scan eGK</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Last Pharmacy (Preselected)</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box">Confirm Order</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-box highlight">Track Delivery</div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--foreground-muted); margin-top: var(--space-md);">
+            Designed for Helga: minimal decisions, remembered preferences, clear progress.
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      if (window.innerWidth <= 768 &&
+          !sidebar.contains(e.target) &&
+          !toggle.contains(e.target) &&
+          sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
