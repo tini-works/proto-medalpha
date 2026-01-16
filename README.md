@@ -2,6 +2,14 @@
 
 Monorepo for the MedAlpha healthcare product prototype.
 
+## Tech Stack
+
+- **Package Manager:** pnpm workspaces
+- **Languages:** TypeScript
+- **Web:** React, Vite, Tailwind CSS
+- **Mobile:** Expo, React Native
+- **Documentation:** Storybook
+
 ## Quick Start
 
 ```bash
@@ -73,3 +81,7 @@ pnpm --filter admin add react-router-dom
 # Add to root (dev tools)
 pnpm add -D -w prettier
 ```
+
+## License
+
+Private - All rights reserved.

@@ -903,7 +903,7 @@ git remote add origin git@github.com:tini-works/proto-medalpha.git 2>/dev/null |
 **Step 2: Push with force (fresh history)**
 
 ```bash
-git push --force -u origin main
+git push --force -u origin master
 ```
 
 Note: Using `--force` because we're replacing history with fresh start.
