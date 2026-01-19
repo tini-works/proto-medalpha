@@ -1,0 +1,75 @@
+graph TD
+    Root[MedAlpha CMS<br/>Admin Web c3-3]
+
+    %% ===========================================
+    %% AUTHENTICATION
+    %% ===========================================
+
+    Root --> Auth[Authentication]
+    Auth --> ADM001["ADM-001 | Admin Login"]
+    ADM001 --> ADM001_SEC1["Email/Password Form"]
+    ADM001 --> ADM001_SEC2["Secured Network Notice"]
+
+    %% ===========================================
+    %% MAIN DASHBOARD
+    %% ===========================================
+
+    Root --> Main[Main Application<br/>Sidebar Navigation]
+
+    Main --> ADM002["ADM-002 | Dashboard"]
+    ADM002 --> ADM002_SEC1["Content Overview Cards"]
+    ADM002 --> ADM002_SEC2["Quick Access Links"]
+    ADM002 --> ADM002_SEC3["Recent Activity Feed"]
+
+    %% ===========================================
+    %% CONTENT MANAGEMENT
+    %% ===========================================
+
+    Main --> Content[Content Management]
+
+    Content --> ADM003["ADM-003 | Home Content"]
+    ADM003 --> ADM003_SEC1["Content Cards List"]
+    ADM003 --> ADM003_SEC2["Add New Card"]
+    ADM003 --> ADM003_SEC3["Card Editor"]
+    ADM003 --> ADM003_SEC4["Publish / Draft Toggle"]
+
+    Content --> ADM004["ADM-004 | FAQ Content"]
+    ADM004 --> ADM004_SEC1["FAQ Items List"]
+    ADM004 --> ADM004_SEC2["Add New FAQ"]
+    ADM004 --> ADM004_SEC3["FAQ Editor"]
+    ADM004 --> ADM004_SEC4["Category Management"]
+
+    Content --> ADM005["ADM-005 | Support Content"]
+    ADM005 --> ADM005_SEC1["Support Options List"]
+    ADM005 --> ADM005_SEC2["Contact Info Editor"]
+    ADM005 --> ADM005_SEC3["Support Hours Editor"]
+
+    %% ===========================================
+    %% SETTINGS (Future)
+    %% ===========================================
+
+    Main --> Settings[Settings]
+    Settings --> ADM006["ADM-006 | Admin Settings"]
+    ADM006 --> ADM006_SEC1["Change Password"]
+    ADM006 --> ADM006_SEC2["Logout"]
+
+    %% ===========================================
+    %% NAVIGATION MODEL
+    %% ===========================================
+
+    Root --> NavModel[Navigation Model]
+    NavModel --> NavSidebar["Left Sidebar<br/>Dashboard | Home Content | FAQ | Support | Settings"]
+    NavModel --> NavTopbar["Top Bar<br/>Logo | Admin Name | Logout"]
+
+    %% ===========================================
+    %% STYLING
+    %% ===========================================
+
+    classDef layer fill:#e1f5fe,stroke:#01579b
+    classDef screen fill:#f3e5f5,stroke:#7b1fa2
+    classDef section fill:#e8f5e9,stroke:#2e7d32
+    classDef nav fill:#fce4ec,stroke:#880e4f
+
+    class Auth,Main,Content,Settings layer
+    class ADM001,ADM002,ADM003,ADM004,ADM005,ADM006 screen
+    class NavModel,NavSidebar,NavTopbar nav
