@@ -1,0 +1,730 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> splash
+
+splash: SPL-001 | Splash {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+splash -> auto_advance
+
+auto_advance: Auto-advance {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+auto_advance -> welcome
+
+welcome: ONB-001 | Welcome & Language {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+welcome -> choose_language
+
+choose_language: Select language + Continue (default DE) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+choose_language -> notif_permission
+
+notif_permission: ONB-002 | Notification Permission {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+notif_permission -> allow_notif
+
+allow_notif: Allow notifications (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+allow_notif -> login
+
+login: AUTH-001 | Login {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+login -> auth_path
+
+auth_path: Auth path? (default email) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+auth_path -> sign_in: Sign in (email or social, primary)
+auth_path -> start_register: Create account
+auth_path -> start_sso: Use partner SSO
+
+sign_in: Sign in (email or social, primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+sign_in -> profile_completion
+
+start_register: Open registration {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+start_register -> register
+
+register: AUTH-002 | Register {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+register -> submit_register
+
+submit_register: Submit registration {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+submit_register -> profile_completion
+
+start_sso: Open SSO handoff {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+start_sso -> sso
+
+sso: AUTH-004 | SSO Handoff (Placeholder) {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+sso -> complete_sso
+
+complete_sso: Complete partner handoff {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_sso -> profile_completion
+
+profile_completion: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+profile_completion -> complete_profile
+
+complete_profile: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_profile -> home
+
+home: HOME-001 | Home {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+home -> entry_point
+
+entry_point: Entry point? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+entry_point -> open_appointments: Appointments
+entry_point -> open_prescriptions: Prescriptions
+entry_point -> open_history: History
+entry_point -> open_settings: Settings
+entry_point -> open_content: CMS content
+entry_point -> receive_push: Push notification
+
+open_appointments: Open Appointments (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_appointments -> appointments_hub
+
+appointments_hub: APT-001 | Appointments Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointments_hub -> appointment_gate
+
+appointment_gate: Profile complete? (default yes) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+appointment_gate -> appointment_type: Yes
+appointment_gate -> apt_profile_completion: No
+
+apt_profile_completion: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+apt_profile_completion -> apt_complete_required
+
+apt_complete_required: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+apt_complete_required -> appointments_hub
+
+appointment_type: Appointment type? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+appointment_type -> book_appointment: Booking
+appointment_type -> start_teleclinic: Teleclinic
+
+book_appointment: Book appointment (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+book_appointment -> curaay_booking
+
+curaay_booking: APT-002 | Book Appointment (Curaay) {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+curaay_booking -> confirm_booking
+
+confirm_booking: Confirm booking {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+confirm_booking -> appointment_confirmation
+
+appointment_confirmation: APT-003 | Appointment Confirmation {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointment_confirmation -> done
+
+start_teleclinic: Open Teleclinic (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+start_teleclinic -> open_teleclinic
+
+open_teleclinic: APT-004 | Teleclinic Entry {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+open_teleclinic -> join_session
+
+join_session: Join session (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+join_session -> teleclinic_session
+
+teleclinic_session: APT-005 | Teleclinic Session (WebView) {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+teleclinic_session -> consult_end
+
+consult_end: Consult ends (eRx issued) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+consult_end -> prescriptions_hub_from_tele
+
+prescriptions_hub_from_tele: RX-001 | Prescriptions Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescriptions_hub_from_tele -> done
+
+open_prescriptions: Open Prescriptions (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_prescriptions -> prescriptions_hub
+
+prescriptions_hub: RX-001 | Prescriptions Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescriptions_hub -> profile_gate
+
+profile_gate: Profile complete? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+profile_gate -> proceed_redeem: Yes
+profile_gate -> go_profile_completion: No
+
+go_profile_completion: Open profile completion {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+go_profile_completion -> complete_profile_gate
+
+complete_profile_gate: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+complete_profile_gate -> complete_required
+
+complete_required: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_required -> prescriptions_hub
+
+proceed_redeem: Tap "Redeem Prescription" (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+proceed_redeem -> choose_mode
+
+choose_mode: RX-002 | Choose Pharmacy Mode {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+choose_mode -> mode_choice
+
+mode_choice: Choose mode? (no default) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+mode_choice -> select_online: Online
+mode_choice -> select_offline: Offline
+
+select_online: Select Online (explicit choice) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+select_online -> online_intro
+
+online_intro: RX-003 | Online Redemption Intro {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+online_intro -> start_scan
+
+start_scan: Start NFC scan (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+start_scan -> nfc_scan
+
+nfc_scan: RX-004 | NFC Scan {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+nfc_scan -> confirm_order
+
+confirm_order: Confirm order {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+confirm_order -> order_status
+
+order_status: RX-005 | Online Order Status {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+order_status -> view_rx_history
+
+view_rx_history: View in history {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+view_rx_history -> rx_detail
+
+rx_detail: HIS-003 | Prescription Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+rx_detail -> done
+
+select_offline: Select Offline (explicit choice) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+select_offline -> offline_search
+
+offline_search: RX-006 | Offline Pharmacy Search {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+offline_search -> open_pharmacy
+
+open_pharmacy: Open pharmacy detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_pharmacy -> pharmacy_detail
+
+pharmacy_detail: RX-007 | Pharmacy Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+pharmacy_detail -> done
+
+open_history: Open History {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_history -> history
+
+history: HIS-001 | History {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+history -> history_item
+
+history_item: Which item? (default recent) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+history_item -> open_appointment: Appointment
+history_item -> open_prescription: Prescription
+history_item -> open_telemedicine: Telemedicine
+
+open_appointment: Open appointment detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_appointment -> appointment_detail
+
+appointment_detail: HIS-002 | Appointment Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointment_detail -> done
+
+open_prescription: Open prescription detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_prescription -> prescription_detail
+
+prescription_detail: HIS-003 | Prescription Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescription_detail -> done
+
+open_telemedicine: Open telemedicine detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_telemedicine -> telemedicine_detail
+
+telemedicine_detail: HIS-004 | Telemedicine Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+telemedicine_detail -> done
+
+open_settings: Open Settings {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_settings -> settings
+
+settings: SET-001 | Settings {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+settings -> settings_area
+
+settings_area: Manage what? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+settings_area -> open_language: Language & Region
+settings_area -> open_notifications: Notifications
+settings_area -> open_profile: Profile
+settings_area -> manage_help: Help & Legal
+
+open_language: Open Language & Region {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_language -> manage_language
+
+manage_language: SET-002 | Language & Region {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+manage_language -> save_language
+
+save_language: Save language (default DE) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+save_language -> done
+
+open_notifications: Open Notifications {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_notifications -> manage_notifications
+
+manage_notifications: SET-003 | Notifications {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+manage_notifications -> save_notifications
+
+save_notifications: Save preferences (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+save_notifications -> done
+
+open_profile: Open Profile {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_profile -> manage_profile
+
+manage_profile: PRF-002 | Profile {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+manage_profile -> edit_profile
+
+edit_profile: Edit profile {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+edit_profile -> edit_profile_screen
+
+edit_profile_screen: PRF-003 | Edit Profile {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+edit_profile_screen -> save_profile
+
+save_profile: Save changes (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+save_profile -> manage_profile
+
+manage_profile -> done
+
+manage_help: Open Help & Legal {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+manage_help -> help_choice
+
+help_choice: Choose page? (default FAQ) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+help_choice -> open_faq: FAQ
+help_choice -> open_support: Support
+help_choice -> open_privacy: Privacy
+help_choice -> open_legal: Legal
+
+open_faq: Open FAQ {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_faq -> faq
+
+faq: STA-001 | FAQ {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+faq -> done
+
+open_support: Open Support {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_support -> support
+
+support: STA-002 | Support {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+support -> done
+
+open_privacy: Open Privacy Policy {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_privacy -> privacy
+
+privacy: STA-003 | Privacy Policy {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+privacy -> done
+
+open_legal: Open Legal Disclosure {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_legal -> legal
+
+legal: STA-004 | Legal Disclosure {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+legal -> done
+
+open_content: Open CMS card {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_content -> content_detail
+
+content_detail: HOME-002 | Content Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+content_detail -> done
+
+receive_push: Receive push notification {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+receive_push -> push_type
+
+push_type: Push type? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+push_type -> open_follow_up: Follow-up
+push_type -> promo: Promo
+
+open_follow_up: Open follow-up {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_follow_up -> follow_up
+
+follow_up: APT-006 | Post-Appointment Follow-up {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+follow_up -> satisfaction
+
+satisfaction: Complete satisfaction check (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+satisfaction -> redeem_prompt
+
+redeem_prompt: Tap "Redeem Prescription" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+redeem_prompt -> choose_mode
+
+promo: Open promo offer {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+promo -> promo_detail
+
+promo_detail: HOME-002 | Content Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+promo_detail -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
