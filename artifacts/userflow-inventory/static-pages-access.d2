@@ -1,0 +1,95 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> settings
+
+settings: SET-001 | Settings {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+settings -> open_help
+
+open_help: Open "Help & Legal" (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_help -> choose_page
+
+choose_page: Choose page? (default FAQ) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+choose_page -> open_faq: FAQ
+choose_page -> open_support: Support
+choose_page -> open_privacy: Privacy
+choose_page -> open_legal: Legal
+
+open_faq: Open FAQ {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_faq -> faq
+
+faq: STA-001 | FAQ {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+faq -> done
+
+open_support: Open Support {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_support -> support
+
+support: STA-002 | Support {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+support -> done
+
+open_privacy: Open Privacy Policy {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_privacy -> privacy
+
+privacy: STA-003 | Privacy Policy {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+privacy -> done
+
+open_legal: Open Legal Disclosure {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_legal -> legal
+
+legal: STA-004 | Legal Disclosure {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+legal -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

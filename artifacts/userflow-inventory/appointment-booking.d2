@@ -1,0 +1,100 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> home
+
+home: HOME-001 | Home {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+home -> open_appointments
+
+open_appointments: Tap "Appointments" (primary, default Upcoming tab) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_appointments -> appointments_hub
+
+appointments_hub: APT-001 | Appointments Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointments_hub -> profile_gate
+
+profile_gate: Profile complete? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+profile_gate -> proceed_booking: Yes
+profile_gate -> complete_profile_gate: No
+
+proceed_booking: Tap "Book Appointment" (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+proceed_booking -> curaay_booking
+
+curaay_booking: APT-002 | Book Appointment (Curaay) {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+curaay_booking -> confirm_booking
+
+confirm_booking: Confirm booking {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+confirm_booking -> appointment_confirmed
+
+appointment_confirmed: APT-003 | Appointment Confirmation {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointment_confirmed -> view_history
+
+view_history: View in history {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+view_history -> history
+
+history: HIS-001 | History {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+history -> done
+
+complete_profile_gate: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+complete_profile_gate -> complete_required
+
+complete_required: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_required -> appointments_hub
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

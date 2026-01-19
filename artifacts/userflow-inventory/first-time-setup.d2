@@ -1,0 +1,113 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> splash
+
+splash: SPL-001 | Splash {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+splash -> auto_advance
+
+auto_advance: Auto-advance {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+auto_advance -> welcome
+
+welcome: ONB-001 | Welcome & Language {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+welcome -> choose_language
+
+choose_language: Select language + Continue (default DE) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+choose_language -> notif_permission
+
+notif_permission: ONB-002 | Notification Permission {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+notif_permission -> allow_notif
+
+allow_notif: Allow notifications (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+allow_notif -> register
+
+register: AUTH-002 | Register {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+register -> create_account
+
+create_account: Create account {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+create_account -> profile_completion
+
+profile_completion: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+profile_completion -> optional_fields
+
+optional_fields: Expand optional fields? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+optional_fields -> expand_optional: Yes
+optional_fields -> skip_optional: No
+
+expand_optional: Show optional fields {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+skip_optional: Continue with required fields {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+expand_optional -> complete_profile
+skip_optional -> complete_profile
+
+complete_profile: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_profile -> home
+
+home: HOME-001 | Home {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+home -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

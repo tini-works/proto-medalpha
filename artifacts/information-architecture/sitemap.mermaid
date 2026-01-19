@@ -1,0 +1,144 @@
+graph TD
+    Root[MedAlpha Connect]
+
+    %% Entry
+    Root --> SPL001["SPL-001 | Splash"]
+
+    %% Onboarding
+    Root --> ONB001["ONB-001 | Welcome & Language"]
+    Root --> ONB002["ONB-002 | Notification Permission"]
+
+    %% Authentication
+    Root --> AUTH001["AUTH-001 | Login"]
+    Root --> AUTH002["AUTH-002 | Register"]
+    Root --> AUTH003["AUTH-003 | Forgot Password"]
+    Root --> AUTH004["AUTH-004 | SSO Handoff (Placeholder)"]
+
+    %% Profile
+    Root --> PRF001["PRF-001 | Profile Completion"]
+    Root --> PRF002["PRF-002 | Profile"]
+    Root --> PRF003["PRF-003 | Edit Profile"]
+
+    %% Home
+    Root --> HOME001["HOME-001 | Home"]
+    Root --> HOME002["HOME-002 | Content Detail"]
+
+    %% Appointments
+    Root --> APT001["APT-001 | Appointments Hub"]
+    Root --> APT002["APT-002 | Book Appointment (Curaay)"]
+    Root --> APT003["APT-003 | Appointment Confirmation"]
+    Root --> APT004["APT-004 | Teleclinic Entry"]
+    Root --> APT005["APT-005 | Teleclinic Session (WebView)"]
+    Root --> APT006["APT-006 | Post-Appointment Follow-up"]
+
+    %% Prescriptions
+    Root --> RX001["RX-001 | Prescriptions Hub"]
+    Root --> RX002["RX-002 | Choose Pharmacy Mode"]
+    Root --> RX003["RX-003 | Online Redemption Intro"]
+    Root --> RX004["RX-004 | NFC Scan"]
+    Root --> RX005["RX-005 | Online Order Status"]
+    Root --> RX006["RX-006 | Offline Pharmacy Search"]
+    Root --> RX007["RX-007 | Pharmacy Detail"]
+
+    %% History
+    Root --> HIS001["HIS-001 | History"]
+    Root --> HIS002["HIS-002 | Appointment Detail"]
+    Root --> HIS003["HIS-003 | Prescription Detail"]
+    Root --> HIS004["HIS-004 | Telemedicine Detail"]
+
+    %% Settings
+    Root --> SET001["SET-001 | Settings"]
+    Root --> SET002["SET-002 | Language & Region"]
+    Root --> SET003["SET-003 | Notifications"]
+
+    %% Static
+    Root --> STA001["STA-001 | FAQ"]
+    Root --> STA002["STA-002 | Support"]
+    Root --> STA003["STA-003 | Privacy Policy"]
+    Root --> STA004["STA-004 | Legal Disclosure"]
+
+    %% Admin Web
+    Root --> ADM001["ADM-001 | Admin Login"]
+    Root --> ADM002["ADM-002 | Admin Dashboard"]
+    Root --> ADM003["ADM-003 | Manage Home Content"]
+    Root --> ADM004["ADM-004 | Manage FAQ Content"]
+    Root --> ADM005["ADM-005 | Manage Support Content"]
+
+    %% SPL Sections
+    SPL001 --> SPL001_SEC1["Brand Mark"]
+    SPL001 --> SPL001_SEC2["Loading State"]
+
+    %% ONB Sections
+    ONB001 --> ONB001_SEC1["Value Props"]
+    ONB001 --> ONB001_SEC2["Language Toggle"]
+    ONB001 --> ONB001_SEC3["Continue CTA"]
+    ONB002 --> ONB002_SEC1["Permission Prompt"]
+
+    %% AUTH Sections
+    AUTH001 --> AUTH001_SEC1["Email Login"]
+    AUTH001 --> AUTH001_SEC2["Social Login"]
+    AUTH002 --> AUTH002_SEC1["Registration Form"]
+    AUTH003 --> AUTH003_SEC1["Reset Link Form"]
+    AUTH004 --> AUTH004_SEC1["Partner Handoff"]
+
+    %% PRF Sections
+    PRF001 --> PRF001_SEC1["Completion Checklist"]
+    PRF001 --> PRF001_SEC2["Required Fields"]
+    PRF002 --> PRF002_SEC1["Profile Summary"]
+    PRF003 --> PRF003_SEC1["Edit Profile Form"]
+
+    %% HOME Sections
+    HOME001 --> HOME001_SEC1["Primary Actions"]
+    HOME001 --> HOME001_SEC2["CMS Cards"]
+    HOME001 --> HOME001_SEC3["History Preview"]
+    HOME002 --> HOME002_SEC1["Content Body"]
+
+    %% APT Sections
+    APT001 --> APT001_SEC1["Upcoming Appointments"]
+    APT001 --> APT001_SEC2["Book CTA"]
+    APT002 --> APT002_SEC1["Curaay WebView"]
+    APT003 --> APT003_SEC1["Confirmation Summary"]
+    APT003 --> APT003_SEC2["Add to Calendar"]
+    APT004 --> APT004_SEC1["Teleclinic Launch"]
+    APT006 --> APT006_SEC1["Satisfaction Check"]
+    APT006 --> APT006_SEC2["Redeem Prompt"]
+
+    %% RX Sections
+    RX001 --> RX001_SEC1["Active Prescriptions"]
+    RX001 --> RX001_SEC2["Redeem CTA"]
+    RX002 --> RX002_SEC1["Online Option"]
+    RX002 --> RX002_SEC2["Offline Option"]
+    RX002 --> RX002_SEC3["Legal Notice"]
+    RX003 --> RX003_SEC1["NFC Prep"]
+    RX004 --> RX004_SEC1["Scan Status"]
+    RX005 --> RX005_SEC1["Order Timeline"]
+    RX005 --> RX005_SEC2["Support CTA"]
+    RX006 --> RX006_SEC1["Map View"]
+    RX006 --> RX006_SEC2["Results List"]
+    RX007 --> RX007_SEC1["Pharmacy Info"]
+    RX007 --> RX007_SEC2["Directions CTA"]
+
+    %% HIS Sections
+    HIS001 --> HIS001_SEC1["Appointments Tab"]
+    HIS001 --> HIS001_SEC2["Prescriptions Tab"]
+    HIS001 --> HIS001_SEC3["Telemedicine Tab"]
+
+    %% SET Sections
+    SET001 --> SET001_SEC1["Account"]
+    SET001 --> SET001_SEC2["Preferences"]
+    SET001 --> SET001_SEC3["Legal Links"]
+    SET002 --> SET002_SEC1["Language Selection"]
+    SET003 --> SET003_SEC1["Push Toggles"]
+
+    %% STA Sections
+    STA001 --> STA001_SEC1["FAQ List"]
+    STA002 --> STA002_SEC1["Contact Options"]
+    STA003 --> STA003_SEC1["Privacy Content"]
+    STA004 --> STA004_SEC1["Legal Content"]
+
+    %% ADM Sections
+    ADM001 --> ADM001_SEC1["Admin Login Form"]
+    ADM002 --> ADM002_SEC1["Content Overview"]
+    ADM003 --> ADM003_SEC1["Home Content Editor"]
+    ADM004 --> ADM004_SEC1["FAQ Content Editor"]
+    ADM005 --> ADM005_SEC1["Support Content Editor"]

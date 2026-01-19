@@ -1,0 +1,60 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> profile
+
+profile: PRF-002 | Profile {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+profile -> edit_profile
+
+edit_profile: Tap "Edit Profile" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+edit_profile -> edit_profile_screen
+
+edit_profile_screen: PRF-003 | Edit Profile {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+edit_profile_screen -> optional_fields
+
+optional_fields: Show optional fields? (default hidden) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+optional_fields -> expand_fields: Yes
+optional_fields -> save_profile: No
+
+expand_fields: Expand optional fields {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+expand_fields -> edit_profile_screen
+
+save_profile: Save changes (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+save_profile -> profile
+
+profile -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

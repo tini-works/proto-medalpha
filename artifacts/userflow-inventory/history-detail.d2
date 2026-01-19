@@ -1,0 +1,80 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> history
+
+history: HIS-001 | History {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+history -> tap_item
+
+tap_item: Tap a history item (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+tap_item -> choose_item
+
+choose_item: Which item? (default recent) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+choose_item -> open_appointment: Appointment
+choose_item -> open_prescription: Prescription
+choose_item -> open_telemedicine: Telemedicine
+
+open_appointment: Open appointment detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_appointment -> appointment_detail
+
+appointment_detail: HIS-002 | Appointment Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointment_detail -> done
+
+open_prescription: Open prescription detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_prescription -> prescription_detail
+
+prescription_detail: HIS-003 | Prescription Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescription_detail -> done
+
+open_telemedicine: Open telemedicine detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_telemedicine -> telemedicine_detail
+
+telemedicine_detail: HIS-004 | Telemedicine Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+telemedicine_detail -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

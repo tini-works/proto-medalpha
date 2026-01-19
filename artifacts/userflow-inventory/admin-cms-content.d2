@@ -1,0 +1,108 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> admin_login
+
+admin_login: ADM-001 | Admin Login {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+admin_login -> sign_in
+
+sign_in: Sign in (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+sign_in -> admin_dashboard
+
+admin_dashboard: ADM-002 | Admin Dashboard {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+admin_dashboard -> choose_area
+
+choose_area: Choose content area? (default Home) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+choose_area -> manage_home: Home
+choose_area -> manage_faq: FAQ
+choose_area -> manage_support: Support
+
+manage_home: Manage Home Content {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+manage_home -> home_editor
+
+home_editor: ADM-003 | Manage Home Content {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+home_editor -> publish_home
+
+publish_home: Publish changes {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+publish_home -> done
+
+manage_faq: Manage FAQ Content {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+manage_faq -> faq_editor
+
+faq_editor: ADM-004 | Manage FAQ Content {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+faq_editor -> publish_faq
+
+publish_faq: Publish changes {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+publish_faq -> done
+
+manage_support: Manage Support Content {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+manage_support -> support_editor
+
+support_editor: ADM-005 | Manage Support Content {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+support_editor -> publish_support
+
+publish_support: Publish changes {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+publish_support -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

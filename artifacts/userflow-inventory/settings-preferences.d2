@@ -1,0 +1,81 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> settings
+
+settings: SET-001 | Settings {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+settings -> open_language
+
+open_language: Open "Language & Region" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_language -> language_region
+
+language_region: SET-002 | Language & Region {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+language_region -> save_language
+
+save_language: Save language (default DE) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+save_language -> settings
+
+settings -> open_notifications
+
+open_notifications: Open "Notifications" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_notifications -> notifications
+
+notifications: SET-003 | Notifications {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+notifications -> advanced_toggles
+
+advanced_toggles: Show advanced toggles? (default hidden) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+advanced_toggles -> expand_toggles: Yes
+advanced_toggles -> save_prefs: No
+
+expand_toggles: Expand notification toggles {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+expand_toggles -> notifications
+
+save_prefs: Save preferences (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+save_prefs -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

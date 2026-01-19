@@ -1,0 +1,108 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> prescriptions_hub
+
+prescriptions_hub: RX-001 | Prescriptions Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescriptions_hub -> profile_gate
+
+profile_gate: Profile complete? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+profile_gate -> proceed_redeem: Yes
+profile_gate -> complete_profile_gate: No
+
+proceed_redeem: Tap "Redeem Prescription" (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+proceed_redeem -> choose_mode
+
+choose_mode: RX-002 | Choose Pharmacy Mode {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+choose_mode -> select_offline
+
+select_offline: Select Offline (explicit choice, no default) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+select_offline -> offline_search
+
+offline_search: RX-006 | Offline Pharmacy Search {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+offline_search -> view_options
+
+view_options: Show list view? (default map) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+view_options -> open_list: Yes
+view_options -> open_pharmacy: No
+
+open_list: Switch to list {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_list -> offline_search
+
+open_pharmacy: Open pharmacy detail {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_pharmacy -> pharmacy_detail
+
+pharmacy_detail: RX-007 | Pharmacy Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+pharmacy_detail -> directions
+
+directions: Get directions {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+directions -> done
+
+complete_profile_gate: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+complete_profile_gate -> complete_required
+
+complete_required: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_required -> prescriptions_hub
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

@@ -1,0 +1,79 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> home
+
+home: HOME-001 | Home {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+home -> receive_push
+
+receive_push: Receive push notification (default on) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+receive_push -> notification_type
+
+notification_type: Notification type? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+notification_type -> follow_up: Follow-up
+notification_type -> promo: Promo
+
+follow_up: APT-006 | Post-Appointment Follow-up {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+follow_up -> complete_survey
+
+complete_survey: Complete satisfaction check (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_survey -> redeem_prompt
+
+redeem_prompt: Tap "Redeem Prescription" {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+redeem_prompt -> choose_mode
+
+choose_mode: RX-002 | Choose Pharmacy Mode {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+choose_mode -> done
+
+promo: Open promo offer {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+promo -> content_detail
+
+content_detail: HOME-002 | Content Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+content_detail -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

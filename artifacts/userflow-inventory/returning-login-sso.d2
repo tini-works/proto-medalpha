@@ -1,0 +1,58 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> login
+
+login: AUTH-001 | Login {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+login -> advanced_signin
+
+advanced_signin: Show advanced sign-in options? (default hidden) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+advanced_signin -> use_sso: Yes
+advanced_signin -> standard_signin: No
+
+use_sso: AUTH-004 | SSO Handoff (Placeholder) {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+use_sso -> complete_sso
+
+complete_sso: Complete partner handoff {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_sso -> home
+
+standard_signin: Sign in (email or social, default email) (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+standard_signin -> home
+
+home: HOME-001 | Home {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+home -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

@@ -1,0 +1,129 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> prescriptions_hub
+
+prescriptions_hub: RX-001 | Prescriptions Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescriptions_hub -> profile_gate
+
+profile_gate: Profile complete? {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+profile_gate -> proceed_redeem: Yes
+profile_gate -> complete_profile_gate: No
+
+proceed_redeem: Tap "Redeem Prescription" (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+proceed_redeem -> choose_mode
+
+choose_mode: RX-002 | Choose Pharmacy Mode {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+choose_mode -> select_online
+
+select_online: Select Online (explicit choice, no default) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+select_online -> online_intro
+
+online_intro: RX-003 | Online Redemption Intro {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+online_intro -> start_scan
+
+start_scan: Start NFC scan (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+start_scan -> nfc_scan
+
+nfc_scan: RX-004 | NFC Scan {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+nfc_scan -> scan_help
+
+scan_help: Need scan help? (default off) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+scan_help -> open_tips: Yes
+scan_help -> confirm_order: No
+
+open_tips: Open scan tips {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_tips -> nfc_scan
+
+confirm_order: Confirm order {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+confirm_order -> order_status
+
+order_status: RX-005 | Online Order Status {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+order_status -> view_rx_history
+
+view_rx_history: View in history {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+view_rx_history -> rx_detail
+
+rx_detail: HIS-003 | Prescription Detail {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+rx_detail -> done
+
+complete_profile_gate: PRF-001 | Profile Completion {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+complete_profile_gate -> complete_required
+
+complete_required: Complete required fields (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+complete_required -> prescriptions_hub
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}

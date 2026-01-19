@@ -1,0 +1,64 @@
+graph TD
+    Root[CalorieTracker]
+
+    %% Authentication
+    Root --> AUTH001["AUTH-001 | Login"]
+    Root --> AUTH002["AUTH-002 | Register"]
+    Root --> AUTH003["AUTH-003 | Forgot Password"]
+    Root --> AUTH004["AUTH-004 | Reset Password"]
+
+    %% Onboarding
+    Root --> ONB001["ONB-001 | Welcome"]
+    Root --> ONB002["ONB-002 | Name"]
+    Root --> ONB003["ONB-003 | Goal"]
+    Root --> ONB004["ONB-004 | Calories"]
+
+    %% Core App
+    Root --> CAL001["CAL-001 | Dashboard"]
+    Root --> CAL002["CAL-002 | Manual Entry"]
+    Root --> CAL003["CAL-003 | Scan Camera"]
+    Root --> CAL004["CAL-004 | Scan Results"]
+
+    %% Profile
+    Root --> PRF001["PRF-001 | Profile"]
+    Root --> PRF002["PRF-002 | Edit Profile"]
+    Root --> PRF003["PRF-003 | Edit Goals"]
+    Root --> PRF004["PRF-004 | Change Password"]
+
+    %% AUTH Sections
+    AUTH001 --> AUTH001_SEC1["Login Form"]
+    AUTH002 --> AUTH002_SEC1["Registration Form"]
+    AUTH003 --> AUTH003_SEC1["Forgot Password Form"]
+    AUTH004 --> AUTH004_SEC1["Reset Password Form"]
+
+    %% ONB Sections
+    ONB001 --> ONB001_SEC1["Welcome Hero"]
+    ONB002 --> ONB002_SEC1["Name Input"]
+    ONB003 --> ONB003_SEC1["Goal Selector"]
+    ONB004 --> ONB004_SEC1["Calorie Slider"]
+
+    %% CAL-001 Dashboard Sections
+    CAL001 --> CAL001_SEC1["Daily Summary"]
+    CAL001 --> CAL001_SEC2["Food Search"]
+    CAL001 --> CAL001_SEC3["Favorites"]
+    CAL001 --> CAL001_SEC4["Timeline"]
+    CAL001 --> CAL001_SEC5["Templates"]
+    CAL001 --> CAL001_SEC6["Meal List"]
+
+    %% CAL-002 Manual Entry Sections
+    CAL002 --> CAL002_SEC1["Manual Entry Form"]
+
+    %% CAL-003 Scan Camera Sections
+    CAL003 --> CAL003_SEC1["Camera View"]
+
+    %% CAL-004 Scan Results Sections
+    CAL004 --> CAL004_SEC1["Scan Results"]
+    CAL004 --> CAL004_SEC2["Portion Picker"]
+
+    %% PRF Sections
+    PRF001 --> PRF001_SEC1["Profile Summary"]
+    PRF001 --> PRF001_SEC2["Profile Actions"]
+    PRF002 --> PRF002_SEC1["Edit Profile Form"]
+    PRF003 --> PRF003_SEC1["Goal Editor"]
+    PRF003 --> PRF003_SEC2["Calorie Editor"]
+    PRF004 --> PRF004_SEC1["Change Password Form"]

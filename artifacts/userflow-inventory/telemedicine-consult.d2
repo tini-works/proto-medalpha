@@ -1,0 +1,79 @@
+direction: down
+
+start: Start {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
+
+start -> appointments_hub
+
+appointments_hub: APT-001 | Appointments Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+appointments_hub -> open_teleclinic
+
+open_teleclinic: Tap "Teleclinic" (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+open_teleclinic -> teleclinic_entry
+
+teleclinic_entry: APT-004 | Teleclinic Entry {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+teleclinic_entry -> prep_details
+
+prep_details: View prep details? (default hidden) {
+  shape: diamond
+  style.fill: "#FFCCCB"
+}
+
+prep_details -> show_prep: Yes
+prep_details -> join_session: No
+
+show_prep: Open prep details {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+show_prep -> teleclinic_entry
+
+join_session: Join session (primary) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+join_session -> teleclinic_session
+
+teleclinic_session: APT-005 | Teleclinic Session (WebView) {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+teleclinic_session -> finish_consult
+
+finish_consult: Finish consult (eRx issued) {
+  shape: rectangle
+  style.fill: "#ADD8E6"
+}
+
+finish_consult -> prescriptions_hub
+
+prescriptions_hub: RX-001 | Prescriptions Hub {
+  shape: document
+  style.fill: "#90EE90"
+}
+
+prescriptions_hub -> done
+
+done: End {
+  shape: circle
+  style.fill: "#000000"
+  style.font-color: "#FFFFFF"
+}
