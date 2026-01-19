@@ -1,0 +1,153 @@
+%% MedAlpha Connect - Appointments User Flow
+%% Covers: Appointments Hub, Book In-Person (Curaay), Book Video Call (Teleclinic), Post-Appointment
+
+flowchart TB
+    subgraph Entry["ENTRY POINTS"]
+        FromHome([From HOME-001<br/>Quick Action])
+        FromTab([From Tab Bar<br/>📅 Appointments])
+        FromPush([From Push<br/>Notification])
+    end
+
+    subgraph Hub["APT-001 APPOINTMENTS HUB"]
+        HubScreen[Appointments Hub]
+
+        subgraph UpcomingSection["Upcoming Section"]
+            UpcomingList[List of upcoming<br/>appointments]
+            UpcomingCard[Appointment card<br/>Doctor, Date, Type badge]
+            ViewBtn[View button]
+        end
+
+        subgraph BookSection["Book New Section"]
+            BookOptions[Two booking options<br/>side by side]
+            InPersonBtn[🏥 In-person<br/>Visit a doctor]
+            VideoBtn[📱 Video call<br/>Talk to a doctor now]
+        end
+
+        PastLink[🔗 View past appointments]
+    end
+
+    subgraph InPersonFlow["IN-PERSON BOOKING (Curaay)"]
+        subgraph APT002["APT-002 Book Appointment"]
+            CuraayWebView[Curaay WebView<br/>Embedded booking UI]
+            SelectDoctor[Select doctor/specialty]
+            SelectTime[Select date & time]
+            ConfirmBooking[Confirm booking]
+        end
+
+        subgraph APT003["APT-003 Confirmation"]
+            ConfirmScreen[Confirmation screen]
+            ConfirmSummary[Booking summary<br/>Doctor, Date, Time, Location]
+            AddCalendar[Add to Calendar CTA]
+            DoneBtn[Done button]
+        end
+    end
+
+    subgraph VideoFlow["VIDEO CALL BOOKING (Teleclinic)"]
+        subgraph APT004["APT-004 Teleclinic Entry"]
+            TeleclinicEntry[Teleclinic Entry]
+            SessionInfo[Session information]
+            LaunchCTA[Launch Video Call CTA]
+        end
+
+        subgraph APT005["APT-005 Teleclinic Session"]
+            TeleclinicWebView[Teleclinic WebView<br/>Video consultation UI]
+            VideoSession[Video session<br/>with doctor]
+            SessionEnd[Session ends]
+        end
+    end
+
+    subgraph PostAppt["APT-006 POST-APPOINTMENT"]
+        PushTrigger[Push notification<br/>60 min after appointment]
+        FollowUpScreen[Post-Appointment<br/>Follow-up]
+        SatisfactionCheck[How was your<br/>appointment?]
+        RatingInput[Rating input]
+        RedeemPrompt[Did you get a<br/>prescription?]
+        GoToRx[Go to Prescriptions]
+        Dismiss[Dismiss]
+    end
+
+    subgraph AppointmentDetail["APPOINTMENT DETAIL"]
+        DetailScreen[Appointment Detail<br/>from upcoming list]
+        DetailInfo[Doctor, Date, Time<br/>Type, Location]
+        CancelOption[Cancel appointment]
+        RescheduleOption[Reschedule]
+    end
+
+    subgraph Destinations["DESTINATIONS"]
+        HOME001([HOME-001<br/>Home])
+        HIS001([HIS-001<br/>History])
+        RX001([RX-001<br/>Prescriptions])
+    end
+
+    %% Entry points
+    FromHome --> HubScreen
+    FromTab --> HubScreen
+    FromPush --> FollowUpScreen
+
+    %% Hub navigation
+    HubScreen --> UpcomingList
+    UpcomingList --> UpcomingCard
+    UpcomingCard --> ViewBtn
+    ViewBtn --> DetailScreen
+
+    HubScreen --> BookOptions
+    BookOptions --> InPersonBtn
+    BookOptions --> VideoBtn
+
+    HubScreen --> PastLink
+    PastLink --> HIS001
+
+    %% In-person booking flow
+    InPersonBtn --> CuraayWebView
+    CuraayWebView --> SelectDoctor
+    SelectDoctor --> SelectTime
+    SelectTime --> ConfirmBooking
+    ConfirmBooking -->|Success| ConfirmScreen
+    ConfirmBooking -->|Cancel| HubScreen
+
+    ConfirmScreen --> ConfirmSummary
+    ConfirmSummary --> AddCalendar
+    AddCalendar --> DoneBtn
+    ConfirmSummary --> DoneBtn
+    DoneBtn --> HubScreen
+
+    %% Video call flow
+    VideoBtn --> TeleclinicEntry
+    TeleclinicEntry --> SessionInfo
+    SessionInfo --> LaunchCTA
+    LaunchCTA --> TeleclinicWebView
+    TeleclinicWebView --> VideoSession
+    VideoSession --> SessionEnd
+    SessionEnd --> HubScreen
+
+    %% Post-appointment flow (push triggered)
+    PushTrigger -.-> FollowUpScreen
+    FollowUpScreen --> SatisfactionCheck
+    SatisfactionCheck --> RatingInput
+    RatingInput --> RedeemPrompt
+    RedeemPrompt -->|Yes| GoToRx
+    RedeemPrompt -->|No| Dismiss
+    GoToRx --> RX001
+    Dismiss --> HOME001
+
+    %% Appointment detail actions
+    DetailScreen --> DetailInfo
+    DetailInfo --> CancelOption
+    DetailInfo --> RescheduleOption
+    CancelOption -->|Confirm| HubScreen
+    RescheduleOption --> CuraayWebView
+
+    %% Styling
+    classDef entry fill:#e3f2fd,stroke:#1565c0
+    classDef hub fill:#fff3e0,stroke:#e65100
+    classDef inperson fill:#e8f5e9,stroke:#2e7d32
+    classDef video fill:#e1f5fe,stroke:#0288d1
+    classDef post fill:#f3e5f5,stroke:#7b1fa2
+    classDef destination fill:#c8e6c9,stroke:#388e3c
+
+    class FromHome,FromTab,FromPush entry
+    class HubScreen,UpcomingList,BookOptions hub
+    class CuraayWebView,ConfirmScreen inperson
+    class TeleclinicEntry,TeleclinicWebView video
+    class FollowUpScreen,SatisfactionCheck post
+    class HOME001,HIS001,RX001 destination

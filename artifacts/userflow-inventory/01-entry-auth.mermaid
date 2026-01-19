@@ -1,0 +1,161 @@
+%% MedAlpha Connect - Entry & Authentication User Flow
+%% Covers: Splash, Onboarding, Login, Register, Forgot Password, SSO, Profile Completion
+
+flowchart TB
+    subgraph Entry["APP ENTRY"]
+        Start([User opens app])
+    end
+
+    subgraph Splash["SPL-001 SPLASH"]
+        SplashScreen[Display brand mark<br/>+ loading indicator]
+        CheckAuth{Check auth<br/>state}
+        CheckFirstTime{First time<br/>user?}
+    end
+
+    subgraph Onboarding["ONBOARDING"]
+        subgraph ONB001["ONB-001 Welcome & Language"]
+            Welcome[Show value props<br/>carousel]
+            LangToggle[Language toggle<br/>DE / EN]
+            ContinueCTA[Continue CTA]
+        end
+
+        subgraph ONB002["ONB-002 Notification Permission"]
+            PermPrompt[Request push<br/>notification permission]
+            PermAllow[User allows]
+            PermDeny[User denies]
+        end
+    end
+
+    subgraph Auth["AUTHENTICATION"]
+        subgraph AUTH001["AUTH-001 Login / Register"]
+            AuthTabs[Login | Register tabs]
+
+            subgraph LoginTab["Login Tab"]
+                EmailInput[Email input]
+                PasswordInput[Password input]
+                ForgotLink[Forgot password? link]
+                LoginBtn[Login button]
+                SocialLogin[Social login options<br/>Google / Apple]
+            end
+
+            subgraph RegisterTab["Register Tab"]
+                RegEmail[Email input]
+                RegPassword[Password input]
+                RegConfirm[Confirm password]
+                RegTerms[Accept terms checkbox]
+                RegisterBtn[Register button]
+                RegSocial[Social signup options]
+            end
+        end
+
+        subgraph AUTH003["AUTH-003 Forgot Password"]
+            ResetEmail[Enter email]
+            SendReset[Send reset link]
+            ResetSent[Check your email<br/>confirmation]
+            BackToLogin[Back to login]
+        end
+
+        subgraph AUTH004["AUTH-004 SSO Handoff"]
+            SSOEntry[Partner redirect]
+            SSOValidate[Validate token]
+            SSOSuccess[SSO success]
+            SSOError[SSO failed]
+        end
+    end
+
+    subgraph ProfileCompletion["PRF-001 PROFILE COMPLETION"]
+        CompletionChecklist[Show required fields<br/>checklist]
+        PersonalInfo[Personal information<br/>Name, DOB]
+        ContactInfo[Contact details<br/>Phone, Address]
+        InsuranceInfo[Insurance information<br/>Provider, Member ID]
+        SaveProfile[Save & continue]
+    end
+
+    subgraph MainApp["MAIN APP"]
+        HOME001([HOME-001<br/>Home])
+    end
+
+    %% Flow connections
+    Start --> SplashScreen
+    SplashScreen --> CheckAuth
+
+    CheckAuth -->|Not authenticated| CheckFirstTime
+    CheckAuth -->|Authenticated + profile complete| HOME001
+    CheckAuth -->|Authenticated + profile incomplete| CompletionChecklist
+
+    CheckFirstTime -->|Yes| Welcome
+    CheckFirstTime -->|No| AuthTabs
+
+    %% Onboarding flow
+    Welcome --> LangToggle
+    LangToggle --> ContinueCTA
+    ContinueCTA --> PermPrompt
+    PermPrompt --> PermAllow
+    PermPrompt --> PermDeny
+    PermAllow --> AuthTabs
+    PermDeny --> AuthTabs
+
+    %% Login flow
+    AuthTabs --> EmailInput
+    EmailInput --> PasswordInput
+    PasswordInput --> LoginBtn
+    PasswordInput --> ForgotLink
+    LoginBtn -->|Success| CheckProfile{Profile<br/>complete?}
+    LoginBtn -->|Error| LoginError[Show error:<br/>Invalid credentials]
+    LoginError --> PasswordInput
+    SocialLogin -->|Success| CheckProfile
+    SocialLogin -->|Error| SocialError[Show error]
+    SocialError --> AuthTabs
+
+    %% Register flow
+    AuthTabs --> RegEmail
+    RegEmail --> RegPassword
+    RegPassword --> RegConfirm
+    RegConfirm --> RegTerms
+    RegTerms --> RegisterBtn
+    RegisterBtn -->|Success| CompletionChecklist
+    RegisterBtn -->|Error| RegError[Show error:<br/>Email exists]
+    RegError --> RegEmail
+    RegSocial -->|Success| CompletionChecklist
+
+    %% Forgot password flow
+    ForgotLink --> ResetEmail
+    ResetEmail --> SendReset
+    SendReset -->|Success| ResetSent
+    SendReset -->|Error| ResetError[Email not found]
+    ResetError --> ResetEmail
+    ResetSent --> BackToLogin
+    BackToLogin --> AuthTabs
+
+    %% SSO flow
+    SSOEntry --> SSOValidate
+    SSOValidate -->|Valid| SSOSuccess
+    SSOValidate -->|Invalid| SSOError
+    SSOSuccess --> CheckProfile
+    SSOError --> AuthTabs
+
+    %% Profile completion
+    CheckProfile -->|Yes| HOME001
+    CheckProfile -->|No| CompletionChecklist
+    CompletionChecklist --> PersonalInfo
+    PersonalInfo --> ContactInfo
+    ContactInfo --> InsuranceInfo
+    InsuranceInfo --> SaveProfile
+    SaveProfile -->|Success| HOME001
+    SaveProfile -->|Error| SaveError[Show error]
+    SaveError --> CompletionChecklist
+
+    %% Styling
+    classDef start fill:#e3f2fd,stroke:#1565c0
+    classDef screen fill:#fff3e0,stroke:#e65100
+    classDef action fill:#e8f5e9,stroke:#2e7d32
+    classDef decision fill:#fff9c4,stroke:#f9a825
+    classDef error fill:#ffebee,stroke:#c62828
+    classDef success fill:#e8f5e9,stroke:#2e7d32
+
+    class Start start
+    class SplashScreen,Welcome,PermPrompt,AuthTabs,ResetEmail,SSOEntry,CompletionChecklist screen
+    class LoginBtn,RegisterBtn,SendReset,SaveProfile action
+    class CheckAuth,CheckFirstTime,CheckProfile decision
+    class LoginError,SocialError,RegError,ResetError,SSOError,SaveError error
+    class HOME001 success

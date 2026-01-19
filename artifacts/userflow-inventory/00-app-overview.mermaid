@@ -1,0 +1,89 @@
+%% MedAlpha Connect - App Overview User Flow
+%% This diagram shows the high-level navigation structure and entry points
+
+flowchart TB
+    subgraph Entry["ENTRY POINT"]
+        AppOpen[App Opens]
+    end
+
+    subgraph Layer1["LAYER 1: ENTRY & AUTH"]
+        SPL001[SPL-001<br/>Splash]
+        ONB001[ONB-001<br/>Welcome & Language]
+        ONB002[ONB-002<br/>Notification Permission]
+        AUTH001[AUTH-001<br/>Login / Register]
+        AUTH003[AUTH-003<br/>Forgot Password]
+        AUTH004[AUTH-004<br/>SSO Handoff]
+        PRF001[PRF-001<br/>Profile Completion]
+    end
+
+    subgraph Layer2["LAYER 2: MAIN APP - Bottom Tabs"]
+        direction LR
+        HOME001[🏠 HOME-001<br/>Home]
+        APT001[📅 APT-001<br/>Appointments Hub]
+        RX001[💊 RX-001<br/>Prescriptions Hub]
+        HIS001[📋 HIS-001<br/>History]
+    end
+
+    subgraph Layer3["LAYER 3: SECONDARY - Menu Access"]
+        PRF002[PRF-002<br/>Profile]
+        SET001[SET-001<br/>Settings]
+        STA001[STA-001<br/>FAQ]
+        STA002[STA-002<br/>Support]
+        STA003[STA-003<br/>Privacy Policy]
+        STA004[STA-004<br/>Legal Disclosure]
+        Logout[Logout]
+    end
+
+    %% Entry Flow
+    AppOpen --> SPL001
+    SPL001 -->|First time| ONB001
+    SPL001 -->|Returning + logged in| HOME001
+    SPL001 -->|Returning + logged out| AUTH001
+
+    %% Onboarding Flow
+    ONB001 --> ONB002
+    ONB002 --> AUTH001
+
+    %% Auth Flow
+    AUTH001 -->|Login success| CheckProfile{Profile<br/>complete?}
+    AUTH001 -->|Register success| PRF001
+    AUTH001 -->|Forgot password| AUTH003
+    AUTH003 --> AUTH001
+    AUTH004 -->|SSO success| CheckProfile
+
+    CheckProfile -->|Yes| HOME001
+    CheckProfile -->|No| PRF001
+    PRF001 -->|Complete| HOME001
+
+    %% Tab Navigation (bidirectional)
+    HOME001 <-->|Tab| APT001
+    HOME001 <-->|Tab| RX001
+    HOME001 <-->|Tab| HIS001
+    APT001 <-->|Tab| RX001
+    APT001 <-->|Tab| HIS001
+    RX001 <-->|Tab| HIS001
+
+    %% Menu Access
+    HOME001 -.->|Menu| PRF002
+    HOME001 -.->|Menu| SET001
+    HOME001 -.->|Menu| STA001
+    HOME001 -.->|Menu| STA002
+    HOME001 -.->|Menu| STA003
+    HOME001 -.->|Menu| STA004
+    HOME001 -.->|Menu| Logout
+
+    %% Logout returns to Auth
+    Logout --> AUTH001
+
+    %% Styling
+    classDef entry fill:#e3f2fd,stroke:#1565c0
+    classDef layer1 fill:#fff3e0,stroke:#e65100
+    classDef layer2 fill:#e8f5e9,stroke:#2e7d32
+    classDef layer3 fill:#f3e5f5,stroke:#7b1fa2
+    classDef decision fill:#fff9c4,stroke:#f9a825
+
+    class AppOpen entry
+    class SPL001,ONB001,ONB002,AUTH001,AUTH003,AUTH004,PRF001 layer1
+    class HOME001,APT001,RX001,HIS001 layer2
+    class PRF002,SET001,STA001,STA002,STA003,STA004,Logout layer3
+    class CheckProfile decision
