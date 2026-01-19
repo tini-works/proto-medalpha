@@ -13,50 +13,8 @@
   <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
 
   <div class="layout">
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-logo">
-        <a href="index.html">
-          <h1>MedAlpha</h1>
-          <span>Product Brief</span>
-        </a>
-      </div>
-
-      <nav class="sidebar-nav">
-        <div class="nav-group">
-          <div class="nav-group-title">Overview</div>
-          <a href="index.html#vision" class="nav-link">Vision</a>
-          <a href="index.html#problem" class="nav-link">Problem</a>
-          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
-          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Users</div>
-          <a href="users.html#personas" class="nav-link">Personas</a>
-          <a href="users.html#journeys" class="nav-link">Journeys</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Product</div>
-          <a href="product.html#features" class="nav-link active">Features</a>
-          <a href="product.html#screens" class="nav-link">Screens</a>
-          <a href="product.html#partners" class="nav-link">Partners</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Design</div>
-          <a href="design.html#tokens" class="nav-link">Tokens</a>
-          <a href="design.html#system" class="nav-link">System</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Quality</div>
-          <a href="quality.html#criteria" class="nav-link">Criteria</a>
-          <a href="quality.html#risks" class="nav-link">Risks</a>
-        </div>
-      </nav>
-    </aside>
+    <!-- SIDEBAR (injected by sidebar.js) -->
+    <aside class="sidebar" id="sidebar"></aside>
 
     <!-- MAIN CONTENT -->
     <main class="main">
@@ -259,21 +217,6 @@
     </main>
   </div>
 
-  <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    document.addEventListener('click', function(e) {
-      const sidebar = document.getElementById('sidebar');
-      const toggle = document.querySelector('.mobile-menu-toggle');
-      if (window.innerWidth <= 768 &&
-          !sidebar.contains(e.target) &&
-          !toggle.contains(e.target) &&
-          sidebar.classList.contains('open')) {
-        sidebar.classList.remove('open');
-      }
-    });
-  </script>
+  <script src="sidebar.js"></script>
 </body>
 </html>

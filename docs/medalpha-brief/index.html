@@ -13,50 +13,8 @@
   <button class="mobile-menu-toggle" onclick="toggleSidebar()">Menu</button>
 
   <div class="layout">
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-logo">
-        <a href="index.html">
-          <h1>MedAlpha</h1>
-          <span>Product Brief</span>
-        </a>
-      </div>
-
-      <nav class="sidebar-nav">
-        <div class="nav-group">
-          <div class="nav-group-title">Overview</div>
-          <a href="index.html#vision" class="nav-link active">Vision</a>
-          <a href="index.html#problem" class="nav-link">Problem</a>
-          <a href="index.html#hypothesis" class="nav-link">Hypothesis</a>
-          <a href="index.html#assumptions" class="nav-link">Assumptions</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Users</div>
-          <a href="users.html#personas" class="nav-link">Personas</a>
-          <a href="users.html#journeys" class="nav-link">Journeys</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Product</div>
-          <a href="product.html#features" class="nav-link">Features</a>
-          <a href="product.html#screens" class="nav-link">Screens</a>
-          <a href="product.html#partners" class="nav-link">Partners</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Design</div>
-          <a href="design.html#tokens" class="nav-link">Tokens</a>
-          <a href="design.html#system" class="nav-link">System</a>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-group-title">Quality</div>
-          <a href="quality.html#criteria" class="nav-link">Criteria</a>
-          <a href="quality.html#risks" class="nav-link">Risks</a>
-        </div>
-      </nav>
-    </aside>
+    <!-- SIDEBAR (injected by sidebar.js) -->
+    <aside class="sidebar" id="sidebar"></aside>
 
     <!-- MAIN CONTENT -->
     <main class="main">
@@ -235,6 +193,131 @@
               <strong>E-prescription complexity creates market opportunity</strong>
               <p>The gematik/NFC flow is confusing enough that a well-designed guide creates defensible value.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature Map -->
+      <section class="section" id="feature-map">
+        <h2 class="section-title">Feature Map</h2>
+
+        <p class="lead">
+          Features ranked by two independent dimensions: <strong>Frequency</strong> (how often users need it) and <strong>Urgency</strong> (how costly it is when it fails).
+        </p>
+
+        <div class="feature-matrix-container">
+          <div class="feature-matrix">
+            <!-- Top-left corner (empty) -->
+            <div class="matrix-corner">
+              <span style="font-size: 0.7rem; color: var(--foreground-muted);">Urgency →</span>
+            </div>
+
+            <!-- Column headers (Urgency) -->
+            <div class="matrix-header">Medium / Low</div>
+            <div class="matrix-header">High / Critical</div>
+
+            <!-- Row header (Frequency High) -->
+            <div class="matrix-header y-axis">High Frequency</div>
+
+            <!-- Q1: High Frequency, Medium Urgency - "Flow Enablers" -->
+            <div class="matrix-quadrant flow">
+              <div class="quadrant-label flow">
+                <span class="quadrant-dot"></span>
+                Flow Enablers
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip flow"><span class="rank">6</span> Reschedule / Cancel</div>
+                <div class="feature-chip flow"><span class="rank">7</span> Pharmacy Search</div>
+                <div class="feature-chip flow"><span class="rank">8</span> Prescription History</div>
+                <div class="feature-chip flow"><span class="rank">9</span> Push Notifications</div>
+                <div class="feature-chip flow"><span class="rank">10</span> Profile Management</div>
+              </div>
+            </div>
+
+            <!-- Q2: High Frequency, High Urgency - "Existential Core" -->
+            <div class="matrix-quadrant critical">
+              <div class="quadrant-label critical">
+                <span class="quadrant-dot"></span>
+                Existential Core
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip critical"><span class="rank">1</span> Appointment Booking</div>
+                <div class="feature-chip critical"><span class="rank">2</span> Telemedicine Join</div>
+                <div class="feature-chip critical"><span class="rank">3</span> ePrescription Redemption</div>
+                <div class="feature-chip critical"><span class="rank">4</span> Confirmations &amp; Reminders</div>
+                <div class="feature-chip critical"><span class="rank">5</span> Status Updates</div>
+              </div>
+            </div>
+
+            <!-- Row header (Frequency Low) -->
+            <div class="matrix-header y-axis">Low / Medium Frequency</div>
+
+            <!-- Q3: Low Frequency, Medium Urgency - "Confidence Builders" + "Delight" -->
+            <div class="matrix-quadrant delight">
+              <div class="quadrant-label delight">
+                <span class="quadrant-dot"></span>
+                Confidence &amp; Delight
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip confidence"><span class="rank">15</span> Health History</div>
+                <div class="feature-chip confidence"><span class="rank">16</span> Calendar Integration</div>
+                <div class="feature-chip confidence"><span class="rank">17</span> Remembered Preferences</div>
+                <div class="feature-chip confidence"><span class="rank">18</span> Post-Appointment Follow-ups</div>
+                <div class="feature-chip delight"><span class="rank">19</span> Visual Progress</div>
+                <div class="feature-chip delight"><span class="rank">20</span> Personalisation</div>
+                <div class="feature-chip delight"><span class="rank">21</span> Microcopy Polish</div>
+              </div>
+            </div>
+
+            <!-- Q4: Low Frequency, High Urgency - "Rare but Dangerous" -->
+            <div class="matrix-quadrant rare">
+              <div class="quadrant-label rare">
+                <span class="quadrant-dot"></span>
+                Rare but Dangerous
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip rare"><span class="rank">11</span> NFC Prescription Scan</div>
+                <div class="feature-chip rare"><span class="rank">12</span> In-Store Validation</div>
+                <div class="feature-chip rare"><span class="rank">13</span> Support Access</div>
+                <div class="feature-chip rare"><span class="rank">14</span> Error Recovery</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="feature-map-legend">
+            <div class="legend-item">
+              <span class="legend-dot critical"></span>
+              Existential Core — must work flawlessly
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot flow"></span>
+              Flow Enablers — failure causes friction
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot rare"></span>
+              Rare but Dangerous — silent until incident
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot delight"></span>
+              Confidence &amp; Delight — nice to have
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Insight -->
+        <div class="feature-map-insight">
+          <h4>💡 Key Product Insight</h4>
+          <p>
+            Most teams <span class="highlight">over-invest in high-frequency, low-urgency features</span> (polish) and <span class="highlight">under-invest in medium-frequency, high-urgency features</span> (recovery, validation, edge cases). In healthcare, that inversion is fatal.
+          </p>
+
+          <div class="decision-heuristic">
+            <div class="decision-heuristic-title">Decision Heuristic</div>
+            <ol>
+              <li>Fix the one with <strong>higher urgency</strong>, even if frequency is low.</li>
+              <li>Ship the one with <strong>higher frequency</strong> only if urgency is equal.</li>
+            </ol>
           </div>
         </div>
       </section>
@@ -765,22 +848,8 @@
     </main>
   </div>
 
+  <script src="sidebar.js"></script>
   <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    document.addEventListener('click', function(e) {
-      const sidebar = document.getElementById('sidebar');
-      const toggle = document.querySelector('.mobile-menu-toggle');
-      if (window.innerWidth <= 768 &&
-          !sidebar.contains(e.target) &&
-          !toggle.contains(e.target) &&
-          sidebar.classList.contains('open')) {
-        sidebar.classList.remove('open');
-      }
-    });
-
     function switchTab(tabName) {
       // Remove active from all tabs and content
       document.querySelectorAll('.assumption-tab').forEach(tab => {

@@ -1048,6 +1048,261 @@ tr:hover td {
   }
 }
 
+/* ============================================
+   FEATURE MAP MATRIX
+   ============================================ */
+.feature-matrix-container {
+  background: var(--background-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--space-lg);
+}
+
+.feature-matrix {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.matrix-corner {
+  background: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+}
+
+.matrix-header {
+  background: var(--background);
+  padding: var(--space-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--foreground-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.matrix-header.y-axis {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding: var(--space-lg) var(--space-sm);
+}
+
+.matrix-quadrant {
+  background: var(--background-card);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-height: 200px;
+}
+
+.matrix-quadrant.critical {
+  background: rgba(220, 38, 38, 0.04);
+}
+
+.matrix-quadrant.flow {
+  background: rgba(12, 61, 145, 0.04);
+}
+
+.matrix-quadrant.rare {
+  background: rgba(245, 158, 11, 0.04);
+}
+
+.matrix-quadrant.delight {
+  background: rgba(46, 125, 50, 0.04);
+}
+
+.quadrant-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--foreground-muted);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.quadrant-label .quadrant-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.quadrant-label.critical .quadrant-dot { background: var(--error); }
+.quadrant-label.flow .quadrant-dot { background: var(--primary); }
+.quadrant-label.rare .quadrant-dot { background: var(--warning); }
+.quadrant-label.delight .quadrant-dot { background: var(--success); }
+
+.feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--background-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--foreground-secondary);
+  transition: all 150ms ease;
+  cursor: default;
+}
+
+.feature-chip:hover {
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+}
+
+.feature-chip .rank {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: white;
+  background: var(--foreground-muted);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-chip.critical .rank { background: var(--error); }
+.feature-chip.flow .rank { background: var(--primary); }
+.feature-chip.rare .rank { background: var(--warning); }
+.feature-chip.delight .rank { background: var(--success); }
+.feature-chip.confidence .rank { background: #6B7280; }
+
+.feature-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+/* Feature Map Legend */
+.feature-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--foreground-secondary);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-dot.critical { background: var(--error); }
+.legend-dot.flow { background: var(--primary); }
+.legend-dot.rare { background: var(--warning); }
+.legend-dot.delight { background: var(--success); }
+.legend-dot.confidence { background: #6B7280; }
+
+/* Feature Map Insight Box */
+.feature-map-insight {
+  background: linear-gradient(135deg, rgba(12, 61, 145, 0.08), rgba(12, 61, 145, 0.02));
+  border: 1px solid rgba(12, 61, 145, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.feature-map-insight h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: var(--space-sm);
+}
+
+.feature-map-insight p {
+  font-size: 0.9rem;
+  color: var(--foreground-secondary);
+  margin: 0;
+}
+
+.feature-map-insight .highlight {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Decision Heuristic */
+.decision-heuristic {
+  background: var(--background);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.decision-heuristic-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--foreground-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.decision-heuristic ol {
+  margin: 0;
+  padding-left: var(--space-lg);
+}
+
+.decision-heuristic li {
+  font-size: 0.85rem;
+  color: var(--foreground-secondary);
+  padding: var(--space-xs) 0;
+}
+
+/* Responsive for feature matrix */
+@media (max-width: 768px) {
+  .feature-matrix {
+    min-height: auto;
+  }
+
+  .matrix-header.y-axis {
+    writing-mode: horizontal-tb;
+    transform: none;
+    padding: var(--space-sm);
+  }
+
+  .feature-chip {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+
+  .feature-chip .rank {
+    width: 16px;
+    height: 16px;
+    font-size: 0.6rem;
+  }
+
+  .feature-map-legend {
+    gap: var(--space-md);
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
