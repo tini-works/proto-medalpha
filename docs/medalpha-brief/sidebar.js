@@ -21,7 +21,6 @@ const sidebarHTML = `
       <a href="index.html#vision" class="nav-link" data-page="index" data-hash="vision">Vision</a>
       <a href="index.html#problem" class="nav-link" data-page="index" data-hash="problem">Problem</a>
       <a href="index.html#hypothesis" class="nav-link" data-page="index" data-hash="hypothesis">Hypothesis</a>
-      <a href="index.html#feature-map" class="nav-link" data-page="index" data-hash="feature-map">Feature Map</a>
       <a href="index.html#assumptions" class="nav-link" data-page="index" data-hash="assumptions">Assumptions</a>
     </div>
 
@@ -34,7 +33,8 @@ const sidebarHTML = `
     <div class="nav-group">
       <div class="nav-group-title">Product</div>
       <a href="product.html#features" class="nav-link" data-page="product" data-hash="features">Features</a>
-      <a href="product.html#screens" class="nav-link" data-page="product" data-hash="screens">Screens</a>
+      <a href="product.html#feature-matrix" class="nav-link" data-page="product" data-hash="feature-matrix">Feature Matrix</a>
+      <a href="product.html#ia-flows" class="nav-link" data-page="product" data-hash="ia-flows">IA and Flows</a>
       <a href="product.html#partners" class="nav-link" data-page="product" data-hash="partners">Partners</a>
     </div>
 

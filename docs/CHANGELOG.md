@@ -2,6 +2,13 @@
 
 All notable changes to this workspace will be documented in this file.
 
+## [2026-01-20]
+
+### Changed
+- **Design tokens**: Updated the canonical token sources to the “Modern Healthcare SaaS” palette and typography (brand blue/teal/mint scales, refreshed neutrals, Google Sans stack, KPI sizing/line-heights).
+- **MedAlpha brief docs**: Expanded the Design page to showcase the full token color scales, and moved the feature matrix content from `index.html` into `product.html` for clearer information architecture.
+- **Mobile demo**: Simplified the Expo app landing UI to a minimal “Home” placeholder.
+
 ## [2026-01-16]
 
 ### Added

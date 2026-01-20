@@ -80,25 +80,326 @@
         </div>
       </section>
 
-      <!-- Screens -->
-      <section class="section" id="screens">
-        <h2 class="section-title">App Structure</h2>
+      <!-- Feature Matrix -->
+      <section class="section" id="feature-matrix">
+        <h2 class="section-title">Feature Matrix</h2>
+
+        <p class="lead">
+          Features ranked by two independent dimensions: <strong>Frequency</strong> (how often users need it) and <strong>Urgency</strong> (how costly it is when it fails).
+        </p>
+
+        <div class="feature-matrix-container">
+          <div class="feature-matrix">
+            <!-- Top-left corner (empty) -->
+            <div class="matrix-corner">
+              <span style="font-size: 0.7rem; color: var(--foreground-muted);">Urgency →</span>
+            </div>
+
+            <!-- Column headers (Urgency) -->
+            <div class="matrix-header">Medium / Low</div>
+            <div class="matrix-header">High / Critical</div>
+
+            <!-- Row header (Frequency High) -->
+            <div class="matrix-header y-axis">High Frequency</div>
+
+            <!-- Q1: High Frequency, Medium Urgency - "Flow Enablers" -->
+            <div class="matrix-quadrant flow">
+              <div class="quadrant-label flow">
+                <span class="quadrant-dot"></span>
+                Flow Enablers
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip flow"><span class="rank">6</span> Reschedule / Cancel</div>
+                <div class="feature-chip flow"><span class="rank">7</span> Pharmacy Search</div>
+                <div class="feature-chip flow"><span class="rank">8</span> Prescription History</div>
+                <div class="feature-chip flow"><span class="rank">9</span> Push Notifications</div>
+                <div class="feature-chip flow"><span class="rank">10</span> Profile Management</div>
+              </div>
+            </div>
+
+            <!-- Q2: High Frequency, High Urgency - "Existential Core" -->
+            <div class="matrix-quadrant critical">
+              <div class="quadrant-label critical">
+                <span class="quadrant-dot"></span>
+                Existential Core
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip critical"><span class="rank">1</span> Appointment Booking</div>
+                <div class="feature-chip critical"><span class="rank">2</span> Telemedicine Join</div>
+                <div class="feature-chip critical"><span class="rank">3</span> ePrescription Redemption</div>
+                <div class="feature-chip critical"><span class="rank">4</span> Confirmations &amp; Reminders</div>
+                <div class="feature-chip critical"><span class="rank">5</span> Status Updates</div>
+              </div>
+            </div>
+
+            <!-- Row header (Frequency Low) -->
+            <div class="matrix-header y-axis">Low / Medium Frequency</div>
+
+            <!-- Q3: Low Frequency, Medium Urgency - "Confidence Builders" + "Delight" -->
+            <div class="matrix-quadrant delight">
+              <div class="quadrant-label delight">
+                <span class="quadrant-dot"></span>
+                Confidence &amp; Delight
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip confidence"><span class="rank">15</span> Health History</div>
+                <div class="feature-chip confidence"><span class="rank">16</span> Calendar Integration</div>
+                <div class="feature-chip confidence"><span class="rank">17</span> Remembered Preferences</div>
+                <div class="feature-chip confidence"><span class="rank">18</span> Post-Appointment Follow-ups</div>
+                <div class="feature-chip delight"><span class="rank">19</span> Visual Progress</div>
+                <div class="feature-chip delight"><span class="rank">20</span> Personalisation</div>
+                <div class="feature-chip delight"><span class="rank">21</span> Microcopy Polish</div>
+              </div>
+            </div>
+
+            <!-- Q4: Low Frequency, High Urgency - "Rare but Dangerous" -->
+            <div class="matrix-quadrant rare">
+              <div class="quadrant-label rare">
+                <span class="quadrant-dot"></span>
+                Rare but Dangerous
+              </div>
+              <div class="feature-chips-wrap">
+                <div class="feature-chip rare"><span class="rank">11</span> NFC Prescription Scan</div>
+                <div class="feature-chip rare"><span class="rank">12</span> In-Store Validation</div>
+                <div class="feature-chip rare"><span class="rank">13</span> Support Access</div>
+                <div class="feature-chip rare"><span class="rank">14</span> Error Recovery</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="feature-map-legend">
+            <div class="legend-item">
+              <span class="legend-dot critical"></span>
+              Existential Core — must work flawlessly
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot flow"></span>
+              Flow Enablers — failure causes friction
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot rare"></span>
+              Rare but Dangerous — silent until incident
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot delight"></span>
+              Confidence &amp; Delight — nice to have
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Insight -->
+        <div class="feature-map-insight">
+          <h4>Key Product Insight</h4>
+          <p>
+            Most teams <span class="highlight">over-invest in high-frequency, low-urgency features</span> (polish) and <span class="highlight">under-invest in medium-frequency, high-urgency features</span> (recovery, validation, edge cases). In healthcare, that inversion is fatal.
+          </p>
+
+          <div class="decision-heuristic">
+            <div class="decision-heuristic-title">Decision Heuristic</div>
+            <ol>
+              <li>Fix the one with <strong>higher urgency</strong>, even if frequency is low.</li>
+              <li>Ship the one with <strong>higher frequency</strong> only if urgency is equal.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- IA and Flows -->
+      <section class="section" id="ia-flows">
+        <h2 class="section-title">IA and Flows</h2>
 
         <p class="lead">
           Five-tab navigation reflecting the core jobs: get care, get medication, track outcomes.
         </p>
 
-        <div class="card">
-          <h3 class="subsection-title" style="margin-top: 0;">Navigation Model</h3>
-          <div class="flow" style="justify-content: center;">
-            <div class="flow-box highlight">Home</div>
-            <div class="flow-box">Appointments</div>
-            <div class="flow-box">Prescriptions</div>
-            <div class="flow-box">History</div>
-            <div class="flow-box">Profile</div>
+        <!-- IA Map -->
+        <div class="ia-map-container">
+          <div class="ia-map">
+            <!-- Root -->
+            <div class="ia-node root">
+              <div class="ia-node-content">
+                <span class="ia-icon">📱</span>
+                <span class="ia-label">MedAlpha</span>
+              </div>
+            </div>
+
+            <!-- Entry Branch -->
+            <div class="ia-branch">
+              <div class="ia-connector"></div>
+              <div class="ia-node entry">
+                <div class="ia-node-content">
+                  <span class="ia-label">Entry</span>
+                  <span class="ia-badge">Pre-auth</span>
+                </div>
+                <div class="ia-children">
+                  <div class="ia-leaf">Splash</div>
+                  <div class="ia-leaf">Onboarding</div>
+                  <div class="ia-leaf">Login</div>
+                  <div class="ia-leaf">Registration</div>
+                  <div class="ia-leaf">Profile Setup</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="ia-tabs-container">
+              <div class="ia-connector"></div>
+              <div class="ia-tabs-label">Tab Navigation</div>
+              <div class="ia-tabs">
+                <!-- Home Tab -->
+                <div class="ia-tab">
+                  <div class="ia-node home">
+                    <div class="ia-node-content">
+                      <span class="ia-icon">🏠</span>
+                      <span class="ia-label">Home</span>
+                    </div>
+                    <div class="ia-children">
+                      <div class="ia-leaf">Dashboard</div>
+                      <div class="ia-leaf">Quick Actions</div>
+                      <div class="ia-leaf">Reminders</div>
+                      <div class="ia-leaf">Status Cards</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Appointments Tab -->
+                <div class="ia-tab">
+                  <div class="ia-node appointments">
+                    <div class="ia-node-content">
+                      <span class="ia-icon">📅</span>
+                      <span class="ia-label">Appointments</span>
+                    </div>
+                    <div class="ia-children">
+                      <div class="ia-leaf highlight">Appointment List</div>
+                      <div class="ia-leaf-group">
+                        <div class="ia-leaf-label">Booking Flow</div>
+                        <div class="ia-leaf">Type Selection</div>
+                        <div class="ia-leaf">Specialty</div>
+                        <div class="ia-leaf">Doctor List</div>
+                        <div class="ia-leaf">Date/Time</div>
+                        <div class="ia-leaf">Summary</div>
+                        <div class="ia-leaf">Confirmation</div>
+                      </div>
+                      <div class="ia-leaf-group">
+                        <div class="ia-leaf-label">Telemedicine</div>
+                        <div class="ia-leaf">Pre-call Check</div>
+                        <div class="ia-leaf">Questionnaire</div>
+                        <div class="ia-leaf">Waiting Room</div>
+                        <div class="ia-leaf">Video Call</div>
+                        <div class="ia-leaf">Summary</div>
+                      </div>
+                      <div class="ia-leaf">Appointment Detail</div>
+                      <div class="ia-leaf">Reschedule</div>
+                      <div class="ia-leaf">Cancel</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Prescriptions Tab -->
+                <div class="ia-tab">
+                  <div class="ia-node prescriptions">
+                    <div class="ia-node-content">
+                      <span class="ia-icon">💊</span>
+                      <span class="ia-label">Prescriptions</span>
+                    </div>
+                    <div class="ia-children">
+                      <div class="ia-leaf highlight">Prescription List</div>
+                      <div class="ia-leaf-group">
+                        <div class="ia-leaf-label">Redemption Flow</div>
+                        <div class="ia-leaf">Entry</div>
+                        <div class="ia-leaf">Pharmacy Choice</div>
+                        <div class="ia-leaf">NFC Scan</div>
+                        <div class="ia-leaf">Prescription Select</div>
+                        <div class="ia-leaf">Order Summary</div>
+                        <div class="ia-leaf">Confirmation</div>
+                      </div>
+                      <div class="ia-leaf">Prescription Detail</div>
+                      <div class="ia-leaf">Order Tracking</div>
+                      <div class="ia-leaf">Pharmacy Finder</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- History Tab -->
+                <div class="ia-tab">
+                  <div class="ia-node history">
+                    <div class="ia-node-content">
+                      <span class="ia-icon">📋</span>
+                      <span class="ia-label">History</span>
+                    </div>
+                    <div class="ia-children">
+                      <div class="ia-leaf highlight">Overview</div>
+                      <div class="ia-leaf">Appointment History</div>
+                      <div class="ia-leaf">Prescription History</div>
+                      <div class="ia-leaf">Health Timeline</div>
+                      <div class="ia-leaf">Detail Views</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div class="ia-tab">
+                  <div class="ia-node profile">
+                    <div class="ia-node-content">
+                      <span class="ia-icon">👤</span>
+                      <span class="ia-label">Profile</span>
+                    </div>
+                    <div class="ia-children">
+                      <div class="ia-leaf highlight">Profile Overview</div>
+                      <div class="ia-leaf">Personal Data</div>
+                      <div class="ia-leaf">Insurance Info</div>
+                      <div class="ia-leaf">Preferences</div>
+                      <div class="ia-leaf">Accessibility</div>
+                      <div class="ia-leaf">Notifications</div>
+                      <div class="ia-leaf">Support</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Global Overlays -->
+            <div class="ia-branch overlays">
+              <div class="ia-connector"></div>
+              <div class="ia-node global">
+                <div class="ia-node-content">
+                  <span class="ia-label">Global</span>
+                  <span class="ia-badge">Overlays</span>
+                </div>
+                <div class="ia-children horizontal">
+                  <div class="ia-leaf">Error States</div>
+                  <div class="ia-leaf">Loading</div>
+                  <div class="ia-leaf">Notifications</div>
+                  <div class="ia-leaf">Help/FAQ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- IA Map Legend -->
+          <div class="ia-legend">
+            <div class="ia-legend-item">
+              <span class="ia-legend-dot entry"></span>
+              Entry — Pre-authentication
+            </div>
+            <div class="ia-legend-item">
+              <span class="ia-legend-dot tab"></span>
+              Tab — Primary navigation
+            </div>
+            <div class="ia-legend-item">
+              <span class="ia-legend-dot flow"></span>
+              Flow — Linear task sequence
+            </div>
+            <div class="ia-legend-item">
+              <span class="ia-legend-dot global"></span>
+              Global — App-wide screens
+            </div>
           </div>
         </div>
 
+        <!-- Screen Summary Table -->
+        <h3 class="subsection-title">Screen Inventory</h3>
         <div class="table-wrapper">
           <table>
             <thead>
@@ -110,7 +411,7 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Entry & Account</strong></td>
+                <td><strong>Entry &amp; Account</strong></td>
                 <td>Splash, Onboarding, Login, Registration, Profile Completion</td>
                 <td>No feature access without completed profile</td>
               </tr>
@@ -146,6 +447,794 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- Flow Diagrams (hidden via CSS) -->
+        <h3 class="subsection-title" style="display: none;">User Flow Diagrams</h3>
+        <p style="display: none;">Comprehensive end-to-end flows for the three primary user journeys, including decision points and edge case handling.</p>
+
+        <div class="flowchart-container">
+          <div class="flowchart">
+            <div class="flowchart-title">
+              <div class="flowchart-title-icon">📅</div>
+              <div>
+                <h4>Appointment Booking Flow</h4>
+                <p>Via Curaay — In-person or video appointment scheduling</p>
+              </div>
+            </div>
+
+            <!-- Happy Path -->
+            <div class="flow-lane">
+              <div class="flow-lane-header happy">
+                <span class="flow-lane-label">Happy Path</span>
+                <span class="flow-lane-badge happy">Primary Flow</span>
+              </div>
+              <div class="flow-steps">
+                <div class="flow-node">
+                  <div class="flow-node-box start">Entry</div>
+                  <span class="flow-node-label">Home CTA or Tab</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Type Selection</div>
+                  <span class="flow-node-label">In-person / Video</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Specialty</div>
+                  <span class="flow-node-label">Medical category</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Doctor List</div>
+                  <span class="flow-node-label">Curaay API</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Doctor Profile</div>
+                  <span class="flow-node-label">Bio, reviews, hours</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Date/Time</div>
+                  <span class="flow-node-label">Availability check</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Summary</div>
+                  <span class="flow-node-label">Review details</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box decision">Confirm?</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Book</div>
+                  <span class="flow-node-label">Curaay API</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box success-state">Confirmation</div>
+                  <span class="flow-node-label">Calendar invite</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box end">Complete</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decision Branches -->
+            <div class="flow-lane">
+              <div class="flow-lane-header edge">
+                <span class="flow-lane-label">Decision Branches</span>
+                <span class="flow-lane-badge edge">Alternate Paths</span>
+              </div>
+              <div class="flow-branch-group">
+                <div class="flow-branch">
+                  <span class="flow-branch-label">No slots</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box warning-state">No Availability</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Show Alternatives</div>
+                      <span class="flow-node-label">Other doctors/dates</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Waitlist Option</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Back to List</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label">Cancel at summary</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">User cancels</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Save Draft?</div>
+                      <span class="flow-node-label">Optional</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Return Home</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label">Insurance check</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">Coverage?</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box warning-state">Not Covered</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Show Cost</div>
+                      <span class="flow-node-label">Self-pay option</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">Proceed?</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error States -->
+            <div class="flow-lane">
+              <div class="flow-lane-header error">
+                <span class="flow-lane-label">Error Recovery</span>
+                <span class="flow-lane-badge error">Failure Handling</span>
+              </div>
+              <div class="flow-branch-group">
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">API failure</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Curaay Error</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Retry (×3)</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Friendly Error</div>
+                      <span class="flow-node-label">"Try again later"</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Offline Mode</div>
+                      <span class="flow-node-label">Save for retry</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">Slot taken</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Race Condition</div>
+                      <span class="flow-node-label">Slot booked by another</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box warning-state">Slot Unavailable</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Next Available</div>
+                      <span class="flow-node-label">Auto-suggest</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Date/Time</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edge Cases -->
+            <div class="edge-cases-section">
+              <div class="edge-cases-title">Edge Cases &amp; Special Handling</div>
+              <div class="edge-case-list">
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Session timeout</span>
+                  <span class="edge-case-handling">Auto-save draft, prompt to continue on return</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">App backgrounded</span>
+                  <span class="edge-case-handling">Hold slot for 5min, release with notification</span>
+                </div>
+                <div class="edge-case-item critical">
+                  <span class="edge-case-trigger">Double booking</span>
+                  <span class="edge-case-handling">Warn user of conflict, require acknowledgment</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Past date selected</span>
+                  <span class="edge-case-handling">Disable past dates, show earliest available</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Profile incomplete</span>
+                  <span class="edge-case-handling">Redirect to complete required fields first</span>
+                </div>
+                <div class="edge-case-item critical">
+                  <span class="edge-case-trigger">Payment required</span>
+                  <span class="edge-case-handling">Clear cost display before commit, no hidden fees</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow 2: Telemedicine -->
+        <div class="flowchart-container">
+          <div class="flowchart">
+            <div class="flowchart-title">
+              <div class="flowchart-title-icon">📹</div>
+              <div>
+                <h4>Telemedicine Flow</h4>
+                <p>Via Teleclinic — Video consultation with pre-call preparation</p>
+              </div>
+            </div>
+
+            <!-- Happy Path -->
+            <div class="flow-lane">
+              <div class="flow-lane-header happy">
+                <span class="flow-lane-label">Happy Path</span>
+                <span class="flow-lane-badge happy">Primary Flow</span>
+              </div>
+              <div class="flow-steps">
+                <div class="flow-node">
+                  <div class="flow-node-box start">Entry</div>
+                  <span class="flow-node-label">Scheduled appointment</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Pre-Call Check</div>
+                  <span class="flow-node-label">Camera, mic, network</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box decision">Tests Pass?</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Questionnaire</div>
+                  <span class="flow-node-label">Symptoms, history</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Submit to Teleclinic</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Waiting Room</div>
+                  <span class="flow-node-label">Queue position</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box action">Doctor Ready</div>
+                  <span class="flow-node-label">Push notification</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Video Call</div>
+                  <span class="flow-node-label">Teleclinic WebView</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box action">Call Ends</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Summary</div>
+                  <span class="flow-node-label">Notes, prescription</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box end">Complete</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decision Branches -->
+            <div class="flow-lane">
+              <div class="flow-lane-header edge">
+                <span class="flow-lane-label">Decision Branches</span>
+                <span class="flow-lane-badge edge">Alternate Paths</span>
+              </div>
+              <div class="flow-branch-group">
+                <div class="flow-branch">
+                  <span class="flow-branch-label">Pre-check fails</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box warning-state">Hardware Issue</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Troubleshoot Guide</div>
+                      <span class="flow-node-label">Step-by-step fix</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">Fixed?</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Reschedule</div>
+                      <span class="flow-node-label">Or call-in option</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label">User late/no-show</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box warning-state">Missed Window</div>
+                      <span class="flow-node-label">15min grace period</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Send Reminders</div>
+                      <span class="flow-node-label">Push + SMS</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Marked No-Show</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Rebook Prompt</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label">Prescription issued</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box success-state">e-Prescription</div>
+                      <span class="flow-node-label">From Teleclinic</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Save to Profile</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Redeem Now?</div>
+                      <span class="flow-node-label">Link to Rx flow</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error States -->
+            <div class="flow-lane">
+              <div class="flow-lane-header error">
+                <span class="flow-lane-label">Error Recovery</span>
+                <span class="flow-lane-badge error">Failure Handling</span>
+              </div>
+              <div class="flow-branch-group">
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">Call dropped</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Connection Lost</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Auto-Reconnect</div>
+                      <span class="flow-node-label">30s attempts</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">Reconnected?</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Call Doctor Back</div>
+                      <span class="flow-node-label">Priority queue</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">Doctor unavailable</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Doctor No-Show</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Auto-Reassign</div>
+                      <span class="flow-node-label">Next available</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">New Doctor Info</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">Accept?</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">WebView crash</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Teleclinic Crash</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Reload WebView</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Session Restore</div>
+                      <span class="flow-node-label">If possible</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Support Contact</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edge Cases -->
+            <div class="edge-cases-section">
+              <div class="edge-cases-title">Edge Cases &amp; Special Handling</div>
+              <div class="edge-case-list">
+                <div class="edge-case-item critical">
+                  <span class="edge-case-trigger">Poor network</span>
+                  <span class="edge-case-handling">Bandwidth check pre-call, offer audio-only fallback</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Camera permissions</span>
+                  <span class="edge-case-handling">Clear prompt with settings deep-link if denied</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Long wait time</span>
+                  <span class="edge-case-handling">Show position, allow leave-and-notify option</span>
+                </div>
+                <div class="edge-case-item critical">
+                  <span class="edge-case-trigger">Emergency detected</span>
+                  <span class="edge-case-handling">Immediate 112 redirect with confirmation</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Questionnaire timeout</span>
+                  <span class="edge-case-handling">Auto-save answers, resume where left off</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Battery low</span>
+                  <span class="edge-case-handling">Warning before call, suggest charging</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow 3: Prescription Redemption -->
+        <div class="flowchart-container">
+          <div class="flowchart">
+            <div class="flowchart-title">
+              <div class="flowchart-title-icon">💊</div>
+              <div>
+                <h4>Prescription Redemption Flow</h4>
+                <p>Via Cardlink + Apo Group — NFC scan to pharmacy delivery or pickup</p>
+              </div>
+            </div>
+
+            <!-- Happy Path -->
+            <div class="flow-lane">
+              <div class="flow-lane-header happy">
+                <span class="flow-lane-label">Happy Path</span>
+                <span class="flow-lane-badge happy">Primary Flow</span>
+              </div>
+              <div class="flow-steps">
+                <div class="flow-node">
+                  <div class="flow-node-box start">Entry</div>
+                  <span class="flow-node-label">Rx tab or post-visit</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Pharmacy Choice</div>
+                  <span class="flow-node-label">Online / Local</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box decision">Has eGK?</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">NFC Prompt</div>
+                  <span class="flow-node-label">Hold card to phone</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Cardlink Scan</div>
+                  <span class="flow-node-label">gematik validation</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Prescription List</div>
+                  <span class="flow-node-label">Select items</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Check Availability</div>
+                  <span class="flow-node-label">Apo Group API</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box screen">Order Summary</div>
+                  <span class="flow-node-label">Copay, delivery</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box decision">Confirm?</div>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box partner">Place Order</div>
+                  <span class="flow-node-label">Apo Group</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box success-state">Confirmation</div>
+                  <span class="flow-node-label">Order tracking</span>
+                </div>
+                <div class="flow-connector">→</div>
+                <div class="flow-node">
+                  <div class="flow-node-box end">Complete</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decision Branches -->
+            <div class="flow-lane">
+              <div class="flow-lane-header edge">
+                <span class="flow-lane-label">Decision Branches</span>
+                <span class="flow-lane-badge edge">Alternate Paths</span>
+              </div>
+              <div class="flow-branch-group">
+                <div class="flow-branch">
+                  <span class="flow-branch-label">Local pharmacy path</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Choose Local</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box partner">Pharmacy Search</div>
+                      <span class="flow-node-label">Google Maps</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Select Pharmacy</div>
+                      <span class="flow-node-label">Hours, distance</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Reserve Items</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Pickup Ready</div>
+                      <span class="flow-node-label">Notification</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label">Partial availability</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box warning-state">Some Unavailable</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Show Options</div>
+                      <span class="flow-node-label">Substitutes, wait</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">Accept Sub?</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Split Order</div>
+                      <span class="flow-node-label">Ship what's available</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label">No eGK available</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box decision">No eGK</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Manual Entry</div>
+                      <span class="flow-node-label">Prescription code</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box partner">Validate Code</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Continue Flow</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error States -->
+            <div class="flow-lane">
+              <div class="flow-lane-header error">
+                <span class="flow-lane-label">Error Recovery</span>
+                <span class="flow-lane-badge error">Failure Handling</span>
+              </div>
+              <div class="flow-branch-group">
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">NFC scan fails</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Scan Error</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Positioning Guide</div>
+                      <span class="flow-node-label">Visual helper</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Retry (×3)</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Manual Entry</div>
+                      <span class="flow-node-label">Fallback</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">Card expired</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Invalid eGK</div>
+                      <span class="flow-node-label">Expired or invalid</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Explain Issue</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Insurance Contact</div>
+                      <span class="flow-node-label">Get new card</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Try Another Card</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">Prescription expired</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Rx Expired</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Show Expiry Date</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Request Renewal</div>
+                      <span class="flow-node-label">Link to telemedicine</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <span class="flow-branch-label error">Payment fails</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">
+                      <div class="flow-node-box error-state">Payment Declined</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Try Again</div>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box screen">Alt Payment</div>
+                      <span class="flow-node-label">Different method</span>
+                    </div>
+                    <div class="flow-connector">→</div>
+                    <div class="flow-node">
+                      <div class="flow-node-box action">Save for Later</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edge Cases -->
+            <div class="edge-cases-section">
+              <div class="edge-cases-title">Edge Cases &amp; Special Handling</div>
+              <div class="edge-case-list">
+                <div class="edge-case-item critical">
+                  <span class="edge-case-trigger">Controlled substance</span>
+                  <span class="edge-case-handling">Extra verification, no split shipments, ID required</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">NFC not supported</span>
+                  <span class="edge-case-handling">Detect device capability, show manual-entry-only mode</span>
+                </div>
+                <div class="edge-case-item critical">
+                  <span class="edge-case-trigger">Already redeemed</span>
+                  <span class="edge-case-handling">Show redemption history, prevent duplicate orders</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Multiple prescriptions</span>
+                  <span class="edge-case-handling">Allow batch selection, single checkout flow</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Address change</span>
+                  <span class="edge-case-handling">Confirm delivery address, allow edit before confirm</span>
+                </div>
+                <div class="edge-case-item">
+                  <span class="edge-case-trigger">Pharmacy closed</span>
+                  <span class="edge-case-handling">Show hours clearly, suggest alternatives if urgent</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flowchart-legend">
+              <div class="flowchart-legend-item">
+                <div class="flowchart-legend-node start"></div>
+                <span>Start / End</span>
+              </div>
+              <div class="flowchart-legend-item">
+                <div class="flowchart-legend-node screen"></div>
+                <span>Screen</span>
+              </div>
+              <div class="flowchart-legend-item">
+                <div class="flowchart-legend-node partner"></div>
+                <span>Partner API</span>
+              </div>
+              <div class="flowchart-legend-item">
+                <div class="flowchart-legend-node"></div>
+                <span>Action / Decision</span>
+              </div>
+              <div class="flowchart-legend-item">
+                <div class="flowchart-legend-node error"></div>
+                <span>Error State</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -24,3 +24,6 @@ packages/tokens/generated/
 .env
 .env.local
 .vercel
+
+# Personal
+docs/_lia/
