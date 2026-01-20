@@ -290,6 +290,16 @@ button {
   background: var(--brand-50);
 }
 
+.card.is-selected {
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 1px var(--brand-500);
+}
+
+.card.is-selected .icon-pill {
+  background: var(--brand-500);
+  color: #FFFFFF;
+}
+
 .card.dark {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.12);
@@ -519,6 +529,11 @@ button {
 }
 
 .chip.active {
+  background: var(--brand-500);
+  color: #FFFFFF;
+}
+
+.chip.is-selected {
   background: var(--brand-500);
   color: #FFFFFF;
 }
