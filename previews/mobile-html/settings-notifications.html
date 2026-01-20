@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Notifications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="title">Notifications</div>
+          <div class="action">Save</div>
+        </div>
+        <main class="app-content">
+          <div class="section">
+            <div class="section-title">Health & Appointments</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row space-between">
+                  <div class="row">
+                    <div class="icon-pill brand"><ion-icon name="calendar"></ion-icon></div>
+                    <div>
+                      <div style="font-weight: 600;">Appointment Reminders</div>
+                      <div class="text-caption">Get reminded before your appointments</div>
+                    </div>
+                  </div>
+                  <div class="toggle is-on" data-toggle aria-checked="true"><span></span></div>
+                </div>
+                <div class="small-divider"></div>
+                <div class="row space-between">
+                  <div class="row">
+                    <div class="icon-pill sage"><ion-icon name="medical"></ion-icon></div>
+                    <div>
+                      <div style="font-weight: 600;">Prescription Updates</div>
+                      <div class="text-caption">Status and delivery updates</div>
+                    </div>
+                  </div>
+                  <div class="toggle is-on" data-toggle aria-checked="true"><span></span></div>
+                </div>
+                <div class="small-divider"></div>
+                <div class="row space-between">
+                  <div class="row">
+                    <div class="icon-pill sky"><ion-icon name="notifications"></ion-icon></div>
+                    <div>
+                      <div style="font-weight: 600;">Follow-up Reminders</div>
+                      <div class="text-caption">Post-appointment check-ins</div>
+                    </div>
+                  </div>
+                  <div class="toggle is-on" data-toggle aria-checked="true"><span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Marketing</div>
+            <div class="card">
+              <div class="row space-between">
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="pricetag"></ion-icon></div>
+                  <div>
+                    <div style="font-weight: 600;">Offers & Promotions</div>
+                    <div class="text-caption">Special offers and health tips</div>
+                  </div>
+                </div>
+                <div class="toggle" data-toggle aria-checked="false"><span></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notice sky">
+            <ion-icon name="information-circle" class="text-brand"></ion-icon>
+            <div class="text-body">Some critical health notifications cannot be disabled.</div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

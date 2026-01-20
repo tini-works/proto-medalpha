@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Content Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="home">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="row" style="gap: 6px;">
+            <ion-icon name="chevron-back"></ion-icon>
+            <span class="title">Health Tips</span>
+          </div>
+          <ion-icon name="share-outline"></ion-icon>
+        </div>
+        <main class="app-content full">
+          <div class="hero-block" style="height: 200px; border-radius: 0;">
+            <ion-icon name="heart" style="font-size: 64px;"></ion-icon>
+          </div>
+          <div class="app-content" style="padding-top: var(--space-4);">
+            <div class="row" style="gap: var(--space-3);">
+              <span class="badge brand">Health Tips</span>
+              <span class="text-caption">15 Jan 2026</span>
+              <span class="text-caption">• 5 min read</span>
+            </div>
+
+            <div class="stack-sm">
+              <div class="text-title">Stay healthy this winter</div>
+              <div class="text-body">Tips for keeping your immune system strong.</div>
+            </div>
+
+            <div class="stack-sm">
+              <div class="text-headline">Get Enough Sleep</div>
+              <div class="text-body">Aim for 7-9 hours of quality sleep each night. Sleep is when your body repairs and regenerates.</div>
+              <div class="text-headline">Stay Active</div>
+              <div class="text-body">Regular moderate exercise can boost your immune function. Even a 30-minute daily walk helps.</div>
+              <div class="text-headline">Eat Well</div>
+              <div class="text-body">Focus on fruits, vegetables, and whole grains. Vitamin C and D are especially useful in winter.</div>
+              <div class="text-headline">Stay Hydrated</div>
+              <div class="text-body">Drink plenty of water and warm beverages to keep your body functioning well.</div>
+            </div>
+
+            <div class="fab-space"></div>
+          </div>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical-outline"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

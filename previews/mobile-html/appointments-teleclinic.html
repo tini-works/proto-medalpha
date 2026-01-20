@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Teleclinic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="appointments">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="title">Video Consultation</div>
+          <div class="action">Close</div>
+        </div>
+        <main class="app-content">
+          <div class="stack-lg" style="align-items: center;">
+            <div style="width: 120px; height: 120px; border-radius: 50%; background: var(--sky-100); display: flex; align-items: center; justify-content: center;">
+              <ion-icon name="videocam" style="font-size: 56px; color: var(--sky-500);"></ion-icon>
+            </div>
+            <div class="stack-xs" style="text-align: center;">
+              <div class="text-title">Video Consultation</div>
+              <div class="text-body">Connect with a doctor from the comfort of your home.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="stack-sm">
+              <div class="row">
+                <div class="icon-pill success"><ion-icon name="time-outline"></ion-icon></div>
+                <div>
+                  <div style="font-weight: 600;">Available 24/7</div>
+                  <div class="text-caption">Doctors available around the clock</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="icon-pill brand"><ion-icon name="document-text"></ion-icon></div>
+                <div>
+                  <div style="font-weight: 600;">E-Prescription</div>
+                  <div class="text-caption">Prescriptions sent directly to your app</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="icon-pill sky"><ion-icon name="lock-closed"></ion-icon></div>
+                <div>
+                  <div style="font-weight: 600;">Secure & Private</div>
+                  <div class="text-caption">End-to-end encrypted sessions</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack-sm" style="margin-top: auto;">
+            <button class="button primary full">
+              Start Video Consultation <ion-icon name="videocam"></ion-icon>
+            </button>
+            <div class="text-caption" style="text-align: center;">
+              You will be redirected to Teleclinic's secure platform.
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

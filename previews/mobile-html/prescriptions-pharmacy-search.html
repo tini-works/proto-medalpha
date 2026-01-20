@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Pharmacy Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="prescriptions">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content full">
+          <div class="hero-block" style="height: 240px; border-radius: 0;">
+            <div class="stack-xs" style="align-items: center;">
+              <ion-icon name="map" style="font-size: 64px;"></ion-icon>
+              <div class="text-body" style="color: var(--sky-500);">Map View</div>
+            </div>
+          </div>
+
+          <div class="app-content" style="padding-top: var(--space-4);">
+            <div class="row space-between">
+              <div class="text-headline">Nearby Pharmacies</div>
+              <div class="text-caption">3 found within 5 km</div>
+            </div>
+
+            <div class="stack-sm">
+              <a class="card" href="prescriptions-pharmacy-detail.html" target="_blank">
+                <div class="list-row">
+                  <div class="icon-pill success"><ion-icon name="medkit"></ion-icon></div>
+                  <div class="meta">
+                    <div style="font-weight: 600;">Apotheke am Markt</div>
+                    <div class="text-caption">Marktplatz 1, 10115 Berlin</div>
+                    <div class="text-caption text-success">Open until 19:00 • 0.3 km</div>
+                  </div>
+                  <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+                </div>
+              </a>
+              <a class="card" href="prescriptions-pharmacy-detail.html" target="_blank">
+                <div class="list-row">
+                  <div class="icon-pill success"><ion-icon name="medkit"></ion-icon></div>
+                  <div class="meta">
+                    <div style="font-weight: 600;">Sonnen Apotheke</div>
+                    <div class="text-caption">Sonnenallee 45, 10115 Berlin</div>
+                    <div class="text-caption text-success">Open until 18:00 • 0.8 km</div>
+                  </div>
+                  <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+                </div>
+              </a>
+              <a class="card" href="prescriptions-pharmacy-detail.html" target="_blank">
+                <div class="list-row">
+                  <div class="icon-pill"><ion-icon name="medkit"></ion-icon></div>
+                  <div class="meta">
+                    <div style="font-weight: 600;">Rathaus Apotheke</div>
+                    <div class="text-caption">Rathausstrasse 12, 10115 Berlin</div>
+                    <div class="text-caption">Closed • Opens 08:00 • 1.2 km</div>
+                  </div>
+                  <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+                </div>
+              </a>
+            </div>
+          </div>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

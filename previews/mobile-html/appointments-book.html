@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Book Appointment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="appointments">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="title">Book Appointment</div>
+          <div class="action">Cancel</div>
+        </div>
+        <main class="app-content">
+          <div class="section">
+            <div class="section-title">Select Specialty</div>
+            <div class="row wrap" data-select-group="specialty" style="gap: var(--space-3);">
+              <button class="card flat is-selected" data-select-item>
+                <div class="stack-sm" style="align-items: center;">
+                  <div class="icon-pill brand"><ion-icon name="heart"></ion-icon></div>
+                  <div style="font-weight: 600;">Cardiology</div>
+                </div>
+              </button>
+              <button class="card flat" data-select-item>
+                <div class="stack-sm" style="align-items: center;">
+                  <div class="icon-pill brand"><ion-icon name="medkit"></ion-icon></div>
+                  <div style="font-weight: 600;">General</div>
+                </div>
+              </button>
+              <button class="card flat" data-select-item>
+                <div class="stack-sm" style="align-items: center;">
+                  <div class="icon-pill brand"><ion-icon name="hand-left"></ion-icon></div>
+                  <div style="font-weight: 600;">Dermatology</div>
+                </div>
+              </button>
+              <button class="card flat" data-select-item>
+                <div class="stack-sm" style="align-items: center;">
+                  <div class="icon-pill brand"><ion-icon name="walk"></ion-icon></div>
+                  <div style="font-weight: 600;">Orthopedics</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Select Doctor</div>
+            <div class="stack-sm" data-select-group="doctor">
+              <button class="card" data-select-item>
+                <div class="row">
+                  <div class="avatar" style="width: 48px; height: 48px;">DS</div>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 600;">Dr. Schmidt</div>
+                    <div class="text-caption">Cardiology • 4.9</div>
+                    <div class="text-caption text-success">Available tomorrow</div>
+                  </div>
+                  <ion-icon name="checkmark-circle" class="text-brand"></ion-icon>
+                </div>
+              </button>
+              <button class="card flat" data-select-item>
+                <div class="row">
+                  <div class="avatar" style="width: 48px; height: 48px;">DW</div>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 600;">Dr. Weber</div>
+                    <div class="text-caption">Cardiology • 4.8</div>
+                    <div class="text-caption text-success">Available today</div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Select Date</div>
+            <div class="row" data-select-group="date" style="overflow-x: auto;">
+              <button class="chip active" data-select-item>Today 19 Jan</button>
+              <button class="chip" data-select-item>Tomorrow 20 Jan</button>
+              <button class="chip" data-select-item>Tue 21 Jan</button>
+              <button class="chip" data-select-item>Wed 22 Jan</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Select Time</div>
+            <div class="pill-select" data-select-group="time">
+              <button class="is-selected" data-select-item>09:00</button>
+              <button data-select-item>09:30</button>
+              <button data-select-item>10:00</button>
+              <button data-select-item>14:00</button>
+              <button data-select-item>14:30</button>
+              <button data-select-item>15:00</button>
+            </div>
+          </div>
+
+          <button class="button primary full">Confirm Booking</button>
+          <div class="fab-space"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

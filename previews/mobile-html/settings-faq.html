@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - FAQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="title">FAQ</div>
+          <div></div>
+        </div>
+        <main class="app-content">
+          <div class="card muted row">
+            <ion-icon name="search" class="text-light"></ion-icon>
+            <span class="text-caption">Search frequently asked questions</span>
+          </div>
+
+          <div class="section" data-accordion>
+            <div class="section-title">Appointments</div>
+            <div class="card" style="padding: 0;">
+              <div class="accordion-item is-open">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">How do I book an appointment?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  Navigate to the Appointments tab and tap "Book Appointment". Select your doctor, date, and time slot.
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">Can I reschedule or cancel?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  You can reschedule or cancel up to 24 hours before the scheduled time.
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">How do telemedicine consultations work?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  Telemedicine consultations are conducted via secure video call. Ensure a stable connection.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" data-accordion>
+            <div class="section-title">Prescriptions</div>
+            <div class="card" style="padding: 0;">
+              <div class="accordion-item">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">How do I redeem a prescription?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  Go to Prescriptions > Redeem and choose home delivery or pharmacy pickup.
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">What is NFC prescription scanning?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  NFC allows you to securely scan your electronic health card to redeem prescriptions.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" data-accordion>
+            <div class="section-title">Account & Privacy</div>
+            <div class="card" style="padding: 0;">
+              <div class="accordion-item">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">How is my health data protected?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  Your data is protected with encryption and complies with GDPR and German regulations.
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-trigger" data-accordion-trigger>
+                  <div style="font-weight: 600;">Can I delete my account?</div>
+                  <ion-icon name="chevron-down" class="text-light"></ion-icon>
+                </div>
+                <div class="accordion-content">
+                  Yes. Go to Settings > Account > Delete Account. Data will be removed within 30 days.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="align-items: center; text-align: center;">
+            <div class="icon-pill brand" style="width: 48px; height: 48px; border-radius: 50%;">
+              <ion-icon name="chatbubbles"></ion-icon>
+            </div>
+            <div style="font-weight: 600;">Still have questions?</div>
+            <div class="text-caption">Contact our support team for personalized help.</div>
+            <button class="button primary">Contact Support</button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Prescription History Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="history">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="row" style="gap: 6px;">
+            <ion-icon name="chevron-back"></ion-icon>
+            <span class="title">Metformin 500mg</span>
+          </div>
+          <div></div>
+        </div>
+        <main class="app-content">
+          <div class="row">
+            <div class="icon-pill sage" style="width: 64px; height: 64px; border-radius: 18px;">
+              <ion-icon name="medical"></ion-icon>
+            </div>
+            <div>
+              <div class="text-headline">Metformin 500mg</div>
+              <div class="text-body">1 tablet twice daily</div>
+            </div>
+          </div>
+
+          <div class="notice" style="background: rgba(79,165,122,0.18);">
+            <ion-icon name="checkmark-circle" class="text-success"></ion-icon>
+            <div style="font-weight: 600; color: var(--success);">Delivered</div>
+          </div>
+
+          <div class="card">
+            <div class="stack-sm">
+              <div class="row">
+                <div class="icon-pill"><ion-icon name="person"></ion-icon></div>
+                <div>
+                  <div class="text-caption">Prescribed by</div>
+                  <div style="font-weight: 600;">Dr. Schmidt</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="icon-pill"><ion-icon name="calendar-outline"></ion-icon></div>
+                <div>
+                  <div class="text-caption">Prescribed date</div>
+                  <div style="font-weight: 600;">15 Jan 2026</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="icon-pill"><ion-icon name="cube-outline"></ion-icon></div>
+                <div>
+                  <div class="text-caption">Redemption method</div>
+                  <div style="font-weight: 600;">Home delivery</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="icon-pill"><ion-icon name="checkmark-circle-outline"></ion-icon></div>
+                <div>
+                  <div class="text-caption">Redeemed date</div>
+                  <div style="font-weight: 600;">16 Jan 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Related</div>
+            <a class="card" href="history-appointment-detail.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill brand"><ion-icon name="calendar-outline"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">Dr. Schmidt</div>
+                  <div class="text-caption">15 Jan 2026 • In-person</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+          </div>
+
+          <button class="button primary full">
+            Reorder prescription <ion-icon name="refresh"></ion-icon>
+          </button>
+          <div class="fab-space"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

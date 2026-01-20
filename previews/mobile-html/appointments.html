@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Appointments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="appointments">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="section">
+            <div class="row space-between">
+              <div class="section-title">Upcoming</div>
+              <a class="text-brand" href="history.html" target="_blank">View all</a>
+            </div>
+            <div class="stack-sm">
+              <a class="card" href="appointments-detail.html" target="_blank">
+                <div class="stack-sm">
+                  <div class="row start">
+                    <div class="icon-pill brand"><ion-icon name="medkit"></ion-icon></div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600;">Dr. Schmidt</div>
+                      <div class="text-caption">Cardiology</div>
+                    </div>
+                    <div class="badge brand">In-person</div>
+                  </div>
+                  <div class="row" style="border-top: 1px solid var(--neutral-200); padding-top: 12px;">
+                    <div class="row" style="gap: 6px;">
+                      <ion-icon name="time-outline" class="text-light"></ion-icon>
+                      <span class="text-caption">Tomorrow, 14:00</span>
+                    </div>
+                    <div class="row" style="gap: 6px;">
+                      <ion-icon name="location-outline" class="text-light"></ion-icon>
+                      <span class="text-caption">Praxis Schmidt</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="card" href="appointments-detail.html" target="_blank">
+                <div class="stack-sm">
+                  <div class="row start">
+                    <div class="icon-pill sky"><ion-icon name="videocam"></ion-icon></div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600;">Dr. Weber</div>
+                      <div class="text-caption">General</div>
+                    </div>
+                    <div class="badge sky">Video call</div>
+                  </div>
+                  <div class="row" style="border-top: 1px solid var(--neutral-200); padding-top: 12px;">
+                    <div class="row" style="gap: 6px;">
+                      <ion-icon name="time-outline" class="text-light"></ion-icon>
+                      <span class="text-caption">Friday, 10:30</span>
+                    </div>
+                    <div class="row" style="gap: 6px;">
+                      <ion-icon name="videocam-outline" class="text-light"></ion-icon>
+                      <span class="text-caption">Online</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Book New Appointment</div>
+            <div class="row" style="gap: var(--space-3);">
+              <a class="card flat" href="appointments-book.html" target="_blank" style="flex: 1; text-align: center;">
+                <div class="stack-sm" style="align-items: center;">
+                  <div class="icon-pill brand" style="width: 56px; height: 56px; border-radius: 16px;">
+                    <ion-icon name="business"></ion-icon>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600;">In-person</div>
+                    <div class="text-caption">Visit a doctor</div>
+                  </div>
+                </div>
+              </a>
+              <a class="card flat" href="appointments-teleclinic.html" target="_blank" style="flex: 1; text-align: center;">
+                <div class="stack-sm" style="align-items: center;">
+                  <div class="icon-pill sky" style="width: 56px; height: 56px; border-radius: 16px;">
+                    <ion-icon name="videocam"></ion-icon>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600;">Video call</div>
+                    <div class="text-caption">Talk to a doctor now</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="row" style="justify-content: center; gap: var(--space-2);">
+            <ion-icon name="time" class="text-brand"></ion-icon>
+            <span class="text-brand" style="font-weight: 600;">View past appointments</span>
+          </div>
+
+          <div class="fab-space"></div>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical-outline"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

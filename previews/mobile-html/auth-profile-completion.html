@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Complete Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="stack-sm">
+            <div class="row space-between">
+              <div class="text-title">Complete your profile</div>
+              <div class="text-caption">Skip for now</div>
+            </div>
+            <div class="text-body">Help us personalize your experience</div>
+          </div>
+
+          <div class="row" style="gap: 6px;">
+            <span style="flex: 1; height: 4px; border-radius: 2px; background: var(--brand-500);"></span>
+            <span style="flex: 1; height: 4px; border-radius: 2px; background: var(--neutral-200);"></span>
+            <span style="flex: 1; height: 4px; border-radius: 2px; background: var(--neutral-200);"></span>
+          </div>
+
+          <div class="notice brand">
+            <div class="icon-pill brand"><ion-icon name="person"></ion-icon></div>
+            <div>
+              <div class="text-caption text-brand">Step 1 of 3</div>
+              <div style="font-weight: 600;">Personal Info</div>
+            </div>
+          </div>
+
+          <div class="stack-sm">
+            <div class="stack-xs">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">First Name</label>
+              <div class="input"><input placeholder="Anna" /></div>
+            </div>
+            <div class="stack-xs">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Last Name</label>
+              <div class="input"><input placeholder="Schmidt" /></div>
+            </div>
+            <div class="stack-xs">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Date of Birth</label>
+              <div class="input"><input placeholder="DD/MM/YYYY" /></div>
+            </div>
+          </div>
+
+          <div class="stack-sm" style="margin-top: auto;">
+            <button class="button primary full">
+              Continue <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+            <div class="row" style="justify-content: center; color: var(--neutral-600);">
+              <ion-icon name="arrow-back"></ion-icon>
+              <span>Back</span>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Pharmacy Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="prescriptions">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="row" style="gap: 6px;">
+            <ion-icon name="chevron-back"></ion-icon>
+            <span class="title">Apotheke am Markt</span>
+          </div>
+          <ion-icon name="ellipsis-horizontal"></ion-icon>
+        </div>
+        <main class="app-content">
+          <div class="row">
+            <div class="icon-pill success" style="width: 64px; height: 64px; border-radius: 18px;">
+              <ion-icon name="medkit"></ion-icon>
+            </div>
+            <div style="flex: 1;">
+              <div class="text-headline">Apotheke am Markt</div>
+              <div class="row" style="gap: 6px;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
+                <span class="text-success">Open now</span>
+                <span class="text-caption">• 0.3 km</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Contact</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row start">
+                  <div class="icon-pill"><ion-icon name="location-outline"></ion-icon></div>
+                  <div>
+                    <div>Musterstrasse 1</div>
+                    <div class="text-caption">10115 Berlin</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="call"></ion-icon></div>
+                  <div>+49 30 12345678</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Opening Hours</div>
+            <div class="card">
+              <div class="stack-xs">
+                <div class="row space-between"><span class="text-body">Monday - Friday</span><span style="font-weight: 600;">08:00 - 19:00</span></div>
+                <div class="row space-between"><span class="text-body">Saturday</span><span style="font-weight: 600;">09:00 - 14:00</span></div>
+                <div class="row space-between"><span class="text-body">Sunday</span><span class="text-caption">Closed</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack-sm" style="margin-top: auto;">
+            <button class="button outline full">
+              Get directions <ion-icon name="navigate"></ion-icon>
+            </button>
+            <button class="button primary full">I'll pick up here</button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

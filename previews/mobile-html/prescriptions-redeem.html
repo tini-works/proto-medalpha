@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Redeem Options</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="prescriptions">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="stack-sm" style="text-align: center;">
+            <div class="text-title">How would you like to get your medication?</div>
+          </div>
+
+          <div class="stack-sm" style="flex: 1;">
+            <a class="card" href="prescriptions-nfc-intro.html" target="_blank">
+              <div class="row">
+                <div class="icon-pill brand" style="width: 64px; height: 64px; border-radius: 18px;">
+                  <ion-icon name="cube"></ion-icon>
+                </div>
+                <div style="flex: 1;">
+                  <div class="text-headline">Home delivery</div>
+                  <div class="text-body">Delivered in several days</div>
+                </div>
+                <ion-icon name="chevron-forward" class="text-light"></ion-icon>
+              </div>
+            </a>
+
+            <a class="card" href="prescriptions-pharmacy-search.html" target="_blank">
+              <div class="row">
+                <div class="icon-pill sage" style="width: 64px; height: 64px; border-radius: 18px;">
+                  <ion-icon name="medkit"></ion-icon>
+                </div>
+                <div style="flex: 1;">
+                  <div class="text-headline">Pick up at pharmacy</div>
+                  <div class="text-body">Find nearby locations</div>
+                </div>
+                <ion-icon name="chevron-forward" class="text-light"></ion-icon>
+              </div>
+            </a>
+          </div>
+
+          <div class="notice">
+            <ion-icon name="information-circle-outline" class="text-muted"></ion-icon>
+            <div class="text-caption">
+              According to German law, you must explicitly choose between online and offline pharmacy options to redeem your prescription.
+            </div>
+          </div>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

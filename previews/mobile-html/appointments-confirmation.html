@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Booking Confirmed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="appointments">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content centered">
+          <div class="stack-lg" style="align-items: center;">
+            <div style="width: 96px; height: 96px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center;">
+              <ion-icon name="checkmark" style="font-size: 48px; color: #FFFFFF;"></ion-icon>
+            </div>
+            <div class="stack-xs" style="text-align: center;">
+              <div class="text-title">Booking Confirmed!</div>
+              <div class="text-body">Your appointment has been scheduled successfully.</div>
+            </div>
+          </div>
+
+          <div class="card" style="width: 100%;">
+            <div class="stack-sm">
+              <div class="row">
+                <div class="icon-pill brand"><ion-icon name="medkit"></ion-icon></div>
+                <div>
+                  <div style="font-weight: 600;">Dr. Schmidt</div>
+                  <div class="text-caption">Cardiology</div>
+                </div>
+              </div>
+              <div class="small-divider"></div>
+              <div class="row">
+                <ion-icon name="calendar-outline" class="text-light"></ion-icon>
+                <span>Tuesday, 21 Jan 2026</span>
+              </div>
+              <div class="row">
+                <ion-icon name="time-outline" class="text-light"></ion-icon>
+                <span>14:00 - 14:30</span>
+              </div>
+              <div class="row start">
+                <ion-icon name="location-outline" class="text-light"></ion-icon>
+                <div>
+                  <div>Praxis Schmidt</div>
+                  <div class="text-caption">Musterstrasse 45, 10115 Berlin</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack-sm" style="width: 100%;">
+            <button class="button outline full">
+              Add to Calendar <ion-icon name="calendar"></ion-icon>
+            </button>
+            <button class="button primary full">Done</button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

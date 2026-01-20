@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Language & Region</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="title">Language & Region</div>
+          <div class="action">Save</div>
+        </div>
+        <main class="app-content">
+          <div class="section">
+            <div class="section-title">Language</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row space-between">
+                  <div>
+                    <div style="font-weight: 600;">Deutsch</div>
+                    <div class="text-caption">German</div>
+                  </div>
+                  <ion-icon name="checkmark" class="text-brand"></ion-icon>
+                </div>
+                <div class="small-divider"></div>
+                <div class="row space-between">
+                  <div>
+                    <div style="font-weight: 600;">English</div>
+                    <div class="text-caption">English</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Region</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row space-between">
+                  <div class="row">
+                    <div class="badge">DE</div>
+                    <div style="font-weight: 600;">Germany</div>
+                  </div>
+                  <ion-icon name="checkmark" class="text-brand"></ion-icon>
+                </div>
+                <div class="small-divider"></div>
+                <div class="row space-between">
+                  <div class="row">
+                    <div class="badge">AT</div>
+                    <div style="font-weight: 600;">Austria</div>
+                  </div>
+                </div>
+                <div class="small-divider"></div>
+                <div class="row space-between">
+                  <div class="row">
+                    <div class="badge">CH</div>
+                    <div style="font-weight: 600;">Switzerland</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notice sky">
+            <ion-icon name="information-circle" class="text-brand"></ion-icon>
+            <div class="text-body">Changing your region may affect available healthcare services and pharmacy networks.</div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

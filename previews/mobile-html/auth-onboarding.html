@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Onboarding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header transparent">
+          <div></div>
+          <div class="action">Skip</div>
+        </div>
+        <main class="app-content centered">
+          <div class="stack-lg" style="align-items: center;">
+            <div style="width: 160px; height: 160px; border-radius: 50%; background: var(--brand-50); display: flex; align-items: center; justify-content: center;">
+              <ion-icon name="calendar-outline" style="font-size: 72px; color: var(--brand-500);"></ion-icon>
+            </div>
+            <div class="stack-sm" style="align-items: center;">
+              <div class="text-title" style="text-align: center;">Book appointments easily</div>
+              <div class="text-body" style="text-align: center; max-width: 260px;">
+                Schedule visits with your healthcare providers in just a few taps.
+              </div>
+            </div>
+          </div>
+
+          <div class="stack-md" style="width: 100%;">
+            <div class="row" style="justify-content: center; gap: 6px;">
+              <span style="width: 22px; height: 8px; border-radius: 4px; background: var(--brand-500);"></span>
+              <span style="width: 8px; height: 8px; border-radius: 4px; background: var(--neutral-200);"></span>
+              <span style="width: 8px; height: 8px; border-radius: 4px; background: var(--neutral-200);"></span>
+              <span style="width: 8px; height: 8px; border-radius: 4px; background: var(--neutral-200);"></span>
+            </div>
+            <button class="button primary full">
+              Continue <ion-icon name="chevron-forward"></ion-icon>
+            </button>
+            <div class="row" style="justify-content: center;">
+              <button class="button ghost" style="background: var(--neutral-100); color: var(--neutral-900);">Deutsch</button>
+              <button class="button ghost" style="color: var(--neutral-400);">English</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

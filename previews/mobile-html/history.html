@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - History</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="history">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="segmented">
+            <button class="is-active" data-segment-group="history" data-segment-value="all">All</button>
+            <button data-segment-group="history" data-segment-value="appointments">Appt</button>
+            <button data-segment-group="history" data-segment-value="rx">Rx</button>
+            <button data-segment-group="history" data-segment-value="tele">Tele</button>
+          </div>
+
+          <div class="segment-panel is-active" data-segment-panel="history" data-segment-value="all">
+            <div class="stack-md">
+              <div class="stack-sm">
+                <div class="section-title">January 2026</div>
+                <a class="card" href="history-appointment-detail.html" target="_blank">
+                  <div class="list-row">
+                    <div class="icon-pill brand"><ion-icon name="calendar-outline"></ion-icon></div>
+                    <div class="meta">
+                      <div style="font-weight: 600;">Dr. Schmidt</div>
+                      <div class="text-caption">Cardiology • In-person</div>
+                    </div>
+                    <div class="text-caption">15 Jan</div>
+                  </div>
+                </a>
+                <a class="card" href="history-prescription-detail.html" target="_blank">
+                  <div class="list-row">
+                    <div class="icon-pill sage"><ion-icon name="medical"></ion-icon></div>
+                    <div class="meta">
+                      <div style="font-weight: 600;">Metformin 500mg</div>
+                      <div class="text-caption">Home delivery • Redeemed</div>
+                    </div>
+                    <div class="text-caption">15 Jan</div>
+                  </div>
+                </a>
+                <a class="card" href="history-telemedicine-detail.html" target="_blank">
+                  <div class="list-row">
+                    <div class="icon-pill sky"><ion-icon name="videocam"></ion-icon></div>
+                    <div class="meta">
+                      <div style="font-weight: 600;">Dr. Weber</div>
+                      <div class="text-caption">General • Video consultation</div>
+                    </div>
+                    <div class="text-caption">10 Jan</div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="stack-sm">
+                <div class="section-title">December 2025</div>
+                <a class="card" href="history-prescription-detail.html" target="_blank">
+                  <div class="list-row">
+                    <div class="icon-pill sage"><ion-icon name="medical"></ion-icon></div>
+                    <div class="meta">
+                      <div style="font-weight: 600;">Ibuprofen 400mg</div>
+                      <div class="text-caption">Pharmacy pickup • Redeemed</div>
+                    </div>
+                    <div class="text-caption">22 Dec</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="segment-panel" data-segment-panel="history" data-segment-value="appointments">
+            <div class="notice">
+              <ion-icon name="calendar-outline" class="text-brand"></ion-icon>
+              <div class="text-body">Appointments filtered view (2 items).</div>
+            </div>
+          </div>
+
+          <div class="segment-panel" data-segment-panel="history" data-segment-value="rx">
+            <div class="notice">
+              <ion-icon name="medical" class="text-brand"></ion-icon>
+              <div class="text-body">Prescriptions filtered view (2 items).</div>
+            </div>
+          </div>
+
+          <div class="segment-panel" data-segment-panel="history" data-segment-value="tele">
+            <div class="notice">
+              <ion-icon name="videocam" class="text-brand"></ion-icon>
+              <div class="text-body">Telemedicine filtered view (1 item).</div>
+            </div>
+          </div>
+
+          <div class="fab-space"></div>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical-outline"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Prescriptions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="prescriptions">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="section">
+            <div class="section-title">Active Prescriptions</div>
+            <div class="stack-sm">
+              <div class="card">
+                <div class="stack-sm">
+                  <div class="row start">
+                    <div class="icon-pill sage"><ion-icon name="medical"></ion-icon></div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600;">Metformin 500mg</div>
+                      <div class="text-caption">Dr. Schmidt • 12 Jan</div>
+                    </div>
+                  </div>
+                  <div class="row space-between" style="border-top: 1px solid var(--neutral-200); padding-top: 12px;">
+                    <div class="row" style="gap: 6px;">
+                      <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
+                      <span class="text-caption text-success">Ready to redeem</span>
+                    </div>
+                    <a class="button primary" href="prescriptions-redeem.html" target="_blank" style="padding: 8px 16px; font-size: 13px;">Redeem</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="stack-sm">
+                  <div class="row start">
+                    <div class="icon-pill sage"><ion-icon name="medical"></ion-icon></div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 600;">Ibuprofen 400mg</div>
+                      <div class="text-caption">Dr. Weber • 10 Jan</div>
+                    </div>
+                  </div>
+                  <div class="row space-between" style="border-top: 1px solid var(--neutral-200); padding-top: 12px;">
+                    <div class="row" style="gap: 6px;">
+                      <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
+                      <span class="text-caption text-success">Ready to redeem</span>
+                    </div>
+                    <a class="button primary" href="prescriptions-redeem.html" target="_blank" style="padding: 8px 16px; font-size: 13px;">Redeem</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Orders In Progress</div>
+            <a class="card" href="prescriptions-order-status.html" target="_blank">
+              <div class="stack-sm">
+                <div class="row">
+                  <div class="icon-pill brand"><ion-icon name="cube"></ion-icon></div>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 600;">Aspirin 100mg</div>
+                    <div class="text-caption text-brand">Arriving tomorrow</div>
+                  </div>
+                  <ion-icon name="chevron-forward" class="text-light"></ion-icon>
+                </div>
+                <div class="progress"><span style="width: 60%;"></span></div>
+              </div>
+            </a>
+          </div>
+
+          <div class="row" style="justify-content: center; gap: var(--space-2);">
+            <ion-icon name="time-outline" class="text-brand"></ion-icon>
+            <span class="text-brand" style="font-weight: 600;">View past prescriptions</span>
+          </div>
+
+          <div class="fab-space"></div>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

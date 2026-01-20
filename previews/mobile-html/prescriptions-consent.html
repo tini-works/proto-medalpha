@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - NFC Consent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="prescriptions">
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="stack-md" style="align-items: center; text-align: center;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(79,165,122,0.2); display: flex; align-items: center; justify-content: center;">
+              <ion-icon name="shield-checkmark" style="font-size: 32px; color: var(--success);"></ion-icon>
+            </div>
+            <div class="text-body" style="max-width: 280px;">
+              To process your prescription, we need to read your eGK card once.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="row">
+              <ion-icon name="checkmark-circle" class="text-success"></ion-icon>
+              <div style="font-weight: 600;">What we read:</div>
+            </div>
+            <div class="stack-xs" style="padding-left: 28px;">
+              <div class="text-body">- Your insurance information</div>
+              <div class="text-body">- Your prescription</div>
+            </div>
+          </div>
+
+          <div class="card muted">
+            <div class="row">
+              <ion-icon name="close-circle" class="text-error"></ion-icon>
+              <div style="font-weight: 600;">What we do not access:</div>
+            </div>
+            <div class="stack-xs" style="padding-left: 28px;">
+              <div class="text-body">- Medical history</div>
+              <div class="text-body">- Other health records</div>
+              <div class="text-body">- Payment information</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="row">
+              <ion-icon name="lock-closed" class="text-brand"></ion-icon>
+              <div style="font-weight: 600;">Your data is:</div>
+            </div>
+            <div class="stack-xs">
+              <div class="row"><ion-icon name="shield-checkmark-outline" class="text-light"></ion-icon><span class="text-body">Encrypted end-to-end</span></div>
+              <div class="row"><ion-icon name="arrow-forward-circle-outline" class="text-light"></ion-icon><span class="text-body">Sent only to the pharmacy</span></div>
+              <div class="row"><ion-icon name="server-outline" class="text-light"></ion-icon><span class="text-body">Not stored on our servers</span></div>
+              <div class="row"><ion-icon name="ribbon-outline" class="text-light"></ion-icon><span class="text-body">GDPR compliant</span></div>
+            </div>
+          </div>
+
+          <div class="notice" data-toggle="checkbox" style="cursor: pointer;">
+            <div class="icon-pill" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--neutral-400); background: transparent;"></div>
+            <div class="text-body">I agree to this one-time data transfer</div>
+          </div>
+
+          <div class="text-brand" style="text-align: center;">Privacy Policy</div>
+
+          <button class="button primary full">
+            Continue securely <ion-icon name="lock-closed"></ion-icon>
+          </button>
+        </main>
+
+        <nav class="tab-bar">
+          <a class="tab-item" data-tab-item="home" href="home.html">
+            <ion-icon name="home-outline"></ion-icon>
+            <span>Home</span>
+          </a>
+          <a class="tab-item" data-tab-item="appointments" href="appointments.html">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Appointments</span>
+          </a>
+          <a class="tab-item" data-tab-item="prescriptions" href="prescriptions.html">
+            <ion-icon name="medical"></ion-icon>
+            <span>Prescriptions</span>
+          </a>
+          <a class="tab-item" data-tab-item="history" href="history.html">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>History</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

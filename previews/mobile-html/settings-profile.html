@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="title">Profile</div>
+          <a class="action" href="settings-edit-profile.html" target="_blank">Edit</a>
+        </div>
+        <main class="app-content">
+          <div class="stack-md" style="align-items: center;">
+            <div class="avatar" style="width: 100px; height: 100px; font-size: 36px;">AS</div>
+            <div class="stack-xs" style="align-items: center;">
+              <div class="text-title">Anna Schmidt</div>
+              <div class="text-caption">anna.schmidt@email.de</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Personal Information</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="person-outline"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Full name</div>
+                    <div style="font-weight: 600;">Anna Schmidt</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="calendar-outline"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Date of birth</div>
+                    <div style="font-weight: 600;">15 March 1985</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Contact Details</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="mail-outline"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Email</div>
+                    <div style="font-weight: 600;">anna.schmidt@email.de</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="call-outline"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Phone</div>
+                    <div style="font-weight: 600;">+49 30 123 456 78</div>
+                  </div>
+                </div>
+                <div class="row start">
+                  <div class="icon-pill"><ion-icon name="location-outline"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Address</div>
+                    <div style="font-weight: 600;">Musterstrasse 45</div>
+                    <div class="text-caption">10115 Berlin</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Insurance Information</div>
+            <div class="card">
+              <div class="stack-sm">
+                <div class="row">
+                  <div class="icon-pill sage"><ion-icon name="shield"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Provider</div>
+                    <div style="font-weight: 600;">Techniker Krankenkasse (TK)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="icon-pill"><ion-icon name="keypad-outline"></ion-icon></div>
+                  <div>
+                    <div class="text-caption">Member ID</div>
+                    <div style="font-weight: 600;">T012345678</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fab-space"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

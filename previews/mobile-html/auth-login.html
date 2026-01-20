@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <main class="app-content">
+          <div class="stack-md" style="align-items: center;">
+            <div style="width: 80px; height: 80px; border-radius: 24px; background: var(--brand-50); display: flex; align-items: center; justify-content: center;">
+              <ion-icon name="heart-circle" style="font-size: 44px; color: var(--brand-500);"></ion-icon>
+            </div>
+            <div class="stack-xs" style="align-items: center;">
+              <div class="text-title">Welcome</div>
+              <div class="text-body">Sign in or create an account</div>
+            </div>
+          </div>
+
+          <div class="segmented">
+            <button class="is-active" data-segment-group="auth" data-segment-value="login">Login</button>
+            <button data-segment-group="auth" data-segment-value="register">Register</button>
+          </div>
+
+          <div class="segment-panel is-active" data-segment-panel="auth" data-segment-value="login">
+            <div class="stack-sm">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Email</label>
+              <div class="input">
+                <ion-icon name="mail-outline" class="text-light"></ion-icon>
+                <input placeholder="Enter your email" />
+              </div>
+            </div>
+
+            <div class="stack-sm">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Password</label>
+              <div class="input">
+                <ion-icon name="lock-closed-outline" class="text-light"></ion-icon>
+                <input placeholder="Enter your password" type="password" />
+                <ion-icon name="eye" class="text-light"></ion-icon>
+              </div>
+            </div>
+
+            <div class="row" style="justify-content: flex-end;">
+              <a class="text-brand" href="auth-forgot-password.html" target="_blank">Forgot password?</a>
+            </div>
+
+            <button class="button primary full">
+              Login <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+
+            <div class="row" style="gap: var(--space-4);">
+              <div class="small-divider" style="flex: 1;"></div>
+              <span class="text-caption">or continue with</span>
+              <div class="small-divider" style="flex: 1;"></div>
+            </div>
+
+            <div class="row">
+              <button class="button outline full" style="gap: 6px;">
+                <span style="font-weight: 700;">G</span> Google
+              </button>
+              <button class="button outline full" style="gap: 6px;">
+                <ion-icon name="logo-apple"></ion-icon> Apple
+              </button>
+            </div>
+          </div>
+
+          <div class="segment-panel" data-segment-panel="auth" data-segment-value="register">
+            <div class="stack-sm">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Email</label>
+              <div class="input">
+                <ion-icon name="mail-outline" class="text-light"></ion-icon>
+                <input placeholder="Enter your email" />
+              </div>
+            </div>
+
+            <div class="stack-sm">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Password</label>
+              <div class="input">
+                <ion-icon name="lock-closed-outline" class="text-light"></ion-icon>
+                <input placeholder="Create a password" type="password" />
+                <ion-icon name="eye" class="text-light"></ion-icon>
+              </div>
+            </div>
+
+            <div class="stack-sm">
+              <label class="text-caption" style="font-weight: 600; color: var(--neutral-900);">Confirm Password</label>
+              <div class="input">
+                <ion-icon name="lock-closed" class="text-light"></ion-icon>
+                <input placeholder="Confirm your password" type="password" />
+              </div>
+            </div>
+
+            <div class="row start" data-toggle="checkbox" style="cursor: pointer; align-items: flex-start;">
+              <div class="icon-pill" style="width: 24px; height: 24px; border-radius: 6px; background: transparent; border: 2px solid var(--neutral-200);"></div>
+              <div class="text-body">
+                I agree to the <span class="text-brand">Terms of Service</span> and <span class="text-brand">Privacy Policy</span>
+              </div>
+            </div>
+
+            <button class="button primary full">
+              Create Account <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+
+            <div class="row" style="gap: var(--space-4);">
+              <div class="small-divider" style="flex: 1;"></div>
+              <span class="text-caption">or sign up with</span>
+              <div class="small-divider" style="flex: 1;"></div>
+            </div>
+
+            <div class="row">
+              <button class="button outline full" style="gap: 6px;">
+                <span style="font-weight: 700;">G</span> Google
+              </button>
+              <button class="button outline full" style="gap: 6px;">
+                <ion-icon name="logo-apple"></ion-icon> Apple
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

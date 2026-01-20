@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Settings Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header transparent">
+          <ion-icon name="close" class="text-muted"></ion-icon>
+          <div></div>
+        </div>
+        <main class="app-content">
+          <a class="card" href="settings-profile.html" target="_blank">
+            <div class="row">
+              <div class="avatar" style="width: 64px; height: 64px;">AS</div>
+              <div style="flex: 1;">
+                <div class="text-headline">Anna Schmidt</div>
+                <div class="text-caption">anna.schmidt@email.de</div>
+              </div>
+              <ion-icon name="chevron-forward" class="text-light"></ion-icon>
+            </div>
+          </a>
+
+          <div class="stack-sm">
+            <a class="card" href="settings-profile.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill brand"><ion-icon name="person"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">View Profile</div>
+                  <div class="text-caption">Personal information & settings</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+            <a class="card" href="settings-settings.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill"><ion-icon name="settings"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">Settings</div>
+                  <div class="text-caption">App preferences & account</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+            <a class="card" href="settings-faq.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill sky"><ion-icon name="help-circle"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">FAQ</div>
+                  <div class="text-caption">Frequently asked questions</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+            <a class="card" href="settings-support.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill sage"><ion-icon name="chatbubbles"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">Support</div>
+                  <div class="text-caption">Get help & contact us</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+            <a class="card" href="settings-privacy.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill"><ion-icon name="document-text"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">Privacy Policy</div>
+                  <div class="text-caption">How we handle your data</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+            <a class="card" href="settings-legal.html" target="_blank">
+              <div class="list-row">
+                <div class="icon-pill"><ion-icon name="business"></ion-icon></div>
+                <div class="meta">
+                  <div style="font-weight: 600;">Legal Disclosure</div>
+                  <div class="text-caption">Impressum & legal information</div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+              </div>
+            </a>
+          </div>
+
+          <button class="button outline full" style="color: var(--error); border-color: rgba(226,106,94,0.2);">Log out</button>
+
+          <div class="text-caption" style="text-align: center;">MedAlpha v1.0.0</div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

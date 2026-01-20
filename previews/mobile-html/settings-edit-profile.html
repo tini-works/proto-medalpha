@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MedAlpha - Edit Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="device">
+        <div class="status-bar">
+          <div>9:41</div>
+          <div class="status-icons">
+            <ion-icon name="cellular"></ion-icon>
+            <ion-icon name="wifi"></ion-icon>
+            <ion-icon name="battery-full"></ion-icon>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="action">Cancel</div>
+          <div class="title">Edit Profile</div>
+          <div class="action">Save</div>
+        </div>
+        <main class="app-content">
+          <div class="stack-sm" style="align-items: center;">
+            <div class="avatar" style="width: 100px; height: 100px; font-size: 36px;">AS</div>
+            <div class="text-brand">Change photo</div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Personal Information</div>
+            <div class="stack-sm">
+              <div class="row" style="gap: var(--space-3);">
+                <div class="stack-xs" style="flex: 1;">
+                  <label class="text-caption" style="font-weight: 600;">First Name</label>
+                  <div class="input"><input value="Anna" /></div>
+                </div>
+                <div class="stack-xs" style="flex: 1;">
+                  <label class="text-caption" style="font-weight: 600;">Last Name</label>
+                  <div class="input"><input value="Schmidt" /></div>
+                </div>
+              </div>
+              <div class="stack-xs">
+                <label class="text-caption" style="font-weight: 600;">Date of Birth</label>
+                <div class="input"><input value="15/03/1985" /></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Contact Details</div>
+            <div class="stack-sm">
+              <div class="stack-xs">
+                <label class="text-caption" style="font-weight: 600;">Email</label>
+                <div class="input"><input value="anna.schmidt@email.de" /></div>
+              </div>
+              <div class="stack-xs">
+                <label class="text-caption" style="font-weight: 600;">Phone</label>
+                <div class="input"><input value="+49 30 123 456 78" /></div>
+              </div>
+              <div class="stack-xs">
+                <label class="text-caption" style="font-weight: 600;">Street Address</label>
+                <div class="input"><input value="Musterstrasse 45" /></div>
+              </div>
+              <div class="row" style="gap: var(--space-3);">
+                <div class="stack-xs" style="flex: 1;">
+                  <label class="text-caption" style="font-weight: 600;">Postal Code</label>
+                  <div class="input"><input value="10115" /></div>
+                </div>
+                <div class="stack-xs" style="flex: 2;">
+                  <label class="text-caption" style="font-weight: 600;">City</label>
+                  <div class="input"><input value="Berlin" /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Insurance Information</div>
+            <div class="stack-sm">
+              <div class="stack-xs">
+                <label class="text-caption" style="font-weight: 600;">Insurance Provider</label>
+                <div class="input"><input value="Techniker Krankenkasse (TK)" /></div>
+              </div>
+              <div class="stack-xs">
+                <label class="text-caption" style="font-weight: 600;">Member ID</label>
+                <div class="input"><input value="T012345678" /></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="button primary full">
+            Save Changes <ion-icon name="checkmark"></ion-icon>
+          </button>
+          <div class="fab-space"></div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
