@@ -1,4 +1,4 @@
-# MedAlpha Connect Mobile App - Scope Index
+# Scope Index
 
 **Version:** 1.0
 **Last Updated:** 2026-01-20

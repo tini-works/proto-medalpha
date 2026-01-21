@@ -6,10 +6,12 @@
 
 ---
 
+Notes: This document is derived from SCOPE-FOR-EXPLORATION.md. Items listed under Assumptions are inferred and not explicitly stated in the source.
 
-# Part 1: User Flows
 
-## 1.1 Jobs-to-be-Done Summary
+# User Flows
+
+## Jobs-to-be-Done Summary
 
 | Job ID | Feature | Job Statement | Primary Personas |
 |--------|---------|---------------|------------------|
@@ -23,7 +25,7 @@
 | J8 | Home | When I open the app, I want personalized content so that I see relevant actions/deals | Elena, All |
 | J9 | Notifications | When something needs attention, I want alerts so that I don't miss important actions | All |
 
-## 1.2 Flow 1: User Registration (J1)
+## Flow: User Registration (J1)
 
 ### Flow Steps
 
@@ -79,7 +81,7 @@ flowchart TD
     style ERROR fill:#ffebee
 ```
 
-## 1.3 Flow 2: Profile Completion (J2)
+## Flow: Profile Completion (J2)
 
 ### Flow Steps
 
@@ -129,7 +131,7 @@ flowchart TD
     style HOME fill:#e8f5e9
 ```
 
-## 1.4 Flow 3: Appointment Booking (J3)
+## Flow: Appointment Booking (J3)
 
 ### Flow Steps
 
@@ -216,7 +218,7 @@ flowchart TD
     style NO_RESULTS fill:#ffebee
 ```
 
-## 1.5 Flow 4: Telemedicine Consultation (J4)
+## Flow: Telemedicine Consultation (J4)
 
 ### Flow Steps
 
@@ -297,7 +299,7 @@ flowchart TD
     style TROUBLESHOOT fill:#fff3e0
 ```
 
-## 1.6 Flow 5: Online Prescription Redemption (J5)
+## Flow: Online Prescription Redemption (J5)
 
 ### Flow Steps
 
@@ -389,7 +391,11 @@ flowchart TD
     style RETRY fill:#fff3e0
 ```
 
-## 1.7 Flow 6: Offline Prescription Redemption (J6)
+### Assumptions
+
+- Apply Payback during online redemption is inferred from loyalty/deals context in the scope.
+
+## Flow: Offline Prescription Redemption (J6)
 
 ### Flow Steps
 
@@ -453,7 +459,7 @@ flowchart TD
     style DONE fill:#e8f5e9
 ```
 
-## 1.8 Flow 7: History Tracking (J7)
+## Flow: History Tracking (J7)
 
 ### Flow Steps
 
@@ -508,7 +514,7 @@ flowchart TD
     style DONE fill:#e8f5e9
 ```
 
-## 1.9 Flow 8: Home Screen (J8)
+## Flow: Home Screen (J8)
 
 ### Flow Steps
 
@@ -561,7 +567,12 @@ flowchart TD
     style PROMPT fill:#fff3e0
 ```
 
-## 1.10 Flow 9: Push Notifications (J9)
+### Assumptions
+
+- Home sections for Upcoming Appointments and Active Prescriptions are inferred.
+- Pull-to-refresh behavior is inferred.
+
+## Flow: Push Notifications (J9)
 
 ### Flow Steps
 
@@ -582,6 +593,10 @@ flowchart TD
 | Payback | Points earned | "Sie haben 50 Punkte gesammelt" | Payback Dashboard |
 | Refill Reminder | History flag | "Zeit für Ihre Rezeptverlängerung" | E-Rezept Entry |
 | Post-Appointment | 60 min after | "Wie war Ihr Termin? Rezept einlösen?" | Feedback + E-Rezept |
+
+### Assumptions
+
+- Appointment reminder timing (24h/1h), points-earned notifications, and specific message copy are inferred.
 
 ### Flow Diagram
 
@@ -630,7 +645,9 @@ flowchart TD
     style DONE fill:#e8f5e9
 ```
 
-## 1.11 Flow Metrics
+## Flow Metrics
+
+Note: Metrics and targets are derived assumptions for planning, except the telemedicine session completion >90% stated in the source.
 
 | Flow | Primary Metric | Target | Fallback Metric |
 |------|----------------|--------|-----------------|
@@ -645,460 +662,3 @@ flowchart TD
 | Notifications | Tap-through rate | >25% | Delivery rate >98% |
 
 ---
-
-# Part 2: IA Map
-
-## 2.1 High-Level Structure
-
-```
-MedAlpha Connect (dm)
-│
-├── 🔐 Authentication
-│   ├── Welcome
-│   ├── Sign In
-│   ├── Create Account
-│   ├── Verify (Email/SMS)
-│   └── Forgot Password
-│
-├── 📱 Main Application
-│   │
-│   ├── 🏠 HOME (Dashboard)
-│   │   ├── Personalized Content (CMS)
-│   │   ├── dm Deals & Payback
-│   │   ├── Health Tips
-│   │   ├── Upcoming Appointments
-│   │   ├── Active Prescriptions
-│   │   └── Quick Actions
-│   │
-│   ├── 📅 TERMINE (Booking)
-│   │   ├── Search
-│   │   │   ├── Doctor Search
-│   │   │   ├── Health Check Search
-│   │   │   └── Beauty Service Search
-│   │   ├── Results List
-│   │   ├── Provider/Service Details
-│   │   ├── Booking Confirmation
-│   │   ├── Booking Success
-│   │   └── My Appointments
-│   │
-│   ├── 📹 TELEMEDIZIN
-│   │   ├── Entry (Specialty Select)
-│   │   ├── Patient Selection
-│   │   ├── Symptom Input
-│   │   ├── Teleclinic WebView
-│   │   ├── Consultation Summary
-│   │   └── My Consultations
-│   │
-│   ├── 💊 E-REZEPT
-│   │   ├── Entry (Online/Offline Choice)
-│   │   ├── NFC Scan
-│   │   ├── Prescription Details
-│   │   ├── Fulfillment Choice
-│   │   │   ├── Delivery Checkout
-│   │   │   └── Click & Collect (Store Select)
-│   │   ├── Order Confirmation
-│   │   ├── Order Tracking
-│   │   └── My Prescriptions
-│   │
-│   ├── 🏪 STORES (dm + Pharmacies)
-│   │   ├── Map View
-│   │   ├── List View
-│   │   ├── Filters
-│   │   ├── Store Details
-│   │   └── Directions
-│   │
-│   ├── 📜 VERLAUF (History)
-│   │   ├── All History
-│   │   ├── Filters
-│   │   ├── Item Details
-│   │   └── Export
-│   │
-│   └── 👤 PROFILE
-│       ├── Overview
-│       ├── Personal Info
-│       ├── Insurance
-│       ├── Addresses
-│       ├── Family Members
-│       ├── Payback
-│       ├── dm Account Link
-│       ├── Notifications Settings
-│       └── Help & Support
-│
-└── 🔔 System Layer
-    ├── Push Notifications
-    ├── Deep Links
-    ├── Bottom Sheets
-    └── Modals
-```
-
-## 2.2 Master IA Diagram
-
-```mermaid
-flowchart TB
-    subgraph APP["📱 MedAlpha Connect (dm)"]
-        direction TB
-
-        subgraph AUTH["🔐 Authentication"]
-            A1[Welcome]
-            A2[Sign In]
-            A3[Create Account]
-            A4[Verify]
-            A5[Forgot Password]
-        end
-
-        subgraph MAIN["Main App"]
-            direction TB
-
-            subgraph NAV["⬇️ Bottom Navigation"]
-                direction LR
-                N1["🏠 Home"]
-                N2["📅 Termine"]
-                N3["📹 Tele"]
-                N4["💊 E-Rezept"]
-                N5["🏪 Stores"]
-                N6["📜 Verlauf"]
-            end
-
-            subgraph HOME["🏠 HOME"]
-                H1[Dashboard]
-                H2[Deals/Payback]
-                H3[Health Tips]
-                H4[Upcoming]
-                H5[Quick Actions]
-            end
-
-            subgraph BOOKING["📅 TERMINE"]
-                B1[Search]
-                B2[Results]
-                B3[Details]
-                B4[Confirm]
-                B5[Success]
-                B6[My Appts]
-            end
-
-            subgraph TELE["📹 TELEMEDIZIN"]
-                T1[Entry]
-                T2[Patient]
-                T3[Symptoms]
-                T4[WebView]
-                T5[Summary]
-                T6[My Consults]
-            end
-
-            subgraph ERX["💊 E-REZEPT"]
-                E1[Entry]
-                E2[NFC Scan]
-                E3[Details]
-                E4[Fulfillment]
-                E5[Checkout]
-                E6[Tracking]
-                E7[My Rx]
-            end
-
-            subgraph STORES["🏪 STORES"]
-                S1[Map]
-                S2[List]
-                S3[Filters]
-                S4[Details]
-            end
-
-            subgraph HISTORY["📜 VERLAUF"]
-                HI1[All History]
-                HI2[Filters]
-                HI3[Details]
-                HI4[Export]
-            end
-
-            subgraph PROFILE["👤 PROFILE"]
-                P1[Overview]
-                P2[Personal]
-                P3[Insurance]
-                P4[Addresses]
-                P5[Family]
-                P6[Payback]
-                P7[Settings]
-            end
-        end
-    end
-
-    %% Auth Flow
-    A1 --> A2
-    A1 --> A3
-    A3 --> A4
-    A2 --> H1
-    A4 --> H1
-
-    %% Tab Navigation
-    N1 --> H1
-    N2 --> B1
-    N3 --> T1
-    N4 --> E1
-    N5 --> S1
-    N6 --> HI1
-
-    %% Profile access
-    H1 -.-> P1
-
-    %% Booking flow
-    B1 --> B2 --> B3 --> B4 --> B5
-
-    %% Telemedicine flow
-    T1 --> T2 --> T3 --> T4 --> T5
-
-    %% E-Rezept flow
-    E1 --> E2 --> E3 --> E4 --> E5 --> E6
-
-    %% Store flow
-    S1 <--> S2
-    S1 --> S3
-    S1 --> S4
-
-    %% History flow
-    HI1 --> HI2
-    HI1 --> HI3
-    HI3 --> HI4
-
-    %% Cross-flow
-    T5 -.->|"Rx issued"| E3
-    E4 -.->|"Click & Collect"| S1
-    H4 -.-> B3
-    H5 -.-> B1
-    H5 -.-> T1
-    H5 -.-> E1
-
-    style APP fill:#fafafa
-    style AUTH fill:#ffebee
-    style NAV fill:#e3f2fd,stroke:#1565c0,stroke-width:3px
-    style HOME fill:#e8f5e9
-    style BOOKING fill:#fff3e0
-    style TELE fill:#fce4ec
-    style ERX fill:#f3e5f5
-    style STORES fill:#fff8e1
-    style HISTORY fill:#e0f7fa
-    style PROFILE fill:#f5f5f5
-```
-
-## 2.3 Navigation Paths
-
-| Flow | Primary Path | Optimized For | Alternative |
-|------|--------------|---------------|-------------|
-| Registration | Welcome → Create → Verify → Profile | New users | SSO via dm account |
-| Booking | Tab → Search → Results → Book | Discovery | Home → Quick Action |
-| Telemedicine | Tab → Specialty → Symptoms → Video | Speed | Post-appointment prompt |
-| Online Rx | Tab → NFC → Details → Checkout | Convenience | Telemedicine → Rx CTA |
-| Offline Rx | Tab → Map → Select → Directions | Local pickup | Click & Collect from E-Rezept |
-| History | Tab → Filter → Details → Export | Records | Home → Upcoming tap |
-| Home | App Open → Dashboard | Engagement | Notification deep link |
-
----
-
-# Part 3: Screen List
-
-## 3.1 Complete Screen Inventory
-
-### 🔐 Authentication (5 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| AUTH-01 | Welcome | First launch, value prop | App launch (first time) |
-| AUTH-02 | Sign In | Login with credentials | Welcome, Sign out |
-| AUTH-03 | Create Account | New user registration | Welcome |
-| AUTH-04 | Verify | Email/SMS verification | Create Account |
-| AUTH-05 | Forgot Password | Password recovery | Sign In |
-
-### 🏠 Home (1 screen, 5 sections)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| HOME-01 | Dashboard | Central hub with CMS content | Tab, Login, Deep link |
-
-### 📅 Termine - Booking (8 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| BOOK-01 | Search | Specialty/location/type input | Tab, Home quick action |
-| BOOK-02 | Results | List of doctors/services | Search |
-| BOOK-03 | Provider Details | Doctor/service info, slots | Results |
-| BOOK-04 | Booking Confirmation | Confirm details | Slot selection |
-| BOOK-05 | Patient Selection | Self or family member | Confirmation |
-| BOOK-06 | Payment | Beauty service payment | Confirmation (beauty) |
-| BOOK-07 | Booking Success | Confirmation + next actions | Book |
-| BOOK-08 | My Appointments | List of booked appointments | Tab overflow |
-
-### 📹 Telemedizin (8 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| TELE-01 | Entry | Specialty selection | Tab, Home quick action |
-| TELE-02 | Patient Selection | Self or family member | Entry |
-| TELE-03 | Consent | Minor consent confirmation | Patient (if minor) |
-| TELE-04 | Symptom Input | Describe symptoms | Patient/Consent |
-| TELE-05 | Availability | Check 24/7 availability | Symptoms |
-| TELE-06 | Teleclinic WebView | Partner video experience | Availability |
-| TELE-07 | Consultation Summary | Diagnosis + actions | Session end |
-| TELE-08 | My Consultations | Past consultations | Tab overflow |
-
-### 💊 E-Rezept (11 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| ERX-01 | Entry | Online vs Offline choice | Tab, Home, Tele Summary |
-| ERX-02 | NFC Scan | CardLink eGK scan | Entry (online) |
-| ERX-03 | Verification | Insurance verification | NFC success |
-| ERX-04 | Prescription Details | Medications + costs | Verification |
-| ERX-05 | Fulfillment Choice | Delivery vs Click & Collect | Details |
-| ERX-06 | Delivery Checkout | Address, payment, options | Fulfillment (delivery) |
-| ERX-07 | Store Selection | Select dm for Click & Collect | Fulfillment (collect) |
-| ERX-08 | Order Summary | Review before submit | Checkout/Store |
-| ERX-09 | Order Confirmation | Success + order number | Summary |
-| ERX-10 | Order Tracking | Status timeline | Confirmation |
-| ERX-11 | My Prescriptions | All prescriptions | Tab overflow |
-
-### 🏪 Stores (5 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| STORE-01 | Map View | Map with dm/pharmacy pins | Tab, E-Rezept |
-| STORE-02 | List View | Store cards list | Map toggle |
-| STORE-03 | Filters | Filter options | Map/List |
-| STORE-04 | Store Details | Full store info | Pin/Card tap |
-| STORE-05 | Directions | Maps integration | Details |
-
-### 📜 Verlauf - History (4 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| HIST-01 | All History | Chronological list | Tab |
-| HIST-02 | Filters | Filter by type/date/family | All History |
-| HIST-03 | Item Details | Single item view | List tap |
-| HIST-04 | Export | PDF generation | Details |
-
-### 👤 Profile (9 screens)
-
-| ID | Screen | Purpose | Entry Points |
-|----|--------|---------|--------------|
-| PROF-01 | Overview | Profile summary | Header icon |
-| PROF-02 | Personal Info | Name, email, phone | Overview |
-| PROF-03 | Insurance | GKV/PKV details | Overview |
-| PROF-04 | Addresses | Delivery addresses | Overview |
-| PROF-05 | Family Members | Manage dependents | Overview |
-| PROF-06 | Payback | Loyalty points | Overview |
-| PROF-07 | dm Account | Link/unlink dm | Overview |
-| PROF-08 | Notification Settings | Preferences | Overview |
-| PROF-09 | Help & Support | FAQ, contact | Overview |
-
-## 3.2 Screen Count Summary
-
-| Section | Screens | Percentage |
-|---------|---------|------------|
-| Authentication | 5 | 10% |
-| Home | 1 | 2% |
-| Booking | 8 | 16% |
-| Telemedicine | 8 | 16% |
-| E-Rezept | 11 | 22% |
-| Stores | 5 | 10% |
-| History | 4 | 8% |
-| Profile | 9 | 18% |
-| **Total** | **51** | **100%** |
-
-## 3.3 Screen Relationship Diagram
-
-```mermaid
-flowchart LR
-    subgraph AUTH["Authentication"]
-        A1[Welcome]
-        A2[Sign In]
-        A3[Create Account]
-        A4[Verify]
-    end
-
-    subgraph MAIN["Main Navigation"]
-        HOME[Home]
-        TABS{Tabs}
-    end
-
-    subgraph BOOKING["Booking"]
-        B1[Search]
-        B2[Results]
-        B3[Details]
-        B4[Confirm]
-        B5[Success]
-    end
-
-    subgraph TELE["Telemedicine"]
-        T1[Entry]
-        T2[Symptoms]
-        T3[WebView]
-        T4[Summary]
-    end
-
-    subgraph ERX["E-Rezept"]
-        E1[Entry]
-        E2[NFC]
-        E3[Details]
-        E4[Checkout]
-        E5[Tracking]
-    end
-
-    subgraph STORES["Stores"]
-        S1[Map]
-        S2[Details]
-    end
-
-    subgraph HISTORY["History"]
-        H1[List]
-        H2[Details]
-    end
-
-    subgraph PROFILE["Profile"]
-        P1[Overview]
-        P2[Family]
-        P3[Payback]
-    end
-
-    A1 --> A2 --> HOME
-    A1 --> A3 --> A4 --> HOME
-
-    HOME --> TABS
-    TABS --> B1
-    TABS --> T1
-    TABS --> E1
-    TABS --> S1
-    TABS --> H1
-    HOME -.-> P1
-
-    B1 --> B2 --> B3 --> B4 --> B5
-    T1 --> T2 --> T3 --> T4
-    E1 --> E2 --> E3 --> E4 --> E5
-    S1 --> S2
-    H1 --> H2
-
-    T4 -.->|"Rx"| E3
-    E4 -.->|"Collect"| S1
-
-    style HOME fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
-    style B5 fill:#e8f5e9
-    style T4 fill:#e8f5e9
-    style E5 fill:#e8f5e9
-```
-
----
-
-## Summary
-
-| Artifact | Count |
-|----------|-------|
-| **Objects** | 22 (7 primary, 11 secondary, 4 derived) |
-| **User Flows** | 9 complete flows |
-| **Screens** | 51 screens |
-| **Sections** | 8 main sections |
-| **Cross-flow Connections** | 6 integration points |
-
-### Key dm Integration Points
-
-1. **SSO** - Link existing dm account at registration
-2. **Click & Collect** - Pickup at dm stores for E-Rezept
-3. **In-Store Services** - Health checks and beauty bookings
-4. **Payback** - Loyalty points on orders
-5. **Deals** - dm promotions on home screen via CMS
-6. **Store Finder** - dm + pharmacy locations unified
