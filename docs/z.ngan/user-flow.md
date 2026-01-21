@@ -1,4 +1,4 @@
-# User Flows — MedAlpha Connect (dm-style retail partner)
+# User Flows
 Date: January 20, 2026  
 Source: `scope-for-exploration.md` (MedAlpha Connect – dm-like retail partner)
 

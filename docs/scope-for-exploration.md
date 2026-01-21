@@ -1,4 +1,4 @@
-# 2. MedAlpha Connect – Scope for Exploration (Features/Functions) – Updated for dm-like Retail Partner
+# Scope for Exploration 
 
 **Product Owner:** [Your Name]  
 **Date:** January 20, 2026  
