@@ -6,7 +6,9 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles = {
-  primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
+  // Business intent: align “primary” actions with MedAlpha brand tokens (brand-blue-*).
+  // This avoids invisible buttons when an app doesn’t define generic `primary-*` colors.
+  primary: 'bg-brand-blue-600 text-white hover:bg-brand-blue-700 focus:ring-brand-blue-500',
   secondary: 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300 focus:ring-neutral-500',
   ghost: 'bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-500',
 }

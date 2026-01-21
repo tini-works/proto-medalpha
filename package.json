@@ -5,6 +5,7 @@
     "build": "pnpm -r build",
     "build:packages": "pnpm --filter @meda/tokens build && pnpm --filter @meda/ui build",
     "dev:admin": "pnpm --filter admin dev",
+    "dev:appointment-v1": "pnpm --filter appointment-v1 dev",
     "dev:mobile": "pnpm --filter mobile start",
     "dev:design-system": "pnpm --filter design-system dev",
     "lint": "pnpm -r lint",

@@ -13,20 +13,21 @@ Monorepo for the MedAlpha healthcare product prototype.
 ## Quick Start
 
 ```bash
-# Clone the repo
+# Clone the repo (local developer setup)
 git clone git@github.com:tini-works/proto-medalpha.git
 cd proto-medalpha
 
-# Install dependencies
+# Install dependencies for all workspaces
 pnpm install
 
-# Build packages
+# Build shared packages before running apps
 pnpm build:packages
 
-# Start an app
-pnpm dev:admin          # Web admin at http://localhost:5173
-pnpm dev:design-system  # Storybook at http://localhost:6006
-pnpm dev:mobile         # Expo dev server
+# Start an app for local prototyping
+pnpm dev:admin             # Web admin at http://localhost:5173
+pnpm dev:design-system     # Storybook at http://localhost:6006
+pnpm dev:mobile            # Expo dev server
+pnpm dev:appointment-v1    # Appointment booking prototype (web)
 ```
 
 ## Structure
@@ -40,6 +41,7 @@ proto-medalpha/
 ├── apps/
 │   ├── admin/           # Web admin (Vite + React)
 │   ├── mobile/          # Mobile app (Expo)
+│   ├── appointment-v1/  # Appointment booking prototype (web)
 │   └── design-system/   # Storybook documentation
 │
 └── docs/                # Design docs and plans
@@ -52,6 +54,7 @@ proto-medalpha/
 | Start admin app | `pnpm dev:admin` |
 | Start mobile app | `pnpm dev:mobile` |
 | Start Storybook | `pnpm dev:design-system` |
+| Start appointment booking prototype | `pnpm dev:appointment-v1` |
 | Build all packages | `pnpm build:packages` |
 | Build everything | `pnpm build` |
 | Clean all | `pnpm clean` |

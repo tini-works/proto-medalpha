@@ -11,7 +11,7 @@
     "clean": "rm -rf .expo"
   },
   "dependencies": {
-    "@expo-google-fonts/open-sans": "^0.2.4",
+    "@expo-google-fonts/open-sans": "^0.4.2",
     "@meda/tokens": "workspace:*",
     "expo": "~54.0.31",
     "expo-font": "~12.0.10",

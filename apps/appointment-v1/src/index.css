@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Business intent: set a predictable canvas for a mobile-like web UI. */
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+}
+
