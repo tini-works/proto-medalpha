@@ -1,4 +1,4 @@
-# IA Map — MedAlpha Connect (dm-style retail partner)
+# Info Map
 Date: January 20, 2026  
 Source: `scope-for-exploration.md`
 

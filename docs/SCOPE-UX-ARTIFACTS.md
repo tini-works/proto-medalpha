@@ -1,4 +1,4 @@
-# MedAlpha Connect (dm Integration)
+# Info Map - User Flows
 
 **Generated From:** SCOPE-FOR-EXPLORATION.md
 **Date:** 2026-01-20
