@@ -18,12 +18,13 @@ packages/tokens/generated/
 # IDE
 .idea/
 .vscode/
+.cursor/
 
 # Environment
 .env
 .env.local
 .vercel
 
-
-#Personal
+# Personal
 _ngan
+docs/_lia/
