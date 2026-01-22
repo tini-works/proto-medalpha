@@ -38,8 +38,8 @@ export default function ResultsScreen() {
   return (
     <Page>
       <Header
-        title="Suchergebnisse"
-        subtitle={loading ? 'Suche läuft...' : `${doctors.length} ${doctors.length === 1 ? 'Arzt' : 'Ärzte'} gefunden`}
+        title="Search Results"
+        subtitle={loading ? 'Searching...' : `${doctors.length} doctor${doctors.length !== 1 ? 's' : ''} found`}
         showBack
         onBack={() => navigate(PATHS.BOOKING_SEARCH)}
       />
@@ -54,14 +54,14 @@ export default function ResultsScreen() {
         ) : doctors.length === 0 ? (
           <EmptyState
             icon="search"
-            title="Keine Ärzte gefunden"
-            description="Passen Sie Ihre Suchkriterien an, um weitere Ergebnisse zu erhalten."
+            title="No doctors found"
+            description="Try adjusting your search filters to find more results."
             action={
               <button
                 onClick={() => navigate(PATHS.BOOKING_SEARCH)}
                 className="px-4 py-2.5 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
               >
-                Suche anpassen
+                Modify Search
               </button>
             }
           />

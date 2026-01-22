@@ -32,31 +32,31 @@ export default function EditProfileScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Name ist erforderlich'
+      newErrors.fullName = 'Full name is required'
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'E-Mail-Adresse ist erforderlich'
+      newErrors.email = 'Email is required'
     }
 
     if (!formData.insuranceType) {
-      newErrors.insuranceType = 'Versicherungsart ist erforderlich'
+      newErrors.insuranceType = 'Insurance type is required'
     }
 
     if (!formData.egkNumber.trim()) {
-      newErrors.egkNumber = 'eGK-Nummer ist erforderlich'
+      newErrors.egkNumber = 'eGK number is required'
     }
 
     if (!formData.street.trim()) {
-      newErrors.street = 'Straße ist erforderlich'
+      newErrors.street = 'Street is required'
     }
 
     if (!formData.postalCode.trim()) {
-      newErrors.postalCode = 'PLZ ist erforderlich'
+      newErrors.postalCode = 'Postal code is required'
     }
 
     if (!formData.city.trim()) {
-      newErrors.city = 'Ort ist erforderlich'
+      newErrors.city = 'City is required'
     }
 
     setErrors(newErrors)
@@ -86,15 +86,15 @@ export default function EditProfileScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Profil bearbeiten" showBack />
+      <Header title="Edit Profile" showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
         {/* Personal Info */}
         <div className="space-y-4">
-          <h3 className="font-medium text-neutral-900">Persönliche Daten</h3>
+          <h3 className="font-medium text-neutral-900">Personal Information</h3>
 
           <Field
-            label="Vollständiger Name"
+            label="Full Name"
             type="text"
             value={formData.fullName}
             onChange={(e) => handleChange('fullName', e.target.value)}
@@ -103,7 +103,7 @@ export default function EditProfileScreen() {
           />
 
           <Field
-            label="E-Mail-Adresse"
+            label="Email"
             type="email"
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
@@ -112,7 +112,7 @@ export default function EditProfileScreen() {
           />
 
           <Field
-            label="Telefon (optional)"
+            label="Phone (optional)"
             type="tel"
             value={formData.phone}
             onChange={(e) => handleChange('phone', e.target.value)}
@@ -122,20 +122,20 @@ export default function EditProfileScreen() {
 
         {/* Insurance */}
         <RadioGroup
-          label="Versicherungsart"
+          label="Insurance Type"
           name="insuranceType"
           value={formData.insuranceType}
           onChange={(value) => handleChange('insuranceType', value)}
           options={[
-            { value: 'GKV', label: 'Gesetzlich (GKV)' },
-            { value: 'PKV', label: 'Privat (PKV)' },
+            { value: 'GKV', label: 'GKV (Statutory)' },
+            { value: 'PKV', label: 'PKV (Private)' },
           ]}
           error={errors.insuranceType}
           required
         />
 
         <Field
-          label="eGK-Kartennummer"
+          label="eGK Card Number"
           type="text"
           value={formData.egkNumber}
           onChange={(e) => handleChange('egkNumber', e.target.value)}
@@ -145,10 +145,10 @@ export default function EditProfileScreen() {
 
         {/* Address */}
         <div className="space-y-4">
-          <h3 className="font-medium text-neutral-900">Adresse</h3>
+          <h3 className="font-medium text-neutral-900">Address</h3>
 
           <Field
-            label="Straße und Hausnummer"
+            label="Street Address"
             type="text"
             value={formData.street}
             onChange={(e) => handleChange('street', e.target.value)}
@@ -158,7 +158,7 @@ export default function EditProfileScreen() {
 
           <div className="grid grid-cols-2 gap-4">
             <Field
-              label="PLZ"
+              label="Postal Code"
               type="text"
               value={formData.postalCode}
               onChange={(e) => handleChange('postalCode', e.target.value)}
@@ -167,7 +167,7 @@ export default function EditProfileScreen() {
             />
 
             <Field
-              label="Ort"
+              label="City"
               type="text"
               value={formData.city}
               onChange={(e) => handleChange('city', e.target.value)}
@@ -182,7 +182,7 @@ export default function EditProfileScreen() {
             type="submit"
             className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
           >
-            Änderungen speichern
+            Save Changes
           </button>
         </div>
       </form>

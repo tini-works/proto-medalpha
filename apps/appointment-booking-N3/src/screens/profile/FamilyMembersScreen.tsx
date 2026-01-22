@@ -37,15 +37,15 @@ export default function FamilyMembersScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name ist erforderlich'
+      newErrors.name = 'Name is required'
     }
 
     if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = 'Geburtsdatum ist erforderlich'
+      newErrors.dateOfBirth = 'Date of birth is required'
     }
 
     if (!formData.relationship) {
-      newErrors.relationship = 'Beziehung ist erforderlich'
+      newErrors.relationship = 'Relationship is required'
     }
 
     setErrors(newErrors)
@@ -68,14 +68,14 @@ export default function FamilyMembersScreen() {
   }
 
   const handleRemove = (id: string) => {
-    if (window.confirm('Möchten Sie dieses Familienmitglied wirklich entfernen?')) {
+    if (window.confirm('Are you sure you want to remove this family member?')) {
       removeFamilyMember(id)
     }
   }
 
   return (
     <Page>
-      <Header title="Familienmitglieder" subtitle="Profile für Angehörige verwalten" showBack />
+      <Header title="Family Members" subtitle="Manage profiles for your dependents" showBack />
 
       <div className="px-4 py-6">
         {/* Existing members */}
@@ -89,14 +89,14 @@ export default function FamilyMembersScreen() {
           !showForm && (
             <EmptyState
               icon="user"
-              title="Keine Familienmitglieder"
-              description="Fügen Sie Familienmitglieder hinzu, um Termine für diese zu buchen."
+              title="No family members"
+              description="Add family members to book appointments on their behalf."
               action={
                 <button
                   onClick={() => setShowForm(true)}
                   className="px-4 py-2.5 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
                 >
-                  Familienmitglied hinzufügen
+                  Add Family Member
                 </button>
               }
             />
@@ -109,27 +109,27 @@ export default function FamilyMembersScreen() {
             onClick={() => setShowForm(true)}
             className="w-full py-3 px-4 border-2 border-dashed border-neutral-300 rounded-lg text-neutral-600 font-medium hover:border-neutral-400 hover:text-neutral-700 transition-colors"
           >
-            + Familienmitglied hinzufügen
+            + Add Family Member
           </button>
         )}
 
         {/* Add form */}
         {showForm && (
           <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-neutral-200 p-4 space-y-4">
-            <h3 className="font-semibold text-neutral-900">Familienmitglied hinzufügen</h3>
+            <h3 className="font-semibold text-neutral-900">Add Family Member</h3>
 
             <Field
-              label="Vollständiger Name"
+              label="Full Name"
               type="text"
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
-              placeholder="Vor- und Nachname"
+              placeholder="Enter full name"
               error={errors.name}
               required
             />
 
             <Field
-              label="Geburtsdatum"
+              label="Date of Birth"
               type="date"
               value={formData.dateOfBirth}
               onChange={(e) => handleChange('dateOfBirth', e.target.value)}
@@ -138,29 +138,29 @@ export default function FamilyMembersScreen() {
             />
 
             <Select
-              label="Beziehung"
+              label="Relationship"
               value={formData.relationship}
               onChange={(e) => handleChange('relationship', e.target.value)}
               options={[
-                { value: 'child', label: 'Kind' },
-                { value: 'spouse', label: 'Ehepartner/in' },
-                { value: 'parent', label: 'Elternteil' },
-                { value: 'other', label: 'Sonstige' },
+                { value: 'child', label: 'Child' },
+                { value: 'spouse', label: 'Spouse' },
+                { value: 'parent', label: 'Parent' },
+                { value: 'other', label: 'Other' },
               ]}
-              placeholder="Bitte auswählen"
+              placeholder="Select relationship"
               error={errors.relationship}
               required
             />
 
             <Select
-              label="Versicherungsart (optional)"
+              label="Insurance Type (optional)"
               value={formData.insuranceType}
               onChange={(e) => handleChange('insuranceType', e.target.value)}
               options={[
-                { value: 'GKV', label: 'Gesetzlich (GKV)' },
-                { value: 'PKV', label: 'Privat (PKV)' },
+                { value: 'GKV', label: 'GKV (Statutory)' },
+                { value: 'PKV', label: 'PKV (Private)' },
               ]}
-              placeholder="Wie Hauptkonto"
+              placeholder="Same as primary account"
             />
 
             <div className="flex gap-3 pt-2">
@@ -169,13 +169,13 @@ export default function FamilyMembersScreen() {
                 onClick={resetForm}
                 className="flex-1 py-2.5 px-4 border border-neutral-300 text-neutral-700 font-medium rounded-lg hover:bg-neutral-50 transition-colors"
               >
-                Abbrechen
+                Cancel
               </button>
               <button
                 type="submit"
                 className="flex-1 py-2.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
               >
-                Hinzufügen
+                Add Member
               </button>
             </div>
           </form>

@@ -7,10 +7,10 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
-  { path: '/home', label: 'Start', icon: 'home' },
-  { path: '/booking/search', label: 'Buchen', icon: 'calendar' },
-  { path: '/history', label: 'Verlauf', icon: 'history' },
-  { path: '/settings', label: 'Einstellungen', icon: 'settings' },
+  { path: '/home', label: 'Home', icon: 'home' },
+  { path: '/booking/search', label: 'Book', icon: 'calendar' },
+  { path: '/history', label: 'History', icon: 'history' },
+  { path: '/settings', label: 'Settings', icon: 'settings' },
 ]
 
 function TabIcon({ icon, active }: { icon: TabItem['icon']; active: boolean }) {

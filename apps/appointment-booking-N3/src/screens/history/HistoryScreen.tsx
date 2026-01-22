@@ -16,14 +16,14 @@ export default function HistoryScreen() {
   const filteredItems = getFilteredItems(filters)
 
   const familyOptions = [
-    { value: 'all', label: 'Alle Mitglieder' },
-    { value: profile.id || 'self', label: `${profile.fullName} (Ich)` },
+    { value: 'all', label: 'All members' },
+    { value: profile.id || 'self', label: `${profile.fullName} (Me)` },
     ...profile.familyMembers.map((m) => ({ value: m.id, label: m.name })),
   ]
 
   return (
     <Page>
-      <Header title="Verlauf" subtitle="Ihre Termine und Aktivitäten" />
+      <Header title="History" subtitle="Your appointments and activities" />
 
       <div className="px-4 py-4">
         {/* Filters */}
@@ -34,10 +34,10 @@ export default function HistoryScreen() {
               value={filters.type}
               onChange={(e) => setFilters((f) => ({ ...f, type: e.target.value as HistoryItemType | 'all' }))}
               options={[
-                { value: 'all', label: 'Alle Typen' },
-                { value: 'appointment', label: 'Termine' },
-                { value: 'redemption', label: 'Rezepte' },
-                { value: 'purchase', label: 'Einkäufe' },
+                { value: 'all', label: 'All types' },
+                { value: 'appointment', label: 'Appointments' },
+                { value: 'redemption', label: 'Prescriptions' },
+                { value: 'purchase', label: 'Purchases' },
               ]}
             />
           </div>
@@ -57,8 +57,8 @@ export default function HistoryScreen() {
         {filteredItems.length === 0 ? (
           <EmptyState
             icon="history"
-            title="Noch kein Verlauf"
-            description="Ihre Termine, Rezepte und Einkäufe werden hier angezeigt."
+            title="No history yet"
+            description="Your appointments, prescriptions, and purchases will appear here."
           />
         ) : (
           <div className="space-y-3">

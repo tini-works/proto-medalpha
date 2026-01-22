@@ -10,14 +10,14 @@ export default function SettingsScreen() {
   const { resetAll } = useAppState()
 
   const handleSignOut = () => {
-    if (window.confirm('Möchten Sie sich wirklich abmelden?')) {
+    if (window.confirm('Are you sure you want to sign out?')) {
       signOut()
       navigate(PATHS.AUTH_WELCOME)
     }
   }
 
   const handleResetAll = () => {
-    if (window.confirm('Alle Ihre Daten werden gelöscht und Sie werden abgemeldet. Fortfahren?')) {
+    if (window.confirm('This will delete all your data and sign you out. Are you sure?')) {
       resetAll()
       navigate(PATHS.AUTH_WELCOME)
     }
@@ -25,7 +25,7 @@ export default function SettingsScreen() {
 
   return (
     <Page>
-      <Header title="Einstellungen" />
+      <Header title="Settings" />
 
       <div className="px-4 py-6 space-y-6">
         {/* Profile card */}
@@ -33,9 +33,9 @@ export default function SettingsScreen() {
           to={PATHS.PROFILE_EDIT}
           className="flex items-center gap-4 p-4 bg-white rounded-lg border border-neutral-200 hover:bg-neutral-50 transition-colors"
         >
-          <Avatar name={profile.fullName || 'N'} size="lg" />
+          <Avatar name={profile.fullName || 'U'} size="lg" />
           <div className="flex-1 min-w-0">
-            <h2 className="font-semibold text-neutral-900 truncate">{profile.fullName || 'Nutzer'}</h2>
+            <h2 className="font-semibold text-neutral-900 truncate">{profile.fullName || 'User'}</h2>
             <p className="text-sm text-neutral-500 truncate">{profile.email}</p>
             {profile.insuranceType && (
               <div className="mt-1">
@@ -66,8 +66,8 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-neutral-900">Familienmitglieder</p>
-                <p className="text-sm text-neutral-500">{profile.familyMembers.length} Mitglieder</p>
+                <p className="font-medium text-neutral-900">Family Members</p>
+                <p className="text-sm text-neutral-500">{profile.familyMembers.length} members</p>
               </div>
             </div>
             <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -91,8 +91,8 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-neutral-900">Benachrichtigungen</p>
-                <p className="text-sm text-neutral-500">Erinnerungen verwalten</p>
+                <p className="font-medium text-neutral-900">Notifications</p>
+                <p className="text-sm text-neutral-500">Manage your alerts</p>
               </div>
             </div>
             <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,14 +107,14 @@ export default function SettingsScreen() {
             onClick={handleSignOut}
             className="w-full py-3.5 px-4 border border-neutral-300 text-neutral-700 font-medium rounded-lg hover:bg-neutral-50 transition-colors"
           >
-            Abmelden
+            Sign Out
           </button>
 
           <button
             onClick={handleResetAll}
             className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors"
           >
-            Alle Daten löschen
+            Reset All Data
           </button>
         </div>
 

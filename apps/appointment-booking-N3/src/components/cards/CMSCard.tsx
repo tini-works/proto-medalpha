@@ -7,10 +7,10 @@ interface CMSCardProps {
 }
 
 const typeLabels: Record<CMSContent['type'], string> = {
-  deal: 'Angebot',
-  'health-tip': 'Gesundheitstipp',
+  deal: 'Deal',
+  'health-tip': 'Health Tip',
   payback: 'PAYBACK',
-  announcement: 'Neuigkeiten',
+  announcement: 'News',
 }
 
 // Conservative: use neutral tones for CMS content, no green for promotional content
@@ -43,7 +43,7 @@ export function CMSCard({ content, onClick }: CMSCardProps) {
       <p className="mt-1 text-sm text-neutral-600 line-clamp-2">{content.description}</p>
       {content.link && (
         <span className="mt-2 inline-flex items-center text-sm text-neutral-700 font-medium">
-          Mehr erfahren
+          Learn more
           <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>

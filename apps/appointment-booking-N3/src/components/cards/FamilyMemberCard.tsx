@@ -9,10 +9,10 @@ interface FamilyMemberCardProps {
 }
 
 const relationshipLabels: Record<FamilyMember['relationship'], string> = {
-  child: 'Kind',
-  spouse: 'Ehepartner/in',
-  parent: 'Elternteil',
-  other: 'Sonstige',
+  child: 'Child',
+  spouse: 'Spouse',
+  parent: 'Parent',
+  other: 'Other',
 }
 
 export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardProps) {
@@ -28,7 +28,7 @@ export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardP
           <h3 className="font-semibold text-neutral-900 truncate">{member.name}</h3>
           <div className="mt-1 flex items-center gap-2">
             <Pill tone="neutral">{relationshipLabels[member.relationship]}</Pill>
-            {age !== null && <span className="text-sm text-neutral-500">{age} Jahre</span>}
+            {age !== null && <span className="text-sm text-neutral-500">{age} years</span>}
           </div>
           {member.insuranceType && (
             <div className="mt-2">
@@ -45,7 +45,7 @@ export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardP
               onClick={onEdit}
               className="flex-1 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
             >
-              Bearbeiten
+              Edit
             </button>
           )}
           {onRemove && (
@@ -53,7 +53,7 @@ export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardP
               onClick={onRemove}
               className="flex-1 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
-              Entfernen
+              Remove
             </button>
           )}
         </div>

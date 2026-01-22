@@ -10,19 +10,19 @@ export default function NotificationsScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Benachrichtigungen" showBack />
+      <Header title="Notifications" showBack />
 
       <div className="px-4 py-6">
         <p className="text-sm text-neutral-500 mb-6">
-          Wählen Sie aus, welche Benachrichtigungen Sie erhalten möchten. Diese Einstellungen können jederzeit geändert werden.
+          Choose which notifications you&apos;d like to receive. You can change these settings at any time.
         </p>
 
         <div className="bg-white rounded-lg border border-neutral-200 divide-y divide-neutral-100">
           {/* Appointment reminders */}
           <label className="flex items-center justify-between p-4 cursor-pointer">
             <div className="flex-1 mr-4">
-              <p className="font-medium text-neutral-900">Terminerinnerungen</p>
-              <p className="text-sm text-neutral-500">Erinnerungen vor Ihren Terminen</p>
+              <p className="font-medium text-neutral-900">Appointment Reminders</p>
+              <p className="text-sm text-neutral-500">Get reminded before your appointments</p>
             </div>
             <input
               type="checkbox"
@@ -35,8 +35,8 @@ export default function NotificationsScreen() {
           {/* Prescription updates */}
           <label className="flex items-center justify-between p-4 cursor-pointer">
             <div className="flex-1 mr-4">
-              <p className="font-medium text-neutral-900">Rezeptstatus</p>
-              <p className="text-sm text-neutral-500">Statusaktualisierungen für Ihre Rezepte</p>
+              <p className="font-medium text-neutral-900">Prescription Updates</p>
+              <p className="text-sm text-neutral-500">Status updates for your prescriptions</p>
             </div>
             <input
               type="checkbox"
@@ -49,8 +49,8 @@ export default function NotificationsScreen() {
           {/* Deals and offers */}
           <label className="flex items-center justify-between p-4 cursor-pointer">
             <div className="flex-1 mr-4">
-              <p className="font-medium text-neutral-900">Angebote & Aktionen</p>
-              <p className="text-sm text-neutral-500">Sonderangebote und Gesundheitsaktionen</p>
+              <p className="font-medium text-neutral-900">Deals & Offers</p>
+              <p className="text-sm text-neutral-500">Special offers and health deals</p>
             </div>
             <input
               type="checkbox"

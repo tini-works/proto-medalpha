@@ -7,23 +7,23 @@ import { PATHS } from '../../routes'
 import type { InsuranceType } from '../../types'
 
 const specialties = [
-  { value: '', label: 'Alle Fachrichtungen' },
-  { value: 'Primary care', label: 'Allgemeinmedizin' },
-  { value: 'Cardiology', label: 'Kardiologie' },
-  { value: 'Dermatology', label: 'Dermatologie' },
-  { value: 'Pediatrics', label: 'Pädiatrie' },
-  { value: 'Orthopedics', label: 'Orthopädie' },
-  { value: 'Gynecology', label: 'Gynäkologie' },
-  { value: 'Ophthalmology', label: 'Augenheilkunde' },
+  { value: '', label: 'All specialties' },
+  { value: 'Primary care', label: 'Primary care' },
+  { value: 'Cardiology', label: 'Cardiology' },
+  { value: 'Dermatology', label: 'Dermatology' },
+  { value: 'Pediatrics', label: 'Pediatrics' },
+  { value: 'Orthopedics', label: 'Orthopedics' },
+  { value: 'Gynecology', label: 'Gynecology' },
+  { value: 'Ophthalmology', label: 'Ophthalmology' },
 ]
 
 const cities = [
-  { value: '', label: 'Alle Städte' },
+  { value: '', label: 'All cities' },
   { value: 'Berlin', label: 'Berlin' },
-  { value: 'Munich', label: 'München' },
+  { value: 'Munich', label: 'Munich' },
   { value: 'Hamburg', label: 'Hamburg' },
   { value: 'Frankfurt', label: 'Frankfurt' },
-  { value: 'Cologne', label: 'Köln' },
+  { value: 'Cologne', label: 'Cologne' },
 ]
 
 export default function SearchScreen() {
@@ -55,31 +55,31 @@ export default function SearchScreen() {
 
   return (
     <Page>
-      <Header title="Arzt suchen" subtitle="Nach Fachrichtung oder Standort suchen" />
+      <Header title="Find a Doctor" subtitle="Search by specialty or location" />
 
       <form onSubmit={handleSearch} className="px-4 py-6 space-y-5">
         <Select
-          label="Fachrichtung"
+          label="Specialty"
           value={formData.specialty}
           onChange={(e) => handleChange('specialty', e.target.value)}
           options={specialties}
         />
 
         <Select
-          label="Stadt"
+          label="City"
           value={formData.city}
           onChange={(e) => handleChange('city', e.target.value)}
           options={cities}
         />
 
         <Select
-          label="Versicherungsart"
+          label="Insurance Type"
           value={formData.insuranceType}
           onChange={(e) => handleChange('insuranceType', e.target.value)}
           options={[
-            { value: '', label: 'Alle Versicherungen' },
-            { value: 'GKV', label: 'Gesetzlich (GKV)' },
-            { value: 'PKV', label: 'Privat (PKV)' },
+            { value: '', label: 'All types' },
+            { value: 'GKV', label: 'GKV (Statutory)' },
+            { value: 'PKV', label: 'PKV (Private)' },
           ]}
         />
 
@@ -88,7 +88,7 @@ export default function SearchScreen() {
             type="submit"
             className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
           >
-            Ärzte suchen
+            Search Doctors
           </button>
         </div>
       </form>

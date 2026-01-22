@@ -28,8 +28,8 @@ export default function HomeScreen() {
       <header className="bg-white px-4 py-4 border-b border-neutral-200">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-neutral-500">Willkommen zurück,</p>
-            <h1 className="text-xl font-semibold text-neutral-900">{profile.fullName || 'Nutzer'}</h1>
+            <p className="text-sm text-neutral-500">Welcome back,</p>
+            <h1 className="text-xl font-semibold text-neutral-900">{profile.fullName || 'User'}</h1>
           </div>
           <Link to={PATHS.SETTINGS}>
             <Avatar name={profile.fullName || 'N'} size="md" />
@@ -40,7 +40,7 @@ export default function HomeScreen() {
       <div className="px-4 py-6 space-y-6">
         {/* Quick Actions */}
         <section>
-          <h2 className="text-lg font-semibold text-neutral-900 mb-3">Schnellzugriff</h2>
+          <h2 className="text-lg font-semibold text-neutral-900 mb-3">Quick Actions</h2>
           <div className="grid grid-cols-2 gap-3">
             <Link
               to={PATHS.BOOKING_SEARCH}
@@ -54,7 +54,7 @@ export default function HomeScreen() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span className="font-medium">Termin buchen</span>
+              <span className="font-medium">Book Appointment</span>
             </Link>
 
             <Link
@@ -69,7 +69,7 @@ export default function HomeScreen() {
                   d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              <span className="font-medium">Familie</span>
+              <span className="font-medium">Family</span>
             </Link>
           </div>
         </section>
@@ -78,9 +78,9 @@ export default function HomeScreen() {
         {upcomingAppointments.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-neutral-900">Anstehende Termine</h2>
+              <h2 className="text-lg font-semibold text-neutral-900">Upcoming Appointments</h2>
               <Link to={PATHS.HISTORY} className="text-sm text-neutral-700 font-medium">
-                Alle anzeigen
+                View all
               </Link>
             </div>
             <div className="space-y-3">
@@ -93,7 +93,7 @@ export default function HomeScreen() {
 
         {/* CMS Content */}
         <section>
-          <h2 className="text-lg font-semibold text-neutral-900 mb-3">Für Sie</h2>
+          <h2 className="text-lg font-semibold text-neutral-900 mb-3">For You</h2>
           {loading ? (
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (

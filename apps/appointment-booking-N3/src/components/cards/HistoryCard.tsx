@@ -27,9 +27,9 @@ const typeIcons: Record<HistoryItem['type'], JSX.Element> = {
 
 // Conservative status mapping - no green for generic "completed"
 const statusConfig: Record<HistoryItem['status'], { tone: 'info' | 'neutral' | 'negative'; label: string }> = {
-  planned: { tone: 'info', label: 'Geplant' },
-  completed: { tone: 'neutral', label: 'Abgeschlossen' },
-  cancelled: { tone: 'negative', label: 'Storniert' },
+  planned: { tone: 'info', label: 'Planned' },
+  completed: { tone: 'neutral', label: 'Completed' },
+  cancelled: { tone: 'negative', label: 'Cancelled' },
 }
 
 export function HistoryCard({ item, onClick }: HistoryCardProps) {

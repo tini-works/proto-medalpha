@@ -49,7 +49,7 @@ export default function VerifyScreen() {
 
     const fullCode = code.join('')
     if (fullCode.length !== 6) {
-      setError('Bitte geben Sie den vollständigen 6-stelligen Code ein')
+      setError('Please enter the complete 6-digit code')
       return
     }
 
@@ -72,7 +72,7 @@ export default function VerifyScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="E-Mail bestätigen" showBack />
+      <Header title="Verify Email" showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6">
         <div className="text-center mb-8">
@@ -86,9 +86,9 @@ export default function VerifyScreen() {
               />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold text-neutral-900">E-Mail prüfen</h2>
+          <h2 className="text-lg font-semibold text-neutral-900">Check your email</h2>
           <p className="mt-1 text-sm text-neutral-500">
-            Wir haben einen 6-stelligen Bestätigungscode an Ihre E-Mail-Adresse gesendet. Geben Sie diesen unten ein.
+            We sent a 6-digit verification code to your email. Enter it below to verify your account.
           </p>
         </div>
 
@@ -114,14 +114,14 @@ export default function VerifyScreen() {
         {error && <p className="text-center text-sm text-red-500 mb-4">{error}</p>}
 
         <p className="text-center text-sm text-neutral-500 mb-6">
-          Für diese Demo können Sie einen beliebigen 6-stelligen Code eingeben.
+          For this demo, enter any 6-digit code to continue.
         </p>
 
         <button
           type="submit"
           className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
         >
-          Bestätigen
+          Verify
         </button>
 
         <button
@@ -129,7 +129,7 @@ export default function VerifyScreen() {
           onClick={handleResend}
           className="w-full mt-3 py-3.5 px-4 text-neutral-700 font-medium hover:bg-neutral-100 rounded-lg transition-colors"
         >
-          Code erneut senden
+          Resend code
         </button>
       </form>
     </Page>

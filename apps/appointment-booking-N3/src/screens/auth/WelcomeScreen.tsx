@@ -19,7 +19,7 @@ export default function WelcomeScreen() {
 
         <h1 className="text-2xl font-semibold text-neutral-900 text-center">MedAlpha</h1>
         <p className="mt-3 text-neutral-600 text-center max-w-xs leading-relaxed">
-          Ihre Plattform für Terminbuchungen, Rezeptverwaltung und Gesundheitsdienstleistungen.
+          Your platform for appointment booking, prescription management, and health services.
         </p>
 
         {/* Features - factual, trust-focused */}
@@ -36,8 +36,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Terminbuchung</p>
-              <p className="text-sm text-neutral-500 mt-0.5">Arzttermine suchen und buchen</p>
+              <p className="font-medium text-neutral-900">Appointment Booking</p>
+              <p className="text-sm text-neutral-500 mt-0.5">Search and book doctor appointments</p>
             </div>
           </div>
 
@@ -53,8 +53,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Familienverwaltung</p>
-              <p className="text-sm text-neutral-500 mt-0.5">Termine für Angehörige verwalten</p>
+              <p className="font-medium text-neutral-900">Family Management</p>
+              <p className="text-sm text-neutral-500 mt-0.5">Manage appointments for family members</p>
             </div>
           </div>
 
@@ -70,8 +70,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Datenschutz</p>
-              <p className="text-sm text-neutral-500 mt-0.5">DSGVO-konform und sicher</p>
+              <p className="font-medium text-neutral-900">Privacy & Security</p>
+              <p className="text-sm text-neutral-500 mt-0.5">GDPR compliant and secure</p>
             </div>
           </div>
         </div>
@@ -83,13 +83,13 @@ export default function WelcomeScreen() {
           to={PATHS.AUTH_REGISTER}
           className="block w-full py-3.5 px-4 bg-neutral-800 text-white text-center font-medium rounded-lg hover:bg-neutral-900 transition-colors"
         >
-          Registrieren
+          Register
         </Link>
         <Link
           to={PATHS.AUTH_SIGN_IN}
           className="block w-full py-3.5 px-4 bg-white text-neutral-800 text-center font-medium rounded-lg border border-neutral-300 hover:bg-neutral-50 transition-colors"
         >
-          Anmelden
+          Sign In
         </Link>
       </div>
     </div>

@@ -26,11 +26,11 @@ export default function SignInScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.email.trim()) {
-      newErrors.email = 'E-Mail-Adresse ist erforderlich'
+      newErrors.email = 'Email is required'
     }
 
     if (!formData.password) {
-      newErrors.password = 'Passwort ist erforderlich'
+      newErrors.password = 'Password is required'
     }
 
     setErrors(newErrors)
@@ -51,26 +51,26 @@ export default function SignInScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Anmelden" showBack />
+      <Header title="Sign In" showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-5">
         <Field
-          label="E-Mail-Adresse"
+          label="Email"
           type="email"
           value={formData.email}
           onChange={(e) => handleChange('email', e.target.value)}
-          placeholder="ihre.email@beispiel.de"
+          placeholder="Enter your email"
           error={errors.email}
           required
           autoComplete="email"
         />
 
         <Field
-          label="Passwort"
+          label="Password"
           type="password"
           value={formData.password}
           onChange={(e) => handleChange('password', e.target.value)}
-          placeholder="Passwort eingeben"
+          placeholder="Enter your password"
           error={errors.password}
           required
           autoComplete="current-password"
@@ -81,14 +81,14 @@ export default function SignInScreen() {
             type="submit"
             className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
           >
-            Anmelden
+            Sign In
           </button>
         </div>
 
         <p className="text-center text-sm text-neutral-500">
-          Noch kein Konto?{' '}
+          Don&apos;t have an account?{' '}
           <Link to={PATHS.AUTH_REGISTER} className="text-neutral-700 font-medium hover:underline">
-            Registrieren
+            Create one
           </Link>
         </p>
       </form>

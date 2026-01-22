@@ -57,7 +57,7 @@ export default function SlotSelectionScreen() {
   if (loading) {
     return (
       <Page safeBottom={false}>
-        <Header title="Termin wählen" showBack />
+        <Header title="Select Time" showBack />
         <div className="p-4">
           <div className="h-48 bg-neutral-100 rounded-lg animate-pulse" />
         </div>
@@ -67,12 +67,12 @@ export default function SlotSelectionScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Termin wählen" subtitle={selectedDoctor?.name} showBack />
+      <Header title="Select Time" subtitle={selectedDoctor?.name} showBack />
 
       <div className="px-4 py-6 space-y-6">
         {/* Date selection */}
         <section>
-          <h2 className="text-sm font-medium text-neutral-700 mb-3">Datum auswählen</h2>
+          <h2 className="text-sm font-medium text-neutral-700 mb-3">Select Date</h2>
           <div className="flex gap-2 overflow-x-auto pb-2">
             {availableDates.slice(0, 7).map((date) => {
               const d = new Date(date)
@@ -102,7 +102,7 @@ export default function SlotSelectionScreen() {
 
         {/* Time slots */}
         <section>
-          <h2 className="text-sm font-medium text-neutral-700 mb-3">Verfügbare Zeiten</h2>
+          <h2 className="text-sm font-medium text-neutral-700 mb-3">Available Times</h2>
           <div className="grid grid-cols-3 gap-2">
             {slots.map((slot) => {
               const isSelected = selectedSlotValue?.time === slot.time && selectedSlotValue?.dateISO === slot.dateISO
@@ -129,7 +129,7 @@ export default function SlotSelectionScreen() {
         {/* Who is this for */}
         {profile.familyMembers.length > 0 && (
           <section>
-            <h2 className="text-sm font-medium text-neutral-700 mb-3">Für wen ist dieser Termin?</h2>
+            <h2 className="text-sm font-medium text-neutral-700 mb-3">Who is this appointment for?</h2>
             <div className="space-y-2">
               <label
                 className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer ${
@@ -144,7 +144,7 @@ export default function SlotSelectionScreen() {
                   onChange={(e) => setSelectedFor(e.target.value)}
                   className="w-4 h-4 text-neutral-800"
                 />
-                <span className="font-medium">Für mich ({profile.fullName})</span>
+                <span className="font-medium">Myself ({profile.fullName})</span>
               </label>
               {profile.familyMembers.map((member) => (
                 <label
@@ -174,7 +174,7 @@ export default function SlotSelectionScreen() {
           disabled={!selectedSlotValue}
           className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed"
         >
-          Weiter
+          Continue
         </button>
       </div>
     </Page>

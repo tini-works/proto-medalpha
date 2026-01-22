@@ -31,27 +31,27 @@ export default function ProfileCompletionScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.insuranceType) {
-      newErrors.insuranceType = 'Bitte wählen Sie Ihre Versicherungsart'
+      newErrors.insuranceType = 'Please select your insurance type'
     }
 
     if (!formData.egkNumber.trim()) {
-      newErrors.egkNumber = 'eGK-Nummer ist erforderlich'
+      newErrors.egkNumber = 'eGK number is required'
     }
 
     if (!formData.street.trim()) {
-      newErrors.street = 'Straße ist erforderlich'
+      newErrors.street = 'Street address is required'
     }
 
     if (!formData.postalCode.trim()) {
-      newErrors.postalCode = 'PLZ ist erforderlich'
+      newErrors.postalCode = 'Postal code is required'
     }
 
     if (!formData.city.trim()) {
-      newErrors.city = 'Ort ist erforderlich'
+      newErrors.city = 'City is required'
     }
 
     if (!formData.dataProcessing) {
-      newErrors.dataProcessing = 'Sie müssen der Datenverarbeitung zustimmen'
+      newErrors.dataProcessing = 'You must accept the data processing terms'
     }
 
     setErrors(newErrors)
@@ -85,44 +85,44 @@ export default function ProfileCompletionScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Profil vervollständigen" subtitle="Noch ein paar Angaben, dann sind Sie fertig." />
+      <Header title="Complete Profile" subtitle="Almost there! Just a few more details." />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
         {/* Insurance */}
         <RadioGroup
-          label="Versicherungsart"
+          label="Insurance Type"
           name="insuranceType"
           value={formData.insuranceType}
           onChange={(value) => handleChange('insuranceType', value)}
           options={[
-            { value: 'GKV', label: 'Gesetzlich (GKV)', description: 'Gesetzliche Krankenversicherung' },
-            { value: 'PKV', label: 'Privat (PKV)', description: 'Private Krankenversicherung' },
+            { value: 'GKV', label: 'GKV (Statutory)', description: 'Gesetzliche Krankenversicherung' },
+            { value: 'PKV', label: 'PKV (Private)', description: 'Private Krankenversicherung' },
           ]}
           error={errors.insuranceType}
           required
         />
 
         <Field
-          label="eGK-Kartennummer"
+          label="eGK Card Number"
           type="text"
           value={formData.egkNumber}
           onChange={(e) => handleChange('egkNumber', e.target.value)}
-          placeholder="Kartennummer eingeben"
+          placeholder="Enter your eGK number"
           error={errors.egkNumber}
-          hint="Zu finden auf Ihrer Gesundheitskarte"
+          hint="Found on your health insurance card"
           required
         />
 
         {/* Address */}
         <div className="space-y-4">
-          <h3 className="font-medium text-neutral-900">Adresse</h3>
+          <h3 className="font-medium text-neutral-900">Address</h3>
 
           <Field
-            label="Straße und Hausnummer"
+            label="Street Address"
             type="text"
             value={formData.street}
             onChange={(e) => handleChange('street', e.target.value)}
-            placeholder="Musterstraße 123"
+            placeholder="Enter street address"
             error={errors.street}
             required
             autoComplete="street-address"
@@ -130,7 +130,7 @@ export default function ProfileCompletionScreen() {
 
           <div className="grid grid-cols-2 gap-4">
             <Field
-              label="PLZ"
+              label="Postal Code"
               type="text"
               value={formData.postalCode}
               onChange={(e) => handleChange('postalCode', e.target.value)}
@@ -141,7 +141,7 @@ export default function ProfileCompletionScreen() {
             />
 
             <Field
-              label="Ort"
+              label="City"
               type="text"
               value={formData.city}
               onChange={(e) => handleChange('city', e.target.value)}
@@ -163,11 +163,11 @@ export default function ProfileCompletionScreen() {
               className="mt-1 w-4 h-4 rounded border-neutral-300 text-neutral-800 focus:ring-neutral-500"
             />
             <span className="text-sm text-neutral-700">
-              Ich stimme der Verarbeitung meiner persönlichen und gesundheitsbezogenen Daten gemäß der{' '}
+              I agree to the processing of my personal and health data in accordance with the{' '}
               <a href="#" className="text-neutral-900 font-medium hover:underline">
-                Datenschutzerklärung
-              </a>{' '}
-              zu.
+                Privacy Policy
+              </a>
+              .
               <span className="text-red-500 ml-0.5">*</span>
             </span>
           </label>
@@ -179,7 +179,7 @@ export default function ProfileCompletionScreen() {
             type="submit"
             className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
           >
-            Profil speichern
+            Complete Profile
           </button>
         </div>
       </form>

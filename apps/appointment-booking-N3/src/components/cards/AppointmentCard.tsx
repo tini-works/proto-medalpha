@@ -9,9 +9,9 @@ interface AppointmentCardProps {
 
 // Map appointment status to pill tones (conservative usage)
 const statusConfig: Record<Appointment['status'], { tone: 'info' | 'positive' | 'negative' | 'neutral'; label: string }> = {
-  confirmed: { tone: 'info', label: 'Bestätigt' },
-  completed: { tone: 'neutral', label: 'Abgeschlossen' },
-  cancelled: { tone: 'negative', label: 'Storniert' },
+  confirmed: { tone: 'info', label: 'Confirmed' },
+  completed: { tone: 'neutral', label: 'Completed' },
+  cancelled: { tone: 'negative', label: 'Cancelled' },
 }
 
 export function AppointmentCard({ appointment, onClick }: AppointmentCardProps) {

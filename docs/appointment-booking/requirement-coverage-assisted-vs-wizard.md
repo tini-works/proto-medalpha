@@ -5,6 +5,7 @@ source_of_truth: docs/appointment-booking/appointment-booking-scope.md
 designs:
   assisted_discovery: docs/appointment-booking/design-lite-4-design-assisted-discovery.md
   guided_wizard: docs/appointment-booking/design-lite-4-design-guided-wizard.md
+  two_lane_hybrid: "docs/appointment-booking/design-lite-4-design-Two-Lane Hybrid with “Nächster Termin” CTA.md"
 created: 2026-01-22
 scoring:
   rubric:
@@ -16,7 +17,7 @@ scoring:
     weighted: "(Covered + 0.5*Partial) / 22"
 ---
 
-# Requirement Coverage — Assisted Discovery vs Guided Wizard
+# Requirement Coverage — Assisted Discovery vs Guided Wizard vs Two-Lane Hybrid
 
 ## Summary (BOOK-001 … BOOK-022)
 
@@ -24,6 +25,7 @@ scoring:
 |---|---:|---:|---:|---:|---:|
 | Assisted Discovery | 0 | 18 | 4 | 0.0% | 40.9% |
 | Guided Wizard | 0 | 18 | 4 | 0.0% | 40.9% |
+| Two-Lane Hybrid (“Nächster Termin” CTA) | 0 | 19 | 3 | 0.0% | 43.2% |
 
 Notes:
 - This scoring is conservative: requirements are marked **Covered** only if the design doc explicitly commits to the acceptance criteria details.
@@ -58,6 +60,31 @@ Legend: **C** = Covered, **P** = Partial, **M** = Missing
 | BOOK-021 | Book for children (selector in confirm sheet, eligibility, tag patient name) | P | P |
 | BOOK-022 | Reminders (24h + 1h + payload, prefs, email rule) | P | P |
 
+| ID | Requirement (short) | Two-Lane Hybrid |
+|---|---|---:|
+| BOOK-001 | Specialty search (autocomplete, recents, chips, HNO, DE/EN) | P |
+| BOOK-002 | Location search (GPS CTA, autocomplete, saved, 10km default) | P |
+| BOOK-003 | Insurance filter (prefill, “Nur Kassenärzte”, tags, hide private-only, warning) | P |
+| BOOK-004 | Filters (distance/rating/video/languages, persist, count, clear all, live update) | P |
+| BOOK-005 | Sort (soonest/distance/rating, default soonest, header display, persist) | P |
+| BOOK-006 | Doctor cards (rating+count, 3 slots, tags, “Mehr Termine”, empty states, tap behaviors) | M |
+| BOOK-007 | Doctor profile (content sections + persistent CTA) | P |
+| BOOK-008 | Full calendar (week swipe, increments, “Heute”, durations) | P |
+| BOOK-009 | Reviews (PII-safe, truncation, “Mehr lesen”, “Alle Bewertungen”, sort) | M |
+| BOOK-010 | Slot selection (highlight, persist, show time+duration+type, real-time check, exact error copy) | P |
+| BOOK-011 | Confirm sheet (details + “Grund” 200 chars + cost/price + CTAs incl abbrechen) | P |
+| BOOK-012 | Success (checkmark animation, details, confirmation no, calendar/route, email+push) | P |
+| BOOK-013 | Calendar integration details (prefill fields, reminders defaults, toast copy) | P |
+| BOOK-014 | Maps integration details (works from success + details, fallback copy) | P |
+| BOOK-015 | Upcoming appointments (location, fields, sort, details, empty state copy) | P |
+| BOOK-016 | Cancel (labels/copy/policy display + move to history) | P |
+| BOOK-017 | Reschedule (same-doctor calendar, release old slot after new confirm, comms) | P |
+| BOOK-018 | Appointment history (12 months, “Erneut buchen”, sort) | M |
+| BOOK-019 | Accessibility baseline (16pt/48dp/high-contrast/no timers/step indicator string) | P |
+| BOOK-020 | Poor connectivity (cache 5 min, offline indicator, retry, queue confirm offline, skeletons) | P |
+| BOOK-021 | Book for children (selector in confirm sheet, eligibility, tag patient name) | P |
+| BOOK-022 | Reminders (24h + 1h + payload, prefs, email rule) | P |
+
 ## “Why” Notes (for P/M items)
 
 Short rationale for why each requirement is **Partial** or **Missing** in each design doc.
@@ -86,6 +113,33 @@ Short rationale for why each requirement is **Partial** or **Missing** in each d
 | BOOK-020 | **P:** has skeleton/retry, but missing cache 5 minutes, offline indicator, and queue-confirm-offline semantics. | **P:** mentions skeleton/retry and explicitly blocks offline confirm (contradicts queue requirement); missing cache/offline indicator/queue semantics. |
 | BOOK-021 | **P:** mentions “Für wen” selector and guardrail, but doesn’t specify child insurance eligibility check + tagging appointment with patient name. | **P:** mentions “Für wen” context, but needs explicit confirm-sheet placement + eligibility check + tagging. |
 | BOOK-022 | **P:** reminders mentioned, but missing push payload contents, preference configuration surface, and “email 24h if verified” rule. | **P:** reminders mentioned, but same missing payload + prefs + email rule details. |
+
+## “Why” Notes (Two-Lane Hybrid)
+
+| ID | Two-Lane Hybrid — why P/M |
+|---|---|
+| BOOK-001 | **P:** has search concept, but missing explicit 2-char autocomplete trigger, recents max=5, chips, HNO handling, and DE/EN behavior. |
+| BOOK-002 | **P:** implies location/radius constraints, but missing explicit GPS CTA+permission, saved locations, display format, and default 10km. |
+| BOOK-003 | **P:** references coverage in confirm, but missing insurance filter toggle label, tags (Kasse/Privat/Beides), hide rules, no-match warning. |
+| BOOK-004 | **P:** mentions “filter” but doesn’t define required filter set + persistence + active count + clear-all + immediate updates. |
+| BOOK-005 | **P:** implies “Nächster Termin” sorting, but doesn’t enumerate full sort set (soonest/distance/rating), default sort, header display, persistence. |
+| BOOK-006 | **M:** results-card requirements (rating+count, 3 slots, tags, “Mehr Termine”, “Keine Termine heute”, tap slot vs tap card) not specified. |
+| BOOK-007 | **P:** doctor profile exists, but missing required content sections + always-visible “Termin buchen” CTA detail. |
+| BOOK-008 | **P:** time selection exists, but missing week swipe, increments, “Heute”, duration display, and availability styling. |
+| BOOK-009 | **M:** reviews flow not specified (truncation, “Mehr lesen”, “Alle Bewertungen”, PII guard). |
+| BOOK-010 | **P:** includes slot-taken concept, but missing selection persistence, slot field details (time/duration/type), exact error copy, explicit real-time check before confirm. |
+| BOOK-011 | **P:** confirm sheet exists but missing “Grund des Besuchs” (200 chars), explicit “Abbrechen”, and explicit “Kassenleistung or specific price” behavior. |
+| BOOK-012 | **P:** success exists but missing checkmark animation requirement and explicit email+push confirmation statement. |
+| BOOK-013 | **P:** calendar add exists but missing required prefill fields, default reminders, and toast copy. |
+| BOOK-014 | **P:** route open exists but doesn’t explicitly commit to “works from success and appointment details” + fallback copy address. |
+| BOOK-015 | **P:** upcoming list exists but missing exact list fields, sort rule, IA placement, and empty state copy. |
+| BOOK-016 | **P:** cancel exists but missing exact label/copy, policy display specifics, success message, and move-to-history behavior. |
+| BOOK-017 | **P:** reschedule exists but missing same-doctor calendar requirement, release timing, and updated email/push. |
+| BOOK-018 | **M:** appointment history flow not included. |
+| BOOK-019 | **P:** mentions step indicator and baseline a11y, but doesn’t explicitly commit to all 16pt/48dp/high contrast/no timers requirements. |
+| BOOK-020 | **P:** includes skeleton + retry, but explicitly blocks offline booking (contradicts “queue confirm offline”) and misses cache 5 min + offline indicator. |
+| BOOK-021 | **P:** family booking mentioned, but missing child eligibility check + tagging appointment with patient name details. |
+| BOOK-022 | **P:** reminders mentioned, but missing payload content requirements, prefs surface, and email rule. |
 
 ## Missing details (what to add to designs to reach “Covered”)
 

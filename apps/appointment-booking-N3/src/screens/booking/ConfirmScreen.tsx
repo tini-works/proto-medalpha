@@ -54,7 +54,7 @@ export default function ConfirmScreen() {
     const historyItem: HistoryItem = {
       id: `h_${Date.now()}`,
       type: 'appointment',
-      title: `Termin: ${selectedDoctor.specialty}`,
+      title: `Appointment: ${selectedDoctor.specialty}`,
       subtitle: `${selectedDoctor.name} · ${selectedDoctor.city}`,
       dateISO: selectedSlot.dateISO,
       status: 'planned',
@@ -73,7 +73,7 @@ export default function ConfirmScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Buchung bestätigen" showBack />
+      <Header title="Confirm Booking" showBack />
 
       <div className="px-4 py-6">
         {/* Doctor info */}
@@ -90,7 +90,7 @@ export default function ConfirmScreen() {
 
         {/* Appointment details */}
         <div className="bg-white rounded-lg border border-neutral-200 p-4 mb-6 space-y-4">
-          <h3 className="font-medium text-neutral-900">Termindetails</h3>
+          <h3 className="font-medium text-neutral-900">Appointment Details</h3>
 
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
@@ -105,7 +105,7 @@ export default function ConfirmScreen() {
             </div>
             <div>
               <p className="font-medium text-neutral-900">{formattedDate}</p>
-              <p className="text-sm text-neutral-500">um {selectedSlot.time} Uhr</p>
+              <p className="text-sm text-neutral-500">at {selectedSlot.time}</p>
             </div>
           </div>
 
@@ -121,7 +121,7 @@ export default function ConfirmScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Für: {forUserName}</p>
+              <p className="font-medium text-neutral-900">For: {forUserName}</p>
               {forUser && <p className="text-sm text-neutral-500">{forUser.relationship}</p>}
             </div>
           </div>
@@ -139,10 +139,10 @@ export default function ConfirmScreen() {
               />
             </svg>
             <div>
-              <p className="font-medium text-amber-800">Bitte mitbringen</p>
+              <p className="font-medium text-amber-800">Remember to bring</p>
               <ul className="text-sm text-amber-700 mt-1 list-disc list-inside">
-                <li>Ihre eGK (Gesundheitskarte)</li>
-                <li>Relevante medizinische Unterlagen</li>
+                <li>Your eGK (health insurance card)</li>
+                <li>Any relevant medical documents</li>
               </ul>
             </div>
           </div>
@@ -153,14 +153,14 @@ export default function ConfirmScreen() {
           onClick={handleConfirm}
           className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
         >
-          Termin bestätigen
+          Confirm Booking
         </button>
 
         <button
           onClick={() => navigate(-1)}
           className="w-full mt-3 py-3.5 px-4 text-neutral-700 font-medium hover:bg-neutral-100 rounded-lg transition-colors"
         >
-          Zurück
+          Go Back
         </button>
       </div>
     </Page>

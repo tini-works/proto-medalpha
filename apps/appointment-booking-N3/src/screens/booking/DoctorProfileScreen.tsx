@@ -34,7 +34,7 @@ export default function DoctorProfileScreen() {
   if (loading || !doctor) {
     return (
       <Page safeBottom={false}>
-        <Header title="Arztprofil" showBack />
+        <Header title="Doctor Profile" showBack />
         <div className="p-4">
           <div className="h-48 bg-neutral-100 rounded-lg animate-pulse" />
         </div>
@@ -44,7 +44,7 @@ export default function DoctorProfileScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Arztprofil" showBack />
+      <Header title="Doctor Profile" showBack />
 
       <div className="px-4 py-6">
         {/* Profile header */}
@@ -61,7 +61,7 @@ export default function DoctorProfileScreen() {
 
         {/* Insurance */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-neutral-500 mb-2">Akzeptierte Versicherungen</h2>
+          <h2 className="text-sm font-medium text-neutral-500 mb-2">Accepts</h2>
           <div className="flex gap-2">
             {doctor.accepts.map((insurance) => (
               <Pill key={insurance} tone={insurance === 'GKV' ? 'info' : 'neutral'} size="md">
@@ -73,7 +73,7 @@ export default function DoctorProfileScreen() {
 
         {/* Location */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-neutral-500 mb-2">Standort</h2>
+          <h2 className="text-sm font-medium text-neutral-500 mb-2">Location</h2>
           <div className="flex items-start gap-2 text-neutral-900">
             <svg className="w-5 h-5 text-neutral-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
@@ -93,14 +93,14 @@ export default function DoctorProfileScreen() {
 
         {/* Languages */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-neutral-500 mb-2">Sprachen</h2>
+          <h2 className="text-sm font-medium text-neutral-500 mb-2">Languages</h2>
           <p className="text-neutral-900">{doctor.languages.join(', ')}</p>
         </section>
 
         {/* About */}
         {doctor.about && (
           <section className="mb-6">
-            <h2 className="text-sm font-medium text-neutral-500 mb-2">Über den Arzt</h2>
+            <h2 className="text-sm font-medium text-neutral-500 mb-2">About</h2>
             <p className="text-neutral-700">{doctor.about}</p>
           </section>
         )}
@@ -108,7 +108,7 @@ export default function DoctorProfileScreen() {
         {/* Next available */}
         <section className="mb-8 p-4 bg-neutral-100 rounded-lg">
           <p className="text-sm text-neutral-700">
-            <span className="font-medium">Nächster verfügbarer Termin:</span>{' '}
+            <span className="font-medium">Next available:</span>{' '}
             {new Date(doctor.nextAvailableISO).toLocaleDateString('de-DE', {
               weekday: 'long',
               day: 'numeric',
@@ -122,7 +122,7 @@ export default function DoctorProfileScreen() {
           onClick={() => navigate(doctorSlotsPath(doctor.id))}
           className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
         >
-          Termin auswählen
+          Select Appointment Time
         </button>
       </div>
     </Page>

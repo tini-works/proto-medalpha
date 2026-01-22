@@ -29,23 +29,23 @@ export default function RegisterScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Name ist erforderlich'
+      newErrors.fullName = 'Full name is required'
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'E-Mail-Adresse ist erforderlich'
+      newErrors.email = 'Email is required'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Bitte geben Sie eine gültige E-Mail-Adresse ein'
+      newErrors.email = 'Please enter a valid email'
     }
 
     if (!formData.password) {
-      newErrors.password = 'Passwort ist erforderlich'
+      newErrors.password = 'Password is required'
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Passwort muss mindestens 8 Zeichen lang sein'
+      newErrors.password = 'Password must be at least 8 characters'
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwörter stimmen nicht überein'
+      newErrors.confirmPassword = 'Passwords do not match'
     }
 
     setErrors(newErrors)
@@ -69,49 +69,49 @@ export default function RegisterScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Registrieren" showBack />
+      <Header title="Create Account" showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-5">
         <Field
-          label="Vollständiger Name"
+          label="Full Name"
           type="text"
           value={formData.fullName}
           onChange={(e) => handleChange('fullName', e.target.value)}
-          placeholder="Vor- und Nachname"
+          placeholder="Enter your full name"
           error={errors.fullName}
           required
           autoComplete="name"
         />
 
         <Field
-          label="E-Mail-Adresse"
+          label="Email"
           type="email"
           value={formData.email}
           onChange={(e) => handleChange('email', e.target.value)}
-          placeholder="ihre.email@beispiel.de"
+          placeholder="Enter your email"
           error={errors.email}
           required
           autoComplete="email"
         />
 
         <Field
-          label="Passwort"
+          label="Password"
           type="password"
           value={formData.password}
           onChange={(e) => handleChange('password', e.target.value)}
-          placeholder="Passwort erstellen"
+          placeholder="Create a password"
           error={errors.password}
-          hint="Mindestens 8 Zeichen erforderlich"
+          hint="Must be at least 8 characters"
           required
           autoComplete="new-password"
         />
 
         <Field
-          label="Passwort bestätigen"
+          label="Confirm Password"
           type="password"
           value={formData.confirmPassword}
           onChange={(e) => handleChange('confirmPassword', e.target.value)}
-          placeholder="Passwort wiederholen"
+          placeholder="Confirm your password"
           error={errors.confirmPassword}
           required
           autoComplete="new-password"
@@ -122,14 +122,14 @@ export default function RegisterScreen() {
             type="submit"
             className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
           >
-            Konto erstellen
+            Create Account
           </button>
         </div>
 
         <p className="text-center text-sm text-neutral-500">
-          Bereits registriert?{' '}
+          Already have an account?{' '}
           <Link to={PATHS.AUTH_SIGN_IN} className="text-neutral-700 font-medium hover:underline">
-            Anmelden
+            Sign in
           </Link>
         </p>
       </form>
