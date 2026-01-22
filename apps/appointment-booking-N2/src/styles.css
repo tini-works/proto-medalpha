@@ -1,0 +1,192 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Visual guideline tokens */
+  --brand-blue-500: #005f73;
+  --brand-blue-600: #005666;
+  --brand-teal-500: #0a9396;
+  --brand-teal-600: #098487;
+  --brand-mint-100: #e3f1ee;
+  --brand-mint-400: #94d2bd;
+
+  --neutral-0: #ffffff;
+  --neutral-50: #f7fafb;
+  --neutral-200: #d6e2e6;
+  --neutral-500: #6f8a91;
+  --neutral-700: #3b5a61;
+  --neutral-800: #102a32;
+
+  --semantic-green-500: #9be65a;
+  --semantic-red-500: #d14343;
+  --semantic-amber-500: #d6a100;
+
+  /* Layout */
+  --radius-card: 20px;
+  --shadow-card: 0 6px 18px rgba(16, 42, 50, 0.08);
+  --border: 1px solid var(--neutral-200);
+
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Typography scale (supports user font scaling) */
+  --scale: 1;
+  --text-14: calc(14px * var(--scale));
+  --text-16: calc(16px * var(--scale));
+  --text-18: calc(18px * var(--scale));
+  --text-22: calc(22px * var(--scale));
+  --text-26: calc(26px * var(--scale));
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Google Sans', Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--neutral-50);
+  color: var(--neutral-800);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fixed phone frame (browser preview) */
+.device-frame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 390px;
+  height: 844px;
+  background: #111418;
+  border-radius: 52px;
+  padding: 12px;
+  box-shadow:
+    0 0 0 2px rgba(16, 42, 50, 0.25),
+    0 22px 60px rgba(16, 42, 50, 0.28);
+}
+
+.device-screen {
+  width: 100%;
+  height: 100%;
+  background: var(--neutral-50);
+  border-radius: 40px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.device-screen::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+input,
+select,
+textarea {
+  border: var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: var(--neutral-0);
+  color: var(--neutral-800);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible {
+  outline: 3px solid rgba(10, 147, 150, 0.25);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* App shell */
+.app-shell {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-5);
+}
+
+.safe-bottom {
+  padding-bottom: 92px;
+}
+
+.card {
+  background: var(--neutral-0);
+  border: var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.card--mint {
+  background: var(--brand-mint-100);
+}
+
+.h1 {
+  font-size: var(--text-26);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.h2 {
+  font-size: var(--text-22);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  font-size: var(--text-14);
+  font-weight: 400;
+  color: var(--neutral-700);
+}
+
+.body {
+  font-size: var(--text-16);
+  font-weight: 400;
+  color: var(--neutral-800);
+}
+
+.muted {
+  color: var(--neutral-500);
+}
+
+.kpi {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}

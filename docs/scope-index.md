@@ -52,6 +52,7 @@ flowchart TD
     HEX --> HR[Reminders]
     H --> N[Notifications]
     N --> DL[Deep Link to Relevant Flow]
+    classDef default fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
 ```
 
 ---

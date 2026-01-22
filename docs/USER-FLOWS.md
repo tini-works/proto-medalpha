@@ -76,9 +76,9 @@ flowchart TD
 
     PROFILE --> DONE([Registration Complete])
 
-    style START fill:#e3f2fd
-    style DONE fill:#e8f5e9
-    style ERROR fill:#ffebee
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
+    style ERROR fill:#ffebee,stroke:#c62828,color:#b71c1c
 ```
 
 ## Flow: Profile Completion (J2)
@@ -127,8 +127,8 @@ flowchart TD
     SAVE[Tap 'Speichern'] --> SUCCESS[Success - Features Unlocked]
     SUCCESS --> HOME([Home Screen])
 
-    style START fill:#e3f2fd
-    style HOME fill:#e8f5e9
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style HOME fill:#000000,stroke:#000000,color:#ffffff
 ```
 
 ## Flow: Appointment Booking (J3)
@@ -213,9 +213,9 @@ flowchart TD
 
     DONE([Appointment Booked])
 
-    style START fill:#e3f2fd
-    style DONE fill:#e8f5e9
-    style NO_RESULTS fill:#ffebee
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
+    style NO_RESULTS fill:#ffebee,stroke:#c62828,color:#b71c1c
 ```
 
 ## Flow: Telemedicine Consultation (J4)
@@ -294,9 +294,9 @@ flowchart TD
 
     DONE([Consultation Complete])
 
-    style START fill:#e3f2fd
-    style DONE fill:#e8f5e9
-    style TROUBLESHOOT fill:#fff3e0
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
+    style TROUBLESHOOT fill:#fff3e0,stroke:#ef6c00,color:#e65100
 ```
 
 ## Flow: Online Prescription Redemption (J5)
@@ -386,9 +386,9 @@ flowchart TD
 
     DONE([Order Complete])
 
-    style START fill:#e3f2fd
-    style DONE fill:#e8f5e9
-    style RETRY fill:#fff3e0
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
+    style RETRY fill:#fff3e0,stroke:#ef6c00,color:#e65100
 ```
 
 ### Assumptions
@@ -455,8 +455,8 @@ flowchart TD
     CONFIRM --> HISTORY[Update History]
     HISTORY --> DONE([Prescription Redeemed])
 
-    style START fill:#e3f2fd
-    style DONE fill:#e8f5e9
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
 ```
 
 ## Flow: History Tracking (J7)
@@ -510,8 +510,8 @@ flowchart TD
     REBOOK --> BOOKING_FLOW([Booking Flow])
     DONE([History Viewed])
 
-    style START fill:#e3f2fd
-    style DONE fill:#e8f5e9
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
 ```
 
 ## Flow: Home Screen (J8)
@@ -563,8 +563,8 @@ flowchart TD
 
     REFRESH[Pull to Refresh] --> CMS
 
-    style START fill:#e3f2fd
-    style PROMPT fill:#fff3e0
+    style START fill:#000000,stroke:#000000,color:#ffffff
+    style PROMPT fill:#fff3e0,stroke:#ef6c00,color:#e65100
 ```
 
 ### Assumptions
@@ -641,8 +641,8 @@ flowchart TD
 
     ACTION --> DONE([Action Completed])
 
-    style SEND fill:#e3f2fd
-    style DONE fill:#e8f5e9
+    style SEND fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    style DONE fill:#000000,stroke:#000000,color:#ffffff
 ```
 
 ## Flow Metrics

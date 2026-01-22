@@ -228,16 +228,16 @@ flowchart TB
     H5 -.-> T1
     H5 -.-> E1
 
-    style APP fill:#fafafa
-    style AUTH fill:#ffebee
+    style APP fill:#ffffff,stroke:#9e9e9e,stroke-width:2px
+    style AUTH fill:#e8f5e9,stroke:#2e7d32
     style NAV fill:#e3f2fd,stroke:#1565c0,stroke-width:3px
-    style HOME fill:#e8f5e9
-    style BOOKING fill:#fff3e0
-    style TELE fill:#fce4ec
-    style ERX fill:#f3e5f5
-    style STORES fill:#fff8e1
-    style HISTORY fill:#e0f7fa
-    style PROFILE fill:#f5f5f5
+    style HOME fill:#e8f5e9,stroke:#2e7d32
+    style BOOKING fill:#e8f5e9,stroke:#2e7d32
+    style TELE fill:#e8f5e9,stroke:#2e7d32
+    style ERX fill:#e8f5e9,stroke:#2e7d32
+    style STORES fill:#e8f5e9,stroke:#2e7d32
+    style HISTORY fill:#e8f5e9,stroke:#2e7d32
+    style PROFILE fill:#e8f5e9,stroke:#2e7d32
 ```
 
 Note: The diagram reflects the assumptions listed above.

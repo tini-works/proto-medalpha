@@ -2,14 +2,6 @@
 description: Review cognitive load, dark patterns, inclusion, and wellbeing trade-offs
 ---
 
-## Input
-
-**Required:** UX flows, wireframes, or feature concept from Step 9
-**Optional:** Visual mockups, interaction specs, copy
-
-📎 Attach UX flow files OR reference CR folder
-
----
 
 ## Command
 
@@ -68,7 +60,7 @@ One-page summary card optimized for:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ CR-ID: ________            Gate: 4b-Ethics & Inclusive UX   │
+│ CR-ID: ________            Gate: Ethics & Inclusive UX   │
 │ Status: 🟡 PENDING         Date: ____________               │
 ├─────────────────────────────────────────────────────────────┤
 │ 📋 SUMMARY                                                  │
@@ -101,7 +93,7 @@ One-page summary card optimized for:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Output file:** `artifacts/[CR]/gate-4b-card.md`
+**Output file:** `artifacts/[CR]/gate-card.md`
 
 ---
 
@@ -194,12 +186,12 @@ Before marking PASS:
 After AI generates output:
 1. **Review** the ethics audit and inclusion findings
 2. **Decide** PASS, PASS WITH NOTES, or FAIL
-3. **Confirm** by telling AI: `"Gate 4b decision: [your choice]"`
+3. **Confirm** by telling AI: `"Gate decision: [your choice]"`
 
 **Example confirmations:**
-- "Gate 4b decision: PASS"
-- "Gate 4b decision: PASS WITH NOTES on cognitive load"
-- "Gate 4b decision: FAIL, requires design changes"
+- "Gate decision: PASS"
+- "Gate decision: PASS WITH NOTES on cognitive load"
+- "Gate decision: FAIL, requires design changes"
 
 **AI behavior:**
 - ⛔ DO NOT auto-proceed past this gate
