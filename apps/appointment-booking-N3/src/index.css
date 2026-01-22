@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Visual Style: German Market / White-Label / Mobile-First
+ * - Conservative, calm, precise
+ * - Trust signals over delight
+ * - Text expansion tolerance (30-40%)
+ * - Neutral color palette
+ */
+
+:root {
+  --scale: 1;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Conservative color tokens - neutral, non-opinionated */
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f8f9fa;
+  --color-surface-elevated: #ffffff;
+
+  --color-border: #dee2e6;
+  --color-border-subtle: #e9ecef;
+
+  --color-text-primary: #212529;
+  --color-text-secondary: #495057;
+  --color-text-muted: #6c757d;
+  --color-text-disabled: #adb5bd;
+
+  /* Semantic colors - used sparingly */
+  --color-accent: #0d6efd;
+  --color-accent-subtle: #e7f1ff;
+
+  /* Status colors - only for clear data semantics */
+  --color-positive: #198754; /* Only for deltas, improvements */
+  --color-positive-subtle: #d1e7dd;
+  --color-warning: #fd7e14;
+  --color-warning-subtle: #fff3cd;
+  --color-negative: #dc3545;
+  --color-negative-subtle: #f8d7da;
+  --color-info: #0dcaf0;
+  --color-info-subtle: #cff4fc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+/* Mobile-first app container */
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+  background-color: var(--color-surface);
+  position: relative;
+}
+
+/* Touch ergonomics - larger tap targets */
+button,
+a,
+[role='button'] {
+  min-height: 48px; /* Increased from 44px for better touch targets */
+}
+
+/* Safe area for bottom tab bar */
+.safe-bottom {
+  padding-bottom: 88px;
+}
+
+/* Font scaling support */
+.scaled-text {
+  font-size: calc(1rem * var(--scale));
+}
+
+/* Text expansion tolerance - flexible containers */
+@layer components {
+  /* Card with proper spacing for German text */
+  .card-de {
+    @apply p-4 bg-white rounded-lg border border-neutral-200;
+    min-height: fit-content;
+  }
+
+  /* Label that can grow */
+  .label-flexible {
+    @apply text-sm font-medium text-neutral-700;
+    white-space: normal;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Data value - numbers stay prominent */
+  .data-value {
+    @apply text-lg font-semibold text-neutral-900 tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Conservative button style */
+  .btn-primary {
+    @apply w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg;
+    @apply hover:bg-neutral-900 active:bg-neutral-950;
+    @apply transition-colors duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply w-full py-3.5 px-4 bg-white text-neutral-800 font-medium rounded-lg;
+    @apply border border-neutral-300;
+    @apply hover:bg-neutral-50 active:bg-neutral-100;
+    @apply transition-colors duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+  }
+
+  /* Status indicators - restricted usage */
+  .status-positive {
+    @apply bg-green-50 text-green-800 border-green-200;
+  }
+
+  .status-warning {
+    @apply bg-amber-50 text-amber-800 border-amber-200;
+  }
+
+  .status-negative {
+    @apply bg-red-50 text-red-800 border-red-200;
+  }
+
+  .status-neutral {
+    @apply bg-neutral-100 text-neutral-700 border-neutral-200;
+  }
+
+  .status-info {
+    @apply bg-blue-50 text-blue-800 border-blue-200;
+  }
+}
+
+/* Form inputs with adequate spacing */
+input,
+select,
+textarea {
+  font-size: 16px; /* Prevents iOS zoom on focus */
+}
+
+/* Clear grouping for structured layouts */
+.section-group {
+  @apply space-y-4 pb-6 border-b border-neutral-100;
+}
+
+.section-group:last-child {
+  @apply border-b-0 pb-0;
+}
+
+/* Typography - clear hierarchy */
+h1 {
+  @apply text-xl font-semibold text-neutral-900 leading-tight;
+}
+
+h2 {
+  @apply text-lg font-semibold text-neutral-900 leading-tight;
+}
+
+h3 {
+  @apply text-base font-medium text-neutral-900 leading-snug;
+}
+
+/* Muted helper text */
+.text-helper {
+  @apply text-sm text-neutral-500 leading-relaxed;
+}
+
+/* Ensure no text gets clipped */
+.text-expand-safe {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Remove decorative focus rings, use visible ones */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling - subtle */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}

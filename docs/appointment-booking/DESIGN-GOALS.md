@@ -17,7 +17,7 @@
 
 **Summary:** Prioritize Clarity + Speed + Effort constrained by Implementation Complexity and Business Impact.
 
-## Scoring Template (for Step 7)
+## Scoring Template
 
 | Criterion | Weight | Solution A | Solution B | Solution C | Solution D |
 |-----------|--------|------------|------------|------------|------------|

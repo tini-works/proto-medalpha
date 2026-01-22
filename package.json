@@ -8,6 +8,7 @@
     "dev:appointment-v1": "pnpm --filter appointment-v1 dev",
     "dev:mobile": "pnpm --filter mobile start",
     "dev:design-system": "pnpm --filter design-system dev",
+    "dev:n3": "pnpm --filter appointment-booking-n3 dev",
     "lint": "pnpm -r lint",
     "clean": "pnpm -r exec rm -rf dist node_modules"
   },
