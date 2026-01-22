@@ -3,7 +3,7 @@ name: prototype-gated:4-filter
 feature: MEDA-BOOK (Appointment Booking / Terminbuchung)
 inputs:
   framing: docs/appointment-booking/design-lite-1-framing.md
-  select_9: docs/appointment-booking/design-lite-3-select-9-approaches.md
+   select_9: docs/appointment-booking/step-5-solution-approaches-full-iteration2.md
   criteria: docs/appointment-booking/benchmarking-criteria.md
 created: 2026-01-22
 status: pending

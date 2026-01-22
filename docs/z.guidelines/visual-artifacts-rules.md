@@ -7,10 +7,17 @@ Single source of truth for generating and updating:
 
 Do not duplicate rules across commands, skills, or templates. Link here. If any other file conflicts with this doc, this doc wins.
 
+## Related Visual Guidelines (Apply By Default)
+
+These are complementary and should be applied by default unless a specific artifact explicitly overrides them:
+- Abstract / cross-cutting constraints: `docs/z.guidelines/visual-guidelines-abstract.md`
+- Concrete UI tokens (when relevant to the artifact): `docs/z.guidelines/visual-guideline.md`
+
 ## How To Use This Doc
 
 If you are generating or updating a visual artifact:
 1. Read this file first.
+2. Apply the constraints in `docs/z.guidelines/visual-guidelines-abstract.md` (Germany + i18n-first + mobile-first + white-label + healthcare context).
 2. Apply the relevant section (D2 or Mermaid).
 3. Do not restate rules elsewhere. Just link here.
 

@@ -4,7 +4,7 @@ feature: MEDA-BOOK (Appointment Booking / Terminbuchung)
 selected_approach: "A — Assisted Discovery (AI-ranked suggestions)"
 inputs:
   framing: docs/appointment-booking/design-lite-1-framing.md
-  approach_source: docs/appointment-booking/solution-approaches-9-full.md
+   approach_source: docs/appointment-booking/step-5-solution-approaches-full-iteration2.md
   requirement: docs/appointment-booking/appointment-booking-scope.md
   criteria: docs/appointment-booking/benchmarking-criteria.md
 created: 2026-01-22

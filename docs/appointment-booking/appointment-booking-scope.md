@@ -259,7 +259,7 @@ Entry Point
 
 ## 10. References
 
-- [Product Context](../product-context-G.md)
-- [Personas](../personas-details-G.json)
+- [Product Context](../product-context.md)
+- [Personas](../personas-details.json)
 - [Social Listening Synthesis](./z.research/social-listening-synthesis.md)
 - [Competitive Landscape](./z.research/competitive-landscape-research.md)

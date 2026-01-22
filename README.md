@@ -47,6 +47,11 @@ proto-medalpha/
 └── docs/                # Design docs and plans
 ```
 
+## Documentation & Visual Artifacts
+
+- Canonical artifact rules: `docs/z.guidelines/visual-artifacts-rules.md`
+- Default cross-cutting visual constraints: `docs/z.guidelines/visual-guidelines-abstract.md`
+
 ## Development
 
 | Task | Command |

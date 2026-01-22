@@ -1,4 +1,4 @@
-# Benchmarking Criteria: Appointment Booking
+# Design Goals: Appointment Booking
 
 **Context:** Appointment booking flow for MedAlpha (MEDA-BOOK)  
 **Assumed hypothesis:** Users can book a confirmed in-person appointment in under 2 minutes with clear, error-free confirmation.  
