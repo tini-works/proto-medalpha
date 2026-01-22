@@ -9,6 +9,8 @@
 Notes: This document is derived from SCOPE-FOR-EXPLORATION.md. Items listed under Assumptions are inferred and not explicitly stated in the source.
 
 
+# User Flows
+
 ## Jobs-to-be-Done Summary
 
 | Job ID | Feature | Job Statement | Primary Personas |
@@ -144,7 +146,6 @@ flowchart TD
 | 7 | Confirm booking | Process via Curaay/dm | Appointment: created | Confirmation shown |
 | 8 | Add to calendar | Create calendar event | Appointment: calendarSynced | Event added |
 | 9 | Set reminder | Schedule push | Notification: scheduled | Reminder set |
-| 10 | (Optional) View in "Meine Termine" | Show appointment details | - | Details shown |
 
 ### Decision Points
 
@@ -215,45 +216,6 @@ flowchart TD
     style START fill:#000000,stroke:#000000,color:#ffffff
     style DONE fill:#000000,stroke:#000000,color:#ffffff
     style NO_RESULTS fill:#ffebee,stroke:#c62828,color:#b71c1c
-```
-
-## Flow: My Appointments (J3a)
-
-### Flow Steps
-
-| Step | User Action | System Response | Objects Modified | Success Criteria |
-|------|-------------|-----------------|------------------|------------------|
-| 1 | Open "Termine" tab | Show Termine entry point | - | Screen loads |
-| 2 | Open "Meine Termine" | Show appointments list | - | List displays |
-| 3 | Select an appointment | Show appointment details | - | Details shown |
-| 4 | (Optional) Cancel appointment | Cancel booking via provider/dm | Appointment: canceled | Status updated |
-| 5 | (Optional) Reschedule | Start booking flow with context | - | Booking flow opens |
-| 6 | (Optional) Add to calendar | Create calendar event | Appointment: calendarSynced | Event added |
-| 7 | (Optional) Get directions | Open maps to location | - | Maps opens |
-
-### Flow Diagram
-
-```mermaid
-flowchart TD
-    START([Need to manage appointment]) --> TAB[Open 'Termine']
-    TAB --> MY[Open 'Meine Termine']
-    MY --> LIST[View Appointments List]
-    LIST --> SELECT[Select Appointment]
-    SELECT --> DETAIL[View Appointment Details]
-
-    DETAIL --> ACTION{Choose Action}
-    ACTION -->|Cancel| CANCEL[Cancel Appointment]
-    ACTION -->|Reschedule| REBOOK[Rebook] --> BOOKING_FLOW([Booking Flow])
-    ACTION -->|Calendar| CAL[Add to Calendar]
-    ACTION -->|Directions| MAPS[Open Maps]
-
-    CANCEL --> DONE
-    CAL --> DONE
-    MAPS --> DONE
-    DONE([Done])
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style DONE fill:#000000,stroke:#000000,color:#ffffff
 ```
 
 ## Flow: Telemedicine Consultation (J4)

@@ -13,6 +13,8 @@ status: pending
 
 # DESIGN-LITE: DESIGN (Approach C — Guided Wizard)
 
+**Note:** This v1 design is superseded by `docs/appointment-booking/design-Guided-wizard-v2.md`, which adds the missing acceptance-criteria details listed in `docs/appointment-booking/SUMMARY-coverage-and-gates.md` (“Why” Notes).
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │ DESIGN-LITE: DESIGN            Status: 🟡 PENDING               │
@@ -185,4 +187,3 @@ status: pending
 2. **Offline behavior**: scope mentions “booking confirmation queued if offline”; do you want to **block confirm when offline** instead for safety?
 3. **Cost/coverage preview**: do we show only messaging (“kann Kosten verursachen”), or do we have a reliable source for more detail?
 4. **Wizard vs speed**: do you want an explicit “skip wizard” shortcut for Marc (e.g., “Direkt zur Liste”)?
-

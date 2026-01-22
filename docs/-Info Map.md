@@ -30,15 +30,10 @@ MedAlpha Connect (dm)
 │   │   │   ├── Health Check Search
 │   │   │   └── Beauty Service Search
 │   │   ├── Results List
-│   │   ├── Provider/Service Details (pre-booking)
-│   │   ├── Review & Confirm (patient selection)
-│   │   ├── Payment (beauty only; optional)
+│   │   ├── Provider/Service Details
+│   │   ├── Booking Confirmation
 │   │   ├── Booking Success
 │   │   └── My Appointments
-│   │       ├── Appointment Details
-│   │       ├── Cancel / Reschedule
-│   │       ├── Add to Calendar
-│   │       └── Reminders
 │   │
 │   ├── TELEMEDIZIN
 │   │   ├── Entry (Specialty Select)
@@ -137,8 +132,8 @@ flowchart TB
             subgraph BOOKING["TERMINE"]
                 B1[Search]
                 B2[Results]
-                B3[Details (Pre-book)]
-                B4[Review & Confirm]
+                B3[Details]
+                B4[Confirm]
                 B5[Success]
                 B6[My Appts]
             end
@@ -208,7 +203,6 @@ flowchart TB
 
     %% Booking flow
     B1 --> B2 --> B3 --> B4 --> B5
-    B5 -.->|"View appointments"| B6
 
     %% Telemedicine flow
     T1 --> T2 --> T3 --> T4 --> T5
@@ -229,7 +223,7 @@ flowchart TB
     %% Cross-flow
     T5 -.->|"Rx issued"| E3
     E4 -.->|"Click & Collect"| S1
-    H4 -.->|"Upcoming tap"| B6
+    H4 -.-> B3
     H5 -.-> B1
     H5 -.-> T1
     H5 -.-> E1
@@ -253,7 +247,7 @@ Note: The diagram reflects the assumptions listed above.
 | Flow | Primary Path | Optimized For | Alternative |
 |------|--------------|---------------|-------------|
 | Registration | Welcome → Create → Verify → Profile | New users | SSO via dm account |
-| Booking | Tab → Search → Results → Book → My Appts | Discovery | Home → Quick Action |
+| Booking | Tab → Search → Results → Book | Discovery | Home → Quick Action |
 | Telemedicine | Tab → Specialty → Symptoms → Video | Speed | Post-appointment prompt |
 | Online Rx | Tab → NFC → Details → Checkout | Convenience | Telemedicine → Rx CTA |
 | Offline Rx | Tab → Map → Select → Directions | Local pickup | Click & Collect from E-Rezept |
