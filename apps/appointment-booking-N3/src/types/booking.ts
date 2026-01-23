@@ -52,6 +52,7 @@ export interface SearchFilters {
   city: string
   insuranceType: InsuranceType | ''
   includeStores: boolean
+  radius?: number
 }
 
 export interface BookingState {

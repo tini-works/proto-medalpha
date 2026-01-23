@@ -1,22 +1,140 @@
 import type { Appointment } from '../../types'
 import { Pill } from '../display/Pill'
+import { Avatar } from '../display/Avatar'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
 
 interface AppointmentCardProps {
   appointment: Appointment
   onClick?: () => void
+  onReschedule?: () => void
+  onCancel?: () => void
+  variant?: 'default' | 'upcoming'
 }
 
-// Map appointment status to pill tones (conservative usage)
-const statusConfig: Record<Appointment['status'], { tone: 'info' | 'positive' | 'negative' | 'neutral'; label: string }> = {
-  confirmed: { tone: 'info', label: 'Confirmed' },
+// Map appointment status to pill tones
+const statusConfig: Record<
+  Appointment['status'],
+  { tone: 'info' | 'positive' | 'warning' | 'negative' | 'neutral'; label: string }
+> = {
+  confirmed: { tone: 'positive', label: 'Confirmed' },
   completed: { tone: 'neutral', label: 'Completed' },
   cancelled: { tone: 'negative', label: 'Cancelled' },
 }
 
-export function AppointmentCard({ appointment, onClick }: AppointmentCardProps) {
+// Specialty icons mapping
+const specialtyIcons: Record<string, JSX.Element> = {
+  'General Medicine': (
+    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+    </svg>
+  ),
+  Cardiology: (
+    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+    </svg>
+  ),
+  Dermatology: (
+    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  ),
+  default: (
+    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  ),
+}
+
+function getSpecialtyIcon(specialty: string): JSX.Element {
+  return specialtyIcons[specialty] || specialtyIcons.default
+}
+
+export function AppointmentCard({
+  appointment,
+  onClick,
+  onReschedule,
+  onCancel,
+  variant = 'default',
+}: AppointmentCardProps) {
   const config = statusConfig[appointment.status]
 
+  if (variant === 'upcoming') {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+        {/* Status Badge */}
+        <div className="px-4 pt-4 flex justify-end">
+          <Pill tone={config.tone}>{config.label}</Pill>
+        </div>
+
+        {/* Date/Time Row */}
+        <div className="px-4 py-2 flex items-center gap-2 text-sm text-neutral-600">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>{formatDateWithWeekday(appointment.dateISO)}</span>
+          <span className="text-neutral-300">|</span>
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{formatTime(appointment.time)} Uhr</span>
+        </div>
+
+        {/* Doctor Info */}
+        <div className="px-4 py-3">
+          <div className="flex items-center gap-3">
+            {/* Avatar with specialty icon overlay */}
+            <div className="relative">
+              <Avatar name={appointment.doctorName} size="lg" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-neutral-800 rounded-full flex items-center justify-center text-white">
+                {getSpecialtyIcon(appointment.specialty)}
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-neutral-900 truncate">{appointment.doctorName}</h3>
+              <p className="text-sm text-neutral-600">{appointment.specialty}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Patient Name */}
+        {appointment.forUserName && (
+          <div className="px-4 pb-3">
+            <div className="flex items-center gap-2 text-sm text-neutral-500">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span>Patient: {appointment.forUserName}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        {(onReschedule || onCancel) && appointment.status === 'confirmed' && (
+          <div className="px-4 pb-4 flex gap-3">
+            {onReschedule && (
+              <button
+                onClick={onReschedule}
+                className="flex-1 h-10 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+              >
+                Reschedule
+              </button>
+            )}
+            {onCancel && (
+              <button
+                onClick={onCancel}
+                className="flex-1 h-10 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Default variant (original design)
   return (
     <button
       onClick={onClick}
@@ -47,7 +165,7 @@ export function AppointmentCard({ appointment, onClick }: AppointmentCardProps) 
 
       {appointment.forUserName && (
         <div className="mt-2 text-sm text-neutral-500">
-          Für: {appointment.forUserName}
+          For: {appointment.forUserName}
         </div>
       )}
     </button>

@@ -1,4 +1,5 @@
 export { default as SearchScreen } from './SearchScreen'
+export { default as LocationScreen } from './LocationScreen'
 export { default as ResultsScreen } from './ResultsScreen'
 export { default as DoctorProfileScreen } from './DoctorProfileScreen'
 export { default as SlotSelectionScreen } from './SlotSelectionScreen'

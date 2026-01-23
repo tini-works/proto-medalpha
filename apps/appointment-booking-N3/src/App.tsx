@@ -14,6 +14,7 @@ import { HomeScreen } from './screens/home'
 // Booking screens
 import {
   SearchScreen as BookingSearchScreen,
+  LocationScreen as BookingLocationScreen,
   ResultsScreen as BookingResultsScreen,
   DoctorProfileScreen,
   SlotSelectionScreen,
@@ -107,6 +108,16 @@ export default function App() {
                 <RequireAuth>
                   <RequireProfileComplete>
                     <BookingSearchScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.BOOKING_LOCATION}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <BookingLocationScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }

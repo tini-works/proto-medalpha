@@ -1,97 +1,123 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Header, Page, TabBar } from '../../components'
-import { Select } from '../../components/forms'
+import { Header, Page, TabBar, ProgressIndicator, RecentSearches, SpecialtyChips, addRecentSearch } from '../../components'
+import type { RecentSearch, Specialty } from '../../components'
 import { useBooking } from '../../state'
 import { PATHS } from '../../routes'
-import type { InsuranceType } from '../../types'
 
-const specialties = [
-  { value: '', label: 'All specialties' },
-  { value: 'Primary care', label: 'Primary care' },
-  { value: 'Cardiology', label: 'Cardiology' },
-  { value: 'Dermatology', label: 'Dermatology' },
-  { value: 'Pediatrics', label: 'Pediatrics' },
-  { value: 'Orthopedics', label: 'Orthopedics' },
-  { value: 'Gynecology', label: 'Gynecology' },
-  { value: 'Ophthalmology', label: 'Ophthalmology' },
-]
-
-const cities = [
-  { value: '', label: 'All cities' },
-  { value: 'Berlin', label: 'Berlin' },
-  { value: 'Munich', label: 'Munich' },
-  { value: 'Hamburg', label: 'Hamburg' },
-  { value: 'Frankfurt', label: 'Frankfurt' },
-  { value: 'Cologne', label: 'Cologne' },
-]
+// Specialty subtitle mapping for recent searches
+const specialtySubtitles: Record<string, string> = {
+  'General Practitioner': 'Primary care',
+  'Dentist': 'Dental care',
+  'Gynecologist': "Women's health",
+  'Orthopedist': 'Bones & joints',
+  'Pediatrician': "Children's health",
+  'Dermatologist': 'Skin care',
+  'ENT (HNO)': 'Ear, nose & throat',
+  'Cardiology': 'Heart & blood vessels',
+  'Primary care': 'General medicine',
+  'Dermatology': 'Skin care',
+  'Pediatrics': "Children's health",
+  'Orthopedics': 'Bones & joints',
+  'Gynecology': "Women's health",
+  'Ophthalmology': 'Eye care',
+}
 
 export default function SearchScreen() {
   const navigate = useNavigate()
   const { setSearchFilters } = useBooking()
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const [formData, setFormData] = useState({
-    specialty: '',
-    city: '',
-    insuranceType: '' as InsuranceType | '',
-  })
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+  const handleSearch = (specialty: string, subtitle?: string) => {
+    if (!specialty.trim()) return
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+    // Add to recent searches
+    addRecentSearch({
+      title: specialty,
+      subtitle: subtitle || specialtySubtitles[specialty] || 'Medical specialty',
+      specialty: specialty,
+    })
 
+    // Set search filters
     setSearchFilters({
-      specialty: formData.specialty,
-      city: formData.city,
-      insuranceType: formData.insuranceType,
+      specialty: specialty,
+      city: '',
+      insuranceType: '',
       includeStores: false,
     })
 
     navigate(PATHS.BOOKING_RESULTS)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleSearch(searchQuery)
+    }
+  }
+
+  const handleRecentSearchSelect = (search: RecentSearch) => {
+    handleSearch(search.specialty, search.subtitle)
+  }
+
+  const handleSpecialtySelect = (specialty: Specialty) => {
+    handleSearch(specialty.value, specialty.subtitle)
+  }
+
   return (
     <Page>
-      <Header title="Find a Doctor" subtitle="Search by specialty or location" />
+      <Header title="Select a Specialty" />
 
-      <form onSubmit={handleSearch} className="px-4 py-6 space-y-5">
-        <Select
-          label="Specialty"
-          value={formData.specialty}
-          onChange={(e) => handleChange('specialty', e.target.value)}
-          options={specialties}
+      <div className="px-4 py-4 animate-fade-in">
+        {/* Progress Indicator */}
+        <ProgressIndicator
+          currentStep={1}
+          totalSteps={4}
+          variant="bar"
+          showLabel={true}
+          showPercentage={true}
         />
+      </div>
 
-        <Select
-          label="City"
-          value={formData.city}
-          onChange={(e) => handleChange('city', e.target.value)}
-          options={cities}
-        />
+      <div className="px-4 py-2 space-y-6">
+        {/* Search Input */}
+        <div className="relative">
+          {/* Search icon */}
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+            <svg
+              className="w-5 h-5 text-neutral-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
 
-        <Select
-          label="Insurance Type"
-          value={formData.insuranceType}
-          onChange={(e) => handleChange('insuranceType', e.target.value)}
-          options={[
-            { value: '', label: 'All types' },
-            { value: 'GKV', label: 'GKV (Statutory)' },
-            { value: 'PKV', label: 'PKV (Private)' },
-          ]}
-        />
-
-        <div className="pt-4">
-          <button
-            type="submit"
-            className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
-          >
-            Search Doctors
-          </button>
+          <input
+            ref={inputRef}
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Try 'Dermatologist' or 'HNO'..."
+            className="w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-neutral-200 focus:ring-2 focus:ring-neutral-400 focus:outline-none text-neutral-900 placeholder:text-neutral-400 transition-all"
+          />
         </div>
-      </form>
+
+        {/* Recent Searches */}
+        <RecentSearches onSelect={handleRecentSearchSelect} />
+
+        {/* Common Specialty Chips */}
+        <SpecialtyChips onSelect={handleSpecialtySelect} />
+      </div>
 
       <TabBar />
     </Page>

@@ -15,6 +15,7 @@ export const PATHS = {
 
   // Booking
   BOOKING_SEARCH: '/booking/search',
+  BOOKING_LOCATION: '/booking/location',
   BOOKING_RESULTS: '/booking/results',
   BOOKING_DOCTOR: '/booking/doctor/:id',
   BOOKING_SLOTS: '/booking/doctor/:id/slots',

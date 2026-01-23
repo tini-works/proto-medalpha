@@ -1,18 +1,35 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Header, Page, Avatar } from '../../components'
+import {
+  PatientSelector,
+  ReasonTextarea,
+  InsuranceBanner,
+  AppointmentSummaryCard,
+} from '../../components'
 import { useBooking, useProfile, useHistory } from '../../state'
 import { PATHS } from '../../routes'
 import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
   const navigate = useNavigate()
-  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, addAppointment, resetBooking } = useBooking()
+  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
+
+  const [patientType, setPatientType] = useState<string>(selectedFamilyMemberId ? 'child' : 'myself')
+  const [reason, setReason] = useState('')
 
   if (!selectedDoctor || !selectedSlot) {
     navigate(PATHS.BOOKING_SEARCH)
     return null
+  }
+
+  const handlePatientChange = (value: string) => {
+    setPatientType(value)
+    if (value === 'myself') {
+      selectFamilyMember(null)
+    }
+    // For 'child', the family member selection would happen in a separate flow
   }
 
   const forUser = selectedFamilyMemberId
@@ -71,98 +88,105 @@ export default function ConfirmScreen() {
     navigate(PATHS.BOOKING_SUCCESS)
   }
 
+  const handleClose = () => {
+    navigate(-1)
+  }
+
   return (
-    <Page safeBottom={false}>
-      <Header title="Confirm Booking" showBack />
+    <div className="fixed inset-0 z-50">
+      {/* Dark overlay - fade in */}
+      <div
+        className="absolute inset-0 bg-neutral-900/50 animate-fade-in"
+        onClick={handleClose}
+      />
 
-      <div className="px-4 py-6">
-        {/* Doctor info */}
-        <div className="bg-white rounded-lg border border-neutral-200 p-4 mb-6">
-          <div className="flex items-start gap-3">
-            <Avatar name={selectedDoctor.name} size="lg" />
-            <div>
-              <h2 className="font-semibold text-neutral-900">{selectedDoctor.name}</h2>
-              <p className="text-sm text-neutral-600">{selectedDoctor.specialty}</p>
-              <p className="text-sm text-neutral-500">{selectedDoctor.address}</p>
-            </div>
-          </div>
+      {/* Bottom sheet container - slide up */}
+      <div className="absolute bottom-0 left-0 right-0 h-[90vh] flex flex-col rounded-t-3xl bg-white overflow-hidden animate-slide-up">
+        {/* Drag handle */}
+        <div className="flex justify-center pt-3 pb-2">
+          <div className="w-10 h-1 rounded-full bg-neutral-300" />
         </div>
 
-        {/* Appointment details */}
-        <div className="bg-white rounded-lg border border-neutral-200 p-4 mb-6 space-y-4">
-          <h3 className="font-medium text-neutral-900">Appointment Details</h3>
-
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="font-medium text-neutral-900">{formattedDate}</p>
-              <p className="text-sm text-neutral-500">at {selectedSlot.time}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="font-medium text-neutral-900">For: {forUserName}</p>
-              {forUser && <p className="text-sm text-neutral-500">{forUser.relationship}</p>}
-            </div>
-          </div>
-        </div>
-
-        {/* Insurance reminder */}
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-          <div className="flex items-start gap-3">
-            <svg className="w-5 h-5 text-amber-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        {/* Header row */}
+        <div className="flex items-center justify-between px-4 pb-4">
+          <h1 className="text-xl font-bold text-neutral-900">Confirm Appointment</h1>
+          <button
+            onClick={handleClose}
+            className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-neutral-200 transition-colors"
+            aria-label="Close"
+          >
+            <svg
+              className="w-5 h-5 text-neutral-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-            <div>
-              <p className="font-medium text-amber-800">Remember to bring</p>
-              <ul className="text-sm text-amber-700 mt-1 list-disc list-inside">
-                <li>Your eGK (health insurance card)</li>
-                <li>Any relevant medical documents</li>
-              </ul>
-            </div>
+          </button>
+        </div>
+
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto px-4 pb-4">
+          <div className="space-y-6">
+            {/* Patient Selector */}
+            <PatientSelector
+              value={patientType}
+              onChange={handlePatientChange}
+              label="Who is this appointment for?"
+            />
+
+            {/* Appointment Summary Card */}
+            <AppointmentSummaryCard
+              doctor={{
+                name: selectedDoctor.name,
+                specialty: selectedDoctor.specialty,
+                imageUrl: selectedDoctor.imageUrl,
+              }}
+              date={formattedDate}
+              time={selectedSlot.time}
+              duration="30 min"
+              type="in-person"
+              address={selectedDoctor.address}
+            />
+
+            {/* Insurance Banner */}
+            <InsuranceBanner
+              insuranceType={profile.insuranceType === 'PKV' ? 'PKV' : 'GKV'}
+              label="Cost & Coverage"
+            />
+
+            {/* Reason Textarea */}
+            <ReasonTextarea
+              value={reason}
+              onChange={setReason}
+              label="Reason for visit (optional)"
+              placeholder="Describe your symptoms or reason for visit..."
+              maxLength={200}
+            />
           </div>
         </div>
 
-        {/* Confirm button */}
-        <button
-          onClick={handleConfirm}
-          className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
-        >
-          Confirm Booking
-        </button>
-
-        <button
-          onClick={() => navigate(-1)}
-          className="w-full mt-3 py-3.5 px-4 text-neutral-700 font-medium hover:bg-neutral-100 rounded-lg transition-colors"
-        >
-          Go Back
-        </button>
+        {/* Fixed footer */}
+        <div className="flex-shrink-0 p-4 bg-white border-t border-neutral-100">
+          <button
+            onClick={handleConfirm}
+            className="
+              w-full h-14 bg-neutral-800 text-white font-bold rounded-xl
+              shadow-lg shadow-neutral-800/25
+              hover:bg-neutral-900 transition-colors
+              active:scale-[0.99] transform
+            "
+          >
+            Confirm Appointment
+          </button>
+        </div>
       </div>
-    </Page>
+    </div>
   )
 }

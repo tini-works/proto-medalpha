@@ -1,10 +1,13 @@
 import type { HistoryItem } from '../../types'
 import { Pill } from '../display/Pill'
+import { Avatar } from '../display/Avatar'
 import { formatDate } from '../../utils/format'
 
 interface HistoryCardProps {
   item: HistoryItem
   onClick?: () => void
+  onBookAgain?: () => void
+  variant?: 'default' | 'history'
 }
 
 const typeIcons: Record<HistoryItem['type'], JSX.Element> = {
@@ -32,9 +35,41 @@ const statusConfig: Record<HistoryItem['status'], { tone: 'info' | 'neutral' | '
   cancelled: { tone: 'negative', label: 'Cancelled' },
 }
 
-export function HistoryCard({ item, onClick }: HistoryCardProps) {
+export function HistoryCard({ item, onClick, onBookAgain, variant = 'default' }: HistoryCardProps) {
   const config = statusConfig[item.status]
 
+  // History variant - simpler design with grayscale photo and Book Again button
+  if (variant === 'history') {
+    return (
+      <div className="bg-white rounded-xl border border-neutral-200 p-4">
+        <div className="flex items-center gap-3">
+          {/* Grayscale Avatar */}
+          <div className="relative grayscale opacity-70">
+            <Avatar name={item.title} size="lg" />
+          </div>
+
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            <h3 className="font-medium text-neutral-900 truncate">{item.title}</h3>
+            <p className="text-sm text-neutral-500">{item.subtitle}</p>
+            <p className="text-xs text-neutral-400 mt-1">{formatDate(item.dateISO)}</p>
+          </div>
+
+          {/* Book Again Button */}
+          {onBookAgain && item.type === 'appointment' && (
+            <button
+              onClick={onBookAgain}
+              className="px-4 py-2 text-sm font-medium text-neutral-800 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors whitespace-nowrap"
+            >
+              Book Again
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Default variant (original design)
   return (
     <button
       onClick={onClick}
@@ -54,7 +89,7 @@ export function HistoryCard({ item, onClick }: HistoryCardProps) {
           <p className="text-sm text-neutral-600 mt-0.5">{item.subtitle}</p>
           <div className="mt-2 flex items-center gap-3 text-xs text-neutral-500">
             <span>{formatDate(item.dateISO)}</span>
-            {item.forUserName && <span>Für: {item.forUserName}</span>}
+            {item.forUserName && <span>For: {item.forUserName}</span>}
           </div>
         </div>
       </div>
