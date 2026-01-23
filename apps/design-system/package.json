@@ -2,7 +2,7 @@
   "name": "design-system",
   "private": true,
   "scripts": {
-    "dev": "storybook dev -p 6006",
+    "dev": "storybook dev -p 6006 --ci",
     "build": "storybook build",
     "clean": "rm -rf storybook-static"
   },

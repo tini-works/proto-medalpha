@@ -23,9 +23,13 @@ proto-medalpha/
 ```bash
 pnpm install            # Install all dependencies
 pnpm build:packages     # Build @meda/tokens then @meda/ui (order matters)
-pnpm dev:admin          # Start admin app at http://localhost:5173
+pnpm dev:admin          # Start admin app at http://localhost:5196
 pnpm dev:mobile         # Start Expo dev server
 pnpm dev:design-system  # Start Storybook at http://localhost:6006
+pnpm dev:appointment-v1 # Appointment booking v1 at http://localhost:5195
+pnpm dev:n1             # Appointment booking N1 at http://localhost:5174
+pnpm dev:n2             # Appointment booking N2 at http://localhost:5192
+pnpm dev:n3             # Appointment booking N3 at http://localhost:5190
 ```
 
 ## Development Rules
