@@ -12,6 +12,28 @@
 - Kept core integrations (Curaay/Teleclinic/CardLink/Apo) but framed as extendable from dm shopping.  
 - Added in-store appointment focus (health checks, beauty services).
 
+## v1 Scope Summary
+
+**Platform**
+| Full Vision | v1 Scope (Proposed) |
+|-------------|---------------------|
+| ✓ Mobile App | ✅ Mobile App |
+| ✓ Backend API | ✅ Backend API |
+| ✓ Admin Web | ✅ Admin Web |
+| ✓ White Label | ❌ OUT |
+| ✓ SSO | ❌ OUT |
+
+**Features** (aligned with sections below)
+| Full Vision | v1 Scope (Proposed) |
+|-------------|---------------------|
+| §1 User Registration | ✅ User Registration |
+| §2 Appointments (Full) | ✅ Appointments (Curaay only) |
+| §3 Telemedicine | ❌ OUT |
+| §4-5 Prescriptions | ❌ OUT |
+| §6 History Tracking | ❓ UNCLEAR (needs definition) |
+| §7 Home Screen (CMS) | ✅❓ IN (needs definition) |
+| §8 Push Notifications | ✅❓ IN (depends on Curaay scope) |
+
 ## 1. User Registration and Profile Management
 
 **Main JTBD**  
