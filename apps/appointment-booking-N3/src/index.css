@@ -3,43 +3,76 @@
 @tailwind utilities;
 
 /*
- * Visual Style: German Market / White-Label / Mobile-First
- * - Conservative, calm, precise
- * - Trust signals over delight
- * - Text expansion tolerance (30-40%)
- * - Neutral color palette
+ * DocliQ Design System
+ * Based on Brand Guide 2025
+ * Visual Style: Trust, Efficiency, Humanity
+ * WCAG 2.1 AA Compliant
  */
 
 :root {
   --scale: 1;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* Conservative color tokens - neutral, non-opinionated */
-  --color-surface: #ffffff;
-  --color-surface-secondary: #f8f9fa;
-  --color-surface-elevated: #ffffff;
+  /* ============================================
+     DocliQ Color Tokens - Semantic
+     ============================================ */
 
-  --color-border: #dee2e6;
-  --color-border-subtle: #e9ecef;
+  /* Background Colors */
+  --color-bg-primary: #FAF8F5;      /* Cream 100 - Main app background */
+  --color-bg-secondary: #FFFFFF;     /* White - Card backgrounds */
+  --color-bg-tertiary: #F5F3EF;      /* Cream 200 - Subtle sections */
+  --color-bg-inverse: #1C2A30;       /* Charcoal 500 - Dark sections */
+  --color-bg-brand: #13A3B5;         /* Teal 500 - Brand backgrounds */
+  --color-bg-brand-subtle: #E8F6F8;  /* Teal 50 - Subtle brand */
 
-  --color-text-primary: #212529;
-  --color-text-secondary: #495057;
-  --color-text-muted: #6c757d;
-  --color-text-disabled: #adb5bd;
+  /* Text Colors */
+  --color-text-primary: #1C2A30;     /* Charcoal 500 - 12.4:1 on cream */
+  --color-text-secondary: #5E7A86;   /* Slate 500 - 4.7:1 on cream */
+  --color-text-tertiary: #7C939D;    /* Slate 400 - Large text only (3.2:1) */
+  --color-text-inverse: #FFFFFF;     /* White on dark backgrounds */
+  --color-text-brand: #0B6F7C;       /* Teal 700 - 5.1:1 on cream */
+  --color-text-link: #0F8A99;        /* Teal 600 - 4.6:1 on cream */
+  --color-text-on-brand: #FFFFFF;    /* Text on teal backgrounds */
 
-  /* Semantic colors - used sparingly */
-  --color-accent: #0d6efd;
-  --color-accent-subtle: #e7f1ff;
+  /* Border Colors */
+  --color-border-default: #E8E3DB;   /* Cream 400 */
+  --color-border-subtle: #EFEBE5;    /* Cream 300 */
+  --color-border-strong: #9DA6AA;    /* Charcoal 200 */
+  --color-border-brand: #13A3B5;     /* Teal 500 */
+  --color-border-focus: #13A3B5;     /* Teal 500 */
 
-  /* Status colors - only for clear data semantics */
-  --color-positive: #198754; /* Only for deltas, improvements */
-  --color-positive-subtle: #d1e7dd;
-  --color-warning: #fd7e14;
-  --color-warning-subtle: #fff3cd;
-  --color-negative: #dc3545;
-  --color-negative-subtle: #f8d7da;
-  --color-info: #0dcaf0;
-  --color-info-subtle: #cff4fc;
+  /* Interactive Colors */
+  --color-interactive-primary: #13A3B5;        /* Teal 500 */
+  --color-interactive-primary-hover: #0F8A99;  /* Teal 600 */
+  --color-interactive-primary-active: #0B6F7C; /* Teal 700 */
+  --color-interactive-accent: #E88A73;         /* Coral 500 */
+  --color-interactive-accent-hover: #E06A4F;   /* Coral 600 */
+
+  /* Status Colors */
+  --color-success-bg: #E8F6F8;
+  --color-success-border: #13A3B5;
+  --color-success-text: #0B6F7C;
+  --color-error-bg: #FDF3F0;
+  --color-error-border: #E06A4F;
+  --color-error-text: #A03D2D;
+  --color-warning-bg: #FAE0D9;
+  --color-warning-border: #E88A73;
+  --color-warning-text: #C9503A;
+  --color-info-bg: #EEF1F3;
+  --color-info-border: #5E7A86;
+  --color-info-text: #3E5159;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(28, 42, 48, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(28, 42, 48, 0.07), 0 2px 4px -2px rgba(28, 42, 48, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(28, 42, 48, 0.08), 0 4px 6px -4px rgba(28, 42, 48, 0.05);
+  --shadow-focus: 0 0 0 3px rgba(19, 163, 181, 0.4);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --easing-default: cubic-bezier(0, 0, 0.2, 1);
 }
 
 * {
@@ -49,7 +82,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--color-surface-secondary);
+  background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -62,15 +95,15 @@ body {
   min-height: 100vh;
   max-width: 430px;
   margin: 0 auto;
-  background-color: var(--color-surface);
+  background-color: var(--color-bg-secondary);
   position: relative;
 }
 
-/* Touch ergonomics - larger tap targets */
+/* Touch ergonomics - 44px minimum per WCAG & brand guide */
 button,
 a,
 [role='button'] {
-  min-height: 48px; /* Increased from 44px for better touch targets */
+  min-height: 44px;
 }
 
 /* Safe area for bottom tab bar */
@@ -83,17 +116,25 @@ a,
   font-size: calc(1rem * var(--scale));
 }
 
-/* Text expansion tolerance - flexible containers */
+/* ============================================
+   DocliQ Component Layer
+   ============================================ */
 @layer components {
-  /* Card with proper spacing for German text */
-  .card-de {
-    @apply p-4 bg-white rounded-lg border border-neutral-200;
+  /* Card with DocliQ styling */
+  .card-docliq {
+    @apply p-4 bg-white rounded-lg border border-cream-400;
+    box-shadow: var(--shadow-sm);
     min-height: fit-content;
   }
 
-  /* Label that can grow */
+  .card-docliq-elevated {
+    @apply p-4 bg-white rounded-xl;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Text with proper wrapping for German text expansion */
   .label-flexible {
-    @apply text-sm font-medium text-neutral-700;
+    @apply text-body-sm font-medium text-slate-500;
     white-space: normal;
     word-wrap: break-word;
     hyphens: auto;
@@ -101,49 +142,126 @@ a,
 
   /* Data value - numbers stay prominent */
   .data-value {
-    @apply text-lg font-semibold text-neutral-900 tabular-nums;
+    @apply text-headline-sm text-charcoal-500 tabular-nums;
     white-space: nowrap;
   }
 
-  /* Conservative button style with press feedback */
+  /* Primary CTA Button - Teal background */
   .btn-primary {
-    @apply w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg;
-    @apply hover:bg-neutral-900 active:bg-neutral-950 active:scale-[0.98];
-    @apply transition-all duration-150;
-    @apply focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+    @apply w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-lg;
+    @apply hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98];
+    @apply transition-all duration-normal;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
+    min-height: 44px;
   }
 
+  .btn-primary:disabled {
+    @apply bg-teal-200 cursor-not-allowed;
+  }
+
+  /* Secondary Button - Outlined */
   .btn-secondary {
-    @apply w-full py-3.5 px-4 bg-white text-neutral-800 font-medium rounded-lg;
-    @apply border border-neutral-300;
-    @apply hover:bg-neutral-50 active:bg-neutral-100 active:scale-[0.98];
-    @apply transition-all duration-150;
-    @apply focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
+    @apply w-full py-3.5 px-4 bg-transparent text-teal-500 font-medium rounded-lg;
+    @apply border border-teal-500;
+    @apply hover:bg-teal-50 active:bg-teal-100 active:scale-[0.98];
+    @apply transition-all duration-normal;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
+    min-height: 44px;
   }
 
-  /* Status indicators - restricted usage */
-  .status-positive {
-    @apply bg-green-50 text-green-800 border-green-200;
+  /* Tertiary/Ghost Button */
+  .btn-tertiary {
+    @apply w-full py-3.5 px-4 bg-transparent text-charcoal-500 font-medium rounded-lg;
+    @apply hover:bg-cream-200 active:bg-cream-300 active:scale-[0.98];
+    @apply transition-all duration-normal;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
+    min-height: 44px;
+  }
+
+  /* Accent Button - Coral (use dark text for AA compliance) */
+  .btn-accent {
+    @apply w-full py-3.5 px-4 bg-coral-500 text-charcoal-500 font-medium rounded-lg;
+    @apply hover:bg-coral-600 active:bg-coral-700 active:scale-[0.98];
+    @apply transition-all duration-normal;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2;
+    min-height: 44px;
+  }
+
+  /* Status indicators - DocliQ semantic colors */
+  .status-success {
+    @apply bg-teal-50 text-teal-700 border border-teal-500;
+  }
+
+  .status-error {
+    @apply bg-coral-50 text-coral-800 border border-coral-600;
   }
 
   .status-warning {
-    @apply bg-amber-50 text-amber-800 border-amber-200;
-  }
-
-  .status-negative {
-    @apply bg-red-50 text-red-800 border-red-200;
-  }
-
-  .status-neutral {
-    @apply bg-neutral-100 text-neutral-700 border-neutral-200;
+    @apply bg-coral-100 text-coral-700 border border-coral-500;
   }
 
   .status-info {
-    @apply bg-blue-50 text-blue-800 border-blue-200;
+    @apply bg-slate-50 text-slate-700 border border-slate-500;
+  }
+
+  .status-neutral {
+    @apply bg-cream-200 text-charcoal-400 border border-cream-400;
+  }
+
+  /* Pill/Badge component */
+  .pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-label-sm font-medium;
+    min-height: 28px;
+  }
+
+  .pill-brand {
+    @apply bg-teal-50 text-teal-700;
+  }
+
+  .pill-accent {
+    @apply bg-coral-50 text-coral-700;
+  }
+
+  .pill-neutral {
+    @apply bg-cream-200 text-charcoal-400;
+  }
+
+  /* Input field styling */
+  .input-field {
+    @apply w-full px-4 py-3 bg-white rounded-lg;
+    @apply border border-cream-400 text-charcoal-500;
+    @apply placeholder:text-slate-400;
+    @apply hover:border-slate-300;
+    @apply focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500;
+    @apply transition-colors duration-fast;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    min-height: 48px;
+  }
+
+  .input-field:disabled {
+    @apply bg-cream-100 text-slate-400 cursor-not-allowed;
+  }
+
+  .input-field.error {
+    @apply border-coral-600 focus:border-coral-600 focus:ring-coral-600;
+  }
+
+  /* Form label */
+  .form-label {
+    @apply block text-label-md text-charcoal-500 mb-2;
+  }
+
+  /* Helper text */
+  .form-helper {
+    @apply text-body-sm text-slate-500 mt-1;
+  }
+
+  .form-error {
+    @apply text-body-sm text-coral-800 mt-1;
   }
 }
 
-/* Form inputs with adequate spacing */
+/* Form inputs base */
 input,
 select,
 textarea {
@@ -152,29 +270,34 @@ textarea {
 
 /* Clear grouping for structured layouts */
 .section-group {
-  @apply space-y-4 pb-6 border-b border-neutral-100;
+  @apply space-y-4 pb-6 border-b border-cream-300;
 }
 
 .section-group:last-child {
   @apply border-b-0 pb-0;
 }
 
-/* Typography - clear hierarchy */
+/* Typography - DocliQ hierarchy */
 h1 {
-  @apply text-xl font-semibold text-neutral-900 leading-tight;
+  @apply text-headline-lg text-charcoal-500 leading-tight;
 }
 
 h2 {
-  @apply text-lg font-semibold text-neutral-900 leading-tight;
+  @apply text-headline-md text-charcoal-500 leading-tight;
 }
 
 h3 {
-  @apply text-base font-medium text-neutral-900 leading-snug;
+  @apply text-headline-sm text-charcoal-500 leading-snug;
+}
+
+/* Overline text (e.g., "01 - MARKENIDENTITAT") */
+.text-overline {
+  @apply text-label-sm text-teal-600 uppercase tracking-wider;
 }
 
 /* Muted helper text */
 .text-helper {
-  @apply text-sm text-neutral-500 leading-relaxed;
+  @apply text-body-sm text-slate-500 leading-relaxed;
 }
 
 /* Ensure no text gets clipped */
@@ -184,13 +307,13 @@ h3 {
   hyphens: auto;
 }
 
-/* Remove decorative focus rings, use visible ones */
+/* Focus states - DocliQ teal focus ring */
 :focus {
   outline: none;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
 }
 
@@ -204,27 +327,27 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: var(--color-border-default);
   border-radius: 2px;
 }
 
 /* Hide scrollbar for horizontal scroll containers */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-/* Custom range slider styling */
+/* Custom range slider - DocliQ styling */
 input[type='range'].radius-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 4px;
-  background: #e5e5e5;
+  background: #E8E3DB; /* cream-400 */
   border-radius: 2px;
   cursor: pointer;
 }
@@ -235,26 +358,26 @@ input[type='range'].radius-slider::-webkit-slider-thumb {
   height: 24px;
   width: 24px;
   border-radius: 50%;
-  background: #262626;
+  background: #13A3B5; /* teal-500 */
   cursor: pointer;
   margin-top: -10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 input[type='range'].radius-slider::-moz-range-thumb {
   height: 24px;
   width: 24px;
   border-radius: 50%;
-  background: #262626;
+  background: #13A3B5; /* teal-500 */
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 input[type='range'].radius-slider::-moz-range-track {
   width: 100%;
   height: 4px;
-  background: #e5e5e5;
+  background: #E8E3DB; /* cream-400 */
   border-radius: 2px;
 }
 
@@ -263,38 +386,42 @@ input[type='range'].radius-slider:focus {
 }
 
 input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
 }
 
 /* ============================================
-   Animations & Transitions
+   DocliQ Animations & Transitions
+   Per Brand Guide: Fade 300ms, Scale 200ms, Slide 300ms
    ============================================ */
 
-/* Button press feedback - apply with active:scale-press */
 @layer utilities {
   .scale-press {
     transform: scale(0.98);
   }
 
-  /* Fade in animation */
+  /* Fade in animation - 300ms per brand guide */
   .animate-fade-in {
-    animation: fadeIn 200ms ease-out;
+    animation: fadeIn 300ms var(--easing-default);
   }
 
-  /* Slide up animation (for bottom sheets) */
+  /* Scale animation - 200ms per brand guide */
+  .animate-scale-in {
+    animation: scaleIn 200ms var(--easing-default);
+  }
+
+  /* Slide up animation - 300ms per brand guide */
   .animate-slide-up {
-    animation: slideUp 300ms ease-out;
+    animation: slideUp 300ms var(--easing-default);
   }
 
-  /* Slide in from right (for page transitions) */
+  /* Slide in from right */
   .animate-slide-in-right {
-    animation: slideInRight 200ms ease-out;
+    animation: slideInRight 300ms var(--easing-default);
   }
 
-  /* Slide in from left (for back navigation) */
+  /* Slide in from left */
   .animate-slide-in-left {
-    animation: slideInLeft 200ms ease-out;
+    animation: slideInLeft 300ms var(--easing-default);
   }
 
   /* Location pulse animation */
@@ -309,6 +436,17 @@ input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
     opacity: 0;
   }
   to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
     opacity: 1;
   }
 }
@@ -358,15 +496,15 @@ input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
   }
 }
 
-/* Loading skeleton animation */
+/* Loading skeleton animation - DocliQ cream tones */
 .skeleton {
-  @apply bg-neutral-200 rounded;
+  @apply bg-cream-200 rounded;
   animation: shimmer 1.5s infinite;
   background: linear-gradient(
     90deg,
-    #e5e5e5 25%,
-    #f0f0f0 50%,
-    #e5e5e5 75%
+    #F5F3EF 25%,
+    #FAF8F5 50%,
+    #F5F3EF 75%
   );
   background-size: 200% 100%;
 }
@@ -382,7 +520,7 @@ input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
 
 /* Tab content transition */
 .tab-content {
-  @apply transition-opacity duration-200;
+  @apply transition-opacity duration-normal;
 }
 
 .tab-content-enter {
@@ -399,4 +537,15 @@ input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
 
 .tab-content-exit-active {
   opacity: 0;
+}
+
+/* Reduced motion support per brand guide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
