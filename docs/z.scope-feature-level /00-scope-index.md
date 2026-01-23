@@ -16,7 +16,7 @@ This document indexes the Scope for Exploration documents for all core features 
 
 | # | Feature | ID | JTBD Summary | Primary Personas |
 |---|---------|-----|--------------|------------------|
-| 1 | [Appointment Booking](./01-appointment-booking-scope.md) | MEDA-BOOK | Find and book doctor appointments without phone calls | Sarah, Marc |
+| 1 | [Appointment Booking](../appointment-booking/0-APPOINTMENT-BOOKING-SCOPE.md) | MEDA-BOOK | Find and book doctor appointments without phone calls | Sarah, Marc |
 | 2 | [Telemedicine](./02-telemedicine-scope.md) | MEDA-TELE | Consult a doctor via video immediately or scheduled | Marc, Sarah, Helga |
 | 3 | [E-Prescription](./03-e-prescription-scope.md) | MEDA-ERX | Redeem e-prescriptions at online or local pharmacy | Helga, Sarah |
 | 4 | [Pharmacy Search](./04-pharmacy-search-scope.md) | MEDA-APOT | Find nearby pharmacies with services and hours | Helga, Sarah |
@@ -193,7 +193,7 @@ These requirements apply to all features:
 
 ## Document Links
 
-1. **[Appointment Booking Scope](./01-appointment-booking-scope.md)** - MEDA-BOOK
+1. **[Appointment Booking Scope](../appointment-booking/0-APPOINTMENT-BOOKING-SCOPE.md)** - MEDA-BOOK
 2. **[Telemedicine Scope](./02-telemedicine-scope.md)** - MEDA-TELE
 3. **[E-Prescription Scope](./03-e-prescription-scope.md)** - MEDA-ERX
 4. **[Pharmacy Search Scope](./04-pharmacy-search-scope.md)** - MEDA-APOT
@@ -202,8 +202,8 @@ These requirements apply to all features:
 
 ## References
 
-- [Product Context](../product-context-G.md)
-- [Personas](../personas-details-G.json)
+- [Product Context](../z.product-context-personas/product-context.md)
+- [Personas](../z.product-context-personas/personas-details.json)
 - [Social Listening Synthesis](../z.research/social-listening-synthesis.md)
 - [Competitive Landscape](../z.research/competitive-landscape-research.md)
 - [Market Opportunity Analysis](../z.research/market-opportunity-analysis.md)

@@ -371,7 +371,7 @@ Entry Point
 
 ## 10. References
 
-- [Product Context](../product-context-G.md)
-- [Personas](../personas-details-G.json)
+- [Product Context](../z.product-context-personas/product-context.md)
+- [Personas](../z.product-context-personas/personas-details.json)
 - [E-Prescription Scope](./03-e-prescription-scope.md) - Integration point
 - [aponet.de Notdienst](https://www.aponet.de/apotheke/notdienstsuche) - Emergency pharmacy reference

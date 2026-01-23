@@ -151,5 +151,5 @@ Content principles:
 - [Scope for Exploration](./SCOPE-FOR-EXPLORATION.md)
 - [User Flows](./USER-FLOWS.md)
 - [Info Map](./INFO-MAP.md)
-- [Product Context](./z.product-context-research/product-context.md)
-- [Personas Detail](./z.product-context-research/personas-details.json)
+- [Product Context](./z.product-context-personas/product-context.md)
+- [Personas Detail](./z.product-context-personas/personas-details.json)

@@ -272,7 +272,7 @@ Germany's digital health market is ready for a unified healthcare gateway. The i
 
 - [Competitive Landscape Research](./competitive-landscape-research.md)
 - [Market Research](./market-research.md)
-- [Product Context](./product-context-enriched.md)
+- [Product Context](../z.product-context-personas/product-context.md)
 
 ## Sources
 

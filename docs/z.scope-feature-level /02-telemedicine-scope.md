@@ -397,7 +397,7 @@ Entry Point
 
 ## 10. References
 
-- [Product Context](../product-context-G.md)
-- [Personas](../personas-details-G.json)
+- [Product Context](../z.product-context-personas/product-context.md)
+- [Personas](../z.product-context-personas/personas-details.json)
 - [Social Listening Synthesis](./z.research/social-listening-synthesis.md) - TeleClinic complaints
 - [Competitive Landscape](./z.research/competitive-landscape-research.md)
