@@ -2,6 +2,10 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-23
+
+- **Documentation fix**: Fixed Mermaid diagram parse errors in INFO-MAP.md by properly quoting node labels containing special characters (parentheses, ampersands) and correcting edge label syntax.
+
 ## 2026-01-21
 
 - **Appointment booking v1 prototype**: Added a focused web app (`apps/appointment-v1`) that lets Sarah quickly search for doctors, filter by insurance, and step through a 4-step booking flow.

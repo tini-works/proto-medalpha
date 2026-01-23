@@ -137,8 +137,8 @@ flowchart TB
             subgraph BOOKING["TERMINE"]
                 B1[Search]
                 B2[Results]
-                B3[Details (Pre-book)]
-                B4[Review & Confirm]
+                B3["Details (Pre-book)"]
+                B4["Review & Confirm"]
                 B5[Success]
                 B6[My Appts]
             end
@@ -208,7 +208,7 @@ flowchart TB
 
     %% Booking flow
     B1 --> B2 --> B3 --> B4 --> B5
-    B5 -.->|"View appointments"| B6
+    B5 -.->|View appointments| B6
 
     %% Telemedicine flow
     T1 --> T2 --> T3 --> T4 --> T5
@@ -227,9 +227,9 @@ flowchart TB
     HI3 --> HI4
 
     %% Cross-flow
-    T5 -.->|"Rx issued"| E3
-    E4 -.->|"Click & Collect"| S1
-    H4 -.->|"Upcoming tap"| B6
+    T5 -.->|Rx issued| E3
+    E4 -.->|Click &amp; Collect| S1
+    H4 -.->|Upcoming tap| B6
     H5 -.-> B1
     H5 -.-> T1
     H5 -.-> E1
