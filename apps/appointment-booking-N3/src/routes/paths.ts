@@ -4,10 +4,12 @@ export const PATHS = {
   AUTH_REGISTER: '/auth/register',
   AUTH_SIGN_IN: '/auth/sign-in',
   AUTH_VERIFY: '/auth/verify',
+  AUTH_VERIFY_IDENTITY: '/auth/verify-identity',
 
   // Profile
   PROFILE_COMPLETE: '/profile/complete',
   PROFILE_FAMILY: '/profile/family',
+  PROFILE_FAMILY_DETAIL: '/profile/family/:id',
   PROFILE_EDIT: '/profile/edit',
 
   // Home
@@ -27,6 +29,7 @@ export const PATHS = {
   // History / Appointments
   HISTORY: '/history',
   HISTORY_DETAIL: '/history/:id',
+  APPOINTMENT_DETAIL: '/appointments/:id',
 
   // Reschedule flow (R01-R03)
   RESCHEDULE: '/reschedule/:id',
@@ -41,6 +44,11 @@ export const PATHS = {
   // Settings
   SETTINGS: '/settings',
   SETTINGS_NOTIFICATIONS: '/settings/notifications',
+  SETTINGS_LANGUAGE: '/settings/language',
+  SETTINGS_PRIVACY: '/settings/privacy',
+  SETTINGS_FAQ: '/settings/faq',
+  SETTINGS_CONTACT: '/settings/contact-support',
+  SETTINGS_HELP: '/settings/help-centre',
 
   // Assistants (optional enhancement)
   ASSISTANT: '/assistant',

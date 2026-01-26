@@ -30,7 +30,7 @@ import {
 } from './screens/booking'
 
 // History screens
-import { HistoryScreen, AppointmentDetailScreen } from './screens/history'
+import { HistoryScreen, AppointmentDetailScreen as HistoryDetailScreen } from './screens/history'
 
 // Reschedule screens
 import { SuggestedSlotsScreen, RescheduleConfirmScreen, RescheduleSuccessScreen, RescheduleReasonScreen } from './screens/reschedule'
@@ -250,7 +250,7 @@ export default function App() {
               element={
                 <RequireAuth>
                   <RequireProfileComplete>
-                    <AppointmentDetailScreen />
+                    <HistoryDetailScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }
