@@ -21,17 +21,18 @@ const relationshipIcons: Record<FamilyMember['relationship'], string> = {
 }
 
 export default function FamilyMemberDetailScreen() {
-  const { memberId } = useParams<{ memberId: string }>()
+  // Route param is :id per PATHS.PROFILE_FAMILY_DETAIL
+  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { profile, removeFamilyMember, updateFamilyMember } = useProfile()
   const [showEditSheet, setShowEditSheet] = useState(false)
 
-  if (!memberId) {
+  if (!id) {
     navigate(PATHS.PROFILE_FAMILY)
     return null
   }
 
-  const member = profile.familyMembers.find((m) => m.id === memberId)
+  const member = profile.familyMembers.find((m) => m.id === id)
 
   if (!member) {
     navigate(PATHS.PROFILE_FAMILY)

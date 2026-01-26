@@ -15,6 +15,7 @@ High-level, business-focused summary of notable changes.
 - **N3 identity + profile support**: Added verification identity step, family member detail handling, and related state/types to expand onboarding coverage.
 - **Appointments + settings expansion**: Introduced appointment detail views, help/support settings screens, and a Today's Focus card to broaden the N3 surface area.
 - **N3 navigation fix**: Aligned route constants and history detail wiring to restore appointment detail navigation and build stability.
+- **Family Members detail screen**: Added clickable family member cards that navigate to a dedicated detail screen showing verification status, extended info (emergency contact, medical notes), with Edit (bottom sheet) and Remove actions.
 
 ## 2026-01-21
 

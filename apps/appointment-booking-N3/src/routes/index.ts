@@ -8,5 +8,6 @@ export {
   rescheduleConfirmPath,
   rescheduleSuccessPath,
   bookAgainPath,
+  familyMemberDetailPath,
 } from './paths'
 export { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated } from './guards'

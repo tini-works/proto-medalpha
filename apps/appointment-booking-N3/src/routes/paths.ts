@@ -86,3 +86,7 @@ export function rescheduleSuccessPath(appointmentId: string) {
 export function bookAgainPath(appointmentId: string) {
   return `/book-again/${appointmentId}`
 }
+
+export function familyMemberDetailPath(memberId: string) {
+  return `/profile/family/${memberId}`
+}
