@@ -59,10 +59,10 @@ export default function SuggestedSlotsScreen() {
       <Page>
         <Header title="Reschedule" showBack />
         <div className="px-4 py-8 text-center">
-          <p className="text-neutral-500">Appointment not found</p>
+          <p className="text-slate-500">Appointment not found</p>
           <button
             onClick={() => navigate(PATHS.HISTORY)}
-            className="mt-4 text-teal-600 font-medium"
+            className="mt-4 text-teal-700 font-medium hover:underline"
           >
             Back to appointments
           </button>
@@ -87,21 +87,21 @@ export default function SuggestedSlotsScreen() {
 
       <div className="px-4 py-4 space-y-6">
         {/* Current Appointment Summary */}
-        <div className="bg-neutral-50 rounded-xl p-4">
-          <p className="text-sm text-neutral-500 mb-1">Current Appointment</p>
-          <p className="font-semibold text-neutral-900">
+        <div className="bg-cream-200 rounded-xl p-4">
+          <p className="text-sm text-slate-500 mb-1">Current Appointment</p>
+          <p className="font-semibold text-charcoal-500">
             {formatDateWithWeekday(appointment.dateISO)} at {formatTime(appointment.time)}
           </p>
-          <p className="text-neutral-600">{appointment.doctorName}</p>
-          <p className="text-sm text-neutral-500">{appointment.specialty}</p>
+          <p className="text-slate-600">{appointment.doctorName}</p>
+          <p className="text-sm text-slate-500">{appointment.specialty}</p>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-neutral-200" />
+        <div className="border-t border-cream-300" />
 
         {/* Suggested Slots */}
         <div>
-          <h2 className="text-lg font-semibold text-neutral-900 mb-4">
+          <h2 className="text-lg font-semibold text-charcoal-500 mb-4">
             Available Alternatives
           </h2>
 
@@ -111,14 +111,14 @@ export default function SuggestedSlotsScreen() {
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-xl border border-neutral-200 p-4 animate-pulse"
+                  className="bg-white rounded-xl border border-cream-400 p-4 animate-pulse"
                 >
                   <div className="flex items-center justify-between">
                     <div className="space-y-2">
-                      <div className="h-5 w-32 bg-neutral-200 rounded" />
-                      <div className="h-4 w-20 bg-neutral-100 rounded" />
+                      <div className="h-5 w-32 bg-cream-300 rounded" />
+                      <div className="h-4 w-20 bg-cream-200 rounded" />
                     </div>
-                    <div className="h-10 w-24 bg-neutral-200 rounded-lg" />
+                    <div className="h-10 w-24 bg-cream-300 rounded-lg" />
                   </div>
                 </div>
               ))}
@@ -134,19 +134,19 @@ export default function SuggestedSlotsScreen() {
               {suggestedSlots.map((slot) => (
                 <div
                   key={`${slot.dateISO}-${slot.time}`}
-                  className="bg-white rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 transition-colors"
+                  className="bg-white rounded-xl border border-cream-400 p-4 hover:border-cream-500 transition-colors duration-normal ease-out-brand"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-neutral-900">
+                      <p className="font-semibold text-charcoal-500">
                         {formatDateWithWeekday(slot.dateISO)} at {formatTime(slot.time)}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-sm text-neutral-500">30 min</span>
+                        <span className="text-sm text-slate-500">30 min</span>
                         {slot.reasonLabel && (
                           <>
-                            <span className="text-neutral-300">|</span>
-                            <span className="text-sm text-teal-600 font-medium">
+                            <span className="text-cream-400">|</span>
+                            <span className="text-sm text-teal-700 font-medium">
                               {slot.reasonLabel}
                             </span>
                           </>
@@ -155,7 +155,7 @@ export default function SuggestedSlotsScreen() {
                     </div>
                     <button
                       onClick={() => handleSelectSlot(slot)}
-                      className="px-4 h-10 bg-teal-600 text-white text-sm font-medium rounded-lg hover:bg-teal-700 active:scale-[0.98] transition-all flex-shrink-0"
+                      className="px-4 h-10 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98] transition-colors duration-normal ease-out-brand flex-shrink-0"
                     >
                       Select
                     </button>
@@ -168,10 +168,10 @@ export default function SuggestedSlotsScreen() {
 
         {/* View All Times Button */}
         <div className="pt-2">
-          <div className="border-t border-neutral-200 pt-6">
+          <div className="border-t border-cream-300 pt-6">
             <button
               onClick={handleViewAllSlots}
-              className="w-full h-12 border-2 border-neutral-300 text-neutral-700 rounded-xl font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2"
+              className="btn btn-secondary btn-block h-12 py-0 flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

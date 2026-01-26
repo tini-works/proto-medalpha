@@ -80,22 +80,18 @@ export default function LocationScreen() {
       </div>
 
       {/* Sticky Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-4 py-4 safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md flex gap-3">
           <button
             onClick={handleBack}
-            className="flex-1 h-12 px-4 text-neutral-700 font-medium rounded-xl border border-neutral-300 hover:bg-neutral-50 transition-colors"
+            className="btn btn-tertiary flex-1 h-12 py-0"
           >
             Back
           </button>
           <button
             onClick={handleContinue}
             disabled={!selectedLocation}
-            className={`flex-1 h-12 px-4 font-medium rounded-xl transition-colors ${
-              selectedLocation
-                ? 'bg-neutral-800 text-white hover:bg-neutral-900'
-                : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
-            }`}
+            className="btn btn-primary flex-1 h-12 py-0 disabled:cursor-not-allowed"
           >
             Continue
           </button>

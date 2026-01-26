@@ -108,7 +108,7 @@ export default function SearchScreen() {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Try 'Dermatologist' or 'HNO'..."
-            className="w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-neutral-200 focus:ring-2 focus:ring-neutral-400 focus:outline-none text-neutral-900 placeholder:text-neutral-400 transition-all"
+            className="w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 ring-cream-400 focus:ring-2 focus:ring-teal-500 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand"
           />
         </div>
 

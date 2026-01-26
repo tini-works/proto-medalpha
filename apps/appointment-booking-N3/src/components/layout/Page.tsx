@@ -8,7 +8,7 @@ interface PageProps {
 
 export function Page({ children, className = '', safeBottom = true }: PageProps) {
   return (
-    <div className={`min-h-screen bg-neutral-50 ${safeBottom ? 'pb-24' : ''} ${className}`}>
+    <div className={`min-h-screen bg-cream-100 ${safeBottom ? 'pb-24' : ''} ${className}`}>
       <div className="mx-auto max-w-md">{children}</div>
     </div>
   )

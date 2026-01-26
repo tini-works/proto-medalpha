@@ -26,8 +26,8 @@ export function TimeSlotButton({
   `
 
   const variantClasses = isPrimary
-    ? 'bg-neutral-800 text-white hover:bg-neutral-700'
-    : 'bg-neutral-100 text-neutral-800 hover:bg-neutral-200'
+    ? 'bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-700'
+    : 'bg-cream-200 text-charcoal-500 hover:bg-cream-300'
 
   const subtitleOpacity = isPrimary ? 'opacity-90' : 'opacity-70'
 

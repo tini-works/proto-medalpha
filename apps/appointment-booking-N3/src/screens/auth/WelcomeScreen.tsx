@@ -3,10 +3,10 @@ import { PATHS } from '../../routes'
 
 export default function WelcomeScreen() {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-cream-100 flex flex-col">
       {/* Header section - conservative, professional */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="w-14 h-14 bg-neutral-800 rounded-xl flex items-center justify-center mb-6">
+        <div className="w-14 h-14 bg-teal-500 rounded-xl flex items-center justify-center mb-6 shadow-sm">
           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
@@ -17,16 +17,16 @@ export default function WelcomeScreen() {
           </svg>
         </div>
 
-        <h1 className="text-2xl font-semibold text-neutral-900 text-center">MedAlpha</h1>
-        <p className="mt-3 text-neutral-600 text-center max-w-xs leading-relaxed">
+        <h1 className="text-2xl font-semibold text-charcoal-500 text-center">DocliQ</h1>
+        <p className="mt-3 text-slate-500 text-center max-w-xs leading-relaxed">
           Your platform for appointment booking, prescription management, and health services.
         </p>
 
         {/* Features - factual, trust-focused */}
         <div className="mt-10 space-y-5 w-full max-w-sm">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -36,14 +36,14 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Appointment Booking</p>
-              <p className="text-sm text-neutral-500 mt-0.5">Search and book doctor appointments</p>
+              <p className="font-medium text-charcoal-500">Appointment Booking</p>
+              <p className="text-sm text-slate-500 mt-0.5">Search and book doctor appointments</p>
             </div>
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -53,14 +53,14 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Family Management</p>
-              <p className="text-sm text-neutral-500 mt-0.5">Manage appointments for family members</p>
+              <p className="font-medium text-charcoal-500">Family Management</p>
+              <p className="text-sm text-slate-500 mt-0.5">Manage appointments for family members</p>
             </div>
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -70,8 +70,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-neutral-900">Privacy & Security</p>
-              <p className="text-sm text-neutral-500 mt-0.5">GDPR compliant and secure</p>
+              <p className="font-medium text-charcoal-500">Privacy & Security</p>
+              <p className="text-sm text-slate-500 mt-0.5">GDPR compliant and secure</p>
             </div>
           </div>
         </div>
@@ -81,13 +81,13 @@ export default function WelcomeScreen() {
       <div className="px-6 pb-8 space-y-3">
         <Link
           to={PATHS.AUTH_REGISTER}
-          className="block w-full py-3.5 px-4 bg-neutral-800 text-white text-center font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+          className="btn btn-primary btn-block text-center"
         >
           Register
         </Link>
         <Link
           to={PATHS.AUTH_SIGN_IN}
-          className="block w-full py-3.5 px-4 bg-white text-neutral-800 text-center font-medium rounded-lg border border-neutral-300 hover:bg-neutral-50 transition-colors"
+          className="btn btn-secondary btn-block text-center"
         >
           Sign In
         </Link>

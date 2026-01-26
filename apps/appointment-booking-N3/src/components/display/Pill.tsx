@@ -18,11 +18,11 @@ interface PillProps {
 
 // Conservative color palette - subdued, professional
 const toneStyles: Record<PillTone, string> = {
-  info: 'bg-slate-100 text-slate-700 border border-slate-200',
-  positive: 'bg-emerald-50 text-emerald-700 border border-emerald-200', // Restricted: only for positive deltas
-  warning: 'bg-amber-50 text-amber-700 border border-amber-200',
-  negative: 'bg-red-50 text-red-700 border border-red-200',
-  neutral: 'bg-neutral-100 text-neutral-600 border border-neutral-200',
+  info: 'bg-slate-50 text-slate-700 border border-slate-200',
+  positive: 'bg-teal-50 text-teal-700 border border-teal-500', // Restricted: only for positive deltas
+  warning: 'bg-coral-100 text-coral-700 border border-coral-500',
+  negative: 'bg-coral-50 text-coral-800 border border-coral-600',
+  neutral: 'bg-cream-200 text-charcoal-400 border border-cream-400',
 }
 
 export function Pill({ children, tone = 'neutral', size = 'sm' }: PillProps) {

@@ -40,7 +40,7 @@ export function Skeleton({
  */
 export function DoctorCardSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
+    <div className="bg-white rounded-xl border border-cream-400 p-4 space-y-3">
       <div className="flex gap-3">
         <Skeleton variant="circular" width="w-14" height="h-14" />
         <div className="flex-1 space-y-2">
@@ -66,7 +66,7 @@ export function DoctorCardSkeleton() {
  */
 export function AppointmentCardSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
+    <div className="bg-white rounded-xl border border-cream-400 p-4 space-y-3">
       <div className="flex justify-between items-start">
         <Skeleton width="w-20" height="h-6" variant="rounded" />
         <Skeleton width="w-24" height="h-5" />

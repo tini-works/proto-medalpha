@@ -93,57 +93,57 @@ END:VCALENDAR`
           <h1 className="text-2xl font-bold text-neutral-900 mb-2">
             Appointment Rescheduled
           </h1>
-          <p className="text-neutral-600 text-center max-w-xs">
+          <p className="text-slate-600 text-center max-w-xs">
             Your appointment has been successfully rescheduled.
           </p>
         </div>
 
         {/* Appointment Details Card */}
         <div className="px-4 pb-4">
-          <div className="bg-white rounded-xl border border-neutral-200 p-4 mb-6">
+          <div className="bg-white rounded-xl border border-cream-400 p-4 mb-6">
             {appointment && (
               <>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-neutral-100 flex items-center justify-center">
-                    <span className="text-lg font-semibold text-neutral-700">
+                  <div className="w-12 h-12 rounded-full bg-cream-200 flex items-center justify-center">
+                    <span className="text-lg font-semibold text-slate-700">
                       {appointment.doctorName.split(' ').map(n => n[0]).join('').slice(0, 2)}
                     </span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-900">{appointment.doctorName}</h3>
-                    <p className="text-sm text-neutral-600">{appointment.specialty}</p>
+                    <h3 className="font-semibold text-charcoal-500">{appointment.doctorName}</h3>
+                    <p className="text-sm text-slate-600">{appointment.specialty}</p>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <span className="text-neutral-900">
+                    <span className="text-charcoal-500">
                       {formatDateWithWeekday(appointment.dateISO)} at {formatTime(appointment.time)}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span className="text-neutral-900">Marktplatz 5, 10178 Berlin</span>
+                    <span className="text-charcoal-500">Marktplatz 5, 10178 Berlin</span>
                   </div>
                 </div>
               </>
             )}
 
-            <div className="mt-4 pt-4 border-t border-neutral-100">
-              <p className="text-sm text-neutral-500">Confirmation Number</p>
-              <p className="font-mono font-semibold text-neutral-900">{confirmationNumber}</p>
+            <div className="mt-4 pt-4 border-t border-cream-200">
+              <p className="text-sm text-slate-500">Confirmation Number</p>
+              <p className="font-mono font-semibold text-charcoal-500">{confirmationNumber}</p>
             </div>
           </div>
 
           {/* Notification Message */}
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
-            <p className="text-sm text-blue-800">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
+            <p className="text-sm text-slate-700">
               An updated confirmation has been sent via email and push notification.
             </p>
           </div>
@@ -152,7 +152,7 @@ END:VCALENDAR`
           <div className="space-y-3">
             <button
               onClick={handleAddToCalendar}
-              className="w-full h-12 border border-neutral-300 text-neutral-700 rounded-xl font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2"
+              className="btn btn-secondary btn-block h-12 py-0 flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -162,7 +162,7 @@ END:VCALENDAR`
 
             <button
               onClick={handleOpenRoute}
-              className="w-full h-12 border border-neutral-300 text-neutral-700 rounded-xl font-medium hover:bg-neutral-50 transition-colors flex items-center justify-center gap-2"
+              className="btn btn-secondary btn-block h-12 py-0 flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
@@ -172,7 +172,7 @@ END:VCALENDAR`
 
             <button
               onClick={handleDone}
-              className="w-full h-12 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 active:scale-[0.98] transition-all"
+              className="btn btn-primary btn-block h-12 py-0"
             >
               Done
             </button>

@@ -27,7 +27,7 @@ export function ReasonTextarea({
   return (
     <div className="space-y-1">
       {label && (
-        <label htmlFor={id} className="block text-sm font-medium text-neutral-700">
+        <label htmlFor={id} className="block text-label-md text-slate-700">
           {label}
         </label>
       )}
@@ -39,13 +39,13 @@ export function ReasonTextarea({
           placeholder={placeholder}
           rows={4}
           className="
-            w-full bg-neutral-100 rounded-xl p-4 resize-none
-            text-neutral-900 placeholder:text-neutral-400
-            focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:bg-white
-            transition-colors
+            w-full bg-cream-200 rounded-xl p-4 resize-none
+            text-charcoal-500 placeholder:text-slate-400
+            focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white
+            transition-colors duration-normal ease-out-brand
           "
         />
-        <span className="absolute bottom-3 right-3 text-xs text-neutral-400">
+        <span className="absolute bottom-3 right-3 text-xs text-slate-400">
           {value.length}/{maxLength}
         </span>
       </div>

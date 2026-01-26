@@ -87,10 +87,8 @@ export function LocationSelector({
       {/* GPS CTA Button */}
       <button
         onClick={handleUseCurrentLocation}
-        className={`w-full h-14 rounded-xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 ${
-          locationType === 'gps'
-            ? 'bg-neutral-900 text-white'
-            : 'bg-neutral-800 text-white hover:bg-neutral-900'
+        className={`btn btn-primary btn-block flex items-center justify-center gap-2 shadow-md ${
+          locationType === 'gps' ? 'ring-2 ring-teal-500 ring-offset-2' : ''
         }`}
       >
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,17 +111,17 @@ export function LocationSelector({
       {/* Divider */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-neutral-200" />
+          <div className="w-full border-t border-cream-300" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-3 bg-neutral-50 text-neutral-500">Or enter a specific address</span>
+          <span className="px-3 bg-cream-100 text-slate-500">Or enter a specific address</span>
         </div>
       </div>
 
       {/* Address Input */}
       <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-          <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -138,23 +136,23 @@ export function LocationSelector({
           onChange={handleAddressChange}
           onKeyDown={handleAddressKeyDown}
           placeholder="Enter street, city, or postal code..."
-          className={`w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 focus:ring-2 focus:outline-none text-neutral-900 placeholder:text-neutral-400 transition-all ${
+          className={`w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 focus:ring-2 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand ${
             locationType === 'address' && addressQuery.trim()
-              ? 'ring-neutral-800 focus:ring-neutral-800'
-              : 'ring-neutral-200 focus:ring-neutral-400'
+              ? 'ring-teal-500 focus:ring-teal-500'
+              : 'ring-cream-400 focus:ring-teal-500'
           }`}
         />
       </div>
 
       {/* Map Preview */}
-      <div className="h-32 rounded-xl bg-neutral-100 relative overflow-hidden">
+      <div className="h-32 rounded-xl bg-cream-200 relative overflow-hidden">
         {/* Grid pattern for map effect */}
         <div className="absolute inset-0 opacity-20">
           <div
             className="w-full h-full"
             style={{
               backgroundImage:
-                'linear-gradient(to right, #a3a3a3 1px, transparent 1px), linear-gradient(to bottom, #a3a3a3 1px, transparent 1px)',
+                'linear-gradient(to right, #E8E3DB 1px, transparent 1px), linear-gradient(to bottom, #E8E3DB 1px, transparent 1px)',
               backgroundSize: '20px 20px',
             }}
           />
@@ -164,9 +162,9 @@ export function LocationSelector({
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="relative">
             {/* Pulse ring - uses custom animation */}
-            <div className="absolute -inset-2 rounded-full bg-neutral-400/30 animate-location-pulse" />
+            <div className="absolute -inset-2 rounded-full bg-teal-500/20 animate-location-pulse" />
             {/* Center dot */}
-            <div className="relative w-6 h-6 rounded-full bg-neutral-800 flex items-center justify-center shadow-md">
+            <div className="relative w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center shadow-md">
               <div className="w-2 h-2 rounded-full bg-white" />
             </div>
           </div>
@@ -174,7 +172,7 @@ export function LocationSelector({
 
         {/* Map label */}
         <div className="absolute bottom-2 left-2">
-          <span className="text-xs text-neutral-500 bg-white/80 px-2 py-1 rounded">Map Preview</span>
+          <span className="text-xs text-slate-600 bg-white/80 px-2 py-1 rounded">Map Preview</span>
         </div>
       </div>
 

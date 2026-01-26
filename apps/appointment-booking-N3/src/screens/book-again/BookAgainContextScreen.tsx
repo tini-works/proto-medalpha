@@ -81,17 +81,17 @@ export default function BookAgainContextScreen() {
         <Header title="Book Again" showBack />
         <div className="px-4 py-4 space-y-4">
           {/* Skeleton loading */}
-          <div className="bg-neutral-50 rounded-xl p-4 animate-pulse">
-            <div className="h-4 w-40 bg-neutral-200 rounded mb-2" />
-            <div className="h-5 w-24 bg-neutral-200 rounded" />
+          <div className="bg-cream-200 rounded-xl p-4 animate-pulse">
+            <div className="h-4 w-40 bg-cream-300 rounded mb-2" />
+            <div className="h-5 w-24 bg-cream-300 rounded" />
           </div>
-          <div className="h-px bg-neutral-200" />
-          <div className="bg-white rounded-xl border border-neutral-200 p-4 animate-pulse">
+          <div className="h-px bg-cream-300" />
+          <div className="bg-white rounded-xl border border-cream-400 p-4 animate-pulse">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-neutral-200" />
+              <div className="w-12 h-12 rounded-full bg-cream-300" />
               <div className="space-y-2">
-                <div className="h-5 w-32 bg-neutral-200 rounded" />
-                <div className="h-4 w-24 bg-neutral-200 rounded" />
+                <div className="h-5 w-32 bg-cream-300 rounded" />
+                <div className="h-4 w-24 bg-cream-300 rounded" />
               </div>
             </div>
           </div>
@@ -105,15 +105,15 @@ export default function BookAgainContextScreen() {
       <Page>
         <Header title="Book Again" showBack />
         <div className="px-4 py-8 text-center">
-          <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 rounded-full bg-coral-50 flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-coral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <p className="text-neutral-700 mb-4">{error || 'Appointment not found'}</p>
+          <p className="text-slate-700 mb-4">{error || 'Appointment not found'}</p>
           <button
             onClick={() => navigate(PATHS.BOOKING_SEARCH)}
-            className="px-6 py-2 bg-teal-600 text-white rounded-lg font-medium"
+            className="btn btn-primary"
           >
             Search for Doctors
           </button>
@@ -131,32 +131,32 @@ export default function BookAgainContextScreen() {
 
       <div className="px-4 py-4 space-y-6">
         {/* Reference to previous appointment */}
-        <div className="bg-neutral-50 rounded-xl p-4">
-          <p className="text-sm text-neutral-500 mb-1">Based on your appointment from</p>
-          <p className="font-semibold text-neutral-900">{formatDate(sourceData.dateISO)}</p>
+        <div className="bg-cream-200 rounded-xl p-4">
+          <p className="text-sm text-slate-500 mb-1">Based on your appointment from</p>
+          <p className="font-semibold text-charcoal-500">{formatDate(sourceData.dateISO)}</p>
         </div>
 
         {/* Divider */}
-        <div className="border-t border-neutral-200" />
+        <div className="border-t border-cream-300" />
 
         {/* Pre-filled Context */}
         <div className="space-y-4">
           {/* Doctor (not editable) */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">Doctor</label>
-            <div className="bg-white rounded-xl border border-neutral-200 p-4">
+            <label className="block text-sm font-medium text-slate-700 mb-2">Doctor</label>
+            <div className="bg-white rounded-xl border border-cream-400 p-4">
               <div className="flex items-center gap-4">
                 <Avatar name={displayName} size="lg" />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-neutral-900 truncate">{displayName}</h3>
-                  <p className="text-sm text-neutral-600">{displaySpecialty}</p>
+                  <h3 className="font-semibold text-charcoal-500 truncate">{displayName}</h3>
+                  <p className="text-sm text-slate-600">{displaySpecialty}</p>
                   {doctor && (
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm text-neutral-500">
+                      <span className="text-sm text-slate-500">
                         {doctor.rating.toFixed(1)} ({doctor.reviewCount})
                       </span>
-                      <span className="text-neutral-300">|</span>
-                      <span className="text-sm text-neutral-500">{doctor.city}</span>
+                      <span className="text-cream-400">|</span>
+                      <span className="text-sm text-slate-500">{doctor.city}</span>
                     </div>
                   )}
                 </div>
@@ -171,9 +171,9 @@ export default function BookAgainContextScreen() {
 
           {/* Specialty (not editable) */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">Specialty</label>
-            <div className="bg-white rounded-xl border border-neutral-200 p-4 flex items-center justify-between">
-              <span className="text-neutral-900">{displaySpecialty}</span>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Specialty</label>
+            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
+              <span className="text-charcoal-500">{displaySpecialty}</span>
               <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
                 <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -184,9 +184,9 @@ export default function BookAgainContextScreen() {
 
           {/* Location (editable in future) */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">Location</label>
-            <div className="bg-white rounded-xl border border-neutral-200 p-4 flex items-center justify-between">
-              <span className="text-neutral-900">
+            <label className="block text-sm font-medium text-slate-700 mb-2">Location</label>
+            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
+              <span className="text-charcoal-500">
                 {profile.address.city || 'Berlin'} ({profile.address.postalCode || '10178'})
               </span>
               <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
@@ -199,9 +199,9 @@ export default function BookAgainContextScreen() {
 
           {/* Insurance (editable in future) */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">Insurance</label>
-            <div className="bg-white rounded-xl border border-neutral-200 p-4 flex items-center justify-between">
-              <span className="text-neutral-900">
+            <label className="block text-sm font-medium text-slate-700 mb-2">Insurance</label>
+            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
+              <span className="text-charcoal-500">
                 {profile.insuranceType === 'GKV'
                   ? 'Public (GKV)'
                   : profile.insuranceType === 'PKV'
@@ -218,9 +218,9 @@ export default function BookAgainContextScreen() {
 
           {/* Patient (editable in future) */}
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">Patient</label>
-            <div className="bg-white rounded-xl border border-neutral-200 p-4 flex items-center justify-between">
-              <span className="text-neutral-900">{profile.fullName || 'You'}</span>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Patient</label>
+            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
+              <span className="text-charcoal-500">{profile.fullName || 'You'}</span>
               <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
                 <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -235,7 +235,7 @@ export default function BookAgainContextScreen() {
           <button
             onClick={handleViewSlots}
             disabled={!doctor}
-            className="w-full h-12 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             View Available Times
           </button>

@@ -3,23 +3,23 @@ name: design-lite:reschedule-flow-v2
 feature: MEDA-BOOK (Appointment Booking / Terminbuchung)
 selected_approach: "V1 Hybrid — Simplified AI-Assisted Reschedule"
 created: 2026-01-23
-updated: 2026-01-23
+updated: 2026-01-26
 status: draft
 version: 2.0
 supersedes:
-  - docs/appointment-booking/2-design-plan-Reschedule-flow.md
+  - docs/appointment-booking/z.details/2-design-plan-Reschedule-flow.md
 extends:
   - docs/appointment-booking/2-design-plan-Guided-wizard-v2.md (BOOK-017)
 decision_doc:
-  - docs/appointment-booking/2-analysis-AI-assisted-vs-standard.md
+  - docs/appointment-booking/z.details/analysis-AI-assisted-vs-standard.md
 sources:
   - docs/appointment-booking/0-APPOINTMENT-BOOKING-SCOPE.md
   - docs/z.guidelines/Docliq Brand Guide 2025.pdf
 ---
 
-# DESIGN-LITE: Reschedule Flow v2 (V1 Hybrid)
+# DESIGN-LITE: Reschedule Flow v2 (V1 Hybrid) — Acceptance-Complete
 
-This document details the **V1 Hybrid** Reschedule flow — a simplified AI-assisted approach that provides slot suggestions without the optional reason capture step. Designed for speed while maintaining Helga-friendly fallbacks.
+This document details the **V1 Hybrid** Reschedule flow — a simplified AI-assisted approach that provides slot suggestions without the optional reason capture step. Designed for speed while maintaining Helga-friendly fallbacks. Written to be implementable as acceptance criteria, using German-first + i18n-first + mobile-first constraints.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -39,7 +39,19 @@ This document details the **V1 Hybrid** Reschedule flow — a simplified AI-assi
 │ completion, FOR all personas including Helga, BECAUSE the flow is fast   │
 │ for power users but simple enough for those who prefer browsing.         │
 ├──────────────────────────────────────────────────────────────────────────┤
-│ 🔄 USER FLOW (Simplified)                                                │
+│ 🔄 USER FLOWS (Jobs-to-be-Done)                                          │
+│                                                                          │
+│ │ Job │ Statement                                     │ Key Actions     ││
+│ ├─────┼───────────────────────────────────────────────┼─────────────────┤│
+│ │ J1  │ When my schedule changes unexpectedly, I want │ view current,   ││
+│ │     │ to quickly find a new time with the same      │ browse options, ││
+│ │     │ doctor without losing my appointment.         │ select, confirm ││
+│ │ J2  │ When I see suggested alternatives, I want to  │ compare times,  ││
+│ │     │ understand why each is recommended so I can   │ expand reasons, ││
+│ │     │ make an informed choice.                      │ select best fit ││
+│ │ J3  │ When no suggestion fits my needs, I want to   │ browse calendar,││
+│ │     │ browse all available times myself without     │ select manually,││
+│ │     │ starting over.                                │ confirm         ││
 │                                                                          │
 │ Flow diagram:                                                            │
 │ ┌──────────────────┐   ┌───────────────────┐   ┌───────────────────┐    │
@@ -59,14 +71,14 @@ This document details the **V1 Hybrid** Reschedule flow — a simplified AI-assi
 ├──────────────────────────────────────────────────────────────────────────┤
 │ 📦 SCOPE BOUNDARIES                                                      │
 │                                                                          │
-│ ✅ V1 IN SCOPE:                                                          │
-│ • "Termin verschieben" action from appointment details                   │
-│ • 3-5 AI-suggested alternative slots (default ranking)                   │
-│ • Comparison view (original vs new) in confirm sheet                     │
-│ • Full calendar browse as prominent fallback                             │
+│ ✅ IN SCOPE (V1):                                                        │
+│ • "Termin verschieben" action from appointment details (RESCH-001)       │
+│ • 3-5 AI-suggested alternative slots with default ranking (RESCH-002)    │
+│ • Comparison view (original vs new) in confirm sheet (RESCH-003)         │
+│ • Full calendar browse as prominent fallback (RESCH-004)                 │
 │ • Same-doctor constraint (per BOOK-017)                                  │
-│ • Release-after-confirm timing (per BOOK-017)                            │
-│ • Updated confirmation (email + push)                                    │
+│ • Release-after-confirm timing (RESCH-005)                               │
+│ • Updated confirmation (email + push) (RESCH-006)                        │
 │                                                                          │
 │ ⏳ DEFERRED TO V1.1:                                                     │
 │ • Optional reason capture for better suggestions                         │
@@ -84,43 +96,70 @@ This document details the **V1 Hybrid** Reschedule flow — a simplified AI-assi
 │ • Leading: Suggestion acceptance rate → Track (no target for V1)         │
 │ • Guardrail: "Slot taken" errors → Target: <2%                           │
 ├──────────────────────────────────────────────────────────────────────────┤
-│ 🧩 SCREENS (V1 Simplified)                                               │
+│ 🧩 DERIVED SCREENS                                                       │
 │                                                                          │
-│ │ ID  │ Screen                             │ Purpose                    ││
-│ ├─────┼────────────────────────────────────┼────────────────────────────┤│
-│ │ R01 │ Suggested Slots                    │ Quick alternatives         ││
-│ │ R02 │ Reschedule Confirm Sheet           │ Comparison + commit        ││
-│ │ R03 │ Reschedule Success                 │ Updated confirmation       ││
-│ │ S08 │ Full Calendar (reuse)              │ Manual browse fallback     ││
+│ │ ID  │ Screen / Modal                     │ Covers       │ Purpose     ││
+│ ├─────┼────────────────────────────────────┼──────────────┼─────────────┤│
+│ │ R01 │ Suggested Slots                    │ RESCH-001/002│ Quick alts  ││
+│ │ R02 │ Reschedule Confirm Sheet           │ RESCH-003/005│ Compare+commit│
+│ │ R03 │ Reschedule Success                 │ RESCH-006    │ Confirmation││
+│ │ S08 │ Full Calendar (reuse)              │ RESCH-004    │ Manual browse│
 │                                                                          │
 │ Screen flow:                                                             │
 │ [S12]→[R01]→[R02]→[R03]                                                 │
 │         └→[S08]→[R02]                                                    │
+├──────────────────────────────────────────────────────────────────────────┤
+│ ⚠️ EDGE CASES                                                            │
+│                                                                          │
+│ │ Scenario                 │ User Action           │ System Response    ││
+│ ├──────────────────────────┼───────────────────────┼────────────────────┤│
+│ │ No alternative slots     │ Open reschedule       │ Show empty state + ││
+│ │                          │                       │ "Alle Termine" btn ││
+│ │ Slot taken at confirm    │ Tap "verschieben"     │ Error msg, return  ││
+│ │                          │                       │ to R01, refresh    ││
+│ │ Offline                  │ Tap "verschieben"     │ Block + connection ││
+│ │                          │                       │ error message      ││
+│ │ Same slot selected       │ Select current slot   │ Prevent + explain  ││
+│ │ Calendar denied          │ Tap "In Kalender"     │ Offer ICS download ││
+├──────────────────────────────────────────────────────────────────────────┤
+│ 👉 AI: v2 is acceptance-complete; remaining decisions are policy-        │
+│ and data-source choices (suggestion algorithm tuning, release timing).   │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Global UX Constraints
+## Global UX + i18n + Germany constraints (applies to all screens)
 
 Inherits all constraints from Guided Wizard v2:
-- **Language**: German default, formal "Sie"
-- **Date/time**: Germany formatting (`Do., 23.01.2026`, `14:30`), Europe/Berlin
-- **Accessibility**: 16px min body, 44px tap targets, WCAG AA contrast
-- **DocliQ Brand**: DM Sans font, Teal primary (#13A3B5), Charcoal text (#1C2A30)
 
----
+- **Language**: German default; English available at launch; assume 30–40% text expansion in layouts.
+- **Tone**: formal "Sie", factual, no urgency framing, no exclamation marks.
+- **Date/time**: Germany formatting (e.g., `Do., 23.01.2026`, `14:30`), time zone Europe/Berlin.
+- **Accessibility baseline**:
+  - Body text ≥ 16 px; headings ≥ 20 px.
+  - Tap targets ≥ 48×48 dp (≥ 44 px).
+  - High-contrast tokens; color never sole indicator.
+  - No time limits/timers in reschedule flow.
+- **DocliQ Brand**: DM Sans font, Teal primary (#13A3B5), Charcoal text (#1C2A30).
+- **Persistence**: selected slot persists across back navigation until user confirms or cancels.
 
-## Screen Specifications
+## Requirement-by-requirement acceptance criteria
 
-### R01 — Suggested Slots (V1 Simplified)
+### RESCH-001 — Reschedule Entry Point (from appointment details)
 
-**Purpose**: Present 3-5 alternative slots with prominent calendar fallback.
+- Appointment details screen (S12) shows action: `Termin verschieben`.
+- Action placement: primary or secondary button (design discretion).
+- Tapping action navigates to Suggested Slots screen (R01).
+- Entry point shows loading state while fetching suggestions.
 
-**Header**:
+### RESCH-002 — Suggested Slots (3-5 alternatives, ranking, labels, expand/collapse)
+
+**Screen: R01 — Suggested Slots**
+
+Header:
 - Back arrow (returns to appointment details)
 - Title: `Termin verschieben`
 
-**Content**:
-
+Content structure:
 ```
 ┌─────────────────────────────────────────┐
 │ ← Termin verschieben                    │
@@ -150,11 +189,6 @@ Inherits all constraints from Guided Wizard v2:
 │ │                          [Auswählen]│ │
 │ └─────────────────────────────────────┘ │
 │                                         │
-│ ┌─────────────────────────────────────┐ │
-│ │ Mi., 05.02.2026 · 11:30 · 15 min    │ │
-│ │                          [Auswählen]│ │
-│ └─────────────────────────────────────┘ │
-│                                         │
 │ ═══════════════════════════════════════ │
 │                                         │
 │ ┌─────────────────────────────────────┐ │
@@ -164,43 +198,31 @@ Inherits all constraints from Guided Wizard v2:
 └─────────────────────────────────────────┘
 ```
 
-**V1 Simplifications**:
-- No "Warum" reasons shown by default (reduces visual complexity)
-- Optional: Chevron `▾` to expand reason (e.g., "Gleiche Uhrzeit")
-- "Alle Termine anzeigen" is a full-width secondary button (not just a link)
+Suggestion algorithm (V1 — Simple Rules):
 
-**AI Suggestion Logic** (V1 — Simple Rules):
-
-| Priority | Logic | Label (if expanded) |
-|----------|-------|---------------------|
+| Priority | Logic | Label (German) |
+|----------|-------|----------------|
 | 1 | Same time, different day (nearest) | `Gleiche Uhrzeit` |
 | 2 | Within ±2 hours of original | `Ähnliche Uhrzeit` |
 | 3 | Soonest available | `Nächster Termin` |
 | 4 | Same day of week | `Gleicher Wochentag` |
 
-**Behavior**:
-- Show 3-5 suggestions (sorted by priority)
-- Each card shows: Date + time + duration
-- Tapping `Auswählen` → R02 (confirm sheet)
-- Tapping `Alle Termine anzeigen` → S08 (full calendar)
-- Chevron expands/collapses reason (optional interaction)
-
-**Acceptance Criteria**:
-- [ ] Current appointment summary shown at top
-- [ ] 3-5 slot suggestions displayed
-- [ ] Each suggestion has "Auswählen" button (44px min height)
-- [ ] "Alle Termine anzeigen" is prominent secondary button
+Acceptance criteria:
+- [ ] Current appointment summary shown at top (date, time, doctor, specialty)
+- [ ] Show **3-5** slot suggestions (sorted by priority)
+- [ ] Each suggestion displays: Date + time + duration
+- [ ] Reason label shown inline or expandable via chevron `▾`
+- [ ] Each suggestion has `Auswählen` button (44px min height)
+- [ ] `Alle Termine anzeigen` is prominent secondary button (full-width)
+- [ ] Tapping suggestion opens confirm sheet (R02)
+- [ ] Tapping `Alle Termine anzeigen` opens full calendar (S08)
 - [ ] Empty state if no slots: `Derzeit keine Termine verfügbar. Bitte später erneut versuchen.`
-- [ ] Tapping suggestion opens confirm sheet
 
----
+### RESCH-003 — Reschedule Confirm Sheet (comparison view, safety note)
 
-### R02 — Reschedule Confirm Sheet (Modal)
+**Screen: R02 — Reschedule Confirm Sheet (Modal)**
 
-**Purpose**: Show comparison and commit to reschedule.
-
-**Content**:
-
+Content structure:
 ```
 ┌─────────────────────────────────────────┐
 │                 ─────                   │
@@ -246,33 +268,59 @@ Inherits all constraints from Guided Wizard v2:
 └─────────────────────────────────────────┘
 ```
 
-**Behavior**:
-- Clear before/after comparison with visual indicators
-- Safety note about release timing
-- Primary CTA: `Termin verschieben` (Teal button)
-- Secondary: `Abbrechen` (text link, closes sheet)
-- On confirm:
-  1. System creates new booking
-  2. Only after success: cancels original slot
-  3. Navigates to R03
+Acceptance criteria:
+- [ ] Old appointment shown with `✕` icon and label `Wird storniert`
+- [ ] New appointment shown with `✓` icon and label `Wird gebucht`
+- [ ] Visual arrow `↓` connecting old to new
+- [ ] Doctor name, specialty, address displayed
+- [ ] Patient name displayed (if family booking)
+- [ ] Safety note displayed (exact copy above)
+- [ ] Primary CTA: `Termin verschieben` (Teal button)
+- [ ] Secondary CTA: `Abbrechen` (text link, closes sheet)
+- [ ] On confirm: system books new slot first, then cancels original
+- [ ] Slot-taken error copy (exact): `Dieser Termin ist leider nicht mehr verfügbar. Bitte wählen Sie einen anderen.`
 
-**Acceptance Criteria**:
-- [ ] Old appointment marked with ✕ "Wird storniert"
-- [ ] New appointment marked with ✓ "Wird gebucht"
-- [ ] Doctor, location, patient details shown
-- [ ] Safety note displayed
-- [ ] "Termin verschieben" triggers reschedule
-- [ ] "Abbrechen" closes without changes
-- [ ] Slot-taken error: `Dieser Termin ist leider nicht mehr verfügbar. Bitte wählen Sie einen anderen.`
+### RESCH-004 — Full Calendar Fallback (reuses S08)
 
----
+- `Alle Termine anzeigen` navigates to full calendar (S08) for same doctor.
+- Calendar shows all available slots (not just suggestions).
+- Selected slot from calendar opens confirm sheet (R02).
+- Back navigation returns to R01 (suggestions screen).
+- Calendar inherits all BOOK-008 acceptance criteria.
 
-### R03 — Reschedule Success
+### RESCH-005 — Release Timing (book new before canceling old)
 
-**Purpose**: Confirm reschedule and provide next actions.
+Release sequence (must be atomic):
+1. System books new slot first.
+2. Only after new booking succeeds: system cancels original slot.
+3. If new booking fails: original slot remains untouched.
 
-**Content**:
+Error handling:
+- If new slot taken: show error, return to R01, refresh suggestions.
+- Original appointment remains valid until successful reschedule.
 
+Implementation pattern:
+```
+async function rescheduleAppointment(oldSlot, newSlot) {
+  // 1. Book new slot first
+  const newBooking = await createBooking(newSlot)
+
+  // 2. Only cancel old after success
+  if (newBooking.success) {
+    await cancelBooking(oldSlot)
+    return { success: true, booking: newBooking }
+  }
+
+  // 3. If new booking fails, old slot untouched
+  return { success: false, error: newBooking.error }
+}
+```
+
+### RESCH-006 — Reschedule Success (confirmation, new number, comms)
+
+**Screen: R03 — Reschedule Success**
+
+Content structure:
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
@@ -306,35 +354,61 @@ Inherits all constraints from Guided Wizard v2:
 └─────────────────────────────────────────┘
 ```
 
-**Behavior**:
-- Checkmark animation (300ms fade per brand guide)
-- New confirmation number (different from original)
-- Actions:
-  - `In Kalender aktualisieren` → Updates existing calendar entry
-  - `Route öffnen` → Opens maps
-  - `Fertig` → Returns to appointment list
+Acceptance criteria:
+- [ ] Checkmark animation shown (300ms fade per brand guide)
+- [ ] Title: `Termin verschoben`
+- [ ] New appointment details displayed (doctor, specialty, date, time, location)
+- [ ] New confirmation number shown (different from original)
+- [ ] Confirmation message: `Eine aktualisierte Bestätigung wurde per E-Mail und Push gesendet.`
+- [ ] Action: `In Kalender aktualisieren` → updates existing calendar entry
+- [ ] Action: `Route öffnen` → opens maps with address
+- [ ] Action: `Fertig` → returns to appointments list (S11)
+- [ ] If calendar permission denied: offer ICS download fallback
 
-**Acceptance Criteria**:
-- [ ] Success animation shown
-- [ ] New appointment details displayed
-- [ ] New confirmation number shown
-- [ ] Calendar action available
-- [ ] Route action available
-- [ ] "Fertig" returns to appointments list
+## User Journey Details
 
----
+### Persona Paths
 
-## Edge Cases
+**Path A: Confident User (Tech-Savvy Sven)**
+```
+Trigger → View suggestions → Quick select → Confirm → Done
+Steps: 4 | Time: ~30 seconds
+```
+- Uses first available suggestion
+- Trusts AI recommendations
+- No browsing needed
 
-| Scenario | User Action | System Response |
-|----------|-------------|-----------------|
-| No alternative slots | Open reschedule | Show empty state + "Alle Termine" button |
-| Slot taken at confirm | Tap "Termin verschieben" | Error message, return to R01, refresh |
-| Offline | Tap "Termin verschieben" | Block + `Bitte Internetverbindung prüfen.` |
-| Same slot selected | Somehow select current | Prevent, show `Dies ist Ihr aktueller Termin.` |
-| Calendar permission denied | Tap "In Kalender" | Offer ICS download fallback |
+**Path B: Deliberate User (Helga)**
+```
+Trigger → View suggestions → Browse all → Compare options → Select → Confirm → Done
+Steps: 6 | Time: ~60 seconds
+```
+- Wants to see all options
+- Uses "Alle Termine anzeigen" fallback
+- Prefers to choose manually
 
----
+**Path C: Time-Specific User**
+```
+Trigger → View suggestions → Look for same time → Select "Gleiche Uhrzeit" → Confirm → Done
+Steps: 4 | Time: ~40 seconds
+```
+- Has specific time constraints
+- Looks for "Gleiche Uhrzeit" label
+- Values consistency
+
+### Emotional Journey
+
+```
+     😟 Stressed      😌 Relieved       ✅ Confident
+     (need to         (options          (rescheduled
+      reschedule)      available)        successfully)
+         │                │                  │
+         ▼                ▼                  ▼
+    ┌─────────┐     ┌───────────┐     ┌───────────┐
+    │ Trigger │ ──▶ │ R01: See  │ ──▶ │ R03:      │
+    │         │     │ options   │     │ Success   │
+    └─────────┘     └───────────┘     └───────────┘
+```
 
 ## V1.1 Roadmap (Deferred Features)
 
@@ -345,55 +419,9 @@ Inherits all constraints from Guided Wizard v2:
 | Expanded "Warum" | Show reasons by default | More transparency |
 | Reschedule history | Track how often appointments move | Analytics |
 
----
+## Open Decisions / Need Your Input
 
-## Implementation Notes
-
-### Suggestion Algorithm (V1)
-
-```
-function getSuggestedSlots(originalSlot, doctorAvailability) {
-  const suggestions = []
-
-  // Priority 1: Same time, nearest day
-  suggestions.push(
-    ...findSlotsAtTime(originalSlot.time, doctorAvailability)
-      .sort(byNearestDate)
-      .slice(0, 2)
-  )
-
-  // Priority 2: Similar time (±2 hours)
-  suggestions.push(
-    ...findSlotsNearTime(originalSlot.time, 2, doctorAvailability)
-      .sort(byNearestDate)
-      .slice(0, 2)
-  )
-
-  // Priority 3: Soonest available
-  suggestions.push(
-    ...findSoonestSlots(doctorAvailability)
-      .slice(0, 2)
-  )
-
-  // Dedupe and limit to 5
-  return unique(suggestions).slice(0, 5)
-}
-```
-
-### Release Timing (BOOK-017 Compliance)
-
-```
-async function rescheduleAppointment(oldSlot, newSlot) {
-  // 1. Book new slot first
-  const newBooking = await createBooking(newSlot)
-
-  // 2. Only cancel old after success
-  if (newBooking.success) {
-    await cancelBooking(oldSlot)
-    return { success: true, booking: newBooking }
-  }
-
-  // 3. If new booking fails, old slot untouched
-  return { success: false, error: newBooking.error }
-}
-```
+1. **Suggestion algorithm tuning**: Should "same time" always be priority 1, or should "soonest" be prioritized for urgent care specialties?
+2. **Reason expansion default**: Should reason labels be expanded by default (more transparent) or collapsed (cleaner UI)?
+3. **Calendar update behavior**: Should "In Kalender aktualisieren" delete old entry and create new, or modify existing entry?
+4. **Offline handling policy**: Hard-block reschedule when offline, or queue with explicit warning (per BOOK-020 pattern)?

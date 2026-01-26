@@ -11,7 +11,7 @@ interface TabToggleProps {
 
 export function TabToggle({ options, value, onChange }: TabToggleProps) {
   return (
-    <div className="flex h-12 w-full items-center rounded-lg bg-neutral-100 p-1">
+    <div className="flex h-12 w-full items-center rounded-lg bg-cream-200 p-1">
       {options.map((option) => (
         <button
           key={option.value}
@@ -22,8 +22,8 @@ export function TabToggle({ options, value, onChange }: TabToggleProps) {
             transition-all duration-200
             ${
               value === option.value
-                ? 'bg-white text-neutral-900 font-semibold shadow-sm'
-                : 'text-neutral-500 hover:text-neutral-700'
+                ? 'bg-white text-charcoal-500 font-semibold shadow-sm'
+                : 'text-slate-500 hover:text-charcoal-500'
             }
           `}
         >

@@ -24,28 +24,28 @@ export function AppointmentSummaryCard({
   const typeLabel = type === 'in-person' ? 'In-Person Visit' : 'Video Consultation'
 
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+    <div className="bg-white rounded-xl border border-cream-400 overflow-hidden">
       {/* Doctor info header */}
       <div className="p-4">
         <div className="flex items-center gap-3">
           <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="lg" />
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-neutral-900 truncate">{doctor.name}</h3>
-            <p className="text-sm text-neutral-600">{doctor.specialty}</p>
+            <h3 className="font-semibold text-charcoal-500 truncate">{doctor.name}</h3>
+            <p className="text-sm text-slate-600">{doctor.specialty}</p>
           </div>
         </div>
       </div>
 
       {/* Divider */}
-      <div className="border-t border-neutral-100" />
+      <div className="border-t border-cream-200" />
 
       {/* Details section */}
       <div className="p-4 space-y-3">
         {/* Date */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
             <svg
-              className="w-4.5 h-4.5 text-neutral-600"
+              className="w-4.5 h-4.5 text-slate-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -58,14 +58,14 @@ export function AppointmentSummaryCard({
               />
             </svg>
           </div>
-          <span className="text-sm text-neutral-700">{date}</span>
+          <span className="text-sm text-slate-700">{date}</span>
         </div>
 
         {/* Time */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
             <svg
-              className="w-4.5 h-4.5 text-neutral-600"
+              className="w-4.5 h-4.5 text-slate-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -78,18 +78,18 @@ export function AppointmentSummaryCard({
               />
             </svg>
           </div>
-          <span className="text-sm text-neutral-700">
+          <span className="text-sm text-slate-700">
             {time}
-            {duration && <span className="text-neutral-400"> ({duration})</span>}
+            {duration && <span className="text-slate-400"> ({duration})</span>}
           </span>
         </div>
 
         {/* Visit type */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
             {type === 'video' ? (
               <svg
-                className="w-4.5 h-4.5 text-neutral-600"
+                className="w-4.5 h-4.5 text-slate-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -103,7 +103,7 @@ export function AppointmentSummaryCard({
               </svg>
             ) : (
               <svg
-                className="w-4.5 h-4.5 text-neutral-600"
+                className="w-4.5 h-4.5 text-slate-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -117,15 +117,15 @@ export function AppointmentSummaryCard({
               </svg>
             )}
           </div>
-          <span className="text-sm text-neutral-700">{typeLabel}</span>
+          <span className="text-sm text-slate-700">{typeLabel}</span>
         </div>
 
         {/* Address (if in-person) */}
         {address && type === 'in-person' && (
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
               <svg
-                className="w-4.5 h-4.5 text-neutral-600"
+                className="w-4.5 h-4.5 text-slate-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -144,7 +144,7 @@ export function AppointmentSummaryCard({
                 />
               </svg>
             </div>
-            <span className="text-sm text-neutral-700">{address}</span>
+            <span className="text-sm text-slate-700">{address}</span>
           </div>
         )}
       </div>

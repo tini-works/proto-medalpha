@@ -61,19 +61,19 @@ export function AppointmentCard({
 
   if (variant === 'upcoming') {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-cream-400 overflow-hidden">
         {/* Status Badge */}
         <div className="px-4 pt-4 flex justify-end">
           <Pill tone={config.tone}>{config.label}</Pill>
         </div>
 
         {/* Date/Time Row */}
-        <div className="px-4 py-2 flex items-center gap-2 text-sm text-neutral-600">
+        <div className="px-4 py-2 flex items-center gap-2 text-sm text-slate-600">
           <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span>{formatDateWithWeekday(appointment.dateISO)}</span>
-          <span className="text-neutral-300">|</span>
+          <span className="text-cream-400">|</span>
           <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -86,13 +86,13 @@ export function AppointmentCard({
             {/* Avatar with specialty icon overlay */}
             <div className="relative">
               <Avatar name={appointment.doctorName} size="lg" />
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-neutral-800 rounded-full flex items-center justify-center text-white">
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center text-white">
                 {getSpecialtyIcon(appointment.specialty)}
               </div>
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-neutral-900 truncate">{appointment.doctorName}</h3>
-              <p className="text-sm text-neutral-600">{appointment.specialty}</p>
+              <h3 className="font-semibold text-charcoal-500 truncate">{appointment.doctorName}</h3>
+              <p className="text-sm text-slate-600">{appointment.specialty}</p>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ export function AppointmentCard({
         {/* Patient Name */}
         {appointment.forUserName && (
           <div className="px-4 pb-3">
-            <div className="flex items-center gap-2 text-sm text-neutral-500">
+            <div className="flex items-center gap-2 text-sm text-slate-500">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -118,7 +118,7 @@ export function AppointmentCard({
                   e.stopPropagation()
                   onReschedule()
                 }}
-                className="flex-1 h-11 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+                className="flex-1 h-11 rounded-lg border border-cream-400 text-sm font-medium text-charcoal-500 hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
               >
                 Reschedule
               </button>
@@ -129,7 +129,7 @@ export function AppointmentCard({
                   e.stopPropagation()
                   onCancel()
                 }}
-                className="flex-1 h-11 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+                className="flex-1 h-11 rounded-lg border border-cream-400 text-sm font-medium text-charcoal-500 hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
               >
                 Cancel
               </button>
@@ -144,17 +144,17 @@ export function AppointmentCard({
   return (
     <button
       onClick={onClick}
-      className="w-full text-left p-4 bg-white rounded-lg border border-neutral-200 hover:border-neutral-300 transition-colors"
+      className="w-full text-left p-4 bg-white rounded-lg border border-cream-400 hover:border-cream-500 transition-colors duration-normal ease-out-brand"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <h3 className="font-semibold text-neutral-900 truncate">{appointment.doctorName}</h3>
-          <p className="text-sm text-neutral-600">{appointment.specialty}</p>
+          <h3 className="font-semibold text-charcoal-500 truncate">{appointment.doctorName}</h3>
+          <p className="text-sm text-slate-600">{appointment.specialty}</p>
         </div>
         <Pill tone={config.tone}>{config.label}</Pill>
       </div>
 
-      <div className="mt-3 flex items-center gap-4 text-sm text-neutral-600">
+      <div className="mt-3 flex items-center gap-4 text-sm text-slate-600">
         <div className="flex items-center gap-1.5">
           <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -170,7 +170,7 @@ export function AppointmentCard({
       </div>
 
       {appointment.forUserName && (
-        <div className="mt-2 text-sm text-neutral-500">
+        <div className="mt-2 text-sm text-slate-500">
           Patient: {appointment.forUserName}
         </div>
       )}

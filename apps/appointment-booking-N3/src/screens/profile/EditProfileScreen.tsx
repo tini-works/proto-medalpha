@@ -91,7 +91,7 @@ export default function EditProfileScreen() {
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
         {/* Personal Info */}
         <div className="space-y-4">
-          <h3 className="font-medium text-neutral-900">Personal Information</h3>
+          <h3 className="font-medium text-charcoal-500">Personal Information</h3>
 
           <Field
             label="Full Name"
@@ -145,7 +145,7 @@ export default function EditProfileScreen() {
 
         {/* Address */}
         <div className="space-y-4">
-          <h3 className="font-medium text-neutral-900">Address</h3>
+          <h3 className="font-medium text-charcoal-500">Address</h3>
 
           <Field
             label="Street Address"
@@ -180,7 +180,7 @@ export default function EditProfileScreen() {
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+            className="btn btn-primary btn-block"
           >
             Save Changes
           </button>

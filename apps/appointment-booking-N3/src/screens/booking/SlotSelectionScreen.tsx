@@ -59,7 +59,7 @@ export default function SlotSelectionScreen() {
       <Page safeBottom={false}>
         <Header title="Select Time" showBack />
         <div className="p-4">
-          <div className="h-48 bg-neutral-100 rounded-lg animate-pulse" />
+          <div className="h-48 bg-cream-200 rounded-lg animate-pulse" />
         </div>
       </Page>
     )
@@ -72,7 +72,7 @@ export default function SlotSelectionScreen() {
       <div className="px-4 py-6 space-y-6">
         {/* Date selection */}
         <section>
-          <h2 className="text-sm font-medium text-neutral-700 mb-3">Select Date</h2>
+          <h2 className="text-sm font-medium text-slate-700 mb-3">Select Date</h2>
           <div className="flex gap-2 overflow-x-auto pb-2">
             {availableDates.slice(0, 7).map((date) => {
               const d = new Date(date)
@@ -81,10 +81,10 @@ export default function SlotSelectionScreen() {
                 <button
                   key={date}
                   onClick={() => setSelectedDate(date)}
-                  className={`flex-shrink-0 w-16 py-3 rounded-lg text-center transition-colors ${
+                  className={`flex-shrink-0 w-16 py-3 rounded-lg text-center transition-colors duration-normal ease-out-brand ${
                     isSelected
-                      ? 'bg-neutral-800 text-white'
-                      : 'bg-white border border-neutral-200 text-neutral-700 hover:border-neutral-400'
+                      ? 'bg-teal-500 text-white'
+                      : 'bg-white border border-cream-400 text-charcoal-500 hover:border-cream-500'
                   }`}
                 >
                   <div className="text-xs opacity-80">
@@ -102,7 +102,7 @@ export default function SlotSelectionScreen() {
 
         {/* Time slots */}
         <section>
-          <h2 className="text-sm font-medium text-neutral-700 mb-3">Available Times</h2>
+          <h2 className="text-sm font-medium text-slate-700 mb-3">Available Times</h2>
           <div className="grid grid-cols-3 gap-2">
             {slots.map((slot) => {
               const isSelected = selectedSlotValue?.time === slot.time && selectedSlotValue?.dateISO === slot.dateISO
@@ -111,12 +111,12 @@ export default function SlotSelectionScreen() {
                   key={`${slot.dateISO}-${slot.time}`}
                   onClick={() => handleSelectSlot(slot)}
                   disabled={!slot.available}
-                  className={`py-3 rounded-lg font-medium transition-colors ${
+                  className={`py-3 rounded-lg font-medium transition-colors duration-normal ease-out-brand ${
                     !slot.available
-                      ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                      ? 'bg-cream-200 text-slate-400 cursor-not-allowed'
                       : isSelected
-                        ? 'bg-neutral-800 text-white'
-                        : 'bg-white border border-neutral-200 text-neutral-700 hover:border-neutral-400'
+                        ? 'bg-teal-500 text-white'
+                        : 'bg-white border border-cream-400 text-charcoal-500 hover:border-cream-500'
                   }`}
                 >
                   {slot.time}
@@ -129,11 +129,11 @@ export default function SlotSelectionScreen() {
         {/* Who is this for */}
         {profile.familyMembers.length > 0 && (
           <section>
-            <h2 className="text-sm font-medium text-neutral-700 mb-3">Who is this appointment for?</h2>
+            <h2 className="text-sm font-medium text-slate-700 mb-3">Who is this appointment for?</h2>
             <div className="space-y-2">
               <label
                 className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer ${
-                  selectedFor === 'self' ? 'border-neutral-800 bg-neutral-50' : 'border-neutral-200 bg-white'
+                  selectedFor === 'self' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white'
                 }`}
               >
                 <input
@@ -142,7 +142,7 @@ export default function SlotSelectionScreen() {
                   value="self"
                   checked={selectedFor === 'self'}
                   onChange={(e) => setSelectedFor(e.target.value)}
-                  className="w-4 h-4 text-neutral-800"
+                  className="w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
                 />
                 <span className="font-medium">Myself ({profile.fullName})</span>
               </label>
@@ -150,7 +150,7 @@ export default function SlotSelectionScreen() {
                 <label
                   key={member.id}
                   className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer ${
-                    selectedFor === member.id ? 'border-neutral-800 bg-neutral-50' : 'border-neutral-200 bg-white'
+                    selectedFor === member.id ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white'
                   }`}
                 >
                   <input
@@ -159,7 +159,7 @@ export default function SlotSelectionScreen() {
                     value={member.id}
                     checked={selectedFor === member.id}
                     onChange={(e) => setSelectedFor(e.target.value)}
-                    className="w-4 h-4 text-neutral-800"
+                    className="w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
                   />
                   <span className="font-medium">{member.name}</span>
                 </label>
@@ -172,7 +172,7 @@ export default function SlotSelectionScreen() {
         <button
           onClick={handleContinue}
           disabled={!selectedSlotValue}
-          className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed"
+          className="btn btn-primary btn-block disabled:cursor-not-allowed"
         >
           Continue
         </button>

@@ -36,7 +36,7 @@ export default function DoctorProfileScreen() {
       <Page safeBottom={false}>
         <Header title="Doctor Profile" showBack />
         <div className="p-4">
-          <div className="h-48 bg-neutral-100 rounded-lg animate-pulse" />
+          <div className="h-48 bg-cream-200 rounded-lg animate-pulse" />
         </div>
       </Page>
     )
@@ -51,8 +51,8 @@ export default function DoctorProfileScreen() {
         <div className="flex items-start gap-4 mb-6">
           <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="lg" />
           <div className="flex-1">
-            <h1 className="text-xl font-semibold text-neutral-900">{doctor.name}</h1>
-            <p className="text-neutral-600">{doctor.specialty}</p>
+            <h1 className="text-xl font-semibold text-charcoal-500">{doctor.name}</h1>
+            <p className="text-slate-600">{doctor.specialty}</p>
             <div className="mt-2">
               <Rating value={doctor.rating} reviewCount={doctor.reviewCount} />
             </div>
@@ -61,7 +61,7 @@ export default function DoctorProfileScreen() {
 
         {/* Insurance */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-neutral-500 mb-2">Accepts</h2>
+          <h2 className="text-sm font-medium text-slate-500 mb-2">Accepts</h2>
           <div className="flex gap-2">
             {doctor.accepts.map((insurance) => (
               <Pill key={insurance} tone={insurance === 'GKV' ? 'info' : 'neutral'} size="md">
@@ -73,9 +73,9 @@ export default function DoctorProfileScreen() {
 
         {/* Location */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-neutral-500 mb-2">Location</h2>
-          <div className="flex items-start gap-2 text-neutral-900">
-            <svg className="w-5 h-5 text-neutral-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <h2 className="text-sm font-medium text-slate-500 mb-2">Location</h2>
+          <div className="flex items-start gap-2 text-charcoal-500">
+            <svg className="w-5 h-5 text-slate-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -86,28 +86,28 @@ export default function DoctorProfileScreen() {
             </svg>
             <div>
               <p>{doctor.address}</p>
-              <p className="text-sm text-neutral-500">{doctor.city}</p>
+              <p className="text-sm text-slate-500">{doctor.city}</p>
             </div>
           </div>
         </section>
 
         {/* Languages */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-neutral-500 mb-2">Languages</h2>
-          <p className="text-neutral-900">{doctor.languages.join(', ')}</p>
+          <h2 className="text-sm font-medium text-slate-500 mb-2">Languages</h2>
+          <p className="text-charcoal-500">{doctor.languages.join(', ')}</p>
         </section>
 
         {/* About */}
         {doctor.about && (
           <section className="mb-6">
-            <h2 className="text-sm font-medium text-neutral-500 mb-2">About</h2>
-            <p className="text-neutral-700">{doctor.about}</p>
+            <h2 className="text-sm font-medium text-slate-500 mb-2">About</h2>
+            <p className="text-slate-700">{doctor.about}</p>
           </section>
         )}
 
         {/* Next available */}
-        <section className="mb-8 p-4 bg-neutral-100 rounded-lg">
-          <p className="text-sm text-neutral-700">
+        <section className="mb-8 p-4 bg-cream-200 rounded-lg">
+          <p className="text-sm text-slate-700">
             <span className="font-medium">Next available:</span>{' '}
             {new Date(doctor.nextAvailableISO).toLocaleDateString('de-DE', {
               weekday: 'long',
@@ -120,7 +120,7 @@ export default function DoctorProfileScreen() {
         {/* Book button */}
         <button
           onClick={() => navigate(doctorSlotsPath(doctor.id))}
-          className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+          className="btn btn-primary btn-block"
         >
           Select Appointment Time
         </button>

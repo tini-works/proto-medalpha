@@ -137,7 +137,7 @@ export default function ProfileCompletionScreen() {
 
         {/* Address */}
         <div className="space-y-4">
-          <h3 className="font-medium text-neutral-900">Address</h3>
+          <h3 className="font-medium text-charcoal-500">Address</h3>
 
           <Field
             label="Street Address"
@@ -182,24 +182,24 @@ export default function ProfileCompletionScreen() {
               type="checkbox"
               checked={formData.dataProcessing}
               onChange={(e) => handleChange('dataProcessing', e.target.checked)}
-              className="mt-1 w-4 h-4 rounded border-neutral-300 text-neutral-800 focus:ring-neutral-500"
+              className="mt-1 w-4 h-4 rounded border-cream-400 text-teal-600 focus:ring-teal-500"
             />
-            <span className="text-sm text-neutral-700">
+            <span className="text-sm text-slate-700">
               I agree to the processing of my personal and health data in accordance with the{' '}
-              <a href="#" className="text-neutral-900 font-medium hover:underline">
+              <a href="#" className="text-charcoal-500 font-medium hover:underline">
                 Privacy Policy
               </a>
               .
-              <span className="text-red-500 ml-0.5">*</span>
+              <span className="text-coral-600 ml-0.5">*</span>
             </span>
           </label>
-          {errors.dataProcessing && <p className="text-sm text-red-500">{errors.dataProcessing}</p>}
+          {errors.dataProcessing && <p className="text-body-sm text-coral-800">{errors.dataProcessing}</p>}
         </div>
 
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+            className="btn btn-primary btn-block"
           >
             Complete Profile
           </button>

@@ -14,7 +14,7 @@ const tabs: TabItem[] = [
 ]
 
 function TabIcon({ icon, active }: { icon: TabItem['icon']; active: boolean }) {
-  const color = active ? 'text-neutral-800' : 'text-neutral-400'
+  const color = active ? 'text-charcoal-500' : 'text-slate-400'
 
   switch (icon) {
     case 'home':
@@ -69,7 +69,7 @@ export function TabBar() {
   const location = useLocation()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-neutral-200">
+    <nav className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-cream-300">
       <div className="mx-auto max-w-md">
         <div className="flex items-center justify-around py-2">
           {tabs.map((tab) => {
@@ -79,7 +79,7 @@ export function TabBar() {
                 key={tab.path}
                 to={tab.path}
                 className={`flex flex-col items-center gap-1 px-4 py-2 min-w-[64px] ${
-                  isActive ? 'text-neutral-800' : 'text-neutral-400'
+                  isActive ? 'text-charcoal-500' : 'text-slate-400'
                 }`}
               >
                 <TabIcon icon={tab.icon} active={isActive} />

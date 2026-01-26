@@ -25,7 +25,7 @@ export function CMSCard({ content, onClick }: CMSCardProps) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left p-4 bg-white rounded-lg border border-neutral-200 hover:border-neutral-300 hover:shadow-sm transition-all"
+      className="w-full text-left p-4 bg-white rounded-lg border border-cream-400 hover:border-cream-500 hover:shadow-sm transition-colors duration-normal ease-out-brand"
     >
       {content.imageUrl && (
         <img
@@ -35,14 +35,14 @@ export function CMSCard({ content, onClick }: CMSCardProps) {
         />
       )}
       <div className="flex items-start justify-between gap-2">
-        <h3 className="font-semibold text-neutral-900">{content.title}</h3>
+        <h3 className="font-semibold text-charcoal-500">{content.title}</h3>
         <Pill tone={typeTones[content.type]} size="sm">
           {typeLabels[content.type]}
         </Pill>
       </div>
-      <p className="mt-1 text-sm text-neutral-600 line-clamp-2">{content.description}</p>
+      <p className="mt-1 text-sm text-slate-600 line-clamp-2">{content.description}</p>
       {content.link && (
-        <span className="mt-2 inline-flex items-center text-sm text-neutral-700 font-medium">
+        <span className="mt-2 inline-flex items-center text-sm text-teal-700 font-medium hover:underline">
           Learn more
           <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

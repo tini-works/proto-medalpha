@@ -21,21 +21,21 @@ export function ProgressIndicator({
       {(showLabel || showPercentage) && (
         <div className="flex items-center justify-between mb-2">
           {showLabel && (
-            <span className="text-sm font-medium text-neutral-700">
+            <span className="text-sm font-medium text-slate-700">
               Step {currentStep} of {totalSteps}
             </span>
           )}
           {showPercentage && (
-            <span className="text-sm text-neutral-500">{percentage}%</span>
+            <span className="text-sm text-slate-500">{percentage}%</span>
           )}
         </div>
       )}
 
       {/* Progress visualization */}
       {variant === 'bar' ? (
-        <div className="h-2 w-full rounded-full bg-neutral-200 overflow-hidden">
+        <div className="h-2 w-full rounded-full bg-cream-300 overflow-hidden">
           <div
-            className="h-full rounded-full bg-neutral-800 transition-all duration-500"
+            className="h-full rounded-full bg-teal-500 transition-all duration-slow ease-out-brand"
             style={{ width: `${percentage}%` }}
           />
         </div>
@@ -44,8 +44,8 @@ export function ProgressIndicator({
           {Array.from({ length: totalSteps }, (_, index) => (
             <div
               key={index}
-              className={`h-2 w-2 rounded-full transition-all duration-500 ${
-                index < currentStep ? 'bg-neutral-800' : 'bg-neutral-200'
+              className={`h-2 w-2 rounded-full transition-all duration-slow ease-out-brand ${
+                index < currentStep ? 'bg-teal-500' : 'bg-cream-300'
               }`}
             />
           ))}

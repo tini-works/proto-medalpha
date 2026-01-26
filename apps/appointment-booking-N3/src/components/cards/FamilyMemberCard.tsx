@@ -21,14 +21,14 @@ export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardP
     : null
 
   return (
-    <div className="p-4 bg-white rounded-lg border border-neutral-200">
+    <div className="p-4 bg-white rounded-lg border border-cream-400">
       <div className="flex items-start gap-3">
         <Avatar name={member.name} size="md" />
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-neutral-900 truncate">{member.name}</h3>
+          <h3 className="font-semibold text-charcoal-500 truncate">{member.name}</h3>
           <div className="mt-1 flex items-center gap-2">
             <Pill tone="neutral">{relationshipLabels[member.relationship]}</Pill>
-            {age !== null && <span className="text-sm text-neutral-500">{age} years</span>}
+            {age !== null && <span className="text-sm text-slate-500">{age} years</span>}
           </div>
           {member.insuranceType && (
             <div className="mt-2">
@@ -39,11 +39,11 @@ export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardP
       </div>
 
       {(onEdit || onRemove) && (
-        <div className="mt-3 pt-3 border-t border-neutral-100 flex gap-2">
+        <div className="mt-3 pt-3 border-t border-cream-200 flex gap-2">
           {onEdit && (
             <button
               onClick={onEdit}
-              className="flex-1 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors"
+              className="flex-1 py-2 text-sm font-medium text-charcoal-500 hover:bg-cream-200 rounded-lg transition-colors duration-normal ease-out-brand"
             >
               Edit
             </button>
@@ -51,7 +51,7 @@ export function FamilyMemberCard({ member, onEdit, onRemove }: FamilyMemberCardP
           {onRemove && (
             <button
               onClick={onRemove}
-              className="flex-1 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              className="flex-1 py-2 text-sm font-medium text-coral-700 hover:bg-coral-50 rounded-lg transition-colors duration-normal ease-out-brand"
             >
               Remove
             </button>

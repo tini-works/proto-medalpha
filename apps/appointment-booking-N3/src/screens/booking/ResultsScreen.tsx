@@ -135,7 +135,7 @@ export default function ResultsScreen() {
   return (
     <Page>
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 bg-white border-b border-neutral-200">
+      <header className="sticky top-0 z-20 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Back button */}
           <button
@@ -147,7 +147,7 @@ export default function ResultsScreen() {
           </button>
 
           {/* Title */}
-          <h1 className="text-lg font-semibold text-neutral-900">Search Results</h1>
+          <h1 className="text-lg font-semibold text-charcoal-500">Search Results</h1>
 
           {/* Filter button with badge */}
           <button
@@ -164,15 +164,15 @@ export default function ResultsScreen() {
       </header>
 
       {/* Sort Selector Row */}
-      <div className="sticky top-[57px] z-10 bg-neutral-50 border-b border-neutral-200">
+      <div className="sticky top-[57px] z-10 bg-cream-100 border-b border-cream-300">
         <div className="px-4 py-2.5">
           <div className="relative">
             <button
               onClick={() => setShowSortMenu(!showSortMenu)}
-              className="flex items-center gap-1.5 text-sm text-neutral-600"
+              className="flex items-center gap-1.5 text-sm text-slate-600"
             >
               <span>Sorted by:</span>
-              <span className="font-semibold text-neutral-900">{sortLabels[sortBy]}</span>
+              <span className="font-semibold text-charcoal-500">{sortLabels[sortBy]}</span>
               <ChevronDownIcon />
             </button>
 
@@ -185,7 +185,7 @@ export default function ResultsScreen() {
                   onClick={() => setShowSortMenu(false)}
                 />
                 {/* Menu */}
-                <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-20">
+                <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-cream-400 py-1 z-20">
                   {(Object.keys(sortLabels) as SortOption[]).map((option) => (
                     <button
                       key={option}
@@ -195,8 +195,8 @@ export default function ResultsScreen() {
                       }}
                       className={`w-full px-4 py-2.5 text-left text-sm transition-colors ${
                         sortBy === option
-                          ? 'bg-neutral-100 text-neutral-900 font-medium'
-                          : 'text-neutral-700 hover:bg-neutral-50'
+                          ? 'bg-cream-200 text-charcoal-500 font-medium'
+                          : 'text-slate-700 hover:bg-cream-50'
                       }`}
                     >
                       {sortLabels[option]}
@@ -208,7 +208,7 @@ export default function ResultsScreen() {
           </div>
 
           {/* Results count */}
-          <p className="text-xs text-neutral-500 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             {loading ? 'Searching...' : `${doctors.length} doctor${doctors.length !== 1 ? 's' : ''} found`}
           </p>
         </div>
@@ -253,7 +253,7 @@ export default function ResultsScreen() {
             action={
               <button
                 onClick={() => navigate(PATHS.BOOKING_SEARCH)}
-                className="px-4 py-2.5 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+                className="btn btn-primary btn-block"
               >
                 Modify Search
               </button>

@@ -18,17 +18,17 @@ export function Select({ label, options, error, hint, placeholder, className = '
 
   return (
     <div className="space-y-1">
-      <label htmlFor={selectId} className="block text-sm font-medium text-neutral-700">
+      <label htmlFor={selectId} className="block text-label-md text-slate-700">
         {label}
-        {props.required && <span className="text-red-500 ml-0.5">*</span>}
+        {props.required && <span className="text-coral-600 ml-0.5">*</span>}
       </label>
       <select
         id={selectId}
         className={`
-          w-full px-3 py-2.5 text-base rounded-lg border appearance-none bg-white
-          ${error ? 'border-red-500 focus:ring-red-500' : 'border-neutral-300 focus:ring-primary-500'}
+          w-full px-3 py-2.5 text-body-md rounded-lg border appearance-none bg-white
+          ${error ? 'border-coral-600 focus:ring-coral-500' : 'border-cream-400 focus:ring-teal-500'}
           focus:outline-none focus:ring-2 focus:border-transparent
-          disabled:bg-neutral-100 disabled:text-neutral-500
+          disabled:bg-cream-200 disabled:text-slate-500
           ${className}
         `}
         style={{
@@ -51,8 +51,8 @@ export function Select({ label, options, error, hint, placeholder, className = '
           </option>
         ))}
       </select>
-      {error && <p className="text-sm text-red-500">{error}</p>}
-      {hint && !error && <p className="text-sm text-neutral-500">{hint}</p>}
+      {error && <p className="text-body-sm text-coral-800">{error}</p>}
+      {hint && !error && <p className="text-body-sm text-slate-500">{hint}</p>}
     </div>
   )
 }

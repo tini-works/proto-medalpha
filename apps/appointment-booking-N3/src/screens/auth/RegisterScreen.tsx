@@ -120,7 +120,7 @@ export default function RegisterScreen() {
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+            className="btn btn-primary btn-block"
           >
             Create Account
           </button>

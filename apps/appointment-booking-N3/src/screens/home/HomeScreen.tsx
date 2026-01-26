@@ -25,11 +25,11 @@ export default function HomeScreen() {
   return (
     <Page>
       {/* Header */}
-      <header className="bg-white px-4 py-4 border-b border-neutral-200">
+      <header className="bg-white px-4 py-4 border-b border-cream-300">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-neutral-500">Welcome back,</p>
-            <h1 className="text-xl font-semibold text-neutral-900">{profile.fullName || 'User'}</h1>
+            <p className="text-sm text-slate-500">Welcome back,</p>
+            <h1 className="text-xl font-semibold text-charcoal-500">{profile.fullName || 'User'}</h1>
           </div>
           <Link to={PATHS.SETTINGS}>
             <Avatar name={profile.fullName || 'N'} size="md" />
@@ -40,11 +40,11 @@ export default function HomeScreen() {
       <div className="px-4 py-6 space-y-6">
         {/* Quick Actions */}
         <section>
-          <h2 className="text-lg font-semibold text-neutral-900 mb-3">Quick Actions</h2>
+          <h2 className="text-lg font-semibold text-charcoal-500 mb-3">Quick Actions</h2>
           <div className="grid grid-cols-2 gap-3">
             <Link
               to={PATHS.BOOKING_SEARCH}
-              className="p-4 bg-neutral-800 rounded-lg text-white hover:bg-neutral-900 transition-colors"
+              className="p-4 bg-teal-500 rounded-lg text-white hover:bg-teal-600 transition-colors duration-normal ease-out-brand"
             >
               <svg className="w-6 h-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
@@ -59,9 +59,9 @@ export default function HomeScreen() {
 
             <Link
               to={PATHS.PROFILE_FAMILY}
-              className="p-4 bg-white border border-neutral-200 rounded-lg text-neutral-900 hover:bg-neutral-50 transition-colors"
+              className="p-4 bg-white border border-cream-400 rounded-lg text-charcoal-500 hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
             >
-              <svg className="w-6 h-6 mb-2 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-6 h-6 mb-2 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -78,8 +78,8 @@ export default function HomeScreen() {
         {upcomingAppointments.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-neutral-900">Upcoming Appointments</h2>
-              <Link to={PATHS.HISTORY} className="text-sm text-neutral-700 font-medium">
+              <h2 className="text-lg font-semibold text-charcoal-500">Upcoming Appointments</h2>
+              <Link to={PATHS.HISTORY} className="text-sm text-teal-700 font-medium hover:underline">
                 View all
               </Link>
             </div>
@@ -93,11 +93,11 @@ export default function HomeScreen() {
 
         {/* CMS Content */}
         <section>
-          <h2 className="text-lg font-semibold text-neutral-900 mb-3">For You</h2>
+          <h2 className="text-lg font-semibold text-charcoal-500 mb-3">For You</h2>
           {loading ? (
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-24 bg-neutral-100 rounded-xl animate-pulse" />
+                <div key={i} className="h-24 bg-cream-200 rounded-xl animate-pulse" />
               ))}
             </div>
           ) : (

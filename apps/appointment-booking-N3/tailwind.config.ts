@@ -116,7 +116,8 @@ export default {
         slow: '300ms',
       },
       transitionTimingFunction: {
-        'ease-out-brand': 'cubic-bezier(0, 0, 0.2, 1)',
+        // Use as `ease-out-brand`
+        'out-brand': 'cubic-bezier(0, 0, 0.2, 1)',
       },
       animation: {
         'fade-in': 'fadeIn 300ms ease-out',

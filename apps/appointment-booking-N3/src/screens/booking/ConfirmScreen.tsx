@@ -96,7 +96,7 @@ export default function ConfirmScreen() {
     <div className="fixed inset-0 z-50">
       {/* Dark overlay - fade in */}
       <div
-        className="absolute inset-0 bg-neutral-900/50 animate-fade-in"
+        className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
         onClick={handleClose}
       />
 
@@ -104,19 +104,19 @@ export default function ConfirmScreen() {
       <div className="absolute bottom-0 left-0 right-0 h-[90vh] flex flex-col rounded-t-3xl bg-white overflow-hidden animate-slide-up">
         {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-2">
-          <div className="w-10 h-1 rounded-full bg-neutral-300" />
+          <div className="w-10 h-1 rounded-full bg-cream-400" />
         </div>
 
         {/* Header row */}
         <div className="flex items-center justify-between px-4 pb-4">
-          <h1 className="text-xl font-bold text-neutral-900">Confirm Appointment</h1>
+          <h1 className="text-xl font-bold text-charcoal-500">Confirm Appointment</h1>
           <button
             onClick={handleClose}
-            className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center hover:bg-neutral-200 transition-colors"
+            className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
             aria-label="Close"
           >
             <svg
-              className="w-5 h-5 text-neutral-600"
+              className="w-5 h-5 text-slate-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -173,15 +173,10 @@ export default function ConfirmScreen() {
         </div>
 
         {/* Fixed footer */}
-        <div className="flex-shrink-0 p-4 bg-white border-t border-neutral-100">
+        <div className="flex-shrink-0 p-4 bg-white border-t border-cream-300">
           <button
             onClick={handleConfirm}
-            className="
-              w-full h-14 bg-neutral-800 text-white font-bold rounded-xl
-              shadow-lg shadow-neutral-800/25
-              hover:bg-neutral-900 transition-colors
-              active:scale-[0.99] transform
-            "
+            className="btn btn-primary btn-block h-14 shadow-md"
           >
             Confirm Appointment
           </button>

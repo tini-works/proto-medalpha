@@ -119,7 +119,7 @@ export default function VerifyScreen() {
 
         <button
           type="submit"
-          className="w-full py-3.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+          className="btn btn-primary btn-block"
         >
           Verify
         </button>
@@ -127,7 +127,7 @@ export default function VerifyScreen() {
         <button
           type="button"
           onClick={handleResend}
-          className="w-full mt-3 py-3.5 px-4 text-neutral-700 font-medium hover:bg-neutral-100 rounded-lg transition-colors"
+          className="btn btn-tertiary btn-block mt-3"
         >
           Resend code
         </button>

@@ -47,17 +47,17 @@ export default function HistoryScreen() {
   }
 
   return (
-    <Page>
+      <Page>
       {/* Sticky Header */}
-      <header className="sticky top-0 z-10 bg-white border-b border-neutral-200">
+      <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between px-4 py-3">
-          <h1 className="text-lg font-semibold text-neutral-900">My Appointments</h1>
+          <h1 className="text-lg font-semibold text-charcoal-500">My Appointments</h1>
           <button
             onClick={handleBookNew}
-            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-neutral-100 transition-colors"
+            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-200 transition-colors duration-normal ease-out-brand"
             aria-label="Book new appointment"
           >
-            <svg className="w-6 h-6 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11v6m3-3H9" />
             </svg>
@@ -130,10 +130,10 @@ export default function HistoryScreen() {
       </div>
 
       {/* Fixed Bottom CTA */}
-      <div className="fixed bottom-16 left-0 right-0 p-4 bg-gradient-to-t from-neutral-50 via-neutral-50 to-transparent">
+      <div className="fixed bottom-16 left-0 right-0 p-4 bg-gradient-to-t from-cream-100 via-cream-100 to-transparent">
         <button
           onClick={handleBookNew}
-          className="w-full h-14 bg-neutral-800 text-white rounded-xl shadow-lg flex items-center justify-center gap-2 font-medium hover:bg-neutral-700 active:scale-[0.98] transition-all"
+          className="btn btn-primary btn-block h-14 shadow-md flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

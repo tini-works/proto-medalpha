@@ -94,7 +94,7 @@ export default function FamilyMembersScreen() {
               action={
                 <button
                   onClick={() => setShowForm(true)}
-                  className="px-4 py-2.5 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+                  className="btn btn-primary"
                 >
                   Add Family Member
                 </button>
@@ -107,7 +107,7 @@ export default function FamilyMembersScreen() {
         {profile.familyMembers.length > 0 && !showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="w-full py-3 px-4 border-2 border-dashed border-neutral-300 rounded-lg text-neutral-600 font-medium hover:border-neutral-400 hover:text-neutral-700 transition-colors"
+            className="w-full py-3 px-4 border-2 border-dashed border-cream-400 rounded-lg text-slate-600 font-medium hover:border-cream-500 hover:text-charcoal-500 transition-colors duration-normal ease-out-brand"
           >
             + Add Family Member
           </button>
@@ -115,8 +115,8 @@ export default function FamilyMembersScreen() {
 
         {/* Add form */}
         {showForm && (
-          <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-neutral-200 p-4 space-y-4">
-            <h3 className="font-semibold text-neutral-900">Add Family Member</h3>
+          <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-cream-400 p-4 space-y-4">
+            <h3 className="font-semibold text-charcoal-500">Add Family Member</h3>
 
             <Field
               label="Full Name"
@@ -167,13 +167,13 @@ export default function FamilyMembersScreen() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="flex-1 py-2.5 px-4 border border-neutral-300 text-neutral-700 font-medium rounded-lg hover:bg-neutral-50 transition-colors"
+                className="btn btn-tertiary flex-1 h-11 py-0"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 px-4 bg-neutral-800 text-white font-medium rounded-lg hover:bg-neutral-900 transition-colors"
+                className="btn btn-primary flex-1 h-11 py-0"
               >
                 Add Member
               </button>

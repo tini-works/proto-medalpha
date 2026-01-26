@@ -31,32 +31,32 @@ export default function SettingsScreen() {
         {/* Profile card */}
         <Link
           to={PATHS.PROFILE_EDIT}
-          className="flex items-center gap-4 p-4 bg-white rounded-lg border border-neutral-200 hover:bg-neutral-50 transition-colors"
+          className="flex items-center gap-4 p-4 bg-white rounded-lg border border-cream-400 hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
         >
           <Avatar name={profile.fullName || 'U'} size="lg" />
           <div className="flex-1 min-w-0">
-            <h2 className="font-semibold text-neutral-900 truncate">{profile.fullName || 'User'}</h2>
-            <p className="text-sm text-neutral-500 truncate">{profile.email}</p>
+            <h2 className="font-semibold text-charcoal-500 truncate">{profile.fullName || 'User'}</h2>
+            <p className="text-sm text-slate-500 truncate">{profile.email}</p>
             {profile.insuranceType && (
               <div className="mt-1">
                 <Pill tone={profile.insuranceType === 'GKV' ? 'info' : 'neutral'}>{profile.insuranceType}</Pill>
               </div>
             )}
           </div>
-          <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </Link>
 
         {/* Menu items */}
-        <div className="bg-white rounded-lg border border-neutral-200 divide-y divide-neutral-100">
+        <div className="bg-white rounded-lg border border-cream-400 divide-y divide-cream-200">
           <Link
             to={PATHS.PROFILE_FAMILY}
-            className="flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors"
+            className="flex items-center justify-between p-4 hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-                <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center">
+                <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -66,22 +66,22 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-neutral-900">Family Members</p>
-                <p className="text-sm text-neutral-500">{profile.familyMembers.length} members</p>
+                <p className="font-medium text-charcoal-500">Family Members</p>
+                <p className="text-sm text-slate-500">{profile.familyMembers.length} members</p>
               </div>
             </div>
-            <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
 
           <Link
             to={PATHS.SETTINGS_NOTIFICATIONS}
-            className="flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors"
+            className="flex items-center justify-between p-4 hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-                <svg className="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center">
+                <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -91,11 +91,11 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-neutral-900">Notifications</p>
-                <p className="text-sm text-neutral-500">Manage your alerts</p>
+                <p className="font-medium text-charcoal-500">Notifications</p>
+                <p className="text-sm text-slate-500">Manage your alerts</p>
               </div>
             </div>
-            <svg className="w-5 h-5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -105,21 +105,21 @@ export default function SettingsScreen() {
         <div className="space-y-3">
           <button
             onClick={handleSignOut}
-            className="w-full py-3.5 px-4 border border-neutral-300 text-neutral-700 font-medium rounded-lg hover:bg-neutral-50 transition-colors"
+            className="btn btn-tertiary btn-block"
           >
             Sign Out
           </button>
 
           <button
             onClick={handleResetAll}
-            className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors"
+            className="btn btn-accent btn-block"
           >
             Reset All Data
           </button>
         </div>
 
         {/* Version */}
-        <p className="text-center text-sm text-neutral-400">MedAlpha N3 v1.0.0</p>
+        <p className="text-center text-sm text-slate-400">DocliQ N3 v1.0.0</p>
       </div>
 
       <TabBar />

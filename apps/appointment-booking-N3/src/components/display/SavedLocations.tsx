@@ -16,7 +16,7 @@ export function SavedLocations({ locations, onSelect, selectedId }: SavedLocatio
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-neutral-700">Saved Locations</h3>
+      <h3 className="text-sm font-medium text-slate-700">Saved Locations</h3>
       <div className="space-y-2">
         {locations.map((location) => {
           const isSelected = selectedId === location.id
@@ -24,21 +24,21 @@ export function SavedLocations({ locations, onSelect, selectedId }: SavedLocatio
             <button
               key={location.id}
               onClick={() => onSelect(location)}
-              className={`w-full p-4 bg-white rounded-xl border shadow-sm transition-all flex items-center gap-3 text-left ${
+              className={`w-full p-4 bg-white rounded-xl border shadow-sm transition-colors duration-normal ease-out-brand flex items-center gap-3 text-left ${
                 isSelected
-                  ? 'border-neutral-800 ring-1 ring-neutral-800'
-                  : 'border-neutral-200 hover:border-neutral-400'
+                  ? 'border-teal-500 ring-1 ring-teal-500'
+                  : 'border-cream-400 hover:border-cream-500'
               }`}
             >
               {/* Icon */}
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  location.icon === 'home' ? 'bg-blue-100' : 'bg-orange-100'
+                  location.icon === 'home' ? 'bg-teal-50' : 'bg-coral-50'
                 }`}
               >
                 {location.icon === 'home' ? (
                   <svg
-                    className="w-5 h-5 text-blue-600"
+                    className="w-5 h-5 text-teal-700"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -52,7 +52,7 @@ export function SavedLocations({ locations, onSelect, selectedId }: SavedLocatio
                   </svg>
                 ) : (
                   <svg
-                    className="w-5 h-5 text-orange-600"
+                    className="w-5 h-5 text-coral-700"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -69,14 +69,14 @@ export function SavedLocations({ locations, onSelect, selectedId }: SavedLocatio
 
               {/* Name & Address */}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-neutral-900">{location.name}</p>
-                <p className="text-sm text-neutral-500 truncate">{location.address}</p>
+                <p className="font-semibold text-charcoal-500">{location.name}</p>
+                <p className="text-sm text-slate-500 truncate">{location.address}</p>
               </div>
 
               {/* Radio indicator */}
               <div
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                  isSelected ? 'border-neutral-800 bg-neutral-800' : 'border-neutral-300'
+                  isSelected ? 'border-teal-500 bg-teal-500' : 'border-cream-400'
                 }`}
               >
                 {isSelected && (

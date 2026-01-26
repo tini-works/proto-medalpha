@@ -22,10 +22,10 @@ export default function RescheduleConfirmScreen() {
       <Page>
         <Header title="Confirm Reschedule" showBack />
         <div className="px-4 py-8 text-center">
-          <p className="text-neutral-500">No slot selected</p>
+          <p className="text-slate-500">No slot selected</p>
           <button
             onClick={() => navigate(id ? reschedulePath(id) : PATHS.HISTORY)}
-            className="mt-4 text-teal-600 font-medium"
+            className="mt-4 text-teal-700 font-medium hover:underline"
           >
             Back to slot selection
           </button>
@@ -95,27 +95,27 @@ export default function RescheduleConfirmScreen() {
         {/* Comparison View */}
         <div className="space-y-4">
           {/* Old Appointment */}
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="bg-coral-50 border border-coral-600 rounded-xl p-4">
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <svg className="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-6 h-6 rounded-full bg-coral-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg className="w-4 h-4 text-coral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-red-600 font-medium mb-1">Previous Appointment</p>
-                <p className="font-semibold text-neutral-900">
+                <p className="text-sm text-coral-700 font-medium mb-1">Previous Appointment</p>
+                <p className="font-semibold text-charcoal-500">
                   {formatDateWithWeekday(originalAppointment.dateISO)} at {formatTime(originalAppointment.time)}
                 </p>
-                <p className="text-sm text-neutral-500 mt-1">Will be cancelled</p>
+                <p className="text-sm text-slate-500 mt-1">Will be cancelled</p>
               </div>
             </div>
           </div>
 
           {/* Arrow */}
           <div className="flex justify-center">
-            <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center">
-              <svg className="w-5 h-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-8 h-8 rounded-full bg-cream-200 flex items-center justify-center">
+              <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </div>
@@ -131,41 +131,41 @@ export default function RescheduleConfirmScreen() {
               </div>
               <div>
                 <p className="text-sm text-teal-600 font-medium mb-1">New Appointment</p>
-                <p className="font-semibold text-neutral-900">
+                <p className="font-semibold text-charcoal-500">
                   {formatDateWithWeekday(selectedNewSlot.dateISO)} at {formatTime(selectedNewSlot.time)}
                 </p>
-                <p className="text-sm text-neutral-500 mt-1">Will be booked</p>
+                <p className="text-sm text-slate-500 mt-1">Will be booked</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Appointment Details */}
-        <div className="bg-white rounded-xl border border-neutral-200 divide-y divide-neutral-100">
+        <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-200">
           <div className="p-4">
-            <p className="text-sm text-neutral-500 mb-1">Doctor</p>
-            <p className="font-medium text-neutral-900">{originalAppointment.doctorName}</p>
-            <p className="text-sm text-neutral-600">{originalAppointment.specialty}</p>
+            <p className="text-sm text-slate-500 mb-1">Doctor</p>
+            <p className="font-medium text-charcoal-500">{originalAppointment.doctorName}</p>
+            <p className="text-sm text-slate-600">{originalAppointment.specialty}</p>
           </div>
           <div className="p-4">
-            <p className="text-sm text-neutral-500 mb-1">Location</p>
-            <p className="font-medium text-neutral-900">Marktplatz 5, 10178 Berlin</p>
+            <p className="text-sm text-slate-500 mb-1">Location</p>
+            <p className="font-medium text-charcoal-500">Marktplatz 5, 10178 Berlin</p>
           </div>
           {originalAppointment.forUserName && (
             <div className="p-4">
-              <p className="text-sm text-neutral-500 mb-1">Patient</p>
-              <p className="font-medium text-neutral-900">{originalAppointment.forUserName}</p>
+              <p className="text-sm text-slate-500 mb-1">Patient</p>
+              <p className="font-medium text-charcoal-500">{originalAppointment.forUserName}</p>
             </div>
           )}
         </div>
 
         {/* Safety Note */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
           <div className="flex gap-3">
-            <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-slate-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-sm text-blue-800">
+            <p className="text-sm text-slate-700">
               Your previous appointment will only be cancelled after the new appointment is confirmed.
             </p>
           </div>
@@ -173,8 +173,8 @@ export default function RescheduleConfirmScreen() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-            <p className="text-sm text-red-700">{error}</p>
+          <div className="bg-coral-50 border border-coral-600 rounded-xl p-4">
+            <p className="text-sm text-coral-800">{error}</p>
           </div>
         )}
 
@@ -183,7 +183,7 @@ export default function RescheduleConfirmScreen() {
           <button
             onClick={handleConfirm}
             disabled={isSubmitting}
-            className="w-full h-12 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isSubmitting ? (
               <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -198,7 +198,7 @@ export default function RescheduleConfirmScreen() {
           <button
             onClick={handleCancel}
             disabled={isSubmitting}
-            className="w-full h-12 text-neutral-600 font-medium hover:text-neutral-900 transition-colors disabled:opacity-50"
+            className="btn btn-tertiary btn-block h-12 py-0 disabled:opacity-50"
           >
             Cancel
           </button>

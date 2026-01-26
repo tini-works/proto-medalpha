@@ -24,19 +24,19 @@ export function PatientSelector({
   return (
     <div className="space-y-1">
       {label && (
-        <span className="block text-sm font-medium text-neutral-700">{label}</span>
+        <span className="block text-label-md text-slate-700">{label}</span>
       )}
-      <div className="flex h-12 w-full items-center justify-center rounded-xl bg-neutral-100 p-1">
+      <div className="flex h-12 w-full items-center justify-center rounded-xl bg-cream-200 p-1">
         {options.map((option) => (
           <label
             key={option.value}
             className={`
-              flex h-full grow cursor-pointer items-center justify-center rounded-lg px-2 text-sm font-bold
-              transition-all duration-200
+              flex h-full grow cursor-pointer items-center justify-center rounded-lg px-2 text-sm font-medium
+              transition-colors duration-normal ease-out-brand
               ${
                 value === option.value
-                  ? 'bg-neutral-800 text-white shadow-sm'
-                  : 'text-neutral-500 hover:text-neutral-700'
+                  ? 'bg-teal-500 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-charcoal-500'
               }
             `}
           >

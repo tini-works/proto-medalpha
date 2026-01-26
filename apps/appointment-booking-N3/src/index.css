@@ -147,44 +147,43 @@ a,
   }
 
   /* Primary CTA Button - Teal background */
-  .btn-primary {
-    @apply w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-lg;
-    @apply hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98];
-    @apply transition-all duration-normal;
+  .btn {
+    @apply px-4 py-3.5 font-medium rounded-lg;
+    @apply transition-colors duration-normal ease-out-brand;
     @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
     min-height: 44px;
   }
 
+  .btn-block {
+    @apply w-full;
+  }
+
+  .btn-primary {
+    @apply bg-teal-500 text-white;
+    @apply hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98];
+  }
+
   .btn-primary:disabled {
-    @apply bg-teal-200 cursor-not-allowed;
+    @apply bg-teal-200 text-teal-800 cursor-not-allowed;
   }
 
   /* Secondary Button - Outlined */
   .btn-secondary {
-    @apply w-full py-3.5 px-4 bg-transparent text-teal-500 font-medium rounded-lg;
-    @apply border border-teal-500;
+    @apply bg-transparent text-teal-700 border border-teal-500;
     @apply hover:bg-teal-50 active:bg-teal-100 active:scale-[0.98];
-    @apply transition-all duration-normal;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
-    min-height: 44px;
   }
 
   /* Tertiary/Ghost Button */
   .btn-tertiary {
-    @apply w-full py-3.5 px-4 bg-transparent text-charcoal-500 font-medium rounded-lg;
+    @apply bg-transparent text-charcoal-500;
     @apply hover:bg-cream-200 active:bg-cream-300 active:scale-[0.98];
-    @apply transition-all duration-normal;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
-    min-height: 44px;
   }
 
   /* Accent Button - Coral (use dark text for AA compliance) */
   .btn-accent {
-    @apply w-full py-3.5 px-4 bg-coral-500 text-charcoal-500 font-medium rounded-lg;
+    @apply bg-coral-500 text-charcoal-500;
     @apply hover:bg-coral-600 active:bg-coral-700 active:scale-[0.98];
-    @apply transition-all duration-normal;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2;
-    min-height: 44px;
+    @apply focus-visible:ring-coral-500;
   }
 
   /* Status indicators - DocliQ semantic colors */
