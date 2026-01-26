@@ -7,6 +7,16 @@ export interface FamilyMember {
   relationship: 'child' | 'spouse' | 'parent' | 'other'
   insuranceType?: InsuranceType
   egkNumber?: string
+  // Verification and identity
+  verified?: boolean // defaults to false when created
+  photoUrl?: string // placeholder URL for design mockup
+  // Extended fields
+  emergencyContact?: {
+    name: string
+    phone: string
+    relationship: string
+  }
+  medicalNotes?: string // allergies, conditions, etc.
 }
 
 export interface UserProfile {

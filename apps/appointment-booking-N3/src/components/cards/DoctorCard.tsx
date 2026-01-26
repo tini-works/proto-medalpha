@@ -127,13 +127,13 @@ export function DoctorCard({
   }
 
   return (
-    <div className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-neutral-100">
+    <div className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-cream-300">
       {/* Header section with photo, info, and favorite */}
       <div className="flex gap-3">
         {/* Photo */}
         <button
           onClick={onSelectDoctor}
-          className="shrink-0 focus:outline-none focus:ring-2 focus:ring-neutral-300 rounded-xl"
+          className="shrink-0 focus:outline-none focus:ring-2 focus:ring-teal-500/40 rounded-xl"
         >
           {doctor.imageUrl ? (
             <img
@@ -155,7 +155,7 @@ export function DoctorCard({
               onClick={onSelectDoctor}
               className="text-left focus:outline-none"
             >
-              <h3 className="font-semibold text-neutral-900 leading-tight">{doctor.name}</h3>
+              <h3 className="font-semibold text-charcoal-500 leading-tight">{doctor.name}</h3>
               <p className="text-sm text-teal-600 font-medium">{doctor.specialty}</p>
             </button>
 
@@ -165,7 +165,7 @@ export function DoctorCard({
               className={`p-1.5 rounded-full transition-colors ${
                 isFavorite
                   ? 'text-red-500'
-                  : 'text-neutral-300 hover:text-red-400'
+                  : 'text-cream-400 hover:text-red-400'
               }`}
               aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             >
@@ -174,20 +174,20 @@ export function DoctorCard({
           </div>
 
           {/* Rating and distance row */}
-          <div className="flex items-center gap-2 mt-1 text-sm text-neutral-500">
+          <div className="flex items-center gap-2 mt-1 text-sm text-slate-500">
             <div className="flex items-center gap-1">
               <StarIcon />
-              <span className="font-medium text-neutral-700">{doctor.rating.toFixed(1)}</span>
-              <span className="text-neutral-400">({doctor.reviewCount})</span>
+              <span className="font-medium text-slate-500">{doctor.rating.toFixed(1)}</span>
+              <span className="text-slate-400">({doctor.reviewCount})</span>
             </div>
-            <span className="text-neutral-300">|</span>
+            <span className="text-cream-400">|</span>
             <div className="flex items-center gap-1">
               <LocationIcon />
               <span>{distanceKm} km</span>
             </div>
             {offersVideo && (
               <>
-                <span className="text-neutral-300">|</span>
+                <span className="text-cream-400">|</span>
                 <div className="flex items-center gap-1 text-teal-600">
                   <VideoIcon />
                   <span className="text-xs">Video</span>
@@ -212,16 +212,16 @@ export function DoctorCard({
 
       {/* Time slots section */}
       {showSlots && availableSlots.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-neutral-100">
+        <div className="mt-4 pt-3 border-t border-cream-300">
           {/* Header row */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wide">
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
               Next Available
             </span>
             {onMoreAppointments && (
               <button
                 onClick={handleMoreClick}
-                className="text-xs font-medium text-neutral-600 hover:text-neutral-800 flex items-center gap-0.5"
+                className="text-xs font-medium text-slate-500 hover:text-charcoal-500 flex items-center gap-0.5"
               >
                 More appointments
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -248,10 +248,10 @@ export function DoctorCard({
 
       {/* Fallback if no slots but showSlots is true */}
       {showSlots && availableSlots.length === 0 && (
-        <div className="mt-4 pt-3 border-t border-neutral-100">
+        <div className="mt-4 pt-3 border-t border-cream-300">
           <button
             onClick={onSelectDoctor}
-            className="w-full py-2.5 text-sm font-medium text-neutral-600 hover:text-neutral-800 bg-neutral-50 hover:bg-neutral-100 rounded-lg transition-colors"
+            className="w-full py-2.5 text-sm font-medium text-slate-500 hover:text-charcoal-500 bg-cream-100 hover:bg-cream-200 rounded-lg transition-colors"
           >
             View available appointments
           </button>

@@ -31,6 +31,7 @@ type AppStateApi = {
   updateProfile: (patch: Partial<UserProfile>) => void
   addFamilyMember: (member: Omit<FamilyMember, 'id'>) => void
   removeFamilyMember: (id: string) => void
+  updateFamilyMember: (id: string, patch: Partial<FamilyMember>) => void
   updateGdprConsent: (consent: Partial<AppState['profile']['gdprConsent']>) => void
   // Preferences
   setFontScale: (scale: AppState['preferences']['fontScale']) => void
@@ -123,7 +124,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           ...s,
           profile: {
             ...s.profile,
-            familyMembers: [...s.profile.familyMembers, { ...member, id: `fam_${Date.now()}` }],
+            familyMembers: [
+              ...s.profile.familyMembers,
+              { ...member, id: `fam_${Date.now()}`, verified: false },
+            ],
           },
         })),
       removeFamilyMember: (id) =>
@@ -132,6 +136,16 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           profile: {
             ...s.profile,
             familyMembers: s.profile.familyMembers.filter((m) => m.id !== id),
+          },
+        })),
+      updateFamilyMember: (id, patch) =>
+        setState((s) => ({
+          ...s,
+          profile: {
+            ...s.profile,
+            familyMembers: s.profile.familyMembers.map((m) =>
+              m.id === id ? { ...m, ...patch } : m
+            ),
           },
         })),
       updateGdprConsent: (consent) =>
@@ -276,14 +290,22 @@ export function useAuth() {
 }
 
 export function useProfile() {
-  const { state, updateProfile, addFamilyMember, removeFamilyMember, updateGdprConsent, isProfileComplete } =
-    useAppState()
+  const {
+    state,
+    updateProfile,
+    addFamilyMember,
+    removeFamilyMember,
+    updateFamilyMember,
+    updateGdprConsent,
+    isProfileComplete,
+  } = useAppState()
   return {
     profile: state.profile,
     isProfileComplete,
     updateProfile,
     addFamilyMember,
     removeFamilyMember,
+    updateFamilyMember,
     updateGdprConsent,
   }
 }

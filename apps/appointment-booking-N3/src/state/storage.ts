@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'medalpha_n3_state_v1'
+const STORAGE_KEY = 'docliq_n3_state_v1'
 
 export function loadState<T>(fallback: T): T {
   try {

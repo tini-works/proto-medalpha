@@ -1,16 +1,25 @@
 import type { ReactNode } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import { useAppState } from '../state/AppContext'
 import { PATHS } from './paths'
 
 export function RequireAuth({ children }: { children: ReactNode }) {
   const { state } = useAppState()
+  const location = useLocation()
 
   if (!state.auth.isAuthenticated) {
     return <Navigate to={PATHS.AUTH_WELCOME} replace />
   }
 
-  if (!state.auth.verified) {
+  // Allow unverified users to access Verify Identity screen, Profile Complete, and Home
+  // (booking features require profile completion, enforced separately)
+  const allowedUnverifiedPaths = [
+    PATHS.AUTH_VERIFY_IDENTITY,
+    PATHS.PROFILE_COMPLETE,
+    PATHS.HOME,
+    PATHS.APPOINTMENT_DETAIL,
+  ]
+  if (!state.auth.verified && !allowedUnverifiedPaths.some((path) => location.pathname.startsWith(path.split(':')[0]))) {
     return <Navigate to={PATHS.AUTH_VERIFY} replace />
   }
 

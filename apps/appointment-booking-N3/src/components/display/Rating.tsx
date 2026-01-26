@@ -21,7 +21,7 @@ export function Rating({ value, reviewCount, size = 'sm' }: RatingProps) {
           return (
             <svg
               key={star}
-              className={`${starSize} ${isFilled || isHalf ? 'text-yellow-400' : 'text-neutral-300'}`}
+              className={`${starSize} ${isFilled || isHalf ? 'text-yellow-400' : 'text-cream-400'}`}
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -45,9 +45,9 @@ export function Rating({ value, reviewCount, size = 'sm' }: RatingProps) {
           )
         })}
       </div>
-      <span className={`${textSize} text-neutral-600 font-medium`}>{value.toFixed(1)}</span>
+      <span className={`${textSize} text-slate-500 font-medium`}>{value.toFixed(1)}</span>
       {reviewCount !== undefined && (
-        <span className={`${textSize} text-neutral-400`}>({reviewCount})</span>
+        <span className={`${textSize} text-slate-400`}>({reviewCount})</span>
       )}
     </div>
   )

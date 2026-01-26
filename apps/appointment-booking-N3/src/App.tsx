@@ -3,10 +3,15 @@ import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
 
 // Auth screens
-import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen } from './screens/auth'
+import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen } from './screens/auth'
 
 // Profile screens
-import { ProfileCompletionScreen, FamilyMembersScreen, EditProfileScreen } from './screens/profile'
+import {
+  ProfileCompletionScreen,
+  FamilyMembersScreen,
+  FamilyMemberDetailScreen,
+  EditProfileScreen,
+} from './screens/profile'
 
 // Home screen
 import { HomeScreen } from './screens/home'
@@ -36,14 +41,25 @@ import { BookAgainContextScreen, BookAgainAlternativesScreen } from './screens/b
 // Assistant screens
 import { AssistantScreen, VoiceAssistantScreen } from './screens/assistant'
 
+// Appointments screens
+import { default as AppointmentDetailScreen } from './screens/appointments/AppointmentDetailScreen'
+
 // Settings screens
-import { SettingsScreen, NotificationsScreen } from './screens/settings'
+import {
+  SettingsScreen,
+  NotificationsScreen,
+  LanguageScreen,
+  PrivacyDataScreen,
+  FAQScreen,
+  ContactSupportScreen,
+  HelpCentreScreen,
+} from './screens/settings'
 
 export default function App() {
   return (
     <AppStateProvider>
       <BrowserRouter>
-        <div className="app-shell">
+        <div className="app-shell relative">
           <Routes>
             <Route path="/" element={<Navigate to={PATHS.HOME} replace />} />
 
@@ -73,6 +89,14 @@ export default function App() {
               }
             />
             <Route path={PATHS.AUTH_VERIFY} element={<VerifyScreen />} />
+            <Route
+              path={PATHS.AUTH_VERIFY_IDENTITY}
+              element={
+                <RequireAuth>
+                  <VerifyIdentityScreen />
+                </RequireAuth>
+              }
+            />
 
             {/* Profile */}
             <Route
@@ -92,6 +116,14 @@ export default function App() {
               }
             />
             <Route
+              path={PATHS.PROFILE_FAMILY_DETAIL}
+              element={
+                <RequireAuth>
+                  <FamilyMemberDetailScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
               path={PATHS.PROFILE_EDIT}
               element={
                 <RequireAuth>
@@ -105,9 +137,7 @@ export default function App() {
               path={PATHS.HOME}
               element={
                 <RequireAuth>
-                  <RequireProfileComplete>
-                    <HomeScreen />
-                  </RequireProfileComplete>
+                  <HomeScreen />
                 </RequireAuth>
               }
             />
@@ -312,6 +342,16 @@ export default function App() {
               }
             />
 
+            {/* Appointments */}
+            <Route
+              path={PATHS.APPOINTMENT_DETAIL}
+              element={
+                <RequireAuth>
+                  <AppointmentDetailScreen />
+                </RequireAuth>
+              }
+            />
+
             {/* Settings */}
             <Route
               path={PATHS.SETTINGS}
@@ -326,6 +366,46 @@ export default function App() {
               element={
                 <RequireAuth>
                   <NotificationsScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.SETTINGS_LANGUAGE}
+              element={
+                <RequireAuth>
+                  <LanguageScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.SETTINGS_PRIVACY}
+              element={
+                <RequireAuth>
+                  <PrivacyDataScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.SETTINGS_FAQ}
+              element={
+                <RequireAuth>
+                  <FAQScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.SETTINGS_CONTACT}
+              element={
+                <RequireAuth>
+                  <ContactSupportScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.SETTINGS_HELP}
+              element={
+                <RequireAuth>
+                  <HelpCentreScreen />
                 </RequireAuth>
               }
             />

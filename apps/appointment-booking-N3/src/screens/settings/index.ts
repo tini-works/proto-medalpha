@@ -1,2 +1,7 @@
 export { default as SettingsScreen } from './SettingsScreen'
 export { default as NotificationsScreen } from './NotificationsScreen'
+export { default as LanguageScreen } from './LanguageScreen'
+export { default as PrivacyDataScreen } from './PrivacyDataScreen'
+export { default as FAQScreen } from './FAQScreen'
+export { default as ContactSupportScreen } from './ContactSupportScreen'
+export { default as HelpCentreScreen } from './HelpCentreScreen'

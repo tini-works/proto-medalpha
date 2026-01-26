@@ -10,4 +10,4 @@ export { Pill, Avatar, Rating, EmptyState, ProgressIndicator, RecentSearches, Sp
 export type { RecentSearch, Specialty, SavedLocation } from './display'
 
 // Cards
-export { DoctorCard, AppointmentCard, FamilyMemberCard, HistoryCard, CMSCard, AppointmentSummaryCard } from './cards'
+export { DoctorCard, AppointmentCard, FamilyMemberCard, HistoryCard, CMSCard, AppointmentSummaryCard, TodaysFocusCard } from './cards'

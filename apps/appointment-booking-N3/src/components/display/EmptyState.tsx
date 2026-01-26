@@ -8,7 +8,7 @@ interface EmptyStateProps {
 }
 
 function EmptyIcon({ icon }: { icon: EmptyStateProps['icon'] }) {
-  const className = 'w-12 h-12 text-neutral-300'
+  const className = 'w-12 h-12 text-cream-400'
 
   switch (icon) {
     case 'search':
@@ -48,8 +48,8 @@ export function EmptyState({ icon, title, description, action }: EmptyStateProps
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
       <EmptyIcon icon={icon} />
-      <h3 className="mt-4 text-lg font-medium text-neutral-900">{title}</h3>
-      {description && <p className="mt-1 text-sm text-neutral-500 max-w-xs">{description}</p>}
+      <h3 className="mt-4 text-lg font-medium text-charcoal-500">{title}</h3>
+      {description && <p className="mt-1 text-sm text-slate-500 max-w-xs">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
   )

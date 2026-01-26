@@ -56,7 +56,7 @@ export function RecentSearches({ onSelect }: RecentSearchesProps) {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-neutral-500 px-1">
+      <h3 className="text-sm font-medium text-slate-500 px-1">
         Recent Searches
       </h3>
       <div className="space-y-2">
@@ -64,12 +64,12 @@ export function RecentSearches({ onSelect }: RecentSearchesProps) {
           <button
             key={search.id}
             onClick={() => onSelect(search)}
-            className="w-full flex items-center gap-3 p-3 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-neutral-200 hover:ring-neutral-300 transition-all"
+            className="w-full flex items-center gap-3 p-3 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] ring-1 ring-cream-400 hover:ring-cream-400 transition-all"
           >
             {/* History icon in colored circle */}
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center">
               <svg
-                className="w-5 h-5 text-neutral-500"
+                className="w-5 h-5 text-slate-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -85,15 +85,15 @@ export function RecentSearches({ onSelect }: RecentSearchesProps) {
 
             {/* Text content */}
             <div className="flex-1 text-left">
-              <p className="text-sm font-medium text-neutral-900">
+              <p className="text-sm font-medium text-charcoal-500">
                 {search.title}
               </p>
-              <p className="text-xs text-neutral-500">{search.subtitle}</p>
+              <p className="text-xs text-slate-500">{search.subtitle}</p>
             </div>
 
             {/* Chevron */}
             <svg
-              className="w-5 h-5 text-neutral-400"
+              className="w-5 h-5 text-slate-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

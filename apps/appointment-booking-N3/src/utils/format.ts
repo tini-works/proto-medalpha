@@ -90,3 +90,21 @@ export function formatTime(time: string): string {
 export function formatDistance(km: number): string {
   return `${formatNumber(km, 1)} km`
 }
+
+/**
+ * Get relative date label for hero card display
+ * Returns "Today", "Tomorrow", or formatted date (e.g., "23. Jan")
+ */
+export function getRelativeDateLabel(dateISO: string): string {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const appointmentDate = new Date(dateISO)
+  appointmentDate.setHours(0, 0, 0, 0)
+
+  const daysDiff = Math.floor((appointmentDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+
+  if (daysDiff === 0) return 'Today'
+  if (daysDiff === 1) return 'Tomorrow'
+  return formatDateShort(dateISO)
+}
