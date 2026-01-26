@@ -56,3 +56,30 @@ export async function apiGetCMSContent(insuranceType?: 'GKV' | 'PKV' | '', delay
   const content = getActiveCMSContent(insuranceType)
   return simulateApiDelay(content, delayMs)
 }
+
+// Reschedule API functions
+export async function apiGetSuggestedSlots(
+  doctorId: string,
+  originalAppointment: { dateISO: string; time: string; doctorId: string; doctorName: string; specialty: string; forUserId: string; forUserName: string; status: 'confirmed' | 'completed' | 'cancelled'; id: string; reminderSet: boolean; calendarSynced: boolean },
+  delayMs = 400
+) {
+  const { getSuggestedSlots } = await import('./timeSlots')
+  const slots = getSuggestedSlots(doctorId, originalAppointment)
+  return simulateApiDelay(slots, delayMs)
+}
+
+export async function apiRescheduleAppointment(
+  _oldAppointmentId: string,
+  _newSlot: { dateISO: string; time: string },
+  delayMs = 500
+) {
+  // Simulate successful reschedule
+  // In production: book new slot, then cancel old slot
+  const confirmationNumber = `RSCH-${Date.now().toString(36).toUpperCase()}`
+  return simulateApiDelay({ success: true, confirmationNumber }, delayMs)
+}
+
+export async function apiCancelAppointment(_appointmentId: string, delayMs = 400) {
+  // Simulate successful cancellation
+  return simulateApiDelay({ success: true }, delayMs)
+}

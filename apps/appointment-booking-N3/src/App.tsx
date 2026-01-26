@@ -23,7 +23,13 @@ import {
 } from './screens/booking'
 
 // History screens
-import { HistoryScreen } from './screens/history'
+import { HistoryScreen, AppointmentDetailScreen } from './screens/history'
+
+// Reschedule screens
+import { SuggestedSlotsScreen, RescheduleConfirmScreen, RescheduleSuccessScreen } from './screens/reschedule'
+
+// Book Again screens
+import { BookAgainContextScreen } from './screens/book-again'
 
 // Settings screens
 import { SettingsScreen, NotificationsScreen } from './screens/settings'
@@ -180,6 +186,60 @@ export default function App() {
                 <RequireAuth>
                   <RequireProfileComplete>
                     <HistoryScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.HISTORY_DETAIL}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <AppointmentDetailScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+
+            {/* Reschedule */}
+            <Route
+              path={PATHS.RESCHEDULE}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <SuggestedSlotsScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.RESCHEDULE_CONFIRM}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <RescheduleConfirmScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.RESCHEDULE_SUCCESS}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <RescheduleSuccessScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+
+            {/* Book Again */}
+            <Route
+              path={PATHS.BOOK_AGAIN}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <BookAgainContextScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }

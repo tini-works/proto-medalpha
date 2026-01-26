@@ -114,16 +114,22 @@ export function AppointmentCard({
           <div className="px-4 pb-4 flex gap-3">
             {onReschedule && (
               <button
-                onClick={onReschedule}
-                className="flex-1 h-10 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onReschedule()
+                }}
+                className="flex-1 h-11 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               >
                 Reschedule
               </button>
             )}
             {onCancel && (
               <button
-                onClick={onCancel}
-                className="flex-1 h-10 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onCancel()
+                }}
+                className="flex-1 h-11 rounded-lg border border-neutral-300 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
               >
                 Cancel
               </button>
@@ -165,7 +171,7 @@ export function AppointmentCard({
 
       {appointment.forUserName && (
         <div className="mt-2 text-sm text-neutral-500">
-          For: {appointment.forUserName}
+          Patient: {appointment.forUserName}
         </div>
       )}
     </button>

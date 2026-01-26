@@ -61,3 +61,34 @@ export interface BookingState {
   selectedSlot: TimeSlot | null
   selectedFamilyMemberId: string | null
 }
+
+// Reschedule flow types
+export interface RescheduleContext {
+  originalAppointment: Appointment
+  suggestedSlots: SuggestedSlot[]
+  selectedNewSlot: TimeSlot | null
+}
+
+export interface SuggestedSlot extends TimeSlot {
+  reason: 'same_time' | 'similar_time' | 'soonest' | 'same_weekday'
+  reasonLabel: string
+}
+
+// Book Again flow types
+export interface BookAgainContext {
+  sourceAppointmentId: string
+  sourceDate: string
+  doctor: Doctor
+  location: {
+    city: string
+    postalCode: string
+  }
+  insurance: {
+    type: 'GKV' | 'PKV' | 'Selbstzahler' | ''
+  }
+  patient: {
+    id: string
+    name: string
+    relationship: 'self' | 'child'
+  }
+}

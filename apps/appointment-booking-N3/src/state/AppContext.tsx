@@ -8,12 +8,21 @@ import type {
   SearchFilters,
   HistoryItem,
   Appointment,
+  RescheduleContext,
+  BookAgainContext,
 } from '../types'
 import { initialState } from '../types'
 import { clearState, loadState, saveState } from './storage'
 
+// Extended state for reschedule and book again flows (not persisted)
+interface ExtendedState {
+  reschedule: RescheduleContext | null
+  bookAgain: BookAgainContext | null
+}
+
 type AppStateApi = {
   state: AppState
+  extendedState: ExtendedState
   // Auth
   signIn: (email: string) => void
   signOut: () => void
@@ -33,10 +42,20 @@ type AppStateApi = {
   selectFamilyMember: (id: string | null) => void
   resetBooking: () => void
   addAppointment: (appointment: Appointment) => void
+  updateAppointment: (id: string, patch: Partial<Appointment>) => void
+  cancelAppointment: (id: string) => void
   // History
   addHistoryItem: (item: HistoryItem) => void
+  updateHistoryItem: (id: string, patch: Partial<HistoryItem>) => void
+  // Reschedule
+  setRescheduleContext: (context: RescheduleContext | null) => void
+  setRescheduleNewSlot: (slot: TimeSlot | null) => void
+  // Book Again
+  setBookAgainContext: (context: BookAgainContext | null) => void
   // Computed
   isProfileComplete: boolean
+  getAppointmentById: (id: string) => Appointment | undefined
+  getHistoryItemById: (id: string) => HistoryItem | undefined
   // Reset
   resetAll: () => void
 }
@@ -45,6 +64,10 @@ const Ctx = createContext<AppStateApi | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>(() => loadState(initialState))
+  const [extendedState, setExtendedState] = useState<ExtendedState>({
+    reschedule: null,
+    bookAgain: null,
+  })
 
   useEffect(() => {
     saveState(state)
@@ -68,6 +91,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const api = useMemo<AppStateApi>(
     () => ({
       state,
+      extendedState,
       isProfileComplete,
 
       // Auth
@@ -174,6 +198,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           ...s,
           appointments: [...s.appointments, appointment],
         })),
+      updateAppointment: (id, patch) =>
+        setState((s) => ({
+          ...s,
+          appointments: s.appointments.map((apt) => (apt.id === id ? { ...apt, ...patch } : apt)),
+        })),
+      cancelAppointment: (id) =>
+        setState((s) => ({
+          ...s,
+          appointments: s.appointments.map((apt) =>
+            apt.id === id ? { ...apt, status: 'cancelled' as const } : apt
+          ),
+        })),
 
       // History
       addHistoryItem: (item) =>
@@ -181,14 +217,40 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           ...s,
           history: { ...s.history, items: [item, ...s.history.items] },
         })),
+      updateHistoryItem: (id, patch) =>
+        setState((s) => ({
+          ...s,
+          history: {
+            ...s.history,
+            items: s.history.items.map((item) => (item.id === id ? { ...item, ...patch } : item)),
+          },
+        })),
+
+      // Reschedule
+      setRescheduleContext: (context) =>
+        setExtendedState((s) => ({ ...s, reschedule: context })),
+      setRescheduleNewSlot: (slot) =>
+        setExtendedState((s) => ({
+          ...s,
+          reschedule: s.reschedule ? { ...s.reschedule, selectedNewSlot: slot } : null,
+        })),
+
+      // Book Again
+      setBookAgainContext: (context) =>
+        setExtendedState((s) => ({ ...s, bookAgain: context })),
+
+      // Computed/getters
+      getAppointmentById: (id) => state.appointments.find((apt) => apt.id === id),
+      getHistoryItemById: (id) => state.history.items.find((item) => item.id === id),
 
       // Reset
       resetAll: () => {
         clearState()
         setState(initialState)
+        setExtendedState({ reschedule: null, bookAgain: null })
       },
     }),
-    [state, isProfileComplete]
+    [state, extendedState, isProfileComplete]
   )
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>
@@ -227,8 +289,17 @@ export function useProfile() {
 }
 
 export function useBooking() {
-  const { state, setSearchFilters, selectDoctor, selectSlot, selectFamilyMember, resetBooking, addAppointment } =
-    useAppState()
+  const {
+    state,
+    setSearchFilters,
+    selectDoctor,
+    selectSlot,
+    selectFamilyMember,
+    resetBooking,
+    addAppointment,
+    updateAppointment,
+    cancelAppointment,
+  } = useAppState()
   return {
     search: state.booking.currentSearch,
     selectedDoctor: state.booking.selectedDoctor,
@@ -241,14 +312,17 @@ export function useBooking() {
     selectFamilyMember,
     resetBooking,
     addAppointment,
+    updateAppointment,
+    cancelAppointment,
   }
 }
 
 export function useHistory() {
-  const { state, addHistoryItem } = useAppState()
+  const { state, addHistoryItem, updateHistoryItem } = useAppState()
   return {
     items: state.history.items,
     addHistoryItem,
+    updateHistoryItem,
     getFilteredItems: (filters: { type?: string; familyMemberId?: string; dateFrom?: string; dateTo?: string }) => {
       return state.history.items.filter((item) => {
         if (filters.type && filters.type !== 'all' && item.type !== filters.type) return false
@@ -269,5 +343,38 @@ export function usePreferences() {
     notifications: state.preferences.notifications,
     setFontScale,
     setNotificationPreferences,
+  }
+}
+
+export function useReschedule() {
+  const {
+    extendedState,
+    setRescheduleContext,
+    setRescheduleNewSlot,
+    updateAppointment,
+    cancelAppointment,
+    addAppointment,
+    addHistoryItem,
+    getAppointmentById,
+  } = useAppState()
+  return {
+    rescheduleContext: extendedState.reschedule,
+    setRescheduleContext,
+    setRescheduleNewSlot,
+    updateAppointment,
+    cancelAppointment,
+    addAppointment,
+    addHistoryItem,
+    getAppointmentById,
+  }
+}
+
+export function useBookAgain() {
+  const { extendedState, setBookAgainContext, getHistoryItemById, getAppointmentById } = useAppState()
+  return {
+    bookAgainContext: extendedState.bookAgain,
+    setBookAgainContext,
+    getHistoryItemById,
+    getAppointmentById,
   }
 }

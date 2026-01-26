@@ -41,31 +41,44 @@ export function HistoryCard({ item, onClick, onBookAgain, variant = 'default' }:
   // History variant - simpler design with grayscale photo and Book Again button
   if (variant === 'history') {
     return (
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <div className="flex items-center gap-3">
+      <button
+        onClick={onClick}
+        className="w-full text-left bg-white rounded-xl border border-neutral-200 p-4 hover:border-neutral-300 transition-colors"
+      >
+        <div className="flex items-start gap-3">
           {/* Grayscale Avatar */}
-          <div className="relative grayscale opacity-70">
+          <div className="relative grayscale opacity-70 flex-shrink-0">
             <Avatar name={item.title} size="lg" />
           </div>
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-neutral-900 truncate">{item.title}</h3>
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-medium text-neutral-900 truncate">{item.title}</h3>
+              <Pill tone={config.tone} size="sm">
+                {item.status === 'completed' ? '✓ ' : item.status === 'cancelled' ? '✕ ' : ''}{config.label}
+              </Pill>
+            </div>
             <p className="text-sm text-neutral-500">{item.subtitle}</p>
             <p className="text-xs text-neutral-400 mt-1">{formatDate(item.dateISO)}</p>
           </div>
+        </div>
 
-          {/* Book Again Button */}
-          {onBookAgain && item.type === 'appointment' && (
+        {/* Book Again Button */}
+        {onBookAgain && item.type === 'appointment' && (
+          <div className="mt-3 pt-3 border-t border-neutral-100">
             <button
-              onClick={onBookAgain}
-              className="px-4 py-2 text-sm font-medium text-neutral-800 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors whitespace-nowrap"
+              onClick={(e) => {
+                e.stopPropagation()
+                onBookAgain()
+              }}
+              className="w-full h-11 text-sm font-medium text-neutral-800 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
             >
               Book Again
             </button>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+      </button>
     )
   }
 
@@ -89,7 +102,7 @@ export function HistoryCard({ item, onClick, onBookAgain, variant = 'default' }:
           <p className="text-sm text-neutral-600 mt-0.5">{item.subtitle}</p>
           <div className="mt-2 flex items-center gap-3 text-xs text-neutral-500">
             <span>{formatDate(item.dateISO)}</span>
-            {item.forUserName && <span>For: {item.forUserName}</span>}
+            {item.forUserName && <span>Patient: {item.forUserName}</span>}
           </div>
         </div>
       </div>

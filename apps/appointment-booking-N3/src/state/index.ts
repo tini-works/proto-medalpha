@@ -6,4 +6,6 @@ export {
   useBooking,
   useHistory,
   usePreferences,
+  useReschedule,
+  useBookAgain,
 } from './AppContext'

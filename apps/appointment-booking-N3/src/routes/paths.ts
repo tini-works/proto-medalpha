@@ -22,9 +22,17 @@ export const PATHS = {
   BOOKING_CONFIRM: '/booking/confirm',
   BOOKING_SUCCESS: '/booking/success',
 
-  // History
+  // History / Appointments
   HISTORY: '/history',
   HISTORY_DETAIL: '/history/:id',
+
+  // Reschedule flow (R01-R03)
+  RESCHEDULE: '/reschedule/:id',
+  RESCHEDULE_CONFIRM: '/reschedule/:id/confirm',
+  RESCHEDULE_SUCCESS: '/reschedule/:id/success',
+
+  // Book Again flow (B01)
+  BOOK_AGAIN: '/book-again/:id',
 
   // Settings
   SETTINGS: '/settings',
@@ -41,4 +49,20 @@ export function doctorSlotsPath(id: string) {
 
 export function historyDetailPath(id: string) {
   return `/history/${id}`
+}
+
+export function reschedulePath(appointmentId: string) {
+  return `/reschedule/${appointmentId}`
+}
+
+export function rescheduleConfirmPath(appointmentId: string) {
+  return `/reschedule/${appointmentId}/confirm`
+}
+
+export function rescheduleSuccessPath(appointmentId: string) {
+  return `/reschedule/${appointmentId}/success`
+}
+
+export function bookAgainPath(appointmentId: string) {
+  return `/book-again/${appointmentId}`
 }

@@ -1,4 +1,4 @@
-import type { TimeSlot } from '../types'
+import type { TimeSlot, SuggestedSlot, Appointment } from '../types'
 
 // Generate time slots for the next 14 days
 function generateSlots(doctorId: string): TimeSlot[] {
@@ -71,4 +71,129 @@ export function getAvailableDates(doctorId: string): string[] {
 export function getSlotsForDate(doctorId: string, dateISO: string): TimeSlot[] {
   const slots = getTimeSlots(doctorId)
   return slots.filter((slot) => slot.dateISO === dateISO)
+}
+
+/**
+ * Get suggested slots for rescheduling an appointment
+ * Priority order:
+ * 1. Same time, nearest day ("Gleiche Uhrzeit")
+ * 2. Similar time ±2 hours ("Ähnliche Uhrzeit")
+ * 3. Soonest available ("Nächster Termin")
+ * 4. Same day of week ("Gleicher Wochentag")
+ */
+export function getSuggestedSlots(
+  doctorId: string,
+  originalAppointment: Appointment,
+  limit: number = 5
+): SuggestedSlot[] {
+  const allSlots = getTimeSlots(doctorId)
+  const availableSlots = allSlots.filter(
+    (slot) =>
+      slot.available &&
+      // Exclude the original slot
+      !(slot.dateISO === originalAppointment.dateISO && slot.time === originalAppointment.time)
+  )
+
+  const suggestions: SuggestedSlot[] = []
+  const usedSlotKeys = new Set<string>()
+
+  const getSlotKey = (slot: TimeSlot) => `${slot.dateISO}_${slot.time}`
+  const originalTime = originalAppointment.time
+  const originalDate = new Date(originalAppointment.dateISO)
+  const originalDayOfWeek = originalDate.getDay()
+
+  // Parse time to minutes for comparison
+  const timeToMinutes = (time: string): number => {
+    const [hours, minutes] = time.split(':').map(Number)
+    return hours * 60 + minutes
+  }
+  const originalMinutes = timeToMinutes(originalTime)
+
+  // Priority 1: Same time, nearest day
+  const sameTimeSlots = availableSlots
+    .filter((slot) => slot.time === originalTime)
+    .sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime())
+    .slice(0, 2)
+
+  sameTimeSlots.forEach((slot) => {
+    const key = getSlotKey(slot)
+    if (!usedSlotKeys.has(key)) {
+      usedSlotKeys.add(key)
+      suggestions.push({
+        ...slot,
+        reason: 'same_time',
+        reasonLabel: 'Same time',
+      })
+    }
+  })
+
+  // Priority 2: Similar time (±2 hours / 120 minutes)
+  const similarTimeSlots = availableSlots
+    .filter((slot) => {
+      const slotMinutes = timeToMinutes(slot.time)
+      const diff = Math.abs(slotMinutes - originalMinutes)
+      return diff > 0 && diff <= 120 && slot.time !== originalTime
+    })
+    .sort((a, b) => {
+      // Sort by time difference first, then by date
+      const aDiff = Math.abs(timeToMinutes(a.time) - originalMinutes)
+      const bDiff = Math.abs(timeToMinutes(b.time) - originalMinutes)
+      if (aDiff !== bDiff) return aDiff - bDiff
+      return new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime()
+    })
+    .slice(0, 2)
+
+  similarTimeSlots.forEach((slot) => {
+    const key = getSlotKey(slot)
+    if (!usedSlotKeys.has(key)) {
+      usedSlotKeys.add(key)
+      suggestions.push({
+        ...slot,
+        reason: 'similar_time',
+        reasonLabel: 'Similar time',
+      })
+    }
+  })
+
+  // Priority 3: Soonest available
+  const soonestSlots = availableSlots
+    .sort((a, b) => {
+      const dateCompare = new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime()
+      if (dateCompare !== 0) return dateCompare
+      return timeToMinutes(a.time) - timeToMinutes(b.time)
+    })
+    .slice(0, 3)
+
+  soonestSlots.forEach((slot) => {
+    const key = getSlotKey(slot)
+    if (!usedSlotKeys.has(key)) {
+      usedSlotKeys.add(key)
+      suggestions.push({
+        ...slot,
+        reason: 'soonest',
+        reasonLabel: 'Soonest available',
+      })
+    }
+  })
+
+  // Priority 4: Same day of week
+  const sameDaySlots = availableSlots
+    .filter((slot) => new Date(slot.dateISO).getDay() === originalDayOfWeek)
+    .sort((a, b) => new Date(a.dateISO).getTime() - new Date(b.dateISO).getTime())
+    .slice(0, 2)
+
+  sameDaySlots.forEach((slot) => {
+    const key = getSlotKey(slot)
+    if (!usedSlotKeys.has(key)) {
+      usedSlotKeys.add(key)
+      suggestions.push({
+        ...slot,
+        reason: 'same_weekday',
+        reasonLabel: 'Same weekday',
+      })
+    }
+  })
+
+  // Return limited results
+  return suggestions.slice(0, limit)
 }

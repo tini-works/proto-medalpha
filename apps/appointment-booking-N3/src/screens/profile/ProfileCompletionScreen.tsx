@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page } from '../../components'
 import { Field, RadioGroup } from '../../components/forms'
@@ -8,9 +8,10 @@ import type { InsuranceType } from '../../types'
 
 export default function ProfileCompletionScreen() {
   const navigate = useNavigate()
-  const { profile, updateProfile, updateGdprConsent } = useProfile()
+  const { profile, updateProfile, updateGdprConsent, isProfileComplete } = useProfile()
 
   const [formData, setFormData] = useState({
+    fullName: profile.fullName || '',
     insuranceType: profile.insuranceType || '',
     egkNumber: profile.egkNumber || '',
     street: profile.address.street || '',
@@ -19,6 +20,13 @@ export default function ProfileCompletionScreen() {
     dataProcessing: profile.gdprConsent.dataProcessing,
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (submitted && isProfileComplete) {
+      navigate(PATHS.HOME, { replace: true })
+    }
+  }, [submitted, isProfileComplete, navigate])
 
   const handleChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -29,6 +37,10 @@ export default function ProfileCompletionScreen() {
 
   const validate = () => {
     const newErrors: Record<string, string> = {}
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required'
+    }
 
     if (!formData.insuranceType) {
       newErrors.insuranceType = 'Please select your insurance type'
@@ -62,9 +74,11 @@ export default function ProfileCompletionScreen() {
     e.preventDefault()
 
     if (!validate()) return
+    setSubmitted(true)
 
     // Update profile
     updateProfile({
+      fullName: formData.fullName,
       insuranceType: formData.insuranceType as InsuranceType,
       egkNumber: formData.egkNumber,
       address: {
@@ -78,9 +92,6 @@ export default function ProfileCompletionScreen() {
     updateGdprConsent({
       dataProcessing: formData.dataProcessing,
     })
-
-    // Navigate to home
-    navigate(PATHS.HOME)
   }
 
   return (
@@ -88,6 +99,17 @@ export default function ProfileCompletionScreen() {
       <Header title="Complete Profile" subtitle="Almost there! Just a few more details." />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
+        <Field
+          label="Full Name"
+          type="text"
+          value={formData.fullName}
+          onChange={(e) => handleChange('fullName', e.target.value)}
+          placeholder="Enter your full name"
+          error={errors.fullName}
+          required
+          autoComplete="name"
+        />
+
         {/* Insurance */}
         <RadioGroup
           label="Insurance Type"

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Page, TabBar, AppointmentCard, HistoryCard, EmptyState } from '../../components'
 import { TabToggle } from '../../components/forms'
 import { useHistory, useBooking } from '../../state'
+import { PATHS, historyDetailPath } from '../../routes/paths'
 
 export default function HistoryScreen() {
   const navigate = useNavigate()
@@ -19,28 +20,30 @@ export default function HistoryScreen() {
 
   // Get past appointments from history
   const pastAppointments = getFilteredItems({ type: 'appointment' }).filter(
-    (item) => item.status === 'completed' || item.dateISO < today
+    (item) => item.status === 'completed' || item.status === 'cancelled' || item.dateISO < today
   )
 
+  const handleAppointmentClick = (appointmentId: string) => {
+    navigate(historyDetailPath(appointmentId))
+  }
+
   const handleReschedule = (appointmentId: string) => {
-    // Navigate to booking flow with appointment context
-    console.log('Reschedule:', appointmentId)
-    navigate('/search')
+    // Navigate to reschedule flow
+    navigate(`/reschedule/${appointmentId}`)
   }
 
   const handleCancel = (appointmentId: string) => {
-    // Show cancellation modal
-    console.log('Cancel:', appointmentId)
+    // Navigate to appointment details with cancel action
+    navigate(historyDetailPath(appointmentId) + '?action=cancel')
   }
 
-  const handleBookAgain = (_item: typeof pastAppointments[0]) => {
-    // Navigate to booking flow with doctor context
-    // TODO: Pre-fill search with doctor/specialty from _item.details
-    navigate('/search')
+  const handleBookAgain = (item: typeof pastAppointments[0]) => {
+    // Navigate to Book Again flow with pre-filled context
+    navigate(`/book-again/${item.id}`)
   }
 
   const handleBookNew = () => {
-    navigate('/search')
+    navigate(PATHS.BOOKING_SEARCH)
   }
 
   return (
@@ -52,7 +55,7 @@ export default function HistoryScreen() {
           <button
             onClick={handleBookNew}
             className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-neutral-100 transition-colors"
-            aria-label="Add to calendar"
+            aria-label="Book new appointment"
           >
             <svg className="w-6 h-6 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -66,7 +69,7 @@ export default function HistoryScreen() {
           <TabToggle
             options={[
               { value: 'upcoming', label: 'Upcoming' },
-              { value: 'history', label: 'History' },
+              { value: 'history', label: 'Past' },
             ]}
             value={activeTab}
             onChange={(value) => setActiveTab(value as 'upcoming' | 'history')}
@@ -92,6 +95,7 @@ export default function HistoryScreen() {
                     key={appointment.id}
                     appointment={appointment}
                     variant="upcoming"
+                    onClick={() => handleAppointmentClick(appointment.id)}
                     onReschedule={() => handleReschedule(appointment.id)}
                     onCancel={() => handleCancel(appointment.id)}
                   />
@@ -102,9 +106,6 @@ export default function HistoryScreen() {
         ) : (
           // History Tab Content - fade in on tab switch
           <div key="history" className="animate-fade-in">
-            <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wide mb-3">
-              Past Appointments
-            </h2>
             {pastAppointments.length === 0 ? (
               <EmptyState
                 icon="history"
@@ -118,6 +119,7 @@ export default function HistoryScreen() {
                     key={item.id}
                     item={item}
                     variant="history"
+                    onClick={() => handleAppointmentClick(item.id)}
                     onBookAgain={() => handleBookAgain(item)}
                   />
                 ))}
@@ -136,7 +138,7 @@ export default function HistoryScreen() {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Book New Appointment
+          Book Appointment
         </button>
       </div>
 
