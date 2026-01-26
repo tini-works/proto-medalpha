@@ -3,6 +3,7 @@ export {
   doctorPath,
   doctorSlotsPath,
   historyDetailPath,
+  appointmentDetailPath,
   reschedulePath,
   rescheduleConfirmPath,
   rescheduleSuccessPath,

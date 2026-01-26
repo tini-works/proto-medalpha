@@ -67,6 +67,10 @@ export function historyDetailPath(id: string) {
   return `/history/${id}`
 }
 
+export function appointmentDetailPath(id: string) {
+  return `/appointments/${id}`
+}
+
 export function reschedulePath(appointmentId: string) {
   return `/reschedule/${appointmentId}`
 }

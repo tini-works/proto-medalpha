@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Page, TabBar, CMSCard, AppointmentCard, Avatar } from '../../components'
-import { useProfile, useBooking } from '../../state'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Page, TabBar, CMSCard, AppointmentCard, Avatar, TodaysFocusCard } from '../../components'
+import { useAuth, useProfile, useBooking } from '../../state'
 import { apiGetCMSContent } from '../../data'
-import { PATHS } from '../../routes'
+import { PATHS, appointmentDetailPath } from '../../routes'
 import type { CMSContent } from '../../types'
 
 export default function HomeScreen() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { isVerified } = useAuth()
   const { profile } = useProfile()
   const { appointments } = useBooking()
   const [cmsContent, setCmsContent] = useState<CMSContent[]>([])
@@ -16,11 +19,24 @@ export default function HomeScreen() {
     apiGetCMSContent(profile.insuranceType || undefined)
       .then(setCmsContent)
       .finally(() => setLoading(false))
-  }, [profile.insuranceType])
+  }, [profile.insuranceType, location.key])
 
-  const upcomingAppointments = appointments
-    .filter((a) => a.status === 'confirmed' && a.dateISO >= new Date().toISOString().split('T')[0])
-    .slice(0, 2)
+  const upcomingAppointments = useMemo(() => {
+    const now = new Date()
+    return appointments
+      .filter((appointment) => {
+        const appointmentDateTime = new Date(`${appointment.dateISO}T${appointment.time}`)
+        return appointment.status === 'confirmed' && appointmentDateTime >= now
+      })
+      .sort((a, b) => {
+        const aTime = new Date(`${a.dateISO}T${a.time}`).getTime()
+        const bTime = new Date(`${b.dateISO}T${b.time}`).getTime()
+        return aTime - bTime
+      })
+  }, [appointments])
+
+  const nextAppointment = upcomingAppointments[0]
+  const upcomingPreview = upcomingAppointments.slice(0, 2)
 
   return (
     <Page>
@@ -38,6 +54,16 @@ export default function HomeScreen() {
       </header>
 
       <div className="px-4 py-6 space-y-6">
+        {/* Today's Focus */}
+        {isVerified && nextAppointment && (
+          <section>
+            <TodaysFocusCard
+              appointment={nextAppointment}
+              onCheckIn={() => navigate(appointmentDetailPath(nextAppointment.id))}
+            />
+          </section>
+        )}
+
         {/* Quick Actions */}
         <section>
           <h2 className="text-lg font-semibold text-charcoal-500 mb-3">Quick Actions</h2>
@@ -75,7 +101,7 @@ export default function HomeScreen() {
         </section>
 
         {/* Upcoming Appointments */}
-        {upcomingAppointments.length > 0 && (
+        {upcomingPreview.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-semibold text-charcoal-500">Upcoming Appointments</h2>
@@ -84,7 +110,7 @@ export default function HomeScreen() {
               </Link>
             </div>
             <div className="space-y-3">
-              {upcomingAppointments.map((appointment) => (
+              {upcomingPreview.map((appointment) => (
                 <AppointmentCard key={appointment.id} appointment={appointment} />
               ))}
             </div>
