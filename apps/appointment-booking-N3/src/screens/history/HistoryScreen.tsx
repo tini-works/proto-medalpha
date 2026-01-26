@@ -29,7 +29,7 @@ export default function HistoryScreen() {
 
   const handleReschedule = (appointmentId: string) => {
     // Navigate to reschedule flow
-    navigate(`/reschedule/${appointmentId}`)
+    navigate(`/reschedule/${appointmentId}/reason`)
   }
 
   const handleCancel = (appointmentId: string) => {
@@ -141,6 +141,22 @@ export default function HistoryScreen() {
           Book Appointment
         </button>
       </div>
+
+      {/* Floating assistant trigger */}
+      <button
+        onClick={() => navigate(PATHS.ASSISTANT)}
+        className="fixed bottom-36 right-6 w-14 h-14 bg-white rounded-full shadow-lg flex items-center justify-center border border-cream-300 text-teal-700 hover:bg-cream-50 transition-colors"
+        aria-label="Open assistant"
+      >
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 2a7 7 0 00-7 7v3a4 4 0 004 4h1v2a2 2 0 002 2h2a2 2 0 002-2v-2h1a4 4 0 004-4V9a7 7 0 00-7-7z"
+          />
+        </svg>
+      </button>
 
       <TabBar />
     </Page>

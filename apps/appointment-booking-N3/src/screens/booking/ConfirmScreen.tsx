@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   PatientSelector,
@@ -18,6 +18,18 @@ export default function ConfirmScreen() {
 
   const [patientType, setPatientType] = useState<string>(selectedFamilyMemberId ? 'child' : 'myself')
   const [reason, setReason] = useState('')
+  const [isOnline, setIsOnline] = useState<boolean>(typeof navigator === 'undefined' ? true : navigator.onLine)
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   if (!selectedDoctor || !selectedSlot) {
     navigate(PATHS.BOOKING_SEARCH)
@@ -48,7 +60,9 @@ export default function ConfirmScreen() {
   })
 
   const handleConfirm = () => {
+    if (!isOnline) return
     const appointmentId = `apt_${Date.now()}`
+    const confirmationNumber = `BK-${Date.now().toString(36).toUpperCase()}`
 
     // Create appointment
     const appointment: Appointment = {
@@ -85,7 +99,12 @@ export default function ConfirmScreen() {
     resetBooking()
 
     // Navigate to success
-    navigate(PATHS.BOOKING_SUCCESS)
+    navigate(PATHS.BOOKING_SUCCESS, {
+      state: {
+        confirmationNumber,
+        appointment,
+      },
+    })
   }
 
   const handleClose = () => {
@@ -176,9 +195,10 @@ export default function ConfirmScreen() {
         <div className="flex-shrink-0 p-4 bg-white border-t border-cream-300">
           <button
             onClick={handleConfirm}
+            disabled={!isOnline}
             className="btn btn-primary btn-block h-14 shadow-md"
           >
-            Confirm Appointment
+            {isOnline ? 'Confirm Appointment' : 'Offline'}
           </button>
         </div>
       </div>

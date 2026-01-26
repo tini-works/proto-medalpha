@@ -46,9 +46,17 @@ export default function SearchScreen() {
       city: '',
       insuranceType: '',
       includeStores: false,
+      radius: 10,
+      visitType: 'in_clinic',
+      urgency: 'routine',
+      onlyPublic: false,
+      minRating: 0,
+      languages: [],
+      videoOnly: false,
+      sortBy: 'earliest',
     })
 
-    navigate(PATHS.BOOKING_RESULTS)
+    navigate(PATHS.BOOKING_LOCATION)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

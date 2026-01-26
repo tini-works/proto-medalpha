@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
@@ -27,22 +27,53 @@ export default function LocationScreen() {
   const navigate = useNavigate()
   const { setSearchFilters, search } = useBooking()
   const [selectedLocation, setSelectedLocation] = useState<LocationValue | null>(null)
+  const [radius, setRadius] = useState<number>(search?.radius ?? 10)
+  const [visitType, setVisitType] = useState<'in_clinic' | 'home_visit'>(search?.visitType ?? 'in_clinic')
+  const [urgency, setUrgency] = useState<'routine' | 'urgent'>(search?.urgency ?? 'routine')
+  const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false)
+  const hasAutoOpenedPicker = useRef(false)
+
+  useEffect(() => {
+    if (search?.city) {
+      setSelectedLocation({ type: 'address', value: search.city, radius })
+    }
+  }, [search?.city, radius])
+
+  useEffect(() => {
+    // If there's no prefilled location, prompt the user by opening the picker once.
+    if (hasAutoOpenedPicker.current) return
+    if (selectedLocation) return
+    hasAutoOpenedPicker.current = true
+    setIsLocationPickerOpen(true)
+  }, [selectedLocation])
+
+  const locationLabel = useMemo(() => {
+    if (!selectedLocation?.value) return 'Choose location'
+    if (selectedLocation.type === 'gps') return 'Current location'
+    return selectedLocation.value
+  }, [selectedLocation])
 
   const handleLocationSelect = (location: LocationValue) => {
     setSelectedLocation(location)
+    setRadius(location.radius)
+    setIsLocationPickerOpen(false)
   }
 
   const handleContinue = () => {
     if (selectedLocation) {
-      // Update search filters with location data
+      if (!search?.specialty) {
+        navigate(PATHS.BOOKING_SEARCH)
+        return
+      }
+
       setSearchFilters({
-        specialty: search?.specialty || '',
+        ...search,
         city: selectedLocation.value,
-        insuranceType: search?.insuranceType || '',
-        includeStores: search?.includeStores || false,
-        radius: selectedLocation.radius,
+        radius,
+        visitType,
+        urgency,
       })
-      navigate(PATHS.BOOKING_RESULTS)
+      navigate(PATHS.BOOKING_INSURANCE)
     }
   }
 
@@ -52,51 +83,220 @@ export default function LocationScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Location" showBack onBack={handleBack} />
+      <Header title="Location & Preferences" showBack onBack={handleBack} />
 
-      <div className="px-4 py-4">
-        {/* Progress Indicator */}
-        <ProgressIndicator
-          currentStep={2}
-          totalSteps={4}
-          variant="dots"
-          showLabel={true}
-          showPercentage={false}
-        />
+      <div className="px-4 py-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold tracking-wide text-slate-600">STEP 2 OF 4</span>
+          <span className="text-xs text-slate-500">Your request</span>
+        </div>
+        <ProgressIndicator currentStep={2} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
       </div>
 
-      <div className="px-4 py-2">
-        {/* Title */}
-        <h2 className="text-xl font-semibold text-neutral-900 mb-6">
-          Where do you need the appointment?
-        </h2>
+      <div className="px-4 pb-28 space-y-5">
+        {/* Visit type toggle */}
+        <div className="bg-white rounded-2xl border border-cream-400 p-2">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setVisitType('in_clinic')}
+              className={`h-12 rounded-xl flex items-center justify-center gap-2 text-sm font-medium transition-colors duration-normal ease-out-brand ${
+                visitType === 'in_clinic'
+                  ? 'bg-cream-100 text-charcoal-500 ring-1 ring-cream-400'
+                  : 'bg-white text-slate-600 hover:bg-cream-50'
+              }`}
+              aria-pressed={visitType === 'in_clinic'}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V9h6v12" />
+              </svg>
+              In-clinic
+            </button>
+            <button
+              type="button"
+              onClick={() => setVisitType('home_visit')}
+              className={`h-12 rounded-xl flex items-center justify-center gap-2 text-sm font-medium transition-colors duration-normal ease-out-brand ${
+                visitType === 'home_visit'
+                  ? 'bg-cream-100 text-charcoal-500 ring-1 ring-cream-400'
+                  : 'bg-white text-slate-600 hover:bg-cream-50'
+              }`}
+              aria-pressed={visitType === 'home_visit'}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z"
+                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V12h6v9" />
+              </svg>
+              Home visit
+            </button>
+          </div>
+        </div>
 
-        {/* Location Selector */}
-        <LocationSelector
-          onLocationSelect={handleLocationSelect}
-          savedLocations={mockSavedLocations}
-          initialRadius={10}
-        />
+        {/* Location + radius card */}
+        <div className="bg-white rounded-2xl border border-cream-400 p-4 space-y-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-xs font-medium text-slate-500 mb-1">Location</p>
+              <p className="font-medium text-charcoal-500 truncate">{locationLabel}</p>
+              {!selectedLocation && (
+                <p className="text-xs text-slate-500 mt-1">Select a location to continue.</p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsLocationPickerOpen(true)}
+              className="text-sm font-medium text-teal-700 hover:underline flex-shrink-0"
+            >
+              Change
+            </button>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-medium text-slate-500">Radius</p>
+              <span className="px-2 py-0.5 rounded-md bg-cream-100 text-sm font-semibold text-charcoal-500">
+                {radius} km
+              </span>
+            </div>
+            <input
+              type="range"
+              min={1}
+              max={50}
+              value={radius}
+              onChange={(e) => setRadius(Number(e.target.value))}
+              className="w-full accent-teal-500"
+              aria-label="Radius in kilometers"
+            />
+            <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
+              <span>1 km</span>
+              <span>50 km</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Urgency level */}
+        <div className="space-y-3">
+          <h2 className="text-sm font-semibold text-charcoal-500">Urgency level</h2>
+
+          <button
+            type="button"
+            onClick={() => setUrgency('routine')}
+            className={`w-full text-left rounded-2xl border p-4 flex items-start gap-3 transition-colors duration-normal ease-out-brand ${
+              urgency === 'routine' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white hover:bg-cream-50'
+            }`}
+            aria-pressed={urgency === 'routine'}
+          >
+            <div className="w-10 h-10 rounded-xl bg-cream-200 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-semibold text-charcoal-500">Routine visit</p>
+                <span
+                  className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                    urgency === 'routine' ? 'border-teal-600' : 'border-cream-400'
+                  }`}
+                >
+                  {urgency === 'routine' && <span className="w-2.5 h-2.5 rounded-full bg-teal-600" />}
+                </span>
+              </div>
+              <p className="text-sm text-slate-600 mt-1">Regular check-ups and non-urgent care</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setUrgency('urgent')}
+            className={`w-full text-left rounded-2xl border p-4 flex items-start gap-3 transition-colors duration-normal ease-out-brand ${
+              urgency === 'urgent' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white hover:bg-cream-50'
+            }`}
+            aria-pressed={urgency === 'urgent'}
+          >
+            <div className="w-10 h-10 rounded-xl bg-coral-50 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-coral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+                />
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-semibold text-charcoal-500">Urgent care</p>
+                <span
+                  className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                    urgency === 'urgent' ? 'border-teal-600' : 'border-cream-400'
+                  }`}
+                >
+                  {urgency === 'urgent' && <span className="w-2.5 h-2.5 rounded-full bg-teal-600" />}
+                </span>
+              </div>
+              <p className="text-sm text-slate-600 mt-1">Need to see a doctor today</p>
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Sticky Footer */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md flex gap-3">
-          <button
-            onClick={handleBack}
-            className="btn btn-tertiary flex-1 h-12 py-0"
-          >
-            Back
-          </button>
+        <div className="mx-auto max-w-md">
           <button
             onClick={handleContinue}
             disabled={!selectedLocation}
-            className="btn btn-primary flex-1 h-12 py-0 disabled:cursor-not-allowed"
+            className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed"
           >
-            Continue
+            Continue →
           </button>
         </div>
       </div>
+
+      {/* Location picker (bottom sheet) */}
+      {isLocationPickerOpen && (
+        <div className="fixed inset-0 z-50">
+          <div
+            className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
+            onClick={() => setIsLocationPickerOpen(false)}
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-[90vh] flex flex-col rounded-t-3xl bg-white overflow-hidden animate-slide-up">
+            <div className="flex justify-center pt-3 pb-2">
+              <div className="w-10 h-1 rounded-full bg-cream-400" />
+            </div>
+            <div className="flex items-center justify-between px-4 pb-4">
+              <h2 className="text-lg font-semibold text-charcoal-500">Choose location</h2>
+              <button
+                onClick={() => setIsLocationPickerOpen(false)}
+                className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
+                aria-label="Close"
+              >
+                <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto px-4 pb-6">
+              <LocationSelector
+                onLocationSelect={handleLocationSelect}
+                savedLocations={mockSavedLocations}
+                initialRadius={radius}
+                showRadius={false}
+                showMapPreview={false}
+                showSavedLocations={true}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </Page>
   )
 }

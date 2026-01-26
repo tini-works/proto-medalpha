@@ -4,7 +4,7 @@ import { Page, Header, Avatar } from '../../components'
 import { Pill } from '../../components/display/Pill'
 import { useBooking, useHistory, useReschedule } from '../../state'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
-import { PATHS, reschedulePath } from '../../routes/paths'
+import { PATHS } from '../../routes/paths'
 
 // Status configuration
 const statusConfig: Record<
@@ -88,7 +88,7 @@ export default function AppointmentDetailScreen() {
         suggestedSlots: [],
         selectedNewSlot: null,
       })
-      navigate(reschedulePath(appointment.id))
+      navigate(`/reschedule/${appointment.id}/reason`)
     }
   }
 
@@ -220,7 +220,7 @@ export default function AppointmentDetailScreen() {
             </>
           )}
 
-          {isPast && displayData.status !== 'cancelled' && (
+          {isPast && (
             <button
               onClick={handleBookAgain}
               className="btn btn-primary btn-block h-12 py-0"

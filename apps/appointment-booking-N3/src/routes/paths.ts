@@ -16,8 +16,10 @@ export const PATHS = {
   // Booking
   BOOKING_SEARCH: '/booking/search',
   BOOKING_LOCATION: '/booking/location',
+  BOOKING_INSURANCE: '/booking/insurance',
   BOOKING_RESULTS: '/booking/results',
   BOOKING_DOCTOR: '/booking/doctor/:id',
+  BOOKING_REVIEWS: '/booking/doctor/:id/reviews',
   BOOKING_SLOTS: '/booking/doctor/:id/slots',
   BOOKING_CONFIRM: '/booking/confirm',
   BOOKING_SUCCESS: '/booking/success',
@@ -28,15 +30,21 @@ export const PATHS = {
 
   // Reschedule flow (R01-R03)
   RESCHEDULE: '/reschedule/:id',
+  RESCHEDULE_REASON: '/reschedule/:id/reason',
   RESCHEDULE_CONFIRM: '/reschedule/:id/confirm',
   RESCHEDULE_SUCCESS: '/reschedule/:id/success',
 
   // Book Again flow (B01)
   BOOK_AGAIN: '/book-again/:id',
+  BOOK_AGAIN_ALTERNATIVES: '/book-again/:id/alternatives',
 
   // Settings
   SETTINGS: '/settings',
   SETTINGS_NOTIFICATIONS: '/settings/notifications',
+
+  // Assistants (optional enhancement)
+  ASSISTANT: '/assistant',
+  ASSISTANT_VOICE: '/assistant/voice',
 } as const
 
 export function doctorPath(id: string) {

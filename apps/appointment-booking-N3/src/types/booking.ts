@@ -53,6 +53,13 @@ export interface SearchFilters {
   insuranceType: InsuranceType | ''
   includeStores: boolean
   radius?: number
+  visitType?: 'in_clinic' | 'home_visit'
+  urgency?: 'routine' | 'urgent'
+  onlyPublic?: boolean
+  minRating?: number
+  languages?: string[]
+  videoOnly?: boolean
+  sortBy?: 'earliest' | 'rating' | 'distance'
 }
 
 export interface BookingState {
@@ -67,6 +74,7 @@ export interface RescheduleContext {
   originalAppointment: Appointment
   suggestedSlots: SuggestedSlot[]
   selectedNewSlot: TimeSlot | null
+  reason?: 'conflict' | 'earlier' | 'later' | 'other'
 }
 
 export interface SuggestedSlot extends TimeSlot {

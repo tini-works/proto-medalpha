@@ -105,6 +105,25 @@ export default function DoctorProfileScreen() {
           </section>
         )}
 
+        {/* Reviews preview */}
+        <section className="mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-sm font-medium text-slate-500">Reviews</h2>
+            <button
+              onClick={() => navigate(PATHS.BOOKING_REVIEWS.replace(':id', doctor.id))}
+              className="text-sm font-medium text-teal-700 hover:underline"
+            >
+              View all
+            </button>
+          </div>
+          <div className="bg-white rounded-xl border border-cream-400 p-4">
+            <p className="text-sm text-slate-700 leading-relaxed">
+              “Clear communication and professional care. Appointment started on time.”
+            </p>
+            <p className="text-xs text-slate-500 mt-2">Sample review</p>
+          </div>
+        </section>
+
         {/* Next available */}
         <section className="mb-8 p-4 bg-cream-200 rounded-lg">
           <p className="text-sm text-slate-700">

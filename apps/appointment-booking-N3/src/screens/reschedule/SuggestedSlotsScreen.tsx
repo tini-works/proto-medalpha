@@ -43,6 +43,7 @@ export default function SuggestedSlotsScreen() {
           originalAppointment: appointment,
           suggestedSlots: slots,
           selectedNewSlot: null,
+          reason: rescheduleContext?.reason,
         })
       } catch (error) {
         console.error('Failed to fetch suggested slots:', error)
@@ -52,7 +53,7 @@ export default function SuggestedSlotsScreen() {
     }
 
     fetchSlots()
-  }, [appointment, id])
+  }, [appointment, id, rescheduleContext?.reason])
 
   if (!appointment) {
     return (
@@ -73,7 +74,7 @@ export default function SuggestedSlotsScreen() {
 
   const handleSelectSlot = (slot: SuggestedSlot) => {
     setRescheduleNewSlot(slot)
-    navigate(rescheduleConfirmPath(appointment.id))
+    navigate(rescheduleConfirmPath(appointment.id), { state: { origin: 'suggestions' } })
   }
 
   const handleViewAllSlots = () => {
@@ -86,6 +87,11 @@ export default function SuggestedSlotsScreen() {
       <Header title="Reschedule Appointment" showBack />
 
       <div className="px-4 py-4 space-y-6">
+        {rescheduleContext?.reason && (
+          <div className="bg-teal-50 border border-teal-200 rounded-xl p-3 text-sm text-teal-800">
+            Showing suggestions based on your preference: <span className="font-semibold">{rescheduleContext.reason}</span>
+          </div>
+        )}
         {/* Current Appointment Summary */}
         <div className="bg-cream-200 rounded-xl p-4">
           <p className="text-sm text-slate-500 mb-1">Current Appointment</p>

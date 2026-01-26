@@ -15,8 +15,10 @@ import { HomeScreen } from './screens/home'
 import {
   SearchScreen as BookingSearchScreen,
   LocationScreen as BookingLocationScreen,
+  InsuranceScreen as BookingInsuranceScreen,
   ResultsScreen as BookingResultsScreen,
   DoctorProfileScreen,
+  ReviewsScreen as BookingReviewsScreen,
   SlotSelectionScreen,
   ConfirmScreen as BookingConfirmScreen,
   SuccessScreen as BookingSuccessScreen,
@@ -26,10 +28,13 @@ import {
 import { HistoryScreen, AppointmentDetailScreen } from './screens/history'
 
 // Reschedule screens
-import { SuggestedSlotsScreen, RescheduleConfirmScreen, RescheduleSuccessScreen } from './screens/reschedule'
+import { SuggestedSlotsScreen, RescheduleConfirmScreen, RescheduleSuccessScreen, RescheduleReasonScreen } from './screens/reschedule'
 
 // Book Again screens
-import { BookAgainContextScreen } from './screens/book-again'
+import { BookAgainContextScreen, BookAgainAlternativesScreen } from './screens/book-again'
+
+// Assistant screens
+import { AssistantScreen, VoiceAssistantScreen } from './screens/assistant'
 
 // Settings screens
 import { SettingsScreen, NotificationsScreen } from './screens/settings'
@@ -129,6 +134,16 @@ export default function App() {
               }
             />
             <Route
+              path={PATHS.BOOKING_INSURANCE}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <BookingInsuranceScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
               path={PATHS.BOOKING_RESULTS}
               element={
                 <RequireAuth>
@@ -144,6 +159,16 @@ export default function App() {
                 <RequireAuth>
                   <RequireProfileComplete>
                     <DoctorProfileScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.BOOKING_REVIEWS}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <BookingReviewsScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }
@@ -213,6 +238,16 @@ export default function App() {
               }
             />
             <Route
+              path={PATHS.RESCHEDULE_REASON}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <RescheduleReasonScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
               path={PATHS.RESCHEDULE_CONFIRM}
               element={
                 <RequireAuth>
@@ -240,6 +275,38 @@ export default function App() {
                 <RequireAuth>
                   <RequireProfileComplete>
                     <BookAgainContextScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.BOOK_AGAIN_ALTERNATIVES}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <BookAgainAlternativesScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+
+            {/* Assistants */}
+            <Route
+              path={PATHS.ASSISTANT}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <AssistantScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.ASSISTANT_VOICE}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <VoiceAssistantScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }

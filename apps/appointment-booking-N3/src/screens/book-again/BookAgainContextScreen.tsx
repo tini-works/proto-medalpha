@@ -70,9 +70,18 @@ export default function BookAgainContextScreen() {
   }, [sourceData, appointment, profile, setBookAgainContext])
 
   const handleViewSlots = () => {
-    if (doctor) {
-      navigate(doctorSlotsPath(doctor.id) + '?bookAgain=true')
+    if (doctor && sourceData) {
+      navigate(doctorSlotsPath(doctor.id) + `?bookAgain=${sourceData.id}`)
     }
+  }
+
+  const computeTimingHint = (dateISO: string) => {
+    const then = new Date(dateISO)
+    const now = new Date()
+    const days = Math.max(0, Math.round((now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24)))
+    if (days < 30) return 'You recently visited this doctor. If symptoms changed, consider updating the reason in confirm.'
+    if (days < 180) return 'It has been a few months since your last visit. Routine check-ups may be appropriate.'
+    return 'It has been a while since your last visit. Consider booking a routine follow-up if needed.'
   }
 
   if (isLoading) {
@@ -111,12 +120,19 @@ export default function BookAgainContextScreen() {
             </svg>
           </div>
           <p className="text-slate-700 mb-4">{error || 'Appointment not found'}</p>
-          <button
-            onClick={() => navigate(PATHS.BOOKING_SEARCH)}
-            className="btn btn-primary"
-          >
-            Search for Doctors
-          </button>
+          <div className="flex flex-col gap-3 items-center">
+            <button onClick={() => navigate(PATHS.BOOKING_SEARCH)} className="btn btn-primary">
+              Search for Doctors
+            </button>
+            {id && (
+              <button
+                onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', id))}
+                className="btn btn-secondary"
+              >
+                See alternatives
+              </button>
+            )}
+          </div>
         </div>
       </Page>
     )
@@ -134,6 +150,19 @@ export default function BookAgainContextScreen() {
         <div className="bg-cream-200 rounded-xl p-4">
           <p className="text-sm text-slate-500 mb-1">Based on your appointment from</p>
           <p className="font-semibold text-charcoal-500">{formatDate(sourceData.dateISO)}</p>
+        </div>
+
+        {/* Timing hint (stubbed, no AI calls) */}
+        <div className="bg-white rounded-xl border border-cream-400 p-4 flex gap-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+            <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.364-7.364l-1.414 1.414M8.05 15.95l-1.414 1.414m0-11.314L8.05 8.05m8.9 8.9l1.414 1.414" />
+            </svg>
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-charcoal-500">Timing hint</p>
+            <p className="text-sm text-slate-600 mt-1 leading-relaxed">{computeTimingHint(sourceData.dateISO)}</p>
+          </div>
         </div>
 
         {/* Divider */}
@@ -238,6 +267,12 @@ export default function BookAgainContextScreen() {
             className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             View Available Times
+          </button>
+          <button
+            onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', sourceData.id))}
+            className="btn btn-secondary btn-block h-12 py-0 mt-3"
+          >
+            See alternatives
           </button>
         </div>
       </div>

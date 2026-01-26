@@ -94,14 +94,23 @@ export function DoctorCard({
 }: DoctorCardProps) {
   const [isFavorite, setIsFavorite] = useState(false)
 
-  // Get first 4 available slots for quick booking
-  const availableSlots = slots.filter((s) => s.available).slice(0, 4)
+  // Get first 3 available slots for quick booking
+  const availableSlots = slots.filter((s) => s.available).slice(0, 3)
 
   // Mock distance (in real app, would come from location service)
-  const distance = (parseFloat(doctor.id.replace('d', '')) * 0.3 + 0.5).toFixed(1)
+  const distanceKm = (parseFloat(doctor.id.replace('d', '')) * 0.7 + 0.8).toFixed(1)
 
   // Check if doctor offers video consults (mock - odd IDs offer video)
   const offersVideo = parseInt(doctor.id.replace('d', ''), 10) % 2 === 1
+
+  const insuranceTag = (() => {
+    const hasGkv = doctor.accepts.includes('GKV')
+    const hasPkv = doctor.accepts.includes('PKV')
+    if (hasGkv && hasPkv) return 'Both'
+    if (hasGkv) return 'Public'
+    if (hasPkv) return 'Private'
+    return '—'
+  })()
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -174,7 +183,7 @@ export function DoctorCard({
             <span className="text-neutral-300">|</span>
             <div className="flex items-center gap-1">
               <LocationIcon />
-              <span>{distance} mi</span>
+              <span>{distanceKm} km</span>
             </div>
             {offersVideo && (
               <>
@@ -191,11 +200,9 @@ export function DoctorCard({
 
       {/* Tags row - Insurance and languages */}
       <div className="flex flex-wrap gap-1.5 mt-3">
-        {doctor.accepts.map((insurance) => (
-          <Pill key={insurance} tone="info" size="sm">
-            {insurance === 'GKV' ? 'Public Insurance' : 'Private Insurance'}
-          </Pill>
-        ))}
+        <Pill tone="info" size="sm">
+          {insuranceTag}
+        </Pill>
         {doctor.languages.slice(0, 2).map((lang) => (
           <Pill key={lang} tone="neutral" size="sm">
             {lang}

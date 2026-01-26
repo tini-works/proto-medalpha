@@ -13,12 +13,18 @@ interface LocationSelectorProps {
   onLocationSelect: (location: LocationValue) => void
   savedLocations?: SavedLocation[]
   initialRadius?: number
+  showRadius?: boolean
+  showMapPreview?: boolean
+  showSavedLocations?: boolean
 }
 
 export function LocationSelector({
   onLocationSelect,
   savedLocations = [],
   initialRadius = 10,
+  showRadius = true,
+  showMapPreview = true,
+  showSavedLocations = true,
 }: LocationSelectorProps) {
   const [addressQuery, setAddressQuery] = useState('')
   const [radius, setRadius] = useState(initialRadius)
@@ -145,42 +151,44 @@ export function LocationSelector({
       </div>
 
       {/* Map Preview */}
-      <div className="h-32 rounded-xl bg-cream-200 relative overflow-hidden">
-        {/* Grid pattern for map effect */}
-        <div className="absolute inset-0 opacity-20">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage:
-                'linear-gradient(to right, #E8E3DB 1px, transparent 1px), linear-gradient(to bottom, #E8E3DB 1px, transparent 1px)',
-              backgroundSize: '20px 20px',
-            }}
-          />
-        </div>
+      {showMapPreview && (
+        <div className="h-32 rounded-xl bg-cream-200 relative overflow-hidden">
+          {/* Grid pattern for map effect */}
+          <div className="absolute inset-0 opacity-20">
+            <div
+              className="w-full h-full"
+              style={{
+                backgroundImage:
+                  'linear-gradient(to right, #E8E3DB 1px, transparent 1px), linear-gradient(to bottom, #E8E3DB 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+              }}
+            />
+          </div>
 
-        {/* Pulsing location dot */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative">
-            {/* Pulse ring - uses custom animation */}
-            <div className="absolute -inset-2 rounded-full bg-teal-500/20 animate-location-pulse" />
-            {/* Center dot */}
-            <div className="relative w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center shadow-md">
-              <div className="w-2 h-2 rounded-full bg-white" />
+          {/* Pulsing location dot */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative">
+              {/* Pulse ring - uses custom animation */}
+              <div className="absolute -inset-2 rounded-full bg-teal-500/20 animate-location-pulse" />
+              {/* Center dot */}
+              <div className="relative w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center shadow-md">
+                <div className="w-2 h-2 rounded-full bg-white" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Map label */}
-        <div className="absolute bottom-2 left-2">
-          <span className="text-xs text-slate-600 bg-white/80 px-2 py-1 rounded">Map Preview</span>
+          {/* Map label */}
+          <div className="absolute bottom-2 left-2">
+            <span className="text-xs text-slate-600 bg-white/80 px-2 py-1 rounded">Map Preview</span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Radius Slider */}
-      <RadiusSlider value={radius} onChange={handleRadiusChange} min={1} max={50} unit="km" />
+      {showRadius && <RadiusSlider value={radius} onChange={handleRadiusChange} min={1} max={50} unit="km" />}
 
       {/* Saved Locations */}
-      {savedLocations.length > 0 && (
+      {showSavedLocations && savedLocations.length > 0 && (
         <SavedLocations
           locations={savedLocations}
           onSelect={handleSavedLocationSelect}

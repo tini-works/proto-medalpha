@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Header, Page } from '../../components'
-import { useBooking, useProfile } from '../../state'
-import { apiGetAvailableDates, apiGetSlotsForDate } from '../../data'
-import { PATHS } from '../../routes'
+import { useBooking, useProfile, useReschedule } from '../../state'
+import { apiGetAvailableDates, apiGetDoctor, apiGetSlotsForDate } from '../../data'
+import { PATHS, rescheduleConfirmPath, reschedulePath } from '../../routes'
 import type { TimeSlot } from '../../types'
 
 export default function SlotSelectionScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { selectedDoctor, selectSlot, selectFamilyMember } = useBooking()
+  const [searchParams] = useSearchParams()
+  const { selectedDoctor, selectDoctor, selectSlot, selectFamilyMember } = useBooking()
   const { profile } = useProfile()
+  const { setRescheduleNewSlot } = useReschedule()
+
+  const rescheduleId = searchParams.get('reschedule')
+  const bookAgainId = searchParams.get('bookAgain')
 
   const [availableDates, setAvailableDates] = useState<string[]>([])
   const [selectedDate, setSelectedDate] = useState<string>('')
@@ -20,20 +25,44 @@ export default function SlotSelectionScreen() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!id || !selectedDoctor) {
+    if (!id) {
+      if (rescheduleId) {
+        navigate(reschedulePath(rescheduleId))
+        return
+      }
+      if (bookAgainId) {
+        navigate(PATHS.BOOK_AGAIN.replace(':id', bookAgainId))
+        return
+      }
       navigate(PATHS.BOOKING_SEARCH)
       return
     }
 
-    apiGetAvailableDates(id)
+    const ensureDoctor = async () => {
+      if (selectedDoctor?.id === id) return selectedDoctor
+      const d = await apiGetDoctor(id)
+      selectDoctor(d)
+      return d
+    }
+
+    setLoading(true)
+    ensureDoctor()
+      .then(() => apiGetAvailableDates(id))
       .then((dates) => {
         setAvailableDates(dates)
         if (dates.length > 0) {
           setSelectedDate(dates[0])
         }
       })
+      .catch(() => {
+        if (rescheduleId) {
+          navigate(reschedulePath(rescheduleId))
+          return
+        }
+        navigate(PATHS.BOOKING_RESULTS)
+      })
       .finally(() => setLoading(false))
-  }, [id, selectedDoctor, navigate])
+  }, [id, selectedDoctor?.id, selectDoctor, navigate, rescheduleId, bookAgainId])
 
   useEffect(() => {
     if (id && selectedDate) {
@@ -48,6 +77,13 @@ export default function SlotSelectionScreen() {
 
   const handleContinue = () => {
     if (!selectedSlotValue) return
+
+    if (rescheduleId) {
+      // If coming from reschedule flow, redirect to reschedule confirm and preserve origin context.
+      setRescheduleNewSlot(selectedSlotValue)
+      navigate(rescheduleConfirmPath(rescheduleId), { state: { origin: 'calendar' } })
+      return
+    }
 
     selectSlot(selectedSlotValue)
     selectFamilyMember(selectedFor === 'self' ? null : selectedFor)
@@ -67,7 +103,22 @@ export default function SlotSelectionScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Select Time" subtitle={selectedDoctor?.name} showBack />
+      <Header
+        title="Select Time"
+        subtitle={selectedDoctor?.name}
+        showBack
+        onBack={() => {
+          if (rescheduleId) {
+            navigate(reschedulePath(rescheduleId))
+            return
+          }
+          if (bookAgainId) {
+            navigate(PATHS.BOOK_AGAIN.replace(':id', bookAgainId))
+            return
+          }
+          navigate(-1)
+        }}
+      />
 
       <div className="px-4 py-6 space-y-6">
         {/* Date selection */}
