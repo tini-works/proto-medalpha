@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Avatar, Header, Page, Pill, ProgressIndicator, Rating } from '../../components'
+import { Avatar, Header, Page, Pill, Rating } from '../../components'
 import { apiGetDoctor, getTimeSlots } from '../../data'
 import { PATHS } from '../../routes'
 import { useBooking } from '../../state'
@@ -62,15 +62,7 @@ export default function AssistantDoctorProfileScreen() {
     <Page safeBottom={false}>
       <Header title="Doctor profile" showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
 
-      <div className="px-4 py-4 space-y-6 pb-24">
-        <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold tracking-wide text-slate-600">STEP 2 OF 3</span>
-            <span className="text-xs text-slate-500">Voice flow</span>
-          </div>
-          <ProgressIndicator currentStep={2} totalSteps={3} variant="bar" showLabel={false} showPercentage={false} />
-        </div>
-
+      <div className="px-4 py-4 space-y-6 pb-32">
         <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm">
           <div className="flex items-start gap-4">
             <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="lg" />
@@ -119,18 +111,24 @@ export default function AssistantDoctorProfileScreen() {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="btn btn-primary btn-block h-14"
-          disabled={!pickedSlot}
-          onClick={() => {
-            if (!pickedSlot) return
-            selectSlot(pickedSlot)
-            navigate(PATHS.ASSISTANT_CONFIRM)
-          }}
-        >
-          Continue to confirm
-        </button>
+      </div>
+
+      {/* Sticky bottom button */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md">
+          <button
+            type="button"
+            className="btn btn-primary btn-block h-14"
+            disabled={!pickedSlot}
+            onClick={() => {
+              if (!pickedSlot) return
+              selectSlot(pickedSlot)
+              navigate(PATHS.ASSISTANT_CONFIRM)
+            }}
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </Page>
   )

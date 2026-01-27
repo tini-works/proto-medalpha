@@ -81,7 +81,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       state.profile.email.trim() &&
       state.auth.isAuthenticated &&
       state.auth.verified &&
-      state.profile.insuranceType &&
       state.profile.egkNumber.trim() &&
       state.profile.address.street.trim() &&
       state.profile.address.postalCode.trim() &&

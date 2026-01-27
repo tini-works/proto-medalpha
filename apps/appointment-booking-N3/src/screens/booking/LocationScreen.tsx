@@ -4,7 +4,7 @@ import { Header, Page, ProgressIndicator } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import type { SavedLocation } from '../../components/display/SavedLocations'
-import { useBooking } from '../../state'
+import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 
 // Mock saved locations - in a real app, these would come from user profile/state
@@ -26,6 +26,11 @@ const mockSavedLocations: SavedLocation[] = [
 export default function LocationScreen() {
   const navigate = useNavigate()
   const { setSearchFilters, search } = useBooking()
+  const { profile } = useProfile()
+
+  // Check if user has already set insurance
+  const hasInsurance = Boolean(profile.insuranceType)
+
   const [selectedLocation, setSelectedLocation] = useState<LocationValue | null>(null)
   const [radius, setRadius] = useState<number>(search?.radius ?? 10)
   const [visitType, setVisitType] = useState<'in_clinic' | 'home_visit'>(search?.visitType ?? 'in_clinic')
@@ -41,11 +46,13 @@ export default function LocationScreen() {
 
   useEffect(() => {
     // If there's no prefilled location, prompt the user by opening the picker once.
+    // Don't auto-open if city is already set (e.g., navigating back from Insurance)
     if (hasAutoOpenedPicker.current) return
     if (selectedLocation) return
+    if (search?.city) return
     hasAutoOpenedPicker.current = true
     setIsLocationPickerOpen(true)
-  }, [selectedLocation])
+  }, [selectedLocation, search?.city])
 
   const locationLabel = useMemo(() => {
     if (!selectedLocation?.value) return 'Choose location'
@@ -72,8 +79,16 @@ export default function LocationScreen() {
         radius,
         visitType,
         urgency,
+        // Pre-fill insurance from profile if available
+        insuranceType: hasInsurance ? profile.insuranceType : search.insuranceType,
       })
-      navigate(PATHS.BOOKING_INSURANCE)
+
+      // Skip insurance screen if user already has insurance set
+      if (hasInsurance) {
+        navigate(PATHS.BOOKING_RESULTS)
+      } else {
+        navigate(PATHS.BOOKING_INSURANCE)
+      }
     }
   }
 

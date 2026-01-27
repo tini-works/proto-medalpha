@@ -1,7 +1,0 @@
-{
-  "name": "MedAlpha AI Voice Assistant",
-  "description": "A medical voice assistant application that helps users find and book doctor appointments based on their symptoms and needs.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
-}

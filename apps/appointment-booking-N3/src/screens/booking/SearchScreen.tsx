@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page, TabBar, ProgressIndicator, RecentSearches, SpecialtyChips, addRecentSearch } from '../../components'
 import type { RecentSearch, Specialty } from '../../components'
-import { useBooking } from '../../state'
+import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 
 // Specialty subtitle mapping for recent searches
@@ -26,9 +26,18 @@ const specialtySubtitles: Record<string, string> = {
 export default function SearchScreen() {
   const navigate = useNavigate()
   const { setSearchFilters } = useBooking()
+  const { profile } = useProfile()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [searchQuery, setSearchQuery] = useState('')
+
+  // Check if user has already set location and insurance
+  const hasLocation = Boolean(profile.address?.city?.trim())
+  const hasInsurance = Boolean(profile.insuranceType)
+
+  // Total steps: Search (1) -> Location (2) -> Insurance (3) -> Results
+  // If both location and insurance are set, we skip directly to results (2 steps)
+  const totalSteps = hasLocation && hasInsurance ? 2 : 4
 
   const handleSearch = (specialty: string, subtitle?: string) => {
     if (!specialty.trim()) return
@@ -40,11 +49,11 @@ export default function SearchScreen() {
       specialty: specialty,
     })
 
-    // Set search filters
+    // Set search filters with pre-filled data from profile if available
     setSearchFilters({
       specialty: specialty,
-      city: '',
-      insuranceType: '',
+      city: hasLocation ? profile.address.city : '',
+      insuranceType: hasInsurance ? profile.insuranceType : '',
       includeStores: false,
       radius: 10,
       visitType: 'in_clinic',
@@ -55,7 +64,15 @@ export default function SearchScreen() {
       sortBy: 'earliest',
     })
 
-    navigate(PATHS.BOOKING_LOCATION)
+    // Skip screens based on what user has already set
+    // Location always comes before Insurance
+    if (hasLocation && hasInsurance) {
+      // Both set - go directly to results
+      navigate(PATHS.BOOKING_RESULTS)
+    } else {
+      // Always go to Location first, Location will handle skipping to Results if insurance is set
+      navigate(PATHS.BOOKING_LOCATION)
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -81,7 +98,7 @@ export default function SearchScreen() {
         {/* Progress Indicator */}
         <ProgressIndicator
           currentStep={1}
-          totalSteps={4}
+          totalSteps={totalSteps}
           variant="bar"
           showLabel={true}
           showPercentage={true}

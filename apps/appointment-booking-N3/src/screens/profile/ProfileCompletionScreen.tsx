@@ -42,10 +42,6 @@ export default function ProfileCompletionScreen() {
       newErrors.fullName = 'Full name is required'
     }
 
-    if (!formData.insuranceType) {
-      newErrors.insuranceType = 'Please select your insurance type'
-    }
-
     if (!formData.egkNumber.trim()) {
       newErrors.egkNumber = 'eGK number is required'
     }
@@ -110,9 +106,9 @@ export default function ProfileCompletionScreen() {
           autoComplete="name"
         />
 
-        {/* Insurance */}
+        {/* Insurance (Optional) */}
         <RadioGroup
-          label="Insurance Type"
+          label="Insurance Type (Optional)"
           name="insuranceType"
           value={formData.insuranceType}
           onChange={(value) => handleChange('insuranceType', value)}
@@ -121,7 +117,6 @@ export default function ProfileCompletionScreen() {
             { value: 'PKV', label: 'PKV (Private)', description: 'Private Krankenversicherung' },
           ]}
           error={errors.insuranceType}
-          required
         />
 
         <Field
