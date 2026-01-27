@@ -9,5 +9,6 @@ export {
   rescheduleSuccessPath,
   bookAgainPath,
   assistantDoctorPath,
+  familyMemberDetailPath,
 } from './paths'
 export { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated } from './guards'

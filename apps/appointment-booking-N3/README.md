@@ -36,6 +36,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 ### Additional Features
 - **Home Dashboard**: Quick actions, upcoming appointments, and personalized content
 - **Today's Focus**: Upcoming appointment spotlight with quick actions
+- **Notifications Center**: Bell icon with unread indicator on home screen header navigates to Updates screen showing grouped notifications (booking updates, cancellations, reminders, security alerts, family changes) with actionable links
 - **Appointment Details**: View visit summary, location, and actions
 - **Book Again & Reschedule**: Guided flows for repeat visits and schedule changes
 - **Assistant**: Entry points for guided discovery and voice support
@@ -66,13 +67,15 @@ appointment-booking-N3/
 │   │   ├── cards/          # Card components (Appointment, Doctor, CMS, etc.)
 │   │   ├── display/        # Display components (Avatar, Rating, EmptyState, etc.)
 │   │   ├── forms/          # Form components (Field, Select, RadioGroup, etc.)
-│   │   └── layout/         # Layout components (Header, Page, TabBar)
+│   │   ├── layout/         # Layout components (Header, Page, TabBar)
+│   │   └── notifications/ # Notification components (NotificationCard)
 │   ├── data/               # Mock data and API functions
 │   │   ├── api.ts          # API service functions
 │   │   ├── doctors.ts      # Doctor data
 │   │   ├── stores.ts       # Pharmacy/store data
 │   │   ├── timeSlots.ts    # Time slot utilities
-│   │   └── cms.ts          # CMS content
+│   │   ├── cms.ts          # CMS content
+│   │   └── notifications.ts # Notification mock data
 │   ├── routes/             # Routing configuration
 │   │   ├── paths.ts        # Route path constants
 │   │   ├── guards.tsx     # Route guards (RequireAuth, RequireProfileComplete)
@@ -85,6 +88,7 @@ appointment-booking-N3/
 │   │   ├── home/           # Home dashboard
 │   │   ├── history/        # Appointment history
 │   │   ├── appointments/   # Appointment detail screens
+│   │   ├── notifications/  # Notifications/Updates screen
 │   │   ├── profile/        # Profile management
 │   │   ├── reschedule/     # Reschedule flow screens
 │   │   └── settings/       # Settings screens
@@ -198,6 +202,7 @@ The app uses React Router with the following main routes:
 - `/auth/verify` - Email verification
 - `/auth/verify-identity` - Identity verification
 - `/home` - Home dashboard
+- `/notifications` - Updates and notifications center
 - `/booking/*` - Booking flow (search → location → results → doctor → slots → confirm → success)
 - `/history` - Appointment history
 - `/appointments/*` - Appointment detail views

@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Header, Page, FamilyMemberCard, EmptyState } from '../../components'
 import { Field, Select } from '../../components/forms'
 import { useProfile } from '../../state'
+import { familyMemberDetailPath } from '../../routes'
 import type { FamilyMember, InsuranceType } from '../../types'
 
 export default function FamilyMembersScreen() {
-  const { profile, addFamilyMember, removeFamilyMember } = useProfile()
+  const navigate = useNavigate()
+  const { profile, addFamilyMember } = useProfile()
   const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -67,10 +70,8 @@ export default function FamilyMembersScreen() {
     resetForm()
   }
 
-  const handleRemove = (id: string) => {
-    if (window.confirm('Are you sure you want to remove this family member?')) {
-      removeFamilyMember(id)
-    }
+  const handleCardClick = (memberId: string) => {
+    navigate(familyMemberDetailPath(memberId))
   }
 
   return (
@@ -82,7 +83,11 @@ export default function FamilyMembersScreen() {
         {profile.familyMembers.length > 0 ? (
           <div className="space-y-3 mb-6">
             {profile.familyMembers.map((member) => (
-              <FamilyMemberCard key={member.id} member={member} onRemove={() => handleRemove(member.id)} />
+              <FamilyMemberCard
+                key={member.id}
+                member={member}
+                onClick={() => handleCardClick(member.id)}
+              />
             ))}
           </div>
         ) : (

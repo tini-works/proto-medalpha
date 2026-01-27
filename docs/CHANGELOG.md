@@ -2,6 +2,12 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-27
+
+- **Notifications center**: Added bell icon button to home screen header with unread indicator dot that navigates to a new Updates screen showing grouped notifications (TODAY, YESTERDAY) with type-specific cards for booking updates, cancellations, reminders, security alerts, and family profile changes.
+- **Notification actions**: All appointment-related notifications link to Booking History screen for unified appointment management, while non-appointment notifications route to their respective screens (settings, family management).
+- **Home screen header layout**: Moved user avatar to left side next to welcome message for improved visual hierarchy and consistency with notification bell icon on the right.
+
 ## 2026-01-23
 
 - **Documentation fix**: Fixed Mermaid diagram parse errors in INFO-MAP.md by properly quoting node labels containing special characters (parentheses, ampersands) and correcting edge label syntax.
@@ -15,6 +21,7 @@ High-level, business-focused summary of notable changes.
 - **N3 identity + profile support**: Added verification identity step, family member detail handling, and related state/types to expand onboarding coverage.
 - **Appointments + settings expansion**: Introduced appointment detail views, help/support settings screens, and a Today's Focus card to broaden the N3 surface area.
 - **N3 navigation fix**: Aligned route constants and history detail wiring to restore appointment detail navigation and build stability.
+- **Family Members detail screen**: Added clickable family member cards that navigate to a dedicated detail screen showing verification status, extended info (emergency contact, medical notes), with Edit (bottom sheet) and Remove actions.
 
 ## 2026-01-21
 
