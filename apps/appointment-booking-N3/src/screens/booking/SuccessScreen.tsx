@@ -122,7 +122,7 @@ END:VCALENDAR`
           <button
             onClick={handleAddToCalendar}
             disabled={!appointment}
-            className="btn btn-secondary h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50"
+            className="btn h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 border border-teal-500 text-teal-600 hover:bg-teal-50"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -132,7 +132,7 @@ END:VCALENDAR`
           <button
             onClick={handleGetDirections}
             disabled={!doctor}
-            className="btn btn-secondary h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50"
+            className="btn h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 border border-teal-500 text-teal-600 hover:bg-teal-50"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.553-.894L9 7m0 13l6-3m-6 3V7m6 10l4.447-2.224A1 1 0 0020 13.382V4.618a1 1 0 00-1.553-.894L15 7m0 10V7m0 0L9 10" />

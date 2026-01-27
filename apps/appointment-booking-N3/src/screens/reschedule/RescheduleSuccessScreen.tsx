@@ -77,7 +77,7 @@ END:VCALENDAR`
   return (
     <Page safeBottom={false}>
       <div className="min-h-screen flex flex-col">
-        <div className="flex-1 overflow-y-auto px-4 py-8 pb-32">
+        <div className="flex-1 overflow-y-auto px-4 py-8 pb-48">
           {/* Success Header */}
           <div className="flex flex-col items-center justify-center text-center">
           {/* Animated Checkmark */}

@@ -16,9 +16,12 @@ export default function VoiceAssistantScreen() {
   }, [])
 
   return (
-    <Page>
+    <Page safeBottom={false}>
       <Header title="Voice assistant" showBack />
-      <div className="px-4 py-6 space-y-6">
+
+      {/* Main content - flex column to push transcript to bottom */}
+      <div className="flex flex-col min-h-[calc(100vh-180px)] px-4 py-6">
+        {/* AI greeting at top */}
         <div className="flex items-start gap-3">
           <Avatar name="MedAlpha AI" size="md" />
           <div className="flex-1">
@@ -29,32 +32,36 @@ export default function VoiceAssistantScreen() {
           </div>
         </div>
 
-        <div className="relative flex flex-col items-center justify-center py-6">
-          <span className="absolute h-24 w-24 rounded-full border border-teal-200 animate-location-pulse" />
-          <span
-            className="absolute h-32 w-32 rounded-full border border-teal-100 animate-location-pulse"
-            style={{ animationDelay: '0.6s' }}
-          />
-          <button
-            type="button"
-            className="relative z-10 h-20 w-20 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center active:scale-[0.98] transition-transform duration-normal ease-out-brand"
-            aria-label="Start voice input"
-          >
-            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 5a2 2 0 00-2 2v4a2 2 0 104 0V7a2 2 0 00-2-2z"
-              />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 11a6 6 0 0012 0" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 17v2" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21h6" />
-            </svg>
-          </button>
-          <p className="mt-4 text-xs font-semibold tracking-widest text-teal-700 uppercase">Listening...</p>
+        {/* Mic button - centered vertically in available space */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="relative flex flex-col items-center justify-center">
+            <span className="absolute h-24 w-24 rounded-full border border-teal-200 animate-location-pulse" />
+            <span
+              className="absolute h-32 w-32 rounded-full border border-teal-100 animate-location-pulse"
+              style={{ animationDelay: '0.6s' }}
+            />
+            <button
+              type="button"
+              className="relative z-10 h-20 w-20 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center active:scale-[0.98] transition-transform duration-normal ease-out-brand"
+              aria-label="Start voice input"
+            >
+              <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 5a2 2 0 00-2 2v4a2 2 0 104 0V7a2 2 0 00-2-2z"
+                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 11a6 6 0 0012 0" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 17v2" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21h6" />
+              </svg>
+            </button>
+            <p className="mt-4 text-xs font-semibold tracking-widest text-teal-700 uppercase">Listening...</p>
+          </div>
         </div>
 
+        {/* Real-time transcript card - at bottom of content */}
         <div className="bg-white rounded-2xl border border-cream-400 p-4 space-y-4 shadow-sm">
           <div>
             <div className="flex items-center gap-2 text-slate-500">
@@ -91,10 +98,19 @@ export default function VoiceAssistantScreen() {
             </div>
           </div>
         </div>
+      </div>
 
-        <button type="button" className="btn btn-primary btn-block h-14" onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)}>
-          Send -&gt;
-        </button>
+      {/* Sticky bottom button */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md">
+          <button
+            type="button"
+            className="btn btn-primary btn-block h-14"
+            onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)}
+          >
+            Send
+          </button>
+        </div>
       </div>
     </Page>
   )

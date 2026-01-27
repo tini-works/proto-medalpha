@@ -8,8 +8,7 @@ interface TabItem {
 
 const tabs: TabItem[] = [
   { path: '/home', label: 'Home', icon: 'home' },
-  { path: '/booking/search', label: 'Book', icon: 'calendar' },
-  { path: '/history', label: 'History', icon: 'history' },
+  { path: '/history', label: 'Appointments', icon: 'calendar' },
   { path: '/settings', label: 'Settings', icon: 'settings' },
 ]
 

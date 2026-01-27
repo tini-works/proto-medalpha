@@ -158,6 +158,17 @@ export default function HistoryScreen() {
         )}
       </div>
 
+      {/* Floating Action Button */}
+      <button
+        onClick={() => navigate(PATHS.BOOKING_SEARCH)}
+        className="fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all duration-normal ease-out-brand"
+        aria-label="Book new appointment"
+      >
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+
       <TabBar />
     </Page>
   )
