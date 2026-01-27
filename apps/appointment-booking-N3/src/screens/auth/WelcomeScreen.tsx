@@ -78,7 +78,7 @@ export default function WelcomeScreen() {
       </div>
 
       {/* Action buttons - conservative styling */}
-      <div className="px-6 pb-8 space-y-3">
+      <div className="px-6 pb-8 flex flex-col gap-3">
         <Link
           to={PATHS.AUTH_SIGN_IN}
           className="btn btn-primary btn-block text-center"

@@ -120,7 +120,7 @@ export default function SlotSelectionScreen() {
         }}
       />
 
-      <div className="px-4 py-6 space-y-6">
+      <div className="px-4 py-6 space-y-6 pb-28">
         {/* Date selection */}
         <section>
           <h2 className="text-sm font-medium text-slate-700 mb-3">Select Date</h2>
@@ -219,14 +219,19 @@ export default function SlotSelectionScreen() {
           </section>
         )}
 
-        {/* Continue button */}
-        <button
-          onClick={handleContinue}
-          disabled={!selectedSlotValue}
-          className="btn btn-primary btn-block disabled:cursor-not-allowed"
-        >
-          Continue
-        </button>
+      </div>
+
+      {/* Sticky bottom continue */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md">
+          <button
+            onClick={handleContinue}
+            disabled={!selectedSlotValue}
+            className="btn btn-primary btn-block h-14 disabled:cursor-not-allowed"
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </Page>
   )

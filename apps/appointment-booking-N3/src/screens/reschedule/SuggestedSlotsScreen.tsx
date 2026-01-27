@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Page, Header, EmptyState } from '../../components'
+import { Page, Header, EmptyState, Avatar } from '../../components'
 import { useReschedule, useBooking } from '../../state'
 import { apiGetSuggestedSlots } from '../../data/api'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
@@ -82,109 +82,121 @@ export default function SuggestedSlotsScreen() {
     navigate(doctorSlotsPath(appointment.doctorId) + `?reschedule=${appointment.id}`)
   }
 
+  const formatSlotLabel = (slot: SuggestedSlot) => `${formatDateWithWeekday(slot.dateISO)} · ${formatTime(slot.time)}`
+
+  const reasonMeta = (slot: SuggestedSlot) => {
+    switch (slot.reason) {
+      case 'same_time':
+        return { tag: 'Recommended', note: 'Best match for your schedule', icon: 'star' }
+      case 'similar_time':
+        return { tag: '1 day earlier', note: 'Similar time of day', icon: 'calendar' }
+      case 'soonest':
+        return { tag: 'Next available', note: 'Morning slot', icon: 'clock' }
+      case 'same_weekday':
+        return { tag: 'Next week', note: 'Afternoon availability', icon: 'refresh' }
+      default:
+        return { tag: 'Option', note: 'Available time', icon: 'calendar' }
+    }
+  }
+
   return (
-    <Page>
-      <Header title="Reschedule Appointment" showBack />
+    <Page safeBottom={false}>
+      <Header title="Suggested Alternatives" subtitle="We found these times based on your previous preference." showBack />
 
-      <div className="px-4 py-4 space-y-6">
-        {rescheduleContext?.reason && (
-          <div className="bg-teal-50 border border-teal-200 rounded-xl p-3 text-sm text-teal-800">
-            Showing suggestions based on your preference: <span className="font-semibold">{rescheduleContext.reason}</span>
+      <div className="px-4 py-4 space-y-6 pb-28">
+        {isLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white rounded-2xl border border-cream-400 p-4 animate-pulse">
+                <div className="h-4 w-24 bg-cream-200 rounded mb-3" />
+                <div className="h-6 w-48 bg-cream-300 rounded mb-2" />
+                <div className="h-10 w-full bg-cream-200 rounded-xl" />
+              </div>
+            ))}
           </div>
-        )}
-        {/* Current Appointment Summary */}
-        <div className="bg-cream-200 rounded-xl p-4">
-          <p className="text-sm text-slate-500 mb-1">Current Appointment</p>
-          <p className="font-semibold text-charcoal-500">
-            {formatDateWithWeekday(appointment.dateISO)} at {formatTime(appointment.time)}
-          </p>
-          <p className="text-slate-600">{appointment.doctorName}</p>
-          <p className="text-sm text-slate-500">{appointment.specialty}</p>
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-cream-300" />
-
-        {/* Suggested Slots */}
-        <div>
-          <h2 className="text-lg font-semibold text-charcoal-500 mb-4">
-            Available Alternatives
-          </h2>
-
-          {isLoading ? (
-            // Loading skeleton
-            <div className="space-y-3">
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl border border-cream-400 p-4 animate-pulse"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-2">
-                      <div className="h-5 w-32 bg-cream-300 rounded" />
-                      <div className="h-4 w-20 bg-cream-200 rounded" />
-                    </div>
-                    <div className="h-10 w-24 bg-cream-300 rounded-lg" />
-                  </div>
+        ) : suggestedSlots.length === 0 ? (
+          <EmptyState
+            icon="calendar"
+            title="No slots available"
+            description="There are no alternative slots available at this time."
+          />
+        ) : (
+          <>
+            {/* Recommended */}
+            {suggestedSlots[0] && (
+              <div className="bg-white rounded-2xl border border-cream-400 p-4 space-y-3 shadow-sm">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold border border-teal-200">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.012 6.2h6.519c.969 0 1.371 1.24.588 1.81l-5.277 3.833 2.012 6.2c.3.921-.755 1.688-1.54 1.118L12 17.77l-5.277 3.833c-.784.57-1.838-.197-1.539-1.118l2.012-6.2-5.277-3.833c-.783-.57-.38-1.81.588-1.81h6.519l2.012-6.2z" />
+                  </svg>
+                  Recommended
                 </div>
-              ))}
-            </div>
-          ) : suggestedSlots.length === 0 ? (
-            <EmptyState
-              icon="calendar"
-              title="No slots available"
-              description="There are no alternative slots available at this time. Try viewing all available times."
-            />
-          ) : (
-            <div className="space-y-3">
-              {suggestedSlots.map((slot) => (
-                <div
-                  key={`${slot.dateISO}-${slot.time}`}
-                  className="bg-white rounded-xl border border-cream-400 p-4 hover:border-cream-500 transition-colors duration-normal ease-out-brand"
+                <div>
+                  <p className="text-lg font-semibold text-charcoal-500">{formatSlotLabel(suggestedSlots[0])}</p>
+                  <p className="text-sm text-teal-700 font-medium">Best match for your schedule</p>
+                </div>
+                <div className="text-xs text-slate-500 uppercase tracking-wide flex items-center gap-2">
+                  <span>Why this slot:</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Avatar name={appointment.doctorName} size="sm" />
+                  <span className="text-sm text-slate-600">{appointment.doctorName}</span>
+                </div>
+                <button
+                  onClick={() => handleSelectSlot(suggestedSlots[0])}
+                  className="btn btn-primary btn-block h-12"
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-charcoal-500">
-                        {formatDateWithWeekday(slot.dateISO)} at {formatTime(slot.time)}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-sm text-slate-500">30 min</span>
-                        {slot.reasonLabel && (
-                          <>
-                            <span className="text-cream-400">|</span>
-                            <span className="text-sm text-teal-700 font-medium">
-                              {slot.reasonLabel}
-                            </span>
-                          </>
-                        )}
+                  Select Recommended Slot
+                </button>
+              </div>
+            )}
+
+            {/* Other options */}
+            {suggestedSlots.length > 1 && (
+              <div className="space-y-3">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Other options</p>
+                {suggestedSlots.slice(1).map((slot) => {
+                  const meta = reasonMeta(slot)
+                  return (
+                    <div key={`${slot.dateISO}-${slot.time}`} className="bg-white rounded-2xl border border-cream-400 p-4 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-teal-700">
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-cream-100 text-[10px] font-semibold text-teal-700 border border-cream-300 mb-1">
+                            {meta.tag}
+                          </div>
+                          <p className="text-sm font-semibold text-charcoal-500">{formatSlotLabel(slot)}</p>
+                          <p className="text-xs text-slate-500">{meta.note}</p>
+                        </div>
                       </div>
+                      <button
+                        onClick={() => handleSelectSlot(slot)}
+                        className="px-3 h-9 rounded-lg border border-cream-300 text-sm text-charcoal-500 hover:bg-cream-50"
+                      >
+                        Select
+                      </button>
                     </div>
-                    <button
-                      onClick={() => handleSelectSlot(slot)}
-                      className="px-4 h-10 bg-teal-500 text-white text-sm font-medium rounded-lg hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98] transition-colors duration-normal ease-out-brand flex-shrink-0"
-                    >
-                      Select
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                  )
+                })}
+              </div>
+            )}
 
-        {/* View All Times Button */}
-        <div className="pt-2">
-          <div className="border-t border-cream-300 pt-6">
-            <button
-              onClick={handleViewAllSlots}
-              className="btn btn-secondary btn-block h-12 py-0 flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              View All Available Times
-            </button>
-          </div>
+            <div className="text-center text-sm text-slate-500 pt-4">
+              None of these work for you?
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md">
+          <button onClick={handleViewAllSlots} className="btn btn-secondary btn-block h-14">
+            View all Availables
+          </button>
         </div>
       </div>
     </Page>

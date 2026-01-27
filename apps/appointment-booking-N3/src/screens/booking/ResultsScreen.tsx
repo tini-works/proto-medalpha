@@ -57,7 +57,6 @@ export default function ResultsScreen() {
   const [showFilters, setShowFilters] = useState(false)
   const [radius, setRadius] = useState<number>(search?.radius ?? 10)
   const [minRating, setMinRating] = useState<number>(search?.minRating ?? 0)
-  const [videoOnly, setVideoOnly] = useState<boolean>(Boolean(search?.videoOnly))
   const [onlyPublic, setOnlyPublic] = useState<boolean>(Boolean(search?.onlyPublic))
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(search?.languages ?? [])
 
@@ -66,7 +65,6 @@ export default function ResultsScreen() {
     if (search) {
       setRadius(search.radius ?? 10)
       setMinRating(search.minRating ?? 0)
-      setVideoOnly(Boolean(search.videoOnly))
       setOnlyPublic(Boolean(search.onlyPublic))
       setSelectedLanguages(search.languages ?? [])
       setSortBy((search.sortBy as SortOption) || 'earliest')
@@ -75,7 +73,6 @@ export default function ResultsScreen() {
         Boolean(
           (search.radius ?? 10) !== 10 ||
             Boolean(search.onlyPublic) ||
-            Boolean(search.videoOnly) ||
             (search.minRating ?? 0) > 0 ||
             (search.languages?.length ?? 0) > 0
         )
@@ -124,11 +121,10 @@ export default function ResultsScreen() {
     let count = 0
     if (radius !== 10) count += 1
     if (onlyPublic) count += 1
-    if (videoOnly) count += 1
     if (minRating > 0) count += 1
     if (selectedLanguages.length > 0) count += 1
     return count
-  }, [radius, onlyPublic, videoOnly, minRating, selectedLanguages.length])
+  }, [radius, onlyPublic, minRating, selectedLanguages.length])
 
   const applyFiltersToState = () => {
     if (!search) return
@@ -136,24 +132,20 @@ export default function ResultsScreen() {
       ...search,
       radius,
       minRating,
-      videoOnly,
       onlyPublic,
       languages: selectedLanguages,
       sortBy,
     })
   }
 
-  const offersVideo = (doctor: Doctor) => parseInt(doctor.id.replace('d', ''), 10) % 2 === 1
-
   const filteredDoctors = useMemo(() => {
     return doctors.filter((doctor) => {
       if (onlyPublic && !doctor.accepts.includes('GKV')) return false
       if (minRating > 0 && doctor.rating < minRating) return false
-      if (videoOnly && !offersVideo(doctor)) return false
       if (selectedLanguages.length > 0 && !selectedLanguages.some((l) => doctor.languages.includes(l))) return false
       return true
     })
-  }, [doctors, onlyPublic, minRating, videoOnly, selectedLanguages])
+  }, [doctors, onlyPublic, minRating, selectedLanguages])
 
   // Sort doctors based on selected option
   const sortedDoctors = [...filteredDoctors].sort((a, b) => {
@@ -349,19 +341,18 @@ export default function ResultsScreen() {
             </div>
             <div className="flex items-center justify-between px-4 pb-4">
               <h2 className="text-lg font-semibold text-charcoal-500">Filters</h2>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => {
-                    setRadius(10)
-                    setMinRating(0)
-                    setVideoOnly(false)
-                    setOnlyPublic(false)
-                    setSelectedLanguages([])
-                  }}
-                  className="text-sm font-medium text-slate-600 hover:underline"
-                >
-                  Clear all
-                </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setRadius(10)
+                  setMinRating(0)
+                  setOnlyPublic(false)
+                  setSelectedLanguages([])
+                }}
+                className="text-sm font-medium text-slate-600 hover:underline"
+              >
+                Clear all
+              </button>
                 <button
                   onClick={() => {
                     applyFiltersToState()
@@ -434,18 +425,6 @@ export default function ResultsScreen() {
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={videoOnly}
-                    onChange={(e) => setVideoOnly(e.target.checked)}
-                    className="mt-1 w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
-                  />
-                  <div>
-                    <p className="font-medium text-charcoal-500">Video consultation</p>
-                    <p className="text-sm text-slate-600 mt-1">Show only doctors offering video appointments.</p>
-                  </div>
-                </label>
               </section>
 
               {/* Languages */}

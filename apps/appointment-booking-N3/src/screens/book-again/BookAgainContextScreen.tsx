@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Page, Header, Avatar } from '../../components'
+import { Page, Header, Avatar, Rating, PatientSelector } from '../../components'
 import { useBookAgain, useBooking, useHistory, useProfile } from '../../state'
-import { apiGetDoctor } from '../../data/api'
+import { getDoctorById } from '../../data'
 import { formatDate } from '../../utils/format'
 import { doctorSlotsPath, PATHS } from '../../routes/paths'
 import type { Doctor } from '../../types'
@@ -19,6 +19,19 @@ export default function BookAgainContextScreen() {
   const [isLoading, setIsLoading] = useState(true)
   const [doctor, setDoctor] = useState<Doctor | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [editSheet, setEditSheet] = useState<null | 'location' | 'insurance' | 'patient'>(null)
+  const [locationDraft, setLocationDraft] = useState({
+    city: profile.address.city || 'Berlin',
+    postalCode: profile.address.postalCode || '10178',
+  })
+  const [insuranceDraft, setInsuranceDraft] = useState(
+    profile.insuranceType === 'GKV'
+      ? 'Public (GKV)'
+      : profile.insuranceType === 'PKV'
+      ? 'Private (PKV)'
+      : 'Self-pay'
+  )
+  const [patientDraft, setPatientDraft] = useState<'myself' | 'child'>('myself')
 
   // Find the source appointment/history item
   const appointment = appointments.find((apt) => apt.id === id)
@@ -34,40 +47,44 @@ export default function BookAgainContextScreen() {
     }
 
     const doctorId = appointment?.doctorId || 'd1' // Fallback to d1 for history items
-
-    const fetchDoctor = async () => {
-      setIsLoading(true)
-      try {
-        const doctorData = await apiGetDoctor(doctorId)
-        setDoctor(doctorData)
-
-        // Set up book again context
-        setBookAgainContext({
-          sourceAppointmentId: sourceData.id,
-          sourceDate: sourceData.dateISO,
-          doctor: doctorData,
-          location: {
-            city: profile.address.city || 'Berlin',
-            postalCode: profile.address.postalCode || '10178',
-          },
-          insurance: {
-            type: profile.insuranceType as 'GKV' | 'PKV' | 'Selbstzahler' | '',
-          },
-          patient: {
-            id: profile.id || 'self',
-            name: profile.fullName || 'You',
-            relationship: 'self',
-          },
-        })
-      } catch (err) {
-        setError('This doctor is no longer available. Please search for another doctor.')
-      } finally {
-        setIsLoading(false)
-      }
+    setIsLoading(true)
+    const doctorData = getDoctorById(doctorId)
+    if (!doctorData) {
+      setError('This doctor is no longer available. Please search for another doctor.')
+      setIsLoading(false)
+      return
     }
 
-    fetchDoctor()
-  }, [sourceData, appointment, profile, setBookAgainContext])
+    setDoctor(doctorData)
+    setBookAgainContext({
+      sourceAppointmentId: sourceData.id,
+      sourceDate: sourceData.dateISO,
+      doctor: doctorData,
+      location: {
+        city: profile.address.city || 'Berlin',
+        postalCode: profile.address.postalCode || '10178',
+      },
+      insurance: {
+        type: profile.insuranceType as 'GKV' | 'PKV' | 'Selbstzahler' | '',
+      },
+      patient: {
+        id: profile.id || 'self',
+        name: profile.fullName || 'You',
+        relationship: 'self',
+      },
+    })
+    setIsLoading(false)
+  }, [
+    sourceData?.id,
+    sourceData?.dateISO,
+    appointment?.doctorId,
+    profile.address.city,
+    profile.address.postalCode,
+    profile.insuranceType,
+    profile.fullName,
+    profile.id,
+    setBookAgainContext,
+  ])
 
   const handleViewSlots = () => {
     if (doctor && sourceData) {
@@ -138,20 +155,47 @@ export default function BookAgainContextScreen() {
     )
   }
 
-  const displayName = appointment?.doctorName || historyItem?.title || ''
-  const displaySpecialty = appointment?.specialty || historyItem?.subtitle || ''
+  const historyDoctorName = historyItem?.subtitle?.split('·')[0]?.trim()
+  const historyLocation = historyItem?.subtitle?.split('·')[1]?.trim()
+  const historySpecialty = historyItem?.title?.replace('Appointment:', '').trim()
+
+  const displayName = appointment?.doctorName || historyDoctorName || 'Dr. Sarah Weber'
+  const displaySpecialty = appointment?.specialty || historySpecialty || 'Dermatology'
+  const displayLocation = doctor?.city || historyLocation || profile.address.city || 'Berlin'
+  const displayRating = doctor?.rating ?? 4.9
+  const displayReviewCount = doctor?.reviewCount ?? 124
+
+  const openEditSheet = (type: 'location' | 'insurance' | 'patient') => {
+    if (type === 'location') {
+      setLocationDraft({
+        city: profile.address.city || locationDraft.city,
+        postalCode: profile.address.postalCode || locationDraft.postalCode,
+      })
+    }
+    if (type === 'insurance') {
+      setInsuranceDraft(
+        profile.insuranceType === 'GKV'
+          ? 'Public (GKV)'
+          : profile.insuranceType === 'PKV'
+          ? 'Private (PKV)'
+          : 'Self-pay'
+      )
+    }
+    if (type === 'patient') {
+      setPatientDraft('myself')
+    }
+    setEditSheet(type)
+  }
+
+  const handleSaveEdit = () => {
+    setEditSheet(null)
+  }
 
   return (
-    <Page>
-      <Header title="Book Again" showBack />
+    <Page safeBottom={false}>
+      <Header title="Book Again" subtitle={`Based on your appointment from ${formatDate(sourceData.dateISO)}`} showBack />
 
-      <div className="px-4 py-4 space-y-6">
-        {/* Reference to previous appointment */}
-        <div className="bg-cream-200 rounded-xl p-4">
-          <p className="text-sm text-slate-500 mb-1">Based on your appointment from</p>
-          <p className="font-semibold text-charcoal-500">{formatDate(sourceData.dateISO)}</p>
-        </div>
-
+      <div className="px-4 py-4 space-y-6 pb-40">
         {/* Timing hint (stubbed, no AI calls) */}
         <div className="bg-white rounded-xl border border-cream-400 p-4 flex gap-3">
           <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
@@ -165,117 +209,169 @@ export default function BookAgainContextScreen() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-cream-300" />
-
-        {/* Pre-filled Context */}
-        <div className="space-y-4">
-          {/* Doctor (not editable) */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Doctor</label>
-            <div className="bg-white rounded-xl border border-cream-400 p-4">
-              <div className="flex items-center gap-4">
-                <Avatar name={displayName} size="lg" />
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-charcoal-500 truncate">{displayName}</h3>
-                  <p className="text-sm text-slate-600">{displaySpecialty}</p>
-                  {doctor && (
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm text-slate-500">
-                        {doctor.rating.toFixed(1)} ({doctor.reviewCount})
-                      </span>
-                      <span className="text-cream-400">|</span>
-                      <span className="text-sm text-slate-500">{doctor.city}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Specialty (not editable) */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Specialty</label>
-            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
-              <span className="text-charcoal-500">{displaySpecialty}</span>
-              <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
-                <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Location (editable in future) */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Location</label>
-            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
-              <span className="text-charcoal-500">
-                {profile.address.city || 'Berlin'} ({profile.address.postalCode || '10178'})
-              </span>
-              <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
-                <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Insurance (editable in future) */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Insurance</label>
-            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
-              <span className="text-charcoal-500">
-                {profile.insuranceType === 'GKV'
-                  ? 'Public (GKV)'
-                  : profile.insuranceType === 'PKV'
-                  ? 'Private (PKV)'
-                  : 'Self-pay'}
-              </span>
-              <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
-                <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Patient (editable in future) */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Patient</label>
-            <div className="bg-white rounded-xl border border-cream-400 p-4 flex items-center justify-between">
-              <span className="text-charcoal-500">{profile.fullName || 'You'}</span>
-              <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
-                <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+        {/* Doctor card */}
+        <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm">
+          <div className="flex items-start gap-3">
+            <Avatar name={displayName} size="lg" />
+            <div className="flex-1">
+              <p className="font-semibold text-charcoal-500">{displayName}</p>
+              <p className="text-sm text-slate-600">{displaySpecialty}</p>
+              <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
+                <Rating value={displayRating} reviewCount={displayReviewCount} />
+                <span className="text-cream-400">|</span>
+                <span>{displayLocation}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* View Slots Button */}
-        <div className="pt-4">
+        {/* Confirm details */}
+        <div>
+          <h3 className="text-sm font-semibold text-charcoal-500 mb-3">Confirm details</h3>
+          <div className="bg-white rounded-2xl border border-cream-400 divide-y divide-cream-200">
+            <button
+              type="button"
+              onClick={() => openEditSheet('location')}
+              className="w-full flex items-center justify-between px-4 py-3 hover:bg-cream-50 transition-colors"
+            >
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">Location</p>
+                <p className="text-sm font-semibold text-charcoal-500">
+                  {locationDraft.city} ({locationDraft.postalCode})
+                </p>
+              </div>
+              <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.5 14.5H9v-3.5z" />
+                </svg>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => openEditSheet('insurance')}
+              className="w-full flex items-center justify-between px-4 py-3 hover:bg-cream-50 transition-colors"
+            >
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">Insurance</p>
+                <p className="text-sm font-semibold text-charcoal-500">
+                  {insuranceDraft}
+                </p>
+              </div>
+              <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.5 14.5H9v-3.5z" />
+                </svg>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => openEditSheet('patient')}
+              className="w-full flex items-center justify-between px-4 py-3 hover:bg-cream-50 transition-colors"
+            >
+              <div>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">Patient</p>
+                <p className="text-sm font-semibold text-charcoal-500">
+                  {patientDraft === 'myself' ? 'Myself' : 'Child'}
+                </p>
+              </div>
+              <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.5 14.5H9v-3.5z" />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md space-y-3">
           <button
             onClick={handleViewSlots}
             disabled={!doctor}
             className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            View Available Times
+            View Available Appointments
           </button>
           <button
             onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', sourceData.id))}
-            className="btn btn-secondary btn-block h-12 py-0 mt-3"
+            className="btn btn-secondary btn-block h-12 py-0"
           >
             See alternatives
           </button>
         </div>
       </div>
+
+      {editSheet && (
+        <div className="fixed inset-0 z-50">
+          <div className="absolute inset-0 bg-charcoal-900/50 animate-fade-in" onClick={() => setEditSheet(null)} />
+          <div className="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-4 pb-6 animate-slide-up">
+            <div className="flex justify-center pb-3">
+              <div className="w-10 h-1 rounded-full bg-cream-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-charcoal-500 mb-4">
+              {editSheet === 'location' ? 'Edit location' : editSheet === 'insurance' ? 'Edit insurance' : 'Edit patient'}
+            </h3>
+
+            {editSheet === 'location' && (
+              <div className="space-y-3">
+                <div>
+                  <label className="form-label">City</label>
+                  <input
+                    className="input-field"
+                    value={locationDraft.city}
+                    onChange={(e) => setLocationDraft((prev) => ({ ...prev, city: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className="form-label">Postal code</label>
+                  <input
+                    className="input-field"
+                    value={locationDraft.postalCode}
+                    onChange={(e) => setLocationDraft((prev) => ({ ...prev, postalCode: e.target.value }))}
+                  />
+                </div>
+              </div>
+            )}
+
+            {editSheet === 'insurance' && (
+              <div className="space-y-2">
+                {['Public (GKV)', 'Private (PKV)', 'Self-pay'].map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => setInsuranceDraft(opt)}
+                    className={`w-full text-left rounded-xl border p-3 transition-colors duration-normal ease-out-brand ${
+                      insuranceDraft === opt ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white hover:bg-cream-50'
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {editSheet === 'patient' && (
+              <div>
+                <PatientSelector
+                  value={patientDraft}
+                  onChange={(value) => setPatientDraft(value as 'myself' | 'child')}
+                  label="Patient"
+                />
+              </div>
+            )}
+
+            <div className="mt-6 flex flex-col gap-3">
+              <button onClick={handleSaveEdit} className="btn btn-primary btn-block h-12 py-0">
+                Save
+              </button>
+              <button onClick={() => setEditSheet(null)} className="btn btn-tertiary btn-block h-12 py-0">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Page>
   )
 }

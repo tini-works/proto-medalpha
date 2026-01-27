@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Page } from '../../components'
+import { Page, Avatar, Rating } from '../../components'
+import { getDoctorById } from '../../data'
 import { PATHS } from '../../routes'
 import type { Appointment } from '../../types'
 
@@ -8,6 +9,17 @@ export default function SuccessScreen() {
   const state = location.state as { confirmationNumber?: string; appointment?: Appointment } | undefined
   const confirmationNumber = state?.confirmationNumber || `BK-${Date.now().toString(36).toUpperCase()}`
   const appointment = state?.appointment
+  const doctor = appointment ? getDoctorById(appointment.doctorId) : undefined
+
+  const appointmentLabel = (() => {
+    if (!appointment) return 'Tomorrow, 10:00 AM'
+    const today = new Date()
+    const dateISO = appointment.dateISO
+    const date = new Date(dateISO)
+    const diffDays = Math.ceil((date.getTime() - new Date(today.toDateString()).getTime()) / (1000 * 60 * 60 * 24))
+    const dayLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'long' })
+    return `${dayLabel}, ${appointment.time}`
+  })()
 
   const handleAddToCalendar = () => {
     if (!appointment) return
@@ -35,56 +47,128 @@ END:VCALENDAR`
     URL.revokeObjectURL(url)
   }
 
+  const handleGetDirections = () => {
+    if (!doctor) return
+    const query = encodeURIComponent(`${doctor.address}, ${doctor.city}`)
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank')
+  }
+
   return (
     <Page safeBottom={false}>
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center">
-        {/* Success icon - neutral, not celebratory */}
-        <div className="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mb-6">
-          <svg className="w-8 h-8 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      <div className="min-h-screen flex flex-col px-6 py-10 text-center">
+        <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
         </div>
 
-        <h1 className="text-xl font-semibold text-charcoal-500 mb-2">Appointment Booked</h1>
-        <p className="text-slate-600 mb-8 max-w-xs leading-relaxed">
-          Your appointment has been successfully submitted. A confirmation will be sent via email.
+        <h1 className="text-xl font-semibold text-charcoal-500">Your appointment is confirmed!</h1>
+        <p className="text-xs text-slate-500 mt-2">
+          Booking ID {confirmationNumber} • Just sent via email
         </p>
 
-        <div className="bg-white border border-cream-400 rounded-xl px-4 py-3 mb-6 w-full max-w-sm">
-          <p className="text-xs text-slate-500">Confirmation number</p>
-          <p className="font-mono font-semibold text-charcoal-500">{confirmationNumber}</p>
+        <div className="bg-white border border-cream-400 rounded-2xl p-4 mt-6 text-left shadow-sm">
+          <div className="flex items-start gap-3">
+            <Avatar name={appointment?.doctorName || 'Dr. Sarah Weber'} imageUrl={doctor?.imageUrl} size="lg" />
+            <div className="flex-1">
+              <p className="font-semibold text-charcoal-500">{appointment?.doctorName || 'Dr. Sarah Weber'}</p>
+              <p className="text-xs text-slate-500">
+                {appointment?.specialty || 'Cardiology'} • {doctor?.city || 'Charité Berlin'}
+              </p>
+              {doctor && (
+                <div className="mt-1">
+                  <Rating value={doctor.rating} reviewCount={doctor.reviewCount} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-4 border-t border-cream-200 pt-4 space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-teal-700">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Date &amp; Time</p>
+                <p className="text-sm font-semibold text-charcoal-500">{appointmentLabel}</p>
+                <p className="text-xs text-slate-500 mt-1">30 min consultation</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Location</p>
+                <p className="text-sm font-semibold text-charcoal-500">{doctor?.city || 'Charité Campus Mitte'}</p>
+                <p className="text-xs text-slate-500 mt-1">{doctor?.address || 'Charitéplatz 1, 10117 Berlin'}</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Calendar sync option */}
-        <button
-          onClick={handleAddToCalendar}
-          disabled={!appointment}
-          className="flex items-center justify-center gap-2 w-full max-w-sm px-4 py-3 border border-cream-400 rounded-lg text-charcoal-500 hover:bg-cream-50 transition-colors duration-normal ease-out-brand mb-8 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          Add to Calendar
-        </button>
-
-        {/* Actions - conservative styling */}
-        <div className="w-full space-y-3">
-          <Link
-            to={PATHS.HISTORY}
-            className="btn btn-primary btn-block text-center"
+        <div className="flex flex-col gap-3 mt-4">
+          <button
+            onClick={handleAddToCalendar}
+            disabled={!appointment}
+            className="btn btn-secondary h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            View Appointments
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Add to Calendar
+          </button>
+          <button
+            onClick={handleGetDirections}
+            disabled={!doctor}
+            className="btn btn-secondary h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.553-.894L9 7m0 13l6-3m-6 3V7m6 10l4.447-2.224A1 1 0 0020 13.382V4.618a1 1 0 00-1.553-.894L15 7m0 10V7m0 0L9 10" />
+            </svg>
+            Get Directions
+          </button>
+        </div>
+
+        <div className="border border-cream-300 rounded-2xl p-4 mt-5 text-left">
+          <p className="text-sm font-semibold text-charcoal-500">How accurate was this AI match?</p>
+          <p className="text-xs text-slate-500 mt-1">Your feedback helps improve future recommendations.</p>
+          <div className="flex items-center justify-between mt-4 text-center">
+            {['Poor', 'Okay', 'Good', 'Perfect'].map((label) => (
+              <button
+                key={label}
+                type="button"
+                className="flex flex-col items-center gap-1 text-xs text-slate-500"
+              >
+                <span className="w-10 h-10 rounded-full bg-cream-100 border border-cream-300 flex items-center justify-center text-lg">
+                  🙂
+                </span>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-24" />
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md space-y-3">
+          <Link to={PATHS.HISTORY} className="btn btn-primary btn-block text-center block">
+            View appointments
           </Link>
-
-          <Link
-            to={PATHS.HOME}
-            className="btn btn-secondary btn-block text-center"
-          >
+          <Link to={PATHS.HOME} className="btn btn-tertiary btn-block text-center block">
             Back to Home
           </Link>
         </div>

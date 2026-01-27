@@ -33,7 +33,7 @@ export const cmsContent: CMSContent[] = [
     id: 'cms4',
     type: 'announcement',
     title: 'New Telemedicine Service',
-    description: 'Connect with doctors 24/7 via video consultation. Now available for all GKV members.',
+    description: 'Connect with doctors 24/7 for guidance and booking support. Now available for all GKV members.',
     priority: 3,
     validFrom: '2026-01-15',
     validTo: '2026-02-28',

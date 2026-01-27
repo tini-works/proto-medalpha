@@ -71,19 +71,6 @@ function LocationIcon() {
   )
 }
 
-// Video icon
-function VideoIcon() {
-  return (
-    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
-      />
-    </svg>
-  )
-}
-
 export function DoctorCard({
   doctor,
   slots = [],
@@ -99,9 +86,6 @@ export function DoctorCard({
 
   // Mock distance (in real app, would come from location service)
   const distanceKm = (parseFloat(doctor.id.replace('d', '')) * 0.7 + 0.8).toFixed(1)
-
-  // Check if doctor offers video consults (mock - odd IDs offer video)
-  const offersVideo = parseInt(doctor.id.replace('d', ''), 10) % 2 === 1
 
   const insuranceTag = (() => {
     const hasGkv = doctor.accepts.includes('GKV')
@@ -185,15 +169,6 @@ export function DoctorCard({
               <LocationIcon />
               <span>{distanceKm} km</span>
             </div>
-            {offersVideo && (
-              <>
-                <span className="text-cream-400">|</span>
-                <div className="flex items-center gap-1 text-teal-600">
-                  <VideoIcon />
-                  <span className="text-xs">Video</span>
-                </div>
-              </>
-            )}
           </div>
         </div>
       </div>

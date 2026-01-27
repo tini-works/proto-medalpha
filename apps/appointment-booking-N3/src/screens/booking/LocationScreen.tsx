@@ -250,13 +250,31 @@ export default function LocationScreen() {
 
       {/* Sticky Footer */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
+        <div className="mx-auto max-w-md flex items-center gap-3">
           <button
             onClick={handleContinue}
             disabled={!selectedLocation}
-            className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed"
+            className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed flex-1"
           >
             Continue →
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate(PATHS.ASSISTANT_VOICE)}
+            className="h-12 w-12 rounded-full border border-cream-300 bg-white text-teal-700 shadow-sm flex items-center justify-center hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
+            aria-label="Voice assistant"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 5a2 2 0 00-2 2v4a2 2 0 104 0V7a2 2 0 00-2-2z"
+              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 11a6 6 0 0012 0" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 17v2" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21h6" />
+            </svg>
           </button>
         </div>
       </div>

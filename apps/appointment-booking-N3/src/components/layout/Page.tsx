@@ -22,7 +22,7 @@ export function Page({ children, className = '', safeBottom = true, showOfflineB
   }, [])
 
   return (
-    <div className={`min-h-screen bg-cream-100 ${safeBottom ? 'pb-24' : ''} ${className}`}>
+    <div className={`min-h-screen bg-cream-100 ${safeBottom ? 'pb-32' : ''} ${className}`}>
       <div className="mx-auto max-w-md">
         {showOfflineBanner && !isOnline && (
           <div className="px-4 pt-3">

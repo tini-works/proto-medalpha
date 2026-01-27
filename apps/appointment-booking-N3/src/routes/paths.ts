@@ -53,7 +53,14 @@ export const PATHS = {
   // Assistants (optional enhancement)
   ASSISTANT: '/assistant',
   ASSISTANT_VOICE: '/assistant/voice',
+  ASSISTANT_RECOMMENDATIONS: '/assistant/recommendations',
+  ASSISTANT_DOCTOR: '/assistant/doctor/:id',
+  ASSISTANT_CONFIRM: '/assistant/confirm',
 } as const
+
+export function assistantDoctorPath(id: string) {
+  return `/assistant/doctor/${id}`
+}
 
 export function doctorPath(id: string) {
   return `/booking/doctor/${id}`

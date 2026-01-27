@@ -8,6 +8,7 @@ interface AppointmentCardProps {
   onClick?: () => void
   onReschedule?: () => void
   onCancel?: () => void
+  onBookAgain?: () => void
   variant?: 'default' | 'upcoming'
 }
 
@@ -55,6 +56,7 @@ export function AppointmentCard({
   onClick,
   onReschedule,
   onCancel,
+  onBookAgain,
   variant = 'default',
 }: AppointmentCardProps) {
   const config = statusConfig[appointment.status]
@@ -110,7 +112,7 @@ export function AppointmentCard({
         )}
 
         {/* Action Buttons */}
-        {(onReschedule || onCancel) && appointment.status === 'confirmed' && (
+        {appointment.status === 'confirmed' && (onReschedule || onCancel) && (
           <div className="px-4 pb-4 flex gap-3">
             {onReschedule && (
               <button
@@ -134,6 +136,20 @@ export function AppointmentCard({
                 Cancel
               </button>
             )}
+          </div>
+        )}
+
+        {appointment.status !== 'confirmed' && onBookAgain && (
+          <div className="px-4 pb-4">
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                onBookAgain()
+              }}
+              className="btn btn-secondary btn-block h-11 py-0"
+            >
+              Book Again
+            </button>
           </div>
         )}
       </div>

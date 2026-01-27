@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Header, Page } from '../../components'
+import { Avatar, Header, Page } from '../../components'
 import { useBooking, useReschedule } from '../../state'
 import { PATHS, reschedulePath } from '../../routes'
 
@@ -61,21 +61,29 @@ export default function RescheduleReasonScreen() {
       <Header title="Reschedule appointment" showBack />
 
       <div className="px-4 py-6 space-y-6 pb-28">
-        <div className="flex justify-center">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold border border-teal-200">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            Quick step (optional)
-          </span>
-        </div>
-
-        <div className="bg-white rounded-xl border border-cream-400 p-4">
-          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">Current appointment</p>
-          <p className="font-semibold text-charcoal-500">{appointment.doctorName}</p>
-          <p className="text-sm text-slate-600">
-            {appointment.specialty} · {appointment.dateISO} · {appointment.time}
-          </p>
+        <div className="bg-white rounded-2xl border border-cream-400 p-4">
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-3">Current appointment</p>
+          <div className="flex items-start gap-3">
+            <Avatar name={appointment.doctorName} size="lg" />
+            <div className="flex-1">
+              <p className="font-semibold text-charcoal-500">{appointment.doctorName}</p>
+              <p className="text-sm text-slate-600">{appointment.specialty}</p>
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                <span className="inline-flex items-center gap-1">
+                  <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {appointment.dateISO}
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3M12 4a8 8 0 100 16 8 8 0 000-16z" />
+                  </svg>
+                  {appointment.time}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -132,4 +140,3 @@ export default function RescheduleReasonScreen() {
     </Page>
   )
 }
-

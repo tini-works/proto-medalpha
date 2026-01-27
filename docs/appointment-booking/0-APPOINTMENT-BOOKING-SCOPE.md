@@ -7,6 +7,17 @@
 
 ---
 
+## Related Artifacts
+
+- **Dot Map (OOUX):** [[1-dot-map]]
+- **User Journeys (OOUX):** [[2-user-journeys]]
+- **IA Map (Canonical):** [[IA]]
+- **Screen List (Canonical):** [[SCREENS]]
+
+All visual artifacts in this repo follow: `docs/z.guidelines/visual-artifacts-rules.md`
+
+---
+
 ## 1. Overview
 
 ### Main Job to Be Done (JTBD)

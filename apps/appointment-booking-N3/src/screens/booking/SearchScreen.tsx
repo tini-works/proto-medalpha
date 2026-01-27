@@ -52,7 +52,6 @@ export default function SearchScreen() {
       onlyPublic: false,
       minRating: 0,
       languages: [],
-      videoOnly: false,
       sortBy: 'earliest',
     })
 

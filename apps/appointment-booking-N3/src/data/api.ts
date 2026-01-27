@@ -13,8 +13,19 @@ export async function apiSearchDoctors(
   filters: { specialty?: string; city?: string; insuranceType?: 'GKV' | 'PKV' | '' },
   delayMs = 500
 ) {
-  const { searchDoctors } = await import('./doctors')
-  const results = searchDoctors(filters)
+  const { searchDoctors, doctors } = await import('./doctors')
+  let results = searchDoctors(filters)
+
+  // Ensure 2-3 results for mock UI consistency
+  if (results.length < 2) {
+    const fallback = doctors.filter((d) => !results.some((r) => r.id === d.id))
+    results = results.concat(fallback.slice(0, 2 - results.length))
+  }
+
+  if (results.length > 3) {
+    results = results.slice(0, 3)
+  }
+
   return simulateApiDelay(results, delayMs)
 }
 

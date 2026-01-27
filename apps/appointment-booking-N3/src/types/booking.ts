@@ -58,7 +58,6 @@ export interface SearchFilters {
   onlyPublic?: boolean
   minRating?: number
   languages?: string[]
-  videoOnly?: boolean
   sortBy?: 'earliest' | 'rating' | 'distance'
 }
 

@@ -39,7 +39,13 @@ import { SuggestedSlotsScreen, RescheduleConfirmScreen, RescheduleSuccessScreen,
 import { BookAgainContextScreen, BookAgainAlternativesScreen } from './screens/book-again'
 
 // Assistant screens
-import { AssistantScreen, VoiceAssistantScreen } from './screens/assistant'
+import {
+  AssistantScreen,
+  VoiceAssistantScreen,
+  RecommendationsScreen,
+  AssistantDoctorProfileScreen,
+  AssistantConfirmScreen,
+} from './screens/assistant'
 
 // Appointments screens
 import { default as AppointmentDetailScreen } from './screens/appointments/AppointmentDetailScreen'
@@ -337,6 +343,36 @@ export default function App() {
                 <RequireAuth>
                   <RequireProfileComplete>
                     <VoiceAssistantScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.ASSISTANT_RECOMMENDATIONS}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <RecommendationsScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.ASSISTANT_DOCTOR}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <AssistantDoctorProfileScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.ASSISTANT_CONFIRM}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <AssistantConfirmScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }
