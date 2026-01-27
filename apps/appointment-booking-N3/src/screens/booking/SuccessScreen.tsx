@@ -141,25 +141,6 @@ END:VCALENDAR`
           </button>
         </div>
 
-        <div className="border border-cream-300 rounded-2xl p-4 mt-5 text-left">
-          <p className="text-sm font-semibold text-charcoal-500">How accurate was this AI match?</p>
-          <p className="text-xs text-slate-500 mt-1">Your feedback helps improve future recommendations.</p>
-          <div className="flex items-center justify-between mt-4 text-center">
-            {['Poor', 'Okay', 'Good', 'Perfect'].map((label) => (
-              <button
-                key={label}
-                type="button"
-                className="flex flex-col items-center gap-1 text-xs text-slate-500"
-              >
-                <span className="w-10 h-10 rounded-full bg-cream-100 border border-cream-300 flex items-center justify-center text-lg">
-                  🙂
-                </span>
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-
         <div className="h-24" />
       </div>
 

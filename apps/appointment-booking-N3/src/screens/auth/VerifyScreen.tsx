@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page } from '../../components'
-import { useAuth, useAppState } from '../../state'
+import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
 export default function VerifyScreen() {
   const navigate = useNavigate()
   const { markVerified } = useAuth()
-  const { isProfileComplete } = useAppState()
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [error, setError] = useState('')
 
@@ -56,12 +55,8 @@ export default function VerifyScreen() {
     // Mock verification - any code works
     markVerified()
 
-    // Navigate based on profile completion
-    if (isProfileComplete) {
-      navigate(PATHS.HOME)
-    } else {
-      navigate(PATHS.PROFILE_COMPLETE)
-    }
+    // Always navigate to home after sign in
+    navigate(PATHS.HOME)
   }
 
   const handleResend = () => {
