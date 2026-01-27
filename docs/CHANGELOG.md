@@ -8,8 +8,9 @@ High-level, business-focused summary of notable changes.
 - **Short Guides carousel**: Added horizontal scrolling video guide cards with play icon badges in top-right position and gradient overlays, featuring health topics like Heart Health Tips, Stress Relief, Meal Prep, and Sleep.
 - **Featured Story card**: Implemented prominent featured article display with "NEW" badge and call-to-action linking to full article detail.
 - **Article detail navigation**: Connected news articles to dedicated detail screen showing full content, author info, key takeaways, and related topics with working article routing.
+- **Article detail UI**: Added share button with proper icon and save/bookmark functionality (visual only) in action bar at bottom of article view.
 - **Load more pagination**: Added "Load more" button at bottom center of Latest Health News section for future pagination support.
-- **UI refinements**: Removed pagination dots, profile button from Updates screen header, and "View All" links from section headers; replaced broken image URLs with working Unsplash healthcare images.
+- **UI refinements**: Removed pagination dots, profile button from Updates screen header, and "View All" links from section headers; replaced broken image URLs with working Unsplash healthcare images; moved play icon to top-right on guide cards.
 - **Notifications center**: Updated NotificationsScreen with cleaner header containing back button and search icon only.
 
 - **Notifications center**: Added bell icon button to home screen header with unread indicator dot that navigates to a new Updates screen showing grouped notifications (TODAY, YESTERDAY) with type-specific cards for booking updates, cancellations, reminders, security alerts, and family profile changes.
