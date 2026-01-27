@@ -4,6 +4,14 @@ High-level, business-focused summary of notable changes.
 
 ## 2026-01-27
 
+- **News Feed integration on home screen**: Replaced "For You" CMS section with Latest Health News section, displaying 3 curated health articles (Cardiology, Nutrition, Mental Health, Fitness) with read time estimates and category badges.
+- **Short Guides carousel**: Added horizontal scrolling video guide cards with play icon badges in top-right position and gradient overlays, featuring health topics like Heart Health Tips, Stress Relief, Meal Prep, and Sleep.
+- **Featured Story card**: Implemented prominent featured article display with "NEW" badge and call-to-action linking to full article detail.
+- **Article detail navigation**: Connected news articles to dedicated detail screen showing full content, author info, key takeaways, and related topics with working article routing.
+- **Load more pagination**: Added "Load more" button at bottom center of Latest Health News section for future pagination support.
+- **UI refinements**: Removed pagination dots, profile button from Updates screen header, and "View All" links from section headers; replaced broken image URLs with working Unsplash healthcare images.
+- **Notifications center**: Updated NotificationsScreen with cleaner header containing back button and search icon only.
+
 - **Notifications center**: Added bell icon button to home screen header with unread indicator dot that navigates to a new Updates screen showing grouped notifications (TODAY, YESTERDAY) with type-specific cards for booking updates, cancellations, reminders, security alerts, and family profile changes.
 - **Notification actions**: All appointment-related notifications link to Booking History screen for unified appointment management, while non-appointment notifications route to their respective screens (settings, family management).
 - **Home screen header layout**: Moved user avatar to left side next to welcome message for improved visual hierarchy and consistency with notification bell icon on the right.

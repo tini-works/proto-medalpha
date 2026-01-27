@@ -1,25 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Page, TabBar, CMSCard, AppointmentCard, Avatar, TodaysFocusCard } from '../../components'
+import { useMemo } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Page, TabBar, AppointmentCard, Avatar, TodaysFocusCard } from '../../components'
+import { LatestNewsSection } from '../../components/newsfeed'
 import { useAuth, useProfile, useBooking } from '../../state'
-import { apiGetCMSContent } from '../../data'
+import { mockNewsArticles } from '../../data/newsfeed'
 import { PATHS, appointmentDetailPath } from '../../routes'
-import type { CMSContent } from '../../types'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
-  const location = useLocation()
   const { isVerified } = useAuth()
   const { profile } = useProfile()
   const { appointments } = useBooking()
-  const [cmsContent, setCmsContent] = useState<CMSContent[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    apiGetCMSContent(profile.insuranceType || undefined)
-      .then(setCmsContent)
-      .finally(() => setLoading(false))
-  }, [profile.insuranceType, location.key])
 
   const upcomingAppointments = useMemo(() => {
     const now = new Date()
@@ -134,22 +125,9 @@ export default function HomeScreen() {
           </section>
         )}
 
-        {/* CMS Content */}
+        {/* Latest Health News */}
         <section>
-          <h2 className="text-lg font-semibold text-charcoal-500 mb-3">For You</h2>
-          {loading ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-24 bg-cream-200 rounded-xl animate-pulse" />
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {cmsContent.slice(0, 4).map((content) => (
-                <CMSCard key={content.id} content={content} />
-              ))}
-            </div>
-          )}
+          <LatestNewsSection articles={mockNewsArticles.slice(0, 3)} />
         </section>
       </div>
 

@@ -22,6 +22,43 @@ export interface Notification {
   actionPath?: string
 }
 
+// News Feed types for the updates/news feed screen
+export type ContentCategory = 'CARDIOLOGY' | 'NUTRITION' | 'MENTAL_HEALTH' | 'FITNESS' | 'GENERAL'
+
+export interface Author {
+  name: string
+  title: string
+  avatarUrl?: string
+}
+
+export interface ShortGuide {
+  id: string
+  title: string
+  imageUrl: string
+  hasVideo: boolean
+}
+
+export interface FeaturedStory {
+  id: string
+  title: string
+  description: string
+  imageUrl: string
+  isNew: boolean
+}
+
+export interface NewsArticle {
+  id: string
+  category: ContentCategory
+  title: string
+  readTimeMinutes: number
+  imageUrl: string
+  publishedAt: Date
+  author: Author
+  content: string // Rich text / markdown for detail view
+  keyTakeaway?: string // Optional callout box content
+  relatedTopics: string[]
+}
+
 export interface AppState {
   auth: AuthState
   profile: UserProfile
