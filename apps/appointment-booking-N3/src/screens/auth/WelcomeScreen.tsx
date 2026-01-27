@@ -80,16 +80,16 @@ export default function WelcomeScreen() {
       {/* Action buttons - conservative styling */}
       <div className="px-6 pb-8 space-y-3">
         <Link
-          to={PATHS.AUTH_REGISTER}
+          to={PATHS.AUTH_SIGN_IN}
           className="btn btn-primary btn-block text-center"
         >
-          Register
+          Sign In
         </Link>
         <Link
-          to={PATHS.AUTH_SIGN_IN}
+          to={PATHS.AUTH_REGISTER}
           className="btn btn-secondary btn-block text-center"
         >
-          Sign In
+          Register
         </Link>
       </div>
     </div>
