@@ -52,52 +52,54 @@ export default function LanguageScreen() {
   }
 
   return (
-    <Page safeBottom={false} className="flex flex-col h-screen">
-      <Header title="Language Settings" showBack />
+    <Page safeBottom={false}>
+      <div className="flex flex-col h-screen">
+        <Header title="Language Settings" showBack />
 
-      {/* Scrollable content area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-300">
-          {LANGUAGES.map((lang) => (
-            <label
-              key={lang.code}
-              className="flex items-center justify-between p-4 cursor-pointer hover:bg-cream-100 transition-colors"
-            >
-              <span className="font-medium text-charcoal-500">{lang.native}</span>
-              {/* Custom radio button styled to match mockup */}
-              <div
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                  selected === lang.code ? 'border-teal-500 bg-white' : 'border-cream-400 bg-white'
-                }`}
+        {/* Scrollable content area */}
+        <div className="flex-1 overflow-y-auto px-4 py-6">
+          <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-300">
+            {LANGUAGES.map((lang) => (
+              <label
+                key={lang.code}
+                className="flex items-center justify-between p-4 cursor-pointer hover:bg-cream-100 transition-colors"
               >
-                {selected === lang.code && <div className="w-3 h-3 rounded-full bg-teal-500" />}
-              </div>
-              <input
-                type="radio"
-                name="language"
-                value={lang.code}
-                checked={selected === lang.code}
-                onChange={() => setSelected(lang.code)}
-                className="sr-only"
-              />
-            </label>
-          ))}
+                <span className="font-medium text-charcoal-500">{lang.native}</span>
+                {/* Custom radio button styled to match mockup */}
+                <div
+                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                    selected === lang.code ? 'border-teal-500 bg-white' : 'border-cream-400 bg-white'
+                  }`}
+                >
+                  {selected === lang.code && <div className="w-3 h-3 rounded-full bg-teal-500" />}
+                </div>
+                <input
+                  type="radio"
+                  name="language"
+                  value={lang.code}
+                  checked={selected === lang.code}
+                  onChange={() => setSelected(lang.code)}
+                  className="sr-only"
+                />
+              </label>
+            ))}
+          </div>
+
+          {/* Info text */}
+          <p className="mt-4 text-center text-sm text-slate-500">
+            Currently only English is available. More languages coming soon.
+          </p>
         </div>
 
-        {/* Info text */}
-        <p className="mt-4 text-center text-sm text-slate-500">
-          Currently only English is available. More languages coming soon.
-        </p>
-      </div>
-
-      {/* Save button fixed to bottom */}
-      <div className="flex-shrink-0 p-4 bg-cream-50 border-t border-cream-200">
-        <button
-          onClick={handleSave}
-          className="w-full py-3.5 bg-teal-500 text-white font-semibold rounded-xl hover:bg-teal-600 transition-colors"
-        >
-          Save Changes
-        </button>
+        {/* Save button fixed to bottom */}
+        <div className="flex-shrink-0 p-4 bg-cream-50 border-t border-cream-200">
+          <button
+            onClick={handleSave}
+            className="w-full py-3.5 bg-teal-500 text-white font-semibold rounded-xl hover:bg-teal-600 transition-colors"
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
     </Page>
   )

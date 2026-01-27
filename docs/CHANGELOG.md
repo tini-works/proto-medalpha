@@ -14,7 +14,7 @@ High-level, business-focused summary of notable changes.
 - **Home screen header layout**: Moved user avatar to left side next to welcome message for improved visual hierarchy and consistency with notification bell icon on the right.
 - **Family Members back navigation fix**: Fixed back button in Family Members screen to respect browser history, allowing users to return to their actual previous screen (Home or Settings) instead of always going to Home.
 - **Language settings simplification**: Temporarily disabled all language options except English in Language Settings screen, with message indicating more languages coming soon.
-- **Language settings layout fix**: Fixed "Save Changes" button to properly stick to bottom of viewport using flexbox layout, ensuring button remains accessible regardless of content length.
+- **Language settings layout fix**: Fixed "Save Changes" button positioning by moving flex container inside Page wrapper to properly work with max-width constraint, ensuring button sticks to viewport bottom.
 
 ## 2026-01-23
 
