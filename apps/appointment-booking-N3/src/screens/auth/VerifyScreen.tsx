@@ -1,12 +1,16 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Header, Page } from '../../components'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
 export default function VerifyScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { markVerified } = useAuth()
+
+  // Check if this is a registration flow (from RegisterScreen)
+  const isRegistration = (location.state as { isRegistration?: boolean })?.isRegistration ?? false
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [error, setError] = useState('')
 
@@ -55,8 +59,12 @@ export default function VerifyScreen() {
     // Mock verification - any code works
     markVerified()
 
-    // Always navigate to home after sign in
-    navigate(PATHS.HOME)
+    // Navigate to Complete Profile only for registration, otherwise go to Home
+    if (isRegistration) {
+      navigate(PATHS.PROFILE_COMPLETE)
+    } else {
+      navigate(PATHS.HOME)
+    }
   }
 
   const handleResend = () => {

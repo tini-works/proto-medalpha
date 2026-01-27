@@ -213,7 +213,7 @@ export default function AppointmentDetailScreen() {
               </button>
               <button
                 onClick={() => setShowCancelDialog(true)}
-                className="btn btn-accent btn-block h-12 py-0"
+                className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors"
               >
                 Cancel Appointment
               </button>
@@ -241,52 +241,59 @@ export default function AppointmentDetailScreen() {
         </div>
       </div>
 
-      {/* Cancel Confirmation Dialog */}
+      {/* Cancel Confirmation Bottom Sheet */}
       {showCancelDialog && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+        <div className="fixed inset-0 z-50">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
             onClick={() => setShowCancelDialog(false)}
           />
 
-          {/* Dialog */}
-          <div className="relative bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md mx-4 mb-0 sm:mb-4 p-6 animate-slide-up">
-            <h3 className="text-lg font-semibold text-charcoal-500 mb-2">
-              Cancel Appointment?
-            </h3>
-            <p className="text-slate-600 mb-6">
-              Are you sure you want to cancel your appointment with {displayData.doctorName} on {formatDateWithWeekday(displayData.dateISO)}?
-            </p>
-
-            <div className="bg-cream-200 rounded-lg p-3 mb-6">
-              <p className="text-sm text-slate-600">
-                <strong>Cancellation Policy:</strong> Free cancellation up to 24 hours before the appointment.
-              </p>
+          {/* Bottom Sheet */}
+          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl overflow-hidden animate-slide-up safe-area-bottom">
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-2">
+              <div className="w-10 h-1 rounded-full bg-cream-400" />
             </div>
 
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowCancelDialog(false)}
-                disabled={isCancelling}
-                className="btn btn-secondary flex-1 h-12 py-0 disabled:opacity-50"
-              >
-                Keep
-              </button>
-              <button
-                onClick={handleCancel}
-                disabled={isCancelling}
-                className="btn btn-accent flex-1 h-12 py-0 disabled:opacity-50 flex items-center justify-center"
-              >
-                {isCancelling ? (
-                  <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                ) : (
-                  'Cancel Appointment'
-                )}
-              </button>
+            <div className="px-4 pb-6">
+              <h3 className="text-lg font-semibold text-charcoal-500 mb-2">
+                Cancel Appointment?
+              </h3>
+              <p className="text-slate-600 mb-4">
+                Are you sure you want to cancel your appointment with {displayData.doctorName} on {formatDateWithWeekday(displayData.dateISO)}?
+              </p>
+
+              <div className="bg-cream-200 rounded-lg p-3 mb-6">
+                <p className="text-sm text-slate-600">
+                  <strong>Cancellation Policy:</strong> Free cancellation up to 24 hours before the appointment.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={handleCancel}
+                  disabled={isCancelling}
+                  className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors disabled:opacity-50 flex items-center justify-center"
+                >
+                  {isCancelling ? (
+                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                  ) : (
+                    'Cancel Appointment'
+                  )}
+                </button>
+                <button
+                  onClick={() => setShowCancelDialog(false)}
+                  disabled={isCancelling}
+                  className="btn btn-secondary w-full h-12 py-0 disabled:opacity-50"
+                >
+                  Keep
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -63,7 +63,10 @@ export function AppointmentCard({
 
   if (variant === 'upcoming') {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-cream-400 overflow-hidden">
+      <div
+        onClick={onClick}
+        className={`bg-white rounded-xl shadow-sm border border-cream-400 overflow-hidden ${onClick ? 'cursor-pointer hover:border-cream-500 transition-colors duration-normal ease-out-brand' : ''}`}
+      >
         {/* Status Badge */}
         <div className="px-4 pt-4 flex justify-end">
           <Pill tone={config.tone}>{config.label}</Pill>

@@ -45,8 +45,8 @@ export default function SignInScreen() {
     // Sign in (mock - any email/password works)
     signIn(formData.email)
 
-    // Navigate to verification
-    navigate(PATHS.AUTH_VERIFY)
+    // Navigate to verification (pass isRegistration: false for sign in)
+    navigate(PATHS.AUTH_VERIFY, { state: { isRegistration: false } })
   }
 
   return (

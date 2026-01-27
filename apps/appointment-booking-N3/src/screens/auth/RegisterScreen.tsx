@@ -63,8 +63,8 @@ export default function RegisterScreen() {
     // Sign in (this sets email and marks as authenticated but not verified)
     signIn(formData.email)
 
-    // Navigate to verification
-    navigate(PATHS.AUTH_VERIFY)
+    // Navigate to verification (pass isRegistration: true for new users)
+    navigate(PATHS.AUTH_VERIFY, { state: { isRegistration: true } })
   }
 
   return (
