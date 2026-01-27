@@ -9,10 +9,11 @@ High-level, business-focused summary of notable changes.
 - **News Feed navigation**: Implemented seamless navigation flow where clicking articles from News Feed opens detail screen, and back button returns to News Feed tab (not Notifications tab), preserving user context with location state management.
 - **Mock CMS content**: Added 6 full health articles covering AI Symptom Checker (featured), Hypertension Management, Immunity Superfoods, Mindfulness Practice, Walking Benefits, and Annual Checkups—all with complete content, author profiles, and medical accuracy.
 - **UI refinements**: Positioned play icons in top-right of guide cards, added "Load more" button for article pagination, removed unnecessary "View All" links and profile avatar from header, and fixed all image URLs to use working Unsplash healthcare photography.
-
 - **Notifications center**: Added bell icon button to home screen header with unread indicator dot that navigates to a new Updates screen showing grouped notifications (TODAY, YESTERDAY) with type-specific cards for booking updates, cancellations, reminders, security alerts, and family profile changes.
 - **Notification actions**: All appointment-related notifications link to Booking History screen for unified appointment management, while non-appointment notifications route to their respective screens (settings, family management).
 - **Home screen header layout**: Moved user avatar to left side next to welcome message for improved visual hierarchy and consistency with notification bell icon on the right.
+- **Family Members back navigation fix**: Fixed back button in Family Members screen to respect browser history, allowing users to return to their actual previous screen (Home or Settings) instead of always going to Home.
+- **Language settings simplification**: Temporarily disabled all language options except English in Language Settings screen, with message indicating more languages coming soon.
 
 ## 2026-01-23
 
