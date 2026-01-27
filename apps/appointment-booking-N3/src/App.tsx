@@ -16,6 +16,9 @@ import {
 // Home screen
 import { HomeScreen } from './screens/home'
 
+// Notifications screen (updates view)
+import UpdatesScreen from './screens/notifications/NotificationsScreen'
+
 // Booking screens
 import {
   SearchScreen as BookingSearchScreen,
@@ -138,6 +141,16 @@ export default function App() {
               element={
                 <RequireAuth>
                   <HomeScreen />
+                </RequireAuth>
+              }
+            />
+
+            {/* Notifications */}
+            <Route
+              path={PATHS.NOTIFICATIONS}
+              element={
+                <RequireAuth>
+                  <UpdatesScreen />
                 </RequireAuth>
               }
             />

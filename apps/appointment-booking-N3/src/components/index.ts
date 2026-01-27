@@ -11,3 +11,6 @@ export type { RecentSearch, Specialty, SavedLocation } from './display'
 
 // Cards
 export { DoctorCard, AppointmentCard, FamilyMemberCard, HistoryCard, CMSCard, AppointmentSummaryCard, TodaysFocusCard } from './cards'
+
+// Notifications
+export { default as NotificationCard } from './notifications/NotificationCard'

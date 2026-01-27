@@ -7,6 +7,21 @@ import type { AuthState, UserProfile } from './user'
 import type { BookingState, Appointment } from './booking'
 import type { HistoryItem } from './history'
 
+// Notification types for the updates/notifications screen
+export type NotificationType = 'BOOKING_UPDATE' | 'CANCELLATION_ALERT' | 'UPCOMING' | 'SECURITY' | 'FAMILY_PROFILE'
+
+export interface Notification {
+  id: string
+  type: NotificationType
+  category: string // e.g., "BOOKING UPDATE", "SECURITY"
+  title: string
+  message: string
+  timestamp: Date
+  unread: boolean
+  actionLabel?: string
+  actionPath?: string
+}
+
 export interface AppState {
   auth: AuthState
   profile: UserProfile

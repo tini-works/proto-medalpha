@@ -7,7 +7,7 @@ import {
   AppointmentSummaryCard,
 } from '../../components'
 import { useBooking, useProfile, useHistory } from '../../state'
-import { PATHS } from '../../routes'
+import { PATHS, doctorSlotsPath } from '../../routes'
 import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
@@ -108,7 +108,13 @@ export default function ConfirmScreen() {
   }
 
   const handleClose = () => {
-    navigate(-1)
+    // Navigate back to slots selection screen for the selected doctor
+    if (selectedDoctor) {
+      navigate(doctorSlotsPath(selectedDoctor.id))
+    } else {
+      // Fallback if doctor is not available
+      navigate(PATHS.BOOKING_SEARCH)
+    }
   }
 
   return (

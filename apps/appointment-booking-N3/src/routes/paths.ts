@@ -14,6 +14,7 @@ export const PATHS = {
 
   // Home
   HOME: '/home',
+  NOTIFICATIONS: '/notifications',
 
   // Booking
   BOOKING_SEARCH: '/booking/search',

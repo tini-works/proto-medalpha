@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Header, Page } from '../../components'
 import { useBooking, useProfile, useReschedule } from '../../state'
 import { apiGetAvailableDates, apiGetDoctor, apiGetSlotsForDate } from '../../data'
-import { PATHS, rescheduleConfirmPath, reschedulePath } from '../../routes'
+import { PATHS, rescheduleConfirmPath, reschedulePath, doctorSlotsPath } from '../../routes'
 import type { TimeSlot } from '../../types'
 
 export default function SlotSelectionScreen() {
@@ -87,7 +87,9 @@ export default function SlotSelectionScreen() {
 
     selectSlot(selectedSlotValue)
     selectFamilyMember(selectedFor === 'self' ? null : selectedFor)
-    navigate(PATHS.BOOKING_CONFIRM)
+    navigate(PATHS.BOOKING_CONFIRM, {
+      state: { from: doctorSlotsPath(id || '') },
+    })
   }
 
   if (loading) {
