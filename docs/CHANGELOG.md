@@ -4,14 +4,11 @@ High-level, business-focused summary of notable changes.
 
 ## 2026-01-27
 
-- **News Feed integration on home screen**: Replaced "For You" CMS section with Latest Health News section, displaying 3 curated health articles (Cardiology, Nutrition, Mental Health, Fitness) with read time estimates and category badges.
-- **Short Guides carousel**: Added horizontal scrolling video guide cards with play icon badges in top-right position and gradient overlays, featuring health topics like Heart Health Tips, Stress Relief, Meal Prep, and Sleep.
-- **Featured Story card**: Implemented prominent featured article display with "NEW" badge and call-to-action linking to full article detail.
-- **Article detail navigation**: Connected news articles to dedicated detail screen showing full content, author info, key takeaways, and related topics with working article routing.
-- **Article detail UI**: Added share button with proper icon and save/bookmark functionality (visual only) in action bar at bottom of article view.
-- **Load more pagination**: Added "Load more" button at bottom center of Latest Health News section for future pagination support.
-- **UI refinements**: Removed pagination dots, profile button from Updates screen header, and "View All" links from section headers; replaced broken image URLs with working Unsplash healthcare images; moved play icon to top-right on guide cards.
-- **Notifications center**: Updated NotificationsScreen with cleaner header containing back button and search icon only.
+- **News Feed implementation**: Built complete News Feed tab in Updates screen with Short Guides carousel (horizontal scrolling video cards), Featured Story card with "NEW" badge, and Latest Health News section displaying curated health articles with category badges and read time estimates.
+- **Article detail screen**: Created full article reading experience with hero images, author information, rich text content with proper markdown formatting (headings, lists, paragraphs), key takeaway callout boxes, related topics tags, and bottom action bar with Share and Save buttons (visual placeholders).
+- **News Feed navigation**: Implemented seamless navigation flow where clicking articles from News Feed opens detail screen, and back button returns to News Feed tab (not Notifications tab), preserving user context with location state management.
+- **Mock CMS content**: Added 6 full health articles covering AI Symptom Checker (featured), Hypertension Management, Immunity Superfoods, Mindfulness Practice, Walking Benefits, and Annual Checkups—all with complete content, author profiles, and medical accuracy.
+- **UI refinements**: Positioned play icons in top-right of guide cards, added "Load more" button for article pagination, removed unnecessary "View All" links and profile avatar from header, and fixed all image URLs to use working Unsplash healthcare photography.
 
 - **Notifications center**: Added bell icon button to home screen header with unread indicator dot that navigates to a new Updates screen showing grouped notifications (TODAY, YESTERDAY) with type-specific cards for booking updates, cancellations, reminders, security alerts, and family profile changes.
 - **Notification actions**: All appointment-related notifications link to Booking History screen for unified appointment management, while non-appointment notifications route to their respective screens (settings, family management).

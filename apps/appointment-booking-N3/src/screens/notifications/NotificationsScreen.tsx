@@ -1,14 +1,22 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Page } from '../../components'
 import { PATHS } from '../../routes'
 import NotificationCard from '../../components/notifications/NotificationCard'
 import { ShortGuidesSection, FeaturedStoryCard, LatestNewsSection } from '../../components/newsfeed'
 import { mockNotifications, groupNotificationsByDate } from '../../data/notifications'
 import { mockShortGuides, mockFeaturedStory, mockNewsArticles } from '../../data/newsfeed'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function UpdatesScreen() {
+  const location = useLocation()
   const [activeTab, setActiveTab] = useState<'notifications' | 'newsfeed'>('notifications')
+
+  // When navigating back from article detail, show News Feed tab
+  useEffect(() => {
+    if (location.state?.activeTab === 'newsfeed') {
+      setActiveTab('newsfeed')
+    }
+  }, [location.state])
 
   const grouped = groupNotificationsByDate(mockNotifications)
   const dateGroups = ['TODAY', 'YESTERDAY', ...Object.keys(grouped).filter((key) => key !== 'TODAY' && key !== 'YESTERDAY')]

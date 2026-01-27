@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { Page } from '../../components'
+import { PATHS } from '../../routes'
 import { mockNewsArticles } from '../../data/newsfeed'
 import { useState } from 'react'
 
@@ -7,6 +8,11 @@ function ArticleDetailScreen() {
   const { articleId } = useParams<{ articleId: string }>()
   const navigate = useNavigate()
   const [isSaved, setIsSaved] = useState(false)
+
+  // Navigate back to News Feed tab in Updates screen
+  const handleBack = () => {
+    navigate(PATHS.NOTIFICATIONS, { state: { activeTab: 'newsfeed' } })
+  }
 
   // Find the article by ID
   const article = mockNewsArticles.find((a) => a.id === articleId)
@@ -17,7 +23,7 @@ function ArticleDetailScreen() {
         <div className="flex flex-col items-center justify-center min-h-screen">
           <p className="text-slate-500">Article not found</p>
           <button
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="mt-4 text-teal-700 font-medium hover:underline"
           >
             Go back
@@ -41,7 +47,7 @@ function ArticleDetailScreen() {
         <div className="flex items-center justify-between px-4 py-4">
           {/* Back button */}
           <button
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand"
             aria-label="Go back"
           >

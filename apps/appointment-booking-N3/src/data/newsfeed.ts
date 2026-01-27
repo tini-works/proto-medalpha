@@ -36,7 +36,7 @@ export const mockShortGuides: ShortGuide[] = [
 
 // Mock Featured Story - prominently displayed article
 export const mockFeaturedStory: FeaturedStory = {
-  id: 'featured-1',
+  id: 'article-featured-1',
   title: 'Introducing AI Symptom Checker',
   description: 'Experience faster, more accurate preliminary assessments with our latest platform update...',
   imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop',
@@ -45,6 +45,102 @@ export const mockFeaturedStory: FeaturedStory = {
 
 // Mock News Articles - full articles with content for detail view
 export const mockNewsArticles: NewsArticle[] = [
+  {
+    id: 'article-featured-1',
+    category: 'GENERAL',
+    title: 'Introducing AI Symptom Checker',
+    readTimeMinutes: 6,
+    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop',
+    publishedAt: new Date('2024-01-27'),
+    author: {
+      name: 'Dr. Michael Zhang, MD',
+      title: 'Chief Medical Officer',
+      avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    },
+    content: `# Introducing AI Symptom Checker
+
+We're excited to announce the launch of our new AI-powered Symptom Checker, a revolutionary tool designed to provide faster, more accurate preliminary health assessments right from your mobile device.
+
+## What is the AI Symptom Checker?
+
+Our AI Symptom Checker uses advanced machine learning algorithms trained on millions of medical cases to help you understand your symptoms and determine the appropriate level of care you might need.
+
+This isn't meant to replace your doctor—it's designed to empower you with information and guide you toward the right healthcare resources.
+
+## How It Works
+
+### 1. Describe Your Symptoms
+Simply tell us what you're experiencing in plain language. No need for medical jargon—just describe how you feel.
+
+### 2. Answer Follow-Up Questions
+Our AI will ask relevant follow-up questions to better understand your situation, including symptom duration, severity, and related factors.
+
+### 3. Get Personalized Insights
+Within seconds, receive:
+- Possible conditions to discuss with your doctor
+- Recommended urgency level (emergency, urgent care, schedule appointment, self-care)
+- Relevant specialists you might want to see
+- Self-care tips when appropriate
+
+## The Technology Behind It
+
+Our AI Symptom Checker leverages:
+- **Natural Language Processing (NLP)** to understand your symptom descriptions
+- **Clinical Decision Support Systems** based on evidence-based medicine
+- **Continuous Learning** from anonymized data to improve accuracy
+- **Multi-language Support** for better accessibility
+
+## Accuracy and Reliability
+
+In clinical validation studies, our AI Symptom Checker demonstrated:
+- 92% accuracy in identifying the correct condition category
+- 87% agreement with emergency medicine physicians on triage decisions
+- Consistent performance across different age groups and symptom complexities
+
+## Privacy and Security
+
+Your health information is precious. That's why we:
+- Encrypt all symptom checker data end-to-end
+- Never share your information with third parties
+- Allow anonymous usage—no account required
+- Comply with HIPAA and GDPR regulations
+
+## When to Use It
+
+The AI Symptom Checker is ideal for:
+- New or concerning symptoms you're experiencing
+- Determining if you need immediate medical attention
+- Deciding whether to schedule a doctor's appointment
+- Understanding potential causes before your visit
+- Getting guidance on minor health concerns
+
+## What It Can't Do
+
+While powerful, our AI Symptom Checker:
+- Cannot diagnose conditions definitively
+- Should not be used for medical emergencies (call emergency services)
+- Cannot prescribe medications or treatments
+- Doesn't replace professional medical advice
+
+## Getting Started
+
+The AI Symptom Checker is now available in the Health section of your app. Simply tap "Check Symptoms" and start describing how you're feeling.
+
+We recommend using it as a first step in your healthcare journey—to inform yourself and make more confident decisions about when and where to seek care.
+
+## Looking Forward
+
+This is just the beginning. We're continuously improving our AI with:
+- More specialized symptom trees for chronic conditions
+- Integration with your health records for personalized insights
+- Symptom tracking over time to identify patterns
+- Direct booking with appropriate specialists based on results
+
+We believe that informed patients make better health decisions. Our AI Symptom Checker is designed to give you that information quickly and accurately, whenever you need it.`,
+    keyTakeaway:
+      'Our AI Symptom Checker achieved 92% accuracy in identifying correct condition categories and 87% agreement with emergency physicians on triage decisions in clinical validation studies.',
+    relatedTopics: ['AI Health', 'Digital Health', 'Telemedicine'],
+  },
   {
     id: 'article-1',
     category: 'CARDIOLOGY',

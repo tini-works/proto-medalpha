@@ -36,7 +36,10 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 ### Additional Features
 - **Home Dashboard**: Quick actions, upcoming appointments, and personalized content
 - **Today's Focus**: Upcoming appointment spotlight with quick actions
-- **Notifications Center**: Bell icon with unread indicator on home screen header navigates to Updates screen showing grouped notifications (booking updates, cancellations, reminders, security alerts, family changes) with actionable links
+- **Updates Center**: Bell icon with unread indicator navigates to Updates screen with two tabs:
+  - **Notifications**: Grouped notifications (TODAY, YESTERDAY) for booking updates, cancellations, reminders, security alerts, and family changes with actionable links
+  - **News Feed**: Curated health content featuring Short Guides carousel (video cards), Featured Story with "NEW" badge, and Latest Health News articles with category badges, read times, and "Load more" pagination
+- **Article Detail**: Full article reading experience with hero images, author profiles, rich text content, key takeaway callouts, related topics, and Share/Save actions; back button returns to News Feed tab preserving navigation context
 - **Appointment Details**: View visit summary, location, and actions
 - **Book Again & Reschedule**: Guided flows for repeat visits and schedule changes
 - **Assistant**: Entry points for guided discovery and voice support
@@ -68,14 +71,16 @@ appointment-booking-N3/
 │   │   ├── display/        # Display components (Avatar, Rating, EmptyState, etc.)
 │   │   ├── forms/          # Form components (Field, Select, RadioGroup, etc.)
 │   │   ├── layout/         # Layout components (Header, Page, TabBar)
-│   │   └── notifications/ # Notification components (NotificationCard)
+│   │   ├── newsfeed/       # News Feed components (ShortGuidesSection, FeaturedStoryCard, etc.)
+│   │   └── notifications/  # Notification components (NotificationCard)
 │   ├── data/               # Mock data and API functions
 │   │   ├── api.ts          # API service functions
 │   │   ├── doctors.ts      # Doctor data
 │   │   ├── stores.ts       # Pharmacy/store data
 │   │   ├── timeSlots.ts    # Time slot utilities
 │   │   ├── cms.ts          # CMS content
-│   │   └── notifications.ts # Notification mock data
+│   │   ├── notifications.ts # Notification mock data
+│   │   └── newsfeed.ts     # News Feed articles and guides
 │   ├── routes/             # Routing configuration
 │   │   ├── paths.ts        # Route path constants
 │   │   ├── guards.tsx     # Route guards (RequireAuth, RequireProfileComplete)
@@ -89,6 +94,7 @@ appointment-booking-N3/
 │   │   ├── history/        # Appointment history
 │   │   ├── appointments/   # Appointment detail screens
 │   │   ├── notifications/  # Notifications/Updates screen
+│   │   ├── newsfeed/       # Article detail screen
 │   │   ├── profile/        # Profile management
 │   │   ├── reschedule/     # Reschedule flow screens
 │   │   └── settings/       # Settings screens
@@ -202,7 +208,8 @@ The app uses React Router with the following main routes:
 - `/auth/verify` - Email verification
 - `/auth/verify-identity` - Identity verification
 - `/home` - Home dashboard
-- `/notifications` - Updates and notifications center
+- `/notifications` - Updates center with Notifications and News Feed tabs
+- `/news/:articleId` - Article detail view with full content
 - `/booking/*` - Booking flow (search → location → results → doctor → slots → confirm → success)
 - `/history` - Appointment history
 - `/appointments/*` - Appointment detail views

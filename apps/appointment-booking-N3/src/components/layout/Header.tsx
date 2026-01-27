@@ -76,8 +76,9 @@ function getPreviousPathInfo(currentPath: string): { path: string; params?: Reco
   if (pathParts[0] === 'profile' && pathParts[1] === 'family' && pathParts.length === 3) {
     return { path: PATHS.PROFILE_FAMILY }
   }
+  // Family Members screen: use browser history to respect where user came from (Home or Settings)
   if (currentPath === PATHS.PROFILE_FAMILY) {
-    return { path: PATHS.HOME }
+    return null // Will fall through to navigate(-1)
   }
 
   // Settings screens
