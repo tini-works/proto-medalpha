@@ -1,7 +1,7 @@
 # User Flows - MedAlpha Connect v1 (Curaay Appointments)
 
 **Generated From:** N3 App Implementation + SCOPE-FOR-EXPLORATION.md
-**Date:** 2026-01-23
+**Date:** 2026-01-27
 **Purpose:** Document v1 User Flows showing future state with NEW/MODIFIED indicators relative to full vision
 
 ---
@@ -15,24 +15,32 @@
 | J1 - Registration | Email/SMS + SSO | Email only | MODIFIED |
 | J2 - Profile | Optional family | Mandatory gate + family | MODIFIED |
 | J3 - Booking | Doctor + Health + Beauty | Doctor only (Curaay) | MODIFIED |
-| J3a - My Appointments | Full actions | Upcoming/Past with basic actions | MODIFIED |
+| J3a - My Appointments | Full actions | Upcoming/Past with reschedule/book-again flows | MODIFIED |
 | J4 - Telemedicine | Full flow | - | OUT |
 | J5 - Online Rx | Full flow | - | OUT |
 | J6 - Offline Rx | Full flow | - | OUT |
 | J7 - History | All types + export | Appointments only | MODIFIED |
-| J8 - Home | Full CMS + Payback | Basic CMS + Quick Actions | MODIFIED |
-| J9 - Notifications | All types | Basic appointment reminders | MODIFIED |
+| J8 - Home | Full CMS + Payback | Quick Actions + Upcoming + Newsfeed + Notifications Center | MODIFIED |
+| J9 - Notifications | All types | Notifications Center + reminders (where supported) | MODIFIED |
 
 ### NEW Flow Elements (v1)
 
 | Element | Flow | Description |
 |---------|------|-------------|
 | Profile Completion Gate | J2 | Mandatory step blocking home access until complete |
-| Location Step | J3 | Dedicated screen for city/radius selection |
+| Location Step | J3 | Dedicated screen for city + radius selection (now includes visit type + urgency preferences) |
+| Insurance Step | J3 | Dedicated insurance selection screen (GKV/PKV/Self-pay) with “only public doctors” toggle |
+| Results Filters | J3 | Filter sheet + sort selector in results (radius, min rating, languages, only public) |
+| Doctor Reviews Screen | J3 | Separate reviews screen from doctor profile |
 | Slot Selection Screen | J3 | Dedicated date picker + time slot grid |
 | Confirmation Modal | J3 | Bottom sheet with patient selector and reason |
 | Quick Slot Booking | J3 | Book directly from results without viewing profile |
 | Tab Toggle | J7 | Upcoming/Past toggle instead of filter panel |
+| Notifications Center | J8 | Notifications + Newsfeed tabs, with Article Detail screen |
+| Reschedule Flow Screens | J3a | Guided reschedule: reason → suggested slots → confirm → success |
+| Book Again Flow Screens | J3a | Guided re-book: context → alternatives → slot selection → confirm → success |
+| Assistant Flows | J3 | Optional assistant booking routes (recommendations, doctor detail, confirm) |
+| Settings Subpages | J7 | Language, privacy, FAQ, contact support, help centre screens added |
 
 ### MODIFIED Flow Elements (Reduced from Full Vision)
 
@@ -44,7 +52,7 @@
 | Payment step | Required for beauty | Not needed |
 | History scope | Appointments + Orders + Purchases | Appointments only |
 | History export | PDF export available | Not available |
-| Home content | Deals, Payback, Health Tips, Active Rx | Quick Actions, Upcoming, Basic CMS |
+| Home content | Deals, Payback, Health Tips, Active Rx | Quick Actions, Upcoming, Newsfeed, Notifications |
 
 ---
 
@@ -71,6 +79,7 @@
 - Email verification only (no SMS option)
 - No dm SSO handoff
 - Simplified to essential fields only
+- NOTE (implemented in N3): `/auth/verify-identity` exists but is not currently part of the default registration path
 
 ### Flow Steps
 
@@ -93,47 +102,17 @@
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    START([App Download]) --> OPEN[Open App First Time]
-    OPEN --> WELCOME[Welcome Screen]
-
-    subgraph REGISTRATION["Registration Flow"]
-        WELCOME --> CHOICE{User Choice}
-        CHOICE -->|Register| REG_FORM[Registration Form]
-        CHOICE -->|Sign In| SIGN_IN[Sign In Form]
-
-        REG_FORM --> INPUT[Enter Name, Email, Password]
-        INPUT --> VALIDATE{Valid?}
-        VALIDATE -->|No| ERROR[Show Errors]
-        ERROR --> INPUT
-        VALIDATE -->|Yes| SUBMIT[Tap 'Register']
-        SUBMIT --> VERIFY_SEND[Send Email Verification]
-    end
-
-    subgraph VERIFICATION["Email Verification 🟡MOD"]
-        VERIFY_SEND --> VERIFY_INPUT[Enter Code]
-        VERIFY_INPUT --> VERIFY_CHECK{Code Valid?}
-        VERIFY_CHECK -->|No| RETRY[Retry / Resend]
-        RETRY --> VERIFY_INPUT
-        VERIFY_CHECK -->|Yes| VERIFIED[Account Verified]
-    end
-
-    SIGN_IN --> SIGN_CHECK{Credentials Valid?}
-    SIGN_CHECK -->|No| SIGN_ERROR[Show Error]
-    SIGN_ERROR --> SIGN_IN
-    SIGN_CHECK -->|Yes| VERIFIED
-
-    VERIFIED --> PROFILE_CHECK{Profile Complete?}
-    PROFILE_CHECK -->|No| PROFILE_GATE["Profile Completion 🟢NEW"]
-    PROFILE_CHECK -->|Yes| HOME
-    PROFILE_GATE --> HOME([Home Screen])
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style HOME fill:#000000,stroke:#000000,color:#ffffff
-    style ERROR fill:#ffebee,stroke:#c62828,color:#b71c1c
-    style SIGN_ERROR fill:#ffebee,stroke:#c62828,color:#b71c1c
-    style VERIFICATION fill:#fff9c4,stroke:#f9a825
-    style PROFILE_GATE fill:#c8e6c9,stroke:#2e7d32
+graph TD
+  A[App download] --> B[Welcome]
+  B --> C{Register or sign in?}
+  C -->|Register| D[Register]
+  C -->|Sign in| E[Sign in]
+  D --> F[Verify email]
+  E --> F
+  F --> G{Registration?}
+  G -->|Yes| H[Profile completion gate (NEW)]
+  G -->|No| I[Home]
+  H --> I
 ```
 
 ---
@@ -160,45 +139,18 @@ flowchart TD
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    START([Auth Complete]) --> CHECK{Profile Complete?}
-    CHECK -->|Yes| HOME([Home Screen])
-    CHECK -->|No| GATE["Profile Completion Gate 🟢NEW"]
-
-    subgraph PROFILE_FORM["Profile Completion Form 🟢NEW"]
-        GATE --> FORM[Profile Form]
-
-        FORM --> INS[Select Insurance Type]
-        INS --> INS_TYPE{GKV or PKV?}
-        INS_TYPE -->|GKV| GKV_PILL[GKV Selected]
-        INS_TYPE -->|PKV| PKV_PILL[PKV Selected]
-
-        GKV_PILL --> EGK[Enter eGK Number]
-        PKV_PILL --> EGK
-
-        EGK --> ADDR[Enter Address]
-        ADDR --> STREET[Street]
-        STREET --> POSTAL[Postal Code]
-        POSTAL --> CITY[City]
-
-        CITY --> GDPR{Accept GDPR?}
-        GDPR -->|No| GDPR_REQ[Required]
-        GDPR_REQ --> GDPR
-        GDPR -->|Yes| SAVE_BTN[Tap 'Complete Profile']
-    end
-
-    SAVE_BTN --> VALIDATE{All Valid?}
-    VALIDATE -->|No| ERRORS[Show Errors]
-    ERRORS --> FORM
-    VALIDATE -->|Yes| SAVE[Save Profile]
-    SAVE --> SUCCESS[Success - Features Unlocked]
-    SUCCESS --> HOME
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style HOME fill:#000000,stroke:#000000,color:#ffffff
-    style ERRORS fill:#ffebee,stroke:#c62828,color:#b71c1c
-    style PROFILE_FORM fill:#c8e6c9,stroke:#2e7d32
-    style GATE fill:#c8e6c9,stroke:#2e7d32
+graph TD
+  A[Auth complete] --> B{Profile complete?}
+  B -->|Yes| C[Home]
+  B -->|No| D[Profile completion gate (NEW)]
+  D --> E[Select insurance type]
+  E --> F[Enter eGK number]
+  F --> G[Enter address]
+  G --> H{GDPR consent?}
+  H -->|No| I[Block until consent]
+  I --> H
+  H -->|Yes| J[Save profile]
+  J --> C
 ```
 
 ---
@@ -207,9 +159,12 @@ flowchart TD
 
 ### Changes from Full Vision
 - Doctor appointments only (no Health Checks, no Beauty)
-- NEW: Dedicated location selection step
+- NEW: Dedicated location + preferences step (city, radius, visit type, urgency)
+- NEW: Dedicated insurance step (GKV/PKV/Self-pay) before results (skippable if in profile)
+- NEW: Results filters (languages, rating, only public) + sort selector
+- NEW: Doctor reviews screen
 - NEW: Dedicated slot selection screen
-- NEW: Confirmation modal with patient selector
+- NEW: Confirmation screen (presented as bottom sheet) with patient selector and reason
 - NEW: Quick slot booking from results
 - No payment step (beauty services OUT)
 
@@ -219,114 +174,56 @@ flowchart TD
 |------|-------------|-----------------|------------------|--------|
 | 1 | Tap "Book" tab or Quick Action | Show specialty search | - | MODIFIED |
 | 2 | Search/select specialty | Save selection | SearchFilters: specialty | - |
-| 3 | Tap "Continue" | Show location screen | - | NEW |
-| 4 | Select city and radius | Save location | SearchFilters: city, radius | NEW |
-| 5 | Tap "Search" | Query Curaay API | - | MODIFIED |
-| 6 | Browse results | Show doctor cards with slots | - | - |
-| 7a | Tap quick slot on card | Show confirmation modal | - | NEW |
-| 7b | Tap doctor card | Show doctor details | - | - |
-| 8 | (If 7b) View doctor profile | Show full details | - | - |
-| 9 | (If 7b) Tap "Select Time" | Show slot selection | - | NEW |
-| 10 | Select date and time slot | Save selection | Booking: slot | NEW |
-| 11 | Select patient (self/family) | Save patient | Booking: patient | - |
-| 12 | Tap "Continue" | Show confirmation modal | - | NEW |
-| 13 | (Optional) Add reason | Save reason | Booking: reason | - |
-| 14 | Tap "Confirm Appointment" | Process via Curaay | Appointment: created | - |
-| 15 | View success screen | Show confirmation | - | - |
+| 3 | Continue | Show location & preferences | - | NEW |
+| 4 | Select city, radius, visit type, urgency | Save location & preferences | SearchFilters: city, radius, visitType, urgency | NEW |
+| 5 | Continue | Show insurance screen (if not set in profile) | - | NEW |
+| 6 | Select insurance (GKV/PKV/Self-pay) + “only public doctors” | Save insurance filters | SearchFilters: insuranceType, onlyPublic | NEW |
+| 7 | View results | Show doctor cards with quick slots + sort/filters | - | NEW |
+| 8a | Tap quick slot on card | Go to confirmation | Booking: doctor, slot | MODIFIED |
+| 8b | Tap doctor card | Show doctor profile | Booking: doctor | - |
+| 9 | (Optional) View reviews | Show reviews screen | - | NEW |
+| 10 | Select time (from profile or “more appointments”) | Show slot selection | - | - |
+| 11 | Select date and time slot | Save selection | Booking: slot | - |
+| 12 | Confirm | Select patient (self/family), optional reason | Booking: patient, reason | MODIFIED |
+| 13 | Submit booking | Process via Curaay | Appointment: created | - |
+| 14 | View success screen | Show confirmation | - | - |
 
 ### Decision Points
 
 | Branch Point | Full Vision | v1 Scope |
 |--------------|-------------|----------|
 | Booking type | Doctor / Health Check / Beauty | Doctor only |
+| Insurance screen | Always dedicated step | Skipped if insurance present in profile |
 | Quick slot | Available | Available (NEW) |
 | Payment | Required for beauty | Not needed |
 
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    START([Need Appointment]) --> ENTRY{Entry Point}
-    ENTRY -->|Book Tab| SEARCH
-    ENTRY -->|Home Quick Action| SEARCH
-    ENTRY -->|History Book Again| SEARCH
+graph TD
+  A[Entry: Book] --> B[Specialty search]
+  B --> C[Location & preferences (NEW)]
+  C --> D{Insurance in profile?}
+  D -->|Yes| E[Results]
+  D -->|No| F[Insurance step (NEW)]
+  F --> E
 
-    subgraph SEARCH_FLOW["Step 1: Specialty Search 🟡MOD"]
-        SEARCH[Search Screen]
-        SEARCH --> SPECIALTY_INPUT[Search/Select Specialty]
-        SPECIALTY_INPUT --> RECENT[Recent Searches]
-        SPECIALTY_INPUT --> CHIPS[Common Specialties]
-        RECENT --> SELECT_SPEC[Select Specialty]
-        CHIPS --> SELECT_SPEC
-        SELECT_SPEC --> CONTINUE1[Tap Continue]
-    end
+  B -.->|If location+insurance already set| E
+  C -.->|If insurance already set| E
 
-    subgraph LOCATION_FLOW["Step 2: Location Selection 🟢NEW"]
-        CONTINUE1 --> LOCATION["Location Screen 🟢"]
-        LOCATION --> CITY[Select City]
-        CITY --> RADIUS[Set Radius]
-        RADIUS --> SEARCH_BTN[Tap Search]
-    end
+  E --> G{Quick slot?}
+  G -->|Yes| H[Confirm]
+  G -->|No| I[Doctor profile]
+  I --> J[Reviews (NEW)]
+  J --> I
+  I --> K[Slot selection]
+  K --> H
 
-    SEARCH_BTN --> RESULTS_CHECK{Results Found?}
-    RESULTS_CHECK -->|No| NO_RESULTS[Adjust Filters]
-    NO_RESULTS --> SEARCH
-    RESULTS_CHECK -->|Yes| RESULTS
+  E --> L[Adjust filters/sort (NEW)]
+  L --> E
 
-    subgraph RESULTS_FLOW["Step 3: Results"]
-        RESULTS[Results List]
-        RESULTS --> SORT[Sort Options]
-        RESULTS --> CARDS[Doctor Cards]
-
-        CARDS --> QUICK_SLOT{Quick Slot?}
-        QUICK_SLOT -->|Yes| QUICK_SELECT["Tap Slot on Card 🟢"]
-        QUICK_SLOT -->|No| CARD_TAP[Tap Doctor Card]
-    end
-
-    CARD_TAP --> DOCTOR_PROFILE
-
-    subgraph DOCTOR_FLOW["Doctor Profile"]
-        DOCTOR_PROFILE[Doctor Details Screen]
-        DOCTOR_PROFILE --> VIEW_INFO[View Profile Info]
-        VIEW_INFO --> SELECT_TIME[Tap 'Select Appointment Time']
-    end
-
-    SELECT_TIME --> SLOTS
-
-    subgraph SLOT_FLOW["Step 4: Slot Selection 🟢NEW"]
-        SLOTS["Slot Selection Screen 🟢"]
-        SLOTS --> DATE_PICK[Date Carousel - 7 days]
-        DATE_PICK --> TIME_GRID[Available Time Slots]
-        TIME_GRID --> SELECT_SLOT[Select Slot]
-        SELECT_SLOT --> PATIENT{Who is Patient?}
-        PATIENT -->|Self| SELF[Select Myself]
-        PATIENT -->|Family| FAM_SELECT[Select Family Member]
-        SELF --> CONTINUE2[Tap Continue]
-        FAM_SELECT --> CONTINUE2
-    end
-
-    QUICK_SELECT --> CONFIRM
-    CONTINUE2 --> CONFIRM
-
-    subgraph CONFIRM_FLOW["Confirmation Modal 🟢NEW"]
-        CONFIRM["Confirmation Bottom Sheet 🟢"]
-        CONFIRM --> SUMMARY[Appointment Summary]
-        SUMMARY --> INSURANCE_BANNER[Insurance Info]
-        INSURANCE_BANNER --> REASON[Optional: Add Reason]
-        REASON --> CONFIRM_BTN[Tap 'Confirm Appointment']
-    end
-
-    CONFIRM_BTN --> PROCESSING[Processing...]
-    PROCESSING --> SUCCESS[Success Screen]
-    SUCCESS --> DONE([Appointment Booked])
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style DONE fill:#000000,stroke:#000000,color:#ffffff
-    style NO_RESULTS fill:#ffebee,stroke:#c62828,color:#b71c1c
-    style SEARCH_FLOW fill:#fff9c4,stroke:#f9a825
-    style LOCATION_FLOW fill:#c8e6c9,stroke:#2e7d32
-    style SLOT_FLOW fill:#c8e6c9,stroke:#2e7d32
-    style CONFIRM_FLOW fill:#c8e6c9,stroke:#2e7d32
+  H --> M[Book]
+  M --> N[Success]
 ```
 
 ---
@@ -335,7 +232,7 @@ flowchart TD
 
 ### Changes from Full Vision
 - Simplified to Upcoming/Past tabs
-- Basic actions: Reschedule, Cancel, Book Again
+- Basic actions: Reschedule, Cancel, Book Again (now have dedicated flows/screens)
 - No calendar sync from list (available at booking)
 
 ### Flow Steps
@@ -345,51 +242,41 @@ flowchart TD
 | 1 | Tap "History" tab | Show appointments list | - | MODIFIED |
 | 2 | View Upcoming/Past tabs | Show filtered list | - | NEW |
 | 3 | Toggle between tabs | Filter appointments | - | NEW |
-| 4 | Tap appointment card | Show details inline | - | MODIFIED |
-| 5a | (Upcoming) Tap Reschedule | Start booking flow | - | - |
-| 5b | (Upcoming) Tap Cancel | Confirm cancellation | Appointment: cancelled | - |
-| 5c | (Past) Tap Book Again | Start booking flow | - | - |
+| 4 | Tap appointment card | Open appointment detail | - | MODIFIED |
+| 5a | (Upcoming) Tap Reschedule | Start reschedule flow | - | NEW |
+| 5b | (Upcoming) Tap Cancel | Start cancel confirmation | Appointment: cancelled | MODIFIED |
+| 5c | (Past) Tap Book Again | Start book-again flow | - | NEW |
+| 6 | Tap “+” floating action button | Start new booking | - | NEW |
 
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    START([Manage Appointments]) --> TAB[History Tab]
+graph TD
+  A[History tab] --> B[Upcoming / Past toggle (NEW)]
+  B --> C[Upcoming list]
+  B --> D[Past list]
 
-    subgraph HISTORY_SCREEN["History Screen 🟡MOD"]
-        TAB --> TOGGLE["Tab Toggle 🟢NEW"]
-        TOGGLE --> UPCOMING[Upcoming Tab]
-        TOGGLE --> PAST[Past Tab]
+  C --> E[Appointment detail]
+  D --> E
 
-        UPCOMING --> UP_LIST[Upcoming Appointments List]
-        PAST --> PAST_LIST[Past Appointments List]
+  C --> F[+ Book new appointment (NEW)]
+  F --> G[Booking flow]
 
-        UP_LIST --> UP_EMPTY{Has Appointments?}
-        UP_EMPTY -->|No| UP_EMPTY_STATE[Empty State + Book CTA]
-        UP_EMPTY -->|Yes| UP_CARDS[Appointment Cards]
+  E --> H{Action?}
+  H -->|Cancel| I[Cancel confirmation]
+  H -->|Reschedule| J[Reschedule: reason (NEW)]
+  H -->|Book again| K[Book again: context (NEW)]
 
-        PAST_LIST --> PAST_EMPTY{Has History?}
-        PAST_EMPTY -->|No| PAST_EMPTY_STATE[Empty State]
-        PAST_EMPTY -->|Yes| PAST_CARDS[History Cards]
-    end
+  J --> L[Reschedule: suggested slots]
+  L --> M[Reschedule: confirm]
+  M --> N[Reschedule: success]
+  N --> A
 
-    UP_CARDS --> UP_ACTION{Action?}
-    UP_ACTION -->|Reschedule| REBOOK[Start Booking Flow] --> BOOKING([Booking Flow])
-    UP_ACTION -->|Cancel| CANCEL_CONFIRM[Confirm Cancel]
-    CANCEL_CONFIRM --> CANCEL_YES{Confirm?}
-    CANCEL_YES -->|Yes| CANCELLED[Appointment Cancelled]
-    CANCEL_YES -->|No| UP_CARDS
-
-    PAST_CARDS --> PAST_ACTION{Action?}
-    PAST_ACTION -->|Book Again| REBOOK
-
-    UP_EMPTY_STATE --> BOOK_CTA[Tap Book] --> BOOKING
-
-    CANCELLED --> DONE([Done])
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style DONE fill:#000000,stroke:#000000,color:#ffffff
-    style HISTORY_SCREEN fill:#fff9c4,stroke:#f9a825
+  K --> O[Book again: alternatives]
+  O --> P[Slot selection]
+  P --> Q[Confirm]
+  Q --> R[Success]
+  R --> A
 ```
 
 ---
@@ -399,7 +286,7 @@ flowchart TD
 ### Changes from Full Vision
 - No Deals & Payback section
 - No Active Prescriptions section
-- Simplified to: Quick Actions, Upcoming, For You (CMS)
+- Simplified to: Quick Actions, Upcoming, Newsfeed, Notifications
 
 ### Flow Steps
 
@@ -407,57 +294,39 @@ flowchart TD
 |------|-------------|-----------------|------------------|--------|
 | 1 | Open app (authenticated) | Check profile completion | - | NEW |
 | 2 | (If incomplete) Redirect | Show profile completion | - | NEW |
-| 3 | Load home screen | Fetch CMS content | - | - |
+| 3 | Load home screen | Load upcoming + newsfeed preview | - | MODIFIED |
 | 4 | View greeting | Show personalized greeting | - | - |
 | 5 | View Quick Actions | Show Book + Family shortcuts | - | NEW |
-| 6 | View Upcoming | Show next 2 appointments | - | MODIFIED |
-| 7 | View For You | Show insurance-specific content | CMS: loaded | MODIFIED |
-| 8 | Tap Quick Action | Navigate to feature | - | NEW |
-| 9 | Tap Upcoming appointment | Navigate to History | - | - |
-| 10 | Tap CMS card | View article | - | - |
+| 6 | View Today's Focus | Spotlight next appointment (only if verified) | - | NEW |
+| 7 | View Upcoming | Show next appointments preview | - | MODIFIED |
+| 8 | View Latest Health News | Show curated newsfeed cards | Newsfeed: loaded | NEW |
+| 9 | Tap bell icon | Open Notifications Center | - | NEW |
+| 10 | Tap news card | Open Article Detail | - | NEW |
+| 11 | Tap Quick Action | Navigate to feature | - | NEW |
+| 12 | Tap Upcoming appointment | Navigate to History | - | - |
 
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    START([Open App]) --> AUTH_CHECK{Authenticated?}
-    AUTH_CHECK -->|No| WELCOME([Welcome Screen])
-    AUTH_CHECK -->|Yes| PROFILE_CHECK{Profile Complete?}
+graph TD
+  A[Open app] --> B{Authenticated?}
+  B -->|No| C[Welcome]
+  B -->|Yes| D{Profile complete?}
+  D -->|No| E[Profile completion gate (NEW)]
+  D -->|Yes| F[Home]
+  E --> F
 
-    PROFILE_CHECK -->|No| PROFILE_GATE["Profile Completion 🟢NEW"]
-    PROFILE_GATE --> PROFILE_FLOW([Profile Flow])
-    PROFILE_CHECK -->|Yes| LOAD[Load Home Screen]
+  F --> G[Quick actions (Book, Family)]
+  F --> H[Today's focus (NEW)]
+  F --> I[Upcoming appointments]
+  F --> J[Latest health news (NEW)]
+  F --> K[Notifications bell (NEW)]
 
-    subgraph HOME_SCREEN["Home Screen 🟡MOD"]
-        LOAD --> GREETING[User Greeting]
-        GREETING --> SECTIONS[Display Sections]
-
-        subgraph CONTENT["Home Content 🟡MOD"]
-            SECTIONS --> QUICK["Quick Actions 🟢NEW"]
-            SECTIONS --> UPCOMING[Upcoming Appointments]
-            SECTIONS --> CMS["For You CMS 🟡MOD"]
-        end
-
-        QUICK --> Q_BOOK[Book Appointment]
-        QUICK --> Q_FAMILY[Family Members]
-
-        UPCOMING --> UP_CARDS[Next 2 Appointments]
-        UP_CARDS --> UP_EMPTY{Has Upcoming?}
-        UP_EMPTY -->|No| UP_EMPTY_STATE[Book CTA]
-
-        CMS --> CMS_CARDS[Health Tips Cards]
-    end
-
-    Q_BOOK --> BOOKING([Booking Flow])
-    Q_FAMILY --> FAMILY([Family Screen])
-    UP_CARDS --> HISTORY([History Screen])
-    UP_EMPTY_STATE --> BOOKING
-    CMS_CARDS --> ARTICLE[View Article]
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style HOME_SCREEN fill:#fff9c4,stroke:#f9a825
-    style CONTENT fill:#fff9c4,stroke:#f9a825
-    style PROFILE_GATE fill:#c8e6c9,stroke:#2e7d32
+  G --> L[Booking flow]
+  G --> M[Family members]
+  I --> N[History]
+  K --> O[Notifications center]
+  J --> P[Article detail]
 ```
 
 ---
@@ -474,59 +343,26 @@ Settings replaces the dedicated Profile section from full vision. Provides acces
 | 1 | Tap "Settings" tab | Show settings screen | - | NEW |
 | 2 | View profile card | Show name, email, insurance | - | NEW |
 | 3 | Tap "Family Members" | Navigate to family list | - | - |
-| 4 | Tap "Notifications" | Navigate to preferences | - | - |
-| 5 | Tap "Sign Out" | Sign out user | Auth: cleared | - |
-| 6 | Tap "Reset All Data" | Clear local data | All: cleared | NEW |
+| 4 | Tap "Notifications" | Navigate to notification preferences | Preferences: updated | MODIFIED |
+| 5 | Tap other menu items | Open language/privacy/FAQ/support/help | Preferences: updated | NEW |
+| 6 | Tap "Sign Out" | Sign out user | Auth: cleared | - |
+| 7 | Tap "Reset All Data" | Clear local data | All: cleared | NEW |
 
 ### Flow Diagram
 
 ```mermaid
-flowchart TD
-    START([Settings Tab]) --> SETTINGS["Settings Screen 🟢NEW"]
-
-    subgraph SETTINGS_SCREEN["Settings 🟢NEW"]
-        SETTINGS --> PROFILE_CARD["Profile Card 🟢NEW"]
-        PROFILE_CARD --> AVATAR[Avatar + Name]
-        AVATAR --> EMAIL[Email]
-        EMAIL --> INSURANCE_PILL[Insurance Type Pill]
-
-        SETTINGS --> MENU[Menu Items]
-        MENU --> FAMILY_ITEM[Family Members]
-        MENU --> NOTIF_ITEM[Notifications]
-
-        SETTINGS --> ACTIONS[Actions]
-        ACTIONS --> SIGN_OUT[Sign Out]
-        ACTIONS --> RESET["Reset All Data 🟢NEW"]
-    end
-
-    FAMILY_ITEM --> FAMILY[Family Members Screen]
-    NOTIF_ITEM --> NOTIF[Notifications Screen]
-
-    subgraph FAMILY_SCREEN["Family Members"]
-        FAMILY --> FAM_LIST[Family List]
-        FAM_LIST --> ADD_FAM[Add Member]
-        FAM_LIST --> EDIT_FAM[Edit Member]
-        FAM_LIST --> DEL_FAM[Delete Member]
-    end
-
-    subgraph NOTIF_SCREEN["Notifications"]
-        NOTIF --> TOGGLES[Notification Toggles]
-        TOGGLES --> APPT_REM[Appointment Reminders]
-        TOGGLES --> RX_UPDATE[Prescription Updates]
-        TOGGLES --> DEALS[Deals & Marketing]
-    end
-
-    SIGN_OUT --> CONFIRM_SIGN{Confirm?}
-    CONFIRM_SIGN -->|Yes| SIGNED_OUT([Welcome Screen])
-    CONFIRM_SIGN -->|No| SETTINGS
-
-    RESET --> CONFIRM_RESET{Confirm?}
-    CONFIRM_RESET -->|Yes| DATA_CLEARED[Data Cleared] --> SIGNED_OUT
-    CONFIRM_RESET -->|No| SETTINGS
-
-    style START fill:#000000,stroke:#000000,color:#ffffff
-    style SIGNED_OUT fill:#000000,stroke:#000000,color:#ffffff
-    style SETTINGS_SCREEN fill:#c8e6c9,stroke:#2e7d32
+graph TD
+  A[Settings tab] --> B[Settings]
+  B --> C[Profile card]
+  B --> D[Family members]
+  B --> E[Notification preferences]
+  B --> F[Language (NEW)]
+  B --> G[Privacy (NEW)]
+  B --> H[FAQ (NEW)]
+  B --> I[Contact support (NEW)]
+  B --> J[Help centre (NEW)]
+  B --> K[Sign out]
+  B --> L[Reset all data]
 ```
 
 ---
@@ -550,7 +386,7 @@ Store finder and pharmacy pickup is not included in v1.
 |------|----------------|--------|-------|
 | Registration | Completion rate | >90% | Email verification only |
 | Profile | Completion rate | >95% | Mandatory gate |
-| Booking | Completion rate | >60% | 4-step flow |
+| Booking | Completion rate | >60% | 4-step flow (location/insurance can be prefilled and skipped) |
 | History | View rate | >40% | Per session |
 | Home | Quick action tap rate | >30% | Book or Family |
 | Settings | Family add rate | >20% | Of users with dependents |
@@ -561,7 +397,8 @@ Store finder and pharmacy pickup is not included in v1.
 
 ### New Objects
 - `BookingState` - Multi-step booking flow state
-- `SearchFilters` - Specialty, city, radius
+- `SearchFilters` - Expanded filters: specialty, city, radius, visitType, urgency, onlyPublic, minRating, languages, sortBy (UPDATED)
+- `Newsfeed` / `Article` - Content cards and article detail (NEW)
 
 ### Modified Objects
 | Object | Full Vision | v1 Scope |
@@ -574,7 +411,7 @@ Store finder and pharmacy pickup is not included in v1.
 | Integration | v1 Status |
 |-------------|-----------|
 | Curaay API | Required (mock in N3) |
-| CMS Backend | Required (mock in N3) |
+| Newsfeed/CMS Content | Required (mock in N3) |
 | Teleclinic | Not integrated |
 | CardLink | Not integrated |
 | dm Store API | Not integrated |

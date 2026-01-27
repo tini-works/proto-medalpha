@@ -1,7 +1,7 @@
 # IA Map - MedAlpha Connect v1 (Curaay Appointments)
 
 **Generated From:** N3 App Implementation + SCOPE-FOR-EXPLORATION.md
-**Date:** 2026-01-23
+**Date:** 2026-01-27
 **Purpose:** Document v1 Information Architecture showing future state with NEW/MODIFIED indicators relative to full vision
 
 ---
@@ -25,12 +25,21 @@
 | Element | Type | Description |
 |---------|------|-------------|
 | Profile Completion Gate | Flow | Mandatory profile completion before accessing core features |
-| Location Step | Screen | Dedicated location/radius selection in booking flow |
+| Location Step | Screen | Dedicated location + preferences (city, radius, visit type, urgency) in booking flow |
+| Insurance Step | Screen | Dedicated insurance selection step (GKV/PKV/Self-pay) before results |
 | Slot Selection | Screen | Dedicated time slot picker with date carousel |
 | Booking Confirmation Modal | Component | Bottom sheet confirmation with patient selector |
+| Results Filters | Component | Filter sheet + sort selector in results (radius, rating, languages, only public) |
+| Reviews Screen | Screen | Doctor reviews screen reachable from doctor profile |
 | Tab Toggle (Upcoming/Past) | Component | History filtering via toggle instead of filters |
 | Quick Actions | Component | Home screen shortcuts to Book and Family |
-| For You (CMS) | Section | Insurance-specific health content on home |
+| Notifications Center | Screen | Notifications + Newsfeed tabs (bell icon entry) |
+| Article Detail | Screen | Read a news/article item from the newsfeed |
+| Today's Focus | Component | Next appointment spotlight (shown only if user is verified) |
+| Reschedule Flow | Flow | Dedicated reschedule screens: reason → suggested slots → confirm → success |
+| Book Again Flow | Flow | Dedicated re-book screens: context → alternatives → slots → confirm → success |
+| Assistant Routes | Flow | Assistant booking routes (recommendations, doctor detail, confirm) |
+| Settings Subpages | Screen | Language, privacy, FAQ, contact support, help centre screens added |
 
 ### MODIFIED Elements (Reduced from Full Vision)
 
@@ -40,7 +49,7 @@
 | Booking Types | Doctor + Health Check + Beauty | Doctor only (Curaay) | Reduced |
 | History | All types (appointments, orders, purchases) with export | Appointments only (upcoming/past) | Reduced |
 | Profile Section | Dedicated section with Payback, dm Link, Help | Settings screen with family & notifications | Simplified |
-| Home Content | Deals, Payback, Health Tips, Active Rx, Quick Actions | Quick Actions, Upcoming, For You (CMS) | Reduced |
+| Home Content | Deals, Payback, Health Tips, Active Rx, Quick Actions | Quick Actions, Upcoming, Newsfeed, Notifications | Reduced |
 | Verification | Email + SMS options | Email only | Simplified |
 
 ### Navigation Changes
@@ -82,9 +91,16 @@ Doctor (from Curaay API)
 └── imageUrl, about, languages
 
 SearchFilters
-├── specialty, city
-├── insuranceType
-└── radius
+├── specialty, city, insuranceType
+├── radius, visitType, urgency
+├── onlyPublic, minRating, languages
+├── sortBy
+└── includeStores (present but default false; stores UI remains OUT)
+
+NewsArticle
+├── id, title, subtitle/summary
+├── category/tags
+└── content (body)
 ```
 
 ---
@@ -98,7 +114,8 @@ MedAlpha Connect v1
 │   ├── Welcome
 │   ├── Sign In
 │   ├── Register                         [NEW - simplified from Create Account]
-│   └── Verify (Email only)              [MODIFIED - no SMS option]
+│   ├── Verify (Email only)              [MODIFIED - no SMS option]
+│   └── Verify Identity (optional)       [NEW - implemented route, not default path]
 │
 ├── Profile Completion                   [NEW - mandatory gate]
 │   └── Complete Profile Form
@@ -108,14 +125,18 @@ MedAlpha Connect v1
 │   ├── HOME                             [MODIFIED - simplified content]
 │   │   ├── User Greeting
 │   │   ├── Quick Actions (Book, Family)
+│   │   ├── Today's Focus                [NEW - verified users only]
 │   │   ├── Upcoming Appointments
-│   │   └── For You (CMS Content)
+│   │   ├── Notifications Center         [NEW - notifications + newsfeed tabs]
+│   │   └── Latest Health News           [NEW - newsfeed preview + Article Detail]
 │   │
 │   ├── BOOK (Appointments)              [MODIFIED - Curaay only]
 │   │   ├── Search (Specialty)           [MODIFIED - no type selection]
-│   │   ├── Location Selection           [NEW - dedicated step]
-│   │   ├── Results List
+│   │   ├── Location & Preferences       [NEW - city, radius, visit type, urgency]
+│   │   ├── Insurance                    [NEW - dedicated step]
+│   │   ├── Results List                 [NEW - filters/sort]
 │   │   ├── Doctor Details
+│   │   ├── Reviews                      [NEW - separate screen]
 │   │   ├── Slot Selection               [NEW - dedicated screen]
 │   │   ├── Confirm (Modal)              [NEW - bottom sheet]
 │   │   └── Success
@@ -123,17 +144,29 @@ MedAlpha Connect v1
 │   ├── HISTORY                          [MODIFIED - appointments only]
 │   │   ├── Upcoming Tab
 │   │   ├── Past Tab
-│   │   └── Appointment Actions (Reschedule, Cancel, Book Again)
+│   │   └── Appointment Actions (Reschedule, Cancel, Book Again) [NEW - dedicated flows]
 │   │
 │   └── SETTINGS                         [MODIFIED - replaces Profile section]
 │       ├── Profile Card
 │       ├── Family Members
-│       ├── Notifications
+│       ├── Notification Preferences
+│       ├── Language                     [NEW]
+│       ├── Privacy & Data               [NEW]
+│       ├── FAQ                          [NEW]
+│       ├── Contact Support              [NEW]
+│       ├── Help Centre                  [NEW]
 │       └── Account Actions (Sign Out, Reset)
 │
 ├── Family Management                    [NEW - accessible from Settings & Home]
 │   ├── Family Members List
 │   └── Add/Edit Family Member
+│
+├── Assistant (Optional)                 [NEW - routed in N3]
+│   ├── Assistant
+│   ├── Voice Assistant
+│   ├── Recommendations
+│   ├── Assistant Doctor Detail
+│   └── Assistant Confirm
 │
 └── NOT IN v1 (Full Vision Only)
     ├── TELEMEDIZIN (entire section)
@@ -152,112 +185,75 @@ MedAlpha Connect v1
 ## Master IA Diagram (v1 Future State)
 
 ```mermaid
-flowchart TB
-    subgraph APP["MedAlpha Connect v1"]
-        direction TB
-
-        subgraph AUTH["Authentication"]
-            A1[Welcome]
-            A2[Sign In]
-            A3["Register 🟢NEW"]
-            A4["Verify - Email 🟡MOD"]
-        end
-
-        subgraph PROFILE_GATE["Profile Completion 🟢NEW"]
-            PG1["Complete Profile Form 🟢"]
-        end
-
-        subgraph MAIN["Main App"]
-            direction TB
-
-            subgraph NAV["Bottom Navigation 🟡MOD"]
-                direction LR
-                N1["Home"]
-                N2["Book 🟡"]
-                N3["History 🟡"]
-                N4["Settings 🟡"]
-            end
-
-            subgraph HOME["HOME 🟡MOD"]
-                H1[Dashboard]
-                H2["Quick Actions 🟢"]
-                H3[Upcoming Appointments]
-                H4["For You CMS 🟢"]
-            end
-
-            subgraph BOOKING["BOOK 🟡MOD"]
-                B1["Search Specialty 🟡"]
-                B2["Location Selection 🟢"]
-                B3[Results List]
-                B4[Doctor Details]
-                B5["Slot Selection 🟢"]
-                B6["Confirm Modal 🟢"]
-                B7[Success]
-            end
-
-            subgraph HISTORY["HISTORY 🟡MOD"]
-                HI1["Upcoming Tab 🟡"]
-                HI2["Past Tab 🟡"]
-                HI3[Appointment Actions]
-            end
-
-            subgraph SETTINGS["SETTINGS 🟡MOD"]
-                S1["Profile Card 🟢"]
-                S2[Family Members]
-                S3[Notifications]
-                S4["Account Actions 🟢"]
-            end
-
-            subgraph FAMILY["Family Management 🟢NEW"]
-                F1["Family List 🟢"]
-                F2["Add/Edit Member 🟢"]
-            end
-        end
-    end
-
-    A1 --> A2
-    A1 --> A3
-    A3 --> A4
-    A2 --> CHECK{Profile Complete?}
-    A4 --> CHECK
-    CHECK -->|No| PG1
-    CHECK -->|Yes| H1
-    PG1 --> H1
-
-    N1 --> H1
-    N2 --> B1
-    N3 --> HI1
-    N4 --> S1
-
-    H2 -->|Book| B1
-    H2 -->|Family| F1
-    H3 --> HI1
-
-    B1 --> B2 --> B3 --> B4 --> B5 --> B6 --> B7
-    B3 -->|Quick slot| B6
-
-    HI1 --> HI3
-    HI2 --> HI3
-    HI3 -->|Reschedule| B1
-    HI3 -->|Book Again| B1
-
-    S2 --> F1
-
-    style APP fill:#ffffff,stroke:#9e9e9e,stroke-width:2px
-    style AUTH fill:#e8f5e9,stroke:#2e7d32
-    style PROFILE_GATE fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
-    style MAIN fill:#fafafa,stroke:#9e9e9e
-    style NAV fill:#fff9c4,stroke:#f9a825,stroke-width:2px
-    style HOME fill:#fff9c4,stroke:#f9a825
-    style BOOKING fill:#fff9c4,stroke:#f9a825
-    style HISTORY fill:#fff9c4,stroke:#f9a825
-    style SETTINGS fill:#fff9c4,stroke:#f9a825
-    style FAMILY fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+flowchart TD
+  A[Welcome] --> B{Register or sign in}
+  B -->|Register| C[Register]
+  B -->|Sign in| D[Sign in]
+  C --> E[Verify email]
+  D --> E
+  E --> F{Profile complete}
+  F -->|No| G[Profile completion]
+  F -->|Yes| H[Main app]
+  G --> H
 ```
 
 **Legend:**
-- 🟢 / Green background = NEW in v1
-- 🟡 / Yellow background = MODIFIED from full vision
+- “(NEW)” indicates newly added in v1 implementation (or since last N3 update)
+- Items without marker are existing, but may be reduced vs full vision
+
+### IA Diagram — Main Areas (≤ 20 nodes)
+
+```mermaid
+flowchart TD
+  A[Main app] --> B[Home]
+  A --> C[Book]
+  A --> D[History]
+  A --> E[Settings]
+
+  B --> F[Notifications center (NEW)]
+  F --> G[Article detail (NEW)]
+
+  D --> H[Appointment detail (NEW)]
+
+  E --> I[Family members]
+  E --> J[Notification preferences]
+  E --> K[Settings subpages (NEW)]
+
+  B -.-> L[Assistant (optional) (NEW)]
+```
+
+### IA Diagram — Booking (Detail) (≤ 20 nodes)
+
+```mermaid
+flowchart TD
+  A[Entry (Book)] --> B[Specialty search]
+  B --> C[Location & preferences (NEW)]
+  C --> D[Insurance (NEW)]
+  D --> E[Results (filters + sort) (NEW)]
+  E --> F[Doctor profile]
+  F --> G[Reviews (NEW)]
+  G --> F
+  F --> H[Slot selection (NEW)]
+  H --> I[Confirm (bottom sheet) (NEW)]
+  I --> J[Success]
+```
+
+### IA Diagram — Appointment Actions (≤ 20 nodes)
+
+```mermaid
+flowchart TD
+  A[Appointment detail] --> B{Action}
+  B -->|Reschedule| C[Reschedule (reason) (NEW)]
+  C --> D[Reschedule (suggested slots) (NEW)]
+  D --> E[Reschedule (confirm) (NEW)]
+  E --> F[Reschedule (success) (NEW)]
+
+  B -->|Book again| G[Book again (context) (NEW)]
+  G --> H[Book again (alternatives) (NEW)]
+  H --> I[Slot selection]
+  I --> J[Confirm]
+  J --> K[Success]
+```
 
 ---
 
@@ -269,20 +265,42 @@ flowchart TB
 | `/auth/sign-in` | Sign In | - | Email/password |
 | `/auth/register` | Register | NEW | Simplified registration |
 | `/auth/verify` | Verify | MODIFIED | Email only (no SMS) |
+| `/auth/verify-identity` | Verify Identity | NEW | Implemented route (not default path) |
 | `/profile/complete` | Profile Completion | NEW | Mandatory gate |
 | `/profile/edit` | Edit Profile | - | Update profile |
 | `/profile/family` | Family Members | - | Manage family |
 | `/home` | Home | MODIFIED | Simplified content |
+| `/notifications` | Notifications Center | NEW | Notifications + Newsfeed tabs |
+| `/news/:articleId` | Article Detail | NEW | Newsfeed article detail |
 | `/booking/search` | Specialty Search | MODIFIED | No type selection |
-| `/booking/location` | Location Selection | NEW | Dedicated step |
-| `/booking/results` | Results List | - | Doctor cards |
+| `/booking/location` | Location & Preferences | NEW | City, radius, visit type, urgency |
+| `/booking/insurance` | Insurance | NEW | GKV/PKV/Self-pay + only-public toggle |
+| `/booking/results` | Results List | NEW | Doctor cards + filters/sort |
 | `/booking/doctor/:id` | Doctor Details | - | Profile view |
+| `/booking/doctor/:id/reviews` | Reviews | NEW | Reviews list |
 | `/booking/doctor/:id/slots` | Slot Selection | NEW | Time picker |
 | `/booking/confirm` | Confirm Modal | NEW | Bottom sheet |
 | `/booking/success` | Success | - | Confirmation |
 | `/history` | History | MODIFIED | Appointments only, tab toggle |
 | `/settings` | Settings | MODIFIED | Replaces Profile section |
-| `/settings/notifications` | Notifications | - | Toggle preferences |
+| `/appointments/:id` | Appointment Detail | NEW | Deep link from Today’s Focus and other CTAs |
+| `/reschedule/:id` | Reschedule (Suggested) | NEW | Suggested slots screen |
+| `/reschedule/:id/reason` | Reschedule Reason | NEW | Select reason |
+| `/reschedule/:id/confirm` | Reschedule Confirm | NEW | Confirm change |
+| `/reschedule/:id/success` | Reschedule Success | NEW | Success state |
+| `/book-again/:id` | Book Again (Context) | NEW | Context + prefill |
+| `/book-again/:id/alternatives` | Book Again (Alternatives) | NEW | Alternative doctors/slots |
+| `/assistant` | Assistant | NEW | Optional enhancement |
+| `/assistant/voice` | Voice Assistant | NEW | Optional enhancement |
+| `/assistant/recommendations` | Recommendations | NEW | Assistant recommendations |
+| `/assistant/doctor/:id` | Assistant Doctor Detail | NEW | Assistant-linked doctor detail |
+| `/assistant/confirm` | Assistant Confirm | NEW | Assistant confirmation |
+| `/settings/notifications` | Notification Preferences | MODIFIED | Preferences toggles |
+| `/settings/language` | Language | NEW | Locale settings |
+| `/settings/privacy` | Privacy & Data | NEW | Privacy and data controls |
+| `/settings/faq` | FAQ | NEW | FAQ list |
+| `/settings/contact-support` | Contact Support | NEW | Contact options |
+| `/settings/help-centre` | Help Centre | NEW | Help centre |
 
 ### Routes NOT in v1
 
@@ -304,22 +322,43 @@ flowchart TB
 | AUTH-002 | Auth | Sign In | - | Email/password login |
 | AUTH-003 | Auth | Register | NEW | New user registration |
 | AUTH-004 | Auth | Verify | MODIFIED | Email verification only |
+| AUTH-005 | Auth | Verify Identity | NEW | Optional identity verification route (not default path) |
 | PROF-001 | Profile | Complete Profile | NEW | Mandatory completion gate |
 | PROF-002 | Profile | Edit Profile | - | Update personal info |
 | PROF-003 | Profile | Family Members | - | List and manage family |
 | PROF-004 | Profile | Add/Edit Member | - | Family member form |
-| HOME-001 | Home | Dashboard | MODIFIED | Greeting, Quick Actions, Upcoming, CMS |
+| HOME-001 | Home | Dashboard | MODIFIED | Greeting, Quick Actions, Today’s Focus (verified only), Upcoming, Newsfeed preview, Notifications entry |
+| HOME-002 | Home | Notifications Center | NEW | Notifications + Newsfeed tabs (bell icon entry) |
+| HOME-003 | Home | Article Detail | NEW | Read a newsfeed article |
 | BOOK-001 | Book | Specialty Search | MODIFIED | Search without type selection |
-| BOOK-002 | Book | Location Selection | NEW | City and radius picker |
-| BOOK-003 | Book | Results List | - | Doctor cards with quick slots |
-| BOOK-004 | Book | Doctor Details | - | Full doctor profile |
-| BOOK-005 | Book | Slot Selection | NEW | Date carousel + time grid |
-| BOOK-006 | Book | Confirm Modal | NEW | Bottom sheet with patient selector |
-| BOOK-007 | Book | Success | - | Booking confirmation |
+| BOOK-002 | Book | Location & Preferences | NEW | City, radius, visit type, urgency |
+| BOOK-003 | Book | Insurance | NEW | GKV/PKV/Self-pay + only-public toggle |
+| BOOK-004 | Book | Results List | NEW | Doctor cards with quick slots + filters/sort |
+| BOOK-005 | Book | Doctor Details | - | Full doctor profile |
+| BOOK-006 | Book | Reviews | NEW | Separate reviews list from doctor profile |
+| BOOK-007 | Book | Slot Selection | NEW | Date carousel + time grid |
+| BOOK-008 | Book | Confirm (Bottom Sheet) | NEW | Patient selector + optional reason |
+| BOOK-009 | Book | Success | - | Booking confirmation |
 | HIST-001 | History | History | MODIFIED | Upcoming/Past toggle |
-| HIST-002 | History | Appointment Detail | - | Single appointment view |
+| HIST-002 | History | Appointment Detail | NEW | Single appointment view + actions |
+| ACT-001 | Appointment Actions | Reschedule Reason | NEW | Choose reason before suggestions |
+| ACT-002 | Appointment Actions | Reschedule Suggested Slots | NEW | Suggested alternative slots |
+| ACT-003 | Appointment Actions | Reschedule Confirm | NEW | Confirm reschedule |
+| ACT-004 | Appointment Actions | Reschedule Success | NEW | Success state |
+| ACT-005 | Appointment Actions | Book Again Context | NEW | Context + prefill from past appointment |
+| ACT-006 | Appointment Actions | Book Again Alternatives | NEW | Alternative doctors/slots |
+| ASSIST-001 | Assistant | Assistant | NEW | Optional assistant entry point |
+| ASSIST-002 | Assistant | Voice Assistant | NEW | Optional voice route |
+| ASSIST-003 | Assistant | Recommendations | NEW | Assistant recommendations list |
+| ASSIST-004 | Assistant | Assistant Doctor Detail | NEW | Assistant-linked doctor detail |
+| ASSIST-005 | Assistant | Assistant Confirm | NEW | Assistant confirmation |
 | SETT-001 | Settings | Settings | MODIFIED | Profile card + menu items |
-| SETT-002 | Settings | Notifications | - | Notification toggles |
+| SETT-002 | Settings | Notification Preferences | MODIFIED | Preferences toggles |
+| SETT-003 | Settings | Language | NEW | Locale settings |
+| SETT-004 | Settings | Privacy & Data | NEW | Privacy and data controls |
+| SETT-005 | Settings | FAQ | NEW | FAQ list |
+| SETT-006 | Settings | Contact Support | NEW | Contact options |
+| SETT-007 | Settings | Help Centre | NEW | Help centre |
 
 ### Screens NOT in v1
 
@@ -342,12 +381,14 @@ flowchart TB
 1. **User Authentication** - Email-based sign in/register with verification
 2. **Profile Management** - Insurance, address, GDPR consent with mandatory completion gate
 3. **Family Members** - Add and manage dependents for family appointments
-4. **Appointment Booking** - 4-step flow: Specialty → Location → Results → Confirm
-5. **Doctor Discovery** - Search, filter, sort with quick slot selection
-6. **Appointment History** - View upcoming and past appointments with actions
-7. **Patient Selection** - Book for self or family members
-8. **Basic CMS** - Insurance-specific health content on home screen
-9. **Notification Preferences** - Toggle appointment reminders, updates, deals
+4. **Appointment Booking** - Multi-step booking: Specialty → Location/Preferences → (optional) Insurance → Results → Confirm
+5. **Doctor Discovery** - Filters/sort + doctor profiles + reviews + quick slot selection
+6. **Appointment History** - Upcoming/Past toggle with appointment detail view
+7. **Reschedule & Book Again** - Dedicated flows/screens for appointment actions
+8. **Newsfeed + Article Detail** - Health news cards and article reader via Notifications Center
+9. **Settings Subpages** - Language, privacy, FAQ, contact support, help centre
+10. **Notification Preferences** - Toggle reminders/updates (where supported)
+11. **Assistant Routes (Optional)** - Assistant-linked booking entry points
 
 ---
 
@@ -358,7 +399,7 @@ flowchart TB
 | Integration | Status | Notes |
 |-------------|--------|-------|
 | Curaay API | Required | Doctor search, availability, booking |
-| CMS Backend | Required | Home screen content |
+| Content / Newsfeed Backend | Required | Newsfeed cards + article detail content |
 | FCM/APNs | Optional | Push notifications |
 | Calendar | Optional | Add to device calendar |
 
