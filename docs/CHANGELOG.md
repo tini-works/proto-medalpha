@@ -2,6 +2,13 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-28 (Continued - Part 5)
+
+### Booking flow translation rendering fix
+- **Root cause**: The `booking` i18n namespace was never registered in the i18n config; only `settings`, `home`, `notifications`, and `appointments` were loaded.
+- **Fix**: Added `en/booking.json` and `de/booking.json` to i18n resources and `booking` to the `ns` array so all booking flow screens receive translated strings.
+- **Impact**: Care Request (Fast Lane), Search, Results, Doctor Profile, Slot Selection, Confirm, Success, and related booking screens now display localized text (e.g. “What do you need?”, “Find an Appointment”, symptom/specialty labels) instead of raw translation keys.
+
 ## 2026-01-28 (Continued - Part 4)
 
 ### Fast-lane booking entry & smarter history

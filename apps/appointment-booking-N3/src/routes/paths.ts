@@ -30,6 +30,8 @@ export const PATHS = {
 
   // Book by Specialty flow (existing flow, renamed)
   BOOKING_SPECIALTY: '/booking/specialty',
+  BOOKING_CONSTRAINTS: '/booking/constraints',
+  BOOKING_AVAILABILITY: '/booking/availability',
   BOOKING_LOCATION: '/booking/location',
   BOOKING_INSURANCE: '/booking/insurance',
   BOOKING_RESULTS: '/booking/results',

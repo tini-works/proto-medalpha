@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin } from '@tabler/icons-react'
 import { Header, Page, Avatar, Rating, Pill } from '../../components'
-import { useBooking } from '../../state'
+import { useBooking, useProfile } from '../../state'
 import { apiGetDoctor } from '../../data'
 import { doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor } from '../../types'
@@ -12,7 +12,17 @@ export default function DoctorProfileScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, selectDoctor } = useBooking()
+  const { profile } = useProfile()
+  const {
+    selectedDoctor,
+    selectDoctor,
+    availabilityPrefs,
+    search,
+    setSpecialtyMatchRequest,
+  } = useBooking()
+
+  // Check if we're in the specialty-first flow
+  const isSpecialtyFirstFlow = Boolean(availabilityPrefs || search?.fullyFlexible || search?.availabilitySlots)
   const [doctor, setDoctor] = useState<Doctor | null>(selectedDoctor)
   const [loading, setLoading] = useState(!selectedDoctor)
 
@@ -132,12 +142,34 @@ export default function DoctorProfileScreen() {
         </section>
 
         {/* Book button */}
-        <button
-          onClick={() => navigate(doctorSlotsPath(doctor.id))}
-          className="btn btn-primary btn-block"
-        >
-          {t('selectAppointmentTime')}
-        </button>
+        {isSpecialtyFirstFlow ? (
+          <button
+            onClick={() => {
+              // Set up the specialty match request
+              setSpecialtyMatchRequest({
+                specialty: search?.specialty || doctor.specialty,
+                city: search?.city || doctor.city,
+                insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
+                doctorId: doctor.id,
+                doctorName: doctor.name,
+                availabilityPrefs: availabilityPrefs || { fullyFlexible: true, slots: [] },
+                patientId: profile.id,
+                patientName: profile.fullName,
+              })
+              navigate(PATHS.FAST_LANE_MATCHING)
+            }}
+            className="btn btn-primary btn-block"
+          >
+            {t('selectThisDoctor')}
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate(doctorSlotsPath(doctor.id))}
+            className="btn btn-primary btn-block"
+          >
+            {t('selectAppointmentTime')}
+          </button>
+        )}
       </div>
     </Page>
   )
