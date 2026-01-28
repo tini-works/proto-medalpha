@@ -65,6 +65,7 @@ export interface AppState {
   preferences: {
     fontScale: 1 | 1.15 | 1.3
     language: 'en' | 'de'
+    disableDemoAppointmentsSeed: boolean
     notifications: {
       appointmentReminders: boolean
       prescriptionUpdates: boolean
@@ -108,6 +109,7 @@ export const initialState: AppState = {
   preferences: {
     fontScale: 1,
     language: 'en',
+    disableDemoAppointmentsSeed: false,
     notifications: {
       appointmentReminders: true,
       prescriptionUpdates: true,

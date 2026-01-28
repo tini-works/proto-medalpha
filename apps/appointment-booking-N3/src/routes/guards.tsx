@@ -27,12 +27,8 @@ export function RequireAuth({ children }: { children: ReactNode }) {
 }
 
 export function RequireProfileComplete({ children }: { children: ReactNode }) {
-  const { isProfileComplete } = useAppState()
-
-  if (!isProfileComplete) {
-    return <Navigate to={PATHS.PROFILE_COMPLETE} replace />
-  }
-
+  // Intentionally no-op: booking and other flows should be accessible even if the
+  // profile is incomplete (per product decision).
   return <>{children}</>
 }
 
