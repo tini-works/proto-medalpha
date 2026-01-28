@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Building, Home, Calendar, AlertCircle, Microphone, X } from 'tabler-icons-react'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
@@ -124,10 +125,7 @@ export default function LocationScreen() {
               }`}
               aria-pressed={visitType === 'in_clinic'}
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V9h6v12" />
-              </svg>
+              <Building size="20" stroke="2" />
               {t('inClinic')}
             </button>
             <button
@@ -140,15 +138,7 @@ export default function LocationScreen() {
               }`}
               aria-pressed={visitType === 'home_visit'}
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z"
-                />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V12h6v9" />
-              </svg>
+              <Home size="20" stroke="2" />
               {t('homeVisit')}
             </button>
           </div>
@@ -209,10 +199,7 @@ export default function LocationScreen() {
             aria-pressed={urgency === 'routine'}
           >
             <div className="w-10 h-10 rounded-xl bg-cream-200 flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+              <Calendar size="20" stroke="2" className="text-slate-600" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-3">
@@ -238,15 +225,7 @@ export default function LocationScreen() {
             aria-pressed={urgency === 'urgent'}
           >
             <div className="w-10 h-10 rounded-xl bg-coral-50 flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-coral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01" />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
-                />
-              </svg>
+              <AlertCircle size="20" stroke="2" className="text-coral-700" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-3">
@@ -281,17 +260,7 @@ export default function LocationScreen() {
             className="h-12 w-12 rounded-full border border-cream-300 bg-white text-teal-700 shadow-sm flex items-center justify-center hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
             aria-label="Voice assistant"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 5a2 2 0 00-2 2v4a2 2 0 104 0V7a2 2 0 00-2-2z"
-              />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 11a6 6 0 0012 0" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 17v2" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21h6" />
-            </svg>
+            <Microphone size="20" stroke="2" />
           </button>
         </div>
       </div>
@@ -314,9 +283,7 @@ export default function LocationScreen() {
                 className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
                 aria-label="Close"
               >
-                <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X size="20" stroke="2" className="text-slate-600" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto px-4 pb-6">

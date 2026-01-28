@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { X } from 'tabler-icons-react'
 import { Field, Select } from './index'
 import type { FamilyMember, InsuranceType } from '../../types'
 
@@ -104,9 +105,7 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
             className="text-slate-400 hover:text-slate-500 transition-colors"
             aria-label="Close"
           >
-            <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X size="24" stroke="2" />
           </button>
         </div>
 

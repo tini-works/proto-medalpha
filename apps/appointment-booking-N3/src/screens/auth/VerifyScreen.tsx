@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Mail } from 'tabler-icons-react'
 import { Header, Page } from '../../components'
 import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
@@ -83,10 +84,7 @@ export default function VerifyScreen() {
       <form onSubmit={handleSubmit} className="px-4 py-6">
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-neutral-100 rounded-full flex items-center justify-center">
-            <svg viewBox="0 0 24 24" className="w-8 h-8 text-neutral-600" fill="none" stroke="currentColor" strokeWidth={2}>
-              <rect x="2" y="4" width="20" height="16" rx="2" />
-              <path d="M2 6l10 7 10-7" />
-            </svg>
+            <Mail size="32" stroke="2" className="text-neutral-600" />
           </div>
           <h2 className="text-lg font-semibold text-neutral-900">{t('verify.heading')}</h2>
           <p className="mt-1 text-sm text-neutral-500">

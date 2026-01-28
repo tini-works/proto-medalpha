@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Check, Calendar, MapPin } from 'tabler-icons-react'
 import { Page, Avatar, Rating } from '../../components'
 import { getDoctorById } from '../../data'
 import { PATHS } from '../../routes'
@@ -59,9 +60,7 @@ END:VCALENDAR`
     <Page safeBottom={false}>
       <div className="min-h-screen flex flex-col px-6 py-10 text-center">
         <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-          </svg>
+          <Check size="32" stroke="3" className="text-white" />
         </div>
 
         <h1 className="text-xl font-semibold text-charcoal-500">{t('appointmentConfirmed')}</h1>
@@ -88,9 +87,7 @@ END:VCALENDAR`
           <div className="mt-4 border-t border-cream-200 pt-4 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-teal-700">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+                <Calendar size="20" stroke="2" />
               </div>
               <div>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wide">{t('dateTime')}</p>
@@ -101,15 +98,7 @@ END:VCALENDAR`
 
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                <MapPin size="20" stroke="2" />
               </div>
               <div>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wide">{t('appointmentLocation')}</p>
@@ -126,9 +115,7 @@ END:VCALENDAR`
             disabled={!appointment}
             className="btn h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 border border-teal-500 text-teal-600 hover:bg-teal-50"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
+            <Calendar size="20" stroke="2" />
             {t('addToCalendar')}
           </button>
           <button
@@ -136,9 +123,7 @@ END:VCALENDAR`
             disabled={!doctor}
             className="btn h-12 w-full rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 border border-teal-500 text-teal-600 hover:bg-teal-50"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.553-.894L9 7m0 13l6-3m-6 3V7m6 10l4.447-2.224A1 1 0 0020 13.382V4.618a1 1 0 00-1.553-.894L15 7m0 10V7m0 0L9 10" />
-            </svg>
+            <MapPin size="20" stroke="2" />
             {t('getDirections')}
           </button>
         </div>

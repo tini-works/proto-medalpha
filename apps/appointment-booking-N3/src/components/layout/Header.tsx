@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { IconChevronLeft } from '@tabler/icons-react'
 import { PATHS, doctorSlotsPath } from '../../routes/paths'
 import { useBooking } from '../../state'
+import { Button } from '../ui'
 
 interface HeaderProps {
   title: string
@@ -228,14 +229,17 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
     <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
+          {/* Back button uses shared Button component with icon variant */}
           {showBack && (
-            <button
+            <Button
+              variant="icon"
+              size="sm"
               onClick={handleBack}
-              className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-neutral-100"
+              className="-ml-2"
               aria-label="Go back"
             >
               <IconChevronLeft className="text-slate-700" size={24} stroke={2} />
-            </button>
+            </Button>
           )}
           <div>
             <h1 className="text-lg font-semibold text-charcoal-500">{title}</h1>

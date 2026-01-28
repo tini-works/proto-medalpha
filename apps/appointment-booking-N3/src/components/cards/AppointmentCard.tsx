@@ -1,4 +1,4 @@
-import { IconStethoscope, IconClock } from '@tabler/icons-react'
+import { Stethoscope, Clock, Heart, Circle } from 'tabler-icons-react'
 import type { Appointment } from '../../types'
 import { Pill } from '../display/Pill'
 import { Avatar } from '../display/Avatar'
@@ -26,25 +26,16 @@ const statusConfig: Record<
   cancelled_doctor: { tone: 'negative', label: 'Doctor canceled' },
 }
 
-// Specialty icons mapping using inline SVGs
+// Specialty icons mapping using Tabler icons
 const specialtyIcons: Record<string, JSX.Element> = {
   'General Medicine': (
-    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
-      <path d="M7 10c0 1.657-1.343 3-3 3S1 11.657 1 10s1.343-3 3-3 3 1.343 3 3z" />
-      <path d="M9 15l4 4 4-4" />
-      <path d="M13 17v-2" />
-      <path d="M10 18h6" />
-    </svg>
+    <Stethoscope size="14" stroke="1.5" />
   ),
   Cardiology: (
-    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-    </svg>
+    <Heart size="14" stroke="1.5" />
   ),
   Dermatology: (
-    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-    </svg>
+    <Circle size="14" stroke="1.5" />
   ),
 }
 
@@ -54,7 +45,7 @@ export function AppointmentCard({
   variant = 'default',
 }: AppointmentCardProps) {
   const config = statusConfig[appointment.status]
-  const specialtyIcon = specialtyIcons[appointment.specialty] || <IconStethoscope className="w-3.5 h-3.5" stroke={1.5} />
+  const specialtyIcon = specialtyIcons[appointment.specialty] || <Stethoscope size="14" stroke="1.5" />
 
   if (variant === 'upcoming') {
     return (
@@ -100,7 +91,7 @@ export function AppointmentCard({
           <p className="text-sm text-slate-600 mt-0.5">{appointment.specialty}</p>
           <div className="mt-2 flex items-center gap-3 text-sm text-slate-500">
             <div className="flex items-center gap-1">
-              <IconClock className="w-4 h-4 flex-shrink-0" stroke={1.5} />
+              <Clock size="16" stroke="1.5" className="flex-shrink-0" />
               <span>{formatTime(appointment.time)} Uhr</span>
             </div>
           </div>

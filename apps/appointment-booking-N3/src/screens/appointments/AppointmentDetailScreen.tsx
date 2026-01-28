@@ -77,13 +77,15 @@ export default function AppointmentDetailScreen() {
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-cream-400 bg-white px-4 py-4">
         <div className="flex items-center justify-between">
-          <button
+          {/* Back button uses shared Button component with icon variant */}
+          <Button
+            variant="icon"
+            size="sm"
             onClick={() => navigate(-1)}
-            className="rounded-full p-2 hover:bg-cream-200 transition-colors"
             aria-label="Go back"
           >
             <IconChevronLeft className="h-6 w-6 text-charcoal-500" stroke={2} />
-          </button>
+          </Button>
           <h1 className="text-lg font-semibold text-charcoal-500">Appointment Details</h1>
           <div className="w-10" />
         </div>

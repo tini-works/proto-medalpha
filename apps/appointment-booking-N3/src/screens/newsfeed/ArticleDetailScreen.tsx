@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { IconArrowLeft, IconBookmark, IconBookmarkFilled, IconShare2 } from '@tabler/icons-react'
 import { Page } from '../../components'
+import { Button } from '../../components/ui'
 import { PATHS } from '../../routes'
 import { mockNewsArticles } from '../../data/newsfeed'
 import { useState } from 'react'
@@ -47,13 +48,16 @@ function ArticleDetailScreen() {
       <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between px-4 py-4">
           {/* Back button */}
-          <button
+          {/* Back button uses shared Button component with icon variant */}
+          <Button
+            variant="icon"
+            size="sm"
             onClick={handleBack}
-            className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand"
+            className="-ml-2"
             aria-label="Go back"
           >
             <IconArrowLeft className="w-6 h-6 text-slate-700" stroke={2} />
-          </button>
+          </Button>
 
           {/* Right icons */}
           <div className="flex items-center gap-2">
