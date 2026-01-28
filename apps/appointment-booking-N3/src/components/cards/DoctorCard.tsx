@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Heart, Star, MapPin, ChevronRight } from 'tabler-icons-react'
 import type { Doctor, TimeSlot } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
@@ -110,13 +111,9 @@ export function DoctorCard({
               aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
             >
               {isFavorite ? (
-                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" stroke="currentColor" strokeWidth={1.5}>
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
+                <Heart size="20" stroke="1.5" fill="currentColor" />
               ) : (
-                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
+                <Heart size="20" stroke="1.5" />
               )}
             </button>
           </div>
@@ -124,18 +121,13 @@ export function DoctorCard({
           {/* Rating and distance row */}
           <div className="flex items-center gap-2 mt-1 text-sm text-slate-500">
             <div className="flex items-center gap-1">
-              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-yellow-400" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
+              <Star size="14" className="text-yellow-400" fill="currentColor" />
               <span className="font-medium text-slate-500">{doctor.rating.toFixed(1)}</span>
               <span className="text-slate-400">({doctor.reviewCount})</span>
             </div>
             <span className="text-cream-400">|</span>
             <div className="flex items-center gap-1">
-              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                <path d="M12 1C6.48 1 2 5.48 2 11c0 6 4.48 11 10 11s10-5 10-11S17.52 1 12 1zm0 19c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                <circle cx="12" cy="11" r="1.5" />
-              </svg>
+              <MapPin size="14" stroke="1.5" />
               <span>{distanceKm} km</span>
             </div>
           </div>
@@ -169,9 +161,7 @@ export function DoctorCard({
                 onClick={handleMoreClick}
               >
                 {t('moreAppointments')}
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
+                <ChevronRight size="14" stroke="2" />
               </Button>
             )}
           </div>

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Plus, Shield, Bolt } from 'tabler-icons-react'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { PATHS } from '../../routes'
 
@@ -44,9 +45,7 @@ export default function VerifyIdentityScreen() {
               <div className="relative w-32 h-20 bg-white rounded-lg border-2 border-teal-500 flex items-center justify-between px-3">
                 {/* Medical cross icon */}
                 <div className="w-8 h-8 bg-teal-500 rounded flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M12 5v14M5 12h14" />
-                  </svg>
+                  <Plus size="20" stroke="2" className="text-white" />
                 </div>
                 {/* eGK text */}
                 <div className="flex-1 ml-2">
@@ -73,9 +72,7 @@ export default function VerifyIdentityScreen() {
             <div className="bg-cream-50 rounded-lg p-4 border border-cream-400">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <svg viewBox="0 0 24 24" className="w-6 h-6 text-teal-500" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                  </svg>
+                  <Shield size="24" stroke="2" className="text-teal-500" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm font-semibold text-charcoal-500 mb-1">{t('verifyIdentity.encrypted.title')}</h3>
@@ -88,9 +85,7 @@ export default function VerifyIdentityScreen() {
             <div className="bg-cream-50 rounded-lg p-4 border border-cream-400">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <svg viewBox="0 0 24 24" className="w-6 h-6 text-teal-500" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
+                  <Bolt size="24" stroke="2" className="text-teal-500" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm font-semibold text-charcoal-500 mb-1">{t('verifyIdentity.quickProcess.title')}</h3>

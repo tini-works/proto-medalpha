@@ -1,4 +1,5 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { Loader } from 'tabler-icons-react'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   // Design system variant: primary (teal filled), secondary (teal outline),
@@ -85,10 +86,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {/* Icon + text layout: left icon, then text, then right icon */}
         {loading ? (
-          <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-            <circle cx="12" cy="12" r="10" opacity="0.25" />
-            <path d="M12 2a10 10 0 0 1 10 10" />
-          </svg>
+          <Loader size="20" stroke="2" className="animate-spin" />
         ) : (
           <>
             {leftIcon && <span className="mr-2 flex items-center justify-center">{leftIcon}</span>}

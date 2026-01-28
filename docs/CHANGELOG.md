@@ -2,7 +2,18 @@
 
 High-level, business-focused summary of notable changes.
 
-## 2026-01-28 (Continued)
+## 2026-01-28 (Continued - Part 3)
+
+### Forgot Password Flow Implementation
+- **Forgot Password screen**: New ForgotPasswordScreen component where users enter their email to initiate password reset via verification code.
+- **Email verification for reset**: Reused existing VerifyScreen with new `passwordReset` flow type to maintain consistency with registration verification.
+- **Reset password screen**: New ResetPasswordScreen for users to set new password with confirmation, featuring same validation rules as registration (min 8 characters, password match).
+- **Sign In integration**: Added "Forgot password?" link below password field on SignInScreen with easy navigation to forgot password flow.
+- **i18n support**: Complete English and German translations for all forgot password screens and verification labels, supporting email interpolation in verification messaging.
+- **Auth routes**: Added AUTH_FORGOT_PASSWORD and AUTH_RESET_PASSWORD routes with RedirectIfAuthenticated guard to prevent authenticated users from accessing.
+- **Flow completion**: Auto sign-in and navigation to Home after successful password reset, maintaining user session after verification.
+
+## 2026-01-28 (Continued - Part 2)
 
 ### Merge Conflict Resolution
 - **Branch synchronization**: Resolved merge conflicts between local changes and remote branch updates across 6 files in the N3 appointment booking app.
