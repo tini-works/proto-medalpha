@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Page, TabBar, AppointmentCard, EmptyState } from '../../components'
+import { Page, TabBar, AppointmentCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { useBooking } from '../../state'
 import { PATHS, historyDetailPath } from '../../routes/paths'
 import { formatDateLong } from '../../utils/format'
@@ -10,45 +10,126 @@ export default function HistoryScreen() {
   const navigate = useNavigate()
   const { appointments } = useBooking()
 
-  const [statusFilter, setStatusFilter] = useState<'all' | 'matching' | 'confirmed' | 'cancelled_doctor'>('all')
+  const [statusFilter, setStatusFilter] = useState<
+    'all' | 'matching' | 'await_confirm' | 'confirmed' | 'cancelled_doctor'
+  >('all')
+
+  const getLastUpdatedTs = (appointment: Appointment) => {
+    const ts =
+      (appointment.updatedAt ? new Date(appointment.updatedAt).getTime() : NaN) ||
+      (appointment.createdAt ? new Date(appointment.createdAt).getTime() : NaN)
+    if (Number.isFinite(ts)) return ts
+    return new Date(`${appointment.dateISO}T${appointment.time}`).getTime()
+  }
 
   const displayedAppointments = useMemo(() => {
-    const nowTs = Date.now()
-    const allowedStatuses: Appointment['status'][] = ['matching', 'confirmed', 'cancelled_doctor']
+    const allowedStatuses: Appointment['status'][] = [
+      'matching',
+      'await_confirm',
+      'confirmed',
+      'cancelled_doctor',
+    ]
     const allowed = appointments.filter((apt) => allowedStatuses.includes(apt.status))
     const filtered = statusFilter === 'all' ? allowed : allowed.filter((apt) => apt.status === statusFilter)
     return filtered.sort((a, b) => {
-      const aTs = new Date(`${a.dateISO}T${a.time}`).getTime()
-      const bTs = new Date(`${b.dateISO}T${b.time}`).getTime()
-      const aIsPast = aTs < nowTs
-      const bIsPast = bTs < nowTs
-      if (aIsPast !== bIsPast) return aIsPast ? 1 : -1
-      return Math.abs(aTs - nowTs) - Math.abs(bTs - nowTs)
+      return getLastUpdatedTs(b) - getLastUpdatedTs(a)
     })
   }, [appointments, statusFilter])
 
-  const groupedByDate = useMemo(() => {
+  const groupByDate = (items: Appointment[]) => {
     const groups = new Map<string, Appointment[]>()
-    for (const apt of displayedAppointments) {
+    for (const apt of items) {
       const bucket = groups.get(apt.dateISO) || []
       bucket.push(apt)
       groups.set(apt.dateISO, bucket)
     }
-    return Array.from(groups.entries())
+
+    const entries = Array.from(groups.entries()).map(([dateISO, grouped]) => {
+      const sortedItems = [...grouped].sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
+      const maxUpdated = Math.max(...sortedItems.map((i) => getLastUpdatedTs(i)))
+      return { dateISO, items: sortedItems, sortKey: maxUpdated }
+    })
+
+    entries.sort((a, b) => b.sortKey - a.sortKey)
+    return entries
+  }
+
+  const upcomingConfirmed = useMemo(() => {
+    return displayedAppointments.filter((apt) => apt.status === 'confirmed')
   }, [displayedAppointments])
+
+  const others = useMemo(() => {
+    return displayedAppointments.filter((apt) => apt.status !== 'confirmed')
+  }, [displayedAppointments])
+
+  const groupedUpcoming = useMemo(() => groupByDate(upcomingConfirmed), [upcomingConfirmed])
+  const groupedOthers = useMemo(() => groupByDate(others), [others])
+
+  const statusChips = [
+    {
+      value: 'all',
+      label: 'All',
+      icon: (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />
+        </svg>
+      ),
+    },
+    {
+      value: 'confirmed',
+      label: 'Confirmed',
+      icon: (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      ),
+    },
+    {
+      value: 'await_confirm',
+      label: 'Await confirm',
+      icon: (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      ),
+    },
+    {
+      value: 'matching',
+      label: 'Matching',
+      icon: (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 12h8m2-6H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2z"
+          />
+        </svg>
+      ),
+    },
+    {
+      value: 'cancelled_doctor',
+      label: 'Doctor canceled',
+      icon: (
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
+          />
+        </svg>
+      ),
+    },
+  ] as const
 
   const handleAppointmentClick = (appointmentId: string) => {
     navigate(historyDetailPath(appointmentId))
-  }
-
-  const handleReschedule = (appointmentId: string) => {
-    // Navigate to reschedule flow
-    navigate(`/reschedule/${appointmentId}/reason`)
-  }
-
-  const handleCancel = (appointmentId: string) => {
-    // Navigate to appointment details with cancel action
-    navigate(historyDetailPath(appointmentId) + '?action=cancel')
   }
 
   return (
@@ -72,33 +153,6 @@ export default function HistoryScreen() {
 
       {/* Filters + List */}
       <div className="px-4 py-4 pb-16 space-y-4">
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {(
-            [
-              { value: 'all', label: 'All' },
-              { value: 'confirmed', label: 'Confirmed' },
-              { value: 'matching', label: 'Matching' },
-              { value: 'cancelled_doctor', label: 'Doctor canceled' },
-            ] as const
-          ).map((chip) => {
-            const isActive = statusFilter === chip.value
-            return (
-              <button
-                key={chip.value}
-                type="button"
-                onClick={() => setStatusFilter(chip.value)}
-                className={`whitespace-nowrap px-3 py-2 rounded-full text-sm font-medium border transition-colors duration-normal ease-out-brand ${
-                  isActive
-                    ? 'bg-teal-500 text-white border-teal-500'
-                    : 'bg-white text-charcoal-500 border-cream-400 hover:border-cream-500'
-                }`}
-              >
-                {chip.label}
-              </button>
-            )
-          })}
-        </div>
-
         {displayedAppointments.length === 0 ? (
           <EmptyState
             icon="calendar"
@@ -106,24 +160,79 @@ export default function HistoryScreen() {
             description="Try changing the status filter or book a new appointment."
           />
         ) : (
-          <div className="space-y-6">
-            {groupedByDate.map(([dateISO, items]) => (
-              <section key={dateISO} className="space-y-3">
-                <h2 className="text-sm font-semibold text-slate-600">{formatDateLong(dateISO)}</h2>
-                <div className="space-y-3">
-                  {items.map((appointment) => (
-                    <AppointmentCard
-                      key={appointment.id}
-                      appointment={appointment}
-                      variant="upcoming"
-                      onClick={() => handleAppointmentClick(appointment.id)}
-                      onReschedule={appointment.status === 'confirmed' ? () => handleReschedule(appointment.id) : undefined}
-                      onCancel={appointment.status === 'confirmed' ? () => handleCancel(appointment.id) : undefined}
-                    />
+          <div className="space-y-8">
+            {groupedUpcoming.length > 0 && (
+              <section className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-charcoal-500">
+                    Upcoming <span className="text-sm font-medium text-slate-500">({upcomingConfirmed.length})</span>
+                  </h2>
+                </div>
+                <SwipeableAppointmentStack
+                  appointments={upcomingConfirmed}
+                  onOpen={handleAppointmentClick}
+                />
+              </section>
+            )}
+
+            <section className="space-y-4">
+              <div className="flex items-center gap-3">
+                <h2 className="text-lg font-semibold text-charcoal-500 whitespace-nowrap">
+                  Others <span className="text-sm font-medium text-slate-500">({others.length})</span>
+                </h2>
+                <div className="ml-auto flex max-w-[70%] justify-end overflow-x-auto pb-1">
+                  <div className="flex gap-2">
+                    {statusChips.map((chip) => {
+                      const isActive = statusFilter === chip.value
+                      return (
+                        <button
+                          key={chip.value}
+                          type="button"
+                          onClick={() => setStatusFilter(chip.value)}
+                          aria-pressed={isActive}
+                          aria-label={chip.label}
+                          title={chip.label}
+                          className={`inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-full text-sm font-medium border transition-colors duration-normal ease-out-brand ${
+                            isActive
+                              ? 'bg-teal-500 text-white border-teal-500'
+                              : 'bg-white text-charcoal-500 border-cream-400 hover:border-cream-500'
+                          }`}
+                        >
+                          <span className={isActive ? 'text-white' : 'text-slate-600'}>{chip.icon}</span>
+                          {isActive && <span>{chip.label}</span>}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {groupedOthers.length > 0 ? (
+                <div className="space-y-6">
+                  {groupedOthers.map((group) => (
+                    <section key={`oth_${group.dateISO}`} className="space-y-3">
+                      <h3 className="text-sm font-semibold text-slate-600">{formatDateLong(group.dateISO)}</h3>
+                      <div className="space-y-3">
+                        {group.items.map((appointment) => (
+                          <AppointmentCard
+                            key={appointment.id}
+                            appointment={appointment}
+                            variant="upcoming"
+                            onClick={() => handleAppointmentClick(appointment.id)}
+                          />
+                        ))}
+                      </div>
+                    </section>
                   ))}
                 </div>
-              </section>
-            ))}
+              ) : (
+                <EmptyState
+                  icon="search"
+                  title="No other appointments"
+                  description="Try changing the filters to see more."
+                />
+              )}
+            </section>
           </div>
         )}
       </div>

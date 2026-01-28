@@ -42,6 +42,8 @@ export interface Appointment {
   time: string
   forUserId: string
   forUserName: string
+  createdAt?: string
+  updatedAt?: string
   status:
     | 'matching'
     | 'await_confirm'

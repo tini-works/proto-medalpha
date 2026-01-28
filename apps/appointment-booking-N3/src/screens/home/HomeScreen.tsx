@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Page, TabBar, AppointmentCard, Avatar, TodaysFocusCard } from '../../components'
+import { Page, TabBar, Avatar, TodaysFocusCard, SwipeableAppointmentStack } from '../../components'
 import { LatestNewsSection } from '../../components/newsfeed'
 import { useAuth, useProfile, useBooking } from '../../state'
 import { mockNewsArticles } from '../../data/newsfeed'
@@ -12,14 +12,12 @@ export default function HomeScreen() {
   const { profile } = useProfile()
   const { appointments } = useBooking()
 
-  const compareByNearest = (a: string, b: string) => {
-    const nowTs = Date.now()
-    const aTs = new Date(a).getTime()
-    const bTs = new Date(b).getTime()
-    const aIsPast = aTs < nowTs
-    const bIsPast = bTs < nowTs
-    if (aIsPast !== bIsPast) return aIsPast ? 1 : -1
-    return Math.abs(aTs - nowTs) - Math.abs(bTs - nowTs)
+  const getLastUpdatedTs = (appointment: (typeof appointments)[number]) => {
+    const ts =
+      (appointment.updatedAt ? new Date(appointment.updatedAt).getTime() : NaN) ||
+      (appointment.createdAt ? new Date(appointment.createdAt).getTime() : NaN)
+    if (Number.isFinite(ts)) return ts
+    return new Date(`${appointment.dateISO}T${appointment.time}`).getTime()
   }
 
   const upcomingAppointments = useMemo(() => {
@@ -27,12 +25,13 @@ export default function HomeScreen() {
       .filter((appointment) => {
         return (
           appointment.status === 'matching' ||
+          appointment.status === 'await_confirm' ||
           appointment.status === 'confirmed' ||
           appointment.status === 'cancelled_doctor'
         )
       })
       .sort((a, b) => {
-        return compareByNearest(`${a.dateISO}T${a.time}`, `${b.dateISO}T${b.time}`)
+        return getLastUpdatedTs(b) - getLastUpdatedTs(a)
       })
   }, [appointments])
 
@@ -49,7 +48,7 @@ export default function HomeScreen() {
         return aTime - bTime
       })[0]
   }, [appointments])
-  const upcomingPreview = upcomingAppointments.slice(0, 1)
+  const pendingAppointments = upcomingAppointments
 
   return (
     <Page>
@@ -95,7 +94,7 @@ export default function HomeScreen() {
         )}
 
         {/* Pending Appointments */}
-        {upcomingPreview.length > 0 && (
+        {pendingAppointments.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-semibold text-charcoal-500">Pending appointments</h2>
@@ -103,11 +102,10 @@ export default function HomeScreen() {
                 View all
               </Link>
             </div>
-            <div className="space-y-3">
-              {upcomingPreview.map((appointment) => (
-                <AppointmentCard key={appointment.id} appointment={appointment} />
-              ))}
-            </div>
+            <SwipeableAppointmentStack
+              appointments={pendingAppointments}
+              onOpen={(id) => navigate(appointmentDetailPath(id))}
+            />
           </section>
         )}
 

@@ -71,6 +71,123 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   })
 
   useEffect(() => {
+    // Demo seed: ensure at least 1 appointment exists per status.
+    // Uses stable IDs so it won't duplicate across reloads (state is persisted).
+    setState((s) => {
+      const existingIds = new Set(s.appointments.map((a) => a.id))
+      const now = Date.now()
+
+      const isoDay = (offsetDays: number) =>
+        new Date(now + offsetDays * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+      const isoAt = (offsetMinutes: number) => new Date(now + offsetMinutes * 60 * 1000).toISOString()
+
+      const seed = [
+        {
+          id: 'seed_matching',
+          doctorId: 'd1',
+          doctorName: 'Dr. Sarah Weber',
+          specialty: 'Dermatology',
+          dateISO: isoDay(2),
+          time: '09:30',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'matching' as const,
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1440),
+          updatedAt: isoAt(-20),
+        },
+        {
+          id: 'seed_await_confirm',
+          doctorId: 'd2',
+          doctorName: 'Dr. Mark Fischer',
+          specialty: 'Cardiology',
+          dateISO: isoDay(3),
+          time: '11:00',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'await_confirm' as const,
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1430),
+          updatedAt: isoAt(-15),
+        },
+        {
+          id: 'seed_confirmed',
+          doctorId: 'd3',
+          doctorName: 'Dr. Lena Hoffmann',
+          specialty: 'General Medicine',
+          dateISO: isoDay(1),
+          time: '10:15',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'confirmed' as const,
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1420),
+          updatedAt: isoAt(-10),
+        },
+        {
+          id: 'seed_cancelled_doctor',
+          doctorId: 'd4',
+          doctorName: 'Dr. Nina Bauer',
+          specialty: 'Orthopedics',
+          dateISO: isoDay(4),
+          time: '14:00',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'cancelled_doctor' as const,
+          reminderSet: false,
+          calendarSynced: false,
+          createdAt: isoAt(-1410),
+          updatedAt: isoAt(-5),
+        },
+        {
+          id: 'seed_cancelled_patient',
+          doctorId: 'd5',
+          doctorName: 'Dr. Jonas Klein',
+          specialty: 'Neurology',
+          dateISO: isoDay(-7),
+          time: '16:30',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'cancelled_patient' as const,
+          reminderSet: false,
+          calendarSynced: false,
+          createdAt: isoAt(-3000),
+          updatedAt: isoAt(-1500),
+        },
+        {
+          id: 'seed_completed',
+          doctorId: 'd6',
+          doctorName: 'Dr. Paul Schneider',
+          specialty: 'ENT',
+          dateISO: isoDay(-14),
+          time: '08:45',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'completed' as const,
+          reminderSet: false,
+          calendarSynced: false,
+          createdAt: isoAt(-6000),
+          updatedAt: isoAt(-4000),
+        },
+      ]
+
+      let changed = false
+      const nextAppointments = [...s.appointments]
+      for (const apt of seed) {
+        if (!existingIds.has(apt.id)) {
+          nextAppointments.push(apt)
+          changed = true
+        }
+      }
+
+      return changed ? { ...s, appointments: nextAppointments } : s
+    })
+  }, [])
+
+  useEffect(() => {
     saveState(state)
     const scale = state.preferences.fontScale
     document.documentElement.style.setProperty('--scale', String(scale))
@@ -209,18 +326,29 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       addAppointment: (appointment) =>
         setState((s) => ({
           ...s,
-          appointments: [...s.appointments, appointment],
+          appointments: [
+            ...s.appointments,
+            {
+              ...appointment,
+              createdAt: appointment.createdAt ?? new Date().toISOString(),
+              updatedAt: appointment.updatedAt ?? new Date().toISOString(),
+            },
+          ],
         })),
       updateAppointment: (id, patch) =>
         setState((s) => ({
           ...s,
-          appointments: s.appointments.map((apt) => (apt.id === id ? { ...apt, ...patch } : apt)),
+          appointments: s.appointments.map((apt) =>
+            apt.id === id ? { ...apt, ...patch, updatedAt: new Date().toISOString() } : apt
+          ),
         })),
       cancelAppointment: (id) =>
         setState((s) => ({
           ...s,
           appointments: s.appointments.map((apt) =>
-            apt.id === id ? { ...apt, status: 'cancelled_patient' as const } : apt
+            apt.id === id
+              ? { ...apt, status: 'cancelled_patient' as const, updatedAt: new Date().toISOString() }
+              : apt
           ),
         })),
 
