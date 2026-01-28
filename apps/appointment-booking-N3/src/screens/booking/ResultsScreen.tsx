@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Page, TabBar, DoctorCard, EmptyState } from '../../components'
 import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
@@ -8,10 +9,11 @@ import type { Doctor, TimeSlot } from '../../types'
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
-const sortLabels: Record<SortOption, string> = {
-  earliest: 'Earliest Appointment',
-  rating: 'Highest Rated',
-  distance: 'Nearest',
+// Sort labels - will be translated with i18n
+const sortLabelKeys: Record<SortOption, string> = {
+  earliest: 'earliestAppointment',
+  rating: 'highestRated',
+  distance: 'nearest',
 }
 
 // Filter icon
@@ -47,6 +49,7 @@ function ChevronDownIcon() {
 
 export default function ResultsScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const { search, setSearchFilters, selectDoctor, selectSlot } = useBooking()
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [doctorSlots, setDoctorSlots] = useState<Record<string, TimeSlot[]>>({})
@@ -193,19 +196,19 @@ export default function ResultsScreen() {
           <button
             onClick={() => navigate(PATHS.BOOKING_LOCATION)}
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-neutral-100"
-            aria-label="Go back"
+            aria-label={t('goBack')}
           >
             <BackIcon />
           </button>
 
           {/* Title */}
-          <h1 className="text-lg font-semibold text-charcoal-500">Search Results</h1>
+          <h1 className="text-lg font-semibold text-charcoal-500">{t('searchResults')}</h1>
 
           {/* Filter button with badge */}
           <button
             onClick={handleFilterClick}
             className="relative flex items-center justify-center w-10 h-10 -mr-2 rounded-full hover:bg-neutral-100 text-neutral-600"
-            aria-label="Filters"
+            aria-label={t('filters')}
           >
             <FilterIcon />
             {hasActiveFilters && <span className="absolute -top-0.5 -right-0.5 text-[11px] font-semibold bg-teal-600 text-white rounded-full px-1.5 py-0.5">{activeFilterCount}</span>}
@@ -221,8 +224,8 @@ export default function ResultsScreen() {
               onClick={() => setShowSortMenu(!showSortMenu)}
               className="flex items-center gap-1.5 text-sm text-slate-600"
             >
-              <span>Sorted by:</span>
-              <span className="font-semibold text-charcoal-500">{sortLabels[sortBy]}</span>
+              <span>{t('sortedBy')}</span>
+              <span className="font-semibold text-charcoal-500">{t(sortLabelKeys[sortBy])}</span>
               <ChevronDownIcon />
             </button>
 
@@ -236,7 +239,7 @@ export default function ResultsScreen() {
                 />
                 {/* Menu */}
                 <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-cream-400 py-1 z-20">
-                  {(Object.keys(sortLabels) as SortOption[]).map((option) => (
+                  {(Object.keys(sortLabelKeys) as SortOption[]).map((option) => (
                     <button
                       key={option}
                       onClick={() => {
@@ -249,7 +252,7 @@ export default function ResultsScreen() {
                           : 'text-slate-700 hover:bg-cream-50'
                       }`}
                     >
-                      {sortLabels[option]}
+                      {t(sortLabelKeys[option])}
                     </button>
                   ))}
                 </div>
@@ -259,7 +262,7 @@ export default function ResultsScreen() {
 
           {/* Results count */}
           <p className="text-xs text-slate-500 mt-1">
-            {loading ? 'Searching...' : `${sortedDoctors.length} doctor${sortedDoctors.length !== 1 ? 's' : ''} found`}
+            {loading ? t('searching') : `${sortedDoctors.length} ${sortedDoctors.length !== 1 ? t('doctorsFound') : t('doctorFound')}`}
           </p>
         </div>
       </div>
@@ -298,14 +301,14 @@ export default function ResultsScreen() {
         ) : sortedDoctors.length === 0 ? (
           <EmptyState
             icon="search"
-            title="No doctors found"
-            description="Try adjusting your search filters to find more results."
+            title={t('noDoctorsFound')}
+            description={t('noResultsHint')}
             action={
               <button
                 onClick={() => setShowFilters(true)}
                 className="btn btn-primary btn-block"
               >
-                Update request
+                {t('updateRequest')}
               </button>
             }
           />
@@ -340,7 +343,7 @@ export default function ResultsScreen() {
               <div className="w-10 h-1 rounded-full bg-cream-400" />
             </div>
             <div className="flex items-center justify-between px-4 pb-4">
-              <h2 className="text-lg font-semibold text-charcoal-500">Filters</h2>
+              <h2 className="text-lg font-semibold text-charcoal-500">{t('filters')}</h2>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => {
@@ -351,7 +354,7 @@ export default function ResultsScreen() {
                 }}
                 className="text-sm font-medium text-slate-600 hover:underline"
               >
-                Clear all
+                {t('clearAll')}
               </button>
                 <button
                   onClick={() => {
@@ -372,9 +375,9 @@ export default function ResultsScreen() {
               {/* Distance */}
               <section className="bg-white rounded-2xl border border-cream-400 p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-semibold text-charcoal-500">Distance</p>
+                  <p className="text-sm font-semibold text-charcoal-500">{t('distance')}</p>
                   <span className="px-2 py-0.5 rounded-md bg-cream-100 text-sm font-semibold text-charcoal-500">
-                    {radius} km
+                    {radius} {t('km')}
                   </span>
                 </div>
                 <input
@@ -387,15 +390,15 @@ export default function ResultsScreen() {
                   aria-label="Distance radius in kilometers"
                 />
                 <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
-                  <span>1 km</span>
-                  <span>50 km</span>
+                  <span>1 {t('km')}</span>
+                  <span>50 {t('km')}</span>
                 </div>
               </section>
 
               {/* Rating */}
               <section className="bg-white rounded-2xl border border-cream-400 p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-semibold text-charcoal-500">Minimum rating</p>
+                  <p className="text-sm font-semibold text-charcoal-500">{t('minimumRating')}</p>
                   <span className="text-sm font-semibold text-charcoal-500">{minRating.toFixed(1)}+</span>
                 </div>
                 <input
@@ -420,8 +423,8 @@ export default function ResultsScreen() {
                     className="mt-1 w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
                   />
                   <div>
-                    <p className="font-medium text-charcoal-500">Only public-insurance doctors</p>
-                    <p className="text-sm text-slate-600 mt-1">Hide doctors who do not accept public (GKV).</p>
+                    <p className="font-medium text-charcoal-500">{t('onlyPublicInsurance')}</p>
+                    <p className="text-sm text-slate-600 mt-1">{t('publicInsuranceHint')}</p>
                   </div>
                 </label>
 
@@ -429,9 +432,9 @@ export default function ResultsScreen() {
 
               {/* Languages */}
               <section className="bg-white rounded-2xl border border-cream-400 p-4">
-                <p className="text-sm font-semibold text-charcoal-500 mb-3">Languages</p>
+                <p className="text-sm font-semibold text-charcoal-500 mb-3">{t('languages')}</p>
                 {availableLanguages.length === 0 ? (
-                  <p className="text-sm text-slate-600">No language data available.</p>
+                  <p className="text-sm text-slate-600">{t('noLanguageData')}</p>
                 ) : (
                   <div className="flex flex-wrap gap-2">
                     {availableLanguages.map((lang) => {

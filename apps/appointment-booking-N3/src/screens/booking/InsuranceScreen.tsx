@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
@@ -8,6 +9,7 @@ import type { InsuranceType } from '../../types'
 type InsuranceChoice = InsuranceType | 'Selbstzahler' | ''
 
 export default function InsuranceScreen() {
+  const { t } = useTranslation('booking')
   const navigate = useNavigate()
   const { search, setSearchFilters } = useBooking()
   const { profile } = useProfile()
@@ -47,18 +49,18 @@ export default function InsuranceScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Insurance" showBack onBack={handleBack} />
+      <Header title={t('insurance')} showBack onBack={handleBack} />
 
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">STEP 3 OF 4</span>
-          <span className="text-xs text-slate-500">Your request</span>
+          <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step3Of4')}</span>
+          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator currentStep={3} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
       </div>
 
       <div className="px-4 pb-28 space-y-4">
-        <h2 className="text-lg font-semibold text-charcoal-500">What type of insurance do you have?</h2>
+        <h2 className="text-lg font-semibold text-charcoal-500">{t('whatInsuranceType')}</h2>
 
         <div className="space-y-3">
           <button
@@ -71,8 +73,8 @@ export default function InsuranceScreen() {
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-charcoal-500">Public (GKV)</p>
-                <p className="text-sm text-slate-600 mt-1">Statutory health insurance</p>
+                <p className="font-semibold text-charcoal-500">{t('publicGkv')}</p>
+                <p className="text-sm text-slate-600 mt-1">{t('statutoryInsurance')}</p>
               </div>
               <span
                 className={`w-5 h-5 rounded-full border flex items-center justify-center ${
@@ -94,8 +96,8 @@ export default function InsuranceScreen() {
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-charcoal-500">Private (PKV)</p>
-                <p className="text-sm text-slate-600 mt-1">Private health insurance</p>
+                <p className="font-semibold text-charcoal-500">{t('privatePkv')}</p>
+                <p className="text-sm text-slate-600 mt-1">{t('privateInsurance')}</p>
               </div>
               <span
                 className={`w-5 h-5 rounded-full border flex items-center justify-center ${
@@ -117,8 +119,8 @@ export default function InsuranceScreen() {
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-charcoal-500">Self-pay</p>
-                <p className="text-sm text-slate-600 mt-1">I will pay myself</p>
+                <p className="font-semibold text-charcoal-500">{t('selfPay')}</p>
+                <p className="text-sm text-slate-600 mt-1">{t('selfPayDesc')}</p>
               </div>
               <span
                 className={`w-5 h-5 rounded-full border flex items-center justify-center ${
@@ -140,7 +142,7 @@ export default function InsuranceScreen() {
               className="mt-1 w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
             />
             <div>
-              <p className="font-medium text-charcoal-500">Show only public-insurance doctors</p>
+              <p className="font-medium text-charcoal-500">{t('showOnlyPublicDoctors')}</p>
               <p className="text-sm text-slate-600 mt-1">Hide doctors who do not accept public (GKV).</p>
             </div>
           </label>
@@ -154,7 +156,7 @@ export default function InsuranceScreen() {
             disabled={!insurance}
             className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed"
           >
-            Continue →
+            {t('continueBtn')}
           </button>
         </div>
       </div>

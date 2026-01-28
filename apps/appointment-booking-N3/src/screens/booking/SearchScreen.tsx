@@ -1,30 +1,32 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, TabBar, ProgressIndicator, RecentSearches, SpecialtyChips, addRecentSearch } from '../../components'
 import type { RecentSearch, Specialty } from '../../components'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 
-// Specialty subtitle mapping for recent searches
-const specialtySubtitles: Record<string, string> = {
-  'General Practitioner': 'Primary care',
-  'Dentist': 'Dental care',
-  'Gynecologist': "Women's health",
-  'Orthopedist': 'Bones & joints',
-  'Pediatrician': "Children's health",
-  'Dermatologist': 'Skin care',
-  'ENT (HNO)': 'Ear, nose & throat',
-  'Cardiology': 'Heart & blood vessels',
-  'Primary care': 'General medicine',
-  'Dermatology': 'Skin care',
-  'Pediatrics': "Children's health",
-  'Orthopedics': 'Bones & joints',
-  'Gynecology': "Women's health",
-  'Ophthalmology': 'Eye care',
+// Specialty subtitle mapping - will use i18n keys instead
+const specialtySubtitleKeys: Record<string, string> = {
+  'General Practitioner': 'specialtyPrimaryCare',
+  'Dentist': 'specialtyDental',
+  'Gynecologist': 'specialtyWomens',
+  'Orthopedist': 'specialtyBones',
+  'Pediatrician': 'specialtyChildren',
+  'Dermatologist': 'specialtySkin',
+  'ENT (HNO)': 'specialtyHNO',
+  'Cardiology': 'specialtyHeart',
+  'Primary care': 'specialtyGeneral',
+  'Dermatology': 'specialtySkin',
+  'Pediatrics': 'specialtyChildren',
+  'Orthopedics': 'specialtyBones',
+  'Gynecology': 'specialtyWomens',
+  'Ophthalmology': 'specialtyEye',
 }
 
 export default function SearchScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const { setSearchFilters } = useBooking()
   const { profile } = useProfile()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -39,13 +41,16 @@ export default function SearchScreen() {
   // If both location and insurance are set, we skip directly to results (2 steps)
   const totalSteps = hasLocation && hasInsurance ? 2 : 4
 
-  const handleSearch = (specialty: string, subtitle?: string) => {
+  const handleSearch = (specialty: string, subtitleKey?: string) => {
     if (!specialty.trim()) return
+
+    // Translate subtitle if key provided, otherwise use fallback
+    const subtitle = subtitleKey ? t(subtitleKey) : t('specialtyFallback')
 
     // Add to recent searches
     addRecentSearch({
       title: specialty,
-      subtitle: subtitle || specialtySubtitles[specialty] || 'Medical specialty',
+      subtitle: subtitle,
       specialty: specialty,
     })
 
@@ -83,16 +88,18 @@ export default function SearchScreen() {
   }
 
   const handleRecentSearchSelect = (search: RecentSearch) => {
-    handleSearch(search.specialty, search.subtitle)
+    const subtitleKey = specialtySubtitleKeys[search.specialty]
+    handleSearch(search.specialty, subtitleKey)
   }
 
   const handleSpecialtySelect = (specialty: Specialty) => {
-    handleSearch(specialty.value, specialty.subtitle)
+    const subtitleKey = specialtySubtitleKeys[specialty.value]
+    handleSearch(specialty.value, subtitleKey)
   }
 
   return (
     <Page>
-      <Header title="Select a Specialty" />
+      <Header title={t('selectSpecialty')} />
 
       <div className="px-4 py-4 animate-fade-in">
         {/* Progress Indicator */}
@@ -131,7 +138,7 @@ export default function SearchScreen() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Try 'Dermatologist' or 'HNO'..."
+            placeholder={t('searchPlaceholder')}
             className="w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 ring-cream-400 focus:ring-2 focus:ring-teal-500 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand"
           />
         </div>

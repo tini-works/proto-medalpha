@@ -1,10 +1,12 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Page, Avatar, Rating } from '../../components'
 import { getDoctorById } from '../../data'
 import { PATHS } from '../../routes'
 import type { Appointment } from '../../types'
 
 export default function SuccessScreen() {
+  const { t } = useTranslation('booking')
   const location = useLocation()
   const state = location.state as { confirmationNumber?: string; appointment?: Appointment } | undefined
   const confirmationNumber = state?.confirmationNumber || `BK-${Date.now().toString(36).toUpperCase()}`
@@ -12,12 +14,12 @@ export default function SuccessScreen() {
   const doctor = appointment ? getDoctorById(appointment.doctorId) : undefined
 
   const appointmentLabel = (() => {
-    if (!appointment) return 'Tomorrow, 10:00 AM'
+    if (!appointment) return `${t('tomorrow')}, 10:00 AM`
     const today = new Date()
     const dateISO = appointment.dateISO
     const date = new Date(dateISO)
     const diffDays = Math.ceil((date.getTime() - new Date(today.toDateString()).getTime()) / (1000 * 60 * 60 * 24))
-    const dayLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'long' })
+    const dayLabel = diffDays === 0 ? t('today') : diffDays === 1 ? t('tomorrow') : date.toLocaleDateString('en-US', { weekday: 'long' })
     return `${dayLabel}, ${appointment.time}`
   })()
 
@@ -62,9 +64,9 @@ END:VCALENDAR`
           </svg>
         </div>
 
-        <h1 className="text-xl font-semibold text-charcoal-500">Your appointment is confirmed!</h1>
+        <h1 className="text-xl font-semibold text-charcoal-500">{t('appointmentConfirmed')}</h1>
         <p className="text-xs text-slate-500 mt-2">
-          Booking ID {confirmationNumber} • Just sent via email
+          {t('bookingIdSent', { id: confirmationNumber })}
         </p>
 
         <div className="bg-white border border-cream-400 rounded-2xl p-4 mt-6 text-left shadow-sm">
@@ -91,9 +93,9 @@ END:VCALENDAR`
                 </svg>
               </div>
               <div>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Date &amp; Time</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wide">{t('dateTime')}</p>
                 <p className="text-sm font-semibold text-charcoal-500">{appointmentLabel}</p>
-                <p className="text-xs text-slate-500 mt-1">30 min consultation</p>
+                <p className="text-xs text-slate-500 mt-1">{t('consultation30Min')}</p>
               </div>
             </div>
 
@@ -110,7 +112,7 @@ END:VCALENDAR`
                 </svg>
               </div>
               <div>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Location</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wide">{t('appointmentLocation')}</p>
                 <p className="text-sm font-semibold text-charcoal-500">{doctor?.city || 'Charité Campus Mitte'}</p>
                 <p className="text-xs text-slate-500 mt-1">{doctor?.address || 'Charitéplatz 1, 10117 Berlin'}</p>
               </div>
@@ -127,7 +129,7 @@ END:VCALENDAR`
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            Add to Calendar
+            {t('addToCalendar')}
           </button>
           <button
             onClick={handleGetDirections}
@@ -137,7 +139,7 @@ END:VCALENDAR`
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.553-.894L9 7m0 13l6-3m-6 3V7m6 10l4.447-2.224A1 1 0 0020 13.382V4.618a1 1 0 00-1.553-.894L15 7m0 10V7m0 0L9 10" />
             </svg>
-            Get Directions
+            {t('getDirections')}
           </button>
         </div>
 
@@ -147,10 +149,10 @@ END:VCALENDAR`
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md space-y-3">
           <Link to={PATHS.HISTORY} className="btn btn-primary btn-block text-center block">
-            View appointments
+            {t('viewAppointments')}
           </Link>
           <Link to={PATHS.HOME} className="btn btn-tertiary btn-block text-center block">
-            Back to Home
+            {t('backToHome')}
           </Link>
         </div>
       </div>

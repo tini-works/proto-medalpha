@@ -6,6 +6,8 @@ import enHome from '../locales/en/home.json'
 import deHome from '../locales/de/home.json'
 import enNotifications from '../locales/en/notifications.json'
 import deNotifications from '../locales/de/notifications.json'
+import enBooking from '../locales/en/booking.json'
+import deBooking from '../locales/de/booking.json'
 
 // Initialize i18next with English and German translation resources
 // Namespaced approach allows incremental translation of additional domains (booking, auth, etc.)
@@ -15,16 +17,18 @@ i18n.use(initReactI18next).init({
       settings: enSettings,
       home: enHome,
       notifications: enNotifications,
+      booking: enBooking,
     },
     de: {
       settings: deSettings,
       home: deHome,
       notifications: deNotifications,
+      booking: deBooking,
     },
   },
   lng: 'en', // default language - will be overridden by persisted preference
   fallbackLng: 'en',
-  ns: ['settings', 'home', 'notifications'], // available namespaces
+  ns: ['settings', 'home', 'notifications', 'booking'], // available namespaces
   defaultNS: 'settings',
   interpolation: {
     escapeValue: false, // React already escapes values

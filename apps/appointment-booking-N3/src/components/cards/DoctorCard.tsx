@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { Doctor, TimeSlot } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
@@ -14,13 +15,13 @@ interface DoctorCardProps {
 }
 
 // Helper to format time slot subtitle (duration or day label)
-function getSlotSubtitle(slot: TimeSlot): string {
+function getSlotSubtitle(slot: TimeSlot, t: ReturnType<typeof useTranslation>['t']): string {
   const today = new Date()
   const slotDate = new Date(slot.dateISO)
   const daysDiff = Math.ceil((slotDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 
-  if (daysDiff === 0) return 'Today'
-  if (daysDiff === 1) return 'Tomorrow'
+  if (daysDiff === 0) return t('today')
+  if (daysDiff === 1) return t('tomorrow')
   return '15 min'
 }
 
@@ -79,6 +80,7 @@ export function DoctorCard({
   onMoreAppointments,
   showSlots = true,
 }: DoctorCardProps) {
+  const { t } = useTranslation('booking')
   const [isFavorite, setIsFavorite] = useState(false)
 
   // Get first 3 available slots for quick booking
@@ -90,9 +92,9 @@ export function DoctorCard({
   const insuranceTag = (() => {
     const hasGkv = doctor.accepts.includes('GKV')
     const hasPkv = doctor.accepts.includes('PKV')
-    if (hasGkv && hasPkv) return 'Both'
-    if (hasGkv) return 'Public'
-    if (hasPkv) return 'Private'
+    if (hasGkv && hasPkv) return t('both')
+    if (hasGkv) return t('public')
+    if (hasPkv) return t('private')
     return '—'
   })()
 
@@ -151,7 +153,7 @@ export function DoctorCard({
                   ? 'text-red-500'
                   : 'text-cream-400 hover:text-red-400'
               }`}
-              aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
             >
               <HeartIcon filled={isFavorite} />
             </button>
@@ -191,14 +193,14 @@ export function DoctorCard({
           {/* Header row */}
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
-              Next Available
+              {t('nextAvailable')}
             </span>
             {onMoreAppointments && (
               <button
                 onClick={handleMoreClick}
                 className="text-xs font-medium text-slate-500 hover:text-charcoal-500 flex items-center gap-0.5"
               >
-                More appointments
+                {t('moreAppointments')}
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
@@ -212,7 +214,7 @@ export function DoctorCard({
               <TimeSlotButton
                 key={`${slot.dateISO}-${slot.time}`}
                 time={slot.time}
-                subtitle={getSlotSubtitle(slot)}
+                subtitle={getSlotSubtitle(slot, t)}
                 variant={index === 0 ? 'primary' : 'secondary'}
                 onClick={() => handleSlotClick(slot)}
               />
@@ -228,7 +230,7 @@ export function DoctorCard({
             onClick={onSelectDoctor}
             className="w-full py-2.5 text-sm font-medium text-slate-500 hover:text-charcoal-500 bg-cream-100 hover:bg-cream-200 rounded-lg transition-colors"
           >
-            View available appointments
+            {t('viewAvailableAppointments')}
           </button>
         </div>
       )}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
 
 interface AppointmentSummaryCardProps {
@@ -21,7 +22,8 @@ export function AppointmentSummaryCard({
   type,
   address,
 }: AppointmentSummaryCardProps) {
-  const typeLabel = type === 'in-person' ? 'In-Person Visit' : 'Video Consultation'
+  const { t } = useTranslation('booking')
+  const typeLabel = type === 'in-person' ? t('inPersonVisit') : t('videoConsultation')
 
   return (
     <div className="bg-white rounded-xl border border-cream-400 overflow-hidden">
