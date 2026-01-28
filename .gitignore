@@ -11,6 +11,7 @@ packages/tokens/generated/
 
 # Logs
 *.log
+.dev-logs/
 
 # OS files
 .DS_Store

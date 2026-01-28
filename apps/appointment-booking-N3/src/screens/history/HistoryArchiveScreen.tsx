@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AppointmentCard, EmptyState, Header, Page } from '../../components'
+import { AppointmentListCard, EmptyState, Header, Page } from '../../components'
 import { PATHS, historyDetailPath } from '../../routes/paths'
 import { useBooking, useHistory } from '../../state'
 import type { Appointment, HistoryItem } from '../../types'
@@ -66,10 +66,9 @@ export default function HistoryArchiveScreen() {
         ) : (
           <div className="space-y-3">
             {archivedAppointments.map((appointment) => (
-              <AppointmentCard
+              <AppointmentListCard
                 key={appointment.id}
                 appointment={appointment}
-                variant="upcoming"
                 onClick={() => navigate(historyDetailPath(appointment.id))}
               />
             ))}
@@ -79,4 +78,3 @@ export default function HistoryArchiveScreen() {
     </Page>
   )
 }
-

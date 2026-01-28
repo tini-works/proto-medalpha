@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Booking Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sora: ['Sora', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            swiss: {
+              bg: '#FFFFFF',
+              surface: '#F5F5F5',
+              'surface-elevated': '#EBEBEB',
+              border: '#D1D1D1',
+              'border-strong': '#A3A3A3',
+              'text-primary': '#171717',
+              'text-secondary': '#525252',
+              'text-muted': '#737373',
+              accent: '#FF3B30',
+              'accent-soft': 'rgba(255, 59, 48, 0.125)',
+              positive: '#16A34A',
+              negative: '#DC2626',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Lucide Icons via CSS */
+    @font-face {
+      font-family: 'lucide';
+      src: url('https://unpkg.com/lucide-static@latest/font/lucide.ttf') format('truetype');
+    }
+    .lucide {
+      font-family: 'lucide';
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Screen transitions */
+    .screen {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .screen.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F5F5F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D1D1D1;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <!-- Navigation Bar -->
+  <div class="fixed top-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg px-4 py-2 flex gap-2 z-50 overflow-x-auto max-w-[95vw]">
+    <button onclick="showScreen(0)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="0">Quiz</button>
+    <button onclick="showScreen(1)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="1">Path</button>
+    <button onclick="showScreen(2)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="2">Specialty</button>
+    <button onclick="showScreen(3)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="3">Doctor</button>
+    <button onclick="showScreen(4)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="4">Prior</button>
+    <button onclick="showScreen(5)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="5">Time</button>
+    <button onclick="showScreen(6)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="6">Questions</button>
+    <button onclick="showScreen(7)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="7">Confirm</button>
+    <button onclick="showScreen(8)" class="nav-btn px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:bg-gray-100" data-screen="8">Done</button>
+  </div>
+
+  <!-- Phone Frame Container -->
+  <div class="bg-gray-800 rounded-[3rem] p-3 shadow-2xl mt-16">
+    <div class="bg-white rounded-[2.5rem] w-[402px] h-[874px] overflow-hidden relative">
+
+      <!-- Screen 1: Onboarding Quiz -->
+      <div class="screen active flex-col h-full" id="screen-0">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-6 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-2xl font-semibold text-swiss-text-primary">Welcome!</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Let's personalize your experience</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Progress -->
+          <div class="flex flex-col gap-3">
+            <span class="font-inter text-xs font-semibold text-swiss-text-muted">Step 1 of 3</span>
+            <div class="h-1 bg-swiss-surface rounded-sm overflow-hidden">
+              <div class="h-full w-[118px] bg-swiss-accent rounded-sm"></div>
+            </div>
+          </div>
+
+          <!-- Quiz Icon Section -->
+          <div class="flex flex-col items-center gap-5">
+            <div class="w-[100px] h-[100px] rounded-full bg-swiss-accent-soft flex items-center justify-center">
+              <svg class="w-12 h-12 text-swiss-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h6"/></svg>
+            </div>
+            <h2 class="font-sora text-[22px] font-semibold text-swiss-text-primary text-center">Quick Personalization Quiz</h2>
+            <p class="font-inter text-sm text-swiss-text-secondary text-center leading-relaxed">Answer a few questions to customize your booking experience</p>
+          </div>
+
+          <!-- Quiz Section -->
+          <div class="flex flex-col gap-4">
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Do you have a chronic condition?</span>
+            <div class="flex flex-col gap-3">
+              <label class="quiz-option flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border-2 border-swiss-accent cursor-pointer">
+                <div class="w-5 h-5 rounded-full border-2 border-swiss-accent flex items-center justify-center">
+                  <div class="w-2.5 h-2.5 rounded-full bg-swiss-accent"></div>
+                </div>
+                <span class="font-inter text-[15px] font-medium text-swiss-text-primary">Yes, I manage a chronic condition</span>
+              </label>
+              <label class="quiz-option flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors">
+                <div class="w-5 h-5 rounded-full border-2 border-swiss-border"></div>
+                <span class="font-inter text-[15px] font-medium text-swiss-text-primary">No, just general care</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Prior Doctor Section -->
+          <div class="flex flex-col gap-4">
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Do you have a prior doctor in mind?</span>
+            <div class="flex gap-3">
+              <button class="px-5 py-3 rounded-3xl bg-swiss-surface border border-swiss-border font-inter text-[15px] font-medium hover:border-swiss-border-strong transition-colors">Yes</button>
+              <button class="px-5 py-3 rounded-3xl bg-swiss-surface border border-swiss-border font-inter text-[15px] font-medium hover:border-swiss-border-strong transition-colors">No</button>
+            </div>
+          </div>
+
+          <!-- Accessibility Note -->
+          <div class="flex items-center gap-3 p-4 rounded-xl bg-blue-50">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            <p class="font-inter text-[13px] font-medium text-blue-600 leading-relaxed">Accessibility mode available for voice-guided booking</p>
+          </div>
+        </div>
+
+        <!-- Bottom Button -->
+        <div class="px-6 pb-[34px] pt-0">
+          <button onclick="showScreen(1)" class="w-full h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2.5 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Continue</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 2: Path Selection -->
+      <div class="screen flex-col h-full" id="screen-1">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-8 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-[22px] font-semibold text-swiss-text-primary">How would you like to book?</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Choose your preferred booking path</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Path Cards -->
+          <div class="flex flex-col gap-4">
+            <!-- By Specialty Card -->
+            <div class="path-card p-5 rounded-2xl bg-swiss-surface border-2 border-swiss-accent cursor-pointer" onclick="selectPath(this)">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-swiss-accent-soft flex items-center justify-center">
+                  <svg class="w-6 h-6 text-swiss-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-sora text-lg font-semibold text-swiss-text-primary">Book by Specialty</h3>
+                  <p class="font-inter text-sm text-swiss-text-secondary">Find doctors by medical specialty</p>
+                </div>
+                <div class="w-6 h-6 rounded-full border-2 border-swiss-accent flex items-center justify-center">
+                  <div class="w-3 h-3 rounded-full bg-swiss-accent"></div>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2 ml-16">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span class="font-inter text-sm text-swiss-text-secondary">Filtered by your conditions</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span class="font-inter text-sm text-swiss-text-secondary">Smart matching algorithm</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- By Doctor Card -->
+            <div class="path-card p-5 rounded-2xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectPath(this)">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-sora text-lg font-semibold text-swiss-text-primary">Book by Doctor</h3>
+                  <p class="font-inter text-sm text-swiss-text-secondary">Search for a specific doctor</p>
+                </div>
+                <div class="w-6 h-6 rounded-full border-2 border-swiss-border"></div>
+              </div>
+              <div class="flex flex-col gap-2 ml-16">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span class="font-inter text-sm text-swiss-text-secondary">Search by name</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  <span class="font-inter text-sm text-swiss-text-secondary">View recent doctors</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendation Note -->
+          <div class="flex items-center gap-3 p-4 rounded-xl bg-swiss-surface">
+            <svg class="w-5 h-5 text-swiss-accent flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            <p class="font-inter text-[13px] text-swiss-text-secondary leading-relaxed">Based on your profile, we recommend "Book by Specialty" for your chronic care needs.</p>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex gap-3 px-6 pb-[34px]">
+          <button onclick="showScreen(0)" class="flex-1 h-14 rounded-xl bg-swiss-surface border border-swiss-border flex items-center justify-center gap-2 hover:bg-swiss-surface-elevated transition-colors">
+            <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Back</span>
+          </button>
+          <button onclick="showScreen(2)" class="flex-1 h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Continue</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 3: Search Specialty -->
+      <div class="screen flex-col h-full" id="screen-2">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-5 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-2xl font-semibold text-swiss-text-primary">Select Specialty</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Find doctors by specialty</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="flex items-center gap-3 h-[52px] px-4 rounded-xl bg-swiss-surface">
+            <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search specialties..." class="flex-1 bg-transparent font-inter text-[15px] text-swiss-text-primary placeholder:text-swiss-text-muted outline-none">
+          </div>
+
+          <!-- Auto-Retry Banner -->
+          <div class="flex items-center gap-2.5 p-3 rounded-[10px] bg-orange-50">
+            <svg class="w-[18px] h-[18px] text-orange-500 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+            <div class="flex flex-col gap-0.5">
+              <span class="font-inter text-[13px] font-semibold text-orange-800">Auto-resolving connection issue...</span>
+              <span class="font-inter text-xs text-orange-500">Retrying automatically. No action needed.</span>
+            </div>
+          </div>
+
+          <!-- Specialty List -->
+          <div class="flex flex-col gap-3">
+            <div class="specialty-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border-2 border-swiss-accent cursor-pointer" onclick="selectSpecialty(this)">
+              <div class="w-11 h-11 rounded-[10px] bg-red-100 flex items-center justify-center">
+                <svg class="w-6 h-6 text-swiss-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z"/></svg>
+              </div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Cardiology</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Heart & cardiovascular care</span>
+              </div>
+            </div>
+
+            <div class="specialty-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectSpecialty(this)">
+              <div class="w-11 h-11 rounded-[10px] bg-purple-100 flex items-center justify-center">
+                <svg class="w-6 h-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+              </div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Dermatology</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Skin, hair & nail care</span>
+              </div>
+            </div>
+
+            <div class="specialty-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectSpecialty(this)">
+              <div class="w-11 h-11 rounded-[10px] bg-blue-100 flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"/><path d="M12 8v4l3 3"/></svg>
+              </div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Neurology</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Brain & nervous system</span>
+              </div>
+            </div>
+
+            <div class="specialty-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectSpecialty(this)">
+              <div class="w-11 h-11 rounded-[10px] bg-green-100 flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1M5 8H4a4 4 0 000 8h1M6 8v8M18 8v8"/></svg>
+              </div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Orthopedics</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Bones, joints & muscles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex gap-3 px-6 pb-[34px]">
+          <button onclick="showScreen(1)" class="flex-1 h-14 rounded-xl bg-swiss-surface border border-swiss-border flex items-center justify-center gap-2 hover:bg-swiss-surface-elevated transition-colors">
+            <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Back</span>
+          </button>
+          <button onclick="showScreen(3)" class="flex-1 h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Continue</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 4: Search Doctor -->
+      <div class="screen flex-col h-full" id="screen-3">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-5 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-2xl font-semibold text-swiss-text-primary">Find Your Doctor</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Search by name or specialty</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="flex items-center gap-3 h-[52px] px-4 rounded-xl bg-swiss-surface">
+            <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" value="Dr. Sarah" class="flex-1 bg-transparent font-inter text-[15px] text-swiss-text-primary placeholder:text-swiss-text-muted outline-none">
+          </div>
+
+          <!-- Cache Banner -->
+          <div class="flex items-center gap-2.5 p-3 rounded-[10px] bg-blue-50">
+            <svg class="w-[18px] h-[18px] text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            <div class="flex flex-col gap-0.5">
+              <span class="font-inter text-[13px] font-semibold text-blue-900">Showing cached results</span>
+              <span class="font-inter text-xs text-blue-700">Connection issue - using your recent searches</span>
+            </div>
+          </div>
+
+          <!-- Recent Label -->
+          <div class="flex items-center justify-between">
+            <span class="font-inter text-xs font-semibold text-swiss-text-muted">Recent Searches</span>
+            <button class="font-inter text-xs font-medium text-swiss-accent hover:underline">Clear all</button>
+          </div>
+
+          <!-- Doctor List -->
+          <div class="flex flex-col gap-3">
+            <div class="doctor-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectDoctor(this)">
+              <div class="w-[52px] h-[52px] rounded-xl bg-blue-100"></div>
+              <div class="flex-1 flex flex-col gap-1">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Dr. Sarah Mitchell</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Cardiology</span>
+                <div class="flex items-center gap-1">
+                  <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="font-inter text-xs text-swiss-text-muted">4.9 (120 reviews)</span>
+                </div>
+              </div>
+              <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+
+            <div class="doctor-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectDoctor(this)">
+              <div class="w-[52px] h-[52px] rounded-xl bg-green-100"></div>
+              <div class="flex-1 flex flex-col gap-1">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Dr. Michael Chen</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Neurology</span>
+                <div class="flex items-center gap-1">
+                  <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="font-inter text-xs text-swiss-text-muted">4.8 (98 reviews)</span>
+                </div>
+              </div>
+              <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+
+            <div class="doctor-card flex items-center gap-3.5 p-4 rounded-xl bg-swiss-surface border border-swiss-border cursor-pointer hover:border-swiss-border-strong transition-colors" onclick="selectDoctor(this)">
+              <div class="w-[52px] h-[52px] rounded-xl bg-purple-100"></div>
+              <div class="flex-1 flex flex-col gap-1">
+                <span class="font-sora text-base font-semibold text-swiss-text-primary">Dr. Emily Rodriguez</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">Dermatology</span>
+                <div class="flex items-center gap-1">
+                  <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="font-inter text-xs text-swiss-text-muted">4.7 (85 reviews)</span>
+                </div>
+              </div>
+              <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex gap-3 px-6 pb-[34px]">
+          <button onclick="showScreen(2)" class="flex-1 h-14 rounded-xl bg-swiss-surface border border-swiss-border flex items-center justify-center gap-2 hover:bg-swiss-surface-elevated transition-colors">
+            <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Back</span>
+          </button>
+          <button onclick="showScreen(4)" class="flex-1 h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Continue</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 5: Prior Appointment Check -->
+      <div class="screen flex-col h-full" id="screen-4">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-8 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-2xl font-semibold text-swiss-text-primary">Prior Appointments</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Checking your health timeline</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Found Card -->
+          <div class="p-5 rounded-2xl bg-green-50 flex flex-col gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-[52px] h-[52px] rounded-xl bg-green-200 flex items-center justify-center">
+                <svg class="w-6 h-6 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div class="flex-1 flex flex-col gap-1">
+                <span class="font-sora text-lg font-semibold text-swiss-text-primary">Previous Visit Found</span>
+                <span class="font-inter text-sm text-swiss-text-secondary">We found your health history</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 p-3.5 rounded-[10px] bg-white">
+              <div class="w-11 h-11 rounded-[10px] bg-blue-100"></div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-sm font-semibold text-swiss-text-primary">Dr. Sarah Mitchell</span>
+                <span class="font-inter text-xs text-swiss-text-secondary">Cardiology - Dec 15, 2024</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prefill Section -->
+          <div class="flex flex-col gap-4">
+            <span class="font-inter text-xs font-semibold text-swiss-text-muted">Pre-filled from your history</span>
+            <div class="p-4 rounded-xl bg-swiss-surface flex flex-col gap-3">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Same doctor preference</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Morning appointments preferred</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Downtown clinic location</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex flex-col gap-3 px-6 pb-[34px]">
+          <button onclick="showScreen(5)" class="w-full h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2.5 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Use Pre-filled Info</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="w-full h-12 rounded-xl flex items-center justify-center hover:bg-swiss-surface transition-colors">
+            <span class="font-inter text-sm font-medium text-swiss-text-secondary">Edit preferences before booking</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 6: Time Selection -->
+      <div class="screen flex-col h-full" id="screen-5">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-5 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-[22px] font-semibold text-swiss-text-primary">Select Availability</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Choose your preferred time slots</p>
+            </div>
+            <button class="w-10 h-10 rounded-[10px] bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Flexible Option -->
+          <div class="flex items-center justify-between p-4 rounded-xl bg-swiss-surface border border-swiss-border">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-[10px] bg-swiss-accent-soft flex items-center justify-center">
+                <svg class="w-5 h-5 text-swiss-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <span class="font-sora text-sm font-semibold text-swiss-text-primary">I'm Flexible</span>
+                <span class="font-inter text-xs text-swiss-text-secondary">Find me the best available slot</span>
+              </div>
+            </div>
+            <div class="w-6 h-6 rounded-md border-2 border-swiss-border"></div>
+          </div>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-3">
+            <div class="flex-1 h-px bg-swiss-border"></div>
+            <span class="font-inter text-xs text-swiss-text-muted">or select times</span>
+            <div class="flex-1 h-px bg-swiss-border"></div>
+          </div>
+
+          <!-- Week Navigation -->
+          <div class="flex items-center justify-between">
+            <button class="w-9 h-9 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-[18px] h-[18px] text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <span class="font-sora text-[15px] font-semibold text-swiss-text-primary">Jan 27 - Feb 2</span>
+            <button class="w-9 h-9 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-[18px] h-[18px] text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="p-3 rounded-[14px] bg-swiss-surface border border-swiss-border flex flex-col gap-2">
+            <!-- Day Headers -->
+            <div class="grid grid-cols-7 gap-1">
+              <div class="w-14"></div>
+              <div class="flex flex-col items-center"><span class="font-inter text-[11px] text-swiss-text-muted">Mon</span><span class="font-sora text-sm font-semibold text-swiss-text-primary">27</span></div>
+              <div class="flex flex-col items-center"><span class="font-inter text-[11px] text-swiss-text-muted">Tue</span><span class="font-sora text-sm font-semibold text-swiss-text-primary">28</span></div>
+              <div class="flex flex-col items-center"><span class="font-inter text-[11px] text-swiss-text-muted">Wed</span><span class="font-sora text-sm font-semibold text-swiss-text-primary">29</span></div>
+              <div class="flex flex-col items-center"><span class="font-inter text-[11px] text-swiss-text-muted">Thu</span><span class="font-sora text-sm font-semibold text-swiss-text-primary">30</span></div>
+              <div class="flex flex-col items-center"><span class="font-inter text-[11px] text-swiss-text-muted">Fri</span><span class="font-sora text-sm font-semibold text-swiss-text-primary">31</span></div>
+              <div class="flex flex-col items-center"><span class="font-inter text-[11px] text-swiss-text-muted">Sat</span><span class="font-sora text-sm font-semibold text-swiss-text-primary">1</span></div>
+            </div>
+            <!-- Time Rows -->
+            <div class="grid grid-cols-7 gap-1 items-center">
+              <div class="flex items-center gap-1.5 w-14"><svg class="w-3.5 h-3.5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span class="font-inter text-[11px] text-swiss-text-muted">AM</span></div>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-surface text-swiss-text-muted text-xs font-medium cursor-not-allowed" disabled>-</button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 items-center">
+              <div class="flex items-center gap-1.5 w-14"><svg class="w-3.5 h-3.5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2"/></svg><span class="font-inter text-[11px] text-swiss-text-muted">PM</span></div>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-surface text-swiss-text-muted text-xs font-medium cursor-not-allowed" disabled>-</button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 items-center">
+              <div class="flex items-center gap-1.5 w-14"><svg class="w-3.5 h-3.5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"/></svg><span class="font-inter text-[11px] text-swiss-text-muted">Eve</span></div>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-white border border-swiss-border text-xs font-medium hover:border-swiss-border-strong" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-accent text-white text-xs font-medium" onclick="toggleSlot(this)"></button>
+              <button class="time-slot h-9 rounded-lg bg-swiss-surface text-swiss-text-muted text-xs font-medium cursor-not-allowed" disabled>-</button>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="flex items-center justify-center gap-4">
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded bg-swiss-accent"></div><span class="font-inter text-[11px] text-swiss-text-muted">Selected</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded bg-white border border-swiss-border"></div><span class="font-inter text-[11px] text-swiss-text-muted">Available</span></div>
+            <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded bg-swiss-surface"></div><span class="font-inter text-[11px] text-swiss-text-muted">Unavailable</span></div>
+          </div>
+
+          <!-- Summary Section -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="font-inter text-sm font-semibold text-swiss-text-primary">Your Selection</span>
+              <span class="px-2.5 py-1 rounded-full bg-swiss-accent-soft text-swiss-accent font-inter text-xs font-medium">8 slots</span>
+            </div>
+            <div class="flex items-center gap-3 p-3.5 rounded-xl bg-swiss-accent-soft">
+              <div class="w-9 h-9 rounded-full bg-swiss-accent flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-inter text-sm font-semibold text-swiss-text-primary">Multiple time slots selected</span>
+                <span class="font-inter text-xs text-swiss-text-secondary">We'll find the best match for you</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex gap-3 px-6 pb-[34px]">
+          <button onclick="showScreen(4)" class="flex-1 h-14 rounded-xl bg-swiss-surface border border-swiss-border flex items-center justify-center gap-2 hover:bg-swiss-surface-elevated transition-colors">
+            <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Back</span>
+          </button>
+          <button onclick="showScreen(6)" class="flex-1 h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Submit</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 7: QnA Matching -->
+      <div class="screen flex-col h-full" id="screen-6">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-6 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-2xl font-semibold text-swiss-text-primary">Quick Questions</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Help us find the best match</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="h-1 bg-swiss-surface rounded-sm overflow-hidden">
+            <div class="h-full w-[284px] bg-swiss-accent rounded-sm"></div>
+          </div>
+
+          <!-- Question Section -->
+          <div class="flex flex-col gap-4">
+            <span class="font-inter text-[13px] font-medium text-swiss-text-muted">Question 3 of 3</span>
+            <h2 class="font-sora text-xl font-semibold text-swiss-text-primary leading-relaxed">What symptoms are you experiencing?</h2>
+          </div>
+
+          <!-- Retry Banner -->
+          <div class="p-4 rounded-xl bg-orange-50 flex flex-col gap-3">
+            <div class="flex items-center gap-2.5">
+              <svg class="w-[18px] h-[18px] text-orange-500 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+              <span class="font-inter text-sm font-semibold text-orange-800">Submitting your answers...</span>
+            </div>
+            <div class="h-1.5 bg-orange-200 rounded-sm overflow-hidden">
+              <div class="h-full w-[200px] bg-orange-500 rounded-sm"></div>
+            </div>
+            <p class="font-inter text-xs text-orange-500 leading-relaxed">Auto-retrying due to connection issue. This should only take a moment.</p>
+          </div>
+
+          <!-- Options List -->
+          <div class="flex flex-col gap-2.5">
+            <button class="symptom-option flex items-center gap-3 p-4 rounded-xl bg-swiss-accent" onclick="selectSymptom(this)">
+              <div class="w-[22px] h-[22px] rounded-full bg-white flex items-center justify-center">
+                <div class="w-2.5 h-2.5 rounded-full bg-swiss-accent"></div>
+              </div>
+              <span class="font-inter text-[15px] font-medium text-white">Chest pain or discomfort</span>
+            </button>
+            <button class="symptom-option flex items-center gap-3 p-4 rounded-xl bg-swiss-surface border border-swiss-border hover:border-swiss-border-strong transition-colors" onclick="selectSymptom(this)">
+              <div class="w-[22px] h-[22px] rounded-full border-2 border-swiss-border"></div>
+              <span class="font-inter text-[15px] font-medium text-swiss-text-primary">Shortness of breath</span>
+            </button>
+            <button class="symptom-option flex items-center gap-3 p-4 rounded-xl bg-swiss-surface border border-swiss-border hover:border-swiss-border-strong transition-colors" onclick="selectSymptom(this)">
+              <div class="w-[22px] h-[22px] rounded-full border-2 border-swiss-border"></div>
+              <span class="font-inter text-[15px] font-medium text-swiss-text-primary">Unusual fatigue</span>
+            </button>
+            <button class="symptom-option flex items-center gap-3 p-4 rounded-xl bg-swiss-surface border border-swiss-border hover:border-swiss-border-strong transition-colors" onclick="selectSymptom(this)">
+              <div class="w-[22px] h-[22px] rounded-full border-2 border-swiss-border"></div>
+              <span class="font-inter text-[15px] font-medium text-swiss-text-primary">Other symptoms</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex gap-3 px-6 pb-[34px]">
+          <button onclick="showScreen(5)" class="flex-1 h-14 rounded-xl bg-swiss-surface border border-swiss-border flex items-center justify-center gap-2 hover:bg-swiss-surface-elevated transition-colors">
+            <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span class="font-sora text-base font-semibold text-swiss-text-primary">Back</span>
+          </button>
+          <button onclick="showScreen(7)" class="flex-1 h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Submit</span>
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 8: Confirm Info -->
+      <div class="screen flex-col h-full" id="screen-7">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-5 px-6 overflow-y-auto">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <h1 class="font-sora text-[22px] font-semibold text-swiss-text-primary">Confirm Your Booking</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary">Review details before submitting</p>
+            </div>
+            <button class="w-10 h-10 rounded-lg bg-swiss-surface flex items-center justify-center hover:bg-swiss-surface-elevated transition-colors">
+              <svg class="w-5 h-5 text-swiss-text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Doctor Section -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="font-inter text-xs font-semibold text-swiss-text-muted">Doctor</span>
+              <button class="font-inter text-xs font-medium text-swiss-accent hover:underline">Edit</button>
+            </div>
+            <div class="flex items-center gap-3 p-3.5 rounded-xl bg-swiss-surface">
+              <div class="w-12 h-12 rounded-[10px] bg-blue-100"></div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-sm font-semibold text-swiss-text-primary">Dr. Sarah Mitchell</span>
+                <span class="font-inter text-xs text-swiss-text-secondary">Cardiology Specialist</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Section -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="font-inter text-xs font-semibold text-swiss-text-muted">Appointment</span>
+              <button class="font-inter text-xs font-medium text-swiss-accent hover:underline">Edit</button>
+            </div>
+            <div class="p-3.5 rounded-xl bg-swiss-surface flex flex-col gap-2.5">
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Tuesday, Jan 28, 2025 at 10:00 AM</span>
+              </div>
+              <span class="px-2 py-1 rounded-md bg-green-100 text-green-700 font-inter text-xs font-medium w-fit">First available slot</span>
+            </div>
+          </div>
+
+          <!-- Privacy Section -->
+          <div class="flex flex-col gap-3">
+            <span class="font-inter text-xs font-semibold text-swiss-text-muted">Data & Privacy</span>
+            <div class="p-4 rounded-xl bg-swiss-surface flex flex-col gap-3.5">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" checked class="w-5 h-5 rounded border-swiss-border text-swiss-accent focus:ring-swiss-accent">
+                <span class="font-inter text-sm text-swiss-text-primary">Share health data with doctor</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" checked class="w-5 h-5 rounded border-swiss-border text-swiss-accent focus:ring-swiss-accent">
+                <span class="font-inter text-sm text-swiss-text-primary">Receive appointment reminders</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" class="w-5 h-5 rounded border-swiss-border text-swiss-accent focus:ring-swiss-accent">
+                <span class="font-inter text-sm text-swiss-text-primary">Allow anonymized research use</span>
+              </label>
+              <div class="flex items-center gap-1.5 pt-2">
+                <svg class="w-4 h-4 text-swiss-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                <a href="#" class="font-inter text-xs text-swiss-accent hover:underline">View our privacy policy</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Language Note -->
+          <div class="flex items-center gap-2.5 p-3 rounded-[10px] bg-blue-50">
+            <svg class="w-[18px] h-[18px] text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <p class="font-inter text-[13px] font-medium text-blue-700 leading-relaxed">Summary available in Deutsch, English, Turkce</p>
+          </div>
+        </div>
+
+        <!-- Bottom Button -->
+        <div class="px-6 pb-[34px]">
+          <button onclick="showScreen(8)" class="w-full h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2.5 hover:bg-red-600 transition-colors">
+            <span class="font-sora text-base font-semibold text-white">Submit Booking Request</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 9: Post-Booking -->
+      <div class="screen flex-col h-full" id="screen-8">
+        <!-- Status Bar -->
+        <div class="flex justify-between items-center h-[54px] px-6 pt-3.5">
+          <span class="font-inter text-base font-semibold text-swiss-text-primary">9:41</span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M2 10a15 15 0 0 1 20 0M12 20h.01"/></svg>
+            <div class="w-[27px] h-[13px] border border-swiss-text-primary rounded-[3px]"></div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 flex flex-col gap-6 px-6 pt-6 overflow-y-auto">
+          <!-- Success Section -->
+          <div class="flex flex-col items-center gap-6">
+            <div class="w-[100px] h-[100px] rounded-full bg-green-50 flex items-center justify-center">
+              <svg class="w-12 h-12 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <h1 class="font-sora text-2xl font-semibold text-swiss-text-primary text-center">Booking Confirmed!</h1>
+              <p class="font-inter text-sm text-swiss-text-secondary text-center leading-relaxed">Your appointment has been added to your health timeline</p>
+            </div>
+          </div>
+
+          <!-- Appointment Card -->
+          <div class="p-4 rounded-2xl bg-swiss-surface flex flex-col gap-3.5">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-[10px] bg-blue-100"></div>
+              <div class="flex-1 flex flex-col gap-0.5">
+                <span class="font-sora text-sm font-semibold text-swiss-text-primary">Dr. Sarah Mitchell</span>
+                <span class="font-inter text-xs text-swiss-text-secondary">Cardiology Specialist</span>
+              </div>
+            </div>
+            <div class="h-px bg-swiss-border"></div>
+            <div class="flex flex-col gap-2.5">
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Tuesday, Jan 28, 2025</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">10:00 AM - 10:30 AM</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-swiss-text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Downtown Medical Center, Room 302</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Section -->
+          <div class="flex flex-col gap-3">
+            <span class="font-inter text-xs font-semibold text-swiss-text-muted">Queue Updates Enabled</span>
+            <div class="p-4 rounded-xl bg-green-50 flex flex-col gap-3.5">
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">SMS reminder 24 hours before</span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-swiss-positive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"/></svg>
+                <span class="font-inter text-sm text-swiss-text-primary">Live queue position updates</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auto-Fix Note -->
+          <div class="flex items-center gap-2.5 p-3 rounded-[10px] bg-orange-50">
+            <svg class="w-[18px] h-[18px] text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M9 12l2 2 4-4"/></svg>
+            <p class="font-inter text-[13px] font-medium text-orange-500 leading-relaxed">Any issues will be auto-resolved. You'll be notified of resolutions.</p>
+          </div>
+        </div>
+
+        <!-- Bottom Buttons -->
+        <div class="flex flex-col gap-3 px-6 pb-[34px]">
+          <button class="w-full h-14 rounded-xl bg-swiss-accent flex items-center justify-center gap-2.5 hover:bg-red-600 transition-colors">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8V21H3V8M23 3H1v5h22V3zM10 12h4"/></svg>
+            <span class="font-sora text-base font-semibold text-white">Add to Calendar</span>
+          </button>
+          <button onclick="showScreen(0)" class="w-full h-[52px] rounded-xl flex items-center justify-center hover:bg-swiss-surface transition-colors">
+            <span class="font-inter text-[15px] font-medium text-swiss-text-secondary">Back to Home</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let currentScreen = 0;
+
+    function showScreen(index) {
+      const screens = document.querySelectorAll('.screen');
+      const navBtns = document.querySelectorAll('.nav-btn');
+
+      screens.forEach((screen, i) => {
+        screen.classList.remove('active');
+        if (i === index) {
+          screen.classList.add('active');
+        }
+      });
+
+      navBtns.forEach((btn, i) => {
+        btn.classList.remove('bg-swiss-accent', 'text-white');
+        if (i === index) {
+          btn.classList.add('bg-swiss-accent', 'text-white');
+        }
+      });
+
+      currentScreen = index;
+    }
+
+    function selectPath(element) {
+      document.querySelectorAll('.path-card').forEach(card => {
+        card.classList.remove('border-swiss-accent', 'border-2');
+        card.classList.add('border-swiss-border', 'border');
+        const radio = card.querySelector('.w-6.h-6');
+        if (radio) {
+          radio.innerHTML = '';
+          radio.classList.remove('border-swiss-accent');
+          radio.classList.add('border-swiss-border');
+        }
+      });
+      element.classList.remove('border-swiss-border', 'border');
+      element.classList.add('border-swiss-accent', 'border-2');
+      const radio = element.querySelector('.w-6.h-6');
+      if (radio) {
+        radio.classList.remove('border-swiss-border');
+        radio.classList.add('border-swiss-accent');
+        radio.innerHTML = '<div class="w-3 h-3 rounded-full bg-swiss-accent"></div>';
+      }
+    }
+
+    function selectSpecialty(element) {
+      document.querySelectorAll('.specialty-card').forEach(card => {
+        card.classList.remove('border-swiss-accent', 'border-2');
+        card.classList.add('border-swiss-border', 'border');
+      });
+      element.classList.remove('border-swiss-border', 'border');
+      element.classList.add('border-swiss-accent', 'border-2');
+    }
+
+    function selectDoctor(element) {
+      document.querySelectorAll('.doctor-card').forEach(card => {
+        card.classList.remove('border-swiss-accent', 'border-2');
+        card.classList.add('border-swiss-border', 'border');
+      });
+      element.classList.remove('border-swiss-border', 'border');
+      element.classList.add('border-swiss-accent', 'border-2');
+    }
+
+    function toggleSlot(element) {
+      if (element.disabled) return;
+      if (element.classList.contains('bg-swiss-accent')) {
+        element.classList.remove('bg-swiss-accent', 'text-white');
+        element.classList.add('bg-white', 'border', 'border-swiss-border');
+      } else {
+        element.classList.remove('bg-white', 'border', 'border-swiss-border');
+        element.classList.add('bg-swiss-accent', 'text-white');
+      }
+    }
+
+    function selectSymptom(element) {
+      document.querySelectorAll('.symptom-option').forEach(opt => {
+        opt.classList.remove('bg-swiss-accent');
+        opt.classList.add('bg-swiss-surface', 'border', 'border-swiss-border');
+        const radio = opt.querySelector('div:first-child');
+        radio.classList.remove('bg-white');
+        radio.classList.add('border-2', 'border-swiss-border');
+        radio.innerHTML = '';
+        const text = opt.querySelector('span');
+        text.classList.remove('text-white');
+        text.classList.add('text-swiss-text-primary');
+      });
+
+      element.classList.remove('bg-swiss-surface', 'border', 'border-swiss-border');
+      element.classList.add('bg-swiss-accent');
+      const radio = element.querySelector('div:first-child');
+      radio.classList.remove('border-2', 'border-swiss-border');
+      radio.classList.add('bg-white');
+      radio.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-swiss-accent"></div>';
+      const text = element.querySelector('span');
+      text.classList.remove('text-swiss-text-primary');
+      text.classList.add('text-white');
+    }
+
+    // Initialize first nav button as active
+    document.querySelector('.nav-btn').classList.add('bg-swiss-accent', 'text-white');
+  </script>
+</body>
+</html>

@@ -369,9 +369,7 @@ function AppContent() {
             path={PATHS.HISTORY}
             element={
               <RequireAuth>
-                <RequireProfileComplete>
-                  <HistoryScreen />
-                </RequireProfileComplete>
+                <HistoryScreen />
               </RequireAuth>
             }
           />
@@ -379,9 +377,7 @@ function AppContent() {
             path={PATHS.HISTORY_DETAIL}
             element={
               <RequireAuth>
-                <RequireProfileComplete>
-                  <HistoryDetailScreen />
-                </RequireProfileComplete>
+                <HistoryDetailScreen />
               </RequireAuth>
             }
           />
@@ -389,9 +385,7 @@ function AppContent() {
             path={PATHS.HISTORY_ARCHIVE}
             element={
               <RequireAuth>
-                <RequireProfileComplete>
-                  <HistoryArchiveScreen />
-                </RequireProfileComplete>
+                <HistoryArchiveScreen />
               </RequireAuth>
             }
           />

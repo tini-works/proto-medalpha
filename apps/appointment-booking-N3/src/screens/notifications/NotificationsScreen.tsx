@@ -42,7 +42,7 @@ function UpdatesScreen() {
             <IconArrowLeft className="w-6 h-6 text-slate-700" stroke={2} />
           </Link>
           <h1 className="text-xl font-semibold text-charcoal-500 flex-1">{t('updates')}</h1>
-          
+
           {/* Search icon */}
           <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand" aria-label="Search">
             <IconSearch className="w-5 h-5 text-slate-700" stroke={2} />

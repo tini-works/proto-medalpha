@@ -6,12 +6,8 @@ import enHome from '../locales/en/home.json'
 import deHome from '../locales/de/home.json'
 import enNotifications from '../locales/en/notifications.json'
 import deNotifications from '../locales/de/notifications.json'
-import enBooking from '../locales/en/booking.json'
-import deBooking from '../locales/de/booking.json'
-import enProfile from '../locales/en/profile.json'
-import deProfile from '../locales/de/profile.json'
-import enAuth from '../locales/en/auth.json'
-import deAuth from '../locales/de/auth.json'
+import enAppointments from '../locales/en/appointments.json'
+import deAppointments from '../locales/de/appointments.json'
 
 // Initialize i18next with English and German translation resources
 // Namespaced approach allows incremental translation of additional domains (booking, auth, etc.)
@@ -21,22 +17,18 @@ i18n.use(initReactI18next).init({
       settings: enSettings,
       home: enHome,
       notifications: enNotifications,
-      booking: enBooking,
-      auth: enAuth,
-      profile: enProfile,
+      appointments: enAppointments,
     },
     de: {
       settings: deSettings,
       home: deHome,
       notifications: deNotifications,
-      booking: deBooking,
-      auth: deAuth,
-      profile: deProfile,
+      appointments: deAppointments,
     },
   },
   lng: 'en', // default language - will be overridden by persisted preference
   fallbackLng: 'en',
-  ns: ['settings', 'home', 'notifications', 'booking', 'auth', 'profile'], // available namespaces
+  ns: ['settings', 'home', 'notifications', 'appointments'], // available namespaces
   defaultNS: 'settings',
   interpolation: {
     escapeValue: false, // React already escapes values

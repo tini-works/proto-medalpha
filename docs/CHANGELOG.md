@@ -9,6 +9,8 @@ High-level, business-focused summary of notable changes.
 - **Fast Lane routing**: Wired the new booking type selector into the existing Fast Lane flow (care request, matching status, success/no match screens) so users can jump straight into a guided “describe symptoms, we match a doctor” journey.
 - **Symptom-to-specialty matching**: Introduced structured `symptoms` and `specialties` datasets to map common complaints (e.g. headache, skin issue, chest pain) to appropriate specialties, ready to power guided triage and search shortcuts.
 - **History screen upgrade**: Redesigned appointment history into “Upcoming” and “Others” sections with status chips (matching, await confirm, cancelled), date grouping, and a floating “Book new appointment” action button that always routes back into booking.
+- **Archive view & detail card**: Added `AppointmentListCard` and a richer archive screen so users see a consistent, status-aware view of past appointments derived from both booking state and history items.
+- **Product & design docs**: Captured the new booking flow in `(new)design-booking-flow.html` and a product strategy note (`product-strategy-N.md`) to keep UX and roadmap aligned with the implementation.
 
 ## 2026-01-28 (Continued - Part 3)
 
@@ -22,6 +24,11 @@ High-level, business-focused summary of notable changes.
 - **Flow completion**: Auto sign-in and navigation to Home after successful password reset, maintaining user session after verification.
 
 ## 2026-01-28 (Continued - Part 2)
+
+### Merge Conflict Resolution
+- **Branch synchronization**: Resolved merge conflicts between local changes and remote branch updates across 6 files in the N3 appointment booking app.
+- **Files resolved**: SwipeableAppointmentStack, i18n configuration, AppointmentDetailScreen (appointments and history), HistoryScreen, and NotificationsScreen.
+- **Build verification**: Confirmed TypeScript compilation and production build pass after conflict resolution.
 
 ### Tabler Icons Library Migration (Phase 2: Complete)
 - **Icon migration**: Replaced 130+ inline SVG icons across 54 files with Tabler Icons from `@tabler/icons-react` package, standardizing icon usage across all components and screens.
