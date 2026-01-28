@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Header, Page, EmptyState } from '../../components'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { useBookAgain, useBooking, useProfile } from '../../state'
-import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
+import { doctorSlotsPath, PATHS } from '../../routes'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
 import type { Doctor, TimeSlot } from '../../types'
 
@@ -76,11 +76,6 @@ export default function BookAgainAlternativesScreen() {
   const others = useMemo(() => (recommended ? doctors.slice(1) : doctors), [doctors, recommended])
 
   const getEarliestSlot = (slots: TimeSlot[]) => slots.find((slot) => slot.available) || null
-
-  const handleChooseDoctor = (doctor: Doctor) => {
-    selectDoctor(doctor)
-    navigate(doctorPath(doctor.id))
-  }
 
   const handleChooseEarliest = (doctor: Doctor) => {
     const slot = getEarliestSlot(doctorSlots[doctor.id] || [])

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Page, Avatar, Rating } from '../../components'
 import { getDoctorById } from '../../data'
-import { formatDateWithWeekday, formatTime } from '../../utils/format'
 import { PATHS } from '../../routes/paths'
 import type { Appointment } from '../../types'
 

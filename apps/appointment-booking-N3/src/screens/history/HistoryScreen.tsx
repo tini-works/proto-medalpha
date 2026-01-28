@@ -1,66 +1,41 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Page, TabBar, AppointmentCard, EmptyState } from '../../components'
-import { TabToggle } from '../../components/forms'
-import { useHistory, useBooking, useProfile } from '../../state'
+import { useBooking } from '../../state'
 import { PATHS, historyDetailPath } from '../../routes/paths'
-import type { Appointment, HistoryItem } from '../../types'
+import { formatDateLong } from '../../utils/format'
+import type { Appointment } from '../../types'
 
 export default function HistoryScreen() {
   const navigate = useNavigate()
-  const { getFilteredItems, addHistoryItem } = useHistory()
   const { appointments } = useBooking()
-  const { profile } = useProfile()
 
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'history'>('upcoming')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'matching' | 'confirmed' | 'cancelled_doctor'>('all')
 
-  // Filter upcoming appointments (confirmed status, future dates)
-  const today = new Date().toISOString().split('T')[0]
-  const upcomingAppointments = appointments.filter(
-    (apt) => apt.status === 'confirmed' && apt.dateISO >= today
-  )
-
-  // Get past appointments from history
-  const pastAppointments = getFilteredItems({ type: 'appointment' }).filter(
-    (item) => item.status === 'completed' || item.status === 'cancelled' || item.dateISO < today
-  )
-
-  useEffect(() => {
-    if (pastAppointments.length > 0) return
-    addHistoryItem({
-      id: 'hist_fallback_1',
-      type: 'appointment',
-      title: 'Appointment: Dermatology',
-      subtitle: 'Dr. Sarah Weber · Berlin',
-      dateISO: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      status: 'completed',
-      forUserId: 'self',
-      forUserName: profile.fullName || 'You',
+  const displayedAppointments = useMemo(() => {
+    const nowTs = Date.now()
+    const allowedStatuses: Appointment['status'][] = ['matching', 'confirmed', 'cancelled_doctor']
+    const allowed = appointments.filter((apt) => allowedStatuses.includes(apt.status))
+    const filtered = statusFilter === 'all' ? allowed : allowed.filter((apt) => apt.status === statusFilter)
+    return filtered.sort((a, b) => {
+      const aTs = new Date(`${a.dateISO}T${a.time}`).getTime()
+      const bTs = new Date(`${b.dateISO}T${b.time}`).getTime()
+      const aIsPast = aTs < nowTs
+      const bIsPast = bTs < nowTs
+      if (aIsPast !== bIsPast) return aIsPast ? 1 : -1
+      return Math.abs(aTs - nowTs) - Math.abs(bTs - nowTs)
     })
-  }, [pastAppointments.length, addHistoryItem, profile.fullName])
+  }, [appointments, statusFilter])
 
-  const displayedPastAppointments = pastAppointments
-
-  const mapHistoryToAppointment = (item: HistoryItem): Appointment => {
-    const title = item.title.replace('Appointment:', '').trim()
-    const [doctorNameRaw, cityRaw] = item.subtitle.split('·').map((part) => part.trim())
-    const doctorName = doctorNameRaw || 'Dr. Taylor'
-    const specialty = title || 'General Medicine'
-    return {
-      id: item.id,
-      doctorId: 'd1',
-      doctorName,
-      specialty,
-      dateISO: item.dateISO,
-      time: '10:00',
-      forUserId: item.forUserId,
-      forUserName: item.forUserName,
-      status: item.status === 'planned' ? 'confirmed' : item.status,
-      reminderSet: false,
-      calendarSynced: false,
-      storeId: undefined,
+  const groupedByDate = useMemo(() => {
+    const groups = new Map<string, Appointment[]>()
+    for (const apt of displayedAppointments) {
+      const bucket = groups.get(apt.dateISO) || []
+      bucket.push(apt)
+      groups.set(apt.dateISO, bucket)
     }
-  }
+    return Array.from(groups.entries())
+  }, [displayedAppointments])
 
   const handleAppointmentClick = (appointmentId: string) => {
     navigate(historyDetailPath(appointmentId))
@@ -76,84 +51,79 @@ export default function HistoryScreen() {
     navigate(historyDetailPath(appointmentId) + '?action=cancel')
   }
 
-  const handleBookAgain = (item: typeof pastAppointments[0]) => {
-    // Navigate to Book Again flow with pre-filled context
-    navigate(`/book-again/${item.id}`)
-  }
-
   return (
       <Page>
       {/* Sticky Header */}
       <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between px-4 py-3">
           <h1 className="text-lg font-semibold text-charcoal-500">My Appointments</h1>
-          <span className="w-10 h-10" aria-hidden="true" />
-        </div>
-
-        {/* Tab Toggle */}
-        <div className="px-4 pb-3">
-          <TabToggle
-            options={[
-              { value: 'upcoming', label: 'Upcoming' },
-              { value: 'history', label: 'Past' },
-            ]}
-            value={activeTab}
-            onChange={(value) => setActiveTab(value as 'upcoming' | 'history')}
-          />
+          <button
+            type="button"
+            onClick={() => navigate(PATHS.HISTORY_ARCHIVE)}
+            className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center hover:bg-cream-200 transition-colors duration-normal ease-out-brand"
+            aria-label="Appointment history"
+          >
+            <svg className="w-5 h-5 text-charcoal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
         </div>
       </header>
 
-      {/* Content with bottom padding for fixed CTA */}
-      <div className="px-4 py-4 pb-16">
-        {activeTab === 'upcoming' ? (
-          // Upcoming Tab Content - fade in on tab switch
-          <div key="upcoming" className="animate-fade-in">
-            {upcomingAppointments.length === 0 ? (
-              <EmptyState
-                icon="calendar"
-                title="No upcoming appointments"
-                description="Book your first appointment to get started."
-              />
-            ) : (
-              <div className="space-y-4">
-                {upcomingAppointments.map((appointment) => (
-                  <AppointmentCard
-                    key={appointment.id}
-                    appointment={appointment}
-                    variant="upcoming"
-                    onClick={() => handleAppointmentClick(appointment.id)}
-                    onReschedule={() => handleReschedule(appointment.id)}
-                    onCancel={() => handleCancel(appointment.id)}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+      {/* Filters + List */}
+      <div className="px-4 py-4 pb-16 space-y-4">
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {(
+            [
+              { value: 'all', label: 'All' },
+              { value: 'confirmed', label: 'Confirmed' },
+              { value: 'matching', label: 'Matching' },
+              { value: 'cancelled_doctor', label: 'Doctor canceled' },
+            ] as const
+          ).map((chip) => {
+            const isActive = statusFilter === chip.value
+            return (
+              <button
+                key={chip.value}
+                type="button"
+                onClick={() => setStatusFilter(chip.value)}
+                className={`whitespace-nowrap px-3 py-2 rounded-full text-sm font-medium border transition-colors duration-normal ease-out-brand ${
+                  isActive
+                    ? 'bg-teal-500 text-white border-teal-500'
+                    : 'bg-white text-charcoal-500 border-cream-400 hover:border-cream-500'
+                }`}
+              >
+                {chip.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {displayedAppointments.length === 0 ? (
+          <EmptyState
+            icon="calendar"
+            title="No appointments"
+            description="Try changing the status filter or book a new appointment."
+          />
         ) : (
-          // History Tab Content - fade in on tab switch
-          <div key="history" className="animate-fade-in">
-            {displayedPastAppointments.length === 0 ? (
-              <EmptyState
-                icon="history"
-                title="No past appointments"
-                description="Your completed appointments will appear here."
-              />
-            ) : (
-              <div className="space-y-3">
-                {displayedPastAppointments.map((item) => {
-                  const appointmentCard = mapHistoryToAppointment(item)
-                  return (
+          <div className="space-y-6">
+            {groupedByDate.map(([dateISO, items]) => (
+              <section key={dateISO} className="space-y-3">
+                <h2 className="text-sm font-semibold text-slate-600">{formatDateLong(dateISO)}</h2>
+                <div className="space-y-3">
+                  {items.map((appointment) => (
                     <AppointmentCard
-                      key={item.id}
-                      appointment={appointmentCard}
+                      key={appointment.id}
+                      appointment={appointment}
                       variant="upcoming"
-                      onClick={() => handleAppointmentClick(item.id)}
-                      onBookAgain={() => handleBookAgain(item)}
+                      onClick={() => handleAppointmentClick(appointment.id)}
+                      onReschedule={appointment.status === 'confirmed' ? () => handleReschedule(appointment.id) : undefined}
+                      onCancel={appointment.status === 'confirmed' ? () => handleCancel(appointment.id) : undefined}
                     />
-                  )
-                })}
-              </div>
-            )}
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
         )}
       </div>

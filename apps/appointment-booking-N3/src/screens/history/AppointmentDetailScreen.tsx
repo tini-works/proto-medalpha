@@ -7,14 +7,14 @@ import { formatDateWithWeekday, formatTime } from '../../utils/format'
 import { PATHS } from '../../routes/paths'
 
 // Status configuration
-const statusConfig: Record<
-  'confirmed' | 'completed' | 'cancelled',
-  { tone: 'positive' | 'neutral' | 'negative'; label: string }
-> = {
-  confirmed: { tone: 'positive', label: 'Confirmed' },
-  completed: { tone: 'neutral', label: 'Completed' },
-  cancelled: { tone: 'negative', label: 'Cancelled' },
-}
+const statusConfig = {
+  matching: { tone: 'neutral' as const, label: 'Matching' },
+  await_confirm: { tone: 'neutral' as const, label: 'Await confirm' },
+  confirmed: { tone: 'positive' as const, label: 'Confirmed' },
+  completed: { tone: 'neutral' as const, label: 'Completed' },
+  cancelled_patient: { tone: 'negative' as const, label: 'Patient canceled' },
+  cancelled_doctor: { tone: 'negative' as const, label: 'Doctor canceled' },
+} as const
 
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
@@ -36,7 +36,13 @@ export default function AppointmentDetailScreen() {
 
   // Determine if this is an upcoming or past appointment
   const today = new Date().toISOString().split('T')[0]
-  const isUpcoming = appointment?.status === 'confirmed' && appointment.dateISO >= today
+  const isUpcoming = Boolean(
+    appointment &&
+      (appointment.status === 'matching' ||
+        appointment.status === 'await_confirm' ||
+        appointment.status === 'confirmed') &&
+      appointment.dateISO >= today
+  )
   const isPast = !isUpcoming
 
   // Get display data
@@ -56,7 +62,12 @@ export default function AppointmentDetailScreen() {
         specialty: historyItem.subtitle || '',
         dateISO: historyItem.dateISO,
         time: '10:00', // Default time for history items
-        status: historyItem.status === 'completed' ? 'completed' : historyItem.status === 'cancelled' ? 'cancelled' : 'confirmed',
+        status:
+          historyItem.status === 'completed'
+            ? 'completed'
+            : historyItem.status === 'cancelled'
+              ? 'cancelled_patient'
+              : 'confirmed',
         forUserName: historyItem.forUserName,
         address: 'Marktplatz 5, 10178 Berlin', // Mock address
       }

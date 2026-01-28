@@ -220,7 +220,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setState((s) => ({
           ...s,
           appointments: s.appointments.map((apt) =>
-            apt.id === id ? { ...apt, status: 'cancelled' as const } : apt
+            apt.id === id ? { ...apt, status: 'cancelled_patient' as const } : apt
           ),
         })),
 

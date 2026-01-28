@@ -10,7 +10,7 @@ interface TodaysFocusCardProps {
 
 /**
  * Hero card highlighting the user's next upcoming appointment
- * Displayed on HomeScreen for verified users with upcoming appointments
+ * Displayed on HomeScreen for verified users with a confirmed upcoming appointment
  */
 export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps) {
   const relativeDate = getRelativeDateLabel(appointment.dateISO)
@@ -58,7 +58,7 @@ export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps
             onClick={onCheckIn}
             className="flex-shrink-0 rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-600 transition-colors hover:bg-cream-50 active:scale-95"
           >
-            Check In
+            Submit Form
           </button>
         </div>
       </div>

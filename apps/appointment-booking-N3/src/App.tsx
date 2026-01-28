@@ -36,7 +36,7 @@ import {
 } from './screens/booking'
 
 // History screens
-import { HistoryScreen, AppointmentDetailScreen as HistoryDetailScreen } from './screens/history'
+import { HistoryArchiveScreen, HistoryScreen, AppointmentDetailScreen as HistoryDetailScreen } from './screens/history'
 
 // Reschedule screens
 import { SuggestedSlotsScreen, RescheduleConfirmScreen, RescheduleSuccessScreen, RescheduleReasonScreen } from './screens/reschedule'
@@ -283,6 +283,16 @@ export default function App() {
                 <RequireAuth>
                   <RequireProfileComplete>
                     <HistoryDetailScreen />
+                  </RequireProfileComplete>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={PATHS.HISTORY_ARCHIVE}
+              element={
+                <RequireAuth>
+                  <RequireProfileComplete>
+                    <HistoryArchiveScreen />
                   </RequireProfileComplete>
                 </RequireAuth>
               }

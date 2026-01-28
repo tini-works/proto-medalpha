@@ -12,7 +12,31 @@ export default function HomeScreen() {
   const { profile } = useProfile()
   const { appointments } = useBooking()
 
+  const compareByNearest = (a: string, b: string) => {
+    const nowTs = Date.now()
+    const aTs = new Date(a).getTime()
+    const bTs = new Date(b).getTime()
+    const aIsPast = aTs < nowTs
+    const bIsPast = bTs < nowTs
+    if (aIsPast !== bIsPast) return aIsPast ? 1 : -1
+    return Math.abs(aTs - nowTs) - Math.abs(bTs - nowTs)
+  }
+
   const upcomingAppointments = useMemo(() => {
+    return appointments
+      .filter((appointment) => {
+        return (
+          appointment.status === 'matching' ||
+          appointment.status === 'confirmed' ||
+          appointment.status === 'cancelled_doctor'
+        )
+      })
+      .sort((a, b) => {
+        return compareByNearest(`${a.dateISO}T${a.time}`, `${b.dateISO}T${b.time}`)
+      })
+  }, [appointments])
+
+  const nextAppointment = useMemo(() => {
     const now = new Date()
     return appointments
       .filter((appointment) => {
@@ -23,10 +47,8 @@ export default function HomeScreen() {
         const aTime = new Date(`${a.dateISO}T${a.time}`).getTime()
         const bTime = new Date(`${b.dateISO}T${b.time}`).getTime()
         return aTime - bTime
-      })
+      })[0]
   }, [appointments])
-
-  const nextAppointment = upcomingAppointments[0]
   const upcomingPreview = upcomingAppointments.slice(0, 1)
 
   return (
@@ -72,6 +94,23 @@ export default function HomeScreen() {
           </section>
         )}
 
+        {/* Pending Appointments */}
+        {upcomingPreview.length > 0 && (
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-semibold text-charcoal-500">Pending appointments</h2>
+              <Link to={PATHS.HISTORY} className="text-sm text-teal-700 font-medium hover:underline">
+                View all
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {upcomingPreview.map((appointment) => (
+                <AppointmentCard key={appointment.id} appointment={appointment} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Quick Actions */}
         <section>
           <h2 className="text-lg font-semibold text-charcoal-500 mb-3">Quick Actions</h2>
@@ -107,23 +146,6 @@ export default function HomeScreen() {
             </Link>
           </div>
         </section>
-
-        {/* Upcoming Appointments */}
-        {upcomingPreview.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-charcoal-500">Upcoming Appointments</h2>
-              <Link to={PATHS.HISTORY} className="text-sm text-teal-700 font-medium hover:underline">
-                View all
-              </Link>
-            </div>
-            <div className="space-y-3">
-              {upcomingPreview.map((appointment) => (
-                <AppointmentCard key={appointment.id} appointment={appointment} />
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* Latest Health News */}
         <section>

@@ -4,6 +4,7 @@ import { Page, Avatar, Pill } from '../../components'
 import { useBooking } from '../../state'
 import { formatDateLong, formatTime } from '../../utils/format'
 import { PATHS } from '../../routes'
+import type { Appointment } from '../../types'
 
 /**
  * Detailed view of a single appointment with actions
@@ -35,12 +36,15 @@ export default function AppointmentDetailScreen() {
   }
 
   const statusConfig: Record<
-    'confirmed' | 'completed' | 'cancelled',
+    Appointment['status'],
     { tone: 'positive' | 'neutral' | 'negative'; label: string }
   > = {
+    matching: { tone: 'neutral', label: 'Matching' },
+    await_confirm: { tone: 'neutral', label: 'Await confirm' },
     confirmed: { tone: 'positive', label: 'Confirmed' },
     completed: { tone: 'neutral', label: 'Completed' },
-    cancelled: { tone: 'negative', label: 'Cancelled' },
+    cancelled_patient: { tone: 'negative', label: 'Patient canceled' },
+    cancelled_doctor: { tone: 'negative', label: 'Doctor canceled' },
   }
 
   const status = statusConfig[appointment.status]

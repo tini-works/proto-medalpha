@@ -71,7 +71,25 @@ export async function apiGetCMSContent(insuranceType?: 'GKV' | 'PKV' | '', delay
 // Reschedule API functions
 export async function apiGetSuggestedSlots(
   doctorId: string,
-  originalAppointment: { dateISO: string; time: string; doctorId: string; doctorName: string; specialty: string; forUserId: string; forUserName: string; status: 'confirmed' | 'completed' | 'cancelled'; id: string; reminderSet: boolean; calendarSynced: boolean },
+  originalAppointment: {
+    dateISO: string
+    time: string
+    doctorId: string
+    doctorName: string
+    specialty: string
+    forUserId: string
+    forUserName: string
+    status:
+      | 'matching'
+      | 'await_confirm'
+      | 'confirmed'
+      | 'completed'
+      | 'cancelled_patient'
+      | 'cancelled_doctor'
+    id: string
+    reminderSet: boolean
+    calendarSynced: boolean
+  },
   delayMs = 400
 ) {
   const { getSuggestedSlots } = await import('./timeSlots')

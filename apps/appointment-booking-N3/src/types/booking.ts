@@ -42,7 +42,13 @@ export interface Appointment {
   time: string
   forUserId: string
   forUserName: string
-  status: 'confirmed' | 'completed' | 'cancelled'
+  status:
+    | 'matching'
+    | 'await_confirm'
+    | 'confirmed'
+    | 'completed'
+    | 'cancelled_patient'
+    | 'cancelled_doctor'
   reminderSet: boolean
   calendarSynced: boolean
 }

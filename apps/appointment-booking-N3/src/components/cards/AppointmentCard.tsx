@@ -17,9 +17,12 @@ const statusConfig: Record<
   Appointment['status'],
   { tone: 'info' | 'positive' | 'warning' | 'negative' | 'neutral'; label: string }
 > = {
+  matching: { tone: 'info', label: 'Matching' },
+  await_confirm: { tone: 'warning', label: 'Await confirm' },
   confirmed: { tone: 'positive', label: 'Confirmed' },
   completed: { tone: 'neutral', label: 'Completed' },
-  cancelled: { tone: 'negative', label: 'Cancelled' },
+  cancelled_patient: { tone: 'negative', label: 'Patient canceled' },
+  cancelled_doctor: { tone: 'negative', label: 'Doctor canceled' },
 }
 
 // Specialty icons mapping

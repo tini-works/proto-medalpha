@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Header, Page, Pill, ProgressIndicator, Avatar, Rating } from '../../components'
+import { Header, Page, Avatar, Rating } from '../../components'
 import { PATHS } from '../../routes'
 import { useBooking, useProfile } from '../../state'
 

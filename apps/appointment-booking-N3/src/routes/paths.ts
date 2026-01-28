@@ -31,6 +31,7 @@ export const PATHS = {
   // History / Appointments
   HISTORY: '/history',
   HISTORY_DETAIL: '/history/:id',
+  HISTORY_ARCHIVE: '/history/archive',
   APPOINTMENT_DETAIL: '/appointments/:id',
 
   // Reschedule flow (R01-R03)
