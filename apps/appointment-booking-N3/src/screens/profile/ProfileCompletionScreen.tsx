@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field, RadioGroup } from '../../components/forms'
 import { useProfile } from '../../state'
@@ -7,6 +8,7 @@ import { PATHS } from '../../routes'
 import type { InsuranceType } from '../../types'
 
 export default function ProfileCompletionScreen() {
+  const { t } = useTranslation('profile')
   const navigate = useNavigate()
   const { profile, updateProfile, updateGdprConsent, isProfileComplete } = useProfile()
 
@@ -39,27 +41,27 @@ export default function ProfileCompletionScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required'
+      newErrors.fullName = t('validation.fullNameRequired')
     }
 
     if (!formData.egkNumber.trim()) {
-      newErrors.egkNumber = 'eGK number is required'
+      newErrors.egkNumber = t('validation.egkRequired')
     }
 
     if (!formData.street.trim()) {
-      newErrors.street = 'Street address is required'
+      newErrors.street = t('validation.streetRequired')
     }
 
     if (!formData.postalCode.trim()) {
-      newErrors.postalCode = 'Postal code is required'
+      newErrors.postalCode = t('validation.postalCodeRequired')
     }
 
     if (!formData.city.trim()) {
-      newErrors.city = 'City is required'
+      newErrors.city = t('validation.cityRequired')
     }
 
     if (!formData.dataProcessing) {
-      newErrors.dataProcessing = 'You must accept the data processing terms'
+      newErrors.dataProcessing = t('validation.gdprRequired')
     }
 
     setErrors(newErrors)
@@ -92,15 +94,15 @@ export default function ProfileCompletionScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Complete Profile" subtitle="Almost there! Just a few more details." />
+      <Header title={t('completion.title')} subtitle={t('completion.subtitle')} />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
         <Field
-          label="Full Name"
+          label={t('fullName.label')}
           type="text"
           value={formData.fullName}
           onChange={(e) => handleChange('fullName', e.target.value)}
-          placeholder="Enter your full name"
+          placeholder={t('fullName.placeholder')}
           error={errors.fullName}
           required
           autoComplete="name"
@@ -108,38 +110,38 @@ export default function ProfileCompletionScreen() {
 
         {/* Insurance (Optional) */}
         <RadioGroup
-          label="Insurance Type (Optional)"
+          label={t('insurance.label')}
           name="insuranceType"
           value={formData.insuranceType}
           onChange={(value) => handleChange('insuranceType', value)}
           options={[
-            { value: 'GKV', label: 'GKV (Statutory)', description: 'Gesetzliche Krankenversicherung' },
-            { value: 'PKV', label: 'PKV (Private)', description: 'Private Krankenversicherung' },
+            { value: 'GKV', label: t('insurance.gkv'), description: t('insurance.gkvDescription') },
+            { value: 'PKV', label: t('insurance.pkv'), description: t('insurance.pkvDescription') },
           ]}
           error={errors.insuranceType}
         />
 
         <Field
-          label="eGK Card Number"
+          label={t('egkNumber.label')}
           type="text"
           value={formData.egkNumber}
           onChange={(e) => handleChange('egkNumber', e.target.value)}
-          placeholder="Enter your eGK number"
+          placeholder={t('egkNumber.placeholder')}
           error={errors.egkNumber}
-          hint="Found on your health insurance card"
+          hint={t('egkNumber.hint')}
           required
         />
 
         {/* Address */}
         <div className="space-y-4">
-          <h3 className="font-medium text-charcoal-500">Address</h3>
+          <h3 className="font-medium text-charcoal-500">{t('address.title')}</h3>
 
           <Field
-            label="Street Address"
+            label={t('address.street.label')}
             type="text"
             value={formData.street}
             onChange={(e) => handleChange('street', e.target.value)}
-            placeholder="Enter street address"
+            placeholder={t('address.street.placeholder')}
             error={errors.street}
             required
             autoComplete="street-address"
@@ -147,18 +149,18 @@ export default function ProfileCompletionScreen() {
 
           <div className="grid grid-cols-2 gap-4">
             <Field
-              label="Postal Code"
+              label={t('address.postalCode.label')}
               type="text"
               value={formData.postalCode}
               onChange={(e) => handleChange('postalCode', e.target.value)}
-              placeholder="12345"
+              placeholder={t('address.postalCode.placeholder')}
               error={errors.postalCode}
               required
               autoComplete="postal-code"
             />
 
             <Field
-              label="City"
+              label={t('address.city.label')}
               type="text"
               value={formData.city}
               onChange={(e) => handleChange('city', e.target.value)}
@@ -180,12 +182,12 @@ export default function ProfileCompletionScreen() {
               className="mt-1 w-4 h-4 rounded border-cream-400 text-teal-600 focus:ring-teal-500"
             />
             <span className="text-sm text-slate-700">
-              I agree to the processing of my personal and health data in accordance with the{' '}
+              {t('gdpr.consent')}{' '}
               <a href="#" className="text-charcoal-500 font-medium hover:underline">
-                Privacy Policy
+                {t('gdpr.privacyPolicy')}
               </a>
               .
-              <span className="text-coral-600 ml-0.5">*</span>
+              <span className="text-coral-600 ml-0.5">{t('gdpr.asterisk')}</span>
             </span>
           </label>
           {errors.dataProcessing && <p className="text-body-sm text-coral-800">{errors.dataProcessing}</p>}
@@ -196,7 +198,7 @@ export default function ProfileCompletionScreen() {
             type="submit"
             className="btn btn-primary btn-block"
           >
-            Complete Profile
+            {t('completion.submit')}
           </button>
         </div>
       </form>

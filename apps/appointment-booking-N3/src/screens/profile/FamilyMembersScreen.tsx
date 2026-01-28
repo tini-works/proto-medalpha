@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, FamilyMemberCard, EmptyState } from '../../components'
 import { Field, Select } from '../../components/forms'
 import { useProfile } from '../../state'
@@ -7,6 +8,7 @@ import { familyMemberDetailPath } from '../../routes'
 import type { FamilyMember, InsuranceType } from '../../types'
 
 export default function FamilyMembersScreen() {
+  const { t } = useTranslation('profile')
   const navigate = useNavigate()
   const { profile, addFamilyMember } = useProfile()
   const [showForm, setShowForm] = useState(false)
@@ -40,15 +42,15 @@ export default function FamilyMembersScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required'
+      newErrors.name = t('validation.nameRequired')
     }
 
     if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = 'Date of birth is required'
+      newErrors.dateOfBirth = t('validation.dateOfBirthRequired')
     }
 
     if (!formData.relationship) {
-      newErrors.relationship = 'Relationship is required'
+      newErrors.relationship = t('validation.relationshipRequired')
     }
 
     setErrors(newErrors)
@@ -76,7 +78,7 @@ export default function FamilyMembersScreen() {
 
   return (
     <Page>
-      <Header title="Family Members" subtitle="Manage profiles for your dependents" showBack />
+      <Header title={t('family.title')} subtitle={t('family.subtitle')} showBack />
 
       <div className="px-4 py-6">
         {/* Existing members */}
@@ -94,14 +96,14 @@ export default function FamilyMembersScreen() {
           !showForm && (
             <EmptyState
               icon="user"
-              title="No family members"
-              description="Add family members to book appointments on their behalf."
+              title={t('family.empty.title')}
+              description={t('family.empty.description')}
               action={
                 <button
                   onClick={() => setShowForm(true)}
                   className="btn btn-primary"
                 >
-                  Add Family Member
+                  {t('family.form.addButton')}
                 </button>
               }
             />
@@ -114,27 +116,27 @@ export default function FamilyMembersScreen() {
             onClick={() => setShowForm(true)}
             className="w-full py-3 px-4 border-2 border-dashed border-cream-400 rounded-lg text-slate-600 font-medium hover:border-cream-500 hover:text-charcoal-500 transition-colors duration-normal ease-out-brand"
           >
-            + Add Family Member
+            + {t('family.form.addButton')}
           </button>
         )}
 
         {/* Add form */}
         {showForm && (
           <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-cream-400 p-4 space-y-4">
-            <h3 className="font-semibold text-charcoal-500">Add Family Member</h3>
+            <h3 className="font-semibold text-charcoal-500">{t('family.form.title')}</h3>
 
             <Field
-              label="Full Name"
+              label={t('fullName.label')}
               type="text"
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
-              placeholder="Enter full name"
+              placeholder={t('fullName.placeholder')}
               error={errors.name}
               required
             />
 
             <Field
-              label="Date of Birth"
+              label={t('family.form.dateOfBirth')}
               type="date"
               value={formData.dateOfBirth}
               onChange={(e) => handleChange('dateOfBirth', e.target.value)}
@@ -143,14 +145,14 @@ export default function FamilyMembersScreen() {
             />
 
             <Select
-              label="Relationship"
+              label={t('family.form.relationship')}
               value={formData.relationship}
               onChange={(e) => handleChange('relationship', e.target.value)}
               options={[
-                { value: 'child', label: 'Child' },
-                { value: 'spouse', label: 'Spouse' },
-                { value: 'parent', label: 'Parent' },
-                { value: 'other', label: 'Other' },
+                { value: 'child', label: t('relationship.child') },
+                { value: 'spouse', label: t('relationship.spouse') },
+                { value: 'parent', label: t('relationship.parent') },
+                { value: 'other', label: t('relationship.other') },
               ]}
               placeholder="Select relationship"
               error={errors.relationship}
@@ -158,14 +160,14 @@ export default function FamilyMembersScreen() {
             />
 
             <Select
-              label="Insurance Type (optional)"
+              label={t('family.form.insuranceType')}
               value={formData.insuranceType}
               onChange={(e) => handleChange('insuranceType', e.target.value)}
               options={[
-                { value: 'GKV', label: 'GKV (Statutory)' },
-                { value: 'PKV', label: 'PKV (Private)' },
+                { value: 'GKV', label: t('insurance.gkv') },
+                { value: 'PKV', label: t('insurance.pkv') },
               ]}
-              placeholder="Same as primary account"
+              placeholder={t('family.form.insurancePlaceholder')}
             />
 
             <div className="flex gap-3 pt-2">
@@ -174,13 +176,13 @@ export default function FamilyMembersScreen() {
                 onClick={resetForm}
                 className="btn btn-tertiary flex-1 h-11 py-0"
               >
-                Cancel
+                {t('family.form.cancel')}
               </button>
               <button
                 type="submit"
                 className="btn btn-primary flex-1 h-11 py-0"
               >
-                Add Member
+                {t('family.form.submit')}
               </button>
             </div>
           </form>

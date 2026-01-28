@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field, RadioGroup } from '../../components/forms'
 import { useProfile } from '../../state'
 import type { InsuranceType } from '../../types'
 
 export default function EditProfileScreen() {
+  const { t } = useTranslation('profile')
   const navigate = useNavigate()
   const { profile, updateProfile } = useProfile()
 
@@ -32,31 +34,31 @@ export default function EditProfileScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required'
+      newErrors.fullName = t('validation.fullNameRequired')
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = t('validation.emailRequired')
     }
 
     if (!formData.insuranceType) {
-      newErrors.insuranceType = 'Insurance type is required'
+      newErrors.insuranceType = t('validation.insuranceRequired')
     }
 
     if (!formData.egkNumber.trim()) {
-      newErrors.egkNumber = 'eGK number is required'
+      newErrors.egkNumber = t('validation.egkRequired')
     }
 
     if (!formData.street.trim()) {
-      newErrors.street = 'Street is required'
+      newErrors.street = t('validation.streetRequired')
     }
 
     if (!formData.postalCode.trim()) {
-      newErrors.postalCode = 'Postal code is required'
+      newErrors.postalCode = t('validation.postalCodeRequired')
     }
 
     if (!formData.city.trim()) {
-      newErrors.city = 'City is required'
+      newErrors.city = t('validation.cityRequired')
     }
 
     setErrors(newErrors)
@@ -86,15 +88,15 @@ export default function EditProfileScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Edit Profile" showBack />
+      <Header title={t('edit.title')} showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-6">
         {/* Personal Info */}
         <div className="space-y-4">
-          <h3 className="font-medium text-charcoal-500">Personal Information</h3>
+          <h3 className="font-medium text-charcoal-500">{t('edit.personalInfo')}</h3>
 
           <Field
-            label="Full Name"
+            label={t('fullName.label')}
             type="text"
             value={formData.fullName}
             onChange={(e) => handleChange('fullName', e.target.value)}
@@ -103,7 +105,7 @@ export default function EditProfileScreen() {
           />
 
           <Field
-            label="Email"
+            label={t('edit.email.label')}
             type="email"
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
@@ -112,30 +114,30 @@ export default function EditProfileScreen() {
           />
 
           <Field
-            label="Phone (optional)"
+            label={t('edit.phone.label')}
             type="tel"
             value={formData.phone}
             onChange={(e) => handleChange('phone', e.target.value)}
-            placeholder="+49 123 456789"
+            placeholder={t('edit.phone.placeholder')}
           />
         </div>
 
         {/* Insurance */}
         <RadioGroup
-          label="Insurance Type"
+          label={t('insurance.labelRequired')}
           name="insuranceType"
           value={formData.insuranceType}
           onChange={(value) => handleChange('insuranceType', value)}
           options={[
-            { value: 'GKV', label: 'GKV (Statutory)' },
-            { value: 'PKV', label: 'PKV (Private)' },
+            { value: 'GKV', label: t('insurance.gkv') },
+            { value: 'PKV', label: t('insurance.pkv') },
           ]}
           error={errors.insuranceType}
           required
         />
 
         <Field
-          label="eGK Card Number"
+          label={t('egkNumber.label')}
           type="text"
           value={formData.egkNumber}
           onChange={(e) => handleChange('egkNumber', e.target.value)}
@@ -145,10 +147,10 @@ export default function EditProfileScreen() {
 
         {/* Address */}
         <div className="space-y-4">
-          <h3 className="font-medium text-charcoal-500">Address</h3>
+          <h3 className="font-medium text-charcoal-500">{t('edit.address')}</h3>
 
           <Field
-            label="Street Address"
+            label={t('address.street.label')}
             type="text"
             value={formData.street}
             onChange={(e) => handleChange('street', e.target.value)}
@@ -158,7 +160,7 @@ export default function EditProfileScreen() {
 
           <div className="grid grid-cols-2 gap-4">
             <Field
-              label="Postal Code"
+              label={t('address.postalCode.label')}
               type="text"
               value={formData.postalCode}
               onChange={(e) => handleChange('postalCode', e.target.value)}
@@ -167,7 +169,7 @@ export default function EditProfileScreen() {
             />
 
             <Field
-              label="City"
+              label={t('address.city.label')}
               type="text"
               value={formData.city}
               onChange={(e) => handleChange('city', e.target.value)}
@@ -182,7 +184,7 @@ export default function EditProfileScreen() {
             type="submit"
             className="btn btn-primary btn-block"
           >
-            Save Changes
+            {t('edit.submit')}
           </button>
         </div>
       </form>

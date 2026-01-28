@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { PATHS } from '../../routes'
 
 export default function VerifyIdentityScreen() {
+  const { t } = useTranslation('auth')
   const navigate = useNavigate()
 
   const handleVerifyIdentity = () => {
@@ -17,7 +19,7 @@ export default function VerifyIdentityScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Registration" showBack />
+      <Header title={t('verifyIdentity.title')} showBack />
 
       <div className="px-4 py-6 space-y-6">
         {/* Progress Indicator */}
@@ -27,8 +29,8 @@ export default function VerifyIdentityScreen() {
 
         {/* Main Heading */}
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold text-charcoal-500">Verify Identity</h1>
-          <p className="text-sm text-slate-500">Step 2 of 3: Security Check</p>
+          <h1 className="text-2xl font-semibold text-charcoal-500">{t('verifyIdentity.heading')}</h1>
+          <p className="text-sm text-slate-500">{t('verifyIdentity.step')}</p>
         </div>
 
         {/* Document Illustration */}
@@ -55,15 +57,14 @@ export default function VerifyIdentityScreen() {
               </div>
             </div>
           </div>
-          <p className="text-center text-sm text-slate-500">eGK or National ID Card required</p>
+          <p className="text-center text-sm text-slate-500">{t('verifyIdentity.documentHint')}</p>
         </div>
 
         {/* Information Section */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-charcoal-500">Prepare your documents</h2>
+          <h2 className="text-lg font-semibold text-charcoal-500">{t('verifyIdentity.prepareDocuments')}</h2>
           <p className="text-sm text-slate-500">
-            To issue e-prescriptions and ensure maximum medical security, we need to verify your identity according to
-            German healthcare regulations.
+            {t('verifyIdentity.regulationsInfo')}
           </p>
 
           {/* Benefit Cards */}
@@ -82,8 +83,8 @@ export default function VerifyIdentityScreen() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-charcoal-500 mb-1">End-to-End Encrypted</h3>
-                  <p className="text-xs text-slate-500">Your data is processed via secure German servers.</p>
+                  <h3 className="text-sm font-semibold text-charcoal-500 mb-1">{t('verifyIdentity.encrypted.title')}</h3>
+                  <p className="text-xs text-slate-500">{t('verifyIdentity.encrypted.description')}</p>
                 </div>
               </div>
             </div>
@@ -102,8 +103,8 @@ export default function VerifyIdentityScreen() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-charcoal-500 mb-1">Quick Process</h3>
-                  <p className="text-xs text-slate-500">The verification usually takes less than 2 minutes.</p>
+                  <h3 className="text-sm font-semibold text-charcoal-500 mb-1">{t('verifyIdentity.quickProcess.title')}</h3>
+                  <p className="text-xs text-slate-500">{t('verifyIdentity.quickProcess.description')}</p>
                 </div>
               </div>
             </div>
@@ -117,7 +118,7 @@ export default function VerifyIdentityScreen() {
             onClick={handleVerifyIdentity}
             className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 transition-colors"
           >
-            Verify Identity
+            {t('verifyIdentity.submit')}
           </button>
 
           <button
@@ -125,7 +126,7 @@ export default function VerifyIdentityScreen() {
             onClick={handleSkip}
             className="w-full py-3.5 px-4 text-slate-500 font-medium hover:bg-cream-200 rounded-lg transition-colors"
           >
-            I'll do it later
+            {t('verifyIdentity.skip')}
           </button>
         </div>
       </div>

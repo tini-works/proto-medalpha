@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field } from '../../components/forms'
 import { useAuth, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 
 export default function RegisterScreen() {
+  const { t } = useTranslation('auth')
   const navigate = useNavigate()
   const { signIn } = useAuth()
   const { updateProfile } = useProfile()
@@ -29,23 +31,23 @@ export default function RegisterScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required'
+      newErrors.fullName = t('validation.fullNameRequired')
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = t('validation.emailRequired')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email'
+      newErrors.email = t('validation.emailInvalid')
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required'
+      newErrors.password = t('validation.passwordRequired')
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters'
+      newErrors.password = t('validation.passwordMinLength')
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
+      newErrors.confirmPassword = t('validation.passwordsMismatch')
     }
 
     setErrors(newErrors)
@@ -69,49 +71,49 @@ export default function RegisterScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Create Account" showBack />
+      <Header title={t('register.title')} showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-5">
         <Field
-          label="Full Name"
+          label={t('register.fullNameLabel')}
           type="text"
           value={formData.fullName}
           onChange={(e) => handleChange('fullName', e.target.value)}
-          placeholder="Enter your full name"
+          placeholder={t('register.fullNamePlaceholder')}
           error={errors.fullName}
           required
           autoComplete="name"
         />
 
         <Field
-          label="Email"
+          label={t('register.emailLabel')}
           type="email"
           value={formData.email}
           onChange={(e) => handleChange('email', e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('register.emailPlaceholder')}
           error={errors.email}
           required
           autoComplete="email"
         />
 
         <Field
-          label="Password"
+          label={t('register.passwordLabel')}
           type="password"
           value={formData.password}
           onChange={(e) => handleChange('password', e.target.value)}
-          placeholder="Create a password"
+          placeholder={t('register.passwordPlaceholder')}
           error={errors.password}
-          hint="Must be at least 8 characters"
+          hint={t('register.passwordHint')}
           required
           autoComplete="new-password"
         />
 
         <Field
-          label="Confirm Password"
+          label={t('register.confirmPasswordLabel')}
           type="password"
           value={formData.confirmPassword}
           onChange={(e) => handleChange('confirmPassword', e.target.value)}
-          placeholder="Confirm your password"
+          placeholder={t('register.confirmPasswordPlaceholder')}
           error={errors.confirmPassword}
           required
           autoComplete="new-password"
@@ -122,14 +124,14 @@ export default function RegisterScreen() {
             type="submit"
             className="btn btn-primary btn-block"
           >
-            Create Account
+            {t('register.submit')}
           </button>
         </div>
 
         <p className="text-center text-sm text-neutral-500">
-          Already have an account?{' '}
+          {t('register.hasAccount')}{' '}
           <Link to={PATHS.AUTH_SIGN_IN} className="text-neutral-700 font-medium hover:underline">
-            Sign in
+            {t('register.createLink')}
           </Link>
         </p>
       </form>

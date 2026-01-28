@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { PATHS } from '../../routes'
 
 export default function WelcomeScreen() {
+  const { t } = useTranslation('auth')
   return (
     <div className="min-h-screen bg-cream-100 flex flex-col">
       {/* Header section - conservative, professional */}
@@ -17,9 +19,9 @@ export default function WelcomeScreen() {
           </svg>
         </div>
 
-        <h1 className="text-2xl font-semibold text-charcoal-500 text-center">DocliQ</h1>
+        <h1 className="text-2xl font-semibold text-charcoal-500 text-center">{t('appName')}</h1>
         <p className="mt-3 text-slate-500 text-center max-w-xs leading-relaxed">
-          Your platform for appointment booking, prescription management, and health services.
+          {t('tagline')}
         </p>
 
         {/* Features - factual, trust-focused */}
@@ -36,8 +38,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-charcoal-500">Appointment Booking</p>
-              <p className="text-sm text-slate-500 mt-0.5">Search and book doctor appointments</p>
+              <p className="font-medium text-charcoal-500">{t('feature.appointmentBooking.title')}</p>
+              <p className="text-sm text-slate-500 mt-0.5">{t('feature.appointmentBooking.description')}</p>
             </div>
           </div>
 
@@ -53,8 +55,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-charcoal-500">Family Management</p>
-              <p className="text-sm text-slate-500 mt-0.5">Manage appointments for family members</p>
+              <p className="font-medium text-charcoal-500">{t('feature.familyManagement.title')}</p>
+              <p className="text-sm text-slate-500 mt-0.5">{t('feature.familyManagement.description')}</p>
             </div>
           </div>
 
@@ -70,8 +72,8 @@ export default function WelcomeScreen() {
               </svg>
             </div>
             <div>
-              <p className="font-medium text-charcoal-500">Privacy & Security</p>
-              <p className="text-sm text-slate-500 mt-0.5">GDPR compliant and secure</p>
+              <p className="font-medium text-charcoal-500">{t('feature.privacySecurity.title')}</p>
+              <p className="text-sm text-slate-500 mt-0.5">{t('feature.privacySecurity.description')}</p>
             </div>
           </div>
         </div>
@@ -83,13 +85,13 @@ export default function WelcomeScreen() {
           to={PATHS.AUTH_SIGN_IN}
           className="btn btn-primary btn-block text-center"
         >
-          Sign In
+          {t('signIn')}
         </Link>
         <Link
           to={PATHS.AUTH_REGISTER}
           className="btn btn-secondary btn-block text-center"
         >
-          Register
+          {t('register')}
         </Link>
       </div>
     </div>

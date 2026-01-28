@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
 export default function VerifyScreen() {
+  const { t } = useTranslation('auth')
   const navigate = useNavigate()
   const location = useLocation()
   const { markVerified } = useAuth()
@@ -52,7 +54,7 @@ export default function VerifyScreen() {
 
     const fullCode = code.join('')
     if (fullCode.length !== 6) {
-      setError('Please enter the complete 6-digit code')
+      setError(t('validation.codeIncomplete'))
       return
     }
 
@@ -75,7 +77,7 @@ export default function VerifyScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Verify Email" showBack />
+      <Header title={t('verify.title')} showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6">
         <div className="text-center mb-8">
@@ -89,9 +91,9 @@ export default function VerifyScreen() {
               />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold text-neutral-900">Check your email</h2>
+          <h2 className="text-lg font-semibold text-neutral-900">{t('verify.heading')}</h2>
           <p className="mt-1 text-sm text-neutral-500">
-            We sent a 6-digit verification code to your email. Enter it below to verify your account.
+            {t('verify.description')}
           </p>
         </div>
 
@@ -117,14 +119,14 @@ export default function VerifyScreen() {
         {error && <p className="text-center text-sm text-red-500 mb-4">{error}</p>}
 
         <p className="text-center text-sm text-neutral-500 mb-6">
-          For this demo, enter any 6-digit code to continue.
+          {t('verify.demoHint')}
         </p>
 
         <button
           type="submit"
           className="btn btn-primary btn-block"
         >
-          Verify
+          {t('verify.submit')}
         </button>
 
         <button
@@ -132,7 +134,7 @@ export default function VerifyScreen() {
           onClick={handleResend}
           className="btn btn-tertiary btn-block mt-3"
         >
-          Resend code
+          {t('verify.resend')}
         </button>
       </form>
     </Page>

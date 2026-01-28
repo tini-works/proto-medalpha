@@ -35,7 +35,9 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 
 ### Internationalization (i18n)
 - **Multi-language support**: English and German translation support using react-i18next
-- **Namespaced translations**: Organized by domain (settings, home, notifications) for incremental expansion
+- **Namespaced translations**: Organized by domain (settings, home, notifications, booking, auth, profile) for incremental expansion
+- **Complete translation coverage**: All authentication and profile screens fully translated with 50+ auth keys and 80+ profile keys
+- **Dynamic relationship labels**: Relationship types translate based on current language preference
 - **Localized date formatting**: Date labels and formatting adapt to current language preference
 - **Language persistence**: Language preference stored in app state and localStorage
 
@@ -96,11 +98,17 @@ appointment-booking-N3/
 │   │   ├── en/             # English translations
 │   │   │   ├── settings.json
 │   │   │   ├── home.json
-│   │   │   └── notifications.json
+│   │   │   ├── notifications.json
+│   │   │   ├── booking.json
+│   │   │   ├── auth.json
+│   │   │   └── profile.json
 │   │   └── de/             # German translations
 │   │       ├── settings.json
 │   │       ├── home.json
-│   │       └── notifications.json
+│   │       ├── notifications.json
+│   │       ├── booking.json
+│   │       ├── auth.json
+│   │       └── profile.json
 │   ├── routes/             # Routing configuration
 │   │   ├── paths.ts        # Route path constants
 │   │   ├── guards.tsx     # Route guards (RequireAuth, RequireProfileComplete)

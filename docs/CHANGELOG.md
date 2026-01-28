@@ -4,6 +4,10 @@ High-level, business-focused summary of notable changes.
 
 ## 2026-01-28
 
+- **Auth flow German translations**: Complete i18n coverage for all 5 authentication screens (Welcome, Sign In, Register, Verify Email, Verify Identity) with 50+ English/German translation keys including form labels, validation messages, and feature descriptions.
+- **Profile section German translations**: Full i18n support for all 4 profile screens (Profile Completion, Family Members, Family Member Detail, Edit Profile) with 80+ translation keys covering form fields, validation, relationships, insurance types, and GDPR consent text.
+- **Extended i18n namespace registration**: Updated i18n configuration to include new `auth` and `profile` namespaces alongside existing (settings, home, notifications, booking) for modular, incremental translation support.
+- **Dynamic relationship labels**: Implemented context-aware translation for relationship types (child, spouse, parent, other) in FamilyMemberDetailScreen that automatically translate when language preference changes.
 - **i18n infrastructure for Home & Notifications**: Extended react-i18next setup to support German translations for HomeScreen and NotificationsScreen via new namespaced translation files (`home.json` and `notifications.json`) in both English and German.
 - **HomeScreen German translations**: All UI strings now support German—welcome message, pending appointments section, quick actions (Book Appointment, Family), and Latest Health News section.
 - **Notifications screen German translations**: Full translation coverage for Updates screen including tab labels (Notifications / News Feed), date group headers (TODAY / YESTERDAY), Short Guides, Featured Story, and action buttons.
