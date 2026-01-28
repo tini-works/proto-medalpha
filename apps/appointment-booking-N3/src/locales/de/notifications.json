@@ -8,5 +8,21 @@
   "shortGuides": "Kurzanleitungen",
   "featuredStory": "Beitrag im Fokus",
   "new": "Neu",
-  "readFullStory": "Vollständigen Beitrag lesen"
+  "readFullStory": "Vollständigen Beitrag lesen",
+  "categoryBookingUpdate": "TERMINAKTUALISIERUNG",
+  "categoryCancellationAlert": "STORNIERUNGSWARNUNG",
+  "categoryUpcoming": "BEVORSTEHEND",
+  "categorySecurity": "SICHERHEIT",
+  "categoryFamilyProfile": "FAMILIENPROFIL",
+  "actionViewDetails": "Details anzeigen",
+  "actionReschedule": "Neu planen",
+  "actionMyProfile": "Mein Profil",
+  "actionManageFamily": "Familie verwalten",
+  "minRead": "{{count}} Min. Lesezeit",
+  "read": "Lesen",
+  "categoryCardiology": "KARDIOLOGIE",
+  "categoryNutrition": "ERNÄHRUNG",
+  "categoryMentalHealth": "PSYCHISCHE GESUNDHEIT",
+  "categoryFitness": "FITNESS",
+  "categoryGeneral": "ALLGEMEIN"
 }

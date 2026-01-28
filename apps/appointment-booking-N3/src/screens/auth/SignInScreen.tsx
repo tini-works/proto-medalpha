@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field } from '../../components/forms'
+import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
 export default function SignInScreen() {
+  const { t } = useTranslation('auth')
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
@@ -26,11 +29,11 @@ export default function SignInScreen() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = t('validation.emailRequired')
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required'
+      newErrors.password = t('validation.passwordRequired')
     }
 
     setErrors(newErrors)
@@ -51,44 +54,41 @@ export default function SignInScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Sign In" showBack />
+      <Header title={t('signIn.title')} showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-5">
         <Field
-          label="Email"
+          label={t('signIn.emailLabel')}
           type="email"
           value={formData.email}
           onChange={(e) => handleChange('email', e.target.value)}
-          placeholder="Enter your email"
+          placeholder={t('signIn.emailPlaceholder')}
           error={errors.email}
           required
           autoComplete="email"
         />
 
         <Field
-          label="Password"
+          label={t('signIn.passwordLabel')}
           type="password"
           value={formData.password}
           onChange={(e) => handleChange('password', e.target.value)}
-          placeholder="Enter your password"
+          placeholder={t('signIn.passwordPlaceholder')}
           error={errors.password}
           required
           autoComplete="current-password"
         />
 
         <div className="pt-4">
-          <button
-            type="submit"
-            className="btn btn-primary btn-block"
-          >
-            Sign In
-          </button>
+          <Button variant="primary" fullWidth type="submit">
+            {t('signIn.submit')}
+          </Button>
         </div>
 
         <p className="text-center text-sm text-neutral-500">
-          Don&apos;t have an account?{' '}
+          {t('signIn.noAccount')}{' '}
           <Link to={PATHS.AUTH_REGISTER} className="text-neutral-700 font-medium hover:underline">
-            Create one
+            {t('signIn.createOne')}
           </Link>
         </p>
       </form>

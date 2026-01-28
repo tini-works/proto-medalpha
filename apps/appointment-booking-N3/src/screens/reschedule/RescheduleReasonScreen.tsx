@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { IconCalendar, IconClock } from '@tabler/icons-react'
 import { Avatar, Header, Page } from '../../components'
+import { Button } from '../../components/ui'
 import { useBooking, useReschedule } from '../../state'
 import { PATHS, reschedulePath } from '../../routes'
 
@@ -70,15 +72,11 @@ export default function RescheduleReasonScreen() {
               <p className="text-sm text-slate-600">{appointment.specialty}</p>
               <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
                 <span className="inline-flex items-center gap-1">
-                  <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+                  <IconCalendar className="w-4 h-4 text-slate-400" stroke={2} />
                   {appointment.dateISO}
                 </span>
                 <span className="inline-flex items-center gap-1">
-                  <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3M12 4a8 8 0 100 16 8 8 0 000-16z" />
-                  </svg>
+                  <IconClock className="w-4 h-4 text-slate-400" stroke={2} />
                   {appointment.time}
                 </span>
               </div>
@@ -125,16 +123,18 @@ export default function RescheduleReasonScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md flex flex-col gap-3">
-          <button
+          <Button
             onClick={handleNext}
             disabled={!reason}
-            className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed"
+            variant="primary"
+            size="lg"
+            fullWidth
           >
             Next
-          </button>
-          <button onClick={handleSkip} className="btn btn-tertiary btn-block h-12 py-0">
+          </Button>
+          <Button onClick={handleSkip} variant="tertiary" size="md" fullWidth>
             Skip for now
-          </button>
+          </Button>
         </div>
       </div>
     </Page>

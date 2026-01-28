@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { Doctor, TimeSlot } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
 import { TimeSlotButton } from '../forms/TimeSlotButton'
+import { Button } from '../ui'
 
 interface DoctorCardProps {
   doctor: Doctor
@@ -14,61 +16,14 @@ interface DoctorCardProps {
 }
 
 // Helper to format time slot subtitle (duration or day label)
-function getSlotSubtitle(slot: TimeSlot): string {
+function getSlotSubtitle(slot: TimeSlot, t: ReturnType<typeof useTranslation>['t']): string {
   const today = new Date()
   const slotDate = new Date(slot.dateISO)
   const daysDiff = Math.ceil((slotDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 
-  if (daysDiff === 0) return 'Today'
-  if (daysDiff === 1) return 'Tomorrow'
+  if (daysDiff === 0) return t('today')
+  if (daysDiff === 1) return t('tomorrow')
   return '15 min'
-}
-
-// Heart icon component
-function HeartIcon({ filled }: { filled: boolean }) {
-  if (filled) {
-    return (
-      <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-      </svg>
-    )
-  }
-  return (
-    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-      />
-    </svg>
-  )
-}
-
-// Star icon for compact rating display
-function StarIcon() {
-  return (
-    <svg className="w-3.5 h-3.5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-    </svg>
-  )
-}
-
-// Location icon
-function LocationIcon() {
-  return (
-    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-      />
-    </svg>
-  )
 }
 
 export function DoctorCard({
@@ -79,6 +34,7 @@ export function DoctorCard({
   onMoreAppointments,
   showSlots = true,
 }: DoctorCardProps) {
+  const { t } = useTranslation('booking')
   const [isFavorite, setIsFavorite] = useState(false)
 
   // Get first 3 available slots for quick booking
@@ -90,9 +46,9 @@ export function DoctorCard({
   const insuranceTag = (() => {
     const hasGkv = doctor.accepts.includes('GKV')
     const hasPkv = doctor.accepts.includes('PKV')
-    if (hasGkv && hasPkv) return 'Both'
-    if (hasGkv) return 'Public'
-    if (hasPkv) return 'Private'
+    if (hasGkv && hasPkv) return t('both')
+    if (hasGkv) return t('public')
+    if (hasPkv) return t('private')
     return '—'
   })()
 
@@ -151,22 +107,35 @@ export function DoctorCard({
                   ? 'text-red-500'
                   : 'text-cream-400 hover:text-red-400'
               }`}
-              aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
             >
-              <HeartIcon filled={isFavorite} />
+              {isFavorite ? (
+                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" stroke="currentColor" strokeWidth={1.5}>
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              )}
             </button>
           </div>
 
           {/* Rating and distance row */}
           <div className="flex items-center gap-2 mt-1 text-sm text-slate-500">
             <div className="flex items-center gap-1">
-              <StarIcon />
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-yellow-400" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
               <span className="font-medium text-slate-500">{doctor.rating.toFixed(1)}</span>
               <span className="text-slate-400">({doctor.reviewCount})</span>
             </div>
             <span className="text-cream-400">|</span>
             <div className="flex items-center gap-1">
-              <LocationIcon />
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                <path d="M12 1C6.48 1 2 5.48 2 11c0 6 4.48 11 10 11s10-5 10-11S17.52 1 12 1zm0 19c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                <circle cx="12" cy="11" r="1.5" />
+              </svg>
               <span>{distanceKm} km</span>
             </div>
           </div>
@@ -191,18 +160,19 @@ export function DoctorCard({
           {/* Header row */}
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
-              Next Available
+              {t('nextAvailable')}
             </span>
             {onMoreAppointments && (
-              <button
+              <Button
+                variant="link"
+                className="text-xs text-slate-500 hover:text-charcoal-500 flex items-center gap-0.5"
                 onClick={handleMoreClick}
-                className="text-xs font-medium text-slate-500 hover:text-charcoal-500 flex items-center gap-0.5"
               >
-                More appointments
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                {t('moreAppointments')}
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <path d="M9 18l6-6-6-6" />
                 </svg>
-              </button>
+              </Button>
             )}
           </div>
 
@@ -212,7 +182,7 @@ export function DoctorCard({
               <TimeSlotButton
                 key={`${slot.dateISO}-${slot.time}`}
                 time={slot.time}
-                subtitle={getSlotSubtitle(slot)}
+                subtitle={getSlotSubtitle(slot, t)}
                 variant={index === 0 ? 'primary' : 'secondary'}
                 onClick={() => handleSlotClick(slot)}
               />
@@ -224,12 +194,12 @@ export function DoctorCard({
       {/* Fallback if no slots but showSlots is true */}
       {showSlots && availableSlots.length === 0 && (
         <div className="mt-4 pt-3 border-t border-cream-300">
-          <button
+          <Button
+            className="w-full py-2.5 text-sm text-slate-500 hover:text-charcoal-500 bg-cream-100 hover:bg-cream-200 rounded-lg transition-colors"
             onClick={onSelectDoctor}
-            className="w-full py-2.5 text-sm font-medium text-slate-500 hover:text-charcoal-500 bg-cream-100 hover:bg-cream-200 rounded-lg transition-colors"
           >
-            View available appointments
-          </button>
+            {t('viewAvailableAppointments')}
+          </Button>
         </div>
       )}
     </div>

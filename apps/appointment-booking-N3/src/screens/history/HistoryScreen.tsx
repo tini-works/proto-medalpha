@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { IconClock, IconMessageCircle, IconX, IconPlus } from '@tabler/icons-react'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { useBooking } from '../../state'
 import { PATHS, appointmentDetailPath } from '../../routes/paths'
@@ -62,53 +63,22 @@ export default function HistoryScreen() {
     {
       value: 'all',
       label: 'All',
-      icon: (
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />
-        </svg>
-      ),
+      icon: IconClock,
     },
     {
       value: 'await_confirm',
       label: 'Await confirm',
-      icon: (
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
+      icon: IconClock,
     },
     {
       value: 'matching',
       label: 'Matching',
-      icon: (
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M8 12h8m2-6H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V8a2 2 0 00-2-2z"
-          />
-        </svg>
-      ),
+      icon: IconMessageCircle,
     },
     {
       value: 'cancelled_doctor',
       label: 'Doctor canceled',
-      icon: (
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
-          />
-        </svg>
-      ),
+      icon: IconX,
     },
   ] as const
 
@@ -128,9 +98,7 @@ export default function HistoryScreen() {
             className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center hover:bg-cream-200 transition-colors duration-normal ease-out-brand"
             aria-label="Appointment history"
           >
-            <svg className="w-5 h-5 text-charcoal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            <IconClock size={20} className="text-charcoal-500" strokeWidth={2} />
           </button>
         </div>
       </header>
@@ -168,6 +136,7 @@ export default function HistoryScreen() {
                   <div className="flex gap-2">
                     {statusChips.map((chip) => {
                       const isActive = statusFilter === chip.value
+                      const IconComponent = chip.icon
                       return (
                         <button
                           key={chip.value}
@@ -182,7 +151,9 @@ export default function HistoryScreen() {
                               : 'bg-white text-charcoal-500 border-cream-400 hover:border-cream-500'
                           }`}
                         >
-                          <span className={isActive ? 'text-white' : 'text-slate-600'}>{chip.icon}</span>
+                          <span className={isActive ? 'text-white' : 'text-slate-600'}>
+                            <IconComponent size={16} strokeWidth={2} />
+                          </span>
                           {isActive && <span>{chip.label}</span>}
                         </button>
                       )
@@ -226,9 +197,7 @@ export default function HistoryScreen() {
         className="fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all duration-normal ease-out-brand"
         aria-label="Book new appointment"
       >
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
+        <IconPlus size={28} strokeWidth={2} />
       </button>
 
       <TabBar />

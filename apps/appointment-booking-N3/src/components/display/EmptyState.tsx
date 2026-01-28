@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { IconSearch, IconCalendar, IconClock, IconUser, IconInbox } from '@tabler/icons-react'
 
 interface EmptyStateProps {
   icon?: 'search' | 'calendar' | 'history' | 'user'
@@ -8,39 +9,20 @@ interface EmptyStateProps {
 }
 
 function EmptyIcon({ icon }: { icon: EmptyStateProps['icon'] }) {
-  const className = 'w-12 h-12 text-cream-400'
+  const className = 'text-cream-400'
 
+  // Use Tabler icons for empty states with appropriate sizing
   switch (icon) {
     case 'search':
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      )
+      return <IconSearch className={className} size={48} stroke={1.5} />
     case 'calendar':
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-      )
+      return <IconCalendar className={className} size={48} stroke={1.5} />
     case 'history':
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
+      return <IconClock className={className} size={48} stroke={1.5} />
     case 'user':
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      )
+      return <IconUser className={className} size={48} stroke={1.5} />
     default:
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-        </svg>
-      )
+      return <IconInbox className={className} size={48} stroke={1.5} />
   }
 }
 

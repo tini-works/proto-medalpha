@@ -1,3 +1,4 @@
+import { IconChevronRight } from '@tabler/icons-react'
 import type { CMSContent } from '../../types'
 import { Pill } from '../display/Pill'
 
@@ -44,9 +45,7 @@ export function CMSCard({ content, onClick }: CMSCardProps) {
       {content.link && (
         <span className="mt-2 inline-flex items-center text-sm text-teal-700 font-medium hover:underline">
           Learn more
-          <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          <IconChevronRight className="w-4 h-4 ml-1" stroke={2} />
         </span>
       )}
     </button>

@@ -1,385 +1,388 @@
 import { ShortGuide, FeaturedStory, NewsArticle } from '../types'
 
 // Mock Short Guides - video/guide cards for horizontal scroll
+// German content for prototype demonstration
 export const mockShortGuides: ShortGuide[] = [
   {
     id: 'guide-1',
-    title: '5 Heart Health Tips',
+    title: '5 Tipps für ein gesundes Herz',
     imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300&h=400&fit=crop',
     hasVideo: true,
   },
   {
     id: 'guide-2',
-    title: 'Quick Stress Relief',
+    title: 'Schnelle Stressbewältigung',
     imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=300&h=400&fit=crop',
     hasVideo: true,
   },
   {
     id: 'guide-3',
-    title: 'Healthy Meal Prep',
+    title: 'Gesunde Mahlzeiten vorbereiten',
     imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=400&fit=crop',
     hasVideo: true,
   },
   {
     id: 'guide-4',
-    title: 'Fitness Fundamentals',
+    title: 'Fitness-Grundlagen',
     imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=400&fit=crop',
     hasVideo: true,
   },
   {
     id: 'guide-5',
-    title: 'Sleep Better Tonight',
+    title: 'Besser schlafen heute Nacht',
     imageUrl: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=300&h=400&fit=crop',
     hasVideo: true,
   },
 ]
 
 // Mock Featured Story - prominently displayed article
+// German content for prototype demonstration
 export const mockFeaturedStory: FeaturedStory = {
   id: 'article-featured-1',
-  title: 'Introducing AI Symptom Checker',
-  description: 'Experience faster, more accurate preliminary assessments with our latest platform update...',
+  title: 'Wir stellen vor: KI-Symptom-Checker',
+  description: 'Erleben Sie schnellere und genauere Erstbewertungen mit unserem neuesten Plattform-Update...',
   imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop',
   isNew: true,
 }
 
 // Mock News Articles - full articles with content for detail view
+// German content for prototype demonstration
 export const mockNewsArticles: NewsArticle[] = [
   {
     id: 'article-featured-1',
     category: 'GENERAL',
-    title: 'Introducing AI Symptom Checker',
+    title: 'Wir stellen vor: KI-Symptom-Checker',
     readTimeMinutes: 6,
     imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=400&fit=crop',
     publishedAt: new Date('2024-01-27'),
     author: {
-      name: 'Dr. Michael Zhang, MD',
-      title: 'Chief Medical Officer',
+      name: 'Dr. Michael Zhang',
+      title: 'Ärztlicher Direktor',
       avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
     },
-    content: `# Introducing AI Symptom Checker
+    content: `# Wir stellen vor: KI-Symptom-Checker
 
-We're excited to announce the launch of our new AI-powered Symptom Checker, a revolutionary tool designed to provide faster, more accurate preliminary health assessments right from your mobile device.
+Wir freuen uns, den Start unseres neuen KI-gestützten Symptom-Checkers bekannt zu geben – ein revolutionäres Tool, das schnellere und genauere vorläufige Gesundheitsbewertungen direkt von Ihrem Mobilgerät aus ermöglicht.
 
-## What is the AI Symptom Checker?
+## Was ist der KI-Symptom-Checker?
 
-Our AI Symptom Checker uses advanced machine learning algorithms trained on millions of medical cases to help you understand your symptoms and determine the appropriate level of care you might need.
+Unser KI-Symptom-Checker verwendet fortschrittliche maschinelle Lernalgorithmen, die auf Millionen von medizinischen Fällen trainiert wurden, um Ihnen zu helfen, Ihre Symptome zu verstehen und das angemessene Versorgungsniveau zu bestimmen.
 
-This isn't meant to replace your doctor—it's designed to empower you with information and guide you toward the right healthcare resources.
+Er soll Ihren Arzt nicht ersetzen – er wurde entwickelt, um Sie mit Informationen zu versorgen und Sie zu den richtigen Gesundheitsressourcen zu führen.
 
-## How It Works
+## So funktioniert es
 
-### 1. Describe Your Symptoms
-Simply tell us what you're experiencing in plain language. No need for medical jargon—just describe how you feel.
+### 1. Beschreiben Sie Ihre Symptome
+Erzählen Sie uns einfach in einfacher Sprache, was Sie erleben. Keine medizinischen Fachbegriffe nötig – beschreiben Sie einfach, wie Sie sich fühlen.
 
-### 2. Answer Follow-Up Questions
-Our AI will ask relevant follow-up questions to better understand your situation, including symptom duration, severity, and related factors.
+### 2. Beantworten Sie Folgefragen
+Unsere KI wird relevante Folgefragen stellen, um Ihre Situation besser zu verstehen, einschließlich Symptomdauer, Schweregrad und verwandter Faktoren.
 
-### 3. Get Personalized Insights
-Within seconds, receive:
-- Possible conditions to discuss with your doctor
-- Recommended urgency level (emergency, urgent care, schedule appointment, self-care)
-- Relevant specialists you might want to see
-- Self-care tips when appropriate
+### 3. Erhalten Sie personalisierte Einblicke
+Innerhalb von Sekunden erhalten Sie:
+- Mögliche Erkrankungen, die Sie mit Ihrem Arzt besprechen können
+- Empfohlene Dringlichkeitsstufe (Notfall, dringende Versorgung, Termin vereinbaren, Selbstpflege)
+- Relevante Fachärzte, die Sie aufsuchen könnten
+- Tipps zur Selbstpflege, wenn angemessen
 
-## The Technology Behind It
+## Die Technologie dahinter
 
-Our AI Symptom Checker leverages:
-- **Natural Language Processing (NLP)** to understand your symptom descriptions
-- **Clinical Decision Support Systems** based on evidence-based medicine
-- **Continuous Learning** from anonymized data to improve accuracy
-- **Multi-language Support** for better accessibility
+Unser KI-Symptom-Checker nutzt:
+- **Natürliche Sprachverarbeitung (NLP)** um Ihre Symptombeschreibungen zu verstehen
+- **Klinische Entscheidungsunterstützungssysteme** basierend auf evidenzbasierter Medizin
+- **Kontinuierliches Lernen** aus anonymisierten Daten zur Verbesserung der Genauigkeit
+- **Mehrsprachige Unterstützung** für bessere Zugänglichkeit
 
-## Accuracy and Reliability
+## Genauigkeit und Zuverlässigkeit
 
-In clinical validation studies, our AI Symptom Checker demonstrated:
-- 92% accuracy in identifying the correct condition category
-- 87% agreement with emergency medicine physicians on triage decisions
-- Consistent performance across different age groups and symptom complexities
+In klinischen Validierungsstudien zeigte unser KI-Symptom-Checker:
+- 92% Genauigkeit bei der Identifizierung der korrekten Erkrankungskategorie
+- 87% Übereinstimmung mit Notfallmedizinern bei Triage-Entscheidungen
+- Konsistente Leistung über verschiedene Altersgruppen und Symptomkomplexitäten
 
-## Privacy and Security
+## Datenschutz und Sicherheit
 
-Your health information is precious. That's why we:
-- Encrypt all symptom checker data end-to-end
-- Never share your information with third parties
-- Allow anonymous usage—no account required
-- Comply with HIPAA and GDPR regulations
+Ihre Gesundheitsinformationen sind wertvoll. Deshalb:
+- Verschlüsseln wir alle Symptom-Checker-Daten Ende-zu-Ende
+- Teilen wir Ihre Informationen niemals mit Dritten
+- Ermöglichen wir anonyme Nutzung – kein Konto erforderlich
+- Halten wir HIPAA- und DSGVO-Vorschriften ein
 
-## When to Use It
+## Wann Sie ihn verwenden sollten
 
-The AI Symptom Checker is ideal for:
-- New or concerning symptoms you're experiencing
-- Determining if you need immediate medical attention
-- Deciding whether to schedule a doctor's appointment
-- Understanding potential causes before your visit
-- Getting guidance on minor health concerns
+Der KI-Symptom-Checker ist ideal für:
+- Neue oder besorgniserregende Symptome, die Sie erleben
+- Die Bestimmung, ob Sie sofortige medizinische Versorgung benötigen
+- Die Entscheidung, ob Sie einen Arzttermin vereinbaren sollten
+- Das Verständnis möglicher Ursachen vor Ihrem Besuch
+- Beratung bei kleineren Gesundheitsproblemen
 
-## What It Can't Do
+## Was er nicht kann
 
-While powerful, our AI Symptom Checker:
-- Cannot diagnose conditions definitively
-- Should not be used for medical emergencies (call emergency services)
-- Cannot prescribe medications or treatments
-- Doesn't replace professional medical advice
+Obwohl leistungsstark, kann unser KI-Symptom-Checker:
+- Keine definitiven Diagnosen stellen
+- Sollte nicht für medizinische Notfälle verwendet werden (rufen Sie den Rettungsdienst)
+- Keine Medikamente oder Behandlungen verschreiben
+- Ersetzt keine professionelle medizinische Beratung
 
-## Getting Started
+## Erste Schritte
 
-The AI Symptom Checker is now available in the Health section of your app. Simply tap "Check Symptoms" and start describing how you're feeling.
+Der KI-Symptom-Checker ist jetzt im Gesundheitsbereich Ihrer App verfügbar. Tippen Sie einfach auf „Symptome prüfen" und beginnen Sie zu beschreiben, wie Sie sich fühlen.
 
-We recommend using it as a first step in your healthcare journey—to inform yourself and make more confident decisions about when and where to seek care.
+Wir empfehlen, ihn als ersten Schritt in Ihrer Gesundheitsreise zu verwenden – um sich zu informieren und selbstbewusstere Entscheidungen darüber zu treffen, wann und wo Sie Versorgung suchen sollten.
 
-## Looking Forward
+## Ausblick
 
-This is just the beginning. We're continuously improving our AI with:
-- More specialized symptom trees for chronic conditions
-- Integration with your health records for personalized insights
-- Symptom tracking over time to identify patterns
-- Direct booking with appropriate specialists based on results
+Dies ist erst der Anfang. Wir verbessern unsere KI kontinuierlich mit:
+- Spezialisierteren Symptombäumen für chronische Erkrankungen
+- Integration mit Ihren Gesundheitsakten für personalisierte Einblicke
+- Symptomverfolgung im Zeitverlauf zur Erkennung von Mustern
+- Direktbuchung bei geeigneten Fachärzten basierend auf den Ergebnissen
 
-We believe that informed patients make better health decisions. Our AI Symptom Checker is designed to give you that information quickly and accurately, whenever you need it.`,
+Wir glauben, dass informierte Patienten bessere Gesundheitsentscheidungen treffen. Unser KI-Symptom-Checker wurde entwickelt, um Ihnen diese Informationen schnell und genau zu liefern, wann immer Sie sie brauchen.`,
     keyTakeaway:
-      'Our AI Symptom Checker achieved 92% accuracy in identifying correct condition categories and 87% agreement with emergency physicians on triage decisions in clinical validation studies.',
-    relatedTopics: ['AI Health', 'Digital Health', 'Telemedicine'],
+      'Unser KI-Symptom-Checker erreichte in klinischen Validierungsstudien 92% Genauigkeit bei der Identifizierung korrekter Erkrankungskategorien und 87% Übereinstimmung mit Notfallmedizinern bei Triage-Entscheidungen.',
+    relatedTopics: ['KI-Gesundheit', 'Digitale Gesundheit', 'Telemedizin'],
   },
   {
     id: 'article-1',
     category: 'CARDIOLOGY',
-    title: 'New Breakthroughs in Hypertension Management',
+    title: 'Neue Durchbrüche bei der Behandlung von Bluthochdruck',
     readTimeMinutes: 5,
     imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop',
     publishedAt: new Date('2024-01-24'),
     author: {
-      name: 'Dr. Sarah Chen, MD, PhD',
-      title: 'Chief of Cardiology, Johns Hopkins',
+      name: 'Dr. Sarah Chen',
+      title: 'Chefärztin der Kardiologie, Universitätsklinikum',
       avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
     },
-    content: `# New Breakthroughs in Hypertension Management
+    content: `# Neue Durchbrüche bei der Behandlung von Bluthochdruck
 
-Hypertension remains a leading cause of cardiovascular morbidity worldwide. Recent clinical trials have unveiled promising new therapeutic targets that could revolutionize how we approach treatment resistance.
+Hypertonie bleibt weltweit eine der Hauptursachen für kardiovaskuläre Erkrankungen. Aktuelle klinische Studien haben vielversprechende neue therapeutische Ansätze aufgezeigt, die die Behandlung von therapieresistenten Patienten revolutionieren könnten.
 
-## Understanding the Problem
+## Das Problem verstehen
 
-High blood pressure, or hypertension, is a common condition that affects the body's arteries. It's also called high blood pressure. If you have high blood pressure, the force of blood pushing against the artery walls is consistently too high. The heart has to work harder to pump blood.
+Bluthochdruck, oder Hypertonie, ist eine häufige Erkrankung, die die Arterien des Körpers betrifft. Bei Bluthochdruck ist die Kraft, mit der das Blut gegen die Arterienwände drückt, konstant zu hoch. Das Herz muss härter arbeiten, um Blut zu pumpen.
 
-Hypertension affects millions of people globally and is a major risk factor for heart disease and stroke. Managing blood pressure effectively requires a multi-faceted approach combining lifestyle modifications with pharmacological interventions.
+Hypertonie betrifft weltweit Millionen von Menschen und ist ein wesentlicher Risikofaktor für Herzerkrankungen und Schlaganfall. Die effektive Behandlung des Blutdrucks erfordert einen vielschichtigen Ansatz, der Lebensstiländerungen mit medikamentösen Interventionen kombiniert.
 
-## The Study Findings
+## Die Studienergebnisse
 
-Researchers have identified a novel pathway involving renal denervation that shows significantly improved outcomes for patients who have previously been unresponsive to traditional beta-blockers and ACE inhibitors.
+Forscher haben einen neuartigen Behandlungsweg identifiziert, der die renale Denervation einbezieht und deutlich verbesserte Ergebnisse für Patienten zeigt, die zuvor auf traditionelle Betablocker und ACE-Hemmer nicht angesprochen haben.
 
-### Key Results:
-- 34% reduction in systolic blood pressure on average
-- Sustained improvement over 12-month follow-up period
-- Reduced need for additional medications
-- Improved patient quality of life and compliance
+### Wichtige Ergebnisse:
+- Durchschnittlich 34% Reduktion des systolischen Blutdrucks
+- Anhaltende Verbesserung über einen 12-monatigen Nachbeobachtungszeitraum
+- Reduzierter Bedarf an zusätzlichen Medikamenten
+- Verbesserte Lebensqualität und Therapietreue der Patienten
 
-## The Science Behind It
+## Die Wissenschaft dahinter
 
-The renin-angiotensin-aldosterone system (RAAS) plays a crucial role in blood pressure regulation. By targeting specific neural pathways in the renal arteries, researchers have developed a technique that provides sustained blood pressure reduction.
+Das Renin-Angiotensin-Aldosteron-System (RAAS) spielt eine entscheidende Rolle bei der Blutdruckregulation. Durch die gezielte Behandlung spezifischer Nervenbahnen in den Nierenarterien haben Forscher eine Technik entwickelt, die eine nachhaltige Blutdrucksenkung ermöglicht.
 
-This new approach reduced systolic blood pressure by an average of 15 mmHg in patient groups that showed zero response to triple-drug therapy.
+Dieser neue Ansatz senkte den systolischen Blutdruck im Durchschnitt um 15 mmHg bei Patientengruppen, die keine Reaktion auf eine Dreifach-Medikamententherapie zeigten.
 
-## Clinical Implications
+## Klinische Bedeutung
 
-The implications for long-term stroke prevention are substantial. By addressing the sympathetic nervous system's role in blood pressure regulation, we can offer hope to millions who struggle with uncontrolled hypertension.
+Die Auswirkungen auf die langfristige Schlaganfallprävention sind erheblich. Indem wir die Rolle des sympathischen Nervensystems bei der Blutdruckregulation ansprechen, können wir Millionen von Menschen Hoffnung geben, die mit unkontrolliertem Bluthochdruck kämpfen.
 
-These treatments are still in late-stage clinical trials, but the FDA has granted expedited review status. We expect to see these therapies available in major teaching hospitals by early 2024.
+Diese Behandlungen befinden sich noch in späten klinischen Studien, aber die Zulassungsbehörde hat ein beschleunigtes Prüfverfahren gewährt. Wir erwarten, dass diese Therapien Anfang 2024 in großen Universitätskliniken verfügbar sein werden.
 
-## What's Next for Patients
+## Was kommt als Nächstes für Patienten
 
-Patients are advised to consult with their primary care physicians about eligibility for ongoing trials. As these treatments move closer to widespread availability, updated treatment guidelines will be released.
+Patienten wird geraten, sich bei ihren Hausärzten über die Eignung für laufende Studien zu informieren. Mit zunehmender Verfügbarkeit dieser Behandlungen werden aktualisierte Behandlungsrichtlinien veröffentlicht.
 
-In the meantime, maintaining a healthy lifestyle with regular exercise, reduced sodium intake, and stress management remains crucial for blood pressure control.`,
+In der Zwischenzeit bleibt die Aufrechterhaltung eines gesunden Lebensstils mit regelmäßiger Bewegung, reduzierter Natriumaufnahme und Stressbewältigung entscheidend für die Blutdruckkontrolle.`,
     keyTakeaway:
-      'This new approach reduced systolic blood pressure by an average of 15 mmHg in patient groups that showed zero response to triple-drug therapy.',
-    relatedTopics: ['Heart Health', 'Clinical Trials', 'Medication'],
+      'Dieser neue Ansatz senkte den systolischen Blutdruck im Durchschnitt um 15 mmHg bei Patientengruppen, die keine Reaktion auf eine Dreifach-Medikamententherapie zeigten.',
+    relatedTopics: ['Herzgesundheit', 'Klinische Studien', 'Medikamente'],
   },
   {
     id: 'article-2',
     category: 'NUTRITION',
-    title: '5 Superfoods for Better Immunity This Winter',
+    title: '5 Superfoods für ein stärkeres Immunsystem im Winter',
     readTimeMinutes: 4,
     imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop',
     publishedAt: new Date('2024-01-22'),
     author: {
       name: 'Dr. Maria Rodriguez',
-      title: 'Nutritionist Specialist',
+      title: 'Ernährungsspezialistin',
       avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
     },
-    content: `# 5 Superfoods for Better Immunity This Winter
+    content: `# 5 Superfoods für ein stärkeres Immunsystem im Winter
 
-As winter approaches, supporting your immune system becomes increasingly important. This article explores five nutrient-dense foods that can help keep you healthy throughout the cold season.
+Mit dem Herannahen des Winters wird die Unterstützung Ihres Immunsystems immer wichtiger. Dieser Artikel stellt fünf nährstoffreiche Lebensmittel vor, die Ihnen helfen können, während der kalten Jahreszeit gesund zu bleiben.
 
-## 1. Citrus Fruits
+## 1. Zitrusfrüchte
 
-Rich in vitamin C, citrus fruits like oranges, lemons, and grapefruits are immune-boosting powerhouses. Vitamin C helps your body produce and use white blood cells to fight infection.
+Reich an Vitamin C sind Zitrusfrüchte wie Orangen, Zitronen und Grapefruits wahre Kraftpakete für das Immunsystem. Vitamin C hilft Ihrem Körper, weiße Blutkörperchen zu produzieren und einzusetzen, um Infektionen zu bekämpfen.
 
-## 2. Garlic
+## 2. Knoblauch
 
-Fresh garlic contains allicin, a compound with powerful antimicrobial properties. Adding garlic to your meals can provide significant immune benefits.
+Frischer Knoblauch enthält Allicin, eine Verbindung mit starken antimikrobiellen Eigenschaften. Das Hinzufügen von Knoblauch zu Ihren Mahlzeiten kann erhebliche Vorteile für das Immunsystem bieten.
 
-## 3. Ginger
+## 3. Ingwer
 
-This warming spice has been used in traditional medicine for centuries. Ginger contains gingerols and shogaols, compounds that may help reduce inflammation and support immune function.
+Dieses wärmende Gewürz wird seit Jahrhunderten in der traditionellen Medizin verwendet. Ingwer enthält Gingerole und Shogaole, Verbindungen, die helfen können, Entzündungen zu reduzieren und die Immunfunktion zu unterstützen.
 
-## 4. Mushrooms
+## 4. Pilze
 
-Particularly shiitake and oyster mushrooms, these fungi contain beta-glucans that activate immune cells. Add them to soups, stir-fries, or roast them as a side dish.
+Besonders Shiitake- und Austernpilze enthalten Beta-Glucane, die Immunzellen aktivieren. Fügen Sie sie Suppen, Pfannengerichten hinzu oder rösten Sie sie als Beilage.
 
-## 5. Leafy Greens
+## 5. Blattgemüse
 
-Spinach, kale, and other dark leafy greens are packed with vitamins A, C, and K, all essential for immune health. They also contain folate and iron.
+Spinat, Grünkohl und andere dunkle Blattgemüse sind reich an Vitaminen A, C und K, die alle für die Immungesundheit essentiell sind. Sie enthalten auch Folsäure und Eisen.
 
-## Simple Winter Immunity Bowl Recipe
+## Einfaches Winter-Immun-Bowl Rezept
 
-Try combining these superfoods into a nourishing bowl: sautéed leafy greens, roasted mushrooms, garlic, fresh citrus segments, and ginger-infused broth.`,
-    keyTakeaway: 'Incorporating these five superfoods into your winter diet can significantly boost your immune system naturally.',
-    relatedTopics: ['Nutrition', 'Wellness', 'Immunity'],
+Probieren Sie, diese Superfoods in einer nahrhaften Bowl zu kombinieren: angebratenes Blattgemüse, geröstete Pilze, Knoblauch, frische Zitrussegmente und Ingwer-Brühe.`,
+    keyTakeaway: 'Die Integration dieser fünf Superfoods in Ihre Winterernährung kann Ihr Immunsystem auf natürliche Weise deutlich stärken.',
+    relatedTopics: ['Ernährung', 'Wellness', 'Immunität'],
   },
   {
     id: 'article-3',
     category: 'MENTAL_HEALTH',
-    title: 'The Science of Daily Mindfulness Practice',
+    title: 'Die Wissenschaft der täglichen Achtsamkeitspraxis',
     readTimeMinutes: 6,
     imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=400&fit=crop',
     publishedAt: new Date('2024-01-20'),
     author: {
       name: 'Dr. James Wilson',
-      title: 'Psychologist & Wellness Expert',
+      title: 'Psychologe & Wellness-Experte',
       avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
     },
-    content: `# The Science of Daily Mindfulness Practice
+    content: `# Die Wissenschaft der täglichen Achtsamkeitspraxis
 
-Mindfulness has become increasingly popular in recent years, but what does the science actually say about its benefits? This comprehensive review explores the evidence-based benefits of daily mindfulness practice.
+Achtsamkeit ist in den letzten Jahren immer beliebter geworden, aber was sagt die Wissenschaft tatsächlich über ihre Vorteile? Diese umfassende Übersicht untersucht die evidenzbasierten Vorteile der täglichen Achtsamkeitspraxis.
 
-## What is Mindfulness?
+## Was ist Achtsamkeit?
 
-Mindfulness is the practice of maintaining moment-to-moment awareness of our thoughts, feelings, bodily sensations, and surrounding environment with a non-judgmental, open-minded attitude.
+Achtsamkeit ist die Praxis, eine Moment-zu-Moment-Bewusstheit unserer Gedanken, Gefühle, körperlichen Empfindungen und der umgebenden Umwelt mit einer nicht-wertenden, aufgeschlossenen Haltung aufrechtzuerhalten.
 
-## Research-Backed Benefits
+## Wissenschaftlich belegte Vorteile
 
-### Stress Reduction
-Studies show that regular mindfulness practice activates the parasympathetic nervous system, reducing cortisol levels and promoting relaxation.
+### Stressreduktion
+Studien zeigen, dass regelmäßige Achtsamkeitspraxis das parasympathische Nervensystem aktiviert, den Cortisolspiegel senkt und Entspannung fördert.
 
-### Improved Focus
-Mindfulness meditation strengthens attention networks, leading to improved concentration and cognitive performance.
+### Verbesserte Konzentration
+Achtsamkeitsmeditation stärkt Aufmerksamkeitsnetzwerke, was zu verbesserter Konzentration und kognitiver Leistung führt.
 
-### Emotional Regulation
-Practitioners develop better control over their emotional responses, leading to increased emotional resilience.
+### Emotionale Regulation
+Praktizierende entwickeln eine bessere Kontrolle über ihre emotionalen Reaktionen, was zu erhöhter emotionaler Belastbarkeit führt.
 
-### Sleep Quality
-Evening mindfulness practices have been shown to improve sleep onset and quality.
+### Schlafqualität
+Abendliche Achtsamkeitspraktiken haben nachweislich das Einschlafen und die Schlafqualität verbessert.
 
-## Getting Started
+## Erste Schritte
 
-Begin with just 5-10 minutes daily. Find a quiet space, sit comfortably, and focus on your breath. When your mind wanders, gently bring it back to the present moment.
+Beginnen Sie mit nur 5-10 Minuten täglich. Finden Sie einen ruhigen Ort, setzen Sie sich bequem hin und konzentrieren Sie sich auf Ihren Atem. Wenn Ihre Gedanken abschweifen, bringen Sie sie sanft in den gegenwärtigen Moment zurück.
 
-## Consistency is Key
+## Regelmäßigkeit ist der Schlüssel
 
-The benefits of mindfulness accumulate over time. Most people report noticeable improvements after 8 weeks of consistent practice.`,
-    keyTakeaway: 'Regular mindfulness practice has been scientifically proven to reduce stress, improve focus, and enhance emotional well-being.',
-    relatedTopics: ['Mental Health', 'Meditation', 'Wellness'],
+Die Vorteile der Achtsamkeit akkumulieren sich über die Zeit. Die meisten Menschen berichten nach 8 Wochen konsequenter Praxis von spürbaren Verbesserungen.`,
+    keyTakeaway: 'Regelmäßige Achtsamkeitspraxis hat sich wissenschaftlich als stressreduzierend, konzentrationsfördernd und emotional stabilisierend erwiesen.',
+    relatedTopics: ['Psychische Gesundheit', 'Meditation', 'Wellness'],
   },
   {
     id: 'article-4',
     category: 'FITNESS',
-    title: 'Why Walking is the Best Medicine',
+    title: 'Warum Spazierengehen die beste Medizin ist',
     readTimeMinutes: 7,
     imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop',
     publishedAt: new Date('2024-01-18'),
     author: {
       name: 'Dr. Robert Patterson',
-      title: 'Sports Medicine Physician',
+      title: 'Sportmediziner',
       avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
     },
-    content: `# Why Walking is the Best Medicine
+    content: `# Warum Spazierengehen die beste Medizin ist
 
-Walking is often overlooked as a form of exercise, but research consistently shows its profound benefits for physical and mental health. This article explores why walking deserves to be your preferred form of daily movement.
+Spazierengehen wird oft als Bewegungsform unterschätzt, aber die Forschung zeigt konsequent seine tiefgreifenden Vorteile für die körperliche und geistige Gesundheit. Dieser Artikel erklärt, warum Spazierengehen Ihre bevorzugte Form der täglichen Bewegung sein sollte.
 
-## The Benefits of Regular Walking
+## Die Vorteile regelmäßigen Spazierengehens
 
-### Cardiovascular Health
-Walking for 30 minutes daily reduces the risk of heart disease by up to 35%. It strengthens your heart and improves circulation.
+### Herz-Kreislauf-Gesundheit
+30 Minuten tägliches Gehen reduziert das Risiko von Herzerkrankungen um bis zu 35%. Es stärkt Ihr Herz und verbessert die Durchblutung.
 
-### Weight Management
-Regular walking burns calories and helps maintain a healthy weight without the joint stress of high-impact exercise.
+### Gewichtsmanagement
+Regelmäßiges Gehen verbrennt Kalorien und hilft, ein gesundes Gewicht zu halten, ohne die Gelenkbelastung von intensivem Training.
 
-### Brain Health
-Walking increases blood flow to the brain, improving cognitive function and reducing the risk of dementia.
+### Gehirngesundheit
+Spazierengehen erhöht die Durchblutung des Gehirns, verbessert die kognitive Funktion und reduziert das Demenzrisiko.
 
-### Longevity
-Studies show that regular walkers live longer, healthier lives compared to sedentary individuals.
+### Langlebigkeit
+Studien zeigen, dass regelmäßige Spaziergänger im Vergleich zu sitzenden Personen länger und gesünder leben.
 
-## Making Walking More Enjoyable
+## Spazierengehen angenehmer gestalten
 
-- Walk with a friend for social connection
-- Listen to podcasts or audiobooks
-- Choose scenic routes
-- Join a walking group
-- Set daily step goals using a pedometer or fitness tracker
+- Gehen Sie mit einem Freund für soziale Verbindung
+- Hören Sie Podcasts oder Hörbücher
+- Wählen Sie malerische Routen
+- Treten Sie einer Wandergruppe bei
+- Setzen Sie tägliche Schrittziele mit einem Schrittzähler oder Fitness-Tracker
 
-## Getting Started
+## Erste Schritte
 
-Begin with 10-15 minutes of daily walking and gradually increase to 30 minutes. Even short walks provide benefits.
+Beginnen Sie mit 10-15 Minuten täglichem Gehen und steigern Sie sich schrittweise auf 30 Minuten. Selbst kurze Spaziergänge bieten Vorteile.
 
-## The Walking Prescription
+## Die Walking-Empfehlung
 
-Health experts recommend at least 150 minutes of moderate-intensity walking per week for optimal health benefits.`,
+Gesundheitsexperten empfehlen mindestens 150 Minuten moderates Gehen pro Woche für optimale gesundheitliche Vorteile.`,
     keyTakeaway:
-      'Just 30 minutes of daily walking can significantly improve cardiovascular health, mental well-being, and overall longevity.',
-    relatedTopics: ['Fitness', 'Exercise', 'Heart Health'],
+      'Nur 30 Minuten tägliches Spazierengehen können die Herz-Kreislauf-Gesundheit, das psychische Wohlbefinden und die allgemeine Langlebigkeit erheblich verbessern.',
+    relatedTopics: ['Fitness', 'Bewegung', 'Herzgesundheit'],
   },
   {
     id: 'article-5',
     category: 'GENERAL',
-    title: 'Understanding Your Annual Health Checkup',
+    title: 'Ihre jährliche Vorsorgeuntersuchung verstehen',
     readTimeMinutes: 5,
     imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
     publishedAt: new Date('2024-01-16'),
     author: {
-      name: 'Dr. Elizabeth Moore',
-      title: 'Primary Care Physician',
+      name: 'Dr. Elisabeth Müller',
+      title: 'Hausärztin',
       avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
     },
-    content: `# Understanding Your Annual Health Checkup
+    content: `# Ihre jährliche Vorsorgeuntersuchung verstehen
 
-Annual health checkups are an essential part of preventive medicine. This guide explains what to expect and how to prepare for your next checkup.
+Jährliche Vorsorgeuntersuchungen sind ein wesentlicher Bestandteil der Präventivmedizin. Dieser Leitfaden erklärt, was Sie erwartet und wie Sie sich auf Ihre nächste Untersuchung vorbereiten können.
 
-## Why Annual Checkups Matter
+## Warum jährliche Untersuchungen wichtig sind
 
-Regular checkups allow physicians to:
-- Establish baseline health metrics
-- Detect potential health issues early
-- Monitor chronic conditions
-- Update vaccinations
-- Discuss lifestyle modifications
+Regelmäßige Untersuchungen ermöglichen es Ärzten:
+- Gesundheits-Basiswerte zu ermitteln
+- Potenzielle Gesundheitsprobleme frühzeitig zu erkennen
+- Chronische Erkrankungen zu überwachen
+- Impfungen zu aktualisieren
+- Lebensstiländerungen zu besprechen
 
-## What to Expect
+## Was Sie erwartet
 
-### Physical Examination
-Your doctor will check vital signs, perform a physical exam, and listen to your heart and lungs.
+### Körperliche Untersuchung
+Ihr Arzt wird die Vitalzeichen überprüfen, eine körperliche Untersuchung durchführen und Ihr Herz und Ihre Lungen abhören.
 
-### Blood Work
-Laboratory tests check for various health markers including cholesterol, blood sugar, and other indicators.
+### Blutuntersuchung
+Laboruntersuchungen prüfen verschiedene Gesundheitsmarker einschließlich Cholesterin, Blutzucker und andere Indikatoren.
 
-### Medical History
-Be prepared to discuss any new symptoms, medications, or family health history changes.
+### Krankengeschichte
+Seien Sie bereit, neue Symptome, Medikamente oder Änderungen in der Familiengesundheitsgeschichte zu besprechen.
 
-## How to Prepare
+## Wie Sie sich vorbereiten
 
-- Bring insurance information and ID
-- Make a list of current medications
-- Note any health concerns
-- Fast if blood work is ordered
-- Wear comfortable clothing
+- Bringen Sie Versicherungsinformationen und Ausweis mit
+- Erstellen Sie eine Liste aktueller Medikamente
+- Notieren Sie alle Gesundheitsbedenken
+- Fasten Sie, wenn eine Blutuntersuchung angeordnet ist
+- Tragen Sie bequeme Kleidung
 
-## Making the Most of Your Visit
+## Das Beste aus Ihrem Besuch machen
 
-- Ask questions about your results
-- Discuss preventive care options
-- Update health goals with your physician
-- Schedule any recommended follow-up appointments`,
-    keyTakeaway: 'Annual health checkups are crucial for early disease detection and maintaining overall wellness.',
-    relatedTopics: ['Preventive Care', 'Health Checkup', 'Wellness'],
+- Stellen Sie Fragen zu Ihren Ergebnissen
+- Besprechen Sie Präventionsoptionen
+- Aktualisieren Sie Gesundheitsziele mit Ihrem Arzt
+- Vereinbaren Sie empfohlene Folgetermine`,
+    keyTakeaway: 'Jährliche Vorsorgeuntersuchungen sind entscheidend für die Früherkennung von Krankheiten und die Erhaltung der allgemeinen Gesundheit.',
+    relatedTopics: ['Vorsorge', 'Gesundheitscheck', 'Wellness'],
   },
 ]

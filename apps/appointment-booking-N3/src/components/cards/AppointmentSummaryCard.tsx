@@ -1,3 +1,5 @@
+import { IconCalendar, IconClock, IconVideo, IconMapPin } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
 
 interface AppointmentSummaryCardProps {
@@ -21,7 +23,8 @@ export function AppointmentSummaryCard({
   type,
   address,
 }: AppointmentSummaryCardProps) {
-  const typeLabel = type === 'in-person' ? 'In-Person Visit' : 'Video Consultation'
+  const { t } = useTranslation('booking')
+  const typeLabel = type === 'in-person' ? t('inPersonVisit') : t('videoConsultation')
 
   return (
     <div className="bg-white rounded-xl border border-cream-400 overflow-hidden">
@@ -44,19 +47,7 @@ export function AppointmentSummaryCard({
         {/* Date */}
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-            <svg
-              className="w-4.5 h-4.5 text-slate-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
+            <IconCalendar className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
           </div>
           <span className="text-sm text-slate-700">{date}</span>
         </div>
@@ -64,19 +55,7 @@ export function AppointmentSummaryCard({
         {/* Time */}
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-            <svg
-              className="w-4.5 h-4.5 text-slate-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+            <IconClock className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
           </div>
           <span className="text-sm text-slate-700">
             {time}
@@ -88,33 +67,9 @@ export function AppointmentSummaryCard({
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
             {type === 'video' ? (
-              <svg
-                className="w-4.5 h-4.5 text-slate-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </svg>
+              <IconVideo className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
             ) : (
-              <svg
-                className="w-4.5 h-4.5 text-slate-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
+              <IconMapPin className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
             )}
           </div>
           <span className="text-sm text-slate-700">{typeLabel}</span>
@@ -124,25 +79,7 @@ export function AppointmentSummaryCard({
         {address && type === 'in-person' && (
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-              <svg
-                className="w-4.5 h-4.5 text-slate-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <IconMapPin className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
             </div>
             <span className="text-sm text-slate-700">{address}</span>
           </div>

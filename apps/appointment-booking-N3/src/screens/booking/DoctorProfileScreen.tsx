@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { IconMapPin } from '@tabler/icons-react'
 import { Header, Page, Avatar, Rating, Pill } from '../../components'
 import { useBooking } from '../../state'
 import { apiGetDoctor } from '../../data'
@@ -9,6 +11,7 @@ import type { Doctor } from '../../types'
 export default function DoctorProfileScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const { selectedDoctor, selectDoctor } = useBooking()
   const [doctor, setDoctor] = useState<Doctor | null>(selectedDoctor)
   const [loading, setLoading] = useState(!selectedDoctor)
@@ -34,7 +37,7 @@ export default function DoctorProfileScreen() {
   if (loading || !doctor) {
     return (
       <Page safeBottom={false}>
-        <Header title="Doctor Profile" showBack />
+        <Header title={t('doctorProfile')} showBack />
         <div className="p-4">
           <div className="h-48 bg-cream-200 rounded-lg animate-pulse" />
         </div>
@@ -44,7 +47,7 @@ export default function DoctorProfileScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Doctor Profile" showBack />
+      <Header title={t('doctorProfile')} showBack />
 
       <div className="px-4 py-6">
         {/* Profile header */}
@@ -61,7 +64,7 @@ export default function DoctorProfileScreen() {
 
         {/* Insurance */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-slate-500 mb-2">Accepts</h2>
+          <h2 className="text-sm font-medium text-slate-500 mb-2">{t('accepts')}</h2>
           <div className="flex gap-2">
             {doctor.accepts.map((insurance) => (
               <Pill key={insurance} tone={insurance === 'GKV' ? 'info' : 'neutral'} size="md">
@@ -75,15 +78,7 @@ export default function DoctorProfileScreen() {
         <section className="mb-6">
           <h2 className="text-sm font-medium text-slate-500 mb-2">Location</h2>
           <div className="flex items-start gap-2 text-charcoal-500">
-            <svg className="w-5 h-5 text-slate-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-              />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+            <IconMapPin className="w-5 h-5 text-slate-400 mt-0.5 flex-shrink-0" size={20} stroke={2} />
             <div>
               <p>{doctor.address}</p>
               <p className="text-sm text-slate-500">{doctor.city}</p>
@@ -100,7 +95,7 @@ export default function DoctorProfileScreen() {
         {/* About */}
         {doctor.about && (
           <section className="mb-6">
-            <h2 className="text-sm font-medium text-slate-500 mb-2">About</h2>
+            <h2 className="text-sm font-medium text-slate-500 mb-2">{t('about')}</h2>
             <p className="text-slate-700">{doctor.about}</p>
           </section>
         )}
@@ -108,12 +103,12 @@ export default function DoctorProfileScreen() {
         {/* Reviews preview */}
         <section className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-medium text-slate-500">Reviews</h2>
+            <h2 className="text-sm font-medium text-slate-500">{t('reviews')}</h2>
             <button
               onClick={() => navigate(PATHS.BOOKING_REVIEWS.replace(':id', doctor.id))}
               className="text-sm font-medium text-teal-700 hover:underline"
             >
-              View all
+              {t('viewAll')}
             </button>
           </div>
           <div className="bg-white rounded-xl border border-cream-400 p-4">
@@ -127,7 +122,7 @@ export default function DoctorProfileScreen() {
         {/* Next available */}
         <section className="mb-8 p-4 bg-cream-200 rounded-lg">
           <p className="text-sm text-slate-700">
-            <span className="font-medium">Next available:</span>{' '}
+            <span className="font-medium">{t('nextAvailable')}</span>{' '}
             {new Date(doctor.nextAvailableISO).toLocaleDateString('de-DE', {
               weekday: 'long',
               day: 'numeric',
@@ -141,7 +136,7 @@ export default function DoctorProfileScreen() {
           onClick={() => navigate(doctorSlotsPath(doctor.id))}
           className="btn btn-primary btn-block"
         >
-          Select Appointment Time
+          {t('selectAppointmentTime')}
         </button>
       </div>
     </Page>

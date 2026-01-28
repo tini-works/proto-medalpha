@@ -9,7 +9,7 @@ interface LatestNewsSectionProps {
 function LatestNewsSection({ articles }: LatestNewsSectionProps) {
   const { t } = useTranslation('home')
   return (
-    <div className="mb-8">
+    <div className="mb-0">
       {/* Section header */}
       <div className="flex items-center justify-between mb-4 px-4">
         <h2 className="text-lg font-semibold text-charcoal-500">{t('latestHealthNews')}</h2>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
@@ -25,6 +26,7 @@ const mockSavedLocations: SavedLocation[] = [
 
 export default function LocationScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const { setSearchFilters, search } = useBooking()
   const { profile } = useProfile()
 
@@ -55,10 +57,10 @@ export default function LocationScreen() {
   }, [selectedLocation, search?.city])
 
   const locationLabel = useMemo(() => {
-    if (!selectedLocation?.value) return 'Choose location'
-    if (selectedLocation.type === 'gps') return 'Current location'
+    if (!selectedLocation?.value) return t('chooseLocation')
+    if (selectedLocation.type === 'gps') return t('currentLocation')
     return selectedLocation.value
-  }, [selectedLocation])
+  }, [selectedLocation, t])
 
   const handleLocationSelect = (location: LocationValue) => {
     setSelectedLocation(location)
@@ -98,12 +100,12 @@ export default function LocationScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Location & Preferences" showBack onBack={handleBack} />
+      <Header title={t('locationPreferences')} showBack onBack={handleBack} />
 
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">STEP 2 OF 4</span>
-          <span className="text-xs text-slate-500">Your request</span>
+          <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step2Of4')}</span>
+          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator currentStep={2} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
       </div>
@@ -126,7 +128,7 @@ export default function LocationScreen() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V9h6v12" />
               </svg>
-              In-clinic
+              {t('inClinic')}
             </button>
             <button
               type="button"
@@ -147,7 +149,7 @@ export default function LocationScreen() {
                 />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V12h6v9" />
               </svg>
-              Home visit
+              {t('homeVisit')}
             </button>
           </div>
         </div>
@@ -156,10 +158,10 @@ export default function LocationScreen() {
         <div className="bg-white rounded-2xl border border-cream-400 p-4 space-y-4">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <p className="text-xs font-medium text-slate-500 mb-1">Location</p>
+              <p className="text-xs font-medium text-slate-500 mb-1">{t('location')}</p>
               <p className="font-medium text-charcoal-500 truncate">{locationLabel}</p>
               {!selectedLocation && (
-                <p className="text-xs text-slate-500 mt-1">Select a location to continue.</p>
+                <p className="text-xs text-slate-500 mt-1">{t('selectLocationToContinue')}</p>
               )}
             </div>
             <button
@@ -167,15 +169,15 @@ export default function LocationScreen() {
               onClick={() => setIsLocationPickerOpen(true)}
               className="text-sm font-medium text-teal-700 hover:underline flex-shrink-0"
             >
-              Change
+              {t('change')}
             </button>
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-medium text-slate-500">Radius</p>
+              <p className="text-xs font-medium text-slate-500">{t('radius')}</p>
               <span className="px-2 py-0.5 rounded-md bg-cream-100 text-sm font-semibold text-charcoal-500">
-                {radius} km
+                {radius} {t('km')}
               </span>
             </div>
             <input
@@ -188,15 +190,15 @@ export default function LocationScreen() {
               aria-label="Radius in kilometers"
             />
             <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
-              <span>1 km</span>
-              <span>50 km</span>
+              <span>1 {t('km')}</span>
+              <span>50 {t('km')}</span>
             </div>
           </div>
         </div>
 
         {/* Urgency level */}
         <div className="space-y-3">
-          <h2 className="text-sm font-semibold text-charcoal-500">Urgency level</h2>
+          <h2 className="text-sm font-semibold text-charcoal-500">{t('urgencyLevel')}</h2>
 
           <button
             type="button"
@@ -214,7 +216,7 @@ export default function LocationScreen() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-3">
-                <p className="font-semibold text-charcoal-500">Routine visit</p>
+                <p className="font-semibold text-charcoal-500">{t('routineVisit')}</p>
                 <span
                   className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                     urgency === 'routine' ? 'border-teal-600' : 'border-cream-400'
@@ -223,7 +225,7 @@ export default function LocationScreen() {
                   {urgency === 'routine' && <span className="w-2.5 h-2.5 rounded-full bg-teal-600" />}
                 </span>
               </div>
-              <p className="text-sm text-slate-600 mt-1">Regular check-ups and non-urgent care</p>
+              <p className="text-sm text-slate-600 mt-1">{t('routineVisitDesc')}</p>
             </div>
           </button>
 
@@ -248,7 +250,7 @@ export default function LocationScreen() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-3">
-                <p className="font-semibold text-charcoal-500">Urgent care</p>
+                <p className="font-semibold text-charcoal-500">{t('urgentCare')}</p>
                 <span
                   className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                     urgency === 'urgent' ? 'border-teal-600' : 'border-cream-400'
@@ -257,7 +259,7 @@ export default function LocationScreen() {
                   {urgency === 'urgent' && <span className="w-2.5 h-2.5 rounded-full bg-teal-600" />}
                 </span>
               </div>
-              <p className="text-sm text-slate-600 mt-1">Need to see a doctor today</p>
+              <p className="text-sm text-slate-600 mt-1">{t('urgentCareDesc')}</p>
             </div>
           </button>
         </div>
@@ -271,7 +273,7 @@ export default function LocationScreen() {
             disabled={!selectedLocation}
             className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed flex-1"
           >
-            Continue →
+            {t('continueBtn')}
           </button>
           <button
             type="button"
@@ -306,7 +308,7 @@ export default function LocationScreen() {
               <div className="w-10 h-1 rounded-full bg-cream-400" />
             </div>
             <div className="flex items-center justify-between px-4 pb-4">
-              <h2 className="text-lg font-semibold text-charcoal-500">Choose location</h2>
+              <h2 className="text-lg font-semibold text-charcoal-500">{t('chooseLocation')}</h2>
               <button
                 onClick={() => setIsLocationPickerOpen(false)}
                 className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"

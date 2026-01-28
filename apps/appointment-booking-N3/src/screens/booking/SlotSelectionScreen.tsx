@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
+import { Button } from '../../components/ui'
 import { useBooking, useProfile, useReschedule } from '../../state'
 import { apiGetAvailableDates, apiGetDoctor, apiGetSlotsForDate } from '../../data'
 import { PATHS, rescheduleConfirmPath, reschedulePath, doctorSlotsPath } from '../../routes'
@@ -10,6 +12,7 @@ export default function SlotSelectionScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const { t } = useTranslation('booking')
   const { selectedDoctor, selectDoctor, selectSlot, selectFamilyMember } = useBooking()
   const { profile } = useProfile()
   const { setRescheduleNewSlot } = useReschedule()
@@ -95,7 +98,7 @@ export default function SlotSelectionScreen() {
   if (loading) {
     return (
       <Page safeBottom={false}>
-        <Header title="Select Time" showBack />
+        <Header title={t('selectTime')} showBack />
         <div className="p-4">
           <div className="h-48 bg-cream-200 rounded-lg animate-pulse" />
         </div>
@@ -106,7 +109,7 @@ export default function SlotSelectionScreen() {
   return (
     <Page safeBottom={false}>
       <Header
-        title="Select Time"
+        title={t('selectTime')}
         subtitle={selectedDoctor?.name}
         showBack
         onBack={() => {
@@ -125,7 +128,7 @@ export default function SlotSelectionScreen() {
       <div className="px-4 py-6 space-y-6 pb-28">
         {/* Date selection */}
         <section>
-          <h2 className="text-sm font-medium text-slate-700 mb-3">Select Date</h2>
+          <h2 className="text-sm font-medium text-slate-700 mb-3">{t('selectDate')}</h2>
           <div className="flex gap-2 overflow-x-auto pb-2">
             {availableDates.slice(0, 7).map((date) => {
               const d = new Date(date)
@@ -155,7 +158,7 @@ export default function SlotSelectionScreen() {
 
         {/* Time slots */}
         <section>
-          <h2 className="text-sm font-medium text-slate-700 mb-3">Available Times</h2>
+          <h2 className="text-sm font-medium text-slate-700 mb-3">{t('availableTimes')}</h2>
           <div className="grid grid-cols-3 gap-2">
             {slots.map((slot) => {
               const isSelected = selectedSlotValue?.time === slot.time && selectedSlotValue?.dateISO === slot.dateISO
@@ -182,7 +185,7 @@ export default function SlotSelectionScreen() {
         {/* Who is this for */}
         {profile.familyMembers.length > 0 && (
           <section>
-            <h2 className="text-sm font-medium text-slate-700 mb-3">Who is this appointment for?</h2>
+            <h2 className="text-sm font-medium text-slate-700 mb-3">{t('whoIsAppointmentFor')}</h2>
             <div className="space-y-2">
               <label
                 className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer ${
@@ -197,7 +200,7 @@ export default function SlotSelectionScreen() {
                   onChange={(e) => setSelectedFor(e.target.value)}
                   className="w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
                 />
-                <span className="font-medium">Myself ({profile.fullName})</span>
+                <span className="font-medium">{t('myself')} ({profile.fullName})</span>
               </label>
               {profile.familyMembers.map((member) => (
                 <label
@@ -226,13 +229,15 @@ export default function SlotSelectionScreen() {
       {/* Sticky bottom continue */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <button
+          <Button
             onClick={handleContinue}
             disabled={!selectedSlotValue}
-            className="btn btn-primary btn-block h-14 disabled:cursor-not-allowed"
+            variant="primary"
+            fullWidth
+            size="lg"
           >
-            Continue
-          </button>
+            {t('continueBtn')}
+          </Button>
         </div>
       </div>
     </Page>

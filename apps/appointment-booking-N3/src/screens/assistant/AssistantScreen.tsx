@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page } from '../../components'
 import { PATHS } from '../../routes'
+import { IconSend } from '@tabler/icons-react'
 
 type Message = { role: 'user' | 'assistant'; content: string }
 
@@ -12,7 +13,7 @@ export default function AssistantScreen() {
     {
       role: 'assistant',
       content:
-        "Hi — I can help you navigate appointments and booking. I can’t provide medical diagnosis. How can I help?",
+        "Hi — I can help you navigate appointments and booking. I can't provide medical diagnosis. How can I help?",
     },
   ])
 
@@ -35,9 +36,9 @@ export default function AssistantScreen() {
     // Stubbed assistant response (no external calls / no PHI storage).
     const response =
       text.toLowerCase().includes('reschedule') || text.toLowerCase().includes('change')
-        ? 'To reschedule: open “My appointments”, pick an upcoming appointment, then tap “Reschedule”.'
+        ? 'To reschedule: open "My appointments", pick an upcoming appointment, then tap "Reschedule".'
         : text.toLowerCase().includes('book again') || text.toLowerCase().includes('rebook')
-          ? 'To book again: open “My appointments” → “Past”, then tap “Book again”.'
+          ? 'To book again: open "My appointments" → "Past", then tap "Book again".'
           : 'I can help with booking, rescheduling, or finding your appointment history. Try one of the buttons below.'
 
     setMessages((prev) => [...prev, { role: 'assistant', content: response }])
@@ -104,13 +105,10 @@ export default function AssistantScreen() {
             className="w-12 h-12 rounded-2xl bg-teal-600 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Send"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+            <IconSend className="w-5 h-5" />
           </button>
         </div>
       </div>
     </Page>
   )
 }
-

@@ -15,6 +15,27 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 
 ## Features
 
+### Component System
+- **Unified Button Component**: Reusable `Button` component (`src/components/ui/Button.tsx`) with 8 semantic variants:
+  - `primary`: Main CTAs (teal filled)
+  - `secondary`: Alternative actions (teal outline)
+  - `tertiary`: Low-emphasis actions (ghost)
+  - `accent`: Highlight/urgent actions (coral filled)
+  - `destructive`: Dangerous actions outline (red)
+  - `destructive-filled`: Confirm destructive actions (red filled)
+  - `icon`: Icon-only buttons (circular transparent)
+  - `link`: Text-only buttons
+  - **Sizes**: `sm` (40px), `md` (44px), `lg` (48-56px)
+  - **Features**: Loading state with spinner, full-width support, left/right icon slots
+- **Icon Library**: Tabler Icons (`@tabler/icons-react` v3.36.1) for modern, consistent iconography across 60+ unique icons and 130+ instances:
+  - Navigation: Home, Calendar, Clock, Settings, ChevronLeft, ChevronRight
+  - Actions: Search, Check, Close, Send, Download, Share
+  - Status: CircleCheck, CircleX, AlertCircle, Help
+  - User: User, Users, Heart, HeartFilled
+  - Location: MapPin, Briefcase
+  - **All 54 files migrated**: Components, screens (auth, booking, settings, history, reschedule, assistant, notifications, newsfeed)
+- **Design System**: Built on DocliQ design tokens (teal, coral, red semantic colors) with Tailwind CSS v3
+
 ### Authentication & Profile
 - **Welcome Screen**: Brand introduction and feature overview
 - **User Registration**: Account creation with email verification
@@ -35,8 +56,15 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 
 ### Internationalization (i18n)
 - **Multi-language support**: English and German translation support using react-i18next
-- **Namespaced translations**: Organized by domain (settings, home, notifications) for incremental expansion
-- **Localized date formatting**: Date labels and formatting adapt to current language preference
+- **Namespaced translations**: Organized by domain (settings, home, notifications, booking, auth, profile) for incremental expansion
+- **Complete translation coverage**: 
+  - All authentication screens (5 screens, 50+ keys)
+  - All profile screens (4 screens, 80+ keys)
+  - All settings screens (7 screens, 82+ keys including FAQ items and help topics)
+  - Home and notifications screens with localized date formatting
+- **Dynamic content localization**: FAQ accordion items and Help Centre topic grids load from i18n resources, not hardcoded data
+- **Dynamic relationship labels**: Relationship types translate based on current language preference
+- **Localized date formatting**: Date labels and formatting adapt to current language preference (German de-DE and English en-US)
 - **Language persistence**: Language preference stored in app state and localStorage
 
 ### Additional Features
@@ -96,11 +124,17 @@ appointment-booking-N3/
 │   │   ├── en/             # English translations
 │   │   │   ├── settings.json
 │   │   │   ├── home.json
-│   │   │   └── notifications.json
+│   │   │   ├── notifications.json
+│   │   │   ├── booking.json
+│   │   │   ├── auth.json
+│   │   │   └── profile.json
 │   │   └── de/             # German translations
 │   │       ├── settings.json
 │   │       ├── home.json
-│   │       └── notifications.json
+│   │       ├── notifications.json
+│   │       ├── booking.json
+│   │       ├── auth.json
+│   │       └── profile.json
 │   ├── routes/             # Routing configuration
 │   │   ├── paths.ts        # Route path constants
 │   │   ├── guards.tsx     # Route guards (RequireAuth, RequireProfileComplete)

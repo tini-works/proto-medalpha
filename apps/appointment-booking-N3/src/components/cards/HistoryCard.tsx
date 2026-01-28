@@ -1,4 +1,6 @@
+import { IconCalendar, IconCheck, IconShoppingBag } from '@tabler/icons-react'
 import type { HistoryItem } from '../../types'
+import { Button } from '../ui'
 import { Pill } from '../display/Pill'
 import { Avatar } from '../display/Avatar'
 import { formatDate } from '../../utils/format'
@@ -11,21 +13,9 @@ interface HistoryCardProps {
 }
 
 const typeIcons: Record<HistoryItem['type'], JSX.Element> = {
-  appointment: (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-  ),
-  redemption: (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  ),
-  purchase: (
-    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-    </svg>
-  ),
+  appointment: <IconCalendar className="w-5 h-5" stroke={1.5} />,
+  redemption: <IconCheck className="w-5 h-5" stroke={1.5} />,
+  purchase: <IconShoppingBag className="w-5 h-5" stroke={1.5} />,
 }
 
 // Conservative status mapping - no green for generic "completed"
@@ -67,15 +57,17 @@ export function HistoryCard({ item, onClick, onBookAgain, variant = 'default' }:
         {/* Book Again Button */}
         {onBookAgain && item.type === 'appointment' && (
           <div className="mt-3 pt-3 border-t border-cream-200">
-            <button
+            <Button
               onClick={(e) => {
                 e.stopPropagation()
                 onBookAgain()
               }}
-              className="btn btn-secondary btn-block h-11 py-0"
+              variant="secondary"
+              size="md"
+              fullWidth
             >
               Book Again
-            </button>
+            </Button>
           </div>
         )}
       </button>

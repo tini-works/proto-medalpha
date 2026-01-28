@@ -1,3 +1,4 @@
+import { IconChevronRight } from '@tabler/icons-react'
 import type { FamilyMember } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
@@ -39,14 +40,7 @@ export function FamilyMemberCard({ member, onClick, onEdit, onRemove }: FamilyMe
       </div>
       {/* Chevron indicator for navigation */}
       {onClick && (
-        <svg
-          className="w-5 h-5 text-slate-400 flex-shrink-0 mt-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+        <IconChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0 mt-1" stroke={2} />
       )}
     </div>
   )

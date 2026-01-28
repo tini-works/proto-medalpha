@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import { IconArrowLeft, IconBookmark, IconBookmarkFilled, IconShare2 } from '@tabler/icons-react'
 import { Page } from '../../components'
 import { PATHS } from '../../routes'
 import { mockNewsArticles } from '../../data/newsfeed'
@@ -51,9 +52,7 @@ function ArticleDetailScreen() {
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand"
             aria-label="Go back"
           >
-            <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <IconArrowLeft className="w-6 h-6 text-slate-700" stroke={2} />
           </button>
 
           {/* Right icons */}
@@ -72,21 +71,11 @@ function ArticleDetailScreen() {
               className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand"
               aria-label="Save article"
             >
-              <svg
-                className={`w-5 h-5 transition-colors duration-normal ease-out-brand ${
-                  isSaved ? 'text-teal-700' : 'text-slate-700'
-                }`}
-                fill={isSaved ? 'currentColor' : 'none'}
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 5a2 2 0 012-2h6a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                />
-              </svg>
+              {isSaved ? (
+                <IconBookmarkFilled className="w-5 h-5 text-teal-700 transition-colors duration-normal ease-out-brand" stroke={2} />
+              ) : (
+                <IconBookmark className="w-5 h-5 text-slate-700 transition-colors duration-normal ease-out-brand" stroke={2} />
+              )}
             </button>
           </div>
         </div>
@@ -220,32 +209,17 @@ function ArticleDetailScreen() {
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 flex items-center gap-3 max-w-md mx-auto">
         {/* Share button */}
         <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-normal ease-out-brand">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.101"
-            />
-          </svg>
+          <IconShare2 className="w-5 h-5" stroke={2} />
           <span>Share</span>
         </button>
 
         {/* Save Article button */}
         <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-teal-700 text-white rounded-lg font-medium hover:bg-teal-800 transition-colors duration-normal ease-out-brand">
-          <svg
-            className="w-5 h-5"
-            fill={isSaved ? 'currentColor' : 'none'}
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 5a2 2 0 012-2h6a2 2 0 012 2v16l-7-3.5L5 21V5z"
-            />
-          </svg>
+          {isSaved ? (
+            <IconBookmarkFilled className="w-5 h-5" stroke={2} />
+          ) : (
+            <IconBookmark className="w-5 h-5" stroke={2} />
+          )}
           <span>{isSaved ? 'Saved' : 'Save'}</span>
         </button>
       </div>

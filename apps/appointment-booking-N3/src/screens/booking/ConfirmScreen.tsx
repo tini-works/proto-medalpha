@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   PatientSelector,
   ReasonTextarea,
@@ -12,6 +13,7 @@ import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
@@ -134,7 +136,7 @@ export default function ConfirmScreen() {
 
         {/* Header row */}
         <div className="flex items-center justify-between px-4 pb-4">
-          <h1 className="text-xl font-bold text-charcoal-500">Confirm Appointment</h1>
+          <h1 className="text-xl font-bold text-charcoal-500">{t('confirmAppointment')}</h1>
           <button
             onClick={handleClose}
             className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
@@ -163,7 +165,7 @@ export default function ConfirmScreen() {
             <PatientSelector
               value={patientType}
               onChange={handlePatientChange}
-              label="Who is this appointment for?"
+              label={t('whoIsAppointmentFor')}
             />
 
             {/* Appointment Summary Card */}
@@ -183,15 +185,15 @@ export default function ConfirmScreen() {
             {/* Insurance Banner */}
             <InsuranceBanner
               insuranceType={profile.insuranceType === 'PKV' ? 'PKV' : 'GKV'}
-              label="Cost & Coverage"
+              label={t('costCoverage')}
             />
 
             {/* Reason Textarea */}
             <ReasonTextarea
               value={reason}
               onChange={setReason}
-              label="Reason for visit (optional)"
-              placeholder="Describe your symptoms or reason for visit..."
+              label={t('reasonForVisit')}
+              placeholder={t('reasonPlaceholder')}
               maxLength={200}
             />
           </div>
@@ -204,7 +206,7 @@ export default function ConfirmScreen() {
             disabled={!isOnline}
             className="btn btn-primary btn-block h-14 shadow-md"
           >
-            {isOnline ? 'Confirm Appointment' : 'Offline'}
+            {isOnline ? t('confirmAppointmentBtn') : t('offline')}
           </button>
         </div>
       </div>

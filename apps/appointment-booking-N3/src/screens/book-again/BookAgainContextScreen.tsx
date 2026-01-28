@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Page, Header, Avatar, Rating, PatientSelector } from '../../components'
+import { Button } from '../../components/ui'
 import { useBookAgain, useBooking, useHistory, useProfile } from '../../state'
 import { getDoctorById } from '../../data'
 import { formatDate } from '../../utils/format'
 import { doctorSlotsPath, PATHS } from '../../routes/paths'
 import type { Doctor } from '../../types'
+import { IconAlertTriangle, IconEdit } from '@tabler/icons-react'
 
 export default function BookAgainContextScreen() {
   const { id } = useParams<{ id: string }>()
@@ -132,22 +134,20 @@ export default function BookAgainContextScreen() {
         <Header title="Book Again" showBack />
         <div className="px-4 py-8 text-center">
           <div className="w-16 h-16 rounded-full bg-coral-50 flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-coral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
+            <IconAlertTriangle className="w-8 h-8 text-coral-700" />
           </div>
           <p className="text-slate-700 mb-4">{error || 'Appointment not found'}</p>
           <div className="flex flex-col gap-3 items-center">
-            <button onClick={() => navigate(PATHS.BOOKING_SEARCH)} className="btn btn-primary">
+            <Button onClick={() => navigate(PATHS.BOOKING_SEARCH)} variant="primary">
               Search for Doctors
-            </button>
+            </Button>
             {id && (
-              <button
+              <Button
                 onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', id))}
-                className="btn btn-secondary"
+                variant="secondary"
               >
                 See alternatives
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -199,9 +199,7 @@ export default function BookAgainContextScreen() {
         {/* Timing hint (stubbed, no AI calls) */}
         <div className="bg-white rounded-xl border border-cream-400 p-4 flex gap-3">
           <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
-            <svg className="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.364-7.364l-1.414 1.414M8.05 15.95l-1.414 1.414m0-11.314L8.05 8.05m8.9 8.9l1.414 1.414" />
-            </svg>
+            <IconAlertTriangle className="w-5 h-5 text-amber-600" />
           </div>
           <div className="min-w-0">
             <p className="text-sm font-semibold text-charcoal-500">Timing hint</p>
@@ -241,9 +239,7 @@ export default function BookAgainContextScreen() {
                 </p>
               </div>
               <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.5 14.5H9v-3.5z" />
-                </svg>
+                <IconEdit className="w-4 h-4" />
               </span>
             </button>
             <button
@@ -258,9 +254,7 @@ export default function BookAgainContextScreen() {
                 </p>
               </div>
               <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.5 14.5H9v-3.5z" />
-                </svg>
+                <IconEdit className="w-4 h-4" />
               </span>
             </button>
             <button
@@ -275,9 +269,7 @@ export default function BookAgainContextScreen() {
                 </p>
               </div>
               <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.5 14.5H9v-3.5z" />
-                </svg>
+                <IconEdit className="w-4 h-4" />
               </span>
             </button>
           </div>
@@ -286,19 +278,23 @@ export default function BookAgainContextScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md space-y-3">
-          <button
+          <Button
             onClick={handleViewSlots}
             disabled={!doctor}
-            className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="primary"
+            size="md"
+            fullWidth
           >
             View Available Appointments
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', sourceData.id))}
-            className="btn btn-secondary btn-block h-12 py-0"
+            variant="secondary"
+            size="md"
+            fullWidth
           >
             See alternatives
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -362,12 +358,12 @@ export default function BookAgainContextScreen() {
             )}
 
             <div className="mt-6 flex flex-col gap-3">
-              <button onClick={handleSaveEdit} className="btn btn-primary btn-block h-12 py-0">
+              <Button onClick={handleSaveEdit} variant="primary" size="md" fullWidth>
                 Save
-              </button>
-              <button onClick={() => setEditSheet(null)} className="btn btn-tertiary btn-block h-12 py-0">
+              </Button>
+              <Button onClick={() => setEditSheet(null)} variant="tertiary" size="md" fullWidth>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

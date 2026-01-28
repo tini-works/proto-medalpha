@@ -8,5 +8,21 @@
   "shortGuides": "Short Guides",
   "featuredStory": "Featured Story",
   "new": "New",
-  "readFullStory": "Read Full Story"
+  "readFullStory": "Read Full Story",
+  "categoryBookingUpdate": "BOOKING UPDATE",
+  "categoryCancellationAlert": "CANCELLATION ALERT",
+  "categoryUpcoming": "UPCOMING",
+  "categorySecurity": "SECURITY",
+  "categoryFamilyProfile": "FAMILY PROFILE",
+  "actionViewDetails": "View Details",
+  "actionReschedule": "Reschedule",
+  "actionMyProfile": "My Profile",
+  "actionManageFamily": "Manage Family",
+  "minRead": "{{count}} min read",
+  "read": "Read",
+  "categoryCardiology": "CARDIOLOGY",
+  "categoryNutrition": "NUTRITION",
+  "categoryMentalHealth": "MENTAL HEALTH",
+  "categoryFitness": "FITNESS",
+  "categoryGeneral": "GENERAL"
 }

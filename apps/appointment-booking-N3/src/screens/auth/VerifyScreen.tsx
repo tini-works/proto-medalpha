@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
+import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
 export default function VerifyScreen() {
+  const { t } = useTranslation('auth')
   const navigate = useNavigate()
   const location = useLocation()
   const { markVerified } = useAuth()
@@ -52,7 +55,7 @@ export default function VerifyScreen() {
 
     const fullCode = code.join('')
     if (fullCode.length !== 6) {
-      setError('Please enter the complete 6-digit code')
+      setError(t('validation.codeIncomplete'))
       return
     }
 
@@ -75,23 +78,19 @@ export default function VerifyScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Verify Email" showBack />
+      <Header title={t('verify.title')} showBack />
 
       <form onSubmit={handleSubmit} className="px-4 py-6">
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-neutral-100 rounded-full flex items-center justify-center">
-            <svg className="w-8 h-8 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
+            <svg viewBox="0 0 24 24" className="w-8 h-8 text-neutral-600" fill="none" stroke="currentColor" strokeWidth={2}>
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M2 6l10 7 10-7" />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold text-neutral-900">Check your email</h2>
+          <h2 className="text-lg font-semibold text-neutral-900">{t('verify.heading')}</h2>
           <p className="mt-1 text-sm text-neutral-500">
-            We sent a 6-digit verification code to your email. Enter it below to verify your account.
+            {t('verify.description')}
           </p>
         </div>
 
@@ -117,23 +116,22 @@ export default function VerifyScreen() {
         {error && <p className="text-center text-sm text-red-500 mb-4">{error}</p>}
 
         <p className="text-center text-sm text-neutral-500 mb-6">
-          For this demo, enter any 6-digit code to continue.
+          {t('verify.demoHint')}
         </p>
 
-        <button
-          type="submit"
-          className="btn btn-primary btn-block"
-        >
-          Verify
-        </button>
+        <Button variant="primary" fullWidth type="submit">
+          {t('verify.submit')}
+        </Button>
 
-        <button
+        <Button
+          variant="tertiary"
+          fullWidth
           type="button"
           onClick={handleResend}
-          className="btn btn-tertiary btn-block mt-3"
+          className="mt-3"
         >
-          Resend code
-        </button>
+          {t('verify.resend')}
+        </Button>
       </form>
     </Page>
   )

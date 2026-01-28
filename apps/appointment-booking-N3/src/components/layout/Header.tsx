@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { IconChevronLeft } from '@tabler/icons-react'
 import { PATHS, doctorSlotsPath } from '../../routes/paths'
 import { useBooking } from '../../state'
 
@@ -233,9 +234,7 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
               className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-neutral-100"
               aria-label="Go back"
             >
-              <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <IconChevronLeft className="text-slate-700" size={24} stroke={2} />
             </button>
           )}
           <div>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, Rating, Pill } from '../../components'
 import { apiGetDoctor } from '../../data'
 import { PATHS } from '../../routes'
@@ -62,6 +63,7 @@ function getMockReviews(doctorId: string): Review[] {
 export default function ReviewsScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const [doctor, setDoctor] = useState<Doctor | null>(null)
   const [loading, setLoading] = useState(true)
   const [sortBy, setSortBy] = useState<SortOption>('newest')
@@ -96,7 +98,7 @@ export default function ReviewsScreen() {
   if (loading || !doctor) {
     return (
       <Page>
-        <Header title="Reviews" showBack />
+        <Header title={t('reviews')} showBack />
         <div className="p-4">
           <div className="h-40 bg-cream-200 rounded-xl animate-pulse" />
         </div>
@@ -106,18 +108,18 @@ export default function ReviewsScreen() {
 
   return (
     <Page>
-      <Header title="Reviews" subtitle={doctor.name} showBack />
+      <Header title={t('reviews')} subtitle={doctor.name} showBack />
 
       <div className="px-4 py-4 space-y-4">
         <div className="bg-white rounded-xl border border-cream-400 p-4">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm text-slate-600 mb-1">Overall rating</p>
+              <p className="text-sm text-slate-600 mb-1">{t('overallRating')}</p>
               <Rating value={doctor.rating} reviewCount={doctor.reviewCount} />
             </div>
             <div className="flex items-center gap-2">
               <Pill tone="neutral" size="sm">
-                Sort: {sortBy}
+                {t('sort', { sortBy })}
               </Pill>
               <button
                 onClick={() =>
@@ -125,7 +127,7 @@ export default function ReviewsScreen() {
                 }
                 className="text-sm font-medium text-teal-700 hover:underline"
               >
-                Change
+                {t('changeSortOrder')}
               </button>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { IconClock, IconChevronRight } from '@tabler/icons-react'
 
 export interface RecentSearch {
   id: string
@@ -68,19 +69,7 @@ export function RecentSearches({ onSelect }: RecentSearchesProps) {
           >
             {/* History icon in colored circle */}
             <div className="flex-shrink-0 w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-slate-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <IconClock className="text-slate-500" size={20} stroke={1.5} />
             </div>
 
             {/* Text content */}
@@ -92,19 +81,7 @@ export function RecentSearches({ onSelect }: RecentSearchesProps) {
             </div>
 
             {/* Chevron */}
-            <svg
-              className="w-5 h-5 text-slate-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <IconChevronRight className="text-slate-400" size={20} stroke={2} />
           </button>
         ))}
       </div>

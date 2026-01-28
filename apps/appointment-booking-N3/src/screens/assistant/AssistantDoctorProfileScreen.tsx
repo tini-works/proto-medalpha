@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Avatar, Header, Page, Pill, Rating } from '../../components'
+import { Button } from '../../components/ui'
 import { apiGetDoctor, getTimeSlots } from '../../data'
 import { PATHS } from '../../routes'
 import { useBooking } from '../../state'
@@ -116,10 +117,11 @@ export default function AssistantDoctorProfileScreen() {
       {/* Sticky bottom button */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <button
-            type="button"
-            className="btn btn-primary btn-block h-14"
+          <Button
+            variant="primary"
+            size="lg"
             disabled={!pickedSlot}
+            fullWidth
             onClick={() => {
               if (!pickedSlot) return
               selectSlot(pickedSlot)
@@ -127,7 +129,7 @@ export default function AssistantDoctorProfileScreen() {
             }}
           >
             Continue
-          </button>
+          </Button>
         </div>
       </div>
     </Page>
