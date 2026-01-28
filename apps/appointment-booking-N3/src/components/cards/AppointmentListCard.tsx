@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { IconSearch, IconCalendar, IconMapPin } from '@tabler/icons-react'
 import type { Appointment } from '../../types'
 import { formatDateShort, formatTime } from '../../utils/format'
 import { getDoctorById } from '../../data/doctors'
@@ -13,13 +14,14 @@ export function AppointmentListCard({
   onClick?: () => void
 }) {
   const { t } = useTranslation('appointments')
+  const isMatching = appointment.status === 'matching'
 
   const statusConfig: Record<
     Appointment['status'],
-    { tone: 'info' | 'positive' | 'warning' | 'negative' | 'neutral'; label: string }
+    { tone: 'info' | 'positive' | 'pending' | 'warning' | 'negative' | 'neutral'; label: string }
   > = {
     matching: { tone: 'info', label: t('status.matching') },
-    await_confirm: { tone: 'warning', label: t('status.awaitConfirm') },
+    await_confirm: { tone: 'pending', label: t('status.awaitConfirm') },
     confirmed: { tone: 'positive', label: t('status.confirmed') },
     cancelled_doctor: { tone: 'negative', label: t('status.doctorCancelled') },
     completed: { tone: 'neutral', label: t('status.completed') },
@@ -27,7 +29,7 @@ export function AppointmentListCard({
   }
 
   const status = statusConfig[appointment.status]
-  const showAccepts = appointment.status === 'matching' || appointment.status === 'await_confirm'
+  const showAccepts = appointment.status === 'matching'
 
   const hashString = (value: string) => {
     let hash = 0
@@ -73,6 +75,10 @@ export function AppointmentListCard({
   const estimatedWaitRange =
     appointment.status === 'matching' ? getEstimatedWaitRangeMinutes() : null
 
+  // Get doctor info for location
+  const doctor = getDoctorById(appointment.doctorId)
+  const locationPreference = doctor?.city ?? 'Berlin'
+
   return (
     <button
       type="button"
@@ -82,35 +88,54 @@ export function AppointmentListCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 min-w-0">
           <div className="shrink-0 mt-0.5">
-            <Avatar name={appointment.doctorName} size="lg" shape="circle" />
+            {isMatching ? (
+              <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center">
+                <IconSearch className="w-6 h-6 text-sky-600" stroke={2} />
+              </div>
+            ) : (
+              <Avatar name={appointment.doctorName} size="lg" shape="circle" />
+            )}
           </div>
           <div className="min-w-0">
-            <h3 className="font-semibold text-charcoal-500 truncate">{appointment.doctorName}</h3>
-            <div className="mt-0.5 flex items-center gap-2 min-w-0">
-              <p className="min-w-0 truncate text-sm text-slate-600">{appointment.specialty}</p>
-              {estimatedWaitRange && (
-                <span className="shrink-0 text-xs font-semibold text-sky-700">
-                  {t('estimatedWaitShort', { min: estimatedWaitRange.min, max: estimatedWaitRange.max })}
-                </span>
-              )}
-            </div>
-
-            {showAccepts ? (
-              <p className="mt-1 text-xs text-slate-500 truncate">{formatInsuranceAccepts()}</p>
+            {isMatching ? (
+              <>
+                {/* Matching status: Show specialty as main title */}
+                <h3 className="font-semibold text-charcoal-500 truncate">{appointment.specialty}</h3>
+                <div className="mt-0.5 flex items-center gap-2 min-w-0">
+                  <p className="min-w-0 truncate text-sm text-slate-600">{t('matching.requestedSpecialty')}</p>
+                  {estimatedWaitRange && (
+                    <span className="shrink-0 text-xs font-semibold text-sky-700">
+                      {t('estimatedWaitShort', { min: estimatedWaitRange.min, max: estimatedWaitRange.max })}
+                    </span>
+                  )}
+                </div>
+                {/* Request submitted and location */}
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                  <div className="flex items-center gap-1">
+                    <IconMapPin className="w-3.5 h-3.5 flex-shrink-0" stroke={2} />
+                    <span>{t('matching.locationPreference')}: {locationPreference}</span>
+                  </div>
+                </div>
+              </>
             ) : (
-              <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
-                <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <span>
-                  {formatDateShort(appointment.dateISO)}, {formatTime(appointment.time)} Uhr
-                </span>
-              </div>
+              <>
+                {/* Non-matching status: Show doctor name as main title */}
+                <h3 className="font-semibold text-charcoal-500 truncate">{appointment.doctorName}</h3>
+                <div className="mt-0.5 flex items-center gap-2 min-w-0">
+                  <p className="min-w-0 truncate text-sm text-slate-600">{appointment.specialty}</p>
+                </div>
+
+                {showAccepts ? (
+                  <p className="mt-1 text-xs text-slate-500 truncate">{formatInsuranceAccepts()}</p>
+                ) : (
+                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
+                    <IconCalendar className="w-4 h-4 flex-shrink-0" stroke={2} />
+                    <span>
+                      {formatDateShort(appointment.dateISO)}, {formatTime(appointment.time)} Uhr
+                    </span>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

@@ -1,6 +1,6 @@
 {
   "status": {
-    "matching": "Matching",
+    "matching": "Suche läuft",
     "awaitConfirm": "Warte auf Bestätigung",
     "confirmed": "Bestätigt",
     "patientCanceled": "Von Patient:in storniert",
@@ -17,5 +17,10 @@
   },
   "list": {
     "and": "{{a}} und {{b}}"
+  },
+  "matching": {
+    "requestedSpecialty": "Gewünschtes Fachgebiet",
+    "requestSubmitted": "Eingereicht",
+    "locationPreference": "Standort"
   }
 }

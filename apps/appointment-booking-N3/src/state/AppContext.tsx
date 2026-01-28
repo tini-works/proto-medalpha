@@ -128,8 +128,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           status: 'matching' as const,
           reminderSet: true,
           calendarSynced: false,
-          createdAt: isoAt(-1440),
-          updatedAt: isoAt(-20),
+          createdAt: isoAt(-30),
+          updatedAt: isoAt(-5),
         },
         {
           id: 'seed_await_confirm',
@@ -144,7 +144,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           reminderSet: true,
           calendarSynced: false,
           createdAt: isoAt(-1430),
-          updatedAt: isoAt(-15),
+          updatedAt: isoAt(-60),
         },
         {
           id: 'seed_confirmed',

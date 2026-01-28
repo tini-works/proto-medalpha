@@ -1,5 +1,10 @@
 {
   "settings": "Settings",
+  "tabs": {
+    "home": "Home",
+    "appointments": "Appointments",
+    "settings": "Settings"
+  },
   "languageSettings": "Language Settings",
   "language": "Language",
   "setAppLanguage": "Set app language",
