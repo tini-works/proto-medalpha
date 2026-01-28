@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Heart, Star, MapPin, ChevronRight } from 'tabler-icons-react'
+import { Heart, Star, MapPin, ChevronRight, Circle, CircleCheck } from 'tabler-icons-react'
 import type { Doctor, TimeSlot } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
@@ -14,6 +14,11 @@ interface DoctorCardProps {
   onSelectSlot?: (slot: TimeSlot) => void
   onMoreAppointments?: () => void
   showSlots?: boolean
+  // New props for specialty-first flow
+  selectable?: boolean
+  selected?: boolean
+  onSelect?: () => void
+  onViewDetails?: () => void
 }
 
 // Helper to format time slot subtitle (duration or day label)
@@ -34,6 +39,10 @@ export function DoctorCard({
   onSelectSlot,
   onMoreAppointments,
   showSlots = true,
+  selectable = false,
+  selected = false,
+  onSelect,
+  onViewDetails,
 }: DoctorCardProps) {
   const { t } = useTranslation('booking')
   const [isFavorite, setIsFavorite] = useState(false)
@@ -68,12 +77,48 @@ export function DoctorCard({
   }
 
   return (
-    <div className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-cream-300">
-      {/* Header section with photo, info, and favorite */}
+    <div
+      className={`bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border transition-colors ${
+        selected ? 'border-teal-500 ring-2 ring-teal-500/20' : 'border-cream-300'
+      }`}
+    >
+      {/* Header section with radio, photo, info, and favorite */}
       <div className="flex gap-3">
+        {/* Radio button for selectable mode */}
+        {selectable && (
+          <button
+            onClick={onSelect}
+            className="shrink-0 flex items-start pt-1 focus:outline-none"
+            aria-label={selected ? 'Deselect doctor' : 'Select doctor'}
+          >
+            {selected ? (
+              <CircleCheck size="24" className="text-teal-500" fill="currentColor" stroke="white" />
+            ) : (
+              // #region agent log
+              (() => {
+                fetch('http://127.0.0.1:7244/ingest/470418f0-0d1b-444c-9138-7dc93d3f0e03', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    location: 'DoctorCard.tsx:radio-unchecked',
+                    message: 'Rendering unchecked Circle radio',
+                    data: { selectable, selected, doctorId: doctor.id, icon: 'Circle', className: 'text-cream-400' },
+                    timestamp: Date.now(),
+                    sessionId: 'debug-session',
+                    hypothesisId: 'B',
+                  }),
+                }).catch(() => {})
+                return null
+              })(),
+              // #endregion
+              <Circle size="24" className="text-cream-400 hover:text-teal-400 transition-colors" stroke="1.5" />
+            )}
+          </button>
+        )}
+
         {/* Photo */}
         <button
-          onClick={onSelectDoctor}
+          onClick={selectable ? onSelect : onSelectDoctor}
           className="shrink-0 focus:outline-none focus:ring-2 focus:ring-teal-500/40 rounded-xl"
         >
           {doctor.imageUrl ? (
@@ -93,7 +138,7 @@ export function DoctorCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <button
-              onClick={onSelectDoctor}
+              onClick={selectable ? onSelect : onSelectDoctor}
               className="text-left focus:outline-none min-w-0 flex-1"
             >
               <h3 className="font-semibold text-charcoal-500 leading-tight truncate">{doctor.name}</h3>
@@ -189,6 +234,23 @@ export function DoctorCard({
             onClick={onSelectDoctor}
           >
             {t('viewAvailableAppointments')}
+          </Button>
+        </div>
+      )}
+
+      {/* View Details link for selectable mode (no slots shown) */}
+      {!showSlots && onViewDetails && (
+        <div className="mt-3 flex justify-end">
+          <Button
+            variant="link"
+            className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"
+            onClick={(e) => {
+              e.stopPropagation()
+              onViewDetails()
+            }}
+          >
+            {t('viewDetails')}
+            <ChevronRight size="16" stroke="2" />
           </Button>
         </div>
       )}

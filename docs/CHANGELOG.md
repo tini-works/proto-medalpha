@@ -2,6 +2,11 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-28 (Continued - Part 6)
+
+### Appointment confirmation CTAs
+- Clarified appointment confirmation CTAs so users can easily view all appointments from the confirmation screen with a softer secondary button, keeping “Add to Calendar” as the primary next step.
+
 ## 2026-01-28 (Continued - Part 5)
 
 ### Booking flow translation rendering fix

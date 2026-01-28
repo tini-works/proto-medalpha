@@ -206,5 +206,12 @@
   "confirmingWithDoctor": "Confirming with Doctor",
   "matchingCheckingWithDoctor": "Checking availability with {{name}}...",
   "matchingCheckingAvailabilityWith": "Checking {{name}}'s schedule...",
-  "matchingAwaitingDoctorConfirmation": "Awaiting confirmation from {{name}}..."
+  "matchingAwaitingDoctorConfirmation": "Awaiting confirmation from {{name}}...",
+
+  "viewDetails": "View Details",
+  "skip": "Skip",
+  "letSystemChoose": "Let the system choose for you",
+  "doctorDetails": "Doctor Details",
+  "address": "Address",
+  "selectDoctor": "Select Doctor"
 }

@@ -80,7 +80,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
   - **Notifications**: Grouped notifications (TODAY, YESTERDAY) for booking updates, cancellations, reminders, security alerts, and family changes with actionable links
   - **News Feed**: Curated health content featuring Short Guides carousel (video cards), Featured Story with "NEW" badge, and Latest Health News articles with category badges, read times, and "Load more" pagination
 - **Article Detail**: Full article reading experience with hero images, author profiles, rich text content, key takeaway callouts, related topics, and Share/Save actions; back button returns to News Feed tab preserving navigation context
-- **Appointment Details**: View visit summary, location, and actions
+- **Appointment Details**: View visit summary, location, and actions, with a confirmation screen that prioritizes adding the visit to your calendar while still offering a secondary “View all appointments” CTA
 - **Book Again & Reschedule**: Guided flows for repeat visits and schedule changes
 - **Assistant**: Entry points for guided discovery and voice support
 - **Appointment History**: View past and upcoming appointments with smart grouping (Upcoming vs Others), status filters (matching, awaiting confirmation, cancelled by doctor), and a floating “Book new appointment” action
