@@ -1,13 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import {
-  Zap,
-  Calendar,
-  User,
-  Users,
-  Lock,
-  Settings,
-  PlayerPlay,
-} from '@tabler/icons-react'
+import { IconBolt, IconCalendar, IconUser, IconUsers, IconLock, IconSettings, IconPlayerPlay } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
 
 /**
@@ -30,37 +22,37 @@ export default function HelpCentreScreen() {
       id: 'getting-started',
       titleKey: 'helpTopic_gettingStarted',
       descKey: 'helpTopic_gettingStarted_desc',
-      icon: <Zap size={20} className="text-teal-600" />,
+      icon: <IconBolt size={20} className="text-teal-600" />,
     },
     {
       id: 'appointments',
       titleKey: 'helpTopic_appointments',
       descKey: 'helpTopic_appointments_desc',
-      icon: <Calendar size={20} className="text-teal-600" />,
+      icon: <IconCalendar size={20} className="text-teal-600" />,
     },
     {
       id: 'account',
       titleKey: 'helpTopic_account',
       descKey: 'helpTopic_account_desc',
-      icon: <User size={20} className="text-teal-600" />,
+      icon: <IconUser size={20} className="text-teal-600" />,
     },
     {
       id: 'family',
       titleKey: 'helpTopic_family',
       descKey: 'helpTopic_family_desc',
-      icon: <Users size={20} className="text-teal-600" />,
+      icon: <IconUsers size={20} className="text-teal-600" />,
     },
     {
       id: 'privacy',
       titleKey: 'helpTopic_privacy',
       descKey: 'helpTopic_privacy_desc',
-      icon: <Lock size={20} className="text-teal-600" />,
+      icon: <IconLock size={20} className="text-teal-600" />,
     },
     {
       id: 'troubleshooting',
       titleKey: 'helpTopic_troubleshooting',
       descKey: 'helpTopic_troubleshooting_desc',
-      icon: <Settings size={20} className="text-teal-600" />,
+      icon: <IconSettings size={20} className="text-teal-600" />,
     },
   ]
 
@@ -92,7 +84,7 @@ export default function HelpCentreScreen() {
             <div className="aspect-video bg-cream-200 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-teal-500/20 flex items-center justify-center mx-auto mb-2">
-                  <PlayerPlay size={32} className="text-teal-600 ml-1" fill="currentColor" />
+                  <IconPlayerPlay size={32} className="text-teal-600 ml-1" fill="currentColor" />
                 </div>
                 <p className="text-sm text-slate-500">{t('videoTutorialsComingSoon')}</p>
               </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { IconX, IconCheck, IconAlertCircle, IconArrowDown } from '@tabler/icons-react'
 import { Page, Header } from '../../components'
 import { Button } from '../../components/ui'
 import { useReschedule, useBooking } from '../../state'
@@ -126,9 +127,7 @@ export default function RescheduleConfirmScreen() {
               <div className="bg-coral-50 border border-coral-600 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-coral-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-4 h-4 text-coral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <IconX className="w-4 h-4 text-coral-700" stroke={2} />
                   </div>
                   <div>
                     <p className="text-sm text-coral-700 font-medium mb-1">Previous Appointment</p>
@@ -143,9 +142,7 @@ export default function RescheduleConfirmScreen() {
               {/* Arrow */}
               <div className="flex justify-center">
                 <div className="w-8 h-8 rounded-full bg-cream-200 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
+                  <IconArrowDown className="w-5 h-5 text-slate-500" stroke={2} />
                 </div>
               </div>
 
@@ -153,9 +150,7 @@ export default function RescheduleConfirmScreen() {
               <div className="bg-teal-50 border border-teal-200 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
+                    <IconCheck className="w-4 h-4 text-teal-600" stroke={2} />
                   </div>
                   <div>
                     <p className="text-sm text-teal-600 font-medium mb-1">New Appointment</p>
@@ -190,9 +185,7 @@ export default function RescheduleConfirmScreen() {
             {/* Safety Note */}
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
               <div className="flex gap-3">
-                <svg className="w-5 h-5 text-slate-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <IconAlertCircle className="w-5 h-5 text-slate-600 flex-shrink-0 mt-0.5" stroke={2} />
                 <p className="text-sm text-slate-700">
                   Your previous appointment will only be cancelled after the new appointment is confirmed.
                 </p>

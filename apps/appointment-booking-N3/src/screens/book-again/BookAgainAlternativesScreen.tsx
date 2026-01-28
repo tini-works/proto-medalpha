@@ -7,6 +7,7 @@ import { useBookAgain, useBooking, useProfile } from '../../state'
 import { doctorSlotsPath, PATHS } from '../../routes'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
 import type { Doctor, TimeSlot } from '../../types'
+import { IconStar, IconCalendarCheck, IconCheck } from '@tabler/icons-react'
 
 export default function BookAgainAlternativesScreen() {
   const { id } = useParams<{ id: string }>()
@@ -120,9 +121,7 @@ export default function BookAgainAlternativesScreen() {
             {recommended && (
               <div className="bg-white rounded-2xl border border-teal-200 p-4 space-y-3 shadow-sm">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold border border-teal-200">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.012 6.2h6.519c.969 0 1.371 1.24.588 1.81l-5.277 3.833 2.012 6.2c.3.921-.755 1.688-1.54 1.118L12 17.77l-5.277 3.833c-.784.57-1.838-.197-1.539-1.118l2.012-6.2-5.277-3.833c-.783-.57-.38-1.81.588-1.81h6.519l2.012-6.2z" />
-                  </svg>
+                  <IconStar className="w-4 h-4" />
                   Recommended
                 </div>
                 <div>
@@ -137,9 +136,7 @@ export default function BookAgainAlternativesScreen() {
                 <div className="text-xs text-slate-500 uppercase tracking-wide">Why this slot:</div>
                 <div className="flex items-center gap-2 text-sm text-slate-600">
                   <span className="w-6 h-6 rounded-full bg-cream-200 flex items-center justify-center text-teal-700">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
+                    <IconCheck className="w-4 h-4" />
                   </span>
                   {recommended.name}
                 </div>
@@ -159,9 +156,7 @@ export default function BookAgainAlternativesScreen() {
                     <div key={d.id} className="bg-white rounded-2xl border border-cream-400 p-4 flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-teal-700">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
+                          <IconCalendarCheck className="w-5 h-5" />
                         </div>
                         <div>
                           <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-cream-100 text-[10px] font-semibold text-teal-700 border border-cream-300 mb-1">

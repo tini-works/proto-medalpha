@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Shield } from '@tabler/icons-react'
+import { IconShield } from '@tabler/icons-react'
 import { Header, Page, TabBar } from '../../components'
 import { usePreferences } from '../../state'
 
@@ -94,7 +94,7 @@ export default function NotificationsScreen() {
 
         {/* Security notice */}
         <div className="mt-6 flex items-center justify-center gap-2 py-4 bg-teal-50 rounded-xl">
-          <Shield size={20} className="text-teal-600" />
+          <IconShield size={20} className="text-teal-600" />
           <p className="text-sm text-teal-700">{t('dataEncrypted')}</p>
         </div>
       </div>

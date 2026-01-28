@@ -1,16 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  ChevronRight,
-  Users,
-  Globe,
-  Bell,
-  Lock,
-  HelpCircle,
-  MessageSquare,
-  BookOpen,
-  LogOut,
-} from '@tabler/icons-react'
+import { IconChevronRight, IconUsers, IconGlobe, IconBell, IconLock, IconHelpCircle, IconMessage, IconBook, IconLogout } from '@tabler/icons-react'
 import { Header, Page, TabBar, Avatar, Pill } from '../../components'
 import { useProfile, useAuth, usePreferences } from '../../state'
 import { PATHS } from '../../routes'
@@ -60,7 +50,7 @@ export default function SettingsScreen() {
               </div>
             )}
           </div>
-          <ChevronRight size={20} className="text-slate-400" />
+          <IconChevronRight size={20} className="text-slate-400" />
         </Link>
 
         {/* Menu items with teal icons */}
@@ -72,14 +62,14 @@ export default function SettingsScreen() {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                <Users size={20} className="text-teal-600" />
+                <IconUsers size={20} className="text-teal-600" />
               </div>
               <div>
                 <p className="font-medium text-charcoal-500">{t('familyMembers')}</p>
                 <p className="text-sm text-slate-500">{t('linkedHealthAccounts')}</p>
               </div>
             </div>
-            <ChevronRight size={20} className="text-slate-400" />
+            <IconChevronRight size={20} className="text-slate-400" />
           </Link>
 
           {/* Language */}
@@ -89,7 +79,7 @@ export default function SettingsScreen() {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                <Globe size={20} className="text-teal-600" />
+                <IconGlobe size={20} className="text-teal-600" />
               </div>
               <div>
                 <p className="font-medium text-charcoal-500">{t('language')}</p>
@@ -98,7 +88,7 @@ export default function SettingsScreen() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-teal-600 font-medium">{languageName}</span>
-              <ChevronRight size={20} className="text-slate-400" />
+              <IconChevronRight size={20} className="text-slate-400" />
             </div>
           </Link>
 
@@ -109,14 +99,14 @@ export default function SettingsScreen() {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                <Bell size={20} className="text-teal-600" />
+                <IconBell size={20} className="text-teal-600" />
               </div>
               <div>
                 <p className="font-medium text-charcoal-500">{t('notifications')}</p>
                 <p className="text-sm text-slate-500">{t('alertsAndReminders')}</p>
               </div>
             </div>
-            <ChevronRight size={20} className="text-slate-400" />
+            <IconChevronRight size={20} className="text-slate-400" />
           </Link>
 
           {/* Privacy & Data */}
@@ -126,14 +116,14 @@ export default function SettingsScreen() {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                <Lock size={20} className="text-teal-600" />
+                <IconLock size={20} className="text-teal-600" />
               </div>
               <div>
                 <p className="font-medium text-charcoal-500">{t('privacyData')}</p>
                 <p className="text-sm text-slate-500">{t('manageYourSecurity')}</p>
               </div>
             </div>
-            <ChevronRight size={20} className="text-slate-400" />
+            <IconChevronRight size={20} className="text-slate-400" />
           </Link>
         </div>
 
@@ -148,14 +138,14 @@ export default function SettingsScreen() {
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                  <HelpCircle size={20} className="text-teal-600" />
+                  <IconHelpCircle size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('faqs')}</p>
                   <p className="text-sm text-slate-500">{t('commonQuestionsAnswers')}</p>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400" />
+              <IconChevronRight size={20} className="text-slate-400" />
             </Link>
 
             {/* Contact Support */}
@@ -165,14 +155,14 @@ export default function SettingsScreen() {
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                  <MessageSquare size={20} className="text-teal-600" />
+                  <IconMessage size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('contactSupport')}</p>
                   <p className="text-sm text-slate-500">{t('getHelpFromTeam')}</p>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400" />
+              <IconChevronRight size={20} className="text-slate-400" />
             </Link>
 
             {/* Help Centre */}
@@ -182,14 +172,14 @@ export default function SettingsScreen() {
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center">
-                  <BookOpen size={20} className="text-teal-600" />
+                  <IconBook size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('helpCentre')}</p>
                   <p className="text-sm text-slate-500">{t('browseGuidesAndTutorials')}</p>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400" />
+              <IconChevronRight size={20} className="text-slate-400" />
             </Link>
           </div>
         </div>
@@ -200,7 +190,7 @@ export default function SettingsScreen() {
             onClick={handleSignOut}
             className="w-full flex items-center justify-center gap-2 py-4 text-slate-600 font-medium hover:bg-cream-200 rounded-xl transition-colors"
           >
-            <LogOut size={20} />
+            <IconLogout size={20} />
             <span>{t('logOut')}</span>
           </button>
         </div>

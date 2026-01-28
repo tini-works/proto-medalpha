@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { IconChevronLeft, IconUser, IconMapPin, IconMap, IconCalendar } from '@tabler/icons-react'
 import { Page, Avatar, Pill } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
@@ -81,9 +82,7 @@ export default function AppointmentDetailScreen() {
             className="rounded-full p-2 hover:bg-cream-200 transition-colors"
             aria-label="Go back"
           >
-            <svg className="h-6 w-6 text-charcoal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <IconChevronLeft className="h-6 w-6 text-charcoal-500" stroke={2} />
           </button>
           <h1 className="text-lg font-semibold text-charcoal-500">Appointment Details</h1>
           <div className="w-10" />
@@ -121,9 +120,7 @@ export default function AppointmentDetailScreen() {
           <div className="rounded-xl border border-cream-400 bg-white p-4">
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Patient</h3>
             <div className="flex items-center gap-2">
-              <svg className="h-5 w-5 flex-shrink-0 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+              <IconUser className="h-5 w-5 flex-shrink-0 text-slate-500" stroke={2} />
               <span className="text-sm text-charcoal-500">{appointment.forUserName}</span>
             </div>
           </div>
@@ -133,10 +130,7 @@ export default function AppointmentDetailScreen() {
         <div className="rounded-xl border border-cream-400 bg-white p-4">
           <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Location</h3>
           <div className="flex items-start gap-3">
-            <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+            <IconMapPin className="mt-0.5 h-5 w-5 flex-shrink-0 text-teal-600" stroke={2} />
             <div>
               <p className="font-medium text-charcoal-500">Praxis Weber</p>
               <p className="text-sm text-slate-500">Charlottenstraße 10</p>
@@ -153,9 +147,7 @@ export default function AppointmentDetailScreen() {
               onClick={handleGetDirections}
               className="w-full rounded-lg border border-cream-400 bg-cream-50 py-3 font-medium text-teal-600 transition-colors hover:bg-cream-100 active:scale-95"
             >
-              <svg className="mb-2 inline-block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.553-.894L9 7m0 13l6.447 3.268A1 1 0 0021 20.382V9.618a1 1 0 00-1.553-.894L15 11m0 13V11m0 0l-6 3.618" />
-              </svg>
+              <IconMap className="mb-2 inline-block h-5 w-5" stroke={2} />
               <div>Get Directions</div>
             </button>
 
@@ -164,9 +156,7 @@ export default function AppointmentDetailScreen() {
               onClick={handleAddToCalendar}
               className="w-full rounded-lg border border-cream-400 bg-cream-50 py-3 font-medium text-teal-600 transition-colors hover:bg-cream-100 active:scale-95"
             >
-              <svg className="mb-2 inline-block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+              <IconCalendar className="mb-2 inline-block h-5 w-5" stroke={2} />
               <div>Add to Calendar</div>
             </button>
 

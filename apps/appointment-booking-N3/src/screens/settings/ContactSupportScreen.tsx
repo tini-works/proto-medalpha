@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Mail, Phone, MessageCircle, ChevronRight } from '@tabler/icons-react'
+import { IconMail, IconPhone, IconMessageCircle, IconChevronRight } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
 
 /**
@@ -21,38 +21,38 @@ export default function ContactSupportScreen() {
           {/* Email support */}
           <button className="w-full flex items-center gap-4 p-4 hover:bg-cream-100 transition-colors text-left">
             <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center flex-shrink-0">
-              <Mail size={24} className="text-teal-600" />
+              <IconMail size={24} className="text-teal-600" />
             </div>
             <div className="flex-1">
               <p className="font-medium text-charcoal-500">{t('emailSupport')}</p>
               <p className="text-sm text-slate-500">{t('emailAddress')}</p>
             </div>
-            <ChevronRight size={20} className="text-slate-400" />
+            <IconChevronRight size={20} className="text-slate-400" />
           </button>
 
           {/* Phone support */}
           <button className="w-full flex items-center gap-4 p-4 hover:bg-cream-100 transition-colors text-left">
             <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center flex-shrink-0">
-              <Phone size={24} className="text-teal-600" />
+              <IconPhone size={24} className="text-teal-600" />
             </div>
             <div className="flex-1">
               <p className="font-medium text-charcoal-500">{t('phoneSupport')}</p>
               <p className="text-sm text-slate-500">{t('phoneNumber')}</p>
               <p className="text-xs text-slate-400">{t('phoneSupportHours')}</p>
             </div>
-            <ChevronRight size={20} className="text-slate-400" />
+            <IconChevronRight size={20} className="text-slate-400" />
           </button>
 
           {/* Live chat */}
           <button className="w-full flex items-center gap-4 p-4 hover:bg-cream-100 transition-colors text-left">
             <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center flex-shrink-0">
-              <MessageCircle size={24} className="text-teal-600" />
+              <IconMessageCircle size={24} className="text-teal-600" />
             </div>
             <div className="flex-1">
               <p className="font-medium text-charcoal-500">{t('liveChat')}</p>
               <p className="text-sm text-slate-500">{t('chatWithTeam')}</p>
             </div>
-            <ChevronRight size={20} className="text-slate-400" />
+            <IconChevronRight size={20} className="text-slate-400" />
           </button>
         </div>
 

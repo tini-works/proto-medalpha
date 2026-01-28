@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { IconArrowLeft, IconSearch } from '@tabler/icons-react'
 import i18n from '../../i18n'
 import { Page } from '../../components'
 import { Button } from '../../components/ui'
@@ -38,18 +39,13 @@ function UpdatesScreen() {
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand"
             aria-label="Go back to home"
           >
-            <svg viewBox="0 0 24 24" className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path d="M15 19l-7-7 7-7" />
-            </svg>
+            <IconArrowLeft className="w-6 h-6 text-slate-700" stroke={2} />
           </Link>
           <h1 className="text-xl font-semibold text-charcoal-500 flex-1">{t('updates')}</h1>
           
           {/* Search icon */}
           <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand" aria-label="Search">
-            <svg viewBox="0 0 24 24" className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" strokeWidth={2}>
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
+            <IconSearch className="w-5 h-5 text-slate-700" stroke={2} />
           </button>
         </div>
 

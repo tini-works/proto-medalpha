@@ -27,8 +27,14 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
   - `link`: Text-only buttons
   - **Sizes**: `sm` (40px), `md` (44px), `lg` (48-56px)
   - **Features**: Loading state with spinner, full-width support, left/right icon slots
-- **Icon Library**: Tabler Icons (`tabler-icons-react`) for modern, consistent iconography across 130+ icon instances
-- **Design System**: Built on DocliQ design tokens (teal, coral, red semantic colors) with Tailwind CSS
+- **Icon Library**: Tabler Icons (`@tabler/icons-react` v3.36.1) for modern, consistent iconography across 60+ unique icons and 130+ instances:
+  - Navigation: Home, Calendar, Clock, Settings, ChevronLeft, ChevronRight
+  - Actions: Search, Check, Close, Send, Download, Share
+  - Status: CircleCheck, CircleX, AlertCircle, Help
+  - User: User, Users, Heart, HeartFilled
+  - Location: MapPin, Briefcase
+  - **All 54 files migrated**: Components, screens (auth, booking, settings, history, reschedule, assistant, notifications, newsfeed)
+- **Design System**: Built on DocliQ design tokens (teal, coral, red semantic colors) with Tailwind CSS v3
 
 ### Authentication & Profile
 - **Welcome Screen**: Brand introduction and feature overview

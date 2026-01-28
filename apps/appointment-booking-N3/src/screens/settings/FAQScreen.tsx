@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown } from '@tabler/icons-react'
+import { IconChevronDown } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
 
 /**
@@ -71,7 +71,7 @@ export default function FAQScreen() {
                 className="w-full flex items-center justify-between p-4 text-left hover:bg-cream-100 transition-colors"
               >
                 <span className="font-medium text-charcoal-500 pr-4">{item.question}</span>
-                <ChevronDown
+                <IconChevronDown
                   size={20}
                   className={`text-slate-400 flex-shrink-0 transition-transform ${
                     expanded === item.id ? 'rotate-180' : ''

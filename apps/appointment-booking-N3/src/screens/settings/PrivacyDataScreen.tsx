@@ -1,13 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  Shield,
-  Download,
-  Settings,
-  Share2,
-  CircleHelp,
-  ChevronRight,
-} from '@tabler/icons-react'
+import { IconShield, IconDownload, IconSettings, IconShare2, IconHelpCircle, IconChevronRight } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
 import { Button } from '../../components/ui'
 import { useAppState } from '../../state'
@@ -37,7 +30,7 @@ export default function PrivacyDataScreen() {
         {/* Encryption status banner */}
         <div className="flex items-start gap-3 p-4 bg-teal-50 rounded-xl border border-teal-100">
           <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-            <Shield size={20} className="text-teal-600" />
+            <IconShield size={20} className="text-teal-600" />
           </div>
           <div>
             <h3 className="font-semibold text-charcoal-500">{t('dataEncryptedBanner')}</h3>
@@ -53,42 +46,42 @@ export default function PrivacyDataScreen() {
             <button className="w-full flex items-center justify-between p-4 hover:bg-cream-100 transition-colors text-left">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
-                  <Download size={20} className="text-teal-600" />
+                  <IconDownload size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('downloadHealthData')}</p>
                   <p className="text-sm text-slate-500">{t('requestSecureCopy')}</p>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400 flex-shrink-0" />
+              <IconChevronRight size={20} className="text-slate-400 flex-shrink-0" />
             </button>
 
             {/* Manage App Permissions */}
             <button className="w-full flex items-center justify-between p-4 hover:bg-cream-100 transition-colors text-left">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
-                  <Settings size={20} className="text-teal-600" />
+                  <IconSettings size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('manageAppPermissions')}</p>
                   <p className="text-sm text-slate-500">{t('controlAccess')}</p>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400 flex-shrink-0" />
+              <IconChevronRight size={20} className="text-slate-400 flex-shrink-0" />
             </button>
 
             {/* Data Sharing */}
             <button className="w-full flex items-center justify-between p-4 hover:bg-cream-100 transition-colors text-left">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
-                  <Share2 size={20} className="text-teal-600" />
+                  <IconShare2 size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('dataSharing')}</p>
                   <p className="text-sm text-slate-500">{t('manageAccess')}</p>
                 </div>
               </div>
-              <ChevronRight size={20} className="text-slate-400 flex-shrink-0" />
+              <IconChevronRight size={20} className="text-slate-400 flex-shrink-0" />
             </button>
           </div>
         </div>
@@ -96,7 +89,7 @@ export default function PrivacyDataScreen() {
         {/* Compliance section */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <CircleHelp size={16} className="text-teal-600" />
+            <IconHelpCircle size={16} className="text-teal-600" />
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('compliance')}</h4>
           </div>
           <p className="text-sm text-slate-600 leading-relaxed">

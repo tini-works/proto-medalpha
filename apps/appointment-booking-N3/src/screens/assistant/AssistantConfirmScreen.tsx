@@ -4,6 +4,7 @@ import { Header, Page, Avatar, Rating } from '../../components'
 import { Button } from '../../components/ui'
 import { PATHS } from '../../routes'
 import { useBooking, useProfile } from '../../state'
+import { IconCalendar, IconMapPin, IconCheck, IconInfoCircle, IconChevronDown, IconPlus } from '@tabler/icons-react'
 
 function formatDate(dateISO: string) {
   const date = new Date(dateISO)
@@ -57,10 +58,7 @@ export default function AssistantConfirmScreen() {
           <div className="mt-4 border-t border-cream-200 pt-4 space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-teal-700">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+                <IconCalendar className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-xs text-slate-500 uppercase tracking-wide">Appointment time</p>
@@ -71,15 +69,7 @@ export default function AssistantConfirmScreen() {
 
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                <IconMapPin className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-xs text-slate-500 uppercase tracking-wide">Location</p>
@@ -93,16 +83,11 @@ export default function AssistantConfirmScreen() {
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-charcoal-500">
             <span>Cost &amp; Insurance</span>
-            <svg className="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18a6 6 0 100-12 6 6 0 000 12z" />
-            </svg>
+            <IconInfoCircle className="w-4 h-4 text-slate-400" />
           </div>
           <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+              <IconCheck className="w-5 h-5" />
             </div>
             <div>
               <p className="text-sm font-semibold text-teal-700">Public insurance covered</p>
@@ -125,17 +110,13 @@ export default function AssistantConfirmScreen() {
             </div>
             <div className="flex items-center gap-2 text-sm text-teal-700 font-medium">
               Change
-              <svg className="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 9l6 6 6-6" />
-              </svg>
+              <IconChevronDown className="w-4 h-4 text-slate-400" />
             </div>
           </div>
         </div>
 
         <div className="text-xs text-slate-500 flex items-start gap-2">
-          <svg className="w-4 h-4 text-teal-600 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <IconPlus className="w-4 h-4 text-teal-600 mt-0.5" />
           <p>
             This slot was recommended based on your preference for morning appointments and insurance compatibility.
           </p>

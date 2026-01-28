@@ -4,6 +4,7 @@ import { Header, Page } from '../../components'
 import { Button } from '../../components/ui'
 import { Avatar } from '../../components/display/Avatar'
 import { PATHS } from '../../routes'
+import { IconMicrophone, IconSquare, IconMicrophoneOff } from '@tabler/icons-react'
 
 export default function VoiceAssistantScreen() {
   const navigate = useNavigate()
@@ -46,17 +47,7 @@ export default function VoiceAssistantScreen() {
               className="relative z-10 h-20 w-20 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center active:scale-[0.98] transition-transform duration-normal ease-out-brand"
               aria-label="Start voice input"
             >
-              <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 5a2 2 0 00-2 2v4a2 2 0 104 0V7a2 2 0 00-2-2z"
-                />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 11a6 6 0 0012 0" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 17v2" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21h6" />
-              </svg>
+              <IconMicrophone className="h-8 w-8" />
             </button>
             <p className="mt-4 text-xs font-semibold tracking-widest text-teal-700 uppercase">Listening...</p>
           </div>
@@ -66,16 +57,7 @@ export default function VoiceAssistantScreen() {
         <div className="bg-white rounded-2xl border border-cream-400 p-4 space-y-4 shadow-sm">
           <div>
             <div className="flex items-center gap-2 text-slate-500">
-              <svg className="h-4 w-4 text-teal-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 5a3 3 0 00-3 3v2a3 3 0 006 0V8a3 3 0 00-3-3z"
-                />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 10a7 7 0 01-14 0" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 17v3" />
-              </svg>
+              <IconMicrophoneOff className="h-4 w-4 text-teal-600" />
               <span className="text-[11px] font-semibold uppercase tracking-wider">Real-time transcript</span>
             </div>
             <p className="mt-3 text-lg font-semibold text-charcoal-500">
@@ -86,9 +68,7 @@ export default function VoiceAssistantScreen() {
           <div className="flex items-center justify-between border-t border-cream-200 pt-4">
             <Button variant="secondary" size="sm" type="button" className="text-sm">
               <span className="inline-flex items-center gap-2">
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6h12v12H6z" />
-                </svg>
+                <IconSquare className="h-4 w-4" />
                 Stop
               </span>
             </Button>
