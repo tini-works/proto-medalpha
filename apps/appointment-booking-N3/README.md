@@ -39,7 +39,9 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 ### Authentication & Profile
 - **Welcome Screen**: Brand introduction and feature overview
 - **User Registration**: Account creation with email verification
-- **Sign In**: Secure authentication flow
+- **Sign In**: Secure authentication flow with forgot password option
+- **Forgot Password**: Email-based password recovery with 6-digit verification code
+- **Reset Password**: Secure password reset with new password confirmation
 - **Verify Identity**: In-app identity check before booking
 - **Profile Management**: Complete profile setup with insurance type (GKV/PKV)
 - **Family Members**: Manage appointments for dependents

@@ -68,16 +68,23 @@ export default function SignInScreen() {
           autoComplete="email"
         />
 
-        <Field
-          label={t('signIn.passwordLabel')}
-          type="password"
-          value={formData.password}
-          onChange={(e) => handleChange('password', e.target.value)}
-          placeholder={t('signIn.passwordPlaceholder')}
-          error={errors.password}
-          required
-          autoComplete="current-password"
-        />
+        <div>
+          <Field
+            label={t('signIn.passwordLabel')}
+            type="password"
+            value={formData.password}
+            onChange={(e) => handleChange('password', e.target.value)}
+            placeholder={t('signIn.passwordPlaceholder')}
+            error={errors.password}
+            required
+            autoComplete="current-password"
+          />
+          <div className="mt-2 text-right">
+            <Link to={PATHS.AUTH_FORGOT_PASSWORD} className="text-sm text-neutral-600 hover:text-neutral-700 hover:underline">
+              {t('signIn.forgotPassword')}
+            </Link>
+          </div>
+        </div>
 
         <div className="pt-4">
           <Button variant="primary" fullWidth type="submit">

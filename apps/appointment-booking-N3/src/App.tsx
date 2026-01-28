@@ -4,7 +4,7 @@ import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } f
 import { useI18nSync } from './hooks/useI18nSync'
 
 // Auth screens
-import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen } from './screens/auth'
+import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen, ForgotPasswordScreen, ResetPasswordScreen } from './screens/auth'
 
 // Profile screens
 import {
@@ -119,6 +119,22 @@ function AppContent() {
               <RequireAuth>
                 <VerifyIdentityScreen />
               </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.AUTH_FORGOT_PASSWORD}
+            element={
+              <RedirectIfAuthenticated>
+                <ForgotPasswordScreen />
+              </RedirectIfAuthenticated>
+            }
+          />
+          <Route
+            path={PATHS.AUTH_RESET_PASSWORD}
+            element={
+              <RedirectIfAuthenticated>
+                <ResetPasswordScreen />
+              </RedirectIfAuthenticated>
             }
           />
 

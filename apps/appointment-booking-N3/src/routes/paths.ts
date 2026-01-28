@@ -5,6 +5,8 @@ export const PATHS = {
   AUTH_SIGN_IN: '/auth/sign-in',
   AUTH_VERIFY: '/auth/verify',
   AUTH_VERIFY_IDENTITY: '/auth/verify-identity',
+  AUTH_FORGOT_PASSWORD: '/auth/forgot-password',
+  AUTH_RESET_PASSWORD: '/auth/reset-password',
 
   // Profile
   PROFILE_COMPLETE: '/profile/complete',

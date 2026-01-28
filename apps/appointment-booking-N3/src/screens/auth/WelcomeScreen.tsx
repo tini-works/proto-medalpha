@@ -60,7 +60,7 @@ export default function WelcomeScreen() {
           className="no-underline"
         >
           <Button variant="primary" fullWidth>
-            {t('signIn')}
+            {t('signInButton')}
           </Button>
         </Link>
         <Link
@@ -68,7 +68,7 @@ export default function WelcomeScreen() {
           className="no-underline"
         >
           <Button variant="secondary" fullWidth>
-            {t('register')}
+            {t('registerButton')}
           </Button>
         </Link>
       </div>
