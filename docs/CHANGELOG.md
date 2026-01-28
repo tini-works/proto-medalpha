@@ -2,6 +2,14 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-28 (Continued - Part 4)
+
+### Fast-lane booking entry & smarter history
+- **Booking type selection screen**: Added new entry screen where users choose how they want to book (Fast Lane, by specialty, by doctor), with clear icons, descriptions, and “coming soon” state for not-yet-available paths.
+- **Fast Lane routing**: Wired the new booking type selector into the existing Fast Lane flow (care request, matching status, success/no match screens) so users can jump straight into a guided “describe symptoms, we match a doctor” journey.
+- **Symptom-to-specialty matching**: Introduced structured `symptoms` and `specialties` datasets to map common complaints (e.g. headache, skin issue, chest pain) to appropriate specialties, ready to power guided triage and search shortcuts.
+- **History screen upgrade**: Redesigned appointment history into “Upcoming” and “Others” sections with status chips (matching, await confirm, cancelled), date grouping, and a floating “Book new appointment” action button that always routes back into booking.
+
 ## 2026-01-28 (Continued - Part 3)
 
 ### Forgot Password Flow Implementation

@@ -32,6 +32,15 @@ export interface TimeSlot {
   available: boolean
 }
 
+export type BookingType = 'fast_lane' | 'by_specialty' | 'by_doctor'
+
+export interface MatchingRequest {
+  symptom?: string
+  requestedAt: string
+  city: string
+  insuranceType: InsuranceType
+}
+
 export interface Appointment {
   id: string
   doctorId: string
@@ -53,6 +62,8 @@ export interface Appointment {
     | 'cancelled_doctor'
   reminderSet: boolean
   calendarSynced: boolean
+  bookingType?: BookingType
+  matchingRequest?: MatchingRequest
 }
 
 export interface SearchFilters {

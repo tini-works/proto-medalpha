@@ -48,13 +48,17 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Family Member Detail**: View and update dependent profiles
 
 ### Appointment Booking Flow
-1. **Search**: Select medical specialty and view recent searches
-2. **Location**: Choose search location with radius filter
-3. **Results**: Browse available doctors with filters (insurance, rating, distance)
-4. **Doctor Profile**: View detailed doctor information, reviews, and availability
-5. **Slot Selection**: Choose appointment date and time
-6. **Confirmation**: Review appointment details and select patient
-7. **Success**: Confirmation screen with appointment summary
+1. **Choose how to book**: New booking type screen with three paths:
+   - **Fast Lane**: Guided flow where users describe symptoms and the system matches them to a suitable doctor
+   - **By specialty**: Classic flow starting from a medical specialty (original N3 path)
+   - **By doctor**: Reserved for future release (marked as “coming soon”)
+2. **Search**: Select medical specialty and view recent searches
+3. **Location**: Choose search location with radius filter
+4. **Results**: Browse available doctors with filters (insurance, rating, distance)
+5. **Doctor Profile**: View detailed doctor information, reviews, and availability
+6. **Slot Selection**: Choose appointment date and time
+7. **Confirmation**: Review appointment details and select patient
+8. **Success**: Confirmation screen with appointment summary
 
 ### Internationalization (i18n)
 - **Multi-language support**: English and German translation support using react-i18next
@@ -79,7 +83,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Appointment Details**: View visit summary, location, and actions
 - **Book Again & Reschedule**: Guided flows for repeat visits and schedule changes
 - **Assistant**: Entry points for guided discovery and voice support
-- **Appointment History**: View past and upcoming appointments with filtering
+- **Appointment History**: View past and upcoming appointments with smart grouping (Upcoming vs Others), status filters (matching, awaiting confirmation, cancelled by doctor), and a floating “Book new appointment” action
 - **CMS Integration**: Insurance-specific health content and promotions
 - **Settings**: Account management, notifications, language, privacy, and support
 - **Responsive Design**: Optimized for mobile and desktop experiences

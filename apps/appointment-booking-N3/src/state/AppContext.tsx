@@ -14,10 +14,21 @@ import type {
 import { initialState } from '../types'
 import { clearState, loadState, saveState } from './storage'
 
+// Fast-Lane request type
+interface FastLaneRequestState {
+  specialty: string
+  symptom?: string
+  city: string
+  insuranceType: 'GKV' | 'PKV'
+  patientId: string
+  patientName: string
+}
+
 // Extended state for reschedule and book again flows (not persisted)
 interface ExtendedState {
   reschedule: RescheduleContext | null
   bookAgain: BookAgainContext | null
+  fastLane: FastLaneRequestState | null
 }
 
 type AppStateApi = {
@@ -54,6 +65,9 @@ type AppStateApi = {
   setRescheduleNewSlot: (slot: TimeSlot | null) => void
   // Book Again
   setBookAgainContext: (context: BookAgainContext | null) => void
+  // Fast-Lane
+  setFastLaneRequest: (request: FastLaneRequestState | null) => void
+  clearFastLaneRequest: () => void
   // Computed
   isProfileComplete: boolean
   getAppointmentById: (id: string) => Appointment | undefined
@@ -69,6 +83,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [extendedState, setExtendedState] = useState<ExtendedState>({
     reschedule: null,
     bookAgain: null,
+    fastLane: null,
   })
 
   useEffect(() => {
@@ -386,6 +401,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       setBookAgainContext: (context) =>
         setExtendedState((s) => ({ ...s, bookAgain: context })),
 
+      // Fast-Lane
+      setFastLaneRequest: (request) =>
+        setExtendedState((s) => ({ ...s, fastLane: request })),
+      clearFastLaneRequest: () =>
+        setExtendedState((s) => ({ ...s, fastLane: null })),
+
       // Computed/getters
       getAppointmentById: (id) => state.appointments.find((apt) => apt.id === id),
       getHistoryItemById: (id) => state.history.items.find((item) => item.id === id),
@@ -394,7 +415,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       resetAll: () => {
         clearState()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null })
       },
     }),
     [state, extendedState, isProfileComplete]
@@ -446,6 +467,7 @@ export function useProfile() {
 export function useBooking() {
   const {
     state,
+    extendedState,
     setSearchFilters,
     selectDoctor,
     selectSlot,
@@ -454,6 +476,8 @@ export function useBooking() {
     addAppointment,
     updateAppointment,
     cancelAppointment,
+    setFastLaneRequest,
+    clearFastLaneRequest,
   } = useAppState()
   return {
     search: state.booking.currentSearch,
@@ -461,6 +485,7 @@ export function useBooking() {
     selectedSlot: state.booking.selectedSlot,
     selectedFamilyMemberId: state.booking.selectedFamilyMemberId,
     appointments: state.appointments,
+    fastLaneRequest: extendedState.fastLane,
     setSearchFilters,
     selectDoctor,
     selectSlot,
@@ -469,6 +494,8 @@ export function useBooking() {
     addAppointment,
     updateAppointment,
     cancelAppointment,
+    setFastLaneRequest,
+    clearFastLaneRequest,
   }
 }
 

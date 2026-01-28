@@ -19,8 +19,17 @@ export const PATHS = {
   NOTIFICATIONS: '/notifications',
   ARTICLE_DETAIL: '/news/:articleId',
 
-  // Booking
-  BOOKING_SEARCH: '/booking/search',
+  // Booking - Entry point
+  BOOKING: '/booking',
+
+  // Fast-Lane flow
+  FAST_LANE: '/booking/fast-lane',
+  FAST_LANE_MATCHING: '/booking/fast-lane/matching',
+  FAST_LANE_SUCCESS: '/booking/fast-lane/success',
+  FAST_LANE_NO_MATCH: '/booking/fast-lane/no-match',
+
+  // Book by Specialty flow (existing flow, renamed)
+  BOOKING_SPECIALTY: '/booking/specialty',
   BOOKING_LOCATION: '/booking/location',
   BOOKING_INSURANCE: '/booking/insurance',
   BOOKING_RESULTS: '/booking/results',
@@ -29,6 +38,12 @@ export const PATHS = {
   BOOKING_SLOTS: '/booking/doctor/:id/slots',
   BOOKING_CONFIRM: '/booking/confirm',
   BOOKING_SUCCESS: '/booking/success',
+
+  // Book by Doctor flow (future)
+  BOOKING_DOCTOR_SEARCH: '/booking/doctor-search',
+
+  // Legacy alias for backward compatibility
+  BOOKING_SEARCH: '/booking/specialty',
 
   // History / Appointments
   HISTORY: '/history',

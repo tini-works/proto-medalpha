@@ -147,8 +147,12 @@ export const doctors: Doctor[] = [
       'Orthopedics',
       'Pediatrics',
       'Ophthalmology',
-      'Dentist',
+      'Dentistry',
       'ENT (HNO)',
+      'Neurology',
+      'Psychiatry',
+      'Gastroenterology',
+      'Pulmonology',
     ]
 
     const languagesPool = ['German', 'English', 'French', 'Spanish', 'Italian', 'Turkish', 'Arabic', 'Polish']
@@ -231,8 +235,9 @@ export function searchDoctors(filters: {
     if (raw.includes('current location') || raw.includes('aktueller standort')) return ''
 
     // If the query is a full address, try to extract a known city name.
+    // If no known city is found, skip city filtering (return empty string).
     const match = knownCities.find((c) => raw.includes(c))
-    return match || raw
+    return match || ''
   }
 
   return doctors.filter((d) => {

@@ -25,6 +25,7 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 
 // Booking screens
 import {
+  BookingTypeScreen,
   SearchScreen as BookingSearchScreen,
   LocationScreen as BookingLocationScreen,
   InsuranceScreen as BookingInsuranceScreen,
@@ -34,6 +35,11 @@ import {
   SlotSelectionScreen,
   ConfirmScreen as BookingConfirmScreen,
   SuccessScreen as BookingSuccessScreen,
+  // Fast-Lane screens
+  FastLaneCareRequestScreen,
+  FastLaneMatchingScreen,
+  FastLaneSuccessScreen,
+  FastLaneNoMatchScreen,
 } from './screens/booking'
 
 // History screens
@@ -202,7 +208,71 @@ function AppContent() {
             }
           />
 
-          {/* Booking */}
+          {/* Booking - Entry Point */}
+          <Route
+            path={PATHS.BOOKING}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <BookingTypeScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+
+          {/* Fast-Lane Flow */}
+          <Route
+            path={PATHS.FAST_LANE}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <FastLaneCareRequestScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.FAST_LANE_MATCHING}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <FastLaneMatchingScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.FAST_LANE_SUCCESS}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <FastLaneSuccessScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.FAST_LANE_NO_MATCH}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <FastLaneNoMatchScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+
+          {/* Book by Specialty Flow */}
+          <Route
+            path={PATHS.BOOKING_SPECIALTY}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <BookingSearchScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
           <Route
             path={PATHS.BOOKING_SEARCH}
             element={
