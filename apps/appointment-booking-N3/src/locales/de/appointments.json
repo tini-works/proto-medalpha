@@ -1,0 +1,21 @@
+{
+  "status": {
+    "matching": "Matching",
+    "awaitConfirm": "Warte auf Bestätigung",
+    "confirmed": "Bestätigt",
+    "patientCanceled": "Von Patient:in storniert",
+    "doctorCancelled": "Von Ärzt:in storniert",
+    "completed": "Abgeschlossen"
+  },
+  "viewDetails": "Details ansehen",
+  "estimatedWait": "Geschätzte Wartezeit {{min}}–{{max}} Min.",
+  "estimatedWaitShort": "Wartezeit {{min}}–{{max}} Min.",
+  "accepts": "Akzeptiert {{insurances}}",
+  "insurance": {
+    "GKV": "gesetzlich Versicherte",
+    "PKV": "Privatversicherte"
+  },
+  "list": {
+    "and": "{{a}} und {{b}}"
+  }
+}

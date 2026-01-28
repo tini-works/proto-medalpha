@@ -4,7 +4,7 @@ import { Page } from '../../components'
 import { PATHS } from '../../routes'
 import NotificationCard from '../../components/notifications/NotificationCard'
 import { ShortGuidesSection, FeaturedStoryCard, LatestNewsSection } from '../../components/newsfeed'
-import { mockNotifications, groupNotificationsByDate, formatNotificationDate } from '../../data/notifications'
+import { mockNotifications, groupNotificationsByDate } from '../../data/notifications'
 import { mockShortGuides, mockFeaturedStory, mockNewsArticles } from '../../data/newsfeed'
 import { useState, useEffect } from 'react'
 

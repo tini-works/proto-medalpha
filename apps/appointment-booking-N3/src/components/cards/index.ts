@@ -1,5 +1,6 @@
 export { DoctorCard } from './DoctorCard'
 export { AppointmentCard } from './AppointmentCard'
+export { AppointmentListCard } from './AppointmentListCard'
 export { FamilyMemberCard } from './FamilyMemberCard'
 export { HistoryCard } from './HistoryCard'
 export { CMSCard } from './CMSCard'

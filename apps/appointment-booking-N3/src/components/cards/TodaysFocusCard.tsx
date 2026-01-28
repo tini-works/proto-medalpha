@@ -6,7 +6,6 @@ import type { Appointment } from '../../types'
 
 interface TodaysFocusCardProps {
   appointment: Appointment
-  onCheckIn?: () => void
   onClick?: () => void
 }
 
@@ -14,7 +13,7 @@ interface TodaysFocusCardProps {
  * Hero card highlighting the user's next upcoming appointment
  * Displayed on HomeScreen for verified users with a confirmed upcoming appointment
  */
-export function TodaysFocusCard({ appointment, onCheckIn, onClick }: TodaysFocusCardProps) {
+export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) {
   const { t } = useTranslation('home')
   const relativeDate = getRelativeDateLabel(appointment.dateISO)
   const time = formatTime(appointment.time)
@@ -62,15 +61,15 @@ export function TodaysFocusCard({ appointment, onCheckIn, onClick }: TodaysFocus
             <span className="truncate">Praxis Weber, Berlin</span>
           </div>
 
-          {/* Check In button */}
+          {/* View details button */}
           <button
             onClick={(e) => {
               e.stopPropagation()
-              onCheckIn?.()
+              onClick?.()
             }}
             className="flex-shrink-0 rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-600 transition-colors hover:bg-cream-50 active:scale-95"
           >
-            {t('submitForm')}
+            View details
           </button>
         </div>
       </div>

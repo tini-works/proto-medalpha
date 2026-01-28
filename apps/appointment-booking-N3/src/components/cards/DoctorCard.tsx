@@ -137,9 +137,9 @@ export function DoctorCard({
           <div className="flex items-start justify-between gap-2">
             <button
               onClick={onSelectDoctor}
-              className="text-left focus:outline-none"
+              className="text-left focus:outline-none min-w-0 flex-1"
             >
-              <h3 className="font-semibold text-charcoal-500 leading-tight">{doctor.name}</h3>
+              <h3 className="font-semibold text-charcoal-500 leading-tight truncate">{doctor.name}</h3>
               <p className="text-sm text-teal-600 font-medium">{doctor.specialty}</p>
             </button>
 

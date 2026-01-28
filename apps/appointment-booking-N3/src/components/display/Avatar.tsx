@@ -2,6 +2,8 @@ interface AvatarProps {
   name: string
   imageUrl?: string
   size?: 'sm' | 'md' | 'lg'
+  shape?: 'circle' | 'rounded'
+  maxInitials?: number
 }
 
 const sizeStyles = {
@@ -10,13 +12,51 @@ const sizeStyles = {
   lg: 'w-12 h-12 text-base',
 }
 
-function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
+function normalizeNameForInitials(name: string): string {
+  const raw = name.trim()
+  if (!raw) return ''
+
+  const honorifics = new Set([
+    'dr',
+    'prof',
+    'frau',
+    'herr',
+    'mr',
+    'mrs',
+    'ms',
+    'med',
+  ])
+
+  const words = raw
+    .split(/\s+/)
+    .map((w) => w.trim())
+    .filter(Boolean)
+
+  const filtered = words.filter((w) => {
+    const token = w.replace(/\.+$/, '').toLowerCase()
+    return !honorifics.has(token)
+  })
+
+  // If we stripped everything (e.g., name is just "Dr."), fall back to the original words.
+  return (filtered.length > 0 ? filtered : words).join(' ')
+}
+
+function getInitials(name: string, maxInitials: number): string {
+  const safeMax = Math.max(1, maxInitials)
+  const normalized = normalizeNameForInitials(name)
+  const words = normalized.split(/\s+/).filter(Boolean)
+
+  if (words.length === 0) return '?'
+
+  if (words.length === 1) {
+    return Array.from(words[0]).slice(0, safeMax).join('').toUpperCase()
+  }
+
+  const first = words[0][0]
+  const last = words[words.length - 1][0]
+  const middle = words.length > 2 ? words[1][0] : ''
+  const initials = `${first}${middle}${last}`
+  return Array.from(initials).slice(0, safeMax).join('').toUpperCase()
 }
 
 function getColorFromName(name: string): string {
@@ -40,29 +80,32 @@ function getColorFromName(name: string): string {
   ]
 
   let hash = 0
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  const normalized = normalizeNameForInitials(name) || name
+  for (let i = 0; i < normalized.length; i++) {
+    hash = normalized.charCodeAt(i) + ((hash << 5) - hash)
   }
 
   return colors[Math.abs(hash) % colors.length]
 }
 
-export function Avatar({ name, imageUrl, size = 'md' }: AvatarProps) {
+export function Avatar({ name, imageUrl, size = 'md', shape = 'circle', maxInitials = 2 }: AvatarProps) {
+  const rounding = shape === 'rounded' ? 'rounded-lg' : 'rounded-full'
+
   if (imageUrl) {
     return (
       <img
         src={imageUrl}
         alt={name}
-        className={`${sizeStyles[size]} rounded-full object-cover`}
+        className={`${sizeStyles[size]} ${rounding} object-cover`}
       />
     )
   }
 
   return (
     <div
-      className={`${sizeStyles[size]} ${getColorFromName(name)} rounded-full flex items-center justify-center text-white font-medium`}
+      className={`${sizeStyles[size]} ${getColorFromName(name)} ${rounding} flex items-center justify-center text-white font-medium`}
     >
-      {getInitials(name)}
+      {getInitials(name, maxInitials)}
     </div>
   )
 }

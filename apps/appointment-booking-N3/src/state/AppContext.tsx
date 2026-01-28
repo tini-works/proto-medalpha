@@ -72,10 +72,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   })
 
   useEffect(() => {
-    // Demo seed: ensure at least 1 appointment exists per status.
-    // Uses stable IDs so it won't duplicate across reloads (state is persisted).
     setState((s) => {
-      const existingIds = new Set(s.appointments.map((a) => a.id))
       const now = Date.now()
 
       const isoDay = (offsetDays: number) =>
@@ -175,11 +172,23 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         },
       ]
 
-      let changed = false
       const nextAppointments = [...s.appointments]
+      let changed = false
+
+      // Demo seed: ensure at least 1 appointment exists per status.
+      // Uses stable IDs so it won't duplicate across reloads (state is persisted).
+      // If the user actions changed a seeded appointment's status, reset it back so the demo
+      // always contains one example for each status.
       for (const apt of seed) {
-        if (!existingIds.has(apt.id)) {
+        const idx = nextAppointments.findIndex((a) => a.id === apt.id)
+        if (idx === -1) {
           nextAppointments.push(apt)
+          changed = true
+          continue
+        }
+
+        if (nextAppointments[idx].status !== apt.status) {
+          nextAppointments[idx] = { ...nextAppointments[idx], status: apt.status, updatedAt: isoAt(-5) }
           changed = true
         }
       }

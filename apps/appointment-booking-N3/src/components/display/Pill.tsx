@@ -18,8 +18,10 @@ interface PillProps {
 
 // Conservative color palette - subdued, professional
 const toneStyles: Record<PillTone, string> = {
-  info: 'bg-slate-50 text-slate-700 border border-slate-200',
-  positive: 'bg-teal-50 text-teal-700 border border-teal-500', // Restricted: only for positive deltas
+  // Used for informational states like "Matching" (blue)
+  info: 'bg-sky-50 text-sky-700 border border-sky-500',
+  // Used for positive states like "Confirmed" (green)
+  positive: 'bg-emerald-50 text-emerald-700 border border-emerald-500', // Restricted: only for positive deltas
   warning: 'bg-coral-100 text-coral-700 border border-coral-500',
   negative: 'bg-coral-50 text-coral-800 border border-coral-600',
   neutral: 'bg-cream-200 text-charcoal-400 border border-cream-400',

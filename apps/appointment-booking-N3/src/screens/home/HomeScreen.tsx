@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Page, TabBar, Avatar, TodaysFocusCard, SwipeableAppointmentStack } from '../../components'
@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const { profile } = useProfile()
   const { appointments } = useBooking()
   const { t } = useTranslation('home')
+  const [pendingStackIndex, setPendingStackIndex] = useState(0)
 
   const getLastUpdatedTs = (appointment: (typeof appointments)[number]) => {
     const ts =
@@ -27,9 +28,7 @@ export default function HomeScreen() {
       .filter((appointment) => {
         return (
           appointment.status === 'matching' ||
-          appointment.status === 'await_confirm' ||
-          appointment.status === 'confirmed' ||
-          appointment.status === 'cancelled_doctor'
+          appointment.status === 'await_confirm'
         )
       })
       .sort((a, b) => {
@@ -51,6 +50,7 @@ export default function HomeScreen() {
       })[0]
   }, [appointments])
   const pendingAppointments = upcomingAppointments
+  const safePendingIndex = Math.min(Math.max(pendingStackIndex, 0), Math.max(pendingAppointments.length - 1, 0))
 
   return (
     <Page>
@@ -91,7 +91,6 @@ export default function HomeScreen() {
             <TodaysFocusCard
               appointment={nextAppointment}
               onClick={() => navigate(appointmentDetailPath(nextAppointment.id))}
-              onCheckIn={() => navigate(appointmentDetailPath(nextAppointment.id))}
             />
           </section>
         )}
@@ -99,8 +98,18 @@ export default function HomeScreen() {
         {/* Pending Appointments */}
         {pendingAppointments.length > 0 && (
           <section>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-charcoal-500">{t('pendingAppointments')}</h2>
+            <div className="flex items-start justify-between mb-3">
+              <div className="min-w-0">
+                <h2 className="text-lg font-semibold text-charcoal-500">{t('pendingAppointments')}</h2>
+                <div className="mt-1 flex items-center gap-2 overflow-x-auto pb-1">
+                  {pendingAppointments.map((_, idx) => (
+                    <span
+                      key={idx}
+                      className={`h-1.5 w-8 rounded-full ${idx === safePendingIndex ? 'bg-charcoal-500' : 'bg-cream-300'}`}
+                    />
+                  ))}
+                </div>
+              </div>
               <Link to={PATHS.HISTORY} className="text-sm text-teal-700 font-medium hover:underline">
                 {t('viewAll')}
               </Link>
@@ -108,6 +117,7 @@ export default function HomeScreen() {
             <SwipeableAppointmentStack
               appointments={pendingAppointments}
               onOpen={(id) => navigate(appointmentDetailPath(id))}
+              onActiveIndexChange={setPendingStackIndex}
             />
           </section>
         )}
