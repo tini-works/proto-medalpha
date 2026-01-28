@@ -27,6 +27,8 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 import {
   BookingTypeScreen,
   SearchScreen as BookingSearchScreen,
+  ConstraintsScreen as BookingConstraintsScreen,
+  AvailabilityScreen as BookingAvailabilityScreen,
   LocationScreen as BookingLocationScreen,
   InsuranceScreen as BookingInsuranceScreen,
   ResultsScreen as BookingResultsScreen,
@@ -269,6 +271,26 @@ function AppContent() {
               <RequireAuth>
                 <RequireProfileComplete>
                   <BookingSearchScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.BOOKING_CONSTRAINTS}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <BookingConstraintsScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.BOOKING_AVAILABILITY}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <BookingAvailabilityScreen />
                 </RequireProfileComplete>
               </RequireAuth>
             }

@@ -245,3 +245,158 @@ export async function apiFastLaneMatch(
 
   return { success: true, appointment }
 }
+
+// Specialty-first matching types
+export interface SpecialtyMatchRequest {
+  specialty: string
+  city: string
+  insuranceType: 'GKV' | 'PKV'
+  doctorId: string
+  doctorName: string
+  availabilityPrefs: {
+    fullyFlexible: boolean
+    slots: Array<{ day: string; timeRange: string }>
+  }
+  patientId: string
+  patientName: string
+}
+
+export interface SpecialtyMatchResult {
+  success: boolean
+  appointment?: {
+    id: string
+    doctorId: string
+    doctorName: string
+    specialty: string
+    dateISO: string
+    time: string
+    forUserId: string
+    forUserName: string
+    createdAt: string
+    status: 'confirmed'
+    reminderSet: boolean
+    calendarSynced: boolean
+    bookingType: 'by_specialty'
+    matchingRequest: {
+      selectedDoctorId: string
+      requestedAt: string
+      city: string
+      insuranceType: 'GKV' | 'PKV'
+      fullyFlexible?: boolean
+    }
+  }
+}
+
+export async function apiSpecialtyMatch(
+  request: SpecialtyMatchRequest,
+  onStatusChange?: (status: MatchingStatus, doctorCount?: number) => void
+): Promise<SpecialtyMatchResult> {
+  const { getDoctorById } = await import('./doctors')
+  const { getSlotsForDate } = await import('./timeSlots')
+
+  // Step 1: Checking with doctor (1 second)
+  onStatusChange?.('searching')
+  await simulateApiDelay(null, 1000)
+
+  // Verify doctor exists
+  const doctor = getDoctorById(request.doctorId)
+  if (!doctor) {
+    return { success: false }
+  }
+
+  // Step 2: Checking availability (1.5 seconds)
+  onStatusChange?.('checking_availability')
+  await simulateApiDelay(null, 1500)
+
+  // Step 3: Awaiting confirmation (1-2 seconds)
+  onStatusChange?.('awaiting_confirmation')
+  await simulateApiDelay(null, 1500)
+
+  // ~95% success rate for specialty flow (higher since user selected specific doctor)
+  const isSuccessful = Math.random() < 0.95
+
+  if (!isSuccessful) {
+    return { success: false }
+  }
+
+  // Map availability preferences to actual time ranges
+  const timeRangeToHours: Record<string, [number, number]> = {
+    morning: [7, 12],
+    afternoon: [12, 15],
+    evening: [15, 19],
+  }
+
+  // Get available slots for the next 14 days
+  const today = new Date()
+  let selectedSlot: { dateISO: string; time: string } | null = null
+
+  for (let i = 0; i < 14 && !selectedSlot; i++) {
+    const date = new Date(today)
+    date.setDate(date.getDate() + i)
+    const dateISO = date.toISOString().split('T')[0]
+    const dayOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][date.getDay()]
+
+    // Skip weekends
+    if (dayOfWeek === 'sun' || dayOfWeek === 'sat') continue
+
+    const slots = getSlotsForDate(doctor.id, dateISO)
+    const availableSlots = slots.filter((s) => s.available)
+
+    // If fully flexible, pick any available slot
+    if (request.availabilityPrefs.fullyFlexible) {
+      if (availableSlots.length > 0) {
+        const slot = availableSlots[Math.floor(Math.random() * availableSlots.length)]
+        selectedSlot = { dateISO: slot.dateISO, time: slot.time }
+      }
+      continue
+    }
+
+    // Check if this day matches user's availability preferences
+    const matchingDayPrefs = request.availabilityPrefs.slots.filter((s) => s.day === dayOfWeek)
+    if (matchingDayPrefs.length === 0) continue
+
+    // Filter slots by time range
+    const matchingSlots = availableSlots.filter((slot) => {
+      const slotHour = parseInt(slot.time.split(':')[0], 10)
+      return matchingDayPrefs.some((pref) => {
+        const [start, end] = timeRangeToHours[pref.timeRange] || [0, 24]
+        return slotHour >= start && slotHour < end
+      })
+    })
+
+    if (matchingSlots.length > 0) {
+      const slot = matchingSlots[Math.floor(Math.random() * matchingSlots.length)]
+      selectedSlot = { dateISO: slot.dateISO, time: slot.time }
+    }
+  }
+
+  if (!selectedSlot) {
+    return { success: false }
+  }
+
+  // Create the appointment
+  const appointment = {
+    id: `SP-${Date.now().toString(36).toUpperCase()}`,
+    doctorId: doctor.id,
+    doctorName: doctor.name,
+    specialty: request.specialty,
+    dateISO: selectedSlot.dateISO,
+    time: selectedSlot.time,
+    forUserId: request.patientId,
+    forUserName: request.patientName,
+    createdAt: new Date().toISOString(),
+    status: 'confirmed' as const,
+    reminderSet: false,
+    calendarSynced: false,
+    bookingType: 'by_specialty' as const,
+    matchingRequest: {
+      selectedDoctorId: request.doctorId,
+      requestedAt: new Date().toISOString(),
+      city: request.city,
+      insuranceType: request.insuranceType,
+      fullyFlexible: request.availabilityPrefs.fullyFlexible,
+    },
+  }
+
+  return { success: true, appointment }
+}

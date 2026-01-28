@@ -13,6 +13,7 @@
   "specialtyEye": "Eye care",
   "specialtyFallback": "Medical specialty",
   "locationPreferences": "Location & Preferences",
+  "step1Of4": "STEP 1 OF 4",
   "step2Of4": "STEP 2 OF 4",
   "step3Of4": "STEP 3 OF 4",
   "yourRequest": "Your request",
@@ -177,5 +178,33 @@
   "tryDifferentSpecialty": "Try Different Specialty",
   "tryDifferentSpecialtyDesc": "Change your specialty selection",
   "browseDoctors": "Browse Doctors",
-  "browseDoctorsDesc": "View all available doctors"
+  "browseDoctorsDesc": "View all available doctors",
+
+  "setPreferences": "Set Your Preferences",
+  "whereAreYouLocated": "Where are you located?",
+  "selectCity": "Select city",
+  "yourInsuranceType": "Your insurance type",
+  "nextBtn": "Next",
+
+  "selectAvailability": "Select Availability",
+  "choosePreferredTimeSlots": "Choose your preferred time slots",
+  "imFullyFlexible": "I'm fully flexible",
+  "anyTimeWorksForMe": "Any time works for me",
+  "anyTimeWorks": "Any time works",
+  "orSelectTimes": "or select times",
+  "selected": "Selected",
+  "available": "Available",
+  "slots": "slots",
+  "mornings": "mornings",
+  "afternoons": "afternoons",
+  "evenings": "evenings",
+
+  "matchedDoctors": "Matched Doctors",
+  "step4Of4": "STEP 4 OF 4",
+  "selectThisDoctor": "Select This Doctor",
+
+  "confirmingWithDoctor": "Confirming with Doctor",
+  "matchingCheckingWithDoctor": "Checking availability with {{name}}...",
+  "matchingCheckingAvailabilityWith": "Checking {{name}}'s schedule...",
+  "matchingAwaitingDoctorConfirmation": "Awaiting confirmation from {{name}}..."
 }

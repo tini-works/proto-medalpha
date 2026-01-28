@@ -14,5 +14,6 @@ export {
   apiSearchStores,
   apiGetCMSContent,
   apiFastLaneMatch,
+  apiSpecialtyMatch,
 } from './api'
-export type { FastLaneRequest, FastLaneMatchResult } from './api'
+export type { FastLaneRequest, FastLaneMatchResult, SpecialtyMatchRequest, SpecialtyMatchResult } from './api'

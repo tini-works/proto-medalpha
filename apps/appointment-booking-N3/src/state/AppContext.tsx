@@ -10,6 +10,7 @@ import type {
   Appointment,
   RescheduleContext,
   BookAgainContext,
+  AvailabilityPrefs,
 } from '../types'
 import { initialState } from '../types'
 import { clearState, loadState, saveState } from './storage'
@@ -24,11 +25,25 @@ interface FastLaneRequestState {
   patientName: string
 }
 
+// Specialty-first matching request type
+interface SpecialtyMatchRequestState {
+  specialty: string
+  city: string
+  insuranceType: 'GKV' | 'PKV'
+  doctorId: string
+  doctorName: string
+  availabilityPrefs: AvailabilityPrefs
+  patientId: string
+  patientName: string
+}
+
 // Extended state for reschedule and book again flows (not persisted)
 interface ExtendedState {
   reschedule: RescheduleContext | null
   bookAgain: BookAgainContext | null
   fastLane: FastLaneRequestState | null
+  specialtyMatch: SpecialtyMatchRequestState | null
+  availabilityPrefs: AvailabilityPrefs | null
 }
 
 type AppStateApi = {
@@ -68,6 +83,10 @@ type AppStateApi = {
   // Fast-Lane
   setFastLaneRequest: (request: FastLaneRequestState | null) => void
   clearFastLaneRequest: () => void
+  // Specialty-first matching
+  setAvailabilityPrefs: (prefs: AvailabilityPrefs | null) => void
+  setSpecialtyMatchRequest: (request: SpecialtyMatchRequestState | null) => void
+  clearSpecialtyMatchRequest: () => void
   // Computed
   isProfileComplete: boolean
   getAppointmentById: (id: string) => Appointment | undefined
@@ -84,6 +103,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     reschedule: null,
     bookAgain: null,
     fastLane: null,
+    specialtyMatch: null,
+    availabilityPrefs: null,
   })
 
   useEffect(() => {
@@ -358,6 +379,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
             selectedDoctor: null,
             selectedSlot: null,
             selectedFamilyMemberId: null,
+            availabilityPrefs: null,
           },
         })),
       addAppointment: (appointment) =>
@@ -423,6 +445,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       clearFastLaneRequest: () =>
         setExtendedState((s) => ({ ...s, fastLane: null })),
 
+      // Specialty-first matching
+      setAvailabilityPrefs: (prefs) =>
+        setExtendedState((s) => ({ ...s, availabilityPrefs: prefs })),
+      setSpecialtyMatchRequest: (request) =>
+        setExtendedState((s) => ({ ...s, specialtyMatch: request })),
+      clearSpecialtyMatchRequest: () =>
+        setExtendedState((s) => ({ ...s, specialtyMatch: null, availabilityPrefs: null })),
+
       // Computed/getters
       getAppointmentById: (id) => state.appointments.find((apt) => apt.id === id),
       getHistoryItemById: (id) => state.history.items.find((item) => item.id === id),
@@ -431,7 +461,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       resetAll: () => {
         clearState()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null })
       },
     }),
     [state, extendedState, isProfileComplete]
@@ -494,6 +524,9 @@ export function useBooking() {
     cancelAppointment,
     setFastLaneRequest,
     clearFastLaneRequest,
+    setAvailabilityPrefs,
+    setSpecialtyMatchRequest,
+    clearSpecialtyMatchRequest,
   } = useAppState()
   return {
     search: state.booking.currentSearch,
@@ -502,6 +535,8 @@ export function useBooking() {
     selectedFamilyMemberId: state.booking.selectedFamilyMemberId,
     appointments: state.appointments,
     fastLaneRequest: extendedState.fastLane,
+    specialtyMatchRequest: extendedState.specialtyMatch,
+    availabilityPrefs: extendedState.availabilityPrefs,
     setSearchFilters,
     selectDoctor,
     selectSlot,
@@ -512,6 +547,9 @@ export function useBooking() {
     cancelAppointment,
     setFastLaneRequest,
     clearFastLaneRequest,
+    setAvailabilityPrefs,
+    setSpecialtyMatchRequest,
+    clearSpecialtyMatchRequest,
   }
 }
 

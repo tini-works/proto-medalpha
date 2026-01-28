@@ -32,6 +32,20 @@ export interface TimeSlot {
   available: boolean
 }
 
+// Availability slot for specialty-first booking flow
+export type DayOfWeek = 'mon' | 'tue' | 'wed' | 'thu' | 'fri'
+export type TimeRange = 'morning' | 'afternoon' | 'evening'
+
+export interface AvailabilitySlot {
+  day: DayOfWeek
+  timeRange: TimeRange
+}
+
+export interface AvailabilityPrefs {
+  fullyFlexible: boolean
+  slots: AvailabilitySlot[]
+}
+
 export type BookingType = 'fast_lane' | 'by_specialty' | 'by_doctor'
 
 export interface MatchingRequest {
@@ -39,6 +53,10 @@ export interface MatchingRequest {
   requestedAt: string
   city: string
   insuranceType: InsuranceType
+  // For specialty-first flow
+  selectedDoctorId?: string
+  availabilitySlots?: AvailabilitySlot[]
+  fullyFlexible?: boolean
 }
 
 export interface Appointment {
@@ -78,6 +96,9 @@ export interface SearchFilters {
   minRating?: number
   languages?: string[]
   sortBy?: 'earliest' | 'rating' | 'distance'
+  // Availability constraints for specialty-first flow
+  fullyFlexible?: boolean
+  availabilitySlots?: AvailabilitySlot[]
 }
 
 export interface BookingState {
@@ -85,6 +106,8 @@ export interface BookingState {
   selectedDoctor: Doctor | null
   selectedSlot: TimeSlot | null
   selectedFamilyMemberId: string | null
+  // Availability preferences for specialty-first flow
+  availabilityPrefs: AvailabilityPrefs | null
 }
 
 // Reschedule flow types

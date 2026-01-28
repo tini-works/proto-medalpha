@@ -13,6 +13,7 @@
   "specialtyEye": "Augenheilkunde",
   "specialtyFallback": "Medizinische Fachrichtung",
   "locationPreferences": "Ort & Präferenzen",
+  "step1Of4": "SCHRITT 1 VON 4",
   "step2Of4": "SCHRITT 2 VON 4",
   "step3Of4": "SCHRITT 3 VON 4",
   "yourRequest": "Ihre Anfrage",
@@ -177,5 +178,33 @@
   "tryDifferentSpecialty": "Andere Fachrichtung versuchen",
   "tryDifferentSpecialtyDesc": "Ihre Fachrichtungswahl ändern",
   "browseDoctors": "Ärzte durchsuchen",
-  "browseDoctorsDesc": "Alle verfügbaren Ärzte anzeigen"
+  "browseDoctorsDesc": "Alle verfügbaren Ärzte anzeigen",
+
+  "setPreferences": "Ihre Präferenzen festlegen",
+  "whereAreYouLocated": "Wo befinden Sie sich?",
+  "selectCity": "Stadt auswählen",
+  "yourInsuranceType": "Ihr Versicherungstyp",
+  "nextBtn": "Weiter",
+
+  "selectAvailability": "Verfügbarkeit auswählen",
+  "choosePreferredTimeSlots": "Wählen Sie Ihre bevorzugten Zeitfenster",
+  "imFullyFlexible": "Ich bin völlig flexibel",
+  "anyTimeWorksForMe": "Jede Zeit passt mir",
+  "anyTimeWorks": "Jede Zeit passt",
+  "orSelectTimes": "oder Zeiten auswählen",
+  "selected": "Ausgewählt",
+  "available": "Verfügbar",
+  "slots": "Zeitfenster",
+  "mornings": "Vormittage",
+  "afternoons": "Nachmittage",
+  "evenings": "Abende",
+
+  "matchedDoctors": "Passende Ärzte",
+  "step4Of4": "SCHRITT 4 VON 4",
+  "selectThisDoctor": "Diesen Arzt auswählen",
+
+  "confirmingWithDoctor": "Bestätigung beim Arzt",
+  "matchingCheckingWithDoctor": "Prüfe Verfügbarkeit bei {{name}}...",
+  "matchingCheckingAvailabilityWith": "Prüfe Terminplan von {{name}}...",
+  "matchingAwaitingDoctorConfirmation": "Warte auf Bestätigung von {{name}}..."
 }

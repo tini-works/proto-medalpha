@@ -125,5 +125,6 @@ export const initialState: AppState = {
     selectedDoctor: null,
     selectedSlot: null,
     selectedFamilyMemberId: null,
+    availabilityPrefs: null,
   },
 }

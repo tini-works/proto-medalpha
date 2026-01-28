@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconArrowLeft, IconFilter, IconChevronDown, IconX } from '@tabler/icons-react'
-import { Page, TabBar, DoctorCard, EmptyState } from '../../components'
+import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator } from '../../components'
 import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
+
+// Maximum number of doctors to show in specialty-first flow
+const MAX_SPECIALTY_RESULTS = 5
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
@@ -20,7 +23,10 @@ const sortLabelKeys: Record<SortOption, string> = {
 export default function ResultsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { search, setSearchFilters, selectDoctor, selectSlot } = useBooking()
+  const { search, setSearchFilters, selectDoctor, selectSlot, availabilityPrefs } = useBooking()
+
+  // Check if we're in the specialty-first flow (has availability prefs)
+  const isSpecialtyFirstFlow = Boolean(availabilityPrefs || search?.fullyFlexible || search?.availabilitySlots)
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [doctorSlots, setDoctorSlots] = useState<Record<string, TimeSlot[]>>({})
   const [loading, setLoading] = useState(true)
@@ -121,21 +127,30 @@ export default function ResultsScreen() {
   }, [doctors, onlyPublic, minRating, selectedLanguages])
 
   // Sort doctors based on selected option
-  const sortedDoctors = [...filteredDoctors].sort((a, b) => {
-    switch (sortBy) {
-      case 'earliest':
-        return new Date(a.nextAvailableISO).getTime() - new Date(b.nextAvailableISO).getTime()
-      case 'rating':
-        return b.rating - a.rating
-      case 'distance':
-        // Mock distance based on ID
-        const distA = parseFloat(a.id.replace('d', '')) * 0.3 + 0.5
-        const distB = parseFloat(b.id.replace('d', '')) * 0.3 + 0.5
-        return distA - distB
-      default:
-        return 0
+  const sortedDoctors = useMemo(() => {
+    const sorted = [...filteredDoctors].sort((a, b) => {
+      switch (sortBy) {
+        case 'earliest':
+          return new Date(a.nextAvailableISO).getTime() - new Date(b.nextAvailableISO).getTime()
+        case 'rating':
+          return b.rating - a.rating
+        case 'distance':
+          // Mock distance based on ID
+          const distA = parseFloat(a.id.replace('d', '')) * 0.3 + 0.5
+          const distB = parseFloat(b.id.replace('d', '')) * 0.3 + 0.5
+          return distA - distB
+        default:
+          return 0
+      }
+    })
+
+    // Limit results for specialty-first flow
+    if (isSpecialtyFirstFlow) {
+      return sorted.slice(0, MAX_SPECIALTY_RESULTS)
     }
-  })
+
+    return sorted
+  }, [filteredDoctors, sortBy, isSpecialtyFirstFlow])
 
   const handleSelectDoctor = (doctor: Doctor) => {
     selectDoctor(doctor)
@@ -143,6 +158,13 @@ export default function ResultsScreen() {
   }
 
   const handleSelectSlot = (doctor: Doctor, slot: TimeSlot) => {
+    // In specialty-first flow, always go to doctor detail first
+    if (isSpecialtyFirstFlow) {
+      selectDoctor(doctor)
+      navigate(doctorPath(doctor.id))
+      return
+    }
+
     selectDoctor(doctor)
     selectSlot(slot)
     navigate(PATHS.BOOKING_CONFIRM)
@@ -150,7 +172,21 @@ export default function ResultsScreen() {
 
   const handleMoreAppointments = (doctor: Doctor) => {
     selectDoctor(doctor)
+    // In specialty-first flow, go to doctor detail
+    if (isSpecialtyFirstFlow) {
+      navigate(doctorPath(doctor.id))
+      return
+    }
     navigate(doctorSlotsPath(doctor.id))
+  }
+
+  // Determine back navigation based on flow
+  const handleBack = () => {
+    if (isSpecialtyFirstFlow) {
+      navigate(PATHS.BOOKING_AVAILABILITY)
+    } else {
+      navigate(PATHS.BOOKING_LOCATION)
+    }
   }
 
   const handleFilterClick = () => {
@@ -164,7 +200,7 @@ export default function ResultsScreen() {
         <div className="flex items-center justify-between px-4 py-3">
           {/* Back button */}
           <button
-            onClick={() => navigate(PATHS.BOOKING_LOCATION)}
+            onClick={handleBack}
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-neutral-100"
             aria-label={t('goBack')}
           >
@@ -172,7 +208,9 @@ export default function ResultsScreen() {
           </button>
 
           {/* Title */}
-          <h1 className="text-lg font-semibold text-charcoal-500">{t('searchResults')}</h1>
+          <h1 className="text-lg font-semibold text-charcoal-500">
+            {isSpecialtyFirstFlow ? t('matchedDoctors') : t('searchResults')}
+          </h1>
 
           {/* Filter button with badge */}
           <button
@@ -185,6 +223,17 @@ export default function ResultsScreen() {
           </button>
         </div>
       </header>
+
+      {/* Progress indicator for specialty-first flow */}
+      {isSpecialtyFirstFlow && (
+        <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step4Of4')}</span>
+            <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+          </div>
+          <ProgressIndicator currentStep={4} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
+        </div>
+      )}
 
       {/* Sort Selector Row */}
       <div className="sticky top-[57px] z-10 bg-cream-100 border-b border-cream-300">

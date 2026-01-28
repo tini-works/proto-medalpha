@@ -4,6 +4,11 @@ High-level, business-focused summary of notable changes.
 
 ## 2026-01-28 (Continued - Part 5)
 
+### Booking flow translation rendering fix
+- **Root cause**: The `booking` i18n namespace was never registered in the i18n config; only `settings`, `home`, `notifications`, and `appointments` were loaded.
+- **Fix**: Added `en/booking.json` and `de/booking.json` to i18n resources and `booking` to the `ns` array so all booking flow screens receive translated strings. i18n config also includes `auth` and `profile` namespaces for full coverage.
+- **Impact**: Care Request (Fast Lane), Search, Results, Doctor Profile, Slot Selection, Confirm, Success, and related booking screens now display localized text (e.g. “What do you need?”, “Find an Appointment”, symptom/specialty labels) instead of raw translation keys.
+
 ### Matching Appointment Card Redesign
 - **Matching status card**: Redesigned appointment cards for "Matching" status to show relevant info when no doctor is assigned yet—displays requested specialty as the title, location preference, and submission timestamp instead of placeholder doctor info.
 - **i18n translations for matching cards**: Added English and German translations for matching card labels (Requested Specialty, Submitted, Location).
@@ -11,7 +16,6 @@ High-level, business-focused summary of notable changes.
 
 ### UI Improvements
 - **Archive icon**: Changed the history icon on the Appointments screen header to an archive icon for better semantic meaning.
-- **i18n namespace fix**: Restored missing `auth`, `booking`, and `profile` translation namespaces to fix translation key display issues across the app.
 - **Mock data ordering**: Adjusted seed appointment data so the Matching appointment appears as the most recently updated in the Pending section.
 
 ## 2026-01-28 (Continued - Part 4)
