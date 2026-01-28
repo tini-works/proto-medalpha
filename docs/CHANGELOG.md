@@ -14,6 +14,7 @@ High-level, business-focused summary of notable changes.
 - **News feed component translations**: Updated LatestNewsSection, ShortGuidesSection, FeaturedStoryCard, and TodaysFocusCard to use i18n for all visible text.
 - **Localized date formatting**: Enhanced `formatNotificationDate()` utility to support i18n-driven date translations and locale-aware formatting for German (de-DE) and English (en-US).
 - **German mock content for News Feed**: Replaced all mock article content with German translations—6 full articles covering AI Symptom Checker, Hypertension, Superfoods, Mindfulness, Walking Benefits, and Annual Checkups, plus Short Guides and Featured Story.
+- **Settings screens German translations**: Complete i18n coverage for all 7 Settings sub-screens (Settings, Language, Notifications, Privacy & Data, FAQ, Contact Support, Help Centre) with 82 English/German translation keys covering UI labels, form fields, FAQ items (6 questions/answers), help topics (6 categories), support channel information, and GDPR compliance text. All dynamic content (FAQ accordion items, Help Centre topic grid) now loads from i18n resources.
 
 ## 2026-01-27
 

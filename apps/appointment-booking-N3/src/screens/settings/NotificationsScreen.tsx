@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Header, Page, TabBar } from '../../components'
 import { usePreferences } from '../../state'
 
@@ -36,6 +37,7 @@ function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: () =>
  * Allows users to toggle Appointments and Marketing & News notifications.
  */
 export default function NotificationsScreen() {
+  const { t } = useTranslation('settings')
   const { notifications, setNotificationPreferences } = usePreferences()
 
   const toggleAppointments = () => {
@@ -48,14 +50,14 @@ export default function NotificationsScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Notifications" showBack />
+      <Header title={t('notifications')} showBack />
 
       <div className="flex-1 flex flex-col px-4 py-6">
         {/* Preferences header */}
         <div className="mb-4">
-          <h3 className="text-xs font-semibold text-teal-600 uppercase tracking-wider">Preferences</h3>
+          <h3 className="text-xs font-semibold text-teal-600 uppercase tracking-wider">{t('preferences')}</h3>
           <p className="text-sm text-slate-500 mt-1">
-            Manage how you receive updates from DocliQ. Settings are secured via DocliQ tokens.
+            {t('manageUpdates')}
           </p>
         </div>
 
@@ -65,9 +67,9 @@ export default function NotificationsScreen() {
           <div className="bg-white rounded-xl border border-cream-400 p-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="font-semibold text-charcoal-500">Appointments</p>
+                <p className="font-semibold text-charcoal-500">{t('appointments')}</p>
                 <p className="text-sm text-slate-500 mt-1">
-                  Receive reminders for upcoming consultations and check-ins.
+                  {t('appointmentReminders')}
                 </p>
               </div>
               <ToggleSwitch checked={notifications.appointmentReminders} onChange={toggleAppointments} />
@@ -78,8 +80,8 @@ export default function NotificationsScreen() {
           <div className="bg-white rounded-xl border border-cream-400 p-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="font-semibold text-charcoal-500">Marketing & News</p>
-                <p className="text-sm text-slate-500 mt-1">Stay updated with DocliQ news and feature updates.</p>
+                <p className="font-semibold text-charcoal-500">{t('marketingNews')}</p>
+                <p className="text-sm text-slate-500 mt-1">{t('stayUpdated')}</p>
               </div>
               <ToggleSwitch checked={notifications.deals} onChange={toggleMarketing} />
             </div>
@@ -99,7 +101,7 @@ export default function NotificationsScreen() {
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
             />
           </svg>
-          <p className="text-sm text-teal-700">Your data is encrypted with DocliQ tokens.</p>
+          <p className="text-sm text-teal-700">{t('dataEncrypted')}</p>
         </div>
       </div>
 

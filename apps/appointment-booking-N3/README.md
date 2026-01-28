@@ -36,9 +36,14 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 ### Internationalization (i18n)
 - **Multi-language support**: English and German translation support using react-i18next
 - **Namespaced translations**: Organized by domain (settings, home, notifications, booking, auth, profile) for incremental expansion
-- **Complete translation coverage**: All authentication and profile screens fully translated with 50+ auth keys and 80+ profile keys
+- **Complete translation coverage**: 
+  - All authentication screens (5 screens, 50+ keys)
+  - All profile screens (4 screens, 80+ keys)
+  - All settings screens (7 screens, 82+ keys including FAQ items and help topics)
+  - Home and notifications screens with localized date formatting
+- **Dynamic content localization**: FAQ accordion items and Help Centre topic grids load from i18n resources, not hardcoded data
 - **Dynamic relationship labels**: Relationship types translate based on current language preference
-- **Localized date formatting**: Date labels and formatting adapt to current language preference
+- **Localized date formatting**: Date labels and formatting adapt to current language preference (German de-DE and English en-US)
 - **Language persistence**: Language preference stored in app state and localStorage
 
 ### Additional Features

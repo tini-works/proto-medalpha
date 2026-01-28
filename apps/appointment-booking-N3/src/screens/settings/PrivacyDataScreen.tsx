@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { useAppState } from '../../state'
 import { PATHS } from '../../routes'
@@ -9,10 +10,11 @@ import { PATHS } from '../../routes'
  */
 export default function PrivacyDataScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('settings')
   const { resetAll } = useAppState()
 
   const handleResetAll = () => {
-    if (window.confirm('This will delete all your data and sign you out. Are you sure?')) {
+    if (window.confirm(t('resetAllDataConfirm'))) {
       resetAll()
       navigate(PATHS.AUTH_WELCOME)
     }
@@ -20,7 +22,7 @@ export default function PrivacyDataScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Privacy & Data" showBack />
+      <Header title={t('privacyData')} showBack />
 
       <div className="px-4 py-6 space-y-6">
         {/* Encryption status banner */}
@@ -36,14 +38,14 @@ export default function PrivacyDataScreen() {
             </svg>
           </div>
           <div>
-            <h3 className="font-semibold text-charcoal-500">Data Encrypted</h3>
-            <p className="text-sm text-slate-600">All medical records are stored with AES-256 encryption.</p>
+            <h3 className="font-semibold text-charcoal-500">{t('dataEncryptedBanner')}</h3>
+            <p className="text-sm text-slate-600">{t('allMedicalRecordsEncrypted')}</p>
           </div>
         </div>
 
         {/* Your Information section */}
         <div>
-          <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Your Information</h4>
+          <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">{t('yourInformation')}</h4>
           <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-300">
             {/* Download Health Data */}
             <button className="w-full flex items-center justify-between p-4 hover:bg-cream-100 transition-colors text-left">
@@ -59,8 +61,8 @@ export default function PrivacyDataScreen() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-charcoal-500">Download Health Data</p>
-                  <p className="text-sm text-slate-500">Request a secure copy of your medical records.</p>
+                  <p className="font-medium text-charcoal-500">{t('downloadHealthData')}</p>
+                  <p className="text-sm text-slate-500">{t('requestSecureCopy')}</p>
                 </div>
               </div>
               <svg className="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,8 +90,8 @@ export default function PrivacyDataScreen() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-charcoal-500">Manage App Permissions</p>
-                  <p className="text-sm text-slate-500">Control access to camera, mic, and health sensors.</p>
+                  <p className="font-medium text-charcoal-500">{t('manageAppPermissions')}</p>
+                  <p className="text-sm text-slate-500">{t('controlAccess')}</p>
                 </div>
               </div>
               <svg className="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -111,8 +113,8 @@ export default function PrivacyDataScreen() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-charcoal-500">Data Sharing</p>
-                  <p className="text-sm text-slate-500">Manage which clinics and partners have access.</p>
+                  <p className="font-medium text-charcoal-500">{t('dataSharing')}</p>
+                  <p className="text-sm text-slate-500">{t('manageAccess')}</p>
                 </div>
               </div>
               <svg className="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -133,13 +135,12 @@ export default function PrivacyDataScreen() {
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Compliance</h4>
+            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('compliance')}</h4>
           </div>
           <p className="text-sm text-slate-600 leading-relaxed">
-            DocliQ complies with the General Data Protection Regulation (GDPR) and German health data security
-            standards. You have the right to access, rectify, or delete your data at any time.
+            {t('complianceText')}
           </p>
-          <button className="mt-3 text-sm font-medium text-teal-600 hover:text-teal-700">Read Privacy Policy</button>
+          <button className="mt-3 text-sm font-medium text-teal-600 hover:text-teal-700">{t('readPrivacyPolicy')}</button>
         </div>
 
         {/* Reset All Data - destructive action */}
@@ -148,15 +149,15 @@ export default function PrivacyDataScreen() {
             onClick={handleResetAll}
             className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors"
           >
-            Reset All Data
+            {t('resetAllData')}
           </button>
           <p className="mt-2 text-xs text-center text-slate-500">
-            This will permanently delete all your data and sign you out.
+            {t('resetAllDataWarning')}
           </p>
         </div>
 
         {/* Version footer */}
-        <p className="text-center text-xs text-slate-400 uppercase tracking-wider">Version 2.4.1 (Berlin, Germany)</p>
+        <p className="text-center text-xs text-slate-400 uppercase tracking-wider">{t('versionFooter')}</p>
       </div>
     </Page>
   )

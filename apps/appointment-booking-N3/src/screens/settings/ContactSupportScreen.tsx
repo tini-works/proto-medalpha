@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 
 /**
@@ -5,12 +6,14 @@ import { Header, Page } from '../../components'
  * Placeholder content for prototype demonstration.
  */
 export default function ContactSupportScreen() {
+  const { t } = useTranslation('settings')
+
   return (
     <Page safeBottom={false}>
-      <Header title="Contact Support" showBack />
+      <Header title={t('contactSupport')} showBack />
 
       <div className="px-4 py-6 space-y-6">
-        <p className="text-sm text-slate-500">Get help from our team. We typically respond within 24 hours.</p>
+        <p className="text-sm text-slate-500">{t('supportChannels')}</p>
 
         {/* Support channels */}
         <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-300">
@@ -27,8 +30,8 @@ export default function ContactSupportScreen() {
               </svg>
             </div>
             <div className="flex-1">
-              <p className="font-medium text-charcoal-500">Email Support</p>
-              <p className="text-sm text-slate-500">support@docliq.de</p>
+              <p className="font-medium text-charcoal-500">{t('emailSupport')}</p>
+              <p className="text-sm text-slate-500">{t('emailAddress')}</p>
             </div>
             <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -48,9 +51,9 @@ export default function ContactSupportScreen() {
               </svg>
             </div>
             <div className="flex-1">
-              <p className="font-medium text-charcoal-500">Phone Support</p>
-              <p className="text-sm text-slate-500">+49 30 1234 5678</p>
-              <p className="text-xs text-slate-400">Mon-Fri, 9:00-18:00 CET</p>
+              <p className="font-medium text-charcoal-500">{t('phoneSupport')}</p>
+              <p className="text-sm text-slate-500">{t('phoneNumber')}</p>
+              <p className="text-xs text-slate-400">{t('phoneSupportHours')}</p>
             </div>
             <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -70,8 +73,8 @@ export default function ContactSupportScreen() {
               </svg>
             </div>
             <div className="flex-1">
-              <p className="font-medium text-charcoal-500">Live Chat</p>
-              <p className="text-sm text-slate-500">Chat with our support team</p>
+              <p className="font-medium text-charcoal-500">{t('liveChat')}</p>
+              <p className="text-sm text-slate-500">{t('chatWithTeam')}</p>
             </div>
             <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -82,8 +85,7 @@ export default function ContactSupportScreen() {
         {/* Additional info */}
         <div className="p-4 bg-cream-100 rounded-xl">
           <p className="text-sm text-slate-600">
-            <span className="font-medium">Urgent medical issues?</span> Please contact your local emergency services or
-            visit the nearest hospital.
+            <span className="font-medium">{t('urgentMedical')}</span> {t('urgentMedicalText')}
           </p>
         </div>
       </div>

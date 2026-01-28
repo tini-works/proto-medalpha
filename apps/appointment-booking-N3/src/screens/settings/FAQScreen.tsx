@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 
 /**
  * FAQ screen with expandable accordion items.
- * Placeholder content for prototype demonstration.
+ * Questions and answers are loaded from i18n settings namespace.
  */
 
 interface FAQItem {
@@ -12,47 +13,43 @@ interface FAQItem {
   answer: string
 }
 
-const FAQ_ITEMS: FAQItem[] = [
-  {
-    id: '1',
-    question: 'How do I book an appointment?',
-    answer:
-      'You can book an appointment by navigating to the Home screen and tapping "Book Appointment". Follow the guided flow to select your specialty, location, doctor, and preferred time slot.',
-  },
-  {
-    id: '2',
-    question: 'Can I book appointments for family members?',
-    answer:
-      'Yes! You can add family members in Settings > Family Members. Once added, you can select them as the patient when booking an appointment.',
-  },
-  {
-    id: '3',
-    question: 'How do I cancel or reschedule an appointment?',
-    answer:
-      'Go to your appointment details from the Schedule tab. You\'ll find options to cancel or reschedule. Please note that some appointments may have cancellation policies.',
-  },
-  {
-    id: '4',
-    question: 'Is my health data secure?',
-    answer:
-      'Yes. All your medical records and personal data are encrypted with AES-256 encryption. We comply with GDPR and German health data security standards.',
-  },
-  {
-    id: '5',
-    question: 'How do I download my health records?',
-    answer:
-      'Go to Settings > Privacy & Data > Download Health Data. You can request a secure copy of your medical records which will be prepared and made available for download.',
-  },
-  {
-    id: '6',
-    question: 'What insurance types are supported?',
-    answer:
-      'DocliQ supports both GKV (statutory health insurance) and PKV (private health insurance). You can set your insurance type in your profile settings.',
-  },
-]
-
 export default function FAQScreen() {
+  const { t } = useTranslation('settings')
   const [expanded, setExpanded] = useState<string | null>(null)
+
+  // Load FAQ items from i18n keys
+  const FAQ_ITEMS: FAQItem[] = [
+    {
+      id: '1',
+      question: t('faq_question_1'),
+      answer: t('faq_answer_1'),
+    },
+    {
+      id: '2',
+      question: t('faq_question_2'),
+      answer: t('faq_answer_2'),
+    },
+    {
+      id: '3',
+      question: t('faq_question_3'),
+      answer: t('faq_answer_3'),
+    },
+    {
+      id: '4',
+      question: t('faq_question_4'),
+      answer: t('faq_answer_4'),
+    },
+    {
+      id: '5',
+      question: t('faq_question_5'),
+      answer: t('faq_answer_5'),
+    },
+    {
+      id: '6',
+      question: t('faq_question_6'),
+      answer: t('faq_answer_6'),
+    },
+  ]
 
   const toggle = (id: string) => {
     setExpanded(expanded === id ? null : id)
@@ -60,10 +57,10 @@ export default function FAQScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="FAQs" showBack />
+      <Header title={t('faqs')} showBack />
 
       <div className="px-4 py-6">
-        <p className="text-sm text-slate-500 mb-6">Common questions and answers about using DocliQ.</p>
+        <p className="text-sm text-slate-500 mb-6">{t('faqIntro')}</p>
 
         <div className="space-y-3">
           {FAQ_ITEMS.map((item) => (
