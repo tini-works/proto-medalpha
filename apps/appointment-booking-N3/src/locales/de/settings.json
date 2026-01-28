@@ -1,5 +1,10 @@
 {
   "settings": "Einstellungen",
+  "tabs": {
+    "home": "Startseite",
+    "appointments": "Termine",
+    "settings": "Einstellungen"
+  },
   "languageSettings": "Spracheinstellungen",
   "language": "Sprache",
   "setAppLanguage": "Legen Sie die App-Sprache fest",
@@ -24,7 +29,7 @@
   "manageUpdates": "Verwalten Sie, wie Sie Updates von DocliQ erhalten. Die Einstellungen werden über DocliQ-Token gesichert.",
   "appointments": "Termine",
   "appointmentReminders": "Erhalten Sie Erinnerungen für bevorstehende Konsultationen und Check-ins.",
-  "marketingNews": "Marketing & News",
+  "marketingNews": "Marketing & Neuigkeiten",
   "stayUpdated": "Bleiben Sie mit DocliQ-Neuigkeiten und Funktionsupdates auf dem Laufenden.",
   "dataEncrypted": "Ihre Daten werden mit DocliQ-Token verschlüsselt.",
   "dataEncryptedBanner": "Daten verschlüsselt",

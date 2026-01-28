@@ -1,6 +1,6 @@
 {
   "status": {
-    "matching": "Matching",
+    "matching": "Suche läuft",
     "awaitConfirm": "Warte auf Bestätigung",
     "confirmed": "Bestätigt",
     "patientCanceled": "Von Patient:in storniert",
