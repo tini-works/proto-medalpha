@@ -7,19 +7,26 @@ import type { Appointment } from '../../types'
 interface TodaysFocusCardProps {
   appointment: Appointment
   onCheckIn?: () => void
+  onClick?: () => void
 }
 
 /**
  * Hero card highlighting the user's next upcoming appointment
  * Displayed on HomeScreen for verified users with a confirmed upcoming appointment
  */
-export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps) {
+export function TodaysFocusCard({ appointment, onCheckIn, onClick }: TodaysFocusCardProps) {
   const { t } = useTranslation('home')
   const relativeDate = getRelativeDateLabel(appointment.dateISO)
   const time = formatTime(appointment.time)
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-teal-600 p-5 text-white">
+    <div
+      className="relative overflow-hidden rounded-2xl bg-teal-600 p-5 text-white cursor-pointer active:scale-[0.98] transition-transform"
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
+    >
       {/* Decorative shape in top-right corner */}
       <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-teal-500 opacity-20" />
 
@@ -57,7 +64,10 @@ export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps
 
           {/* Check In button */}
           <button
-            onClick={onCheckIn}
+            onClick={(e) => {
+              e.stopPropagation()
+              onCheckIn?.()
+            }}
             className="flex-shrink-0 rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-600 transition-colors hover:bg-cream-50 active:scale-95"
           >
             {t('submitForm')}

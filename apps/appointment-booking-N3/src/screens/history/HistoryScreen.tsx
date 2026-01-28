@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Page, TabBar, AppointmentCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { useBooking } from '../../state'
-import { PATHS, historyDetailPath } from '../../routes/paths'
+import { PATHS, appointmentDetailPath } from '../../routes/paths'
 import { formatDateLong } from '../../utils/format'
 import type { Appointment } from '../../types'
 
@@ -113,7 +113,7 @@ export default function HistoryScreen() {
   ] as const
 
   const handleAppointmentClick = (appointmentId: string) => {
-    navigate(historyDetailPath(appointmentId))
+    navigate(appointmentDetailPath(appointmentId))
   }
 
   return (

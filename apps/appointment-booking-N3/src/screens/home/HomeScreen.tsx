@@ -90,6 +90,7 @@ export default function HomeScreen() {
           <section>
             <TodaysFocusCard
               appointment={nextAppointment}
+              onClick={() => navigate(appointmentDetailPath(nextAppointment.id))}
               onCheckIn={() => navigate(appointmentDetailPath(nextAppointment.id))}
             />
           </section>
