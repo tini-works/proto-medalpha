@@ -64,7 +64,7 @@ export default function RegisterScreen() {
     updateProfile({ fullName: formData.fullName })
 
     // Sign in (this sets email and marks as authenticated but not verified)
-    signIn(formData.email)
+    signIn(formData.email, { isRegistration: true })
 
     // Navigate to verification (pass isRegistration: true for new users)
     navigate(PATHS.AUTH_VERIFY, { state: { isRegistration: true } })

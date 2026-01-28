@@ -35,7 +35,7 @@ type AppStateApi = {
   state: AppState
   extendedState: ExtendedState
   // Auth
-  signIn: (email: string) => void
+  signIn: (email: string, options?: { isRegistration?: boolean }) => void
   signOut: () => void
   markVerified: () => void
   // Profile
@@ -88,6 +88,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setState((s) => {
+      if (s.preferences.disableDemoAppointmentsSeed) return s
       const now = Date.now()
 
       const isoDay = (offsetDays: number) =>
@@ -237,12 +238,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       isProfileComplete,
 
       // Auth
-      signIn: (email) =>
-        setState((s) => ({
-          ...s,
-          auth: { isAuthenticated: true, verified: false, userId: `user_${Date.now()}` },
-          profile: { ...s.profile, email },
-        })),
+      signIn: (email, options) =>
+        setState((s) => {
+          const isRegistration = options?.isRegistration ?? false
+          return {
+            ...s,
+            auth: { isAuthenticated: true, verified: false, userId: `user_${Date.now()}` },
+            profile: { ...s.profile, email },
+            preferences: isRegistration ? { ...s.preferences, disableDemoAppointmentsSeed: true } : s.preferences,
+            appointments: isRegistration ? [] : s.appointments,
+            history: isRegistration ? { items: [] } : s.history,
+          }
+        }),
       signOut: () =>
         setState((s) => ({
           ...s,
