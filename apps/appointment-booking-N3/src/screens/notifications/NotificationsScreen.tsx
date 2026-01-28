@@ -1,10 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import i18n from '../../i18n'
 import { Page } from '../../components'
 import { PATHS } from '../../routes'
 import NotificationCard from '../../components/notifications/NotificationCard'
 import { ShortGuidesSection, FeaturedStoryCard, LatestNewsSection } from '../../components/newsfeed'
-import { mockNotifications, groupNotificationsByDate, formatNotificationDate } from '../../data/notifications'
+import { getLocalizedNotifications, groupNotificationsByDate, formatNotificationDate } from '../../data/notifications'
 import { mockShortGuides, mockFeaturedStory, mockNewsArticles } from '../../data/newsfeed'
 import { useState, useEffect } from 'react'
 
@@ -20,6 +21,8 @@ function UpdatesScreen() {
     }
   }, [location.state])
 
+  // Get localized notifications based on current language
+  const mockNotifications = getLocalizedNotifications(i18n.language)
   const grouped = groupNotificationsByDate(mockNotifications)
   const dateGroups = ['TODAY', 'YESTERDAY', ...Object.keys(grouped).filter((key) => key !== 'TODAY' && key !== 'YESTERDAY')]
 

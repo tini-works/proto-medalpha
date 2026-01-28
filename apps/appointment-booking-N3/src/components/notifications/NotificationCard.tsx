@@ -1,11 +1,30 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import type { Notification } from '../../types'
 
 interface NotificationCardProps {
   notification: Notification
 }
 
+// Map category types to i18n keys
+const categoryToI18nKey: Record<string, string> = {
+  'BOOKING UPDATE': 'categoryBookingUpdate',
+  'CANCELLATION ALERT': 'categoryCancellationAlert',
+  'UPCOMING': 'categoryUpcoming',
+  'SECURITY': 'categorySecurity',
+  'FAMILY PROFILE': 'categoryFamilyProfile',
+}
+
+// Map action labels to i18n keys
+const actionLabelToI18nKey: Record<string, string> = {
+  'View Details': 'actionViewDetails',
+  'Reschedule': 'actionReschedule',
+  'My Profile': 'actionMyProfile',
+  'Manage Family': 'actionManageFamily',
+}
+
 export default function NotificationCard({ notification }: NotificationCardProps) {
+  const { t } = useTranslation('notifications')
   // Render icon based on notification type
   const renderIcon = () => {
     switch (notification.type) {
@@ -87,7 +106,7 @@ export default function NotificationCard({ notification }: NotificationCardProps
     <div className="flex gap-3">
       {renderIcon()}
       <div className="flex-1">
-        <p className="text-xs text-slate-400 uppercase font-medium mb-1">{notification.category}</p>
+        <p className="text-xs text-slate-400 uppercase font-medium mb-1">{t(categoryToI18nKey[notification.category] || 'categoryGeneral')}</p>
         <h3 className="text-sm font-semibold text-charcoal-500 mb-1">{notification.title}</h3>
         <p className="text-sm text-slate-600 mb-3">{notification.message}</p>
         {notification.actionLabel && notification.actionPath && (
@@ -95,7 +114,7 @@ export default function NotificationCard({ notification }: NotificationCardProps
             to={notification.actionPath}
             className="text-sm font-medium text-teal-700 hover:text-teal-800 inline-block"
           >
-            {notification.actionLabel} {notification.actionLabel === 'View Details' ? '→' : '🔧'}
+            {t(actionLabelToI18nKey[notification.actionLabel] || 'actionViewDetails')} {actionLabelToI18nKey[notification.actionLabel] === 'actionViewDetails' ? '→' : '🔧'}
           </Link>
         )}
       </div>

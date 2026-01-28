@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import i18n from '../../i18n'
 import { NewsArticle } from '../../types'
 import { PATHS } from '../../routes'
 
@@ -15,11 +17,22 @@ const categoryColors: Record<string, string> = {
   GENERAL: 'bg-gray-100 text-gray-700',
 }
 
+// Map category to i18n keys
+const categoryToI18nKey: Record<string, string> = {
+  CARDIOLOGY: 'categoryCardiology',
+  NUTRITION: 'categoryNutrition',
+  MENTAL_HEALTH: 'categoryMentalHealth',
+  FITNESS: 'categoryFitness',
+  GENERAL: 'categoryGeneral',
+}
+
 function NewsArticleCard({ article }: NewsArticleCardProps) {
+  const { t } = useTranslation('notifications')
   const categoryColor = categoryColors[article.category] || categoryColors.GENERAL
 
-  // Format date as "Oct 24, 2023"
-  const formattedDate = article.publishedAt.toLocaleDateString('en-US', {
+  // Format date with locale-aware formatting
+  const locale = i18n.language === 'de' ? 'de-DE' : 'en-US'
+  const formattedDate = article.publishedAt.toLocaleDateString(locale, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
@@ -43,7 +56,7 @@ function NewsArticleCard({ article }: NewsArticleCardProps) {
       <div className="flex-1 min-w-0">
         {/* Category badge */}
         <div className={`inline-block px-2 py-1 rounded text-xs font-semibold uppercase tracking-wide mb-2 ${categoryColor}`}>
-          {article.category.replace('_', ' ')}
+          {t(categoryToI18nKey[article.category] || 'categoryGeneral')}
         </div>
 
         {/* Title */}
@@ -53,7 +66,7 @@ function NewsArticleCard({ article }: NewsArticleCardProps) {
 
         {/* Meta info */}
         <div className="flex items-center gap-2 text-xs text-slate-500">
-          <span>{article.readTimeMinutes} min read</span>
+          <span>{t('minRead', { count: article.readTimeMinutes })}</span>
           <span>•</span>
           <span>{formattedDate}</span>
         </div>
@@ -61,7 +74,7 @@ function NewsArticleCard({ article }: NewsArticleCardProps) {
         {/* Read link */}
         <div className="mt-2">
           <span className="text-sm text-teal-700 font-medium group-hover:underline">
-            Read
+            {t('read')}
           </span>
         </div>
       </div>

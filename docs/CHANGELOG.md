@@ -9,6 +9,7 @@ High-level, business-focused summary of notable changes.
 - **Notifications screen German translations**: Full translation coverage for Updates screen including tab labels (Notifications / News Feed), date group headers (TODAY / YESTERDAY), Short Guides, Featured Story, and action buttons.
 - **News feed component translations**: Updated LatestNewsSection, ShortGuidesSection, FeaturedStoryCard, and TodaysFocusCard to use i18n for all visible text.
 - **Localized date formatting**: Enhanced `formatNotificationDate()` utility to support i18n-driven date translations and locale-aware formatting for German (de-DE) and English (en-US).
+- **German mock content for News Feed**: Replaced all mock article content with German translations—6 full articles covering AI Symptom Checker, Hypertension, Superfoods, Mindfulness, Walking Benefits, and Annual Checkups, plus Short Guides and Featured Story.
 
 ## 2026-01-27
 
