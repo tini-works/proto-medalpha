@@ -17,5 +17,10 @@
   },
   "list": {
     "and": "{{a}} and {{b}}"
+  },
+  "matching": {
+    "requestedSpecialty": "Requested Specialty",
+    "requestSubmitted": "Submitted",
+    "locationPreference": "Location"
   }
 }

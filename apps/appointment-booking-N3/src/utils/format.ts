@@ -108,3 +108,22 @@ export function getRelativeDateLabel(dateISO: string): string {
   if (daysDiff === 1) return 'Tomorrow'
   return formatDateShort(dateISO)
 }
+
+/**
+ * Format date relative to now for past dates
+ * Returns "Today", "Yesterday", or formatted date (e.g., "23. Jan")
+ */
+export function formatDateRelative(dateISO: string): string {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const targetDate = new Date(dateISO)
+  targetDate.setHours(0, 0, 0, 0)
+
+  const daysDiff = Math.floor((today.getTime() - targetDate.getTime()) / (1000 * 60 * 60 * 24))
+
+  if (daysDiff === 0) return 'Today'
+  if (daysDiff === 1) return 'Yesterday'
+  if (daysDiff < 7) return `${daysDiff} days ago`
+  return formatDateShort(dateISO)
+}

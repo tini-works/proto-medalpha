@@ -17,5 +17,10 @@
   },
   "list": {
     "and": "{{a}} und {{b}}"
+  },
+  "matching": {
+    "requestedSpecialty": "Gewünschtes Fachgebiet",
+    "requestSubmitted": "Eingereicht",
+    "locationPreference": "Standort"
   }
 }

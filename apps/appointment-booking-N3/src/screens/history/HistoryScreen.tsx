@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IconClock, IconMessageCircle, IconX, IconPlus } from '@tabler/icons-react'
+import { IconClock, IconFilter, IconSearch, IconX, IconPlus } from '@tabler/icons-react'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { useBooking } from '../../state'
 import { PATHS, appointmentDetailPath } from '../../routes/paths'
@@ -63,7 +63,7 @@ export default function HistoryScreen() {
     {
       value: 'all',
       label: 'All',
-      icon: IconClock,
+      icon: IconFilter,
     },
     {
       value: 'await_confirm',
@@ -73,7 +73,7 @@ export default function HistoryScreen() {
     {
       value: 'matching',
       label: 'Matching',
-      icon: IconMessageCircle,
+      icon: IconSearch,
     },
     {
       value: 'cancelled_doctor',

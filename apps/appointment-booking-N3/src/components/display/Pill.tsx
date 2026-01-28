@@ -4,11 +4,12 @@ import type { ReactNode } from 'react'
  * Pill component with conservative color usage
  * - 'positive': ONLY for deltas, improvements, compliance-safe positive signals
  * - 'negative': For errors, cancellations, negative deltas
+ * - 'pending': For pending appointment states (amber)
  * - 'warning': For attention needed, pending states
  * - 'info': For informational badges (insurance type, etc.)
  * - 'neutral': Default for most status badges
  */
-type PillTone = 'info' | 'positive' | 'warning' | 'negative' | 'neutral'
+type PillTone = 'info' | 'positive' | 'pending' | 'warning' | 'negative' | 'neutral'
 
 interface PillProps {
   children: ReactNode
@@ -22,6 +23,8 @@ const toneStyles: Record<PillTone, string> = {
   info: 'bg-sky-50 text-sky-700 border border-sky-500',
   // Used for positive states like "Confirmed" (green)
   positive: 'bg-emerald-50 text-emerald-700 border border-emerald-500', // Restricted: only for positive deltas
+  // Used for pending appointment confirmation (amber)
+  pending: 'bg-amber-50 text-amber-800 border border-amber-500',
   warning: 'bg-coral-100 text-coral-700 border border-coral-500',
   negative: 'bg-coral-50 text-coral-800 border border-coral-600',
   neutral: 'bg-cream-200 text-charcoal-400 border border-cream-400',

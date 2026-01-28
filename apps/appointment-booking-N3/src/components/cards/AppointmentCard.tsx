@@ -16,10 +16,10 @@ interface AppointmentCardProps {
 // Map appointment status to pill tones
 const statusConfig: Record<
   Appointment['status'],
-  { tone: 'info' | 'positive' | 'warning' | 'negative' | 'neutral'; label: string }
+  { tone: 'info' | 'positive' | 'pending' | 'warning' | 'negative' | 'neutral'; label: string }
 > = {
   matching: { tone: 'info', label: 'Matching' },
-  await_confirm: { tone: 'warning', label: 'Await confirm' },
+  await_confirm: { tone: 'pending', label: 'Await confirm' },
   confirmed: { tone: 'positive', label: 'Confirmed' },
   completed: { tone: 'neutral', label: 'Completed' },
   cancelled_patient: { tone: 'negative', label: 'Patient canceled' },
