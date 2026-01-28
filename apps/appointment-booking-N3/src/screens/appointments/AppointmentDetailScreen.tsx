@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Page, Avatar, Pill } from '../../components'
+import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
 import { formatDateLong, formatTime } from '../../utils/format'
 import { PATHS } from '../../routes'
@@ -178,12 +179,13 @@ export default function AppointmentDetailScreen() {
             </button>
 
             {/* Cancel Button */}
-            <button
+            <Button
               onClick={() => setShowCancelConfirm(true)}
-              className="w-full rounded-lg border border-red-200 bg-red-50 py-3 font-medium text-red-600 transition-colors hover:bg-red-100 active:scale-95"
+              variant="destructive"
+              fullWidth
             >
               Cancel Appointment
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -204,12 +206,13 @@ export default function AppointmentDetailScreen() {
               >
                 Keep Appointment
               </button>
-              <button
+              <Button
                 onClick={handleCancel}
-                className="flex-1 rounded-lg bg-red-600 py-3 font-medium text-white transition-colors hover:bg-red-700 active:scale-95"
+                variant="destructive-filled"
+                className="flex-1"
               >
                 Yes, Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

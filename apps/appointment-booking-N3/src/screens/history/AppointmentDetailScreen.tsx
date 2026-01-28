@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Page, Header, Avatar } from '../../components'
+import { Button } from '../../components/ui'
 import { Pill } from '../../components/display/Pill'
 import { useBooking, useHistory, useReschedule } from '../../state'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
@@ -216,39 +217,46 @@ export default function AppointmentDetailScreen() {
         <div className="space-y-3">
           {isUpcoming && (
             <>
-              <button
+              <Button
                 onClick={handleReschedule}
-                className="btn btn-primary btn-block h-12 py-0"
+                variant="primary"
+                size="md"
+                fullWidth
               >
                 Reschedule Appointment
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setShowCancelDialog(true)}
-                className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors"
+                variant="destructive"
+                fullWidth
               >
                 Cancel Appointment
-              </button>
+              </Button>
             </>
           )}
 
           {isPast && (
-            <button
+            <Button
               onClick={handleBookAgain}
-              className="btn btn-primary btn-block h-12 py-0"
+              variant="primary"
+              size="md"
+              fullWidth
             >
               Book Again
-            </button>
+            </Button>
           )}
 
-          <button
+          <Button
             onClick={handleOpenRoute}
-            className="btn btn-secondary btn-block h-12 py-0 flex items-center justify-center gap-2"
+            variant="secondary"
+            size="md"
+            fullWidth
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
             Get Directions
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -283,27 +291,22 @@ export default function AppointmentDetailScreen() {
               </div>
 
               <div className="space-y-3">
-                <button
+                <Button
                   onClick={handleCancel}
-                  disabled={isCancelling}
-                  className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors disabled:opacity-50 flex items-center justify-center"
+                  variant="destructive"
+                  fullWidth
+                  loading={isCancelling}
                 >
-                  {isCancelling ? (
-                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                  ) : (
-                    'Cancel Appointment'
-                  )}
-                </button>
-                <button
+                  Cancel Appointment
+                </Button>
+                <Button
                   onClick={() => setShowCancelDialog(false)}
                   disabled={isCancelling}
-                  className="btn btn-secondary w-full h-12 py-0 disabled:opacity-50"
+                  variant="secondary"
+                  fullWidth
                 >
                   Keep
-                </button>
+                </Button>
               </div>
             </div>
           </div>

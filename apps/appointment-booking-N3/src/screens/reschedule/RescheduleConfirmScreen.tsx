@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Page, Header } from '../../components'
+import { Button } from '../../components/ui'
 import { useReschedule, useBooking } from '../../state'
 import { apiRescheduleAppointment } from '../../data/api'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
@@ -37,12 +38,13 @@ export default function RescheduleConfirmScreen() {
         <Header title="Confirm Reschedule" showBack />
         <div className="px-4 py-8 text-center">
           <p className="text-slate-500">No slot selected</p>
-          <button
+          <Button
+            variant="link"
+            className="mt-4"
             onClick={() => navigate(id ? reschedulePath(id) : PATHS.HISTORY)}
-            className="mt-4 text-teal-700 font-medium hover:underline"
           >
             Back to slot selection
-          </button>
+          </Button>
         </div>
       </Page>
     )
@@ -208,28 +210,26 @@ export default function RescheduleConfirmScreen() {
           {/* Sticky bottom actions */}
           <div className="border-t border-cream-300 bg-white px-4 py-4 safe-area-bottom">
             <div className="mx-auto max-w-md flex flex-col gap-3">
-              <button
+              <Button
                 onClick={handleConfirm}
                 disabled={isSubmitting || !isOnline}
-                className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                variant="primary"
+                size="md"
+                fullWidth
+                loading={isSubmitting}
               >
-                {isSubmitting ? (
-                  <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                ) : (
-                  isOnline ? 'Reschedule Appointment' : 'Offline'
-                )}
-              </button>
+                {isOnline ? 'Reschedule Appointment' : 'Offline'}
+              </Button>
 
-              <button
+              <Button
                 onClick={handleCancel}
                 disabled={isSubmitting}
-                className="btn btn-tertiary btn-block h-12 py-0 disabled:opacity-50"
+                variant="tertiary"
+                size="md"
+                fullWidth
               >
                 Keep Current Appointment
-              </button>
+              </Button>
             </div>
           </div>
         </div>

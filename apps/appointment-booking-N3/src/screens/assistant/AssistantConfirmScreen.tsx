@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page, Avatar, Rating } from '../../components'
+import { Button } from '../../components/ui'
 import { PATHS } from '../../routes'
 import { useBooking, useProfile } from '../../state'
 
@@ -28,9 +29,9 @@ export default function AssistantConfirmScreen() {
             <p className="font-semibold text-charcoal-500">Select a doctor and time first.</p>
             <p className="text-sm text-slate-600 mt-2">Return to recommendations to pick a slot.</p>
           </div>
-          <button className="btn btn-primary btn-block" onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)}>
+          <Button className="btn btn-primary btn-block" onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} variant="primary" fullWidth>
             Back to recommendations
-          </button>
+          </Button>
         </div>
       </Page>
     )
@@ -143,9 +144,9 @@ export default function AssistantConfirmScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <button className="btn btn-primary btn-block h-14" onClick={() => navigate(PATHS.BOOKING_SUCCESS)}>
+          <Button variant="primary" size="lg" fullWidth onClick={() => navigate(PATHS.BOOKING_SUCCESS)}>
             Confirm booking →
-          </button>
+          </Button>
         </div>
       </div>
     </Page>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page, ProgressIndicator } from '../../components'
+import { Button } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import type { InsuranceType } from '../../types'
@@ -151,13 +152,15 @@ export default function InsuranceScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <button
+          <Button
             onClick={handleContinue}
             disabled={!insurance}
-            className="btn btn-primary btn-block h-14 py-0 disabled:cursor-not-allowed"
+            variant="primary"
+            fullWidth
+            size="lg"
           >
             {t('continueBtn')}
-          </button>
+          </Button>
         </div>
       </div>
     </Page>

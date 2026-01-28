@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page, FamilyMemberCard, EmptyState } from '../../components'
 import { Field, Select } from '../../components/forms'
+import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
 import { familyMemberDetailPath } from '../../routes'
 import type { FamilyMember, InsuranceType } from '../../types'
@@ -99,12 +100,12 @@ export default function FamilyMembersScreen() {
               title={t('family.empty.title')}
               description={t('family.empty.description')}
               action={
-                <button
+                <Button
                   onClick={() => setShowForm(true)}
-                  className="btn btn-primary"
+                  variant="primary"
                 >
                   {t('family.form.addButton')}
-                </button>
+                </Button>
               }
             />
           )
@@ -171,19 +172,23 @@ export default function FamilyMembersScreen() {
             />
 
             <div className="flex gap-3 pt-2">
-              <button
+              <Button
                 type="button"
                 onClick={resetForm}
-                className="btn btn-tertiary flex-1 h-11 py-0"
+                variant="tertiary"
+                fullWidth
+                size="md"
               >
                 {t('family.form.cancel')}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
-                className="btn btn-primary flex-1 h-11 py-0"
+                variant="primary"
+                fullWidth
+                size="md"
               >
                 {t('family.form.submit')}
-              </button>
+              </Button>
             </div>
           </form>
         )}

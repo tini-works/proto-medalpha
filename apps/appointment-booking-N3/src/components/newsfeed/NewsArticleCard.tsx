@@ -41,7 +41,7 @@ function NewsArticleCard({ article }: NewsArticleCardProps) {
   return (
     <Link
       to={`${PATHS.ARTICLE_DETAIL}`.replace(':articleId', article.id)}
-      className="flex gap-4 py-4 px-4 rounded-lg hover:bg-cream-100 transition-colors duration-normal ease-out-brand group -mx-4"
+      className="flex gap-4 py-4 px-4 rounded-lg hover:bg-cream-100 transition-colors duration-normal ease-out-brand group"
     >
       {/* Thumbnail image */}
       <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-200">
@@ -59,8 +59,8 @@ function NewsArticleCard({ article }: NewsArticleCardProps) {
           {t(categoryToI18nKey[article.category] || 'categoryGeneral')}
         </div>
 
-        {/* Title */}
-        <h3 className="font-semibold text-charcoal-500 mb-1 line-clamp-2 group-hover:text-teal-700 transition-colors duration-normal ease-out-brand">
+        {/* Title - text-sm for compact card layout */}
+        <h3 className="text-sm font-semibold text-charcoal-500 mb-1 line-clamp-2 group-hover:text-teal-700 transition-colors duration-normal ease-out-brand">
           {article.title}
         </h3>
 

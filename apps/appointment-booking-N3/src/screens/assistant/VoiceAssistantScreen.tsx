@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page } from '../../components'
+import { Button } from '../../components/ui'
 import { Avatar } from '../../components/display/Avatar'
 import { PATHS } from '../../routes'
 
@@ -83,14 +84,14 @@ export default function VoiceAssistantScreen() {
             </p>
           </div>
           <div className="flex items-center justify-between border-t border-cream-200 pt-4">
-            <button type="button" className="btn btn-secondary h-10 px-4 py-0 text-sm">
+            <Button variant="secondary" size="sm" type="button" className="text-sm">
               <span className="inline-flex items-center gap-2">
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6h12v12H6z" />
                 </svg>
                 Stop
               </span>
-            </button>
+            </Button>
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-teal-600" />
               <span className="h-2 w-2 rounded-full bg-teal-600/40" />
@@ -103,13 +104,14 @@ export default function VoiceAssistantScreen() {
       {/* Sticky bottom button */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <button
-            type="button"
-            className="btn btn-primary btn-block h-14"
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
             onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)}
           >
             Send
-          </button>
+          </Button>
         </div>
       </div>
     </Page>

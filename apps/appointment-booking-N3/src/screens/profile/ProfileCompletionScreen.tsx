@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field, RadioGroup } from '../../components/forms'
+import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import type { InsuranceType } from '../../types'
@@ -194,12 +195,13 @@ export default function ProfileCompletionScreen() {
         </div>
 
         <div className="pt-4">
-          <button
+          <Button
             type="submit"
-            className="btn btn-primary btn-block"
+            variant="primary"
+            fullWidth
           >
             {t('completion.submit')}
-          </button>
+          </Button>
         </div>
       </form>
     </Page>

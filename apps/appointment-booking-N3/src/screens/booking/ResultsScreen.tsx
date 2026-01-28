@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { IconArrowLeft, IconFilter, IconChevronDown, IconX } from '@tabler/icons-react'
 import { Page, TabBar, DoctorCard, EmptyState } from '../../components'
 import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
@@ -16,11 +17,6 @@ const sortLabelKeys: Record<SortOption, string> = {
   distance: 'nearest',
 }
 
-// Filter icon
-function FilterIcon() {
-  return (
-    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <path
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
@@ -198,7 +194,7 @@ export default function ResultsScreen() {
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-neutral-100"
             aria-label={t('goBack')}
           >
-            <BackIcon />
+            <IconArrowLeft className="w-6 h-6 text-neutral-700" size={24} stroke={2} />
           </button>
 
           {/* Title */}
@@ -210,7 +206,7 @@ export default function ResultsScreen() {
             className="relative flex items-center justify-center w-10 h-10 -mr-2 rounded-full hover:bg-neutral-100 text-neutral-600"
             aria-label={t('filters')}
           >
-            <FilterIcon />
+            <IconFilter className="w-5 h-5" size={20} stroke={2} />
             {hasActiveFilters && <span className="absolute -top-0.5 -right-0.5 text-[11px] font-semibold bg-teal-600 text-white rounded-full px-1.5 py-0.5">{activeFilterCount}</span>}
           </button>
         </div>
@@ -226,7 +222,7 @@ export default function ResultsScreen() {
             >
               <span>{t('sortedBy')}</span>
               <span className="font-semibold text-charcoal-500">{t(sortLabelKeys[sortBy])}</span>
-              <ChevronDownIcon />
+              <IconChevronDown className="w-4 h-4" size={16} stroke={2} />
             </button>
 
             {/* Sort dropdown menu */}

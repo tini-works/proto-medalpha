@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { IconChevronRight } from '@tabler/icons-react'
 import { FeaturedStory } from '../../types'
 import { PATHS } from '../../routes'
 
@@ -47,9 +48,7 @@ function FeaturedStoryCard({ story }: FeaturedStoryCardProps) {
           {/* Read Full Story link */}
           <div className="flex items-center gap-2 text-teal-700 font-medium text-sm">
             <span>{t('readFullStory')}</span>
-            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-normal ease-out-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            <IconChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-normal ease-out-brand" stroke={2} />
           </div>
         </div>
       </Link>

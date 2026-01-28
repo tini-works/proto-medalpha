@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ChevronDown } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
 
 /**
@@ -70,16 +71,12 @@ export default function FAQScreen() {
                 className="w-full flex items-center justify-between p-4 text-left hover:bg-cream-100 transition-colors"
               >
                 <span className="font-medium text-charcoal-500 pr-4">{item.question}</span>
-                <svg
-                  className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform ${
+                <ChevronDown
+                  size={20}
+                  className={`text-slate-400 flex-shrink-0 transition-transform ${
                     expanded === item.id ? 'rotate-180' : ''
                   }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                />
               </button>
               {expanded === item.id && (
                 <div className="px-4 pb-4">

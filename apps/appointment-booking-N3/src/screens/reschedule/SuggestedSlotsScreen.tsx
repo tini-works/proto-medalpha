@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Page, Header, EmptyState, Avatar } from '../../components'
+import { Button } from '../../components/ui'
 import { useReschedule, useBooking } from '../../state'
 import { apiGetSuggestedSlots } from '../../data/api'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
@@ -142,12 +143,14 @@ export default function SuggestedSlotsScreen() {
                   <Avatar name={appointment.doctorName} size="sm" />
                   <span className="text-sm text-slate-600">{appointment.doctorName}</span>
                 </div>
-                <button
+                <Button
                   onClick={() => handleSelectSlot(suggestedSlots[0])}
-                  className="btn btn-primary btn-block h-12"
+                  variant="primary"
+                  size="md"
+                  fullWidth
                 >
                   Select Recommended Slot
-                </button>
+                </Button>
               </div>
             )}
 
@@ -194,9 +197,9 @@ export default function SuggestedSlotsScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <button onClick={handleViewAllSlots} className="btn btn-secondary btn-block h-14">
+          <Button onClick={handleViewAllSlots} variant="secondary" size="lg" fullWidth>
             View all Availables
-          </button>
+          </Button>
         </div>
       </div>
     </Page>

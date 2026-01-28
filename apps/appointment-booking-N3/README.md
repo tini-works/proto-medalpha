@@ -15,6 +15,21 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 
 ## Features
 
+### Component System
+- **Unified Button Component**: Reusable `Button` component (`src/components/ui/Button.tsx`) with 8 semantic variants:
+  - `primary`: Main CTAs (teal filled)
+  - `secondary`: Alternative actions (teal outline)
+  - `tertiary`: Low-emphasis actions (ghost)
+  - `accent`: Highlight/urgent actions (coral filled)
+  - `destructive`: Dangerous actions outline (red)
+  - `destructive-filled`: Confirm destructive actions (red filled)
+  - `icon`: Icon-only buttons (circular transparent)
+  - `link`: Text-only buttons
+  - **Sizes**: `sm` (40px), `md` (44px), `lg` (48-56px)
+  - **Features**: Loading state with spinner, full-width support, left/right icon slots
+- **Icon Library**: Tabler Icons (`tabler-icons-react`) for modern, consistent iconography across 130+ icon instances
+- **Design System**: Built on DocliQ design tokens (teal, coral, red semantic colors) with Tailwind CSS
+
 ### Authentication & Profile
 - **Welcome Screen**: Brand introduction and feature overview
 - **User Registration**: Account creation with email verification

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Page, Avatar, Rating } from '../../components'
+import { Button } from '../../components/ui'
 import { getDoctorById } from '../../data'
 import { PATHS } from '../../routes/paths'
 import type { Appointment } from '../../types'
@@ -166,37 +167,41 @@ END:VCALENDAR`
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3 mt-4">
-          <button
+          <Button
             onClick={handleAddToCalendar}
-            className="btn btn-secondary btn-block h-12 w-full rounded-2xl flex items-center justify-center gap-2"
+            variant="secondary"
+            size="md"
+            fullWidth
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             Update Calendar
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={handleGetDirection}
-            className="btn btn-secondary btn-block h-12 w-full rounded-2xl flex items-center justify-center gap-2"
+            variant="secondary"
+            size="md"
+            fullWidth
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
             Get Direction
-          </button>
+          </Button>
         </div>
         </div>
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md space-y-3">
-          <button onClick={() => navigate(PATHS.HISTORY)} className="btn btn-primary btn-block text-center">
+          <Button onClick={() => navigate(PATHS.HISTORY)} variant="primary" size="lg" fullWidth>
             View appointments
-          </button>
-          <button onClick={() => navigate(PATHS.HOME)} className="btn btn-tertiary btn-block text-center">
+          </Button>
+          <Button onClick={() => navigate(PATHS.HOME)} variant="tertiary" size="md" fullWidth>
             Back to Home
-          </button>
+          </Button>
         </div>
       </div>
     </Page>

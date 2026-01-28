@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Page, Header, Avatar, Rating, PatientSelector } from '../../components'
+import { Button } from '../../components/ui'
 import { useBookAgain, useBooking, useHistory, useProfile } from '../../state'
 import { getDoctorById } from '../../data'
 import { formatDate } from '../../utils/format'
@@ -138,16 +139,16 @@ export default function BookAgainContextScreen() {
           </div>
           <p className="text-slate-700 mb-4">{error || 'Appointment not found'}</p>
           <div className="flex flex-col gap-3 items-center">
-            <button onClick={() => navigate(PATHS.BOOKING_SEARCH)} className="btn btn-primary">
+            <Button onClick={() => navigate(PATHS.BOOKING_SEARCH)} variant="primary">
               Search for Doctors
-            </button>
+            </Button>
             {id && (
-              <button
+              <Button
                 onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', id))}
-                className="btn btn-secondary"
+                variant="secondary"
               >
                 See alternatives
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -286,19 +287,23 @@ export default function BookAgainContextScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md space-y-3">
-          <button
+          <Button
             onClick={handleViewSlots}
             disabled={!doctor}
-            className="btn btn-primary btn-block h-12 py-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="primary"
+            size="md"
+            fullWidth
           >
             View Available Appointments
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', sourceData.id))}
-            className="btn btn-secondary btn-block h-12 py-0"
+            variant="secondary"
+            size="md"
+            fullWidth
           >
             See alternatives
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -362,12 +367,12 @@ export default function BookAgainContextScreen() {
             )}
 
             <div className="mt-6 flex flex-col gap-3">
-              <button onClick={handleSaveEdit} className="btn btn-primary btn-block h-12 py-0">
+              <Button onClick={handleSaveEdit} variant="primary" size="md" fullWidth>
                 Save
-              </button>
-              <button onClick={() => setEditSheet(null)} className="btn btn-tertiary btn-block h-12 py-0">
+              </Button>
+              <Button onClick={() => setEditSheet(null)} variant="tertiary" size="md" fullWidth>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

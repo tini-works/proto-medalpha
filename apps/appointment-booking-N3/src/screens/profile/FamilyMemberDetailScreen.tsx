@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
+import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { EditFamilyMemberSheet } from '../../components/forms'
@@ -193,12 +194,13 @@ export default function FamilyMemberDetailScreen() {
         >
           {t('detail.edit')}
         </button>
-        <button
+        <Button
           onClick={handleRemove}
-          className="w-full py-3 px-4 border-2 border-red-500 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors"
+          variant="destructive"
+          fullWidth
         >
           {t('detail.remove')}
-        </button>
+        </Button>
       </div>
 
       {/* Edit sheet */}

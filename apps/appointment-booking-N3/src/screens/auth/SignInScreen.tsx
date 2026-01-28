@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field } from '../../components/forms'
+import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
@@ -79,12 +80,9 @@ export default function SignInScreen() {
         />
 
         <div className="pt-4">
-          <button
-            type="submit"
-            className="btn btn-primary btn-block"
-          >
+          <Button variant="primary" fullWidth type="submit">
             {t('signIn.submit')}
-          </button>
+          </Button>
         </div>
 
         <p className="text-center text-sm text-neutral-500">

@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { IconMapPin, IconSearch } from '@tabler/icons-react'
 import { RadiusSlider } from './RadiusSlider'
 import { SavedLocations } from '../display/SavedLocations'
+import { Button } from '../ui'
 import type { SavedLocation } from '../display/SavedLocations'
 
 export interface LocationValue {
@@ -91,28 +93,17 @@ export function LocationSelector({
   return (
     <div className="space-y-6">
       {/* GPS CTA Button */}
-      <button
+      <Button
         onClick={handleUseCurrentLocation}
-        className={`btn btn-primary btn-block flex items-center justify-center gap-2 shadow-md ${
-          locationType === 'gps' ? 'ring-2 ring-teal-500 ring-offset-2' : ''
-        }`}
+        variant="primary"
+        fullWidth
+        leftIcon={
+          <IconMapPin className="w-5 h-5" stroke={2} />
+        }
+        className={locationType === 'gps' ? 'shadow-md ring-2 ring-teal-500 ring-offset-2' : 'shadow-md'}
       >
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
         Use Current Location
-      </button>
+      </Button>
 
       {/* Divider */}
       <div className="relative">
@@ -127,14 +118,7 @@ export function LocationSelector({
       {/* Address Input */}
       <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-          <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <IconSearch className="w-5 h-5 text-slate-400" stroke={2} />
         </div>
         <input
           type="text"

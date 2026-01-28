@@ -2,11 +2,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import i18n from '../../i18n'
 import { Page } from '../../components'
+import { Button } from '../../components/ui'
 import { PATHS } from '../../routes'
 import NotificationCard from '../../components/notifications/NotificationCard'
-import { ShortGuidesSection, FeaturedStoryCard, LatestNewsSection } from '../../components/newsfeed'
-import { getLocalizedNotifications, groupNotificationsByDate, formatNotificationDate } from '../../data/notifications'
-import { mockShortGuides, mockFeaturedStory, mockNewsArticles } from '../../data/newsfeed'
+import { FeaturedStoryCard, LatestNewsSection } from '../../components/newsfeed'
+import { getLocalizedNotifications, groupNotificationsByDate } from '../../data/notifications'
+import { mockFeaturedStory, mockNewsArticles } from '../../data/newsfeed'
 import { useState, useEffect } from 'react'
 
 function UpdatesScreen() {
@@ -37,16 +38,17 @@ function UpdatesScreen() {
             className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand"
             aria-label="Go back to home"
           >
-            <svg className="w-6 h-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg viewBox="0 0 24 24" className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
           <h1 className="text-xl font-semibold text-charcoal-500 flex-1">{t('updates')}</h1>
           
           {/* Search icon */}
           <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand" aria-label="Search">
-            <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" strokeWidth={2}>
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
             </svg>
           </button>
         </div>
@@ -106,16 +108,18 @@ function UpdatesScreen() {
             {/* View earlier link at bottom */}
             {mockNotifications.length > 0 && (
               <div className="pt-6 text-center">
-                <button className="text-sm text-slate-400 hover:text-slate-600 transition-colors duration-normal ease-out-brand">
+                <Button
+                  variant="link"
+                  className="text-sm text-slate-400 hover:text-slate-600"
+                >
                   {t('viewEarlier')}
-                </button>
+                </Button>
               </div>
             )}
           </div>
         ) : (
           // News Feed tab content
           <div className="py-6">
-            <ShortGuidesSection guides={mockShortGuides} />
             <FeaturedStoryCard story={mockFeaturedStory} />
             <LatestNewsSection articles={mockNewsArticles} />
           </div>

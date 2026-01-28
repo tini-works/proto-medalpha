@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { IconCheck, IconCalendar, IconMapPin } from '@tabler/icons-react'
 import { Page, Avatar, Rating } from '../../components'
 import { getDoctorById } from '../../data'
 import { PATHS } from '../../routes'

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { IconCalendar, IconClock, IconUser } from '@tabler/icons-react'
 import type { PointerEvent } from 'react'
 import type { Appointment } from '../../types'
 import { formatDateWithWeekday, formatTime } from '../../utils/format'
@@ -135,36 +136,15 @@ export function SwipeableAppointmentStack({
 
                     <div className="mt-5 rounded-2xl border border-cream-300 bg-cream-50 p-4 space-y-3">
                       <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
+                        <IconCalendar className="w-4 h-4 flex-shrink-0" stroke={1.5} />
                         <span>{formatDateWithWeekday(appointment.dateISO)}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
+                        <IconClock className="w-4 h-4 flex-shrink-0" stroke={1.5} />
                         <span>{formatTime(appointment.time)} Uhr</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-slate-600">
-                        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                          />
-                        </svg>
+                        <IconUser className="w-4 h-4 flex-shrink-0" stroke={1.5} />
                         <span>{appointment.forUserName}</span>
                       </div>
                     </div>
@@ -178,4 +158,3 @@ export function SwipeableAppointmentStack({
     </div>
   )
 }
-

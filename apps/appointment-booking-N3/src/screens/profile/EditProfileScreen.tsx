@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Field, RadioGroup } from '../../components/forms'
+import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
 import type { InsuranceType } from '../../types'
 
@@ -180,12 +181,13 @@ export default function EditProfileScreen() {
         </div>
 
         <div className="pt-4">
-          <button
+          <Button
             type="submit"
-            className="btn btn-primary btn-block"
+            variant="primary"
+            fullWidth
           >
             {t('edit.submit')}
-          </button>
+          </Button>
         </div>
       </form>
     </Page>

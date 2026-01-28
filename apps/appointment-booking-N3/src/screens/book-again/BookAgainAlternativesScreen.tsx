@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Header, Page, EmptyState } from '../../components'
+import { Button } from '../../components/ui'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { useBookAgain, useBooking, useProfile } from '../../state'
 import { doctorSlotsPath, PATHS } from '../../routes'
@@ -109,9 +110,9 @@ export default function BookAgainAlternativesScreen() {
             title="No alternatives found"
             description="Try a new search to find more doctors."
             action={
-              <button onClick={() => navigate(PATHS.BOOKING_SEARCH)} className="btn btn-primary btn-block">
+              <Button onClick={() => navigate(PATHS.BOOKING_SEARCH)} variant="primary" fullWidth>
                 Search again
-              </button>
+              </Button>
             }
           />
         ) : (
@@ -142,9 +143,9 @@ export default function BookAgainAlternativesScreen() {
                   </span>
                   {recommended.name}
                 </div>
-                <button onClick={() => handleChooseEarliest(recommended)} className="btn btn-primary btn-block h-12">
+                <Button onClick={() => handleChooseEarliest(recommended)} variant="primary" size="md" fullWidth>
                   Select Recommended Slot
-                </button>
+                </Button>
               </div>
             )}
 

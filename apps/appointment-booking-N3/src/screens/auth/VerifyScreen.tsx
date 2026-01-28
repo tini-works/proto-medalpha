@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
+import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
@@ -82,13 +83,9 @@ export default function VerifyScreen() {
       <form onSubmit={handleSubmit} className="px-4 py-6">
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-neutral-100 rounded-full flex items-center justify-center">
-            <svg className="w-8 h-8 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
+            <svg viewBox="0 0 24 24" className="w-8 h-8 text-neutral-600" fill="none" stroke="currentColor" strokeWidth={2}>
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M2 6l10 7 10-7" />
             </svg>
           </div>
           <h2 className="text-lg font-semibold text-neutral-900">{t('verify.heading')}</h2>
@@ -122,20 +119,19 @@ export default function VerifyScreen() {
           {t('verify.demoHint')}
         </p>
 
-        <button
-          type="submit"
-          className="btn btn-primary btn-block"
-        >
+        <Button variant="primary" fullWidth type="submit">
           {t('verify.submit')}
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="tertiary"
+          fullWidth
           type="button"
           onClick={handleResend}
-          className="btn btn-tertiary btn-block mt-3"
+          className="mt-3"
         >
           {t('verify.resend')}
-        </button>
+        </Button>
       </form>
     </Page>
   )
