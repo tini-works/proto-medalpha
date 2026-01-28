@@ -27,6 +27,7 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 import {
   BookingTypeScreen,
   SearchScreen as BookingSearchScreen,
+  DoctorSearchScreen as BookingDoctorSearchScreen,
   ConstraintsScreen as BookingConstraintsScreen,
   AvailabilityScreen as BookingAvailabilityScreen,
   LocationScreen as BookingLocationScreen,
@@ -259,6 +260,18 @@ function AppContent() {
               <RequireAuth>
                 <RequireProfileComplete>
                   <FastLaneNoMatchScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
+
+          {/* Book by Doctor Flow */}
+          <Route
+            path={PATHS.BOOKING_DOCTOR_SEARCH}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <BookingDoctorSearchScreen />
                 </RequireProfileComplete>
               </RequireAuth>
             }

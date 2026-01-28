@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconArrowLeft, IconFilter, IconChevronDown, IconX } from '@tabler/icons-react'
+import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch } from '@tabler/icons-react'
 import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet } from '../../components'
 import { useBooking, useProfile } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
@@ -43,6 +43,9 @@ export default function ResultsScreen() {
   // State for specialty-first flow: doctor selection and detail sheet
   const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null)
   const [detailSheetDoctor, setDetailSheetDoctor] = useState<Doctor | null>(null)
+
+  // Search query state
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     // Check if there are active filters
@@ -124,12 +127,19 @@ export default function ResultsScreen() {
 
   const filteredDoctors = useMemo(() => {
     return doctors.filter((doctor) => {
+      // Search by name or specialty
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim()
+        const nameMatch = doctor.name.toLowerCase().includes(query)
+        const specialtyMatch = doctor.specialty.toLowerCase().includes(query)
+        if (!nameMatch && !specialtyMatch) return false
+      }
       if (onlyPublic && !doctor.accepts.includes('GKV')) return false
       if (minRating > 0 && doctor.rating < minRating) return false
       if (selectedLanguages.length > 0 && !selectedLanguages.some((l) => doctor.languages.includes(l))) return false
       return true
     })
-  }, [doctors, onlyPublic, minRating, selectedLanguages])
+  }, [doctors, searchQuery, onlyPublic, minRating, selectedLanguages])
 
   // Sort doctors based on selected option
   const sortedDoctors = useMemo(() => {
@@ -291,6 +301,29 @@ export default function ResultsScreen() {
           <ProgressIndicator currentStep={4} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
         </div>
       )}
+
+      {/* Search Bar */}
+      <div className="px-4 py-3 bg-white border-b border-cream-300">
+        <div className="relative">
+          <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" size={20} stroke={2} />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t('searchDoctorPlaceholder')}
+            className="w-full pl-10 pr-10 py-2.5 bg-cream-100 border border-cream-300 rounded-xl text-sm text-charcoal-500 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-slate-400 hover:text-slate-600"
+              aria-label={t('clearSearch')}
+            >
+              <IconX size={16} stroke={2} />
+            </button>
+          )}
+        </div>
+      </div>
 
       {/* Sort Selector Row */}
       <div className="sticky top-[57px] z-10 bg-cream-100 border-b border-cream-300">

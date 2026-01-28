@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { IconSparkles, IconSun, IconMoon, IconCheck, IconCalendar, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { Button } from '../../components/ui'
-import { useBooking } from '../../state'
+import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import type { DayOfWeek, TimeRange, AvailabilitySlot } from '../../types'
 
@@ -28,19 +28,30 @@ const DAY_LABELS: Record<DayOfWeek, string> = {
 export default function AvailabilityScreen() {
   const { t } = useTranslation('booking')
   const navigate = useNavigate()
-  const { search, setSearchFilters, setAvailabilityPrefs } = useBooking()
+  const { profile } = useProfile()
+  const { search, setSearchFilters, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
+
+  const isDoctorFirstFlow = bookingFlow === 'by_doctor'
 
   const [fullyFlexible, setFullyFlexible] = useState(false)
   const [selectedSlots, setSelectedSlots] = useState<Set<string>>(new Set())
 
-  // Redirect if no specialty or city selected
+  // Redirect if no specialty or city selected (only for specialty-first flow)
   useEffect(() => {
-    if (!search?.specialty) {
-      navigate(PATHS.BOOKING_SPECIALTY)
-    } else if (!search?.city) {
-      navigate(PATHS.BOOKING_CONSTRAINTS)
+    if (isDoctorFirstFlow) {
+      // Doctor-first flow: redirect if no doctor selected
+      if (!selectedDoctor) {
+        navigate(PATHS.BOOKING_DOCTOR_SEARCH)
+      }
+    } else {
+      // Specialty-first flow: redirect if no specialty or city
+      if (!search?.specialty) {
+        navigate(PATHS.BOOKING_SPECIALTY)
+      } else if (!search?.city) {
+        navigate(PATHS.BOOKING_CONSTRAINTS)
+      }
     }
-  }, [search?.specialty, search?.city, navigate])
+  }, [isDoctorFirstFlow, selectedDoctor, search?.specialty, search?.city, navigate])
 
   // Create a key for each slot (e.g., "mon-morning")
   const slotKey = (day: DayOfWeek, timeRange: TimeRange) => `${day}-${timeRange}`
@@ -125,29 +136,46 @@ export default function AvailabilityScreen() {
   }, [selectedSlots, fullyFlexible, t])
 
   const handleBack = () => {
-    navigate(PATHS.BOOKING_CONSTRAINTS)
+    if (isDoctorFirstFlow && selectedDoctor) {
+      // Go back to doctor profile in doctor-first flow
+      navigate(`/booking/doctor/${selectedDoctor.id}`)
+    } else {
+      navigate(PATHS.BOOKING_CONSTRAINTS)
+    }
   }
 
   const handleContinue = () => {
-    if (!search) return
-
     // Convert selected slots to AvailabilitySlot array
     const slots: AvailabilitySlot[] = Array.from(selectedSlots).map(parseSlotKey)
 
-    // Update search filters with availability
-    setSearchFilters({
-      ...search,
-      fullyFlexible,
-      availabilitySlots: fullyFlexible ? undefined : slots,
-    })
+    // Store availability prefs
+    const prefs = { fullyFlexible, slots }
+    setAvailabilityPrefs(prefs)
 
-    // Also store in availability prefs for matching later
-    setAvailabilityPrefs({
-      fullyFlexible,
-      slots,
-    })
-
-    navigate(PATHS.BOOKING_RESULTS)
+    if (isDoctorFirstFlow && selectedDoctor) {
+      // Doctor-first flow: go directly to matching with the selected doctor
+      setSpecialtyMatchRequest({
+        specialty: selectedDoctor.specialty,
+        city: selectedDoctor.city,
+        insuranceType: (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV') as 'GKV' | 'PKV',
+        doctorId: selectedDoctor.id,
+        doctorName: selectedDoctor.name,
+        availabilityPrefs: prefs,
+        patientId: profile.id,
+        patientName: profile.fullName,
+      })
+      navigate(PATHS.FAST_LANE_MATCHING)
+    } else {
+      // Specialty-first flow: update search filters and go to results
+      if (search) {
+        setSearchFilters({
+          ...search,
+          fullyFlexible,
+          availabilitySlots: fullyFlexible ? undefined : slots,
+        })
+      }
+      navigate(PATHS.BOOKING_RESULTS)
+    }
   }
 
   const canContinue = fullyFlexible || selectedSlots.size > 0
@@ -159,10 +187,18 @@ export default function AvailabilityScreen() {
       {/* Progress indicator */}
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step3Of4')}</span>
+          <span className="text-xs font-semibold tracking-wide text-slate-600">
+            {isDoctorFirstFlow ? t('step2Of3') : t('step3Of4')}
+          </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
-        <ProgressIndicator currentStep={3} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
+        <ProgressIndicator
+          currentStep={isDoctorFirstFlow ? 2 : 3}
+          totalSteps={isDoctorFirstFlow ? 3 : 4}
+          variant="bar"
+          showLabel={false}
+          showPercentage={false}
+        />
       </div>
 
       <div className="px-4 pb-28 space-y-6">

@@ -213,5 +213,16 @@
   "letSystemChoose": "Das System wählt für Sie",
   "doctorDetails": "Arztdetails",
   "address": "Adresse",
-  "selectDoctor": "Arzt auswählen"
+  "selectDoctor": "Arzt auswählen",
+
+  "searchDoctorPlaceholder": "Nach Name oder Fachrichtung suchen",
+  "clearSearch": "Suche löschen",
+
+  "searchDoctor": "Arzt suchen",
+  "searchDoctorByName": "Nach Arztname oder Fachrichtung suchen",
+  "continueToAvailability": "Weiter zur Verfügbarkeit",
+  "allDoctors": "Alle Ärzte",
+  "noDoctorsFound": "Keine Ärzte gefunden",
+  "nameAZ": "Name (A-Z)",
+  "step2Of3": "SCHRITT 2 VON 3"
 }

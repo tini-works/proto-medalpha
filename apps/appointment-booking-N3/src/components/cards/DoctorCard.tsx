@@ -76,46 +76,14 @@ export function DoctorCard({
     onMoreAppointments?.()
   }
 
-  return (
+  const cardContent = (
     <div
       className={`bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border transition-colors ${
         selected ? 'border-teal-500 ring-2 ring-teal-500/20' : 'border-cream-300'
       }`}
     >
-      {/* Header section with radio, photo, info, and favorite */}
+      {/* Header section with photo, info, and favorite */}
       <div className="flex gap-3">
-        {/* Radio button for selectable mode */}
-        {selectable && (
-          <button
-            onClick={onSelect}
-            className="shrink-0 flex items-start pt-1 focus:outline-none"
-            aria-label={selected ? 'Deselect doctor' : 'Select doctor'}
-          >
-            {selected ? (
-              <CircleCheck size="24" className="text-teal-500" fill="currentColor" stroke="white" />
-            ) : (
-              // #region agent log
-              (() => {
-                fetch('http://127.0.0.1:7244/ingest/470418f0-0d1b-444c-9138-7dc93d3f0e03', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    location: 'DoctorCard.tsx:radio-unchecked',
-                    message: 'Rendering unchecked Circle radio',
-                    data: { selectable, selected, doctorId: doctor.id, icon: 'Circle', className: 'text-cream-400' },
-                    timestamp: Date.now(),
-                    sessionId: 'debug-session',
-                    hypothesisId: 'B',
-                  }),
-                }).catch(() => {})
-                return null
-              })(),
-              // #endregion
-              <Circle size="24" className="text-cream-400 hover:text-teal-400 transition-colors" stroke="1.5" />
-            )}
-          </button>
-        )}
-
         {/* Photo */}
         <button
           onClick={selectable ? onSelect : onSelectDoctor}
@@ -254,6 +222,26 @@ export function DoctorCard({
           </Button>
         </div>
       )}
+    </div>
+  )
+
+  if (!selectable) return cardContent
+
+  return (
+    <div className="flex items-center gap-3">
+      {/* Radio left of card, vertically centered. Unchecked: Tabler Circle icon; checked: CircleCheck. */}
+      <button
+        onClick={onSelect}
+        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:ring-offset-1 opacity-100 relative z-10 transition-colors"
+        aria-label={selected ? 'Deselect doctor' : 'Select doctor'}
+      >
+        {selected ? (
+          <CircleCheck size={24} className="text-teal-500" fill="currentColor" stroke="white" />
+        ) : (
+          <Circle size={24} className="text-slate-500 hover:text-teal-400 transition-colors" />
+        )}
+      </button>
+      <div className="flex-1 min-w-0">{cardContent}</div>
     </div>
   )
 }

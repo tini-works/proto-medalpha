@@ -8,6 +8,7 @@ export {
   simulateApiError,
   apiSearchDoctors,
   apiGetDoctor,
+  apiGetAllDoctors,
   apiGetTimeSlots,
   apiGetAvailableDates,
   apiGetSlotsForDate,

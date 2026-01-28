@@ -213,5 +213,16 @@
   "letSystemChoose": "Let the system choose for you",
   "doctorDetails": "Doctor Details",
   "address": "Address",
-  "selectDoctor": "Select Doctor"
+  "selectDoctor": "Select Doctor",
+
+  "searchDoctorPlaceholder": "Search by name or specialty",
+  "clearSearch": "Clear search",
+
+  "searchDoctor": "Search Doctor",
+  "searchDoctorByName": "Search by doctor name or specialty",
+  "continueToAvailability": "Continue to Set Availability",
+  "allDoctors": "All Doctors",
+  "noDoctorsFound": "No doctors found",
+  "nameAZ": "Name (A-Z)",
+  "step2Of3": "STEP 2 OF 3"
 }

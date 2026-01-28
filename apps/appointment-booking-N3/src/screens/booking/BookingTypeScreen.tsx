@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconBolt, IconStethoscope, IconUserSearch, IconChevronRight } from '@tabler/icons-react'
 import { Header, Page, TabBar } from '../../components'
+import { useBooking } from '../../state'
 import { PATHS } from '../../routes'
 
 interface BookingTypeOption {
@@ -36,16 +37,19 @@ const bookingTypes: BookingTypeOption[] = [
     titleKey: 'bookByDoctor',
     subtitleKey: 'bookByDoctorDesc',
     path: PATHS.BOOKING_DOCTOR_SEARCH,
-    disabled: true,
   },
 ]
 
 export default function BookingTypeScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
+  const { setBookingFlow, resetBooking } = useBooking()
 
   const handleSelect = (option: BookingTypeOption) => {
     if (option.disabled) return
+    // Reset any previous booking state and set the new flow
+    resetBooking()
+    setBookingFlow(option.id)
     navigate(option.path)
   }
 
@@ -74,7 +78,7 @@ export default function BookingTypeScreen() {
                     ? 'bg-amber-100 text-amber-600'
                     : option.id === 'by_specialty'
                       ? 'bg-teal-100 text-teal-600'
-                      : 'bg-slate-100 text-slate-500'
+                      : 'bg-purple-100 text-purple-600'
                 }`}
               >
                 {option.icon}
