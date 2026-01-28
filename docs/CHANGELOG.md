@@ -2,6 +2,28 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-28 (Continued - Part 5)
+
+### Matching Appointment Card Redesign
+- **Matching status card**: Redesigned appointment cards for "Matching" status to show relevant info when no doctor is assigned yet—displays requested specialty as the title, location preference, and submission timestamp instead of placeholder doctor info.
+- **i18n translations for matching cards**: Added English and German translations for matching card labels (Requested Specialty, Submitted, Location).
+- **Relative date formatting**: Added `formatDateRelative()` utility for human-friendly date display (Today, Yesterday, X days ago).
+
+### UI Improvements
+- **Archive icon**: Changed the history icon on the Appointments screen header to an archive icon for better semantic meaning.
+- **i18n namespace fix**: Restored missing `auth`, `booking`, and `profile` translation namespaces to fix translation key display issues across the app.
+- **Mock data ordering**: Adjusted seed appointment data so the Matching appointment appears as the most recently updated in the Pending section.
+
+## 2026-01-28 (Continued - Part 4)
+
+### Fast-lane booking entry & smarter history
+- **Booking type selection screen**: Added new entry screen where users choose how they want to book (Fast Lane, by specialty, by doctor), with clear icons, descriptions, and “coming soon” state for not-yet-available paths.
+- **Fast Lane routing**: Wired the new booking type selector into the existing Fast Lane flow (care request, matching status, success/no match screens) so users can jump straight into a guided “describe symptoms, we match a doctor” journey.
+- **Symptom-to-specialty matching**: Introduced structured `symptoms` and `specialties` datasets to map common complaints (e.g. headache, skin issue, chest pain) to appropriate specialties, ready to power guided triage and search shortcuts.
+- **History screen upgrade**: Redesigned appointment history into “Upcoming” and “Others” sections with status chips (matching, await confirm, cancelled), date grouping, and a floating “Book new appointment” action button that always routes back into booking.
+- **Archive view & detail card**: Added `AppointmentListCard` and a richer archive screen so users see a consistent, status-aware view of past appointments derived from both booking state and history items.
+- **Product & design docs**: Captured the new booking flow in `(new)design-booking-flow.html` and a product strategy note (`product-strategy-N.md`) to keep UX and roadmap aligned with the implementation.
+
 ## 2026-01-28 (Continued - Part 3)
 
 ### Forgot Password Flow Implementation

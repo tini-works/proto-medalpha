@@ -121,7 +121,7 @@ export default function HomeScreen() {
           <h2 className="text-lg font-semibold text-charcoal-500 mb-3">{t('quickActions')}</h2>
           <div className="grid grid-cols-2 gap-3">
             <Link
-              to={PATHS.BOOKING_SEARCH}
+              to={PATHS.BOOKING}
               className="p-4 bg-teal-500 rounded-lg text-white hover:bg-teal-600 transition-colors duration-normal ease-out-brand"
             >
               <IconCalendar size={24} strokeWidth={2} className="mb-2" />

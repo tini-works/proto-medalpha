@@ -193,7 +193,7 @@ export default function HistoryScreen() {
 
       {/* Floating Action Button */}
       <button
-        onClick={() => navigate(PATHS.BOOKING_SEARCH)}
+        onClick={() => navigate(PATHS.BOOKING)}
         className="fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all duration-normal ease-out-brand"
         aria-label="Book new appointment"
       >
