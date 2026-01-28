@@ -1,0 +1,13 @@
+{
+  "welcomeBack": "Welcome back,",
+  "pendingAppointments": "Pending appointments",
+  "viewAll": "View all",
+  "quickActions": "Quick Actions",
+  "bookAppointment": "Book Appointment",
+  "family": "Family",
+  "nextAppointment": "NEXT APPOINTMENT",
+  "dateAt": "{{date}} at",
+  "submitForm": "Submit Form",
+  "latestHealthNews": "Latest Health News",
+  "loadMore": "Load more"
+}

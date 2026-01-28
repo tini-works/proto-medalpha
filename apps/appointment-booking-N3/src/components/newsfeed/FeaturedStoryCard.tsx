@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { FeaturedStory } from '../../types'
 import { PATHS } from '../../routes'
@@ -7,10 +8,11 @@ interface FeaturedStoryCardProps {
 }
 
 function FeaturedStoryCard({ story }: FeaturedStoryCardProps) {
+  const { t } = useTranslation('notifications')
   return (
     <div className="mb-8 px-4">
       {/* Featured story section header */}
-      <h2 className="text-base font-semibold text-charcoal-500 mb-4">Featured Story</h2>
+      <h2 className="text-base font-semibold text-charcoal-500 mb-4">{t('featuredStory')}</h2>
 
       {/* Featured card */}
       <Link
@@ -28,7 +30,7 @@ function FeaturedStoryCard({ story }: FeaturedStoryCardProps) {
           {/* "NEW" badge */}
           {story.isNew && (
             <div className="absolute top-4 left-4 bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-              New
+              {t('new')}
             </div>
           )}
         </div>
@@ -44,7 +46,7 @@ function FeaturedStoryCard({ story }: FeaturedStoryCardProps) {
 
           {/* Read Full Story link */}
           <div className="flex items-center gap-2 text-teal-700 font-medium text-sm">
-            <span>Read Full Story</span>
+            <span>{t('readFullStory')}</span>
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-normal ease-out-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

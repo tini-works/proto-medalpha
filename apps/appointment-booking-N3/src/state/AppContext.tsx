@@ -35,6 +35,7 @@ type AppStateApi = {
   updateGdprConsent: (consent: Partial<AppState['profile']['gdprConsent']>) => void
   // Preferences
   setFontScale: (scale: AppState['preferences']['fontScale']) => void
+  setLanguage: (language: AppState['preferences']['language']) => void
   setNotificationPreferences: (patch: Partial<AppState['preferences']['notifications']>) => void
   // Booking
   setSearchFilters: (filters: SearchFilters) => void
@@ -283,6 +284,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           ...s,
           preferences: { ...s.preferences, fontScale },
         })),
+      setLanguage: (language) =>
+        setState((s) => ({
+          ...s,
+          preferences: { ...s.preferences, language },
+        })),
       setNotificationPreferences: (patch) =>
         setState((s) => ({
           ...s,
@@ -486,11 +492,13 @@ export function useHistory() {
 }
 
 export function usePreferences() {
-  const { state, setFontScale, setNotificationPreferences } = useAppState()
+  const { state, setFontScale, setLanguage, setNotificationPreferences } = useAppState()
   return {
     fontScale: state.preferences.fontScale,
+    language: state.preferences.language,
     notifications: state.preferences.notifications,
     setFontScale,
+    setLanguage,
     setNotificationPreferences,
   }
 }

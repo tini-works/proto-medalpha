@@ -11,7 +11,7 @@ export default function HistoryScreen() {
   const { appointments } = useBooking()
 
   const [statusFilter, setStatusFilter] = useState<
-    'all' | 'matching' | 'await_confirm' | 'confirmed' | 'cancelled_doctor'
+    'all' | 'matching' | 'await_confirm' | 'cancelled_doctor'
   >('all')
 
   const getLastUpdatedTs = (appointment: Appointment) => {
@@ -21,20 +21,6 @@ export default function HistoryScreen() {
     if (Number.isFinite(ts)) return ts
     return new Date(`${appointment.dateISO}T${appointment.time}`).getTime()
   }
-
-  const displayedAppointments = useMemo(() => {
-    const allowedStatuses: Appointment['status'][] = [
-      'matching',
-      'await_confirm',
-      'confirmed',
-      'cancelled_doctor',
-    ]
-    const allowed = appointments.filter((apt) => allowedStatuses.includes(apt.status))
-    const filtered = statusFilter === 'all' ? allowed : allowed.filter((apt) => apt.status === statusFilter)
-    return filtered.sort((a, b) => {
-      return getLastUpdatedTs(b) - getLastUpdatedTs(a)
-    })
-  }, [appointments, statusFilter])
 
   const groupByDate = (items: Appointment[]) => {
     const groups = new Map<string, Appointment[]>()
@@ -54,13 +40,20 @@ export default function HistoryScreen() {
     return entries
   }
 
+  // Upcoming section: always show confirmed appointments (not affected by filter)
   const upcomingConfirmed = useMemo(() => {
-    return displayedAppointments.filter((apt) => apt.status === 'confirmed')
-  }, [displayedAppointments])
+    return appointments
+      .filter((apt) => apt.status === 'confirmed')
+      .sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
+  }, [appointments])
 
+  // Others section: filter applies only here
   const others = useMemo(() => {
-    return displayedAppointments.filter((apt) => apt.status !== 'confirmed')
-  }, [displayedAppointments])
+    const otherStatuses: Appointment['status'][] = ['matching', 'await_confirm', 'cancelled_doctor']
+    const allowed = appointments.filter((apt) => otherStatuses.includes(apt.status))
+    const filtered = statusFilter === 'all' ? allowed : allowed.filter((apt) => apt.status === statusFilter)
+    return filtered.sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
+  }, [appointments, statusFilter])
 
   const groupedUpcoming = useMemo(() => groupByDate(upcomingConfirmed), [upcomingConfirmed])
   const groupedOthers = useMemo(() => groupByDate(others), [others])
@@ -72,15 +65,6 @@ export default function HistoryScreen() {
       icon: (
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" />
-        </svg>
-      ),
-    },
-    {
-      value: 'confirmed',
-      label: 'Confirmed',
-      icon: (
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
       ),
     },
@@ -153,7 +137,7 @@ export default function HistoryScreen() {
 
       {/* Filters + List */}
       <div className="px-4 py-4 pb-16 space-y-4">
-        {displayedAppointments.length === 0 ? (
+        {upcomingConfirmed.length === 0 && others.length === 0 ? (
           <EmptyState
             icon="calendar"
             title="No appointments"

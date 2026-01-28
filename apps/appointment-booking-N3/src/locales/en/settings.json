@@ -1,0 +1,23 @@
+{
+  "settings": "Settings",
+  "languageSettings": "Language Settings",
+  "language": "Language",
+  "setAppLanguage": "Set app language",
+  "saveChanges": "Save Changes",
+  "currentLanguageInfo": "Select your preferred language.",
+  "familyMembers": "Family Members",
+  "linkedHealthAccounts": "Linked health accounts",
+  "notifications": "Notifications",
+  "alertsAndReminders": "Alerts and reminders",
+  "privacyData": "Privacy & Data",
+  "manageYourSecurity": "Manage your security",
+  "support": "Support",
+  "faqs": "FAQs",
+  "commonQuestionsAnswers": "Common questions and answers",
+  "contactSupport": "Contact Support",
+  "getHelpFromTeam": "Get help from our team",
+  "helpCentre": "Help Centre",
+  "browseGuidesAndTutorials": "Browse guides and tutorials",
+  "logOut": "Log Out",
+  "confirmSignOut": "Are you sure you want to sign out?"
+}

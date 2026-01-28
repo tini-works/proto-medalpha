@@ -64,6 +64,7 @@ export interface AppState {
   profile: UserProfile
   preferences: {
     fontScale: 1 | 1.15 | 1.3
+    language: 'en' | 'de'
     notifications: {
       appointmentReminders: boolean
       prescriptionUpdates: boolean
@@ -106,6 +107,7 @@ export const initialState: AppState = {
   profile: initialProfile,
   preferences: {
     fontScale: 1,
+    language: 'en',
     notifications: {
       appointmentReminders: true,
       prescriptionUpdates: true,

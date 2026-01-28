@@ -1,29 +1,30 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
+import { usePreferences } from '../../state'
 
 /**
- * Language options for the app.
- * Currently only English is available; other languages are disabled for now.
+ * Language selection screen with German and English options.
+ * Language changes apply instantly without requiring a save button.
+ * Language preference is persisted in app state and synced with i18next.
  */
 const LANGUAGES = [
-  { code: 'en', name: 'English', native: 'English', enabled: true },
+  { code: 'en', name: 'English', native: 'English' },
+  { code: 'de', name: 'German', native: 'Deutsch' },
 ]
 
 export default function LanguageScreen() {
-  const navigate = useNavigate()
-  // Mock: default to English, no persistence
-  const [selected, setSelected] = useState('en')
+  const { t } = useTranslation('settings')
+  const { language, setLanguage } = usePreferences()
 
-  const handleSave = () => {
-    // Mock: just navigate back, no actual language change
-    navigate(-1)
+  const handleLanguageChange = (newLanguage: 'en' | 'de') => {
+    // Apply language change immediately
+    setLanguage(newLanguage)
   }
 
   return (
     <Page safeBottom={false}>
       <div className="flex flex-col h-screen">
-        <Header title="Language Settings" showBack />
+        <Header title={t('languageSettings')} showBack />
 
         {/* Scrollable content area */}
         <div className="flex-1 overflow-y-auto px-4 py-6">
@@ -37,17 +38,17 @@ export default function LanguageScreen() {
                 {/* Custom radio button styled to match mockup */}
                 <div
                   className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                    selected === lang.code ? 'border-teal-500 bg-white' : 'border-cream-400 bg-white'
+                    language === lang.code ? 'border-teal-500 bg-white' : 'border-cream-400 bg-white'
                   }`}
                 >
-                  {selected === lang.code && <div className="w-3 h-3 rounded-full bg-teal-500" />}
+                  {language === lang.code && <div className="w-3 h-3 rounded-full bg-teal-500" />}
                 </div>
                 <input
                   type="radio"
                   name="language"
                   value={lang.code}
-                  checked={selected === lang.code}
-                  onChange={() => setSelected(lang.code)}
+                  checked={language === lang.code}
+                  onChange={() => handleLanguageChange(lang.code as 'en' | 'de')}
                   className="sr-only"
                 />
               </label>
@@ -56,18 +57,8 @@ export default function LanguageScreen() {
 
           {/* Info text */}
           <p className="mt-4 text-center text-sm text-slate-500">
-            Currently only English is available. More languages coming soon.
+            {t('currentLanguageInfo')}
           </p>
-        </div>
-
-        {/* Save button fixed to bottom */}
-        <div className="flex-shrink-0 p-4 bg-cream-50 border-t border-cream-200">
-          <button
-            onClick={handleSave}
-            className="w-full py-3.5 bg-teal-500 text-white font-semibold rounded-xl hover:bg-teal-600 transition-colors"
-          >
-            Save Changes
-          </button>
         </div>
       </div>
     </Page>
