@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { ShortGuide } from '../../types'
 
 interface ShortGuidesSectionProps {
@@ -5,11 +6,12 @@ interface ShortGuidesSectionProps {
 }
 
 function ShortGuidesSection({ guides }: ShortGuidesSectionProps) {
+  const { t } = useTranslation('notifications')
   return (
     <div className="mb-8">
       {/* Section header */}
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-lg font-semibold text-charcoal-500">Short Guides</h2>
+        <h2 className="text-lg font-semibold text-charcoal-500">{t('shortGuides')}</h2>
       </div>
 
       {/* Horizontal scrolling cards container */}

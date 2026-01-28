@@ -90,21 +90,31 @@ export function groupNotificationsByDate(notifications: Notification[]): Record<
 }
 
 // Format notification date for grouping ("TODAY", "YESTERDAY", or specific date)
-export function formatNotificationDate(date: Date): string {
+// Returns a key that can be used with i18n translations
+export function formatNotificationDate(date: Date, i18nT?: (key: string) => string): string {
   const notifDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const today = new Date()
   const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
   const yesterday = new Date(todayDate)
   yesterday.setDate(yesterday.getDate() - 1)
 
+  // Return i18n keys that can be translated
   if (notifDate.getTime() === todayDate.getTime()) {
-    return 'TODAY'
+    return i18nT ? i18nT('today') : 'TODAY'
   }
   if (notifDate.getTime() === yesterday.getTime()) {
-    return 'YESTERDAY'
+    return i18nT ? i18nT('yesterday') : 'YESTERDAY'
   }
 
-  return notifDate.toLocaleDateString('en-US', {
+  // For other dates, use locale-specific formatting with optional i18n language
+  const locale = i18nT ? (typeof window !== 'undefined' && (window as any).i18n?.language) || 'en-US' : 'en-US'
+  const localeMap: Record<string, string> = {
+    'en': 'en-US',
+    'de': 'de-DE',
+  }
+  const dateLocale = localeMap[locale] || 'en-US'
+
+  return notifDate.toLocaleDateString(dateLocale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

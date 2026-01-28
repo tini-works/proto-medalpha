@@ -33,6 +33,12 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 6. **Confirmation**: Review appointment details and select patient
 7. **Success**: Confirmation screen with appointment summary
 
+### Internationalization (i18n)
+- **Multi-language support**: English and German translation support using react-i18next
+- **Namespaced translations**: Organized by domain (settings, home, notifications) for incremental expansion
+- **Localized date formatting**: Date labels and formatting adapt to current language preference
+- **Language persistence**: Language preference stored in app state and localStorage
+
 ### Additional Features
 - **Home Dashboard**: Quick actions, upcoming appointments, and personalized content
 - **Today's Focus**: Upcoming appointment spotlight with quick actions
@@ -55,6 +61,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Build Tool**: Vite 5.0
 - **Routing**: React Router DOM 6.20
 - **Styling**: Tailwind CSS 3.4
+- **Internationalization**: react-i18next 11.x and i18next 23.x
 - **Design System**: 
   - `@meda/tokens` - Shared design tokens
   - `@meda/ui` - Reusable React components
@@ -81,6 +88,19 @@ appointment-booking-N3/
 │   │   ├── cms.ts          # CMS content
 │   │   ├── notifications.ts # Notification mock data
 │   │   └── newsfeed.ts     # News Feed articles and guides
+│   ├── i18n/               # Internationalization (i18n)
+│   │   └── index.ts        # i18next configuration and initialization
+│   ├── hooks/              # Custom React hooks
+│   │   └── useI18nSync.ts  # Hook to sync i18n language with app state
+│   ├── locales/            # Translation files
+│   │   ├── en/             # English translations
+│   │   │   ├── settings.json
+│   │   │   ├── home.json
+│   │   │   └── notifications.json
+│   │   └── de/             # German translations
+│   │       ├── settings.json
+│   │       ├── home.json
+│   │       └── notifications.json
 │   ├── routes/             # Routing configuration
 │   │   ├── paths.ts        # Route path constants
 │   │   ├── guards.tsx     # Route guards (RequireAuth, RequireProfileComplete)

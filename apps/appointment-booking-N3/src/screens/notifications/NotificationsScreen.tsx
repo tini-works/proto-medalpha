@@ -1,15 +1,17 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Page } from '../../components'
 import { PATHS } from '../../routes'
 import NotificationCard from '../../components/notifications/NotificationCard'
 import { ShortGuidesSection, FeaturedStoryCard, LatestNewsSection } from '../../components/newsfeed'
-import { mockNotifications, groupNotificationsByDate } from '../../data/notifications'
+import { mockNotifications, groupNotificationsByDate, formatNotificationDate } from '../../data/notifications'
 import { mockShortGuides, mockFeaturedStory, mockNewsArticles } from '../../data/newsfeed'
 import { useState, useEffect } from 'react'
 
 function UpdatesScreen() {
   const location = useLocation()
   const [activeTab, setActiveTab] = useState<'notifications' | 'newsfeed'>('notifications')
+  const { t } = useTranslation('notifications')
 
   // When navigating back from article detail, show News Feed tab
   useEffect(() => {
@@ -36,7 +38,7 @@ function UpdatesScreen() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
-          <h1 className="text-xl font-semibold text-charcoal-500 flex-1">Updates</h1>
+          <h1 className="text-xl font-semibold text-charcoal-500 flex-1">{t('updates')}</h1>
           
           {/* Search icon */}
           <button className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-cream-100 transition-colors duration-normal ease-out-brand" aria-label="Search">
@@ -56,7 +58,7 @@ function UpdatesScreen() {
                 : 'text-slate-500 hover:text-charcoal-500'
             }`}
           >
-            Notifications
+            {t('notificationsTab')}
           </button>
           <button
             onClick={() => setActiveTab('newsfeed')}
@@ -66,7 +68,7 @@ function UpdatesScreen() {
                 : 'text-slate-500 hover:text-charcoal-500'
             }`}
           >
-            News Feed
+            {t('newsFeedTab')}
           </button>
         </div>
       </header>
@@ -80,10 +82,13 @@ function UpdatesScreen() {
               const notifs = grouped[dateGroup] || []
               if (notifs.length === 0) return null
 
+              // Translate the date group label
+              const displayLabel = dateGroup === 'TODAY' ? t('today') : dateGroup === 'YESTERDAY' ? t('yesterday') : dateGroup
+
               return (
                 <div key={dateGroup}>
                   {/* Date heading */}
-                  <h2 className="text-xs text-slate-400 uppercase font-semibold mb-3 tracking-wider">{dateGroup}</h2>
+                  <h2 className="text-xs text-slate-400 uppercase font-semibold mb-3 tracking-wider">{displayLabel}</h2>
 
                   {/* Notification cards */}
                   <div className="space-y-3">
@@ -99,7 +104,7 @@ function UpdatesScreen() {
             {mockNotifications.length > 0 && (
               <div className="pt-6 text-center">
                 <button className="text-sm text-slate-400 hover:text-slate-600 transition-colors duration-normal ease-out-brand">
-                  View Earlier Notifications
+                  {t('viewEarlier')}
                 </button>
               </div>
             )}

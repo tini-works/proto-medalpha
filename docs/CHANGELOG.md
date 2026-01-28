@@ -2,6 +2,14 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-28
+
+- **i18n infrastructure for Home & Notifications**: Extended react-i18next setup to support German translations for HomeScreen and NotificationsScreen via new namespaced translation files (`home.json` and `notifications.json`) in both English and German.
+- **HomeScreen German translations**: All UI strings now support German—welcome message, pending appointments section, quick actions (Book Appointment, Family), and Latest Health News section.
+- **Notifications screen German translations**: Full translation coverage for Updates screen including tab labels (Notifications / News Feed), date group headers (TODAY / YESTERDAY), Short Guides, Featured Story, and action buttons.
+- **News feed component translations**: Updated LatestNewsSection, ShortGuidesSection, FeaturedStoryCard, and TodaysFocusCard to use i18n for all visible text.
+- **Localized date formatting**: Enhanced `formatNotificationDate()` utility to support i18n-driven date translations and locale-aware formatting for German (de-DE) and English (en-US).
+
 ## 2026-01-27
 
 - **News Feed implementation**: Built complete News Feed tab in Updates screen with Short Guides carousel (horizontal scrolling video cards), Featured Story card with "NEW" badge, and Latest Health News section displaying curated health articles with category badges and read time estimates.

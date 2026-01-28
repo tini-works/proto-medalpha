@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, TabBar, Avatar, Pill } from '../../components'
-import { useProfile, useAuth } from '../../state'
+import { useProfile, useAuth, usePreferences } from '../../state'
 import { PATHS } from '../../routes'
 
 /**
@@ -9,22 +10,28 @@ import { PATHS } from '../../routes'
  * - Menu items (Family Members, Language, Notifications, Privacy & Data)
  * - Support section (FAQs, Contact Support, Help Centre)
  * - Log Out button
+ * All text is translated using i18next and pulled from translation keys.
  */
 export default function SettingsScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('settings')
   const { profile } = useProfile()
   const { signOut } = useAuth()
+  const { language } = usePreferences()
 
   const handleSignOut = () => {
-    if (window.confirm('Are you sure you want to sign out?')) {
+    if (window.confirm(t('confirmSignOut'))) {
       signOut()
       navigate(PATHS.AUTH_WELCOME)
     }
   }
 
+  // Get localized language name
+  const languageName = language === 'en' ? 'English' : 'Deutsch'
+
   return (
     <Page>
-      <Header title="Settings" />
+      <Header title={t('settings')} />
 
       <div className="px-4 py-6 space-y-6">
         {/* Profile card */}
@@ -66,8 +73,8 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-charcoal-500">Family Members</p>
-                <p className="text-sm text-slate-500">Linked health accounts</p>
+                <p className="font-medium text-charcoal-500">{t('familyMembers')}</p>
+                <p className="text-sm text-slate-500">{t('linkedHealthAccounts')}</p>
               </div>
             </div>
             <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,12 +99,12 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-charcoal-500">Language</p>
-                <p className="text-sm text-slate-500">Set app language</p>
+                <p className="font-medium text-charcoal-500">{t('language')}</p>
+                <p className="text-sm text-slate-500">{t('setAppLanguage')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-teal-600 font-medium">English</span>
+              <span className="text-sm text-teal-600 font-medium">{languageName}</span>
               <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -121,8 +128,8 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-charcoal-500">Notifications</p>
-                <p className="text-sm text-slate-500">Alerts and reminders</p>
+                <p className="font-medium text-charcoal-500">{t('notifications')}</p>
+                <p className="text-sm text-slate-500">{t('alertsAndReminders')}</p>
               </div>
             </div>
             <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -147,8 +154,8 @@ export default function SettingsScreen() {
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-charcoal-500">Privacy & Data</p>
-                <p className="text-sm text-slate-500">Manage your security</p>
+                <p className="font-medium text-charcoal-500">{t('privacyData')}</p>
+                <p className="text-sm text-slate-500">{t('manageYourSecurity')}</p>
               </div>
             </div>
             <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -159,7 +166,7 @@ export default function SettingsScreen() {
 
         {/* Support section */}
         <div>
-          <h3 className="text-sm font-semibold text-charcoal-500 mb-3">Support</h3>
+          <h3 className="text-sm font-semibold text-charcoal-500 mb-3">{t('support')}</h3>
           <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-300">
             {/* FAQs */}
             <Link
@@ -178,8 +185,8 @@ export default function SettingsScreen() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-charcoal-500">FAQs</p>
-                  <p className="text-sm text-slate-500">Common questions and answers</p>
+                  <p className="font-medium text-charcoal-500">{t('faqs')}</p>
+                  <p className="text-sm text-slate-500">{t('commonQuestionsAnswers')}</p>
                 </div>
               </div>
               <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -204,8 +211,8 @@ export default function SettingsScreen() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-charcoal-500">Contact Support</p>
-                  <p className="text-sm text-slate-500">Get help from our team</p>
+                  <p className="font-medium text-charcoal-500">{t('contactSupport')}</p>
+                  <p className="text-sm text-slate-500">{t('getHelpFromTeam')}</p>
                 </div>
               </div>
               <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -230,8 +237,8 @@ export default function SettingsScreen() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-charcoal-500">Help Centre</p>
-                  <p className="text-sm text-slate-500">Browse guides and tutorials</p>
+                  <p className="font-medium text-charcoal-500">{t('helpCentre')}</p>
+                  <p className="text-sm text-slate-500">{t('browseGuidesAndTutorials')}</p>
                 </div>
               </div>
               <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -255,7 +262,7 @@ export default function SettingsScreen() {
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
               />
             </svg>
-            <span>Log Out</span>
+            <span>{t('logOut')}</span>
           </button>
         </div>
 

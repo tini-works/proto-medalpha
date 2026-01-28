@@ -1,0 +1,13 @@
+{
+  "welcomeBack": "Willkommen zurück,",
+  "pendingAppointments": "Ausstehende Termine",
+  "viewAll": "Alle anzeigen",
+  "quickActions": "Schnellzugriffe",
+  "bookAppointment": "Termin buchen",
+  "family": "Familie",
+  "nextAppointment": "NÄCHSTER TERMIN",
+  "dateAt": "{{date}} um",
+  "submitForm": "Formular absenden",
+  "latestHealthNews": "Neueste Gesundheitsnachrichten",
+  "loadMore": "Mehr laden"
+}

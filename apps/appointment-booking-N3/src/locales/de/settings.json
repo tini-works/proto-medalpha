@@ -1,0 +1,23 @@
+{
+  "settings": "Einstellungen",
+  "languageSettings": "Spracheinstellungen",
+  "language": "Sprache",
+  "setAppLanguage": "Legen Sie die App-Sprache fest",
+  "saveChanges": "Änderungen speichern",
+  "currentLanguageInfo": "Wählen Sie Ihre bevorzugte Sprache.",
+  "familyMembers": "Familienmitglieder",
+  "linkedHealthAccounts": "Verknüpfte Gesundheitskonten",
+  "notifications": "Benachrichtigungen",
+  "alertsAndReminders": "Warnungen und Erinnerungen",
+  "privacyData": "Datenschutz & Daten",
+  "manageYourSecurity": "Verwalten Sie Ihre Sicherheit",
+  "support": "Unterstützung",
+  "faqs": "Häufig gestellte Fragen",
+  "commonQuestionsAnswers": "Häufig gestellte Fragen und Antworten",
+  "contactSupport": "Kontaktieren Sie den Support",
+  "getHelpFromTeam": "Holen Sie sich Hilfe von unserem Team",
+  "helpCentre": "Hilfezentrum",
+  "browseGuidesAndTutorials": "Durchsuchen Sie Anleitungen und Tutorials",
+  "logOut": "Abmelden",
+  "confirmSignOut": "Möchten Sie sich wirklich abmelden?"
+}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
 import { formatTime, getRelativeDateLabel } from '../../utils/format'
@@ -13,6 +14,7 @@ interface TodaysFocusCardProps {
  * Displayed on HomeScreen for verified users with a confirmed upcoming appointment
  */
 export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps) {
+  const { t } = useTranslation('home')
   const relativeDate = getRelativeDateLabel(appointment.dateISO)
   const time = formatTime(appointment.time)
 
@@ -26,12 +28,12 @@ export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps
         {/* Label pill */}
         <div className="mb-4 inline-block">
           <Pill tone="neutral" size="sm">
-            NEXT APPOINTMENT
+            {t('nextAppointment')}
           </Pill>
         </div>
 
         {/* Date label and time display */}
-        <div className="mb-1 text-sm font-medium opacity-90">{relativeDate} at</div>
+        <div className="mb-1 text-sm font-medium opacity-90">{relativeDate} {t('dateAt').replace('{{date}}', '').trim()}</div>
         <div className="mb-6 text-5xl font-bold">{time}</div>
 
         {/* Doctor info section */}
@@ -58,7 +60,7 @@ export function TodaysFocusCard({ appointment, onCheckIn }: TodaysFocusCardProps
             onClick={onCheckIn}
             className="flex-shrink-0 rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-600 transition-colors hover:bg-cream-50 active:scale-95"
           >
-            Submit Form
+            {t('submitForm')}
           </button>
         </div>
       </div>
