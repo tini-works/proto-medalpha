@@ -18,6 +18,9 @@ High-level, business-focused summary of notable changes.
 - **Continue button**: Removed duplicate arrow on booking flow CTAs (Specialty, Doctor results, Symptoms, Availability) by using the shared `Button` component’s `rightIcon` and dropping the "→" from the `continueBtn` translation so users see one consistent arrow per locale.
 - **Today's Focus card**: The "View details" CTA was hard-coded in English; it now uses the `home` namespace key `viewDetails` with English and German entries so the card is fully localized on the home screen.
 
+### Welcome screen icons
+- **Icon library alignment**: WelcomeScreen previously used `tabler-icons-react` (v1); it now uses `@tabler/icons-react` (v3) for the header heart and the three feature icons (appointment booking, family management, privacy & security) so icons render consistently with the rest of the N3 app.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX
