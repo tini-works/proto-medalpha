@@ -208,7 +208,7 @@ export function DoctorCard({
 
       {/* View Details link for selectable mode (no slots shown) */}
       {!showSlots && onViewDetails && (
-        <div className="mt-3 flex justify-end">
+        <div className="mt-3 flex justify-center">
           <Button
             variant="link"
             className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"

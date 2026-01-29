@@ -2,8 +2,9 @@ import { IconMapPin } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
-import { formatTime, getRelativeDateLabel } from '../../utils/format'
+import { formatTime } from '../../utils/format'
 import type { Appointment } from '../../types'
+import { getDoctorById } from '../../data/doctors'
 
 interface TodaysFocusCardProps {
   appointment: Appointment
@@ -15,9 +16,16 @@ interface TodaysFocusCardProps {
  * Displayed on HomeScreen for verified users with a confirmed upcoming appointment
  */
 export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) {
-  const { t } = useTranslation('home')
-  const relativeDate = getRelativeDateLabel(appointment.dateISO)
+  const { t, i18n } = useTranslation(['home', 'booking'])
+  const relativeDate = getRelativeDateLabel(appointment.dateISO, {
+    today: t('today'),
+    tomorrow: t('tomorrow'),
+    locale: i18n.language === 'de' ? 'de-DE' : 'en-US',
+  })
   const time = formatTime(appointment.time)
+  const doctor = getDoctorById(appointment.doctorId)
+  const specialtyLabel = translateSpecialty(t, appointment.specialty)
+  const locationLabel = getPracticeLocationLabel(t, doctor?.name, doctor?.city)
 
   return (
     <div
@@ -40,7 +48,7 @@ export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) 
         </div>
 
         {/* Date label and time display */}
-        <div className="mb-1 text-sm font-medium opacity-90">{relativeDate} {t('dateAt').replace('{{date}}', '').trim()}</div>
+        <div className="mb-1 text-sm font-medium opacity-90">{t('dateAt', { date: relativeDate })}</div>
         <div className="mb-6 text-5xl font-bold">{time}</div>
 
         {/* Doctor info section */}
@@ -48,7 +56,7 @@ export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) 
           <Avatar name={appointment.doctorName} size="lg" />
           <div className="min-w-0 flex-1">
             <h3 className="truncate font-semibold text-white">{appointment.doctorName}</h3>
-            <p className="truncate text-sm opacity-90">{appointment.specialty}</p>
+            <p className="truncate text-sm opacity-90">{specialtyLabel}</p>
           </div>
         </div>
 
@@ -56,7 +64,7 @@ export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) 
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-sm">
             <IconMapPin className="h-4 w-4 flex-shrink-0" stroke={1.5} />
-            <span className="truncate">Praxis Weber, Berlin</span>
+            <span className="truncate">{locationLabel}</span>
           </div>
 
           {/* View details button */}
@@ -73,4 +81,58 @@ export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) 
       </div>
     </div>
   )
+}
+
+function getRelativeDateLabel(
+  dateISO: string,
+  opts: { today: string; tomorrow: string; locale: string }
+): string {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const appointmentDate = new Date(dateISO)
+  appointmentDate.setHours(0, 0, 0, 0)
+
+  const daysDiff = Math.floor((appointmentDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+
+  if (daysDiff === 0) return opts.today
+  if (daysDiff === 1) return opts.tomorrow
+
+  return appointmentDate.toLocaleDateString(opts.locale, {
+    day: 'numeric',
+    month: 'short',
+  })
+}
+
+function translateSpecialty(t: (key: string, options?: any) => string, specialty: string): string {
+  const specialtyKeyByValue: Record<string, string> = {
+    'Primary care': 'specialtyPrimaryCare',
+    Cardiology: 'specialtyCardiology',
+    Dermatology: 'specialtyDermatology',
+    Orthopedics: 'specialtyOrthopedics',
+    Gynecology: 'specialtyGynecology',
+    Ophthalmology: 'specialtyOphthalmology',
+    Pediatrics: 'specialtyPediatrics',
+    Neurology: 'specialtyNeurology',
+    Psychiatry: 'specialtyPsychiatry',
+    Dentistry: 'specialtyDentistry',
+    'ENT (HNO)': 'specialtyENT',
+    Gastroenterology: 'specialtyGastroenterology',
+  }
+
+  const key = specialtyKeyByValue[specialty]
+  if (!key) return specialty
+  return t(key, { ns: 'booking' })
+}
+
+function getPracticeLocationLabel(
+  t: (key: string, options?: any) => string,
+  doctorName?: string,
+  city?: string
+): string {
+  if (!doctorName || !city) return t('locationUnavailable')
+
+  const parts = doctorName.trim().split(/\s+/)
+  const lastName = parts.length > 0 ? parts[parts.length - 1] : doctorName
+  return `${t('practiceName', { name: lastName })}, ${city}`
 }
