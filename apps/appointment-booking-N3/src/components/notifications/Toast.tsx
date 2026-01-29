@@ -50,7 +50,7 @@ export default function Toast({ toast, onClose }: ToastProps) {
   return (
     <div
       role="alert"
-      className="fixed bottom-6 left-4 right-4 z-50 max-w-md mx-auto bg-white rounded-lg p-4 border border-cream-300 shadow-lg safe-area-bottom"
+      className="fixed top-6 left-4 right-4 z-50 max-w-md mx-auto bg-white rounded-lg p-4 border border-cream-300 shadow-lg safe-area-top"
     >
       <div className="flex gap-3">
         {renderIcon()}

@@ -8,6 +8,7 @@ import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
+import { translateSpecialty, translateLanguage } from '../../utils'
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
@@ -300,7 +301,7 @@ export default function ResultsScreen() {
                     : 'bg-cream-100 text-slate-600 hover:bg-cream-200'
                 }`}
               >
-                {specialty}
+                {translateSpecialty(t, specialty)}
               </button>
             ))}
           </div>
@@ -596,7 +597,7 @@ export default function ResultsScreen() {
                             selected ? 'bg-teal-50 border-teal-500 text-teal-700' : 'bg-white border-cream-400 text-slate-700 hover:bg-cream-50'
                           }`}
                         >
-                          {lang}
+                          {translateLanguage(t, lang)}
                         </button>
                       )
                     })}

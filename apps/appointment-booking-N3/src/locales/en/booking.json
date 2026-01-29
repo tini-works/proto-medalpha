@@ -152,6 +152,9 @@
   "specialtyDentistry": "Dentistry",
   "specialtyENT": "ENT (HNO)",
   "specialtyGastroenterology": "Gastroenterology",
+  "specialtyPulmonology": "Pulmonology",
+  "specialtyRheumatology": "Rheumatology",
+  "specialtyEndocrinology": "Endocrinology",
 
   "relationship_child": "Child",
   "relationship_spouse": "Spouse",
@@ -262,5 +265,21 @@
   "toastNoMatchFound": "No match found",
   "toastAppointmentCancelled": "Appointment cancelled",
   "toastAppointmentCancelledByDoctor": "Appointment cancelled by doctor",
-  "toastAppointmentCompleted": "Appointment completed"
+  "toastAppointmentCompleted": "Appointment completed",
+
+  "useCurrentLocation": "Use Current Location",
+  "orEnterAddress": "Or enter a specific address",
+  "addressPlaceholder": "Enter street, city, or postal code...",
+  "mapPreview": "Map Preview",
+
+  "langGerman": "German",
+  "langEnglish": "English",
+  "langFrench": "French",
+  "langItalian": "Italian",
+  "langSpanish": "Spanish",
+  "langTurkish": "Turkish",
+  "langRussian": "Russian",
+  "langArabic": "Arabic",
+  "langPolish": "Polish",
+  "langPortuguese": "Portuguese"
 }

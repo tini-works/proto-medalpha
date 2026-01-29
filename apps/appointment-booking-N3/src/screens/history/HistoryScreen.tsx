@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { IconClock, IconFilter, IconSearch, IconX, IconPlus, IconArchive } from '@tabler/icons-react'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { useBooking } from '../../state'
@@ -25,6 +26,7 @@ function dedupeAppointmentsById(appointments: Appointment[]): Appointment[] {
 
 export default function HistoryScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('history')
   const { appointments } = useBooking()
   const appointmentsDeduped = useMemo(() => dedupeAppointmentsById(appointments), [appointments])
 
@@ -79,22 +81,22 @@ export default function HistoryScreen() {
   const statusChips = [
     {
       value: 'all',
-      label: 'All',
+      labelKey: 'filterAll',
       icon: IconFilter,
     },
     {
       value: 'await_confirm',
-      label: 'Await confirm',
+      labelKey: 'filterAwaitConfirm',
       icon: IconClock,
     },
     {
       value: 'matching',
-      label: 'Matching',
+      labelKey: 'filterMatching',
       icon: IconSearch,
     },
     {
       value: 'cancelled_doctor',
-      label: 'Doctor canceled',
+      labelKey: 'filterDoctorCanceled',
       icon: IconX,
     },
   ] as const
@@ -108,12 +110,12 @@ export default function HistoryScreen() {
       {/* Sticky Header */}
       <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between px-4 py-3">
-          <h1 className="text-lg font-semibold text-charcoal-500">My Appointments</h1>
+          <h1 className="text-lg font-semibold text-charcoal-500">{t('title')}</h1>
           <button
             type="button"
             onClick={() => navigate(PATHS.HISTORY_ARCHIVE)}
             className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center hover:bg-cream-200 transition-colors duration-normal ease-out-brand"
-            aria-label="Appointment archive"
+            aria-label={t('archiveButton')}
           >
             <IconArchive size={20} className="text-charcoal-500" strokeWidth={2} />
           </button>
@@ -125,8 +127,8 @@ export default function HistoryScreen() {
         {upcomingConfirmed.length === 0 && others.length === 0 ? (
           <EmptyState
             icon="calendar"
-            title="No appointments"
-            description="Try changing the status filter or book a new appointment."
+            title={t('emptyTitle')}
+            description={t('emptyDescription')}
           />
         ) : (
           <div className="space-y-8">
@@ -134,7 +136,7 @@ export default function HistoryScreen() {
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-charcoal-500">
-                    Upcoming <span className="text-sm font-medium text-slate-500">({upcomingConfirmed.length})</span>
+                    {t('upcoming')} <span className="text-sm font-medium text-slate-500">({upcomingConfirmed.length})</span>
                   </h2>
                 </div>
                 <SwipeableAppointmentStack
@@ -147,21 +149,22 @@ export default function HistoryScreen() {
             <section className="space-y-4">
               <div className="flex items-center gap-3">
                 <h2 className="text-lg font-semibold text-charcoal-500 whitespace-nowrap">
-                  Others <span className="text-sm font-medium text-slate-500">({others.length})</span>
+                  {t('others')} <span className="text-sm font-medium text-slate-500">({others.length})</span>
                 </h2>
                 <div className="ml-auto flex max-w-[70%] justify-end overflow-x-auto pb-1">
                   <div className="flex gap-2">
                     {statusChips.map((chip) => {
                       const isActive = statusFilter === chip.value
                       const IconComponent = chip.icon
+                      const label = t(chip.labelKey)
                       return (
                         <button
                           key={chip.value}
                           type="button"
                           onClick={() => setStatusFilter(chip.value)}
                           aria-pressed={isActive}
-                          aria-label={chip.label}
-                          title={chip.label}
+                          aria-label={label}
+                          title={label}
                           className={`inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-full text-sm font-medium border transition-colors duration-normal ease-out-brand ${
                             isActive
                               ? 'bg-teal-500 text-white border-teal-500'
@@ -171,7 +174,7 @@ export default function HistoryScreen() {
                           <span className={isActive ? 'text-white' : 'text-slate-600'}>
                             <IconComponent size={16} strokeWidth={2} />
                           </span>
-                          {isActive && <span>{chip.label}</span>}
+                          {isActive && <span>{label}</span>}
                         </button>
                       )
                     })}
@@ -199,8 +202,8 @@ export default function HistoryScreen() {
               ) : (
                 <EmptyState
                   icon="search"
-                  title="No other appointments"
-                  description="Try changing the filters to see more."
+                  title={t('emptyOthersTitle')}
+                  description={t('emptyOthersDescription')}
                 />
               )}
             </section>
@@ -212,7 +215,7 @@ export default function HistoryScreen() {
       <button
         onClick={() => navigate(PATHS.BOOKING)}
         className="fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all duration-normal ease-out-brand"
-        aria-label="Book new appointment"
+        aria-label={t('bookNewAppointment')}
       >
         <IconPlus size={28} strokeWidth={2} />
       </button>

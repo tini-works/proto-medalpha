@@ -4,6 +4,7 @@ import { Avatar } from '../display/Avatar'
 import { Rating } from '../display/Rating'
 import { Pill } from '../display/Pill'
 import type { Doctor } from '../../types'
+import { translateSpecialty, translateLanguageList } from '../../utils'
 
 interface DoctorDetailSheetProps {
   doctor: Doctor
@@ -48,7 +49,7 @@ export function DoctorDetailSheet({ doctor, onClose, onSelect }: DoctorDetailShe
             <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="lg" />
             <div className="flex-1">
               <h3 className="text-xl font-semibold text-charcoal-500">{doctor.name}</h3>
-              <p className="text-teal-600 font-medium">{doctor.specialty}</p>
+              <p className="text-teal-600 font-medium">{translateSpecialty(t, doctor.specialty)}</p>
               <div className="mt-2">
                 <Rating value={doctor.rating} reviewCount={doctor.reviewCount} />
               </div>
@@ -81,7 +82,7 @@ export function DoctorDetailSheet({ doctor, onClose, onSelect }: DoctorDetailShe
           {/* Languages */}
           <section className="py-4 border-b border-cream-300">
             <h4 className="text-sm font-medium text-slate-500 mb-2">{t('languages')}</h4>
-            <p className="text-charcoal-500">{doctor.languages.join(', ')}</p>
+            <p className="text-charcoal-500">{translateLanguageList(t, doctor.languages)}</p>
           </section>
 
           {/* About */}

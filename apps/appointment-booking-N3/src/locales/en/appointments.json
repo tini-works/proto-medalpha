@@ -22,5 +22,6 @@
     "requestedSpecialty": "Requested Specialty",
     "requestSubmitted": "Submitted",
     "locationPreference": "Location"
-  }
+  },
+  "timeSuffix": ""
 }

@@ -20,6 +20,7 @@ High-level, business-focused summary of notable changes.
 - **More reliable in-app notifications**: Toast provider now queues multiple status-change toasts so rapid updates don’t overwrite each other.
 - **Localized offline banner**: The global offline banner message is now pulled from `settings` translations (English + German) instead of hard-coded English text.
 - **Safer background matching**: Background matching returns a cancellation function to prevent updates after unmount, and insurance types are standardized across request and API types for consistency.
+- **Detail & history localization**: Appointment detail, history, and doctor cards now use dedicated `history`/`detail` i18n namespaces and translation helpers so headings, labels, statuses, specialties, and languages are consistently localized in English and German.
 
 ### Matched Doctors radio tap area
 - **Accessibility & ergonomics**: Increased the matched doctor selection radio tap target in the N3 Doctor list to a balanced 44×44px square so it has equal padding on all sides, making it easier to tap accurately on touch devices while keeping the visual circle icon size unchanged.

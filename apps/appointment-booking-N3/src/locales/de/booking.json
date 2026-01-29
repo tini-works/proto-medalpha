@@ -152,6 +152,9 @@
   "specialtyDentistry": "Zahnmedizin",
   "specialtyENT": "HNO",
   "specialtyGastroenterology": "Gastroenterologie",
+  "specialtyPulmonology": "Pneumologie",
+  "specialtyRheumatology": "Rheumatologie",
+  "specialtyEndocrinology": "Endokrinologie",
 
   "relationship_child": "Kind",
   "relationship_spouse": "Ehepartner",
@@ -262,5 +265,21 @@
   "toastNoMatchFound": "Kein passender Termin gefunden",
   "toastAppointmentCancelled": "Termin storniert",
   "toastAppointmentCancelledByDoctor": "Termin vom Arzt abgesagt",
-  "toastAppointmentCompleted": "Termin abgeschlossen"
+  "toastAppointmentCompleted": "Termin abgeschlossen",
+
+  "useCurrentLocation": "Aktuellen Standort verwenden",
+  "orEnterAddress": "Oder eine bestimmte Adresse eingeben",
+  "addressPlaceholder": "Straße, Stadt oder Postleitzahl eingeben...",
+  "mapPreview": "Kartenvorschau",
+
+  "langGerman": "Deutsch",
+  "langEnglish": "Englisch",
+  "langFrench": "Französisch",
+  "langItalian": "Italienisch",
+  "langSpanish": "Spanisch",
+  "langTurkish": "Türkisch",
+  "langRussian": "Russisch",
+  "langArabic": "Arabisch",
+  "langPolish": "Polnisch",
+  "langPortuguese": "Portugiesisch"
 }

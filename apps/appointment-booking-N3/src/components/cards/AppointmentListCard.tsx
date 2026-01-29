@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { IconSearch, IconCalendar, IconMapPin } from '@tabler/icons-react'
 import type { Appointment } from '../../types'
-import { formatDateShort, formatTime } from '../../utils/format'
+import { formatDateShort, formatTime, translateSpecialty } from '../../utils'
 import { getDoctorById } from '../../data/doctors'
 import { Pill } from '../display/Pill'
 import { Avatar } from '../display/Avatar'
@@ -13,7 +13,7 @@ export function AppointmentListCard({
   appointment: Appointment
   onClick?: () => void
 }) {
-  const { t } = useTranslation('appointments')
+  const { t } = useTranslation(['appointments', 'booking'])
   const isMatching = appointment.status === 'matching'
 
   const statusConfig: Record<
@@ -102,7 +102,7 @@ export function AppointmentListCard({
             {isMatching ? (
               <>
                 {/* Matching status: Show specialty as main title */}
-                <h3 className="font-semibold text-charcoal-500 truncate">{appointment.specialty}</h3>
+                <h3 className="font-semibold text-charcoal-500 truncate">{translateSpecialty(t, appointment.specialty)}</h3>
                 <div className="mt-0.5 flex items-center gap-2 min-w-0">
                   <p className="min-w-0 truncate text-sm text-slate-600">{t('matching.requestedSpecialty')}</p>
                   {estimatedWaitRange && (
@@ -124,7 +124,7 @@ export function AppointmentListCard({
                 {/* Non-matching status: Show doctor name as main title */}
                 <h3 className="font-semibold text-charcoal-500 truncate">{appointment.doctorName}</h3>
                 <div className="mt-0.5 flex items-center gap-2 min-w-0">
-                  <p className="min-w-0 truncate text-sm text-slate-600">{appointment.specialty}</p>
+                  <p className="min-w-0 truncate text-sm text-slate-600">{translateSpecialty(t, appointment.specialty)}</p>
                 </div>
 
                 {showAccepts ? (
@@ -133,7 +133,7 @@ export function AppointmentListCard({
                   <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
                     <IconCalendar className="w-4 h-4 flex-shrink-0" stroke={2} />
                     <span>
-                      {formatDateShort(appointment.dateISO)}, {formatTime(appointment.time)} Uhr
+                      {formatDateShort(appointment.dateISO)}, {formatTime(appointment.time)} {t('timeSuffix')}
                     </span>
                   </div>
                 )}

@@ -14,6 +14,10 @@ import enBooking from '../locales/en/booking.json'
 import deBooking from '../locales/de/booking.json'
 import enProfile from '../locales/en/profile.json'
 import deProfile from '../locales/de/profile.json'
+import enHistory from '../locales/en/history.json'
+import deHistory from '../locales/de/history.json'
+import enDetail from '../locales/en/detail.json'
+import deDetail from '../locales/de/detail.json'
 
 // Initialize i18next with English and German translation resources
 // Namespaced approach allows incremental translation of additional domains
@@ -27,6 +31,8 @@ i18n.use(initReactI18next).init({
       auth: enAuth,
       booking: enBooking,
       profile: enProfile,
+      history: enHistory,
+      detail: enDetail,
     },
     de: {
       settings: deSettings,
@@ -36,11 +42,13 @@ i18n.use(initReactI18next).init({
       auth: deAuth,
       booking: deBooking,
       profile: deProfile,
+      history: deHistory,
+      detail: deDetail,
     },
   },
   lng: 'en', // default language - will be overridden by persisted preference
   fallbackLng: 'en',
-  ns: ['settings', 'home', 'notifications', 'appointments', 'auth', 'booking', 'profile'],
+  ns: ['settings', 'home', 'notifications', 'appointments', 'auth', 'booking', 'profile', 'history', 'detail'],
   defaultNS: 'settings',
   interpolation: {
     escapeValue: false, // React already escapes values

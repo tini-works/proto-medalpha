@@ -22,5 +22,6 @@
     "requestedSpecialty": "Gewünschtes Fachgebiet",
     "requestSubmitted": "Eingereicht",
     "locationPreference": "Standort"
-  }
+  },
+  "timeSuffix": "Uhr"
 }

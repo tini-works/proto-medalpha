@@ -9,3 +9,5 @@ export {
   formatTime,
   formatDistance,
 } from './format'
+
+export { translateSpecialty, translateLanguage, translateLanguageList } from './translations'
