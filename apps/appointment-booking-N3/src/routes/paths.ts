@@ -30,7 +30,8 @@ export const PATHS = {
 
   // Book by Specialty flow (existing flow, renamed)
   BOOKING_SPECIALTY: '/booking/specialty',
-  BOOKING_CONSTRAINTS: '/booking/constraints',
+  BOOKING_CONSTRAINTS: '/booking/constraints', // Deprecated - redirects to specialty
+  BOOKING_SYMPTOMS: '/booking/symptoms', // Doctor-first flow symptom description
   BOOKING_AVAILABILITY: '/booking/availability',
   BOOKING_LOCATION: '/booking/location',
   BOOKING_INSURANCE: '/booking/insurance',

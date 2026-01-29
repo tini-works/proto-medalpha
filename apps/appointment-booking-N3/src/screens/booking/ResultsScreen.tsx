@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch } from '@tabler/icons-react'
+import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch, IconArrowRight } from '@tabler/icons-react'
 import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet } from '../../components'
-import { useBooking, useProfile } from '../../state'
+import { Button } from '../../components/ui'
+import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
-
-// Maximum number of doctors to show in specialty-first flow
-const MAX_SPECIALTY_RESULTS = 5
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
@@ -23,11 +21,11 @@ const sortLabelKeys: Record<SortOption, string> = {
 export default function ResultsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { profile } = useProfile()
-  const { search, setSearchFilters, selectDoctor, selectSlot, availabilityPrefs, setSpecialtyMatchRequest } = useBooking()
+  const { search, setSearchFilters, selectDoctor, selectSlot, bookingFlow, setBookingFlow } = useBooking()
 
-  // Check if we're in the specialty-first flow (has availability prefs)
-  const isSpecialtyFirstFlow = Boolean(availabilityPrefs || search?.fullyFlexible || search?.availabilitySlots)
+  // Doctor-first flow is the primary use case for this screen now
+  const isDoctorFirstFlow = bookingFlow === 'by_doctor'
+
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [doctorSlots, setDoctorSlots] = useState<Record<string, TimeSlot[]>>({})
   const [loading, setLoading] = useState(true)
@@ -40,12 +38,20 @@ export default function ResultsScreen() {
   const [onlyPublic, setOnlyPublic] = useState<boolean>(Boolean(search?.onlyPublic))
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(search?.languages ?? [])
 
-  // State for specialty-first flow: doctor selection and detail sheet
+  // Doctor-first flow: doctor selection and detail sheet
   const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null)
   const [detailSheetDoctor, setDetailSheetDoctor] = useState<Doctor | null>(null)
 
-  // Search query state
+  // Search query and specialty filter state
   const [searchQuery, setSearchQuery] = useState('')
+  const [specialtyFilter, setSpecialtyFilter] = useState<string | null>(null)
+
+  // Set booking flow when entering this screen via doctor-first path
+  useEffect(() => {
+    if (!bookingFlow) {
+      setBookingFlow('by_doctor')
+    }
+  }, [bookingFlow, setBookingFlow])
 
   useEffect(() => {
     // Check if there are active filters
@@ -104,6 +110,15 @@ export default function ResultsScreen() {
     return list
   }, [doctors])
 
+  // Get unique specialties for filter chips
+  const availableSpecialties = useMemo(() => {
+    const set = new Set<string>()
+    for (const doctor of doctors) {
+      set.add(doctor.specialty)
+    }
+    return Array.from(set).sort()
+  }, [doctors])
+
   const activeFilterCount = useMemo(() => {
     let count = 0
     if (radius !== 10) count += 1
@@ -134,16 +149,18 @@ export default function ResultsScreen() {
         const specialtyMatch = doctor.specialty.toLowerCase().includes(query)
         if (!nameMatch && !specialtyMatch) return false
       }
+      // Specialty filter (for doctor-first flow)
+      if (specialtyFilter && doctor.specialty !== specialtyFilter) return false
       if (onlyPublic && !doctor.accepts.includes('GKV')) return false
       if (minRating > 0 && doctor.rating < minRating) return false
       if (selectedLanguages.length > 0 && !selectedLanguages.some((l) => doctor.languages.includes(l))) return false
       return true
     })
-  }, [doctors, searchQuery, onlyPublic, minRating, selectedLanguages])
+  }, [doctors, searchQuery, specialtyFilter, onlyPublic, minRating, selectedLanguages])
 
   // Sort doctors based on selected option
   const sortedDoctors = useMemo(() => {
-    const sorted = [...filteredDoctors].sort((a, b) => {
+    return [...filteredDoctors].sort((a, b) => {
       switch (sortBy) {
         case 'earliest':
           return new Date(a.nextAvailableISO).getTime() - new Date(b.nextAvailableISO).getTime()
@@ -158,28 +175,19 @@ export default function ResultsScreen() {
           return 0
       }
     })
-
-    // Limit results for specialty-first flow
-    if (isSpecialtyFirstFlow) {
-      return sorted.slice(0, MAX_SPECIALTY_RESULTS)
-    }
-
-    return sorted
-  }, [filteredDoctors, sortBy, isSpecialtyFirstFlow])
+  }, [filteredDoctors, sortBy])
 
   const handleSelectDoctor = (doctor: Doctor) => {
+    // In doctor-first flow, tapping card opens detail sheet
+    if (isDoctorFirstFlow) {
+      setDetailSheetDoctor(doctor)
+      return
+    }
     selectDoctor(doctor)
     navigate(doctorPath(doctor.id))
   }
 
   const handleSelectSlot = (doctor: Doctor, slot: TimeSlot) => {
-    // In specialty-first flow, always go to doctor detail first
-    if (isSpecialtyFirstFlow) {
-      selectDoctor(doctor)
-      navigate(doctorPath(doctor.id))
-      return
-    }
-
     selectDoctor(doctor)
     selectSlot(slot)
     navigate(PATHS.BOOKING_CONFIRM)
@@ -187,21 +195,12 @@ export default function ResultsScreen() {
 
   const handleMoreAppointments = (doctor: Doctor) => {
     selectDoctor(doctor)
-    // In specialty-first flow, go to doctor detail
-    if (isSpecialtyFirstFlow) {
-      navigate(doctorPath(doctor.id))
-      return
-    }
     navigate(doctorSlotsPath(doctor.id))
   }
 
-  // Determine back navigation based on flow
+  // Back navigation: go to booking type selection
   const handleBack = () => {
-    if (isSpecialtyFirstFlow) {
-      navigate(PATHS.BOOKING_AVAILABILITY)
-    } else {
-      navigate(PATHS.BOOKING_LOCATION)
-    }
+    navigate(PATHS.BOOKING)
   }
 
   const handleFilterClick = () => {
@@ -226,38 +225,13 @@ export default function ResultsScreen() {
     }
   }
 
-  // Specialty-first flow: continue with selected doctor or skip
+  // Doctor-first flow: continue with selected doctor to symptoms screen
   const handleContinue = () => {
     const selectedDoctor = sortedDoctors.find((d) => d.id === selectedDoctorId)
     if (!selectedDoctor) return
 
     selectDoctor(selectedDoctor)
-    setSpecialtyMatchRequest({
-      specialty: search?.specialty || selectedDoctor.specialty,
-      city: search?.city || selectedDoctor.city,
-      insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
-      doctorId: selectedDoctor.id,
-      doctorName: selectedDoctor.name,
-      availabilityPrefs: availabilityPrefs || { fullyFlexible: true, slots: [] },
-      patientId: profile.id,
-      patientName: profile.fullName,
-    })
-    navigate(PATHS.FAST_LANE_MATCHING)
-  }
-
-  // Specialty-first flow: skip selection, let system choose
-  const handleSkip = () => {
-    setSpecialtyMatchRequest({
-      specialty: search?.specialty || '',
-      city: search?.city || '',
-      insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
-      doctorId: '', // Empty = system chooses
-      doctorName: '',
-      availabilityPrefs: availabilityPrefs || { fullyFlexible: true, slots: [] },
-      patientId: profile.id,
-      patientName: profile.fullName,
-    })
-    navigate(PATHS.FAST_LANE_MATCHING)
+    navigate(PATHS.BOOKING_SYMPTOMS)
   }
 
   return (
@@ -276,7 +250,7 @@ export default function ResultsScreen() {
 
           {/* Title */}
           <h1 className="text-lg font-semibold text-charcoal-500">
-            {isSpecialtyFirstFlow ? t('matchedDoctors') : t('searchResults')}
+            {isDoctorFirstFlow ? t('selectDoctor') : t('searchResults')}
           </h1>
 
           {/* Filter button with badge */}
@@ -291,14 +265,45 @@ export default function ResultsScreen() {
         </div>
       </header>
 
-      {/* Progress indicator for specialty-first flow */}
-      {isSpecialtyFirstFlow && (
+      {/* Progress indicator for doctor-first flow */}
+      {isDoctorFirstFlow && (
         <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step4Of4')}</span>
+            <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step1Of4')}</span>
             <span className="text-xs text-slate-500">{t('yourRequest')}</span>
           </div>
-          <ProgressIndicator currentStep={4} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
+          <ProgressIndicator currentStep={1} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
+        </div>
+      )}
+
+      {/* Specialty filter chips for doctor-first flow */}
+      {isDoctorFirstFlow && availableSpecialties.length > 1 && (
+        <div className="px-4 py-2 bg-white border-b border-cream-300">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+            <button
+              onClick={() => setSpecialtyFilter(null)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                !specialtyFilter
+                  ? 'bg-teal-500 text-white'
+                  : 'bg-cream-100 text-slate-600 hover:bg-cream-200'
+              }`}
+            >
+              {t('allSpecialties')}
+            </button>
+            {availableSpecialties.map((specialty) => (
+              <button
+                key={specialty}
+                onClick={() => setSpecialtyFilter(specialty)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                  specialtyFilter === specialty
+                    ? 'bg-teal-500 text-white'
+                    : 'bg-cream-100 text-slate-600 hover:bg-cream-200'
+                }`}
+              >
+                {specialty}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
@@ -377,7 +382,7 @@ export default function ResultsScreen() {
       </div>
 
       {/* Results List */}
-      <div className={`px-4 py-4 ${isSpecialtyFirstFlow ? 'pb-28' : 'pb-24'}`}>
+      <div className={`px-4 py-4 ${isDoctorFirstFlow ? 'pb-28' : 'pb-24'}`}>
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
@@ -427,9 +432,9 @@ export default function ResultsScreen() {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                slots={isSpecialtyFirstFlow ? [] : (doctorSlots[doctor.id] || [])}
-                showSlots={!isSpecialtyFirstFlow}
-                selectable={isSpecialtyFirstFlow}
+                slots={isDoctorFirstFlow ? [] : (doctorSlots[doctor.id] || [])}
+                showSlots={!isDoctorFirstFlow}
+                selectable={isDoctorFirstFlow}
                 selected={selectedDoctorId === doctor.id}
                 onSelect={() => handleDoctorRadioSelect(doctor.id)}
                 onViewDetails={() => handleViewDetails(doctor)}
@@ -442,23 +447,22 @@ export default function ResultsScreen() {
         )}
       </div>
 
-      {/* Bottom action bar for specialty-first flow */}
-      {isSpecialtyFirstFlow && !loading && sortedDoctors.length > 0 && (
+      {/* Bottom action bar for doctor-first flow */}
+      {isDoctorFirstFlow && !loading && sortedDoctors.length > 0 && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom z-30">
-          <div className="flex gap-3">
-            <button
-              onClick={handleSkip}
-              className="flex-1 py-3.5 px-4 border border-cream-400 text-slate-600 font-semibold rounded-xl hover:bg-cream-100 transition-colors"
-            >
-              {t('skip')}
-            </button>
-            <button
+          <div className="mx-auto max-w-md">
+            <Button
               onClick={handleContinue}
               disabled={!selectedDoctorId}
-              className="flex-1 py-3.5 px-4 bg-teal-500 text-white font-semibold rounded-xl hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="primary"
+              fullWidth
+              size="lg"
             >
-              {t('continueBtn')}
-            </button>
+              <span className="flex items-center justify-center gap-2">
+                {t('continueBtn')}
+                <IconArrowRight size={20} stroke={2} />
+              </span>
+            </Button>
           </div>
         </div>
       )}
@@ -606,8 +610,8 @@ export default function ResultsScreen() {
         </div>
       )}
 
-      {/* Only show TabBar when not in specialty-first flow */}
-      {!isSpecialtyFirstFlow && <TabBar />}
+      {/* Only show TabBar when not in doctor-first flow */}
+      {!isDoctorFirstFlow && <TabBar />}
     </Page>
   )
 }

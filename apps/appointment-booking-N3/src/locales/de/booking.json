@@ -234,5 +234,22 @@
   "allDoctors": "Alle Ärzte",
   "noDoctorsFound": "Keine Ärzte gefunden",
   "nameAZ": "Name (A-Z)",
-  "step2Of3": "SCHRITT 2 VON 3"
+  "step2Of3": "SCHRITT 2 VON 3",
+
+  "step1Of2": "SCHRITT 1 VON 2",
+  "step2Of2": "SCHRITT 2 VON 2",
+  "step1Of4": "SCHRITT 1 VON 4",
+  "allSpecialties": "Alle",
+  "describeSymptoms": "Beschreiben Sie Ihre Symptome",
+  "whatBringsYouIn": "Was führt Sie heute zu uns?",
+  "selectAllThatApply": "Wählen Sie alle zutreffenden aus",
+  "additionalDetails": "Weitere Details",
+  "additionalDetailsPlaceholder": "Beschreiben Sie weitere Symptome oder Anliegen, die Sie besprechen möchten...",
+  "symptomRequirement": "Bitte wählen Sie mindestens ein Symptom oder beschreiben Sie Ihr Anliegen",
+  "symptomJointPain": "Gelenkschmerzen",
+  "symptomFatigue": "Müdigkeit",
+  "symptomAnxiety": "Angst",
+  "symptomCough": "Husten",
+  "symptomHeartPalpitations": "Herzrasen",
+  "symptomDizziness": "Schwindel"
 }

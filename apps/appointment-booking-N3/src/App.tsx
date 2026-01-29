@@ -27,8 +27,7 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 import {
   BookingTypeScreen,
   SearchScreen as BookingSearchScreen,
-  DoctorSearchScreen as BookingDoctorSearchScreen,
-  ConstraintsScreen as BookingConstraintsScreen,
+  SymptomsScreen as BookingSymptomsScreen,
   AvailabilityScreen as BookingAvailabilityScreen,
   LocationScreen as BookingLocationScreen,
   InsuranceScreen as BookingInsuranceScreen,
@@ -265,16 +264,10 @@ function AppContent() {
             }
           />
 
-          {/* Book by Doctor Flow */}
+          {/* Book by Doctor Flow - redirect deprecated path to results */}
           <Route
             path={PATHS.BOOKING_DOCTOR_SEARCH}
-            element={
-              <RequireAuth>
-                <RequireProfileComplete>
-                  <BookingDoctorSearchScreen />
-                </RequireProfileComplete>
-              </RequireAuth>
-            }
+            element={<Navigate to={PATHS.BOOKING_RESULTS} replace />}
           />
 
           {/* Book by Specialty Flow */}
@@ -290,10 +283,14 @@ function AppContent() {
           />
           <Route
             path={PATHS.BOOKING_CONSTRAINTS}
+            element={<Navigate to={PATHS.BOOKING_SPECIALTY} replace />}
+          />
+          <Route
+            path={PATHS.BOOKING_SYMPTOMS}
             element={
               <RequireAuth>
                 <RequireProfileComplete>
-                  <BookingConstraintsScreen />
+                  <BookingSymptomsScreen />
                 </RequireProfileComplete>
               </RequireAuth>
             }

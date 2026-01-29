@@ -7,6 +7,13 @@ High-level, business-focused summary of notable changes.
 ### Matched Doctors radio tap area
 - **Accessibility & ergonomics**: Increased the matched doctor selection radio tap target in the N3 Doctor list to a balanced 44×44px square so it has equal padding on all sides, making it easier to tap accurately on touch devices while keeping the visual circle icon size unchanged.
 
+### Unified booking flows & doctor-first symptoms step
+- **Specialty-first simplification**: Collapsed the specialty search and visit constraints (city, insurance) into a single 2-step flow where users choose specialty + preferences up front and then go straight to availability, removing the intermediate doctor list to keep “we match you” Fast Lane and specialty-first paths consistent.
+- **Doctor-first enhancements**: Turned the “book by doctor” path into a clear 4-step journey (select doctor → describe symptoms → choose slot → confirm) with a new `SymptomsScreen` that offers specialty-filtered symptom chips plus free-text notes and a progress indicator, so doctors receive structured context before the visit.
+- **Shared results experience**: Updated the N3 `ResultsScreen` to act as the unified doctor listing view for the doctor-first path, including specialty filter chips, improved header/back behavior, and a bottom-sheet doctor detail view that doesn’t disrupt the step counter.
+- **State & i18n support**: Extended booking state to capture symptom information alongside availability preferences and wired new English/German booking translations for steps, symptom labels, and helper copy so the refactored flows stay fully localized.
+- **Design documentation**: Captured the refactor plan and testing checklist in `docs/plans/unify-doctor-results-screen.md` to keep product, design, and implementation aligned around the new flows.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX

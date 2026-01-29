@@ -36,7 +36,7 @@ const bookingTypes: BookingTypeOption[] = [
     icon: <IconUserSearch className="w-6 h-6" stroke={2} />,
     titleKey: 'bookByDoctor',
     subtitleKey: 'bookByDoctorDesc',
-    path: PATHS.BOOKING_DOCTOR_SEARCH,
+    path: PATHS.BOOKING_RESULTS,
   },
 ]
 

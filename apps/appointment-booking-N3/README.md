@@ -48,17 +48,18 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Family Member Detail**: View and update dependent profiles
 
 ### Appointment Booking Flow
-1. **Choose how to book**: New booking type screen with three paths:
-   - **Fast Lane**: Guided flow where users describe symptoms and the system matches them to a suitable doctor
-   - **By specialty**: Classic flow starting from a medical specialty (original N3 path)
-   - **By doctor**: Reserved for future release (marked as “coming soon”)
-2. **Search**: Select medical specialty and view recent searches
-3. **Location**: Choose search location with radius filter
+1. **Choose how to book**: Booking type screen with three fully supported paths:
+   - **Fast Lane**: Guided flow where users describe symptoms up front and the system auto-matches them to a suitable doctor
+   - **By specialty**: Simplified 2-step flow starting from a medical specialty where users also choose city and insurance before going straight to availability (the system matches a doctor in the background)
+   - **By doctor**: Doctor-first 4-step journey (results → symptoms → availability → confirm) where users pick a doctor, describe symptoms, then choose an appointment time
+2. **Search**: Select a medical specialty or search/browse doctors with recent searches
+3. **Location**: Choose search location with radius filter (where relevant)
 4. **Results**: Browse available doctors with filters (insurance, rating, distance)
-5. **Doctor Profile**: View detailed doctor information, reviews, and availability
-6. **Slot Selection**: Choose appointment date and time
-7. **Confirmation**: Review appointment details and select patient
-8. **Success**: Confirmation screen with appointment summary
+5. **Symptoms (doctor-first)**: Describe symptoms using specialty-filtered chips plus free-text notes so the doctor has structured context before the visit
+6. **Doctor Profile**: View detailed doctor information, reviews, and availability (including bottom-sheet details from the results list)
+7. **Slot Selection**: Choose appointment date and time
+8. **Confirmation**: Review appointment details and select patient
+9. **Success**: Confirmation screen with appointment summary
 
 #### Matched Doctors selection UX
 - **Radio placement & iconography**: Matched doctors on the final confirmation step use an explicit radio-style control to the left of each card (Circle / CircleCheck icons) so selection is visually obvious.

@@ -40,6 +40,12 @@ interface SpecialtyMatchRequestState {
 // Booking flow type
 type BookingFlow = 'fast_lane' | 'by_specialty' | 'by_doctor' | null
 
+// Symptom info for doctor-first flow
+interface SymptomInfo {
+  symptoms: string[]
+  additionalNotes: string
+}
+
 // Extended state for reschedule and book again flows (not persisted)
 interface ExtendedState {
   reschedule: RescheduleContext | null
@@ -48,6 +54,7 @@ interface ExtendedState {
   specialtyMatch: SpecialtyMatchRequestState | null
   availabilityPrefs: AvailabilityPrefs | null
   bookingFlow: BookingFlow
+  symptomInfo: SymptomInfo | null
 }
 
 type AppStateApi = {
@@ -91,6 +98,9 @@ type AppStateApi = {
   setAvailabilityPrefs: (prefs: AvailabilityPrefs | null) => void
   setSpecialtyMatchRequest: (request: SpecialtyMatchRequestState | null) => void
   clearSpecialtyMatchRequest: () => void
+  // Symptom info (doctor-first flow)
+  setSymptomInfo: (info: SymptomInfo | null) => void
+  clearSymptomInfo: () => void
   // Booking flow tracking
   setBookingFlow: (flow: BookingFlow) => void
   clearBookingFlow: () => void
@@ -113,6 +123,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     specialtyMatch: null,
     availabilityPrefs: null,
     bookingFlow: null,
+    symptomInfo: null,
   })
 
   useEffect(() => {
@@ -459,7 +470,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       setSpecialtyMatchRequest: (request) =>
         setExtendedState((s) => ({ ...s, specialtyMatch: request })),
       clearSpecialtyMatchRequest: () =>
-        setExtendedState((s) => ({ ...s, specialtyMatch: null, availabilityPrefs: null })),
+        setExtendedState((s) => ({ ...s, specialtyMatch: null, availabilityPrefs: null, symptomInfo: null })),
+
+      // Symptom info (doctor-first flow)
+      setSymptomInfo: (info) =>
+        setExtendedState((s) => ({ ...s, symptomInfo: info })),
+      clearSymptomInfo: () =>
+        setExtendedState((s) => ({ ...s, symptomInfo: null })),
 
       // Booking flow tracking
       setBookingFlow: (flow) =>
@@ -475,7 +492,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       resetAll: () => {
         clearState()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null })
       },
     }),
     [state, extendedState, isProfileComplete]
@@ -541,6 +558,8 @@ export function useBooking() {
     setAvailabilityPrefs,
     setSpecialtyMatchRequest,
     clearSpecialtyMatchRequest,
+    setSymptomInfo,
+    clearSymptomInfo,
     setBookingFlow,
     clearBookingFlow,
   } = useAppState()
@@ -554,6 +573,7 @@ export function useBooking() {
     specialtyMatchRequest: extendedState.specialtyMatch,
     availabilityPrefs: extendedState.availabilityPrefs,
     bookingFlow: extendedState.bookingFlow,
+    symptomInfo: extendedState.symptomInfo,
     setSearchFilters,
     selectDoctor,
     selectSlot,
@@ -567,6 +587,8 @@ export function useBooking() {
     setAvailabilityPrefs,
     setSpecialtyMatchRequest,
     clearSpecialtyMatchRequest,
+    setSymptomInfo,
+    clearSymptomInfo,
     setBookingFlow,
     clearBookingFlow,
   }

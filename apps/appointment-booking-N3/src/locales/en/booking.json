@@ -234,5 +234,22 @@
   "allDoctors": "All Doctors",
   "noDoctorsFound": "No doctors found",
   "nameAZ": "Name (A-Z)",
-  "step2Of3": "STEP 2 OF 3"
+  "step2Of3": "STEP 2 OF 3",
+
+  "step1Of2": "STEP 1 OF 2",
+  "step2Of2": "STEP 2 OF 2",
+  "step1Of4": "STEP 1 OF 4",
+  "allSpecialties": "All",
+  "describeSymptoms": "Describe Your Symptoms",
+  "whatBringsYouIn": "What brings you in today?",
+  "selectAllThatApply": "Select all that apply",
+  "additionalDetails": "Additional Details",
+  "additionalDetailsPlaceholder": "Describe any other symptoms or concerns you'd like to discuss...",
+  "symptomRequirement": "Please select at least one symptom or describe your concern",
+  "symptomJointPain": "Joint pain",
+  "symptomFatigue": "Fatigue",
+  "symptomAnxiety": "Anxiety",
+  "symptomCough": "Cough",
+  "symptomHeartPalpitations": "Heart palpitations",
+  "symptomDizziness": "Dizziness"
 }

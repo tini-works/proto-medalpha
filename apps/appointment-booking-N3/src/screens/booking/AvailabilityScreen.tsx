@@ -29,26 +29,24 @@ export default function AvailabilityScreen() {
   const { t } = useTranslation('booking')
   const navigate = useNavigate()
   const { profile } = useProfile()
-  const { search, setSearchFilters, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
+  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
 
   const isDoctorFirstFlow = bookingFlow === 'by_doctor'
 
   const [fullyFlexible, setFullyFlexible] = useState(false)
   const [selectedSlots, setSelectedSlots] = useState<Set<string>>(new Set())
 
-  // Redirect if no specialty or city selected (only for specialty-first flow)
+  // Redirect if required data is missing
   useEffect(() => {
     if (isDoctorFirstFlow) {
       // Doctor-first flow: redirect if no doctor selected
       if (!selectedDoctor) {
-        navigate(PATHS.BOOKING_DOCTOR_SEARCH)
+        navigate(PATHS.BOOKING_RESULTS)
       }
     } else {
       // Specialty-first flow: redirect if no specialty or city
-      if (!search?.specialty) {
+      if (!search?.specialty || !search?.city) {
         navigate(PATHS.BOOKING_SPECIALTY)
-      } else if (!search?.city) {
-        navigate(PATHS.BOOKING_CONSTRAINTS)
       }
     }
   }, [isDoctorFirstFlow, selectedDoctor, search?.specialty, search?.city, navigate])
@@ -136,11 +134,12 @@ export default function AvailabilityScreen() {
   }, [selectedSlots, fullyFlexible, t])
 
   const handleBack = () => {
-    if (isDoctorFirstFlow && selectedDoctor) {
-      // Go back to doctor profile in doctor-first flow
-      navigate(`/booking/doctor/${selectedDoctor.id}`)
+    if (isDoctorFirstFlow) {
+      // Doctor-first flow: go back to symptoms screen
+      navigate(PATHS.BOOKING_SYMPTOMS)
     } else {
-      navigate(PATHS.BOOKING_CONSTRAINTS)
+      // Specialty-first flow: go back to combined specialty screen
+      navigate(PATHS.BOOKING_SPECIALTY)
     }
   }
 
@@ -153,7 +152,7 @@ export default function AvailabilityScreen() {
     setAvailabilityPrefs(prefs)
 
     if (isDoctorFirstFlow && selectedDoctor) {
-      // Doctor-first flow: go directly to matching with the selected doctor
+      // Doctor-first flow: go to matching with the selected doctor + symptoms
       setSpecialtyMatchRequest({
         specialty: selectedDoctor.specialty,
         city: selectedDoctor.city,
@@ -166,15 +165,18 @@ export default function AvailabilityScreen() {
       })
       navigate(PATHS.FAST_LANE_MATCHING)
     } else {
-      // Specialty-first flow: update search filters and go to results
-      if (search) {
-        setSearchFilters({
-          ...search,
-          fullyFlexible,
-          availabilitySlots: fullyFlexible ? undefined : slots,
-        })
-      }
-      navigate(PATHS.BOOKING_RESULTS)
+      // Specialty-first flow: go directly to matching (no doctor selection)
+      setSpecialtyMatchRequest({
+        specialty: search?.specialty || '',
+        city: search?.city || '',
+        insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
+        doctorId: '',
+        doctorName: '',
+        availabilityPrefs: prefs,
+        patientId: profile.id,
+        patientName: profile.fullName,
+      })
+      navigate(PATHS.FAST_LANE_MATCHING)
     }
   }
 
@@ -188,13 +190,13 @@ export default function AvailabilityScreen() {
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {isDoctorFirstFlow ? t('step2Of3') : t('step3Of4')}
+            {isDoctorFirstFlow ? t('step3Of4') : t('step2Of2')}
           </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator
-          currentStep={isDoctorFirstFlow ? 2 : 3}
-          totalSteps={isDoctorFirstFlow ? 3 : 4}
+          currentStep={isDoctorFirstFlow ? 3 : 2}
+          totalSteps={isDoctorFirstFlow ? 4 : 2}
           variant="bar"
           showLabel={false}
           showPercentage={false}
