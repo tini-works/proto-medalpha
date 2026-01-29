@@ -1,4 +1,9 @@
 // Simulated API delay helper
+import {
+  MOCK_MATCHING_SUCCESS_TOTAL_MS,
+  MOCK_MATCHING_FAIL_TOTAL_MS,
+  MOCK_MATCHING_NO_DOCTORS_MS,
+} from '../config/matching'
 
 export function simulateApiDelay<T>(data: T, delayMs = 300): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(data), delayMs))
@@ -184,7 +189,7 @@ export async function apiFastLaneMatch(
 
   if (matchingDoctors.length === 0) {
     // Minimum dwell time for no-match so the matching screen feels realistic
-    await simulateApiDelay(null, 60000)
+    await simulateApiDelay(null, MOCK_MATCHING_NO_DOCTORS_MS)
     return { success: false }
   }
 
@@ -204,8 +209,8 @@ export async function apiFastLaneMatch(
   const isSuccessful = Math.random() < 0.9
 
   if (!isSuccessful) {
-    // Doctors matched + random fail: keep matching page visible for ~40s total.
-    await ensureMinTotalDuration(40000)
+    // Doctors matched + random fail: keep matching page visible for configured total.
+    await ensureMinTotalDuration(MOCK_MATCHING_FAIL_TOTAL_MS)
     return { success: false }
   }
 
@@ -261,8 +266,8 @@ export async function apiFastLaneMatch(
     },
   }
 
-  // Doctors matched + success: keep matching page visible for ~30s total.
-  await ensureMinTotalDuration(30000)
+  // Doctors matched + success: keep matching page visible for configured total.
+  await ensureMinTotalDuration(MOCK_MATCHING_SUCCESS_TOTAL_MS)
   return { success: true, appointment }
 }
 
@@ -311,6 +316,15 @@ export async function apiSpecialtyMatch(
   request: SpecialtyMatchRequest,
   onStatusChange?: (status: MatchingStatus, doctorCount?: number) => void
 ): Promise<SpecialtyMatchResult> {
+  const startedAt = Date.now()
+  const ensureMinTotalDuration = async (totalMs: number) => {
+    const elapsed = Date.now() - startedAt
+    const remaining = totalMs - elapsed
+    if (remaining > 0) {
+      await simulateApiDelay(null, remaining)
+    }
+  }
+
   const { getDoctorById } = await import('./doctors')
   const { getSlotsForDate } = await import('./timeSlots')
 
@@ -336,6 +350,7 @@ export async function apiSpecialtyMatch(
   const isSuccessful = Math.random() < 0.95
 
   if (!isSuccessful) {
+    await ensureMinTotalDuration(MOCK_MATCHING_FAIL_TOTAL_MS)
     return { success: false }
   }
 
@@ -418,5 +433,6 @@ export async function apiSpecialtyMatch(
     },
   }
 
+  await ensureMinTotalDuration(MOCK_MATCHING_SUCCESS_TOTAL_MS)
   return { success: true, appointment }
 }

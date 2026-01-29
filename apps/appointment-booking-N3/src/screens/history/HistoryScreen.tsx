@@ -7,9 +7,26 @@ import { PATHS, appointmentDetailPath } from '../../routes/paths'
 import { formatDateLong } from '../../utils/format'
 import type { Appointment } from '../../types'
 
+/** Dedupe by id so React never sees duplicate keys; keep latest by updatedAt. */
+function dedupeAppointmentsById(appointments: Appointment[]): Appointment[] {
+  const byId = new Map<string, Appointment>()
+  for (const apt of appointments) {
+    const existing = byId.get(apt.id)
+    if (!existing) {
+      byId.set(apt.id, apt)
+      continue
+    }
+    const existingTs = existing.updatedAt ? new Date(existing.updatedAt).getTime() : 0
+    const ts = apt.updatedAt ? new Date(apt.updatedAt).getTime() : 0
+    if (ts >= existingTs) byId.set(apt.id, apt)
+  }
+  return Array.from(byId.values())
+}
+
 export default function HistoryScreen() {
   const navigate = useNavigate()
   const { appointments } = useBooking()
+  const appointmentsDeduped = useMemo(() => dedupeAppointmentsById(appointments), [appointments])
 
   const [statusFilter, setStatusFilter] = useState<
     'all' | 'matching' | 'await_confirm' | 'cancelled_doctor'
@@ -43,18 +60,18 @@ export default function HistoryScreen() {
 
   // Upcoming section: always show confirmed appointments (not affected by filter)
   const upcomingConfirmed = useMemo(() => {
-    return appointments
+    return appointmentsDeduped
       .filter((apt) => apt.status === 'confirmed')
       .sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
-  }, [appointments])
+  }, [appointmentsDeduped])
 
   // Others section: filter applies only here
   const others = useMemo(() => {
     const otherStatuses: Appointment['status'][] = ['matching', 'await_confirm', 'cancelled_doctor']
-    const allowed = appointments.filter((apt) => otherStatuses.includes(apt.status))
+    const allowed = appointmentsDeduped.filter((apt) => otherStatuses.includes(apt.status))
     const filtered = statusFilter === 'all' ? allowed : allowed.filter((apt) => apt.status === statusFilter)
     return filtered.sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
-  }, [appointments, statusFilter])
+  }, [appointmentsDeduped, statusFilter])
 
   const groupedUpcoming = useMemo(() => groupByDate(upcomingConfirmed), [upcomingConfirmed])
   const groupedOthers = useMemo(() => groupByDate(others), [others])

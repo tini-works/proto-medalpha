@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { IconSparkles, IconSun, IconMoon, IconCheck, IconCalendar, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { Button } from '../../components/ui'
-import { useBooking, useProfile } from '../../state'
+import { useBooking, useProfile, useAppState } from '../../state'
 import { PATHS } from '../../routes'
+import { runBackgroundMatching, createMatchingAppointment } from '../../utils/backgroundMatching'
 import type { DayOfWeek, TimeRange, AvailabilitySlot } from '../../types'
 
 const DAYS: DayOfWeek[] = ['mon', 'tue', 'wed', 'thu', 'fri']
@@ -30,6 +31,7 @@ export default function AvailabilityScreen() {
   const navigate = useNavigate()
   const { profile } = useProfile()
   const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
+  const { addAppointment, updateAppointment, cancelAppointment } = useAppState()
 
   const isDoctorFirstFlow = bookingFlow === 'by_doctor'
 
@@ -151,33 +153,71 @@ export default function AvailabilityScreen() {
     const prefs = { fullyFlexible, slots }
     setAvailabilityPrefs(prefs)
 
-    if (isDoctorFirstFlow && selectedDoctor) {
-      // Doctor-first flow: go to matching with the selected doctor + symptoms
-      setSpecialtyMatchRequest({
-        specialty: selectedDoctor.specialty,
-        city: selectedDoctor.city,
-        insuranceType: (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV') as 'GKV' | 'PKV',
-        doctorId: selectedDoctor.id,
-        doctorName: selectedDoctor.name,
-        availabilityPrefs: prefs,
+    // Build params for background matching
+    const matchParams = isDoctorFirstFlow && selectedDoctor
+      ? {
+          specialty: selectedDoctor.specialty,
+          city: selectedDoctor.city,
+          insuranceType: (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV') as 'GKV' | 'PKV',
+          doctorId: selectedDoctor.id,
+          doctorName: selectedDoctor.name,
+          availabilityPrefs: prefs,
+          patientId: profile.id,
+          patientName: profile.fullName,
+        }
+      : {
+          specialty: search?.specialty || '',
+          city: search?.city || '',
+          insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
+          doctorId: '',
+          doctorName: '',
+          availabilityPrefs: prefs,
+          patientId: profile.id,
+          patientName: profile.fullName,
+        }
+
+    setSpecialtyMatchRequest(matchParams)
+
+    // Create placeholder appointment with 'matching' status
+    const matchingAppointment = createMatchingAppointment({
+      specialty: matchParams.specialty,
+      patientId: profile.id,
+      patientName: profile.fullName,
+      doctorId: matchParams.doctorId || undefined,
+      doctorName: matchParams.doctorName || undefined,
+    })
+    addAppointment(matchingAppointment)
+
+    // Start background matching (fire-and-forget)
+    runBackgroundMatching({
+      appointmentId: matchingAppointment.id,
+      matchType: 'specialty',
+      params: {
+        specialty: matchParams.specialty,
+        city: matchParams.city,
+        insuranceType: matchParams.insuranceType,
+        doctorId: matchParams.doctorId,
+        doctorName: matchParams.doctorName,
+        availabilityPrefs: {
+          fullyFlexible: prefs.fullyFlexible,
+          slots: prefs.slots.map((slot) => ({
+            day: slot.day,
+            timeRange: slot.timeRange,
+          })),
+        },
         patientId: profile.id,
         patientName: profile.fullName,
-      })
-      navigate(PATHS.FAST_LANE_MATCHING)
-    } else {
-      // Specialty-first flow: go directly to matching (no doctor selection)
-      setSpecialtyMatchRequest({
-        specialty: search?.specialty || '',
-        city: search?.city || '',
-        insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
-        doctorId: '',
-        doctorName: '',
-        availabilityPrefs: prefs,
-        patientId: profile.id,
-        patientName: profile.fullName,
-      })
-      navigate(PATHS.FAST_LANE_MATCHING)
-    }
+      },
+      onSuccess: (updatedData) => {
+        updateAppointment(matchingAppointment.id, updatedData)
+      },
+      onFailure: () => {
+        cancelAppointment(matchingAppointment.id)
+      },
+    })
+
+    // Navigate immediately - don't wait for matching
+    navigate(PATHS.BOOKING_REQUEST_SENT)
   }
 
   const canContinue = fullyFlexible || selectedSlots.size > 0

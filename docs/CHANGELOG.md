@@ -4,6 +4,12 @@ High-level, business-focused summary of notable changes.
 
 ## 2026-01-29
 
+### Mock matching duration & in-app push on status change
+- **Configurable mock duration**: Matching API (Fast Lane and specialty) now uses configurable constants (`config/matching.ts`) for success, fail, and no-doctors total duration so dev/demo can use shorter delays (e.g. 10–20s) instead of hardcoded 30–60s.
+- **Request Sent flow**: All booking paths (Fast Lane, specialty, doctor) now create a “matching” appointment, start background matching, and navigate to Request Sent screen; on completion the appointment is updated to confirmed or cancelled and the user sees the result in history.
+- **In-app push on status change**: When an appointment’s status changes (e.g. matching → confirmed, or cancelled), an in-app toast appears at the bottom with a short message and optional “View” link to the appointment; toast auto-dismisses after 5s. Implemented via NotificationToastContext, Toast component, and AppointmentStatusChangeNotifier that detects status changes from app state.
+- **Toast & history fixes**: Toast’s `<Link>` was rendering outside BrowserRouter and caused a crash; ToastRenderer is now rendered inside BrowserRouter so the link has router context. History screen dedupes appointments by id before rendering so duplicate ids (e.g. from seed or race conditions) no longer trigger React duplicate-key warnings in SwipeableAppointmentStack.
+
 ### Matched Doctors radio tap area
 - **Accessibility & ergonomics**: Increased the matched doctor selection radio tap target in the N3 Doctor list to a balanced 44×44px square so it has equal padding on all sides, making it easier to tap accurately on touch devices while keeping the visual circle icon size unchanged.
 

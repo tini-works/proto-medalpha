@@ -41,6 +41,7 @@ export const PATHS = {
   BOOKING_SLOTS: '/booking/doctor/:id/slots',
   BOOKING_CONFIRM: '/booking/confirm',
   BOOKING_SUCCESS: '/booking/success',
+  BOOKING_REQUEST_SENT: '/booking/request-sent',
 
   // Book by Doctor flow (future)
   BOOKING_DOCTOR_SEARCH: '/booking/doctor-search',

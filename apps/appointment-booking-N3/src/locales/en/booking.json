@@ -251,5 +251,15 @@
   "symptomAnxiety": "Anxiety",
   "symptomCough": "Cough",
   "symptomHeartPalpitations": "Heart palpitations",
-  "symptomDizziness": "Dizziness"
+  "symptomDizziness": "Dizziness",
+
+  "requestSentTitle": "Appointment request sent",
+  "requestSentSubtitle": "We're finding you the best match. You'll be notified when confirmed.",
+  "viewMyAppointments": "View My Appointments",
+
+  "toastAppointmentConfirmed": "Appointment confirmed",
+  "toastNoMatchFound": "No match found",
+  "toastAppointmentCancelled": "Appointment cancelled",
+  "toastAppointmentCancelledByDoctor": "Appointment cancelled by doctor",
+  "toastAppointmentCompleted": "Appointment completed"
 }

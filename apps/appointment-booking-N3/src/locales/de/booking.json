@@ -251,5 +251,15 @@
   "symptomAnxiety": "Angst",
   "symptomCough": "Husten",
   "symptomHeartPalpitations": "Herzrasen",
-  "symptomDizziness": "Schwindel"
+  "symptomDizziness": "Schwindel",
+
+  "requestSentTitle": "Terminanfrage gesendet",
+  "requestSentSubtitle": "Wir finden die beste Übereinstimmung für Sie. Sie werden benachrichtigt, wenn bestätigt.",
+  "viewMyAppointments": "Meine Termine anzeigen",
+
+  "toastAppointmentConfirmed": "Termin bestätigt",
+  "toastNoMatchFound": "Kein passender Termin gefunden",
+  "toastAppointmentCancelled": "Termin storniert",
+  "toastAppointmentCancelledByDoctor": "Termin vom Arzt abgesagt",
+  "toastAppointmentCompleted": "Termin abgeschlossen"
 }
