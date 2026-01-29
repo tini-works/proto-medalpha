@@ -24,5 +24,18 @@
   "categoryNutrition": "NUTRITION",
   "categoryMentalHealth": "MENTAL HEALTH",
   "categoryFitness": "FITNESS",
-  "categoryGeneral": "GENERAL"
+  "categoryGeneral": "GENERAL",
+  "common": {
+    "goBack": "Go back"
+  },
+  "article": {
+    "notFound": "Article not found",
+    "textSizeAria": "Text size",
+    "saveAria": "Save article",
+    "keyTakeaway": "Key takeaway",
+    "relatedTopics": "Related topics",
+    "share": "Share",
+    "save": "Save",
+    "saved": "Saved"
+  }
 }

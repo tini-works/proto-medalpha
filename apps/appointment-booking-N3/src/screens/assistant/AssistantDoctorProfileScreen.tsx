@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Avatar, Header, Page, Pill, Rating } from '../../components'
 import { Button } from '../../components/ui'
 import { apiGetDoctor, getTimeSlots } from '../../data'
@@ -8,18 +9,19 @@ import { useBooking } from '../../state'
 import type { Doctor, TimeSlot } from '../../types'
 import { TimeSlotButton } from '../../components/forms/TimeSlotButton'
 
-function getSlotLabel(slot: TimeSlot) {
+function getSlotLabel(slot: TimeSlot, opts: { t: (key: string, options?: any) => string; language: string }) {
   const today = new Date()
   const slotDate = new Date(slot.dateISO)
   const diffDays = Math.ceil((slotDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-  if (diffDays === 0) return 'Today'
-  if (diffDays === 1) return 'Tomorrow'
-  return slotDate.toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' })
+  if (diffDays === 0) return opts.t('today')
+  if (diffDays === 1) return opts.t('tomorrow')
+  return slotDate.toLocaleDateString(opts.language === 'de' ? 'de-DE' : 'en-US', { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
 export default function AssistantDoctorProfileScreen() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
+  const { t, i18n } = useTranslation('booking')
   const { selectedDoctor, selectDoctor, selectSlot } = useBooking()
   const [doctor, setDoctor] = useState<Doctor | null>(selectedDoctor)
   const [loading, setLoading] = useState(!selectedDoctor)
@@ -51,7 +53,7 @@ export default function AssistantDoctorProfileScreen() {
   if (loading || !doctor) {
     return (
       <Page safeBottom={false}>
-        <Header title="Doctor profile" showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
+        <Header title={t('doctorProfile')} showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
         <div className="p-4">
           <div className="h-48 bg-cream-200 rounded-lg animate-pulse" />
         </div>
@@ -61,7 +63,7 @@ export default function AssistantDoctorProfileScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Doctor profile" showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
+      <Header title={t('doctorProfile')} showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
 
       <div className="px-4 py-4 space-y-6 pb-32">
         <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm">
@@ -96,15 +98,15 @@ export default function AssistantDoctorProfileScreen() {
 
         <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-charcoal-500">Available slots</h3>
-            <span className="text-xs text-slate-500">Next 3 days</span>
+            <h3 className="text-sm font-semibold text-charcoal-500">{t('assistant.availableSlots')}</h3>
+            <span className="text-xs text-slate-500">{t('assistant.next3Days')}</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
             {slots.map((slot) => (
               <TimeSlotButton
                 key={`${slot.dateISO}-${slot.time}`}
                 time={slot.time}
-                subtitle={getSlotLabel(slot)}
+                subtitle={getSlotLabel(slot, { t, language: i18n.language })}
                 selected={pickedSlot?.dateISO === slot.dateISO && pickedSlot?.time === slot.time}
                 onClick={() => setPickedSlot(slot)}
               />
@@ -128,7 +130,7 @@ export default function AssistantDoctorProfileScreen() {
               navigate(PATHS.ASSISTANT_CONFIRM)
             }}
           >
-            Continue
+            {t('continueBtn')}
           </Button>
         </div>
       </div>

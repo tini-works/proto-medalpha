@@ -40,7 +40,7 @@ Enable MedAlpha users to search for, compare, and book in-person doctor appointm
 
 | Persona | Priority | Key Need |
 |---------|----------|----------|
-| Sarah (34) | Primary | Book for self and children quickly during lunch break; <2 min completion |
+| Sarah (34) | Primary | Book for self and children quickly during lunch break; &lt;2 min completion |
 | Marc (42) | Primary | Find preventive check-ups; efficiency; no wasted time |
 | Helga (68) | Secondary | Simple flow; clear confirmations; easy to understand |
 | Thomas (51) | Secondary | Transparent pricing; clear what's covered by insurance |
@@ -213,8 +213,8 @@ Entry Point
 
 | Category | Requirement |
 |----------|-------------|
-| Performance | Search results load in <2 seconds on 3G |
-| Performance | Booking confirmation completes in <3 seconds |
+| Performance | Search results load in &lt;2 seconds on 3G |
+| Performance | Booking confirmation completes in &lt;3 seconds |
 | Availability | 99.5% uptime for booking API |
 | Accessibility | WCAG 2.1 AA compliance |
 | Localization | German (primary), English (launch), 14 languages (roadmap) |
@@ -251,7 +251,7 @@ Entry Point
 | Metric | Target | Measurement |
 |--------|--------|-------------|
 | Booking completion rate | >60% | (Bookings / Search sessions) |
-| Time to book | <2 minutes | From search to confirmation |
+| Time to book | &lt;2 minutes | From search to confirmation |
 | Booking show-up rate | >85% | (Attended / Booked) |
 | User satisfaction | >4.2/5 | Post-booking survey |
 | Repeat booking rate | >40% | Users who book again within 90 days |

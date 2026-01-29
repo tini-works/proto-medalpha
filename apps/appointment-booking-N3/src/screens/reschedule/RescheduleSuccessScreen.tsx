@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { IconCheck, IconCalendar, IconMapPin } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { Page, Avatar, Rating } from '../../components'
 import { Button } from '../../components/ui'
 import { getDoctorById } from '../../data'
@@ -16,6 +17,7 @@ export default function RescheduleSuccessScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const state = location.state as LocationState | undefined
+  const { t, i18n } = useTranslation(['appointments', 'booking'])
 
   const [showCheckmark, setShowCheckmark] = useState(false)
 
@@ -30,11 +32,16 @@ export default function RescheduleSuccessScreen() {
   const doctor = appointment ? getDoctorById(appointment.doctorId) : undefined
 
   const appointmentLabel = (() => {
-    if (!appointment) return 'Tomorrow, 10:00 AM'
+    if (!appointment) return t('reschedule.success.fallbackAppointmentLabel', { ns: 'appointments' })
     const today = new Date()
     const date = new Date(appointment.dateISO)
     const diffDays = Math.ceil((date.getTime() - new Date(today.toDateString()).getTime()) / (1000 * 60 * 60 * 24))
-    const dayLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'long' })
+    const dayLabel =
+      diffDays === 0
+        ? t('today', { ns: 'booking' })
+        : diffDays === 1
+          ? t('tomorrow', { ns: 'booking' })
+          : date.toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US', { weekday: 'long' })
     return `${dayLabel}, ${appointment.time}`
   })()
 
@@ -54,9 +61,9 @@ VERSION:2.0
 BEGIN:VEVENT
 DTSTART:${formatICSDate(startDate)}
 DTEND:${formatICSDate(endDate)}
-SUMMARY:Appointment: ${appointment.doctorName} (${appointment.specialty})
+SUMMARY:${t('reschedule.calendar.summary', { ns: 'appointments', doctorName: appointment.doctorName, specialty: appointment.specialty })}
 LOCATION:Marktplatz 5, 10178 Berlin
-DESCRIPTION:Confirmation: ${confirmationNumber}
+DESCRIPTION:${t('reschedule.calendar.confirmation', { ns: 'appointments', confirmationNumber })}
 END:VEVENT
 END:VCALENDAR`
 
@@ -96,11 +103,11 @@ END:VCALENDAR`
           </div>
 
           <h1 className="text-2xl font-bold text-neutral-900 mb-2">
-            Appointment Rescheduled
+            {t('reschedule.success.title', { ns: 'appointments' })}
           </h1>
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mt-4 text-left">
             <p className="text-sm text-slate-700">
-              An updated confirmation has been sent via email and push notification.
+              {t('reschedule.success.subtitle', { ns: 'appointments' })}
             </p>
           </div>
         </div>
@@ -128,9 +135,9 @@ END:VCALENDAR`
                 <IconCalendar className="w-5 h-5" stroke={2} />
               </div>
               <div>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Date &amp; Time</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wide">{t('dateTime', { ns: 'booking' })}</p>
                 <p className="text-sm font-semibold text-charcoal-500">{appointmentLabel}</p>
-                <p className="text-xs text-slate-500 mt-1">30 min consultation</p>
+                <p className="text-xs text-slate-500 mt-1">{t('consultation30Min', { ns: 'booking' })}</p>
               </div>
             </div>
 
@@ -139,7 +146,7 @@ END:VCALENDAR`
                 <IconMapPin className="w-5 h-5" stroke={2} />
               </div>
               <div>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wide">Location</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wide">{t('appointmentLocation', { ns: 'booking' })}</p>
                 <p className="text-sm font-semibold text-charcoal-500">{doctor?.city || 'Charité Campus Mitte'}</p>
                 <p className="text-xs text-slate-500 mt-1">{doctor?.address || 'Charitéplatz 1, 10117 Berlin'}</p>
               </div>
@@ -147,7 +154,7 @@ END:VCALENDAR`
           </div>
 
           <div className="mt-4 pt-4 border-t border-cream-200">
-            <p className="text-sm text-slate-500">Confirmation Number</p>
+            <p className="text-sm text-slate-500">{t('reschedule.success.confirmationNumber', { ns: 'appointments' })}</p>
             <p className="font-mono font-semibold text-charcoal-500">{confirmationNumber}</p>
           </div>
         </div>
@@ -161,7 +168,7 @@ END:VCALENDAR`
             fullWidth
           >
             <IconCalendar className="w-5 h-5 mr-2" stroke={2} />
-            Update Calendar
+            {t('addToCalendar', { ns: 'booking' })}
           </Button>
 
           <Button
@@ -171,7 +178,7 @@ END:VCALENDAR`
             fullWidth
           >
             <IconMapPin className="w-5 h-5 mr-2" stroke={2} />
-            Get Direction
+            {t('getDirections', { ns: 'booking' })}
           </Button>
         </div>
         </div>
@@ -180,10 +187,10 @@ END:VCALENDAR`
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md space-y-3">
           <Button onClick={() => navigate(PATHS.HISTORY)} variant="primary" size="lg" fullWidth>
-            View appointments
+            {t('viewAppointments', { ns: 'booking' })}
           </Button>
           <Button onClick={() => navigate(PATHS.HOME)} variant="tertiary" size="md" fullWidth>
-            Back to Home
+            {t('backToHome', { ns: 'booking' })}
           </Button>
         </div>
       </div>

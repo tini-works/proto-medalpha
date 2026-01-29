@@ -9,22 +9,6 @@ import type { SavedLocation } from '../../components/display/SavedLocations'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 
-// Mock saved locations - in a real app, these would come from user profile/state
-const mockSavedLocations: SavedLocation[] = [
-  {
-    id: 'home',
-    name: 'Home',
-    address: 'Musterstrasse 123, 10115 Berlin',
-    icon: 'home',
-  },
-  {
-    id: 'work',
-    name: 'Work',
-    address: 'Alexanderplatz 1, 10178 Berlin',
-    icon: 'work',
-  },
-]
-
 export default function LocationScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
@@ -40,6 +24,25 @@ export default function LocationScreen() {
   const [urgency, setUrgency] = useState<'routine' | 'urgent'>(search?.urgency ?? 'routine')
   const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false)
   const hasAutoOpenedPicker = useRef(false)
+
+  // Mock saved locations - in a real app, these would come from user profile/state
+  const mockSavedLocations: SavedLocation[] = useMemo(
+    () => [
+      {
+        id: 'home',
+        name: t('savedLocationHome'),
+        address: 'Musterstrasse 123, 10115 Berlin',
+        icon: 'home',
+      },
+      {
+        id: 'work',
+        name: t('savedLocationWork'),
+        address: 'Alexanderplatz 1, 10178 Berlin',
+        icon: 'work',
+      },
+    ],
+    [t]
+  )
 
   useEffect(() => {
     if (search?.city) {

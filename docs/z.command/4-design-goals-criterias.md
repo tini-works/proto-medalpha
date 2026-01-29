@@ -122,13 +122,13 @@ Include **one-sentence summary**:
 **Example:**
 | Criterion | Type | Weight | Why Essential | How to Measure |
 |-----------|------|--------|---------------|----------------|
-| Speed | 🔴 Must-have | 5 | Hypothesis: 60s→5s | Target: <50ms |
+| Speed | 🔴 Must-have | 5 | Hypothesis: 60s→5s | Target: &lt;50ms |
 | Effort | 🟡 Should-have | 5 | Primary goal: Do it fast | Target: 2 taps |
 | Clarity | 🟡 Should-have | 4 | Users abandon if confused | 9/10 understand |
-| Implementation Complexity | 🔵 Feasibility | 4 | MVP: 1 week limit | Target: <5 story points |
+| Implementation Complexity | 🔵 Feasibility | 4 | MVP: 1 week limit | Target: &lt;5 story points |
 | Cost Efficiency | 🟣 Viability | 4 | MVP: No budget | Target: $0 incremental |
 
-**Summary:** "Prioritize Speed + Effort + Clarity constrained by <1 week build and $0 cost."
+**Summary:** "Prioritize Speed + Effort + Clarity constrained by &lt;1 week build and $0 cost."
 
 **Golden Rule:** "If missing, users (or business) pay the price."
 

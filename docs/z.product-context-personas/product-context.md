@@ -251,7 +251,7 @@ When testing features, evaluate against all five personas:
 
 | Dimension | Pass | Concern | Fail |
 |-----------|------|---------|------|
-| **Speed** | <2 min for booking | 2-5 min | >5 min |
+| **Speed** | &lt;2 min for booking | 2-5 min | >5 min |
 | **Family support** | Can book for children easily | Awkward workaround | Can't book for others |
 | **Multitasking** | Can complete while distracted | Need full attention | Too complex for busy moments |
 | **Remembered preferences** | Defaults to my choices | Some re-entry | Start from scratch each time |

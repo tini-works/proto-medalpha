@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IconCalendar, IconStar } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { Page, Header, EmptyState, Avatar } from '../../components'
 import { Button } from '../../components/ui'
 import { useReschedule, useBooking } from '../../state'
@@ -12,6 +13,7 @@ import type { SuggestedSlot } from '../../types'
 export default function SuggestedSlotsScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation('appointments')
 
   const { appointments } = useBooking()
   const { rescheduleContext, setRescheduleContext, setRescheduleNewSlot } = useReschedule()
@@ -60,14 +62,14 @@ export default function SuggestedSlotsScreen() {
   if (!appointment) {
     return (
       <Page>
-        <Header title="Reschedule" showBack />
+        <Header title={t('reschedule.title')} showBack />
         <div className="px-4 py-8 text-center">
-          <p className="text-slate-500">Appointment not found</p>
+          <p className="text-slate-500">{t('notFound')}</p>
           <button
             onClick={() => navigate(PATHS.HISTORY)}
             className="mt-4 text-teal-700 font-medium hover:underline"
           >
-            Back to appointments
+            {t('backToAppointments')}
           </button>
         </div>
       </Page>
@@ -89,21 +91,21 @@ export default function SuggestedSlotsScreen() {
   const reasonMeta = (slot: SuggestedSlot) => {
     switch (slot.reason) {
       case 'same_time':
-        return { tag: 'Recommended', note: 'Best match for your schedule', icon: 'star' }
+        return { tag: t('reschedule.suggestions.meta.recommended.tag'), note: t('reschedule.suggestions.meta.recommended.note'), icon: 'star' }
       case 'similar_time':
-        return { tag: '1 day earlier', note: 'Similar time of day', icon: 'calendar' }
+        return { tag: t('reschedule.suggestions.meta.oneDayEarlier.tag'), note: t('reschedule.suggestions.meta.oneDayEarlier.note'), icon: 'calendar' }
       case 'soonest':
-        return { tag: 'Next available', note: 'Morning slot', icon: 'clock' }
+        return { tag: t('reschedule.suggestions.meta.nextAvailable.tag'), note: t('reschedule.suggestions.meta.nextAvailable.note'), icon: 'clock' }
       case 'same_weekday':
-        return { tag: 'Next week', note: 'Afternoon availability', icon: 'refresh' }
+        return { tag: t('reschedule.suggestions.meta.nextWeek.tag'), note: t('reschedule.suggestions.meta.nextWeek.note'), icon: 'refresh' }
       default:
-        return { tag: 'Option', note: 'Available time', icon: 'calendar' }
+        return { tag: t('reschedule.suggestions.meta.option.tag'), note: t('reschedule.suggestions.meta.option.note'), icon: 'calendar' }
     }
   }
 
   return (
     <Page safeBottom={false}>
-      <Header title="Suggested Alternatives" subtitle="We found these times based on your previous preference." showBack />
+      <Header title={t('reschedule.suggestions.title')} subtitle={t('reschedule.suggestions.subtitle')} showBack />
 
       <div className="px-4 py-4 space-y-6 pb-28">
         {isLoading ? (
@@ -119,8 +121,8 @@ export default function SuggestedSlotsScreen() {
         ) : suggestedSlots.length === 0 ? (
           <EmptyState
             icon="calendar"
-            title="No slots available"
-            description="There are no alternative slots available at this time."
+            title={t('reschedule.suggestions.empty.title')}
+            description={t('reschedule.suggestions.empty.description')}
           />
         ) : (
           <>
@@ -129,14 +131,14 @@ export default function SuggestedSlotsScreen() {
               <div className="bg-white rounded-2xl border border-cream-400 p-4 space-y-3 shadow-sm">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold border border-teal-200">
                   <IconStar className="w-4 h-4" fill="currentColor" stroke={2} />
-                  Recommended
+                  {t('reschedule.suggestions.recommendedLabel')}
                 </div>
                 <div>
                   <p className="text-lg font-semibold text-charcoal-500">{formatSlotLabel(suggestedSlots[0])}</p>
-                  <p className="text-sm text-teal-700 font-medium">Best match for your schedule</p>
+                  <p className="text-sm text-teal-700 font-medium">{t('reschedule.suggestions.bestMatch')}</p>
                 </div>
                 <div className="text-xs text-slate-500 uppercase tracking-wide flex items-center gap-2">
-                  <span>Why this slot:</span>
+                  <span>{t('reschedule.suggestions.whyThisSlot')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Avatar name={appointment.doctorName} size="sm" />
@@ -148,7 +150,7 @@ export default function SuggestedSlotsScreen() {
                   size="md"
                   fullWidth
                 >
-                  Select Recommended Slot
+                  {t('reschedule.suggestions.selectRecommended')}
                 </Button>
               </div>
             )}
@@ -156,7 +158,7 @@ export default function SuggestedSlotsScreen() {
             {/* Other options */}
             {suggestedSlots.length > 1 && (
               <div className="space-y-3">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Other options</p>
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{t('reschedule.suggestions.otherOptions')}</p>
                 {suggestedSlots.slice(1).map((slot) => {
                   const meta = reasonMeta(slot)
                   return (
@@ -177,7 +179,7 @@ export default function SuggestedSlotsScreen() {
                         onClick={() => handleSelectSlot(slot)}
                         className="px-3 h-9 rounded-lg border border-cream-300 text-sm text-charcoal-500 hover:bg-cream-50"
                       >
-                        Select
+                        {t('reschedule.suggestions.select')}
                       </button>
                     </div>
                   )
@@ -186,7 +188,7 @@ export default function SuggestedSlotsScreen() {
             )}
 
             <div className="text-center text-sm text-slate-500 pt-4">
-              None of these work for you?
+              {t('reschedule.suggestions.noneWork')}
             </div>
           </>
         )}
@@ -195,7 +197,7 @@ export default function SuggestedSlotsScreen() {
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
           <Button onClick={handleViewAllSlots} variant="secondary" size="lg" fullWidth>
-            View all Availables
+            {t('reschedule.suggestions.viewAll')}
           </Button>
         </div>
       </div>

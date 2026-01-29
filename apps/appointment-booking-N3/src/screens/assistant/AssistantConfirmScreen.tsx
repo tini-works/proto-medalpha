@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Header, Page, Avatar, Rating } from '../../components'
 import { Button } from '../../components/ui'
 import { PATHS, appointmentDetailPath } from '../../routes'
@@ -7,33 +8,34 @@ import { useBooking, useHistory, useProfile } from '../../state'
 import { IconCalendar, IconMapPin, IconCheck, IconInfoCircle, IconChevronDown, IconPlus } from '@tabler/icons-react'
 import type { Appointment, HistoryItem } from '../../types'
 
-function formatDate(dateISO: string) {
+function formatDate(dateISO: string, locale: string) {
   const date = new Date(dateISO)
-  return date.toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' })
+  return date.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
 export default function AssistantConfirmScreen() {
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation('booking')
   const { selectedDoctor, selectedSlot, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
 
   const slotLabel = useMemo(() => {
     if (!selectedSlot) return ''
-    return `${formatDate(selectedSlot.dateISO)}, ${selectedSlot.time}`
-  }, [selectedSlot])
+    return `${formatDate(selectedSlot.dateISO, i18n.language === 'de' ? 'de-DE' : 'en-US')}, ${selectedSlot.time}`
+  }, [selectedSlot, i18n.language])
 
   if (!selectedDoctor || !selectedSlot) {
     return (
       <Page>
-        <Header title="Confirm booking" showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
+        <Header title={t('assistant.confirmBookingTitle')} showBack onBack={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} />
         <div className="px-4 py-6 space-y-4">
           <div className="bg-white rounded-2xl border border-cream-400 p-4">
-            <p className="font-semibold text-charcoal-500">Select a doctor and time first.</p>
-            <p className="text-sm text-slate-600 mt-2">Return to recommendations to pick a slot.</p>
+            <p className="font-semibold text-charcoal-500">{t('assistant.selectDoctorAndTimeFirst')}</p>
+            <p className="text-sm text-slate-600 mt-2">{t('assistant.returnToRecommendations')}</p>
           </div>
           <Button className="btn btn-primary btn-block" onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)} variant="primary" fullWidth>
-            Back to recommendations
+            {t('assistant.backToRecommendations')}
           </Button>
         </div>
       </Page>
@@ -42,7 +44,7 @@ export default function AssistantConfirmScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Confirm Booking" showBack onBack={() => navigate(PATHS.ASSISTANT_DOCTOR.replace(':id', selectedDoctor.id))} />
+      <Header title={t('assistant.confirmBookingTitle')} showBack onBack={() => navigate(PATHS.ASSISTANT_DOCTOR.replace(':id', selectedDoctor.id))} />
 
       <div className="px-4 py-4 space-y-4 pb-28">
         <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm">
@@ -50,7 +52,7 @@ export default function AssistantConfirmScreen() {
             <Avatar name={selectedDoctor.name} imageUrl={selectedDoctor.imageUrl} size="lg" />
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-charcoal-500">{selectedDoctor.name}</h2>
-              <p className="text-sm text-slate-500">{selectedDoctor.specialty} Specialist</p>
+              <p className="text-sm text-slate-500">{t('assistant.specialtyLabel', { specialty: selectedDoctor.specialty })}</p>
               <div className="mt-2">
                 <Rating value={selectedDoctor.rating} reviewCount={selectedDoctor.reviewCount} />
               </div>
@@ -63,9 +65,9 @@ export default function AssistantConfirmScreen() {
                 <IconCalendar className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide">Appointment time</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">{t('assistant.appointmentTime')}</p>
                 <p className="text-charcoal-500 font-semibold mt-1">{slotLabel}</p>
-                <p className="text-xs text-slate-500 mt-1">30 min consultation</p>
+                <p className="text-xs text-slate-500 mt-1">{t('consultation30Min')}</p>
               </div>
             </div>
 
@@ -74,7 +76,7 @@ export default function AssistantConfirmScreen() {
                 <IconMapPin className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide">Location</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">{t('appointmentLocation')}</p>
                 <p className="text-charcoal-500 font-semibold mt-1">{selectedDoctor.city}</p>
                 <p className="text-xs text-slate-500 mt-1">{selectedDoctor.address}</p>
               </div>
@@ -84,7 +86,7 @@ export default function AssistantConfirmScreen() {
 
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-charcoal-500">
-            <span>Cost &amp; Insurance</span>
+            <span>{t('costCoverage')}</span>
             <IconInfoCircle className="w-4 h-4 text-slate-400" />
           </div>
           <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex items-start gap-3">
@@ -92,26 +94,26 @@ export default function AssistantConfirmScreen() {
               <IconCheck className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-teal-700">Public insurance covered</p>
-              <p className="text-xs text-teal-700/70 mt-1">Publicly insured • No payment required now</p>
+              <p className="text-sm font-semibold text-teal-700">{t('assistant.publicInsuranceCovered')}</p>
+              <p className="text-xs text-teal-700/70 mt-1">{t('assistant.publicInsuranceNoPayment')}</p>
             </div>
           </div>
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-semibold text-charcoal-500">Booking for</p>
+          <p className="text-sm font-semibold text-charcoal-500">{t('assistant.bookingFor')}</p>
           <div className="bg-white rounded-2xl border border-cream-400 p-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center font-semibold text-sm">
                 {profile.fullName?.trim()?.[0] || 'M'}
               </div>
               <div>
-                <p className="text-sm font-semibold text-charcoal-500">{profile.fullName || 'Myself'}</p>
-                <p className="text-xs text-slate-500">Primary member</p>
+                <p className="text-sm font-semibold text-charcoal-500">{profile.fullName || t('assistant.myself')}</p>
+                <p className="text-xs text-slate-500">{t('assistant.primaryMember')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 text-sm text-teal-700 font-medium">
-              Change
+              {t('change')}
               <IconChevronDown className="w-4 h-4 text-slate-400" />
             </div>
           </div>
@@ -120,7 +122,7 @@ export default function AssistantConfirmScreen() {
         <div className="text-xs text-slate-500 flex items-start gap-2">
           <IconPlus className="w-4 h-4 text-teal-600 mt-0.5" />
           <p>
-            This slot was recommended based on your preference for morning appointments and insurance compatibility.
+            {t('assistant.recommendationHint')}
           </p>
         </div>
       </div>
@@ -144,7 +146,7 @@ export default function AssistantConfirmScreen() {
                 dateISO: selectedSlot.dateISO,
                 time: selectedSlot.time,
                 forUserId: profile.id || 'self',
-                forUserName: profile.fullName || 'You',
+                forUserName: profile.fullName || t('assistant.you'),
                 status: 'confirmed',
                 reminderSet: true,
                 calendarSynced: false,
@@ -168,7 +170,7 @@ export default function AssistantConfirmScreen() {
               navigate(appointmentDetailPath(appointmentId), { replace: true })
             }}
           >
-            Confirm booking →
+            {t('assistant.confirmBookingCta')} →
           </Button>
         </div>
       </div>

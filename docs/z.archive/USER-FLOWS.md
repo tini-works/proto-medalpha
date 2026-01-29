@@ -689,9 +689,9 @@ Note: Metrics and targets are derived assumptions for planning, except the telem
 
 | Flow | Primary Metric | Target | Fallback Metric |
 |------|----------------|--------|-----------------|
-| Registration | Completion rate | >90% | Time to complete <1 min |
+| Registration | Completion rate | >90% | Time to complete &lt;1 min |
 | Profile | Profile completion rate | >80% | Insurance verification success |
-| Booking | Booking completion rate | >60% | Time to book <2 min |
+| Booking | Booking completion rate | >60% | Time to book &lt;2 min |
 | Telemedicine | Session completion rate | >85% | Video setup success >95% |
 | Online Rx | Redemption rate | >70% | NFC scan success >85% |
 | Offline Rx | Store selection rate | >60% | Directions opened >50% |

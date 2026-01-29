@@ -24,5 +24,18 @@
   "categoryNutrition": "ERNÄHRUNG",
   "categoryMentalHealth": "PSYCHISCHE GESUNDHEIT",
   "categoryFitness": "FITNESS",
-  "categoryGeneral": "ALLGEMEIN"
+  "categoryGeneral": "ALLGEMEIN",
+  "common": {
+    "goBack": "Zurück"
+  },
+  "article": {
+    "notFound": "Artikel nicht gefunden",
+    "textSizeAria": "Textgröße",
+    "saveAria": "Artikel speichern",
+    "keyTakeaway": "Kernaussage",
+    "relatedTopics": "Verwandte Themen",
+    "share": "Teilen",
+    "save": "Speichern",
+    "saved": "Gespeichert"
+  }
 }

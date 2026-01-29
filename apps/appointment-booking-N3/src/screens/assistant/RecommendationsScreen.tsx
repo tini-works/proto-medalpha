@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { DoctorCard, Header, Page, Pill, ProgressIndicator } from '../../components'
 import { doctors, getTimeSlots } from '../../data'
 import { assistantDoctorPath, PATHS } from '../../routes'
@@ -9,6 +10,7 @@ import { IconInfoCircle } from '@tabler/icons-react'
 
 export default function RecommendationsScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
   const { search, selectDoctor, selectSlot } = useBooking()
 
   const recommendedDoctors = useMemo(() => doctors.slice(0, 3), [])
@@ -21,8 +23,8 @@ export default function RecommendationsScreen() {
 
   const requestSummary =
     search?.specialty && search?.city
-      ? `Looking for a ${search.specialty.toLowerCase()} near ${search.city}.`
-      : 'Looking for a dermatologist near Berlin who accepts public insurance.'
+      ? t('assistant.requestSummary', { specialty: search.specialty, city: search.city })
+      : t('assistant.requestSummaryDefault')
 
   const handleSelectDoctor = (doctor: Doctor) => {
     selectDoctor(doctor)
@@ -37,26 +39,26 @@ export default function RecommendationsScreen() {
 
   return (
     <Page>
-      <Header title="Recommendations" showBack onBack={() => navigate(PATHS.ASSISTANT_VOICE)} />
+      <Header title={t('assistant.recommendationsTitle')} showBack onBack={() => navigate(PATHS.ASSISTANT_VOICE)} />
 
       <div className="px-4 py-4 space-y-5">
         <div className="bg-white rounded-2xl border border-cream-400 p-4 shadow-sm space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold tracking-wide text-slate-600">STEP 1 OF 3</span>
-            <span className="text-xs text-slate-500">Voice request</span>
+            <span className="text-xs font-semibold tracking-wide text-slate-600">{t('assistant.step1Of3')}</span>
+            <span className="text-xs text-slate-500">{t('assistant.voiceRequest')}</span>
           </div>
           <ProgressIndicator currentStep={1} totalSteps={3} variant="bar" showLabel={false} showPercentage={false} />
           <p className="text-sm text-charcoal-500">{requestSummary}</p>
           <div className="flex flex-wrap gap-2">
-            <Pill tone="info">Berlin +10 km</Pill>
-            <Pill tone="neutral">Public insurance</Pill>
-            <Pill tone="neutral">This week</Pill>
+            <Pill tone="info">{t('assistant.pills.locationRadius')}</Pill>
+            <Pill tone="neutral">{t('assistant.pills.publicInsurance')}</Pill>
+            <Pill tone="neutral">{t('assistant.pills.thisWeek')}</Pill>
           </div>
         </div>
 
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-charcoal-500">Top matches</h2>
-          <span className="text-xs text-slate-500">{recommendedDoctors.length} results</span>
+          <h2 className="text-base font-semibold text-charcoal-500">{t('assistant.topMatches')}</h2>
+          <span className="text-xs text-slate-500">{t('assistant.resultsCount', { count: recommendedDoctors.length })}</span>
         </div>
 
         <div className="space-y-3">
@@ -64,7 +66,7 @@ export default function RecommendationsScreen() {
             <div key={doctor.id} className="relative">
               {index === 0 && (
                 <span className="absolute -top-2 left-4 z-10 px-2 py-1 rounded-full bg-charcoal-500 text-white text-[10px] font-semibold tracking-wide">
-                  Top match
+                  {t('assistant.topMatch')}
                 </span>
               )}
               <DoctorCard
@@ -79,9 +81,7 @@ export default function RecommendationsScreen() {
 
         <div className="bg-cream-50 border border-cream-300 rounded-xl p-3 text-xs text-slate-600 flex items-start gap-2">
           <IconInfoCircle className="w-4 h-4 text-teal-600 mt-0.5" />
-          <p>
-            Recommendations are ranked by availability, location fit, and insurance match. You can refine later.
-          </p>
+          <p>{t('assistant.recommendationsHint')}</p>
         </div>
       </div>
     </Page>

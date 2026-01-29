@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { IconX, IconCheck, IconAlertCircle, IconArrowDown } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { Page, Header } from '../../components'
 import { Button } from '../../components/ui'
 import { useReschedule, useBooking } from '../../state'
@@ -12,6 +13,7 @@ export default function RescheduleConfirmScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const location = useLocation()
+  const { t } = useTranslation(['appointments', 'booking'])
   const origin = (location.state as any)?.origin as 'suggestions' | 'calendar' | undefined
 
   const { rescheduleContext, setRescheduleContext } = useReschedule()
@@ -36,15 +38,15 @@ export default function RescheduleConfirmScreen() {
   if (!rescheduleContext || !rescheduleContext.selectedNewSlot) {
     return (
       <Page>
-        <Header title="Confirm Reschedule" showBack />
+        <Header title={t('reschedule.confirm.title', { ns: 'appointments' })} showBack />
         <div className="px-4 py-8 text-center">
-          <p className="text-slate-500">No slot selected</p>
+          <p className="text-slate-500">{t('reschedule.confirm.noSlotSelected', { ns: 'appointments' })}</p>
           <Button
             variant="link"
             className="mt-4"
             onClick={() => navigate(id ? reschedulePath(id) : PATHS.HISTORY)}
           >
-            Back to slot selection
+            {t('reschedule.confirm.backToSlotSelection', { ns: 'appointments' })}
           </Button>
         </div>
       </Page>
@@ -93,7 +95,7 @@ export default function RescheduleConfirmScreen() {
         })
       }
     } catch (err) {
-      setError('This time slot is no longer available. Please select another time.')
+      setError(t('reschedule.confirm.errors.slotUnavailable', { ns: 'appointments' }))
       // Return to origin selection screen (best-effort)
       if (origin === 'calendar' && id) {
         navigate(reschedulePath(id))
@@ -117,7 +119,7 @@ export default function RescheduleConfirmScreen() {
           </div>
 
           <div className="flex items-center justify-between px-4 pb-4">
-            <Header title="Confirm Reschedule" showBack onBack={handleCancel} />
+            <Header title={t('reschedule.confirm.title', { ns: 'appointments' })} showBack onBack={handleCancel} />
           </div>
 
           <div className="flex-1 overflow-y-auto px-4 pb-6 space-y-6">
@@ -130,11 +132,11 @@ export default function RescheduleConfirmScreen() {
                     <IconX className="w-4 h-4 text-coral-700" stroke={2} />
                   </div>
                   <div>
-                    <p className="text-sm text-coral-700 font-medium mb-1">Previous Appointment</p>
+                    <p className="text-sm text-coral-700 font-medium mb-1">{t('reschedule.confirm.previousAppointment', { ns: 'appointments' })}</p>
                     <p className="font-semibold text-charcoal-500">
-                      {formatDateWithWeekday(originalAppointment.dateISO)} at {formatTime(originalAppointment.time)}
+                      {t('reschedule.confirm.dateAtTime', { ns: 'appointments', date: formatDateWithWeekday(originalAppointment.dateISO), time: formatTime(originalAppointment.time) })}
                     </p>
-                    <p className="text-sm text-slate-500 mt-1">Will be cancelled</p>
+                    <p className="text-sm text-slate-500 mt-1">{t('reschedule.confirm.willBeCancelled', { ns: 'appointments' })}</p>
                   </div>
                 </div>
               </div>
@@ -153,11 +155,11 @@ export default function RescheduleConfirmScreen() {
                     <IconCheck className="w-4 h-4 text-teal-600" stroke={2} />
                   </div>
                   <div>
-                    <p className="text-sm text-teal-600 font-medium mb-1">New Appointment</p>
+                    <p className="text-sm text-teal-600 font-medium mb-1">{t('reschedule.confirm.newAppointment', { ns: 'appointments' })}</p>
                     <p className="font-semibold text-charcoal-500">
-                      {formatDateWithWeekday(selectedNewSlot.dateISO)} at {formatTime(selectedNewSlot.time)}
+                      {t('reschedule.confirm.dateAtTime', { ns: 'appointments', date: formatDateWithWeekday(selectedNewSlot.dateISO), time: formatTime(selectedNewSlot.time) })}
                     </p>
-                    <p className="text-sm text-slate-500 mt-1">Will be booked</p>
+                    <p className="text-sm text-slate-500 mt-1">{t('reschedule.confirm.willBeBooked', { ns: 'appointments' })}</p>
                   </div>
                 </div>
               </div>
@@ -166,17 +168,17 @@ export default function RescheduleConfirmScreen() {
             {/* Appointment Details */}
             <div className="bg-white rounded-xl border border-cream-400 divide-y divide-cream-200">
               <div className="p-4">
-                <p className="text-sm text-slate-500 mb-1">Doctor</p>
+                <p className="text-sm text-slate-500 mb-1">{t('reschedule.confirm.doctor', { ns: 'appointments' })}</p>
                 <p className="font-medium text-charcoal-500">{originalAppointment.doctorName}</p>
                 <p className="text-sm text-slate-600">{originalAppointment.specialty}</p>
               </div>
               <div className="p-4">
-                <p className="text-sm text-slate-500 mb-1">Location</p>
+                <p className="text-sm text-slate-500 mb-1">{t('reschedule.confirm.location', { ns: 'appointments' })}</p>
                 <p className="font-medium text-charcoal-500">Marktplatz 5, 10178 Berlin</p>
               </div>
               {originalAppointment.forUserName && (
                 <div className="p-4">
-                  <p className="text-sm text-slate-500 mb-1">Patient</p>
+                  <p className="text-sm text-slate-500 mb-1">{t('reschedule.confirm.patient', { ns: 'appointments' })}</p>
                   <p className="font-medium text-charcoal-500">{originalAppointment.forUserName}</p>
                 </div>
               )}
@@ -187,7 +189,7 @@ export default function RescheduleConfirmScreen() {
               <div className="flex gap-3">
                 <IconAlertCircle className="w-5 h-5 text-slate-600 flex-shrink-0 mt-0.5" stroke={2} />
                 <p className="text-sm text-slate-700">
-                  Your previous appointment will only be cancelled after the new appointment is confirmed.
+                  {t('reschedule.confirm.safetyNote', { ns: 'appointments' })}
                 </p>
               </div>
             </div>
@@ -211,7 +213,7 @@ export default function RescheduleConfirmScreen() {
                 fullWidth
                 loading={isSubmitting}
               >
-                {isOnline ? 'Reschedule Appointment' : 'Offline'}
+                {isOnline ? t('reschedule.confirm.submit', { ns: 'appointments' }) : t('offline', { ns: 'booking' })}
               </Button>
 
               <Button
@@ -221,7 +223,7 @@ export default function RescheduleConfirmScreen() {
                 size="md"
                 fullWidth
               >
-                Keep Current Appointment
+                {t('reschedule.confirm.keepCurrent', { ns: 'appointments' })}
               </Button>
             </div>
           </div>

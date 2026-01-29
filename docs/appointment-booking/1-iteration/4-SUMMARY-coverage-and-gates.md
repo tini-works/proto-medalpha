@@ -35,7 +35,7 @@ This file summarizes three documents:
 
 ### Non-functional requirements (V1)
 
-- Performance: search results <2s on 3G; booking confirmation <3s
+- Performance: search results &lt;2s on 3G; booking confirmation &lt;3s
 - Availability: 99.5% uptime for booking API
 - Accessibility: WCAG 2.1 AA
 - Localization: German primary; English at launch; 14-language roadmap

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { X } from 'tabler-icons-react'
+import { useTranslation } from 'react-i18next'
 import { Field, Select } from './index'
 import type { FamilyMember, InsuranceType } from '../../types'
 
@@ -10,6 +11,8 @@ interface EditFamilyMemberSheetProps {
 }
 
 export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMemberSheetProps) {
+  const { t } = useTranslation('profile')
+
   // Form state for basic fields
   const [formData, setFormData] = useState({
     name: member.name,
@@ -49,15 +52,15 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
     const newErrors: Record<string, string> = {}
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required'
+      newErrors.name = t('validation.nameRequired')
     }
 
     if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = 'Date of birth is required'
+      newErrors.dateOfBirth = t('validation.dateOfBirthRequired')
     }
 
     if (!formData.relationship) {
-      newErrors.relationship = 'Relationship is required'
+      newErrors.relationship = t('validation.relationshipRequired')
     }
 
     setErrors(newErrors)
@@ -99,11 +102,11 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
       <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-cream-300 px-4 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-charcoal-500">Edit Member</h2>
+          <h2 className="text-lg font-semibold text-charcoal-500">{t('detail.edit')}</h2>
           <button
             onClick={onClose}
             className="text-slate-400 hover:text-slate-500 transition-colors"
-            aria-label="Close"
+            aria-label={t('common.close')}
           >
             <X size="24" stroke="2" />
           </button>
@@ -113,20 +116,20 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
         <form onSubmit={handleSubmit} className="px-4 py-6 space-y-4 pb-24">
           {/* Basic information section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-charcoal-500 text-sm">Basic Information</h3>
+            <h3 className="font-semibold text-charcoal-500 text-sm">{t('detail.basicInfo')}</h3>
 
             <Field
-              label="Full Name"
+              label={t('fullName.label')}
               type="text"
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
-              placeholder="Enter full name"
+              placeholder={t('fullName.placeholder')}
               error={errors.name}
               required
             />
 
             <Field
-              label="Date of Birth"
+              label={t('detail.dateOfBirth')}
               type="date"
               value={formData.dateOfBirth}
               onChange={(e) => handleChange('dateOfBirth', e.target.value)}
@@ -135,62 +138,64 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
             />
 
             <Select
-              label="Relationship"
+              label={t('detail.relationshipLabel')}
               value={formData.relationship}
               onChange={(e) => handleChange('relationship', e.target.value)}
               options={[
-                { value: 'child', label: 'Child' },
-                { value: 'spouse', label: 'Spouse' },
-                { value: 'parent', label: 'Parent' },
-                { value: 'other', label: 'Other' },
+                { value: 'child', label: t('relationship.child') },
+                { value: 'spouse', label: t('relationship.spouse') },
+                { value: 'parent', label: t('relationship.parent') },
+                { value: 'other', label: t('relationship.other') },
               ]}
-              placeholder="Select relationship"
+              placeholder={t('family.form.relationshipPlaceholder')}
               error={errors.relationship}
               required
             />
 
             <Select
-              label="Insurance Type (optional)"
+              label={t('family.form.insuranceType')}
               value={formData.insuranceType}
               onChange={(e) => handleChange('insuranceType', e.target.value)}
               options={[
-                { value: 'GKV', label: 'GKV (Statutory)' },
-                { value: 'PKV', label: 'PKV (Private)' },
+                { value: 'GKV', label: t('insurance.gkv') },
+                { value: 'PKV', label: t('insurance.pkv') },
               ]}
-              placeholder="Same as primary account"
+              placeholder={t('family.form.insurancePlaceholder')}
             />
 
             <Field
-              label="eGK Number (optional)"
+              label={`${t('egkNumber.label')} (${t('common.optional')})`}
               type="text"
               value={formData.egkNumber}
               onChange={(e) => handleChange('egkNumber', e.target.value)}
-              placeholder="Insurance card number"
+              placeholder={t('egkNumber.placeholder')}
             />
           </div>
 
           {/* Emergency contact section */}
           <div className="space-y-4 pt-4 border-t border-cream-300">
-            <h3 className="font-semibold text-charcoal-500 text-sm">Emergency Contact (optional)</h3>
+            <h3 className="font-semibold text-charcoal-500 text-sm">
+              {t('detail.emergencyContact')} ({t('common.optional')})
+            </h3>
 
             <Field
-              label="Name"
+              label={t('detail.emergency.name')}
               type="text"
               value={emergencyContact.name}
               onChange={(e) => handleEmergencyContactChange('name', e.target.value)}
-              placeholder="Contact name"
+              placeholder={t('detail.emergencyPlaceholders.name')}
             />
 
             <Field
-              label="Relationship"
+              label={t('detail.emergency.relationship')}
               type="text"
               value={emergencyContact.relationship}
               onChange={(e) => handleEmergencyContactChange('relationship', e.target.value)}
-              placeholder="e.g. Parent, Sibling, Friend"
+              placeholder={t('detail.emergencyPlaceholders.relationship')}
             />
 
             <Field
-              label="Phone Number"
+              label={t('detail.emergency.phone')}
               type="tel"
               value={emergencyContact.phone}
               onChange={(e) => handleEmergencyContactChange('phone', e.target.value)}
@@ -200,15 +205,17 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
 
           {/* Medical notes section */}
           <div className="space-y-4 pt-4 border-t border-cream-300">
-            <h3 className="font-semibold text-charcoal-500 text-sm">Medical Notes (optional)</h3>
+            <h3 className="font-semibold text-charcoal-500 text-sm">
+              {t('detail.medicalNotes')} ({t('common.optional')})
+            </h3>
             <div>
               <label className="block text-sm font-medium text-charcoal-500 mb-2">
-                Allergies, conditions, or other notes
+                {t('detail.medicalNotesLabel')}
               </label>
               <textarea
                 value={medicalNotes}
                 onChange={(e) => setMedicalNotes(e.target.value)}
-                placeholder="e.g. Penicillin allergy, asthma..."
+                placeholder={t('detail.medicalNotesPlaceholder')}
                 className="w-full px-3 py-2 border border-cream-400 rounded-lg text-charcoal-500 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 rows={4}
               />
@@ -222,13 +229,13 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
             onClick={handleSubmit}
             className="w-full py-3 px-4 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 transition-colors"
           >
-            Save Changes
+            {t('edit.submit')}
           </button>
           <button
             onClick={onClose}
             className="w-full py-3 px-4 border border-cream-400 text-slate-500 font-medium rounded-lg hover:bg-cream-100 transition-colors"
           >
-            Cancel
+            {t('family.form.cancel')}
           </button>
         </div>
       </div>

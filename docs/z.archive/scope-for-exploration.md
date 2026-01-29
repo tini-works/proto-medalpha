@@ -48,7 +48,7 @@ Gate core features behind a complete profile to ensure compliance (GDPR, insuran
 
 | User Story | Acceptance Criteria |
 |------------|---------------------|
-| As a new user (e.g., Elena), I want to register quickly via email/phone so that I can access the app without barriers. | - Registration form includes name, email/phone, password<br>- Email/SMS verification required<br>- Error handling for invalid inputs<br>- Process takes <1 minute<br>- Supports SSO handoff from dm retail login |
+| As a new user (e.g., Elena), I want to register quickly via email/phone so that I can access the app without barriers. | - Registration form includes name, email/phone, password<br>- Email/SMS verification required<br>- Error handling for invalid inputs<br>- Process takes &lt;1 minute<br>- Supports SSO handoff from dm retail login |
 | As a registered user (e.g., Helga), I want to complete/edit my profile with insurance details so that I can unlock booking and redemption features. | - Profile fields: Insurance type (GKV/PKV), eGK details, address<br>- Mandatory for core features<br>- Large text/high contrast for accessibility <!-- UPDATED --><br>- Privacy policy link visible<br>- Save action shows success message |
 | As a family manager (e.g., Sarah), I want to manage multiple family profiles (incl. children) so that I can coordinate healthcare for dependents. | - Add/switch family members (incl. minors)<br>- Link to primary insurance<br>- View/edit per profile<br>- Compliance check for data sharing consent <!-- UPDATED --> |
 

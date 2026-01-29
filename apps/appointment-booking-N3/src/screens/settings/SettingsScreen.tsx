@@ -196,7 +196,7 @@ export default function SettingsScreen() {
         </div>
 
         {/* Version */}
-        <p className="text-center text-sm text-slate-400">DocliQ N3 v1.0.0</p>
+        <p className="text-center text-sm text-slate-400">{t('version')}</p>
       </div>
 
       <TabBar />

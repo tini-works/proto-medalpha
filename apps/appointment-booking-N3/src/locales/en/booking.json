@@ -242,6 +242,7 @@
   "step1Of4": "STEP 1 OF 4",
   "allSpecialties": "All",
   "describeSymptoms": "Describe Your Symptoms",
+  "fastLaneSymptomInstruction": "Share a quick summary of your symptoms so we can match you with the right care.",
   "whatBringsYouIn": "What brings you in today?",
   "selectAllThatApply": "Select all that apply",
   "additionalDetails": "Additional Details",
@@ -262,5 +263,114 @@
   "toastNoMatchFound": "No match found",
   "toastAppointmentCancelled": "Appointment cancelled",
   "toastAppointmentCancelledByDoctor": "Appointment cancelled by doctor",
-  "toastAppointmentCompleted": "Appointment completed"
+  "toastAppointmentCompleted": "Appointment completed",
+
+  "savedLocations": "Saved locations",
+  "savedLocationHome": "Home",
+  "savedLocationWork": "Work",
+  "useCurrentLocation": "Use current location",
+  "orEnterSpecificAddress": "Or enter a specific address",
+  "addressInputPlaceholder": "Enter street, city, or postal code...",
+  "mapPreview": "Map preview",
+
+  "sampleReviewText": "“Clear communication and professional care. Appointment started on time.”",
+  "noAppointmentData": "No appointment data found.",
+  "child": "Child",
+
+  "assistant": {
+    "availableSlots": "Available slots",
+    "next3Days": "Next 3 days",
+    "confirmBookingTitle": "Confirm booking",
+    "selectDoctorAndTimeFirst": "Select a doctor and time first.",
+    "returnToRecommendations": "Return to recommendations to pick a slot.",
+    "backToRecommendations": "Back to recommendations",
+    "specialtyLabel": "{{specialty}} specialist",
+    "appointmentTime": "Appointment time",
+    "publicInsuranceCovered": "Public insurance covered",
+    "publicInsuranceNoPayment": "Publicly insured • No payment required now",
+    "bookingFor": "Booking for",
+    "primaryMember": "Primary member",
+    "recommendationHint": "This slot was recommended based on your preference for morning appointments and insurance compatibility.",
+    "confirmBookingCta": "Confirm booking",
+    "you": "You",
+
+    "recommendationsTitle": "Recommendations",
+    "step1Of3": "STEP 1 OF 3",
+    "voiceRequest": "Voice request",
+    "requestSummary": "Looking for a {{specialty}} near {{city}}.",
+    "requestSummaryDefault": "Looking for a dermatologist near Berlin who accepts public insurance.",
+    "pills": {
+      "locationRadius": "Berlin +10 km",
+      "publicInsurance": "Public insurance",
+      "thisWeek": "This week"
+    },
+    "topMatches": "Top matches",
+    "resultsCount": "{{count}} results",
+    "topMatch": "Top match",
+    "recommendationsHint": "Recommendations are ranked by availability, location fit, and insurance match. You can refine later.",
+
+    "voice": {
+      "title": "Voice assistant",
+      "aiName": "MedAlpha AI",
+      "greeting": "How can I help you today? Describe your symptoms or concerns.",
+      "startVoiceInputAria": "Start voice input",
+      "listening": "Listening...",
+      "realtimeTranscript": "Real-time transcript",
+      "transcriptPrefix": "I'm looking for a",
+      "stop": "Stop",
+      "send": "Send",
+      "sampleTranscript": "I'm looking for a dermatol"
+    }
+  },
+
+  "bookAgain": {
+    "alternatives": {
+      "title": "Similar specialists",
+      "subtitle": "We found these times based on your previous preference.",
+      "empty": {
+        "title": "No alternatives found",
+        "description": "Try a new search to find more doctors.",
+        "action": "Search again"
+      },
+      "recommendedLabel": "Recommended",
+      "nextAvailable": "Next available",
+      "bestMatch": "Best match for your schedule",
+      "whyThisSlot": "Why this slot:",
+      "selectRecommended": "Select recommended slot",
+      "otherOptions": "Other options",
+      "tags": {
+        "oneDayEarlier": "1 day earlier",
+        "nextAvailable": "Next available",
+        "nextWeek": "Next week"
+      },
+      "select": "Select"
+    },
+    "context": {
+      "title": "Book again",
+      "subtitle": "Based on your appointment from {{date}}",
+      "timingHintTitle": "Timing hint",
+      "confirmDetails": "Confirm details",
+      "patientLabel": "Patient",
+      "edit": {
+        "location": "Edit location",
+        "insurance": "Edit insurance",
+        "patient": "Edit patient"
+      },
+      "city": "City",
+      "postalCode": "Postal code",
+      "save": "Save",
+      "cancel": "Cancel",
+      "seeAlternatives": "See alternatives",
+      "searchForDoctors": "Search for doctors",
+      "errors": {
+        "notFound": "Appointment not found",
+        "doctorUnavailable": "This doctor is no longer available. Please search for another doctor."
+      },
+      "timingHints": {
+        "recent": "You recently visited this doctor. If symptoms changed, consider updating the reason in confirm.",
+        "months": "It has been a few months since your last visit. Routine check-ups may be appropriate.",
+        "long": "It has been a while since your last visit. Consider booking a routine follow-up if needed."
+      }
+    }
+  }
 }

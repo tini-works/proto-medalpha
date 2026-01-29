@@ -833,12 +833,12 @@ flowchart TD
 
 | Flow | Primary Metric | Target | Fallback Metric |
 |------|----------------|--------|-----------------|
-| Registration | Completion rate | >90% | Time to complete <1 min |
+| Registration | Completion rate | >90% | Time to complete &lt;1 min |
 | Profile | Profile completion rate | >70% | Fields completed |
-| Fast-Lane Booking | Match success rate | >75% | Time to match <20s |
-| Specialty Booking | Booking completion rate | >60% | Time to book <3 min |
+| Fast-Lane Booking | Match success rate | >75% | Time to match &lt;20s |
+| Specialty Booking | Booking completion rate | >60% | Time to book &lt;3 min |
 | Doctor Booking | Booking completion rate | >65% | Search success rate |
-| Reschedule | Reschedule completion rate | >80% | Time to reschedule <1 min |
+| Reschedule | Reschedule completion rate | >80% | Time to reschedule &lt;1 min |
 | Book Again | Rebook conversion rate | >50% | Alternative selection rate |
 | History | Page views per session | >2 | Status filter usage |
 | Notifications | Toast tap-through rate | >30% | Auto-dismiss rate |

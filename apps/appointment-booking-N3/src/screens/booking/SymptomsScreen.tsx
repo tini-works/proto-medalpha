@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconCheck } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, ReasonTextarea } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
 import { PATHS } from '../../routes'
-import { getSymptomsForSpecialty } from '../../data/symptoms'
 
 export default function SymptomsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
   const { selectedDoctor, setSymptomInfo } = useBooking()
 
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
   const [additionalNotes, setAdditionalNotes] = useState('')
 
   // Redirect if no doctor selected
@@ -27,31 +24,21 @@ export default function SymptomsScreen() {
     return null
   }
 
-  // Get symptoms filtered by doctor's specialty
-  const relevantSymptoms = getSymptomsForSpecialty(selectedDoctor.specialty)
-
-  const toggleSymptom = (symptomId: string) => {
-    setSelectedSymptoms((prev) =>
-      prev.includes(symptomId)
-        ? prev.filter((id) => id !== symptomId)
-        : [...prev, symptomId]
-    )
-  }
-
+  // Some specialties may return more than 4 symptoms; we only show 4 chips
   const handleBack = () => {
     navigate(PATHS.BOOKING_RESULTS)
   }
 
   const handleContinue = () => {
     setSymptomInfo({
-      symptoms: selectedSymptoms,
+      symptoms: [],
       additionalNotes: additionalNotes.trim(),
     })
     navigate(PATHS.BOOKING_AVAILABILITY)
   }
 
   // At least 1 symptom OR text required
-  const canContinue = selectedSymptoms.length > 0 || additionalNotes.trim().length > 0
+  const canContinue = additionalNotes.trim().length > 0
 
   return (
     <Page safeBottom={false}>
@@ -98,33 +85,10 @@ export default function SymptomsScreen() {
           </div>
         </div>
 
-        {/* Symptoms selection */}
         <section>
-          <h2 className="text-sm font-medium text-charcoal-500 mb-2">
-            {t('whatBringsYouIn')}
-          </h2>
-          <p className="text-sm text-slate-500 mb-4">
-            {t('selectAllThatApply')}
+          <p className="text-sm text-slate-500">
+            {t('fastLaneSymptomInstruction')}
           </p>
-          <div className="grid grid-cols-2 gap-2">
-            {relevantSymptoms.map((symptom) => {
-              const isSelected = selectedSymptoms.includes(symptom.id)
-              return (
-                <button
-                  key={symptom.id}
-                  onClick={() => toggleSymptom(symptom.id)}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all text-left flex items-center gap-2 ${
-                    isSelected
-                      ? 'bg-teal-500 text-white shadow-md'
-                      : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-                  }`}
-                >
-                  {isSelected && <IconCheck size={16} stroke={2.5} className="flex-shrink-0" />}
-                  <span className="flex-1">{t(symptom.labelKey)}</span>
-                </button>
-              )
-            })}
-          </div>
         </section>
 
         {/* Additional notes - always visible */}

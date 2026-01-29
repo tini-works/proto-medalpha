@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IconCalendar, IconClock } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { Avatar, Header, Page } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking, useReschedule } from '../../state'
@@ -8,30 +9,31 @@ import { PATHS, reschedulePath } from '../../routes'
 
 type Reason = 'conflict' | 'earlier' | 'later' | 'other'
 
-const reasons: Array<{ id: Reason; label: string; description: string }> = [
-  { id: 'conflict', label: 'Time conflict', description: 'I cannot make the current time.' },
-  { id: 'earlier', label: 'Earlier availability', description: 'I want an earlier appointment.' },
-  { id: 'later', label: 'Later fits better', description: 'A later time works better for me.' },
-  { id: 'other', label: 'Other reason', description: 'Something else.' },
-]
-
 export default function RescheduleReasonScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation('appointments')
   const { appointments } = useBooking()
   const { setRescheduleContext } = useReschedule()
 
   const appointment = appointments.find((a) => a.id === id)
   const [reason, setReason] = useState<Reason | null>(null)
 
+  const reasons: Array<{ id: Reason; label: string; description: string }> = [
+    { id: 'conflict', label: t('reschedule.reasons.conflict.label'), description: t('reschedule.reasons.conflict.description') },
+    { id: 'earlier', label: t('reschedule.reasons.earlier.label'), description: t('reschedule.reasons.earlier.description') },
+    { id: 'later', label: t('reschedule.reasons.later.label'), description: t('reschedule.reasons.later.description') },
+    { id: 'other', label: t('reschedule.reasons.other.label'), description: t('reschedule.reasons.other.description') },
+  ]
+
   if (!id || !appointment) {
     return (
       <Page>
-        <Header title="Reschedule" showBack />
+        <Header title={t('reschedule.title')} showBack />
         <div className="px-4 py-8 text-center">
-          <p className="text-slate-500">Appointment not found</p>
+          <p className="text-slate-500">{t('notFound')}</p>
           <button onClick={() => navigate(PATHS.HISTORY)} className="mt-4 text-teal-700 font-medium hover:underline">
-            Back to appointments
+            {t('backToAppointments')}
           </button>
         </div>
       </Page>
@@ -60,11 +62,11 @@ export default function RescheduleReasonScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Reschedule appointment" showBack />
+      <Header title={t('reschedule.appointmentTitle')} showBack />
 
       <div className="px-4 py-6 space-y-6 pb-28">
         <div className="bg-white rounded-2xl border border-cream-400 p-4">
-          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-3">Current appointment</p>
+          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-3">{t('reschedule.currentAppointment')}</p>
           <div className="flex items-start gap-3">
             <Avatar name={appointment.doctorName} size="lg" />
             <div className="flex-1">
@@ -85,8 +87,8 @@ export default function RescheduleReasonScreen() {
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold text-charcoal-500">Why do you want to reschedule?</h2>
-          <p className="text-sm text-slate-600">This helps us highlight better alternatives. You can skip this step.</p>
+          <h2 className="text-lg font-semibold text-charcoal-500">{t('reschedule.whyTitle')}</h2>
+          <p className="text-sm text-slate-600">{t('reschedule.whySubtitle')}</p>
         </div>
 
         <div className="space-y-3">
@@ -130,10 +132,10 @@ export default function RescheduleReasonScreen() {
             size="lg"
             fullWidth
           >
-            Next
+            {t('reschedule.next')}
           </Button>
           <Button onClick={handleSkip} variant="tertiary" size="md" fullWidth>
-            Skip for now
+            {t('reschedule.skip')}
           </Button>
         </div>
       </div>

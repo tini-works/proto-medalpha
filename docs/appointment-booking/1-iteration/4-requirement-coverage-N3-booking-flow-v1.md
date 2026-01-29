@@ -60,8 +60,8 @@ Authority note: the N3 plan is a wrapper; detailed acceptance criteria live in t
 
 | Category | Requirement | Coverage | Notes |
 |---|---|---:|---|
-| Performance | Search results <2s on 3G | P | Not specified as measurable AC in the N3 plan set |
-| Performance | Booking confirm <3s | P | Not specified as measurable AC in the N3 plan set |
+| Performance | Search results &lt;2s on 3G | P | Not specified as measurable AC in the N3 plan set |
+| Performance | Booking confirm &lt;3s | P | Not specified as measurable AC in the N3 plan set |
 | Availability | 99.5% uptime | M | Not addressed in design plan |
 | Accessibility | WCAG 2.1 AA | P | Design plan sets baseline behaviors; not a full WCAG compliance spec |
 | Localization | DE primary, EN launch, 14-language roadmap | P | DE/EN + text expansion covered; roadmap not specified as requirement handling |

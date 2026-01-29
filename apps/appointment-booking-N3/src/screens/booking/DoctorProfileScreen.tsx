@@ -11,7 +11,7 @@ import type { Doctor } from '../../types'
 export default function DoctorProfileScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { t } = useTranslation('booking')
+  const { t, i18n } = useTranslation('booking')
   const { profile } = useProfile()
   const {
     selectedDoctor,
@@ -89,7 +89,7 @@ export default function DoctorProfileScreen() {
 
         {/* Location */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-slate-500 mb-2">Location</h2>
+          <h2 className="text-sm font-medium text-slate-500 mb-2">{t('location')}</h2>
           <div className="flex items-start gap-2 text-charcoal-500">
             <IconMapPin className="w-5 h-5 text-slate-400 mt-0.5 flex-shrink-0" size={20} stroke={2} />
             <div>
@@ -101,7 +101,7 @@ export default function DoctorProfileScreen() {
 
         {/* Languages */}
         <section className="mb-6">
-          <h2 className="text-sm font-medium text-slate-500 mb-2">Languages</h2>
+          <h2 className="text-sm font-medium text-slate-500 mb-2">{t('languages')}</h2>
           <p className="text-charcoal-500">{doctor.languages.join(', ')}</p>
         </section>
 
@@ -126,9 +126,9 @@ export default function DoctorProfileScreen() {
           </div>
           <div className="bg-white rounded-xl border border-cream-400 p-4">
             <p className="text-sm text-slate-700 leading-relaxed">
-              “Clear communication and professional care. Appointment started on time.”
+              {t('sampleReviewText')}
             </p>
-            <p className="text-xs text-slate-500 mt-2">Sample review</p>
+            <p className="text-xs text-slate-500 mt-2">{t('sampleReview')}</p>
           </div>
         </section>
 
@@ -136,7 +136,7 @@ export default function DoctorProfileScreen() {
         <section className="mb-8 p-4 bg-cream-200 rounded-lg">
           <p className="text-sm text-slate-700">
             <span className="font-medium">{t('nextAvailable')}</span>{' '}
-            {new Date(doctor.nextAvailableISO).toLocaleDateString('de-DE', {
+            {new Date(doctor.nextAvailableISO).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US', {
               weekday: 'long',
               day: 'numeric',
               month: 'long',

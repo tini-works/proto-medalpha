@@ -4,6 +4,10 @@
     "subtitle": "Fast geschafft! Nur noch ein paar Details.",
     "submit": "Profil vervollständigen"
   },
+  "common": {
+    "optional": "optional",
+    "close": "Schließen"
+  },
   "fullName": {
     "label": "Vollständiger Name",
     "placeholder": "Geben Sie Ihren vollständigen Namen ein"
@@ -55,6 +59,7 @@
       "submit": "Mitglied hinzufügen",
       "dateOfBirth": "Geburtsdatum",
       "relationship": "Verhältnis",
+      "relationshipPlaceholder": "Verhältnis auswählen",
       "insuranceType": "Versicherungsart (optional)",
       "insurancePlaceholder": "Wie das Hauptkonto"
     }
@@ -84,11 +89,17 @@
       "relationship": "Verhältnis",
       "phone": "Telefon"
     },
+    "emergencyPlaceholders": {
+      "name": "Kontaktname",
+      "relationship": "z. B. Elternteil, Geschwister, Freund:in"
+    },
     "edit": "Mitglied bearbeiten",
     "remove": "Mitglied entfernen",
     "removeConfirm": "Sind Sie sicher, dass Sie dieses Familienmitglied entfernen möchten?",
     "yearsOld": "Jahre alt",
-    "verifiedCheckmark": "✓ Bestätigt"
+    "verifiedCheckmark": "✓ Bestätigt",
+    "medicalNotesLabel": "Allergien, Erkrankungen oder weitere Hinweise",
+    "medicalNotesPlaceholder": "z. B. Penicillinallergie, Asthma..."
   },
   "edit": {
     "title": "Profil bearbeiten",

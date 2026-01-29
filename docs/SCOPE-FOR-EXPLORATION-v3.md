@@ -14,7 +14,7 @@
 - The "Book Appointment" button must be visible within 3 seconds after app start
 - The button takes up at least 20% of the visible screen area
 - Legal mandatory information (Imprint, Privacy Policy, Terms of Service) is accessible via a menu
-- The home screen loads within 5 seconds even on slow connections (<3G)
+- The home screen loads within 5 seconds even on slow connections (&lt;3G)
 
 ---
 

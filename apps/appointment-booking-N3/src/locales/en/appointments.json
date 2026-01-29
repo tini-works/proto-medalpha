@@ -21,6 +21,140 @@
   "matching": {
     "requestedSpecialty": "Requested Specialty",
     "requestSubmitted": "Submitted",
-    "locationPreference": "Location"
+    "locationPreference": "Location",
+    "title": "Finding your match...",
+    "description": "We're searching for the best available appointment that fits your preferences.",
+    "steps": {
+      "verifyPreferences": "Verifying your preferences",
+      "checkAvailability": "Checking doctor availability",
+      "matchingBestSlot": "Matching you with the best time slot...",
+      "confirmingAppointment": "Confirming your appointment"
+    },
+    "connectionTitle": "Auto-fixing connection issue...",
+    "connectionRetrying": "Retrying (2/3)",
+    "connectionMayTakeMoment": "This may take a moment",
+    "cancelRequest": "Cancel request"
+  },
+  "filters": {
+    "all": "All"
+  },
+  "history": {
+    "title": "My appointments",
+    "archiveAria": "Appointment archive",
+    "sections": {
+      "upcoming": "Upcoming",
+      "others": "Others"
+    },
+    "empty": {
+      "title": "No appointments",
+      "description": "Try changing the status filter or book a new appointment."
+    },
+    "emptyOthers": {
+      "title": "No other appointments",
+      "description": "Try changing the filters to see more."
+    },
+    "bookNewAppointmentAria": "Book new appointment"
+  },
+  "notFound": "Appointment not found",
+  "backToAppointments": "Back to appointments",
+  "awaitConfirm": {
+    "title": "Awaiting confirmation",
+    "description": "We've found a match! Waiting for {{doctorName}} to confirm your appointment.",
+    "cancelRequest": "Cancel request"
+  },
+  "confirmed": {
+    "title": "Appointment confirmed!",
+    "description": "Your appointment has been confirmed. We've sent the details to your email and phone.",
+    "cancelAppointment": "Cancel appointment"
+  },
+  "canceled": {
+    "title": "Appointment canceled",
+    "description": "You've canceled this appointment request. You can submit a new request anytime.",
+    "badge": "Canceled by you",
+    "submitNewRequest": "Submit new request"
+  },
+  "declined": {
+    "title": "Appointment declined",
+    "description": "Unfortunately, {{doctorName}} is unable to accept this appointment. Please try booking with another doctor.",
+    "bookNew": "Book new appointment",
+    "backToHome": "Back to Home"
+  },
+  "doctorInfo": {
+    "experienceYears": "{{count}} years exp."
+  },
+  "cancelDialog": {
+    "title": "Cancel appointment?",
+    "description": "Are you sure you want to cancel your appointment with {{doctorName}} on {{date}}?",
+    "cancellationPolicyLabel": "Cancellation Policy:",
+    "cancellationPolicyText": "Free cancellation up to 24 hours before the appointment.",
+    "confirm": "Cancel appointment",
+    "keep": "Keep appointment"
+  },
+  "reschedule": {
+    "title": "Reschedule",
+    "appointmentTitle": "Reschedule appointment",
+    "currentAppointment": "Current appointment",
+    "whyTitle": "Why do you want to reschedule?",
+    "whySubtitle": "This helps us highlight better alternatives. You can skip this step.",
+    "next": "Next",
+    "skip": "Skip for now",
+    "reasons": {
+      "conflict": { "label": "Time conflict", "description": "I cannot make the current time." },
+      "earlier": { "label": "Earlier availability", "description": "I want an earlier appointment." },
+      "later": { "label": "Later fits better", "description": "A later time works better for me." },
+      "other": { "label": "Other reason", "description": "Something else." }
+    },
+    "confirm": {
+      "title": "Confirm reschedule",
+      "noSlotSelected": "No slot selected",
+      "backToSlotSelection": "Back to slot selection",
+      "previousAppointment": "Previous appointment",
+      "newAppointment": "New appointment",
+      "willBeCancelled": "Will be cancelled",
+      "willBeBooked": "Will be booked",
+      "dateAtTime": "{{date}} at {{time}}",
+      "doctor": "Doctor",
+      "location": "Location",
+      "patient": "Patient",
+      "safetyNote": "Your previous appointment will only be cancelled after the new appointment is confirmed.",
+      "submit": "Reschedule appointment",
+      "keepCurrent": "Keep current appointment",
+      "errors": {
+        "slotUnavailable": "This time slot is no longer available. Please select another time."
+      }
+    },
+    "success": {
+      "title": "Appointment rescheduled",
+      "subtitle": "An updated confirmation has been sent via email and push notification.",
+      "confirmationNumber": "Confirmation number",
+      "fallbackAppointmentLabel": "Tomorrow, 10:00 AM"
+    },
+    "calendar": {
+      "summary": "Appointment: {{doctorName}} ({{specialty}})",
+      "confirmation": "Confirmation: {{confirmationNumber}}"
+    },
+    "suggestions": {
+      "title": "Suggested alternatives",
+      "subtitle": "We found these times based on your previous preference.",
+      "empty": {
+        "title": "No slots available",
+        "description": "There are no alternative slots available at this time."
+      },
+      "recommendedLabel": "Recommended",
+      "bestMatch": "Best match for your schedule",
+      "whyThisSlot": "Why this slot:",
+      "selectRecommended": "Select recommended slot",
+      "otherOptions": "Other options",
+      "select": "Select",
+      "noneWork": "None of these work for you?",
+      "viewAll": "View all available times",
+      "meta": {
+        "recommended": { "tag": "Recommended", "note": "Best match for your schedule" },
+        "oneDayEarlier": { "tag": "1 day earlier", "note": "Similar time of day" },
+        "nextAvailable": { "tag": "Next available", "note": "Morning slot" },
+        "nextWeek": { "tag": "Next week", "note": "Afternoon availability" },
+        "option": { "tag": "Option", "note": "Available time" }
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Page, Header, Avatar, Rating, PatientSelector } from '../../components'
 import { Button } from '../../components/ui'
 import { useBookAgain, useBooking, useHistory, useProfile } from '../../state'
@@ -12,6 +13,7 @@ import { IconAlertTriangle, IconEdit } from '@tabler/icons-react'
 export default function BookAgainContextScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation('booking')
 
   const { appointments } = useBooking()
   const { items: historyItems } = useHistory()
@@ -28,10 +30,10 @@ export default function BookAgainContextScreen() {
   })
   const [insuranceDraft, setInsuranceDraft] = useState(
     profile.insuranceType === 'GKV'
-      ? 'Public (GKV)'
+      ? t('publicGkv')
       : profile.insuranceType === 'PKV'
-      ? 'Private (PKV)'
-      : 'Self-pay'
+      ? t('privatePkv')
+      : t('selfPay')
   )
   const [patientDraft, setPatientDraft] = useState<'myself' | 'child'>('myself')
 
@@ -43,7 +45,7 @@ export default function BookAgainContextScreen() {
 
   useEffect(() => {
     if (!sourceData) {
-      setError('Appointment not found')
+      setError(t('bookAgain.context.errors.notFound'))
       setIsLoading(false)
       return
     }
@@ -52,7 +54,7 @@ export default function BookAgainContextScreen() {
     setIsLoading(true)
     const doctorData = getDoctorById(doctorId)
     if (!doctorData) {
-      setError('This doctor is no longer available. Please search for another doctor.')
+      setError(t('bookAgain.context.errors.doctorUnavailable'))
       setIsLoading(false)
       return
     }
@@ -71,7 +73,7 @@ export default function BookAgainContextScreen() {
       },
       patient: {
         id: profile.id || 'self',
-        name: profile.fullName || 'You',
+        name: profile.fullName || t('assistant.you'),
         relationship: 'self',
       },
     })
@@ -98,15 +100,15 @@ export default function BookAgainContextScreen() {
     const then = new Date(dateISO)
     const now = new Date()
     const days = Math.max(0, Math.round((now.getTime() - then.getTime()) / (1000 * 60 * 60 * 24)))
-    if (days < 30) return 'You recently visited this doctor. If symptoms changed, consider updating the reason in confirm.'
-    if (days < 180) return 'It has been a few months since your last visit. Routine check-ups may be appropriate.'
-    return 'It has been a while since your last visit. Consider booking a routine follow-up if needed.'
+    if (days < 30) return t('bookAgain.context.timingHints.recent')
+    if (days < 180) return t('bookAgain.context.timingHints.months')
+    return t('bookAgain.context.timingHints.long')
   }
 
   if (isLoading) {
     return (
       <Page>
-        <Header title="Book Again" showBack />
+        <Header title={t('bookAgain.context.title')} showBack />
         <div className="px-4 py-4 space-y-4">
           {/* Skeleton loading */}
           <div className="bg-cream-200 rounded-xl p-4 animate-pulse">
@@ -131,7 +133,7 @@ export default function BookAgainContextScreen() {
   if (error || !sourceData) {
     return (
       <Page>
-        <Header title="Book Again" showBack />
+        <Header title={t('bookAgain.context.title')} showBack />
         <div className="px-4 py-8 text-center">
           <div className="w-16 h-16 rounded-full bg-coral-50 flex items-center justify-center mx-auto mb-4">
             <IconAlertTriangle className="w-8 h-8 text-coral-700" />
@@ -139,14 +141,14 @@ export default function BookAgainContextScreen() {
           <p className="text-slate-700 mb-4">{error || 'Appointment not found'}</p>
           <div className="flex flex-col gap-3 items-center">
             <Button onClick={() => navigate(PATHS.BOOKING_SEARCH)} variant="primary">
-              Search for Doctors
+              {t('bookAgain.context.searchForDoctors')}
             </Button>
             {id && (
               <Button
                 onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', id))}
                 variant="secondary"
               >
-                See alternatives
+                {t('bookAgain.context.seeAlternatives')}
               </Button>
             )}
           </div>
@@ -175,10 +177,10 @@ export default function BookAgainContextScreen() {
     if (type === 'insurance') {
       setInsuranceDraft(
         profile.insuranceType === 'GKV'
-          ? 'Public (GKV)'
+          ? t('publicGkv')
           : profile.insuranceType === 'PKV'
-          ? 'Private (PKV)'
-          : 'Self-pay'
+          ? t('privatePkv')
+          : t('selfPay')
       )
     }
     if (type === 'patient') {
@@ -193,7 +195,7 @@ export default function BookAgainContextScreen() {
 
   return (
     <Page safeBottom={false}>
-      <Header title="Book Again" subtitle={`Based on your appointment from ${formatDate(sourceData.dateISO)}`} showBack />
+      <Header title={t('bookAgain.context.title')} subtitle={t('bookAgain.context.subtitle', { date: formatDate(sourceData.dateISO) })} showBack />
 
       <div className="px-4 py-4 space-y-6 pb-40">
         {/* Timing hint (stubbed, no AI calls) */}
@@ -202,7 +204,7 @@ export default function BookAgainContextScreen() {
             <IconAlertTriangle className="w-5 h-5 text-amber-600" />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-charcoal-500">Timing hint</p>
+            <p className="text-sm font-semibold text-charcoal-500">{t('bookAgain.context.timingHintTitle')}</p>
             <p className="text-sm text-slate-600 mt-1 leading-relaxed">{computeTimingHint(sourceData.dateISO)}</p>
           </div>
         </div>
@@ -225,7 +227,7 @@ export default function BookAgainContextScreen() {
 
         {/* Confirm details */}
         <div>
-          <h3 className="text-sm font-semibold text-charcoal-500 mb-3">Confirm details</h3>
+          <h3 className="text-sm font-semibold text-charcoal-500 mb-3">{t('bookAgain.context.confirmDetails')}</h3>
           <div className="bg-white rounded-2xl border border-cream-400 divide-y divide-cream-200">
             <button
               type="button"
@@ -233,7 +235,7 @@ export default function BookAgainContextScreen() {
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-cream-50 transition-colors"
             >
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide">Location</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">{t('location')}</p>
                 <p className="text-sm font-semibold text-charcoal-500">
                   {locationDraft.city} ({locationDraft.postalCode})
                 </p>
@@ -248,7 +250,7 @@ export default function BookAgainContextScreen() {
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-cream-50 transition-colors"
             >
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide">Insurance</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">{t('insurance')}</p>
                 <p className="text-sm font-semibold text-charcoal-500">
                   {insuranceDraft}
                 </p>
@@ -263,9 +265,9 @@ export default function BookAgainContextScreen() {
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-cream-50 transition-colors"
             >
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide">Patient</p>
+                <p className="text-xs text-slate-500 uppercase tracking-wide">{t('bookAgain.context.patientLabel')}</p>
                 <p className="text-sm font-semibold text-charcoal-500">
-                  {patientDraft === 'myself' ? 'Myself' : 'Child'}
+                  {patientDraft === 'myself' ? t('myself') : t('child')}
                 </p>
               </div>
               <span className="w-7 h-7 rounded-full bg-cream-200 flex items-center justify-center text-slate-600">
@@ -285,7 +287,7 @@ export default function BookAgainContextScreen() {
             size="md"
             fullWidth
           >
-            View Available Appointments
+            {t('viewAvailableAppointments')}
           </Button>
           <Button
             onClick={() => navigate(PATHS.BOOK_AGAIN_ALTERNATIVES.replace(':id', sourceData.id))}
@@ -293,7 +295,7 @@ export default function BookAgainContextScreen() {
             size="md"
             fullWidth
           >
-            See alternatives
+            {t('bookAgain.context.seeAlternatives')}
           </Button>
         </div>
       </div>
@@ -306,13 +308,17 @@ export default function BookAgainContextScreen() {
               <div className="w-10 h-1 rounded-full bg-cream-400" />
             </div>
             <h3 className="text-lg font-semibold text-charcoal-500 mb-4">
-              {editSheet === 'location' ? 'Edit location' : editSheet === 'insurance' ? 'Edit insurance' : 'Edit patient'}
+              {editSheet === 'location'
+                ? t('bookAgain.context.edit.location')
+                : editSheet === 'insurance'
+                  ? t('bookAgain.context.edit.insurance')
+                  : t('bookAgain.context.edit.patient')}
             </h3>
 
             {editSheet === 'location' && (
               <div className="space-y-3">
                 <div>
-                  <label className="form-label">City</label>
+                  <label className="form-label">{t('bookAgain.context.city')}</label>
                   <input
                     className="input-field"
                     value={locationDraft.city}
@@ -320,7 +326,7 @@ export default function BookAgainContextScreen() {
                   />
                 </div>
                 <div>
-                  <label className="form-label">Postal code</label>
+                  <label className="form-label">{t('bookAgain.context.postalCode')}</label>
                   <input
                     className="input-field"
                     value={locationDraft.postalCode}
@@ -332,7 +338,7 @@ export default function BookAgainContextScreen() {
 
             {editSheet === 'insurance' && (
               <div className="space-y-2">
-                {['Public (GKV)', 'Private (PKV)', 'Self-pay'].map((opt) => (
+                {[t('publicGkv'), t('privatePkv'), t('selfPay')].map((opt) => (
                   <button
                     key={opt}
                     type="button"
@@ -352,17 +358,17 @@ export default function BookAgainContextScreen() {
                 <PatientSelector
                   value={patientDraft}
                   onChange={(value) => setPatientDraft(value as 'myself' | 'child')}
-                  label="Patient"
+                  label={t('bookAgain.context.patientLabel')}
                 />
               </div>
             )}
 
             <div className="mt-6 flex flex-col gap-3">
               <Button onClick={handleSaveEdit} variant="primary" size="md" fullWidth>
-                Save
+                {t('bookAgain.context.save')}
               </Button>
               <Button onClick={() => setEditSheet(null)} variant="tertiary" size="md" fullWidth>
-                Cancel
+                {t('bookAgain.context.cancel')}
               </Button>
             </div>
           </div>

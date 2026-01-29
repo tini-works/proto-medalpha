@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { IconMapPin, IconSearch } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 import { RadiusSlider } from './RadiusSlider'
 import { SavedLocations } from '../display/SavedLocations'
 import { Button } from '../ui'
@@ -28,6 +29,7 @@ export function LocationSelector({
   showMapPreview = true,
   showSavedLocations = true,
 }: LocationSelectorProps) {
+  const { t } = useTranslation('booking')
   const [addressQuery, setAddressQuery] = useState('')
   const [radius, setRadius] = useState(initialRadius)
   const [selectedSavedId, setSelectedSavedId] = useState<string | undefined>()
@@ -39,7 +41,7 @@ export function LocationSelector({
     setAddressQuery('')
     onLocationSelect({
       type: 'gps',
-      value: 'Current Location',
+      value: t('currentLocation'),
       radius,
     })
   }
@@ -79,7 +81,7 @@ export function LocationSelector({
     setRadius(newRadius)
     // If a location is already selected, update with new radius
     if (locationType === 'gps') {
-      onLocationSelect({ type: 'gps', value: 'Current Location', radius: newRadius })
+      onLocationSelect({ type: 'gps', value: t('currentLocation'), radius: newRadius })
     } else if (locationType === 'address' && addressQuery.trim()) {
       onLocationSelect({ type: 'address', value: addressQuery.trim(), radius: newRadius })
     } else if (locationType === 'saved' && selectedSavedId) {
@@ -102,7 +104,7 @@ export function LocationSelector({
         }
         className={locationType === 'gps' ? 'shadow-md ring-2 ring-teal-500 ring-offset-2' : 'shadow-md'}
       >
-        Use Current Location
+        {t('useCurrentLocation')}
       </Button>
 
       {/* Divider */}
@@ -111,7 +113,7 @@ export function LocationSelector({
           <div className="w-full border-t border-cream-300" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-3 bg-cream-100 text-slate-500">Or enter a specific address</span>
+          <span className="px-3 bg-cream-100 text-slate-500">{t('orEnterSpecificAddress')}</span>
         </div>
       </div>
 
@@ -125,7 +127,7 @@ export function LocationSelector({
           value={addressQuery}
           onChange={handleAddressChange}
           onKeyDown={handleAddressKeyDown}
-          placeholder="Enter street, city, or postal code..."
+          placeholder={t('addressInputPlaceholder')}
           className={`w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 focus:ring-2 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand ${
             locationType === 'address' && addressQuery.trim()
               ? 'ring-teal-500 focus:ring-teal-500'
@@ -163,7 +165,7 @@ export function LocationSelector({
 
           {/* Map label */}
           <div className="absolute bottom-2 left-2">
-            <span className="text-xs text-slate-600 bg-white/80 px-2 py-1 rounded">Map Preview</span>
+            <span className="text-xs text-slate-600 bg-white/80 px-2 py-1 rounded">{t('mapPreview')}</span>
           </div>
         </div>
       )}

@@ -4,6 +4,10 @@
     "subtitle": "Almost there! Just a few more details.",
     "submit": "Complete Profile"
   },
+  "common": {
+    "optional": "optional",
+    "close": "Close"
+  },
   "fullName": {
     "label": "Full Name",
     "placeholder": "Enter your full name"
@@ -11,9 +15,9 @@
   "insurance": {
     "label": "Insurance Type (Optional)",
     "gkv": "GKV (Statutory)",
-    "gkvDescription": "Gesetzliche Krankenversicherung",
+    "gkvDescription": "Statutory health insurance",
     "pkv": "PKV (Private)",
-    "pkvDescription": "Private Krankenversicherung",
+    "pkvDescription": "Private health insurance",
     "labelRequired": "Insurance Type"
   },
   "egkNumber": {
@@ -55,6 +59,7 @@
       "submit": "Add Member",
       "dateOfBirth": "Date of Birth",
       "relationship": "Relationship",
+      "relationshipPlaceholder": "Select relationship",
       "insuranceType": "Insurance Type (optional)",
       "insurancePlaceholder": "Same as primary account"
     }
@@ -84,11 +89,17 @@
       "relationship": "Relationship",
       "phone": "Phone"
     },
+    "emergencyPlaceholders": {
+      "name": "Contact name",
+      "relationship": "e.g. Parent, sibling, friend"
+    },
     "edit": "Edit Member",
     "remove": "Remove Member",
     "removeConfirm": "Are you sure you want to remove this family member?",
     "yearsOld": "years old",
-    "verifiedCheckmark": "✓ Verified"
+    "verifiedCheckmark": "✓ Verified",
+    "medicalNotesLabel": "Allergies, conditions, or other notes",
+    "medicalNotesPlaceholder": "e.g. Penicillin allergy, asthma..."
   },
   "edit": {
     "title": "Edit Profile",

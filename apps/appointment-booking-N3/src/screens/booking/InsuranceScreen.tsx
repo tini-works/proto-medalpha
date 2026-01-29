@@ -144,7 +144,7 @@ export default function InsuranceScreen() {
             />
             <div>
               <p className="font-medium text-charcoal-500">{t('showOnlyPublicDoctors')}</p>
-              <p className="text-sm text-slate-600 mt-1">Hide doctors who do not accept public (GKV).</p>
+              <p className="text-sm text-slate-600 mt-1">{t('publicInsuranceHint')}</p>
             </div>
           </label>
         </div>

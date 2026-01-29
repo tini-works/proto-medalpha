@@ -1,4 +1,5 @@
 import { IconHome, IconBriefcase } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 export interface SavedLocation {
   id: string
@@ -15,10 +16,11 @@ interface SavedLocationsProps {
 
 export function SavedLocations({ locations, onSelect, selectedId }: SavedLocationsProps) {
   if (locations.length === 0) return null
+  const { t } = useTranslation('booking')
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-slate-700">Saved Locations</h3>
+      <h3 className="text-sm font-medium text-slate-700">{t('savedLocations')}</h3>
       <div className="space-y-2">
         {locations.map((location) => {
           const isSelected = selectedId === location.id
