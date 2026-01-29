@@ -155,12 +155,17 @@
   "relationship_parent": "Elternteil",
   "relationship_other": "Andere",
 
-  "findingYourAppointment": "Ihren Termin finden",
+  "findingYourAppointment": "Passende Übereinstimmung finden",
   "matchingSearching": "Suche nach verfügbaren Ärzten...",
   "matchingFoundDoctors": "{{count}} passende Ärzte gefunden",
   "matchingCheckingAvailability": "Verfügbarkeit prüfen...",
   "matchingAwaitingConfirmation": "Auf Arztbestätigung warten...",
   "matchingPleaseWait": "Dies kann einen Moment dauern",
+  "findingMatchDescription": "Wir prüfen Verfügbarkeiten und bestätigen den besten Termin für Sie.",
+  "matchingStepReviewRequest": "Ihre Anfrage wird geprüft",
+  "matchingStepSearchDoctors": "Suche nach verfügbaren Ärzten",
+  "matchingStepCheckAvailability": "Verfügbarkeit wird geprüft",
+  "matchingStepConfirm": "Termin wird bestätigt",
   "for": "Für",
   "cancelSearch": "Suche abbrechen",
   "viewAllAppointments": "Alle Termine anzeigen",
@@ -206,5 +211,11 @@
   "confirmingWithDoctor": "Bestätigung beim Arzt",
   "matchingCheckingWithDoctor": "Prüfe Verfügbarkeit bei {{name}}...",
   "matchingCheckingAvailabilityWith": "Prüfe Terminplan von {{name}}...",
-  "matchingAwaitingDoctorConfirmation": "Warte auf Bestätigung von {{name}}..."
+  "matchingAwaitingDoctorConfirmation": "Warte auf Bestätigung von {{name}}...",
+
+  "other": "Andere",
+  "otherSymptomLabel": "Beschreiben Sie kurz Ihr Anliegen",
+  "otherSymptomPlaceholder": "Beschreiben Sie Ihre Symptome in wenigen Worten…",
+  "otherSpecialtyLabel": "Welche Fachrichtung benötigen Sie?",
+  "otherSpecialtyPlaceholder": "z. B. Dermatologie"
 }

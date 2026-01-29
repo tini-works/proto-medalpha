@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconCheck } from '@tabler/icons-react'
-import { Header, Page } from '../../../components'
+import { Header, Page, ReasonTextarea } from '../../../components'
 import { useProfile, useBooking } from '../../../state'
 import { PATHS } from '../../../routes'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
 
 type TabType = 'symptoms' | 'specialty'
+
+const OTHER_ID = '__other__'
 
 export default function CareRequestScreen() {
   const navigate = useNavigate()
@@ -18,6 +20,8 @@ export default function CareRequestScreen() {
   const [activeTab, setActiveTab] = useState<TabType>('symptoms')
   const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null)
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null)
+  const [otherSymptomText, setOtherSymptomText] = useState('')
+  const [otherSpecialtyText, setOtherSpecialtyText] = useState('')
   const [selectedPatientId, setSelectedPatientId] = useState<string>(profile.id)
 
   const familyMembers = profile.familyMembers || []
@@ -32,20 +36,32 @@ export default function CareRequestScreen() {
   const patientCity = profile.address?.city || ''
 
   const selection = activeTab === 'symptoms' ? selectedSymptom : selectedSpecialty
-  const canSubmit = selection !== null && patientCity && patientInsurance
+  const isOtherSelected =
+    activeTab === 'symptoms' ? selectedSymptom === OTHER_ID : selectedSpecialty === OTHER_ID
+  const otherText = activeTab === 'symptoms' ? otherSymptomText : otherSpecialtyText
+  const canSubmit =
+    selection !== null && Boolean(patientCity) && Boolean(patientInsurance) && (!isOtherSelected || Boolean(otherText.trim()))
 
   const handleSubmit = () => {
     if (!canSubmit) return
 
-    const specialty =
-      activeTab === 'symptoms' ? getSpecialtyForSymptom(selectedSymptom!) : selectedSpecialty
+    const specialty = (() => {
+      if (activeTab === 'symptoms') {
+        if (selectedSymptom === OTHER_ID) return 'Primary care'
+        return getSpecialtyForSymptom(selectedSymptom!)
+      }
+      if (selectedSpecialty === OTHER_ID) return otherSpecialtyText.trim()
+      return selectedSpecialty
+    })()
 
     if (!specialty) return
 
     const symptomLabel =
-      activeTab === 'symptoms'
-        ? symptoms.find((s) => s.id === selectedSymptom)?.labelKey
-        : undefined
+      activeTab !== 'symptoms'
+        ? undefined
+        : selectedSymptom === OTHER_ID
+          ? otherSymptomText.trim()
+          : symptoms.find((s) => s.id === selectedSymptom)?.labelKey
 
     setFastLaneRequest({
       specialty,
@@ -118,36 +134,80 @@ export default function CareRequestScreen() {
 
           {/* Symptoms Grid */}
           {activeTab === 'symptoms' && (
-            <div className="grid grid-cols-2 gap-2">
-              {symptoms.map((symptom) => (
+            <>
+              <div className="grid grid-cols-2 gap-2">
+                {symptoms.map((symptom) => (
+                  <SelectionChip
+                    key={symptom.id}
+                    label={t(symptom.labelKey)}
+                    selected={selectedSymptom === symptom.id}
+                    onSelect={() => {
+                      setSelectedSymptom(symptom.id)
+                      setSelectedSpecialty(null)
+                    }}
+                  />
+                ))}
                 <SelectionChip
-                  key={symptom.id}
-                  label={t(symptom.labelKey)}
-                  selected={selectedSymptom === symptom.id}
+                  label={t('other')}
+                  selected={selectedSymptom === OTHER_ID}
                   onSelect={() => {
-                    setSelectedSymptom(symptom.id)
+                    setSelectedSymptom(OTHER_ID)
                     setSelectedSpecialty(null)
                   }}
                 />
-              ))}
-            </div>
+              </div>
+
+              {selectedSymptom === OTHER_ID && (
+                <div className="mt-4">
+                  <ReasonTextarea
+                    value={otherSymptomText}
+                    onChange={setOtherSymptomText}
+                    label={t('otherSymptomLabel')}
+                    placeholder={t('otherSymptomPlaceholder')}
+                    maxLength={200}
+                  />
+                </div>
+              )}
+            </>
           )}
 
           {/* Specialty Grid */}
           {activeTab === 'specialty' && (
-            <div className="grid grid-cols-2 gap-2">
-              {specialties.map((specialty) => (
+            <>
+              <div className="grid grid-cols-2 gap-2">
+                {specialties.map((specialty) => (
+                  <SelectionChip
+                    key={specialty.id}
+                    label={t(specialty.labelKey)}
+                    selected={selectedSpecialty === specialty.value}
+                    onSelect={() => {
+                      setSelectedSpecialty(specialty.value)
+                      setSelectedSymptom(null)
+                    }}
+                  />
+                ))}
                 <SelectionChip
-                  key={specialty.id}
-                  label={t(specialty.labelKey)}
-                  selected={selectedSpecialty === specialty.value}
+                  label={t('other')}
+                  selected={selectedSpecialty === OTHER_ID}
                   onSelect={() => {
-                    setSelectedSpecialty(specialty.value)
+                    setSelectedSpecialty(OTHER_ID)
                     setSelectedSymptom(null)
                   }}
                 />
-              ))}
-            </div>
+              </div>
+
+              {selectedSpecialty === OTHER_ID && (
+                <div className="mt-4">
+                  <ReasonTextarea
+                    value={otherSpecialtyText}
+                    onChange={setOtherSpecialtyText}
+                    label={t('otherSpecialtyLabel')}
+                    placeholder={t('otherSpecialtyPlaceholder')}
+                    maxLength={60}
+                  />
+                </div>
+              )}
+            </>
           )}
         </section>
 

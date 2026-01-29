@@ -1,13 +1,28 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconX } from '@tabler/icons-react'
-import { Page, Avatar } from '../../../components'
+import { IconSearch, IconX } from '@tabler/icons-react'
+import { Header, Page } from '../../../components'
 import { useBooking, useAppState } from '../../../state'
 import { PATHS } from '../../../routes'
 import { apiFastLaneMatch, apiSpecialtyMatch } from '../../../data/api'
 
 type MatchingStatus = 'searching' | 'found_doctors' | 'checking_availability' | 'awaiting_confirmation'
+
+function statusStepIndex(status: MatchingStatus): number {
+  switch (status) {
+    case 'searching':
+      return 0
+    case 'found_doctors':
+      return 1
+    case 'checking_availability':
+      return 2
+    case 'awaiting_confirmation':
+      return 3
+    default:
+      return 0
+  }
+}
 
 export default function MatchingStatusScreen() {
   const navigate = useNavigate()
@@ -16,7 +31,6 @@ export default function MatchingStatusScreen() {
   const { addAppointment } = useAppState()
 
   const [status, setStatus] = useState<MatchingStatus>('searching')
-  const [doctorCount, setDoctorCount] = useState(0)
   const [cancelled, setCancelled] = useState(false)
 
   // Determine which flow we're in
@@ -37,20 +51,18 @@ export default function MatchingStatusScreen() {
           // Use specialty match API
           result = await apiSpecialtyMatch(
             specialtyMatchRequest,
-            (newStatus, count) => {
+            (newStatus) => {
               if (cancelled) return
               setStatus(newStatus)
-              if (count !== undefined) setDoctorCount(count)
             }
           )
         } else if (fastLaneRequest) {
           // Use fast-lane match API
           result = await apiFastLaneMatch(
             fastLaneRequest,
-            (newStatus, count) => {
+            (newStatus) => {
               if (cancelled) return
               setStatus(newStatus)
-              if (count !== undefined) setDoctorCount(count)
             }
           )
         } else {
@@ -96,96 +108,94 @@ export default function MatchingStatusScreen() {
     navigate(PATHS.HISTORY)
   }
 
-  // Different status messages for specialty flow vs fast-lane
-  const getStatusMessage = () => {
-    if (isSpecialtyFlow && specialtyMatchRequest) {
-      switch (status) {
-        case 'searching':
-          return t('matchingCheckingWithDoctor', { name: specialtyMatchRequest.doctorName })
-        case 'checking_availability':
-          return t('matchingCheckingAvailabilityWith', { name: specialtyMatchRequest.doctorName })
-        case 'awaiting_confirmation':
-          return t('matchingAwaitingDoctorConfirmation', { name: specialtyMatchRequest.doctorName })
-        default:
-          return t('matchingSearching')
-      }
-    }
-
-    const statusMessages: Record<MatchingStatus, string> = {
-      searching: t('matchingSearching'),
-      found_doctors: t('matchingFoundDoctors', { count: doctorCount }),
-      checking_availability: t('matchingCheckingAvailability'),
-      awaiting_confirmation: t('matchingAwaitingConfirmation'),
-    }
-    return statusMessages[status]
-  }
+  const activeStep = statusStepIndex(status)
+  const steps = [
+    { label: t('matchingStepReviewRequest') },
+    { label: t('matchingStepSearchDoctors') },
+    { label: t('matchingStepCheckAvailability') },
+    { label: t('matchingStepConfirm') },
+  ]
 
   return (
-    <Page safeBottom={false}>
-      <div className="min-h-screen flex flex-col">
-        {/* Header without back button */}
-        <div className="px-4 py-4 border-b border-cream-200">
-          <h1 className="text-lg font-semibold text-charcoal-500 text-center">
-            {isSpecialtyFlow ? t('confirmingWithDoctor') : t('findingYourAppointment')}
-          </h1>
-        </div>
+    <Page safeBottom={false} className="pb-32">
+      <Header title={isSpecialtyFlow ? t('confirmingWithDoctor') : t('findingYourAppointment')} />
 
-        {/* Main content */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6">
-          {/* Animated pulse/radar graphic */}
-          <div className="relative w-32 h-32 mb-8">
-            <div className="absolute inset-0 rounded-full bg-teal-100 animate-ping opacity-25" />
-            <div className="absolute inset-4 rounded-full bg-teal-200 animate-ping opacity-40 animation-delay-300" />
-            <div className="absolute inset-8 rounded-full bg-teal-300 animate-ping opacity-50 animation-delay-600" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-teal-500 flex items-center justify-center">
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
-              </div>
-            </div>
+      <div className="px-6 py-10 flex flex-col items-center">
+        <div className="w-28 h-28 rounded-full bg-teal-100 flex items-center justify-center mb-7">
+          <div className="w-16 h-16 rounded-full bg-teal-500 flex items-center justify-center animate-pulse">
+            <IconSearch className="w-8 h-8 text-white" stroke={2} />
           </div>
-
-          {/* Status message */}
-          <p className="text-lg font-medium text-charcoal-500 text-center mb-2">
-            {getStatusMessage()}
-          </p>
-          <p className="text-sm text-slate-500 text-center">
-            {t('matchingPleaseWait')}
-          </p>
-
-          {/* Request summary card - specialty flow */}
-          {isSpecialtyFlow && specialtyMatchRequest && (
-            <div className="mt-8 bg-cream-100 rounded-xl p-4 w-full max-w-sm">
-              <div className="flex items-center gap-3 mb-3">
-                <Avatar name={specialtyMatchRequest.doctorName} size="md" />
-                <div>
-                  <p className="font-medium text-charcoal-500">{specialtyMatchRequest.doctorName}</p>
-                  <p className="text-sm text-slate-500">{specialtyMatchRequest.specialty}</p>
-                </div>
-              </div>
-              <div className="text-sm text-slate-600 text-center border-t border-cream-300 pt-3">
-                {specialtyMatchRequest.city} • {specialtyMatchRequest.insuranceType}
-              </div>
-              <p className="text-xs text-slate-500 text-center mt-1">
-                {t('for')}: {specialtyMatchRequest.patientName}
-              </p>
-            </div>
-          )}
-
-          {/* Request summary card - fast-lane flow */}
-          {!isSpecialtyFlow && fastLaneRequest && (
-            <div className="mt-8 bg-cream-100 rounded-xl p-4 w-full max-w-sm">
-              <p className="text-sm text-slate-600 text-center">
-                {fastLaneRequest.specialty} • {fastLaneRequest.city} • {fastLaneRequest.insuranceType}
-              </p>
-              <p className="text-xs text-slate-500 text-center mt-1">
-                {t('for')}: {fastLaneRequest.patientName}
-              </p>
-            </div>
-          )}
         </div>
 
-        {/* Bottom actions */}
-        <div className="px-4 py-6 space-y-3 safe-area-bottom">
+        <h1 className="text-2xl font-semibold text-charcoal-500 mb-2 text-center">
+          {t('findingYourAppointment')}
+        </h1>
+        <p className="text-slate-600 text-center mb-8 max-w-sm">
+          {t('findingMatchDescription')}
+        </p>
+
+        <div className="w-full max-w-sm space-y-4">
+          {steps.map((step, idx) => {
+            const done = idx < activeStep
+            const active = idx === activeStep
+            return (
+              <div key={idx} className="flex items-center gap-3">
+                {done ? (
+                  <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                ) : active ? (
+                  <div className="w-6 h-6 rounded-full border-2 border-teal-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
+                  </div>
+                ) : (
+                  <div className="w-6 h-6 rounded-full border-2 border-cream-400 flex-shrink-0" />
+                )}
+                <span
+                  className={`text-sm ${
+                    done ? 'text-green-700' : active ? 'text-charcoal-500' : 'text-slate-400'
+                  }`}
+                >
+                  {step.label}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+
+        <p className="text-sm text-slate-500 text-center mt-6">{t('matchingPleaseWait')}</p>
+
+        {/* Request summary */}
+        {isSpecialtyFlow && specialtyMatchRequest && (
+          <div className="mt-8 bg-cream-100 rounded-xl p-4 w-full max-w-sm">
+            <p className="text-sm text-slate-600 text-center">
+              {specialtyMatchRequest.doctorName} • {specialtyMatchRequest.specialty}
+            </p>
+            <div className="text-sm text-slate-600 text-center mt-2">
+              {specialtyMatchRequest.city} • {specialtyMatchRequest.insuranceType}
+            </div>
+            <p className="text-xs text-slate-500 text-center mt-1">
+              {t('for')}: {specialtyMatchRequest.patientName}
+            </p>
+          </div>
+        )}
+
+        {!isSpecialtyFlow && fastLaneRequest && (
+          <div className="mt-8 bg-cream-100 rounded-xl p-4 w-full max-w-sm">
+            <p className="text-sm text-slate-600 text-center">
+              {fastLaneRequest.specialty} • {fastLaneRequest.city} • {fastLaneRequest.insuranceType}
+            </p>
+            <p className="text-xs text-slate-500 text-center mt-1">
+              {t('for')}: {fastLaneRequest.patientName}
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+        <div className="mx-auto max-w-md space-y-3">
           <button
             onClick={handleCancel}
             className="btn btn-secondary btn-block flex items-center justify-center gap-2"
@@ -193,23 +203,11 @@ export default function MatchingStatusScreen() {
             <IconX size={20} stroke={2} />
             {t('cancelSearch')}
           </button>
-          <button
-            onClick={handleViewAppointments}
-            className="btn btn-tertiary btn-block"
-          >
+          <button onClick={handleViewAppointments} className="btn btn-tertiary btn-block">
             {t('viewAllAppointments')}
           </button>
         </div>
       </div>
-
-      <style>{`
-        .animation-delay-300 {
-          animation-delay: 0.3s;
-        }
-        .animation-delay-600 {
-          animation-delay: 0.6s;
-        }
-      `}</style>
     </Page>
   )
 }
