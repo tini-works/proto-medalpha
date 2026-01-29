@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     port: 5190,
     strictPort: true,
-    host: '127.0.0.1',
+    // Listen on all interfaces so the app is reachable on the local network (e.g. phone/tablet)
+    host: true,
   },
 })

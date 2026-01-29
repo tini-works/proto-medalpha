@@ -21,6 +21,10 @@ High-level, business-focused summary of notable changes.
 ### Welcome screen icons
 - **Icon library alignment**: WelcomeScreen previously used `tabler-icons-react` (v1); it now uses `@tabler/icons-react` (v3) for the header heart and the three feature icons (appointment booking, family management, privacy & security) so icons render consistently with the rest of the N3 app.
 
+### No-match screen flow & dev server
+- **No-match screen**: When the user chooses "Try different specialty" or "Browse doctors" from the Fast Lane no-match screen, the app now sets the booking flow (`by_specialty` or `by_doctor`) before navigating so they land in the correct path (specialty search vs doctor results) instead of a generic search.
+- **Local network dev**: N3 Vite dev server now listens on all interfaces (`host: true`) so the app can be opened from other devices on the same LAN (e.g. phone or tablet) using the network URL Vite prints in the terminal.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX

@@ -209,7 +209,7 @@ cd apps/appointment-booking-N3
 pnpm dev
 ```
 
-The app will be available at **http://localhost:5190**
+The app will be available at **http://localhost:5190**. The dev server listens on all interfaces, so you can also open the app from other devices on the same LAN using the network URL Vite prints in the terminal.
 
 ### Build
 

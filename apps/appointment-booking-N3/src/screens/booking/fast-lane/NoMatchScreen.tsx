@@ -8,7 +8,7 @@ import { PATHS } from '../../../routes'
 export default function NoMatchScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { fastLaneRequest, clearFastLaneRequest } = useBooking()
+  const { fastLaneRequest, clearFastLaneRequest, setBookingFlow } = useBooking()
 
   const handleSearchAgain = () => {
     navigate(PATHS.FAST_LANE_MATCHING)
@@ -16,12 +16,14 @@ export default function NoMatchScreen() {
 
   const handleTryDifferentSpecialty = () => {
     clearFastLaneRequest()
+    setBookingFlow('by_specialty')
     navigate(PATHS.BOOKING_SPECIALTY)
   }
 
   const handleBrowseDoctors = () => {
     clearFastLaneRequest()
-    navigate(PATHS.BOOKING_SPECIALTY)
+    setBookingFlow('by_doctor')
+    navigate(PATHS.BOOKING_DOCTOR_SEARCH)
   }
 
   return (
