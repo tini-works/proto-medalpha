@@ -1,4 +1,4 @@
-import type { InsuranceType } from './user'
+import type { InsuranceChoice, InsuranceType } from './user'
 
 export interface Doctor {
   id: string
@@ -133,7 +133,7 @@ export interface BookAgainContext {
     postalCode: string
   }
   insurance: {
-    type: 'GKV' | 'PKV' | 'Selbstzahler' | ''
+    type: InsuranceChoice | ''
   }
   patient: {
     id: string

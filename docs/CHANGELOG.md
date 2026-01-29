@@ -10,6 +10,12 @@ High-level, business-focused summary of notable changes.
 - **In-app push on status change**: When an appointment’s status changes (e.g. matching → confirmed, or cancelled), an in-app toast appears at the bottom with a short message and optional “View” link to the appointment; toast auto-dismisses after 5s. Implemented via NotificationToastContext, Toast component, and AppointmentStatusChangeNotifier that detects status changes from app state.
 - **Toast & history fixes**: Toast’s `<Link>` was rendering outside BrowserRouter and caused a crash; ToastRenderer is now rendered inside BrowserRouter so the link has router context. History screen dedupes appointments by id before rendering so duplicate ids (e.g. from seed or race conditions) no longer trigger React duplicate-key warnings in SwipeableAppointmentStack.
 
+### Booking submission refactor & UX polish
+- **Consistent submission logic**: Centralized booking submission into a shared `useBookingSubmission` hook so Fast Lane and availability-based flows follow the same “create matching appointment → background match → Request Sent” pattern.
+- **More reliable in-app notifications**: Toast provider now queues multiple status-change toasts so rapid updates don’t overwrite each other.
+- **Localized offline banner**: The global offline banner message is now pulled from `settings` translations (English + German) instead of hard-coded English text.
+- **Safer background matching**: Background matching returns a cancellation function to prevent updates after unmount, and insurance types are standardized across request and API types for consistency.
+
 ### Matched Doctors radio tap area
 - **Accessibility & ergonomics**: Increased the matched doctor selection radio tap target in the N3 Doctor list to a balanced 44×44px square so it has equal padding on all sides, making it easier to tap accurately on touch devices while keeping the visual circle icon size unchanged.
 

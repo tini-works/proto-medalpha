@@ -85,5 +85,6 @@
   "helpTopic_privacy": "Datenschutz & Sicherheit",
   "helpTopic_privacy_desc": "Datenschutz- und Sicherheitsfunktionen",
   "helpTopic_troubleshooting": "Fehlerbehebung",
-  "helpTopic_troubleshooting_desc": "Häufige Probleme und Lösungen"
+  "helpTopic_troubleshooting_desc": "Häufige Probleme und Lösungen",
+  "offlineBanner": "Sie sind offline. Einige Aktionen sind möglicherweise nicht verfügbar."
 }

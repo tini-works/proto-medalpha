@@ -11,6 +11,7 @@ import type {
   RescheduleContext,
   BookAgainContext,
   AvailabilityPrefs,
+  InsuranceType,
 } from '../types'
 import { initialState } from '../types'
 import { clearState, loadState, saveState } from './storage'
@@ -20,7 +21,7 @@ interface FastLaneRequestState {
   specialty: string
   symptom?: string
   city: string
-  insuranceType: 'GKV' | 'PKV'
+  insuranceType: InsuranceType
   patientId: string
   patientName: string
 }
@@ -29,7 +30,7 @@ interface FastLaneRequestState {
 interface SpecialtyMatchRequestState {
   specialty: string
   city: string
-  insuranceType: 'GKV' | 'PKV'
+  insuranceType: InsuranceType
   doctorId: string
   doctorName: string
   availabilityPrefs: AvailabilityPrefs

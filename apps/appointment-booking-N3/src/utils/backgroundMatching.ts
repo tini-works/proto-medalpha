@@ -14,19 +14,21 @@ interface BackgroundMatchOptions {
 
 /**
  * Runs the matching API in the background and updates the appointment when complete.
- * This is a fire-and-forget function - it doesn't block the UI.
+ * Returns an abort function to cancel if component unmounts.
  */
-export function runBackgroundMatching(options: BackgroundMatchOptions): void {
+export function runBackgroundMatching(options: BackgroundMatchOptions): () => void {
   const { appointmentId, matchType, params, onSuccess, onFailure } = options
+  let isCancelled = false
 
-  // Run matching asynchronously without blocking
   ;(async () => {
     try {
       if (matchType === 'fast_lane') {
         const result = await apiFastLaneMatch(params as FastLaneRequest)
 
+        // Don't call callbacks if cancelled (component unmounted)
+        if (isCancelled) return
+
         if (result.success && result.appointment) {
-          // Update with confirmed appointment data
           onSuccess({
             doctorId: result.appointment.doctorId,
             doctorName: result.appointment.doctorName,
@@ -40,6 +42,9 @@ export function runBackgroundMatching(options: BackgroundMatchOptions): void {
         }
       } else {
         const result = await apiSpecialtyMatch(params as SpecialtyMatchRequest)
+
+        // Don't call callbacks if cancelled (component unmounted)
+        if (isCancelled) return
 
         if (result.success && result.appointment) {
           onSuccess({
@@ -55,10 +60,16 @@ export function runBackgroundMatching(options: BackgroundMatchOptions): void {
         }
       }
     } catch (error) {
+      if (isCancelled) return
       console.error('Background matching failed:', error)
       onFailure(appointmentId)
     }
   })()
+
+  // Return abort function for cleanup
+  return () => {
+    isCancelled = true
+  }
 }
 
 /**
@@ -72,7 +83,7 @@ export function createMatchingAppointment(params: {
   doctorName?: string
 }): Appointment {
   return {
-    id: `apt-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    id: `apt-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
     doctorId: params.doctorId || 'pending',
     doctorName: params.doctorName || 'Finding best match...',
     specialty: params.specialty,

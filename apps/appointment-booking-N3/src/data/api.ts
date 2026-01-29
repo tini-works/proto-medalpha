@@ -4,6 +4,7 @@ import {
   MOCK_MATCHING_FAIL_TOTAL_MS,
   MOCK_MATCHING_NO_DOCTORS_MS,
 } from '../config/matching'
+import type { InsuranceType } from '../types/user'
 
 export function simulateApiDelay<T>(data: T, delayMs = 300): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(data), delayMs))
@@ -15,7 +16,7 @@ export function simulateApiError(message: string, delayMs = 300): Promise<never>
 
 // Simulated API functions with delays
 export async function apiSearchDoctors(
-  filters: { specialty?: string; city?: string; insuranceType?: 'GKV' | 'PKV' | '' },
+  filters: { specialty?: string; city?: string; insuranceType?: InsuranceType | '' },
   delayMs = 500
 ) {
   const { searchDoctors, doctors } = await import('./doctors')
@@ -72,7 +73,7 @@ export async function apiSearchStores(filters: { city?: string; type?: 'dm' | 'p
   return simulateApiDelay(results, delayMs)
 }
 
-export async function apiGetCMSContent(insuranceType?: 'GKV' | 'PKV' | '', delayMs = 300) {
+export async function apiGetCMSContent(insuranceType?: InsuranceType | '', delayMs = 300) {
   const { getActiveCMSContent } = await import('./cms')
   const content = getActiveCMSContent(insuranceType)
   return simulateApiDelay(content, delayMs)
@@ -128,7 +129,7 @@ export interface FastLaneRequest {
   specialty: string
   symptom?: string
   city: string
-  insuranceType: 'GKV' | 'PKV'
+  insuranceType: InsuranceType
   patientId: string
   patientName: string
 }
@@ -155,7 +156,7 @@ export interface FastLaneMatchResult {
       symptom?: string
       requestedAt: string
       city: string
-      insuranceType: 'GKV' | 'PKV'
+      insuranceType: InsuranceType
     }
   }
 }
@@ -275,7 +276,7 @@ export async function apiFastLaneMatch(
 export interface SpecialtyMatchRequest {
   specialty: string
   city: string
-  insuranceType: 'GKV' | 'PKV'
+  insuranceType: InsuranceType
   doctorId: string
   doctorName: string
   availabilityPrefs: {
@@ -306,7 +307,7 @@ export interface SpecialtyMatchResult {
       selectedDoctorId: string
       requestedAt: string
       city: string
-      insuranceType: 'GKV' | 'PKV'
+      insuranceType: InsuranceType
       fullyFlexible?: boolean
     }
   }

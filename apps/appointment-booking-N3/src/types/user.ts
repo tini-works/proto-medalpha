@@ -1,4 +1,5 @@
 export type InsuranceType = 'GKV' | 'PKV'
+export type InsuranceChoice = InsuranceType | 'Selbstzahler' // For UI selection only - gets converted to '' for storage
 
 export interface FamilyMember {
   id: string
