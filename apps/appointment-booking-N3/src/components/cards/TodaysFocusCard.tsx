@@ -67,7 +67,7 @@ export function TodaysFocusCard({ appointment, onClick }: TodaysFocusCardProps) 
             }}
             className="flex-shrink-0 rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-600 transition-colors hover:bg-cream-50 active:scale-95"
           >
-            View details
+            {t('viewDetails')}
           </button>
         </div>
       </div>

@@ -330,11 +330,15 @@ export default function AvailabilityScreen() {
       {/* Sticky Footer */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <Button onClick={handleContinue} disabled={!canContinue} variant="primary" fullWidth size="lg">
-            <span className="flex items-center gap-2">
-              {t('continueBtn')}
-              <IconArrowRight size={20} stroke={2} />
-            </span>
+          <Button
+            onClick={handleContinue}
+            disabled={!canContinue}
+            variant="primary"
+            fullWidth
+            size="lg"
+            rightIcon={<IconArrowRight size={20} stroke={2} />}
+          >
+            {t('continueBtn')}
           </Button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconCheck, IconArrowRight } from '@tabler/icons-react'
+import { IconCheck } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, ReasonTextarea } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
@@ -152,10 +152,7 @@ export default function SymptomsScreen() {
             fullWidth
             size="lg"
           >
-            <span className="flex items-center justify-center gap-2">
-              {t('continueBtn')}
-              <IconArrowRight size={20} stroke={2} />
-            </span>
+            {t('continueBtn')}
           </Button>
         </div>
       </div>

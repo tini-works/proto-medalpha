@@ -7,6 +7,7 @@
   "family": "Familie",
   "nextAppointment": "NÄCHSTER TERMIN",
   "dateAt": "{{date}} um",
+  "viewDetails": "Details ansehen",
   "submitForm": "Formular absenden",
   "latestHealthNews": "Neueste Gesundheitsnachrichten",
   "loadMore": "Mehr laden"

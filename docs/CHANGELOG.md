@@ -14,6 +14,10 @@ High-level, business-focused summary of notable changes.
 - **State & i18n support**: Extended booking state to capture symptom information alongside availability preferences and wired new English/German booking translations for steps, symptom labels, and helper copy so the refactored flows stay fully localized.
 - **Design documentation**: Captured the refactor plan and testing checklist in `docs/plans/unify-doctor-results-screen.md` to keep product, design, and implementation aligned around the new flows.
 
+### Booking Continue button & Today's Focus i18n
+- **Continue button**: Removed duplicate arrow on booking flow CTAs (Specialty, Doctor results, Symptoms, Availability) by using the shared `Button` component’s `rightIcon` and dropping the "→" from the `continueBtn` translation so users see one consistent arrow per locale.
+- **Today's Focus card**: The "View details" CTA was hard-coded in English; it now uses the `home` namespace key `viewDetails` with English and German entries so the card is fully localized on the home screen.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX

@@ -226,11 +226,9 @@ export default function SearchScreen() {
             variant="primary"
             fullWidth
             size="lg"
+            rightIcon={<IconArrowRight size={20} stroke={2} />}
           >
-            <span className="flex items-center justify-center gap-2">
-              {t('continueBtn')}
-              <IconArrowRight size={20} stroke={2} />
-            </span>
+            {t('continueBtn')}
           </Button>
         </div>
       </div>
