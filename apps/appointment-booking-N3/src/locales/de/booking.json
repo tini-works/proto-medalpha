@@ -281,5 +281,17 @@
   "langRussian": "Russisch",
   "langArabic": "Arabisch",
   "langPolish": "Polnisch",
-  "langPortuguese": "Portugiesisch"
+  "langPortuguese": "Portugiesisch",
+
+  "status.matching": "Suche läuft",
+  "status.awaitConfirm": "Wartet auf Bestätigung",
+  "status.confirmed": "Bestätigt",
+  "status.completed": "Abgeschlossen",
+  "status.cancelledPatient": "Von Ihnen storniert",
+  "status.cancelledDoctor": "Vom Arzt storniert",
+  "findingDoctor": "Suche nach Arzt...",
+  "noAppointmentDataFound": "Keine Termindaten gefunden.",
+  "timeUnit": "Uhr",
+  "patient": "Patient",
+  "applyFilters": "Filter anwenden"
 }

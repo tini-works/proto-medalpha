@@ -477,13 +477,11 @@ export default function ResultsScreen() {
 
       {/* Filters Sheet */}
       {showFilters && (
-        <div className="fixed inset-0 z-50">
+        <div className="fixed inset-0 z-50" role="dialog" aria-modal="true">
           <div
             className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
-            onClick={() => {
-              applyFiltersToState()
-              setShowFilters(false)
-            }}
+            data-testid="filter-backdrop"
+            onClick={() => setShowFilters(false)}
           />
           <div className="absolute bottom-0 left-0 right-0 h-[90vh] flex flex-col rounded-t-3xl bg-white overflow-hidden animate-slide-up">
             <div className="flex justify-center pt-3 pb-2">
@@ -504,10 +502,7 @@ export default function ResultsScreen() {
                 {t('clearAll')}
               </button>
                 <button
-                  onClick={() => {
-                    applyFiltersToState()
-                    setShowFilters(false)
-                  }}
+                  onClick={() => setShowFilters(false)}
                   className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
                   aria-label="Close"
                 >
@@ -604,6 +599,21 @@ export default function ResultsScreen() {
                   </div>
                 )}
               </section>
+            </div>
+
+            {/* Apply Filters Button */}
+            <div className="flex-shrink-0 p-4 bg-white border-t border-cream-300">
+              <Button
+                onClick={() => {
+                  applyFiltersToState()
+                  setShowFilters(false)
+                }}
+                variant="primary"
+                fullWidth
+                size="lg"
+              >
+                {t('applyFilters')}
+              </Button>
             </div>
           </div>
         </div>

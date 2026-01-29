@@ -50,6 +50,14 @@ High-level, business-focused summary of notable changes.
 - **No-match screen**: When the user chooses "Try different specialty" or "Browse doctors" from the Fast Lane no-match screen, the app now sets the booking flow (`by_specialty` or `by_doctor`) before navigating so they land in the correct path (specialty search vs doctor results) instead of a generic search.
 - **Local network dev**: N3 Vite dev server now listens on all interfaces (`host: true`) so the app can be opened from other devices on the same LAN (e.g. phone or tablet) using the network URL Vite prints in the terminal.
 
+### Appointment card i18n & sign-out confirmation
+- **Appointment cards**: Status chips and helper text on appointment cards are now fully localized via the `booking` namespace (matching, awaiting confirmation, confirmed, completed, cancelled by you/doctor), including localized “Finding your doctor…” states, patient label, and time unit so both English and German users see consistent wording in lists and detail surfaces.
+- **Settings sign-out flow**: Replaced the browser `window.confirm` with a reusable, accessible `ConfirmModal` component for signing out, with translated title, primary/secondary button labels, and cancel text in the `settings` namespace.
+
+### Vitest test harness for N3
+- **Test tooling**: Added a Vitest + React Testing Library setup (`vitest.config.ts`, JSDOM environment, and `src/test/setup.ts`) with `pnpm test`, `pnpm test:run`, and `pnpm test:coverage` scripts wired into the N3 app.
+- **Initial coverage**: Introduced first component/screen tests for booking cards, header navigation logic, booking confirmation/success flows, and settings sign-out so the most critical user journeys now have automated regression protection.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX

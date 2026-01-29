@@ -281,5 +281,17 @@
   "langRussian": "Russian",
   "langArabic": "Arabic",
   "langPolish": "Polish",
-  "langPortuguese": "Portuguese"
+  "langPortuguese": "Portuguese",
+
+  "status.matching": "Matching",
+  "status.awaitConfirm": "Awaiting confirmation",
+  "status.confirmed": "Confirmed",
+  "status.completed": "Completed",
+  "status.cancelledPatient": "Cancelled by you",
+  "status.cancelledDoctor": "Cancelled by doctor",
+  "findingDoctor": "Finding your doctor...",
+  "noAppointmentDataFound": "No appointment data found.",
+  "timeUnit": "",
+  "patient": "Patient",
+  "applyFilters": "Apply Filters"
 }

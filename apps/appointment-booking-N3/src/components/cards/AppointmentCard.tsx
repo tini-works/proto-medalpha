@@ -1,4 +1,5 @@
 import { Stethoscope, Clock, Heart, Circle, Loader2 } from 'tabler-icons-react'
+import { useTranslation } from 'react-i18next'
 import type { Appointment } from '../../types'
 import { Pill } from '../display/Pill'
 import { Avatar } from '../display/Avatar'
@@ -13,17 +14,17 @@ interface AppointmentCardProps {
   variant?: 'default' | 'upcoming'
 }
 
-// Map appointment status to pill tones
+// Map appointment status to pill tones and i18n keys
 const statusConfig: Record<
   Appointment['status'],
-  { tone: 'info' | 'positive' | 'pending' | 'warning' | 'negative' | 'neutral'; label: string }
+  { tone: 'info' | 'positive' | 'pending' | 'warning' | 'negative' | 'neutral'; labelKey: string }
 > = {
-  matching: { tone: 'info', label: 'Matching' },
-  await_confirm: { tone: 'pending', label: 'Await confirm' },
-  confirmed: { tone: 'positive', label: 'Confirmed' },
-  completed: { tone: 'neutral', label: 'Completed' },
-  cancelled_patient: { tone: 'negative', label: 'Patient canceled' },
-  cancelled_doctor: { tone: 'negative', label: 'Doctor canceled' },
+  matching: { tone: 'info', labelKey: 'status.matching' },
+  await_confirm: { tone: 'pending', labelKey: 'status.awaitConfirm' },
+  confirmed: { tone: 'positive', labelKey: 'status.confirmed' },
+  completed: { tone: 'neutral', labelKey: 'status.completed' },
+  cancelled_patient: { tone: 'negative', labelKey: 'status.cancelledPatient' },
+  cancelled_doctor: { tone: 'negative', labelKey: 'status.cancelledDoctor' },
 }
 
 // Check if doctor info should be visible based on status
@@ -49,6 +50,7 @@ export function AppointmentCard({
   onClick,
   variant = 'default',
 }: AppointmentCardProps) {
+  const { t } = useTranslation('booking')
   const config = statusConfig[appointment.status]
   const specialtyIcon = specialtyIcons[appointment.specialty] || <Stethoscope size="14" stroke="1.5" />
   const showDoctorInfo = shouldShowDoctorInfo(appointment.status)
@@ -70,10 +72,10 @@ export function AppointmentCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <h3 className="font-medium text-charcoal-500 truncate">
-                {showDoctorInfo ? appointment.doctorName : 'Finding your doctor...'}
+                {showDoctorInfo ? appointment.doctorName : t('findingDoctor')}
               </h3>
               <Pill tone={config.tone} size="sm">
-                {config.label}
+                {t(config.labelKey)}
               </Pill>
             </div>
             <p className="text-sm text-slate-600">{appointment.specialty}</p>
@@ -104,10 +106,10 @@ export function AppointmentCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-medium text-charcoal-500 truncate">
-              {showDoctorInfo ? appointment.doctorName : 'Finding your doctor...'}
+              {showDoctorInfo ? appointment.doctorName : t('findingDoctor')}
             </h3>
             <Pill tone={config.tone} size="sm">
-              {config.label}
+              {t(config.labelKey)}
             </Pill>
           </div>
           <p className="text-sm text-slate-600 mt-0.5">{appointment.specialty}</p>
@@ -115,7 +117,7 @@ export function AppointmentCard({
             <div className="mt-2 flex items-center gap-3 text-sm text-slate-500">
               <div className="flex items-center gap-1">
                 <Clock size="16" stroke="1.5" className="flex-shrink-0" />
-                <span>{formatTime(appointment.time)} Uhr</span>
+                <span>{formatTime(appointment.time)} {t('timeUnit')}</span>
               </div>
             </div>
           )}
@@ -124,7 +126,7 @@ export function AppointmentCard({
 
       {appointment.forUserName && (
         <div className="mt-2 text-sm text-slate-500">
-          Patient: {appointment.forUserName}
+          {t('patient')}: {appointment.forUserName}
         </div>
       )}
     </button>
