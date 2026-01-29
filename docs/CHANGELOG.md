@@ -2,6 +2,11 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-29
+
+### Matched Doctors radio tap area
+- **Accessibility & ergonomics**: Increased the matched doctor selection radio tap target in the N3 Doctor list to a balanced 44×44px square so it has equal padding on all sides, making it easier to tap accurately on touch devices while keeping the visual circle icon size unchanged.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX

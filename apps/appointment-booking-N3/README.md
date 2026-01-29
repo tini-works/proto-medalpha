@@ -60,6 +60,10 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 7. **Confirmation**: Review appointment details and select patient
 8. **Success**: Confirmation screen with appointment summary
 
+#### Matched Doctors selection UX
+- **Radio placement & iconography**: Matched doctors on the final confirmation step use an explicit radio-style control to the left of each card (Circle / CircleCheck icons) so selection is visually obvious.
+- **Tap target ergonomics**: The radio control has a square 44×44px tap area with equal padding on all sides, keeping the inner circle size stable while making it easier to select the right doctor on small touch screens.
+
 ### Internationalization (i18n)
 - **Multi-language support**: English and German translation support using react-i18next
 - **Namespaced translations**: Organized by domain (settings, home, notifications, booking, auth, profile) for incremental expansion

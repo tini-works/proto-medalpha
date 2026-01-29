@@ -232,7 +232,7 @@ export function DoctorCard({
       {/* Radio left of card, vertically centered. Unchecked: Tabler Circle icon; checked: CircleCheck. */}
       <button
         onClick={onSelect}
-        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:ring-offset-1 opacity-100 relative z-10 transition-colors"
+        className="shrink-0 w-11 h-11 flex items-center justify-center rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:ring-offset-1 opacity-100 relative z-10 transition-colors"
         aria-label={selected ? 'Deselect doctor' : 'Select doctor'}
       >
         {selected ? (
