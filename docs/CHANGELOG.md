@@ -57,6 +57,7 @@ High-level, business-focused summary of notable changes.
 ### Vitest test harness for N3
 - **Test tooling**: Added a Vitest + React Testing Library setup (`vitest.config.ts`, JSDOM environment, and `src/test/setup.ts`) with `pnpm test`, `pnpm test:run`, and `pnpm test:coverage` scripts wired into the N3 app.
 - **Initial coverage**: Introduced first component/screen tests for booking cards, header navigation logic, booking confirmation/success flows, and settings sign-out so the most critical user journeys now have automated regression protection.
+- **Execution tuning**: Refined Vitest configuration (thread pool, isolated test files, targeted `include` globs, CSS disabled by default, single retry, and tighter timeouts) so the suite runs faster and more reliably in local development while still supporting the Golden Tests plan.
 
 ### Language-aware formatting & sign-in hints
 - **Locale-aware formatting**: Centralized date, time, number, distance, and relative date formatting in `utils/format` with language-aware helpers so German users see `23.01.2026`, `2,5 km` and `Heute / Morgen / vor X Tagen` while English users see `01/23/2026`, `2.5 km` and `Today / Tomorrow / X days ago` across booking, profile, history, reschedule, and news screens.
