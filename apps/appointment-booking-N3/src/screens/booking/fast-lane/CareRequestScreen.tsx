@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconCheck, IconSearch, IconX } from '@tabler/icons-react'
 import { Header, Page, ReasonTextarea } from '../../../components'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
-import { useProfile, useBooking, useAppState } from '../../../state'
-import { PATHS } from '../../../routes'
+import { useProfile } from '../../../state'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
-import { runBackgroundMatching, createMatchingAppointment } from '../../../utils/backgroundMatching'
+import { useBookingSubmission } from '../../../hooks/useBookingSubmission'
 import type { InsuranceType } from '../../../types'
 
 type TabType = 'symptoms' | 'specialty'
@@ -17,11 +15,9 @@ const OTHER_ID = '__other__'
 type InsuranceChoice = InsuranceType | ''
 
 export default function CareRequestScreen() {
-  const navigate = useNavigate()
   const { t } = useTranslation('booking')
   const { profile } = useProfile()
-  const { setFastLaneRequest } = useBooking()
-  const { addAppointment, updateAppointment, cancelAppointment } = useAppState()
+  const { submitFastLane } = useBookingSubmission()
 
   const [activeTab, setActiveTab] = useState<TabType>('symptoms')
   const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null)
@@ -91,7 +87,7 @@ export default function CareRequestScreen() {
 
     const patientName = selectedPatient?.name || profile.fullName
 
-    setFastLaneRequest({
+    submitFastLane({
       specialty,
       symptom: symptomLabel,
       city: selectedCity,
@@ -99,37 +95,6 @@ export default function CareRequestScreen() {
       patientId: selectedPatientId,
       patientName,
     })
-
-    // Create placeholder appointment with 'matching' status
-    const matchingAppointment = createMatchingAppointment({
-      specialty,
-      patientId: selectedPatientId,
-      patientName,
-    })
-    addAppointment(matchingAppointment)
-
-    // Start background matching (fire-and-forget)
-    runBackgroundMatching({
-      appointmentId: matchingAppointment.id,
-      matchType: 'fast_lane',
-      params: {
-        specialty,
-        city: selectedCity,
-        insuranceType: insurance as 'GKV' | 'PKV',
-        patientId: selectedPatientId,
-        patientName,
-        symptom: symptomLabel,
-      },
-      onSuccess: (updatedData) => {
-        updateAppointment(matchingAppointment.id, updatedData)
-      },
-      onFailure: () => {
-        cancelAppointment(matchingAppointment.id)
-      },
-    })
-
-    // Navigate immediately - don't wait for matching
-    navigate(PATHS.BOOKING_REQUEST_SENT)
   }
 
   return (

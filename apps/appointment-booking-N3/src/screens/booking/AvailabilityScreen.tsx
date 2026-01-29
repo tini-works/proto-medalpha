@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { IconSparkles, IconSun, IconMoon, IconCheck, IconCalendar, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { Button } from '../../components/ui'
-import { useBooking, useProfile, useAppState } from '../../state'
+import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
-import { runBackgroundMatching, createMatchingAppointment } from '../../utils/backgroundMatching'
-import type { DayOfWeek, TimeRange, AvailabilitySlot } from '../../types'
+import { useBookingSubmission } from '../../hooks/useBookingSubmission'
+import type { DayOfWeek, TimeRange, AvailabilitySlot, InsuranceType } from '../../types'
 
 const DAYS: DayOfWeek[] = ['mon', 'tue', 'wed', 'thu', 'fri']
 const TIME_RANGES: TimeRange[] = ['morning', 'afternoon', 'evening']
@@ -30,8 +30,8 @@ export default function AvailabilityScreen() {
   const { t } = useTranslation('booking')
   const navigate = useNavigate()
   const { profile } = useProfile()
-  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
-  const { addAppointment, updateAppointment, cancelAppointment } = useAppState()
+  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor } = useBooking()
+  const { submitSpecialty } = useBookingSubmission()
 
   const isDoctorFirstFlow = bookingFlow === 'by_doctor'
 
@@ -153,71 +153,22 @@ export default function AvailabilityScreen() {
     const prefs = { fullyFlexible, slots }
     setAvailabilityPrefs(prefs)
 
-    // Build params for background matching
-    const matchParams = isDoctorFirstFlow && selectedDoctor
-      ? {
-          specialty: selectedDoctor.specialty,
-          city: selectedDoctor.city,
-          insuranceType: (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV') as 'GKV' | 'PKV',
-          doctorId: selectedDoctor.id,
-          doctorName: selectedDoctor.name,
-          availabilityPrefs: prefs,
-          patientId: profile.id,
-          patientName: profile.fullName,
-        }
-      : {
-          specialty: search?.specialty || '',
-          city: search?.city || '',
-          insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
-          doctorId: '',
-          doctorName: '',
-          availabilityPrefs: prefs,
-          patientId: profile.id,
-          patientName: profile.fullName,
-        }
+    // Determine insurance type based on flow
+    const insuranceType: InsuranceType = isDoctorFirstFlow && selectedDoctor
+      ? (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV')
+      : ((search?.insuranceType || 'GKV') as InsuranceType)
 
-    setSpecialtyMatchRequest(matchParams)
-
-    // Create placeholder appointment with 'matching' status
-    const matchingAppointment = createMatchingAppointment({
-      specialty: matchParams.specialty,
+    // Submit using the shared hook
+    submitSpecialty({
+      specialty: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.specialty : (search?.specialty || ''),
+      city: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.city : (search?.city || ''),
+      insuranceType,
+      doctorId: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.id : '',
+      doctorName: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.name : '',
+      availabilityPrefs: prefs,
       patientId: profile.id,
       patientName: profile.fullName,
-      doctorId: matchParams.doctorId || undefined,
-      doctorName: matchParams.doctorName || undefined,
     })
-    addAppointment(matchingAppointment)
-
-    // Start background matching (fire-and-forget)
-    runBackgroundMatching({
-      appointmentId: matchingAppointment.id,
-      matchType: 'specialty',
-      params: {
-        specialty: matchParams.specialty,
-        city: matchParams.city,
-        insuranceType: matchParams.insuranceType,
-        doctorId: matchParams.doctorId,
-        doctorName: matchParams.doctorName,
-        availabilityPrefs: {
-          fullyFlexible: prefs.fullyFlexible,
-          slots: prefs.slots.map((slot) => ({
-            day: slot.day,
-            timeRange: slot.timeRange,
-          })),
-        },
-        patientId: profile.id,
-        patientName: profile.fullName,
-      },
-      onSuccess: (updatedData) => {
-        updateAppointment(matchingAppointment.id, updatedData)
-      },
-      onFailure: () => {
-        cancelAppointment(matchingAppointment.id)
-      },
-    })
-
-    // Navigate immediately - don't wait for matching
-    navigate(PATHS.BOOKING_REQUEST_SENT)
   }
 
   const canContinue = fullyFlexible || selectedSlots.size > 0
