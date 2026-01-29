@@ -37,6 +37,9 @@ interface SpecialtyMatchRequestState {
   patientName: string
 }
 
+// Booking flow type
+type BookingFlow = 'fast_lane' | 'by_specialty' | 'by_doctor' | null
+
 // Extended state for reschedule and book again flows (not persisted)
 interface ExtendedState {
   reschedule: RescheduleContext | null
@@ -44,6 +47,7 @@ interface ExtendedState {
   fastLane: FastLaneRequestState | null
   specialtyMatch: SpecialtyMatchRequestState | null
   availabilityPrefs: AvailabilityPrefs | null
+  bookingFlow: BookingFlow
 }
 
 type AppStateApi = {
@@ -87,6 +91,9 @@ type AppStateApi = {
   setAvailabilityPrefs: (prefs: AvailabilityPrefs | null) => void
   setSpecialtyMatchRequest: (request: SpecialtyMatchRequestState | null) => void
   clearSpecialtyMatchRequest: () => void
+  // Booking flow tracking
+  setBookingFlow: (flow: BookingFlow) => void
+  clearBookingFlow: () => void
   // Computed
   isProfileComplete: boolean
   getAppointmentById: (id: string) => Appointment | undefined
@@ -105,6 +112,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     fastLane: null,
     specialtyMatch: null,
     availabilityPrefs: null,
+    bookingFlow: null,
   })
 
   useEffect(() => {
@@ -453,6 +461,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       clearSpecialtyMatchRequest: () =>
         setExtendedState((s) => ({ ...s, specialtyMatch: null, availabilityPrefs: null })),
 
+      // Booking flow tracking
+      setBookingFlow: (flow) =>
+        setExtendedState((s) => ({ ...s, bookingFlow: flow })),
+      clearBookingFlow: () =>
+        setExtendedState((s) => ({ ...s, bookingFlow: null })),
+
       // Computed/getters
       getAppointmentById: (id) => state.appointments.find((apt) => apt.id === id),
       getHistoryItemById: (id) => state.history.items.find((item) => item.id === id),
@@ -461,7 +475,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       resetAll: () => {
         clearState()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null })
       },
     }),
     [state, extendedState, isProfileComplete]
@@ -527,6 +541,8 @@ export function useBooking() {
     setAvailabilityPrefs,
     setSpecialtyMatchRequest,
     clearSpecialtyMatchRequest,
+    setBookingFlow,
+    clearBookingFlow,
   } = useAppState()
   return {
     search: state.booking.currentSearch,
@@ -537,6 +553,7 @@ export function useBooking() {
     fastLaneRequest: extendedState.fastLane,
     specialtyMatchRequest: extendedState.specialtyMatch,
     availabilityPrefs: extendedState.availabilityPrefs,
+    bookingFlow: extendedState.bookingFlow,
     setSearchFilters,
     selectDoctor,
     selectSlot,
@@ -550,6 +567,8 @@ export function useBooking() {
     setAvailabilityPrefs,
     setSpecialtyMatchRequest,
     clearSpecialtyMatchRequest,
+    setBookingFlow,
+    clearBookingFlow,
   }
 }
 

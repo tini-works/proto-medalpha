@@ -16,7 +16,7 @@ export default function NoMatchScreen() {
 
   const handleTryDifferentSpecialty = () => {
     clearFastLaneRequest()
-    navigate(PATHS.FAST_LANE)
+    navigate(PATHS.BOOKING_SPECIALTY)
   }
 
   const handleBrowseDoctors = () => {

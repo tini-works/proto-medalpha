@@ -2,6 +2,21 @@
 
 High-level, business-focused summary of notable changes.
 
+## 2026-01-28 (Continued - Part 7)
+
+### Matched Doctors radio (DoctorCard) UX
+- **Placement**: Radio moved outside the card to the left, vertically centered with the card, for clearer selection affordance on the Matched Doctors (STEP 4 OF 4) screen.
+- **Visibility**: Unchecked state was invisible (low-contrast cream on white). Now uses Tabler `Circle` icon with `text-slate-500` and `hover:text-teal-400` so the empty circle is always visible.
+- **Icons**: Unchecked = Tabler `Circle`; checked = Tabler `CircleCheck`. Fixed 24×24px size for consistency with form controls.
+
+### Doctor search screen (“Book by Doctor”)
+- New `DoctorSearchScreen` for the “Book by Doctor” path: search by name or specialty, sort by name / rating / distance, browse and select a doctor.
+
+## 2026-01-28 (Continued - Part 6)
+
+### Appointment confirmation CTAs
+- Clarified appointment confirmation CTAs so users can easily view all appointments from the confirmation screen with a softer secondary button, keeping “Add to Calendar” as the primary next step.
+
 ## 2026-01-28 (Continued - Part 5)
 
 ### Booking flow translation rendering fix

@@ -155,17 +155,12 @@
   "relationship_parent": "Elternteil",
   "relationship_other": "Andere",
 
-  "findingYourAppointment": "Passende Übereinstimmung finden",
+  "findingYourAppointment": "Ihren Termin finden",
   "matchingSearching": "Suche nach verfügbaren Ärzten...",
   "matchingFoundDoctors": "{{count}} passende Ärzte gefunden",
   "matchingCheckingAvailability": "Verfügbarkeit prüfen...",
   "matchingAwaitingConfirmation": "Auf Arztbestätigung warten...",
   "matchingPleaseWait": "Dies kann einen Moment dauern",
-  "findingMatchDescription": "Wir prüfen Verfügbarkeiten und bestätigen den besten Termin für Sie.",
-  "matchingStepReviewRequest": "Ihre Anfrage wird geprüft",
-  "matchingStepSearchDoctors": "Suche nach verfügbaren Ärzten",
-  "matchingStepCheckAvailability": "Verfügbarkeit wird geprüft",
-  "matchingStepConfirm": "Termin wird bestätigt",
   "for": "Für",
   "cancelSearch": "Suche abbrechen",
   "viewAllAppointments": "Alle Termine anzeigen",
@@ -213,9 +208,21 @@
   "matchingCheckingAvailabilityWith": "Prüfe Terminplan von {{name}}...",
   "matchingAwaitingDoctorConfirmation": "Warte auf Bestätigung von {{name}}...",
 
-  "other": "Andere",
-  "otherSymptomLabel": "Beschreiben Sie kurz Ihr Anliegen",
-  "otherSymptomPlaceholder": "Beschreiben Sie Ihre Symptome in wenigen Worten…",
-  "otherSpecialtyLabel": "Welche Fachrichtung benötigen Sie?",
-  "otherSpecialtyPlaceholder": "z. B. Dermatologie"
+  "viewDetails": "Details anzeigen",
+  "skip": "Überspringen",
+  "letSystemChoose": "Das System wählt für Sie",
+  "doctorDetails": "Arztdetails",
+  "address": "Adresse",
+  "selectDoctor": "Arzt auswählen",
+
+  "searchDoctorPlaceholder": "Nach Name oder Fachrichtung suchen",
+  "clearSearch": "Suche löschen",
+
+  "searchDoctor": "Arzt suchen",
+  "searchDoctorByName": "Nach Arztname oder Fachrichtung suchen",
+  "continueToAvailability": "Weiter zur Verfügbarkeit",
+  "allDoctors": "Alle Ärzte",
+  "noDoctorsFound": "Keine Ärzte gefunden",
+  "nameAZ": "Name (A-Z)",
+  "step2Of3": "SCHRITT 2 VON 3"
 }

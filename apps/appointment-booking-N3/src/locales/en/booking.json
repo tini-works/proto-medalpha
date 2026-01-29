@@ -155,17 +155,12 @@
   "relationship_parent": "Parent",
   "relationship_other": "Other",
 
-  "findingYourAppointment": "Finding Your Match",
+  "findingYourAppointment": "Finding Your Appointment",
   "matchingSearching": "Searching for available doctors...",
   "matchingFoundDoctors": "Found {{count}} matching doctors",
   "matchingCheckingAvailability": "Checking availability...",
   "matchingAwaitingConfirmation": "Awaiting doctor confirmation...",
   "matchingPleaseWait": "This may take a moment",
-  "findingMatchDescription": "We’re checking availability and confirming the best appointment for you.",
-  "matchingStepReviewRequest": "Reviewing your request",
-  "matchingStepSearchDoctors": "Searching for available doctors",
-  "matchingStepCheckAvailability": "Checking availability",
-  "matchingStepConfirm": "Confirming appointment",
   "for": "For",
   "cancelSearch": "Cancel Search",
   "viewAllAppointments": "View All Appointments",
@@ -213,9 +208,21 @@
   "matchingCheckingAvailabilityWith": "Checking {{name}}'s schedule...",
   "matchingAwaitingDoctorConfirmation": "Awaiting confirmation from {{name}}...",
 
-  "other": "Other",
-  "otherSymptomLabel": "Tell us what’s going on",
-  "otherSymptomPlaceholder": "Describe your symptoms in a few words…",
-  "otherSpecialtyLabel": "Which specialty do you need?",
-  "otherSpecialtyPlaceholder": "e.g., Dermatology"
+  "viewDetails": "View Details",
+  "skip": "Skip",
+  "letSystemChoose": "Let the system choose for you",
+  "doctorDetails": "Doctor Details",
+  "address": "Address",
+  "selectDoctor": "Select Doctor",
+
+  "searchDoctorPlaceholder": "Search by name or specialty",
+  "clearSearch": "Clear search",
+
+  "searchDoctor": "Search Doctor",
+  "searchDoctorByName": "Search by doctor name or specialty",
+  "continueToAvailability": "Continue to Set Availability",
+  "allDoctors": "All Doctors",
+  "noDoctorsFound": "No doctors found",
+  "nameAZ": "Name (A-Z)",
+  "step2Of3": "STEP 2 OF 3"
 }

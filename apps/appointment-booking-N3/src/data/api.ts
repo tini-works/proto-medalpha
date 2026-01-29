@@ -38,6 +38,11 @@ export async function apiGetDoctor(id: string, delayMs = 300) {
   return simulateApiDelay(doctor, delayMs)
 }
 
+export async function apiGetAllDoctors(delayMs = 500) {
+  const { doctors } = await import('./doctors')
+  return simulateApiDelay(doctors, delayMs)
+}
+
 export async function apiGetTimeSlots(doctorId: string, delayMs = 400) {
   const { getTimeSlots } = await import('./timeSlots')
   const slots = getTimeSlots(doctorId)

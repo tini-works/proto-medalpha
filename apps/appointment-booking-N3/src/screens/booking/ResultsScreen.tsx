@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconArrowLeft, IconFilter, IconChevronDown, IconX } from '@tabler/icons-react'
-import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator } from '../../components'
-import { useBooking } from '../../state'
+import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch } from '@tabler/icons-react'
+import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet } from '../../components'
+import { useBooking, useProfile } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
@@ -23,7 +23,8 @@ const sortLabelKeys: Record<SortOption, string> = {
 export default function ResultsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { search, setSearchFilters, selectDoctor, selectSlot, availabilityPrefs } = useBooking()
+  const { profile } = useProfile()
+  const { search, setSearchFilters, selectDoctor, selectSlot, availabilityPrefs, setSpecialtyMatchRequest } = useBooking()
 
   // Check if we're in the specialty-first flow (has availability prefs)
   const isSpecialtyFirstFlow = Boolean(availabilityPrefs || search?.fullyFlexible || search?.availabilitySlots)
@@ -38,6 +39,13 @@ export default function ResultsScreen() {
   const [minRating, setMinRating] = useState<number>(search?.minRating ?? 0)
   const [onlyPublic, setOnlyPublic] = useState<boolean>(Boolean(search?.onlyPublic))
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(search?.languages ?? [])
+
+  // State for specialty-first flow: doctor selection and detail sheet
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null)
+  const [detailSheetDoctor, setDetailSheetDoctor] = useState<Doctor | null>(null)
+
+  // Search query state
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     // Check if there are active filters
@@ -119,12 +127,19 @@ export default function ResultsScreen() {
 
   const filteredDoctors = useMemo(() => {
     return doctors.filter((doctor) => {
+      // Search by name or specialty
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim()
+        const nameMatch = doctor.name.toLowerCase().includes(query)
+        const specialtyMatch = doctor.specialty.toLowerCase().includes(query)
+        if (!nameMatch && !specialtyMatch) return false
+      }
       if (onlyPublic && !doctor.accepts.includes('GKV')) return false
       if (minRating > 0 && doctor.rating < minRating) return false
       if (selectedLanguages.length > 0 && !selectedLanguages.some((l) => doctor.languages.includes(l))) return false
       return true
     })
-  }, [doctors, onlyPublic, minRating, selectedLanguages])
+  }, [doctors, searchQuery, onlyPublic, minRating, selectedLanguages])
 
   // Sort doctors based on selected option
   const sortedDoctors = useMemo(() => {
@@ -193,6 +208,58 @@ export default function ResultsScreen() {
     setShowFilters(true)
   }
 
+  // Specialty-first flow: handle doctor selection via radio
+  const handleDoctorRadioSelect = (doctorId: string) => {
+    setSelectedDoctorId(selectedDoctorId === doctorId ? null : doctorId)
+  }
+
+  // Specialty-first flow: open detail bottom sheet
+  const handleViewDetails = (doctor: Doctor) => {
+    setDetailSheetDoctor(doctor)
+  }
+
+  // Specialty-first flow: select doctor from detail sheet
+  const handleSelectFromSheet = () => {
+    if (detailSheetDoctor) {
+      setSelectedDoctorId(detailSheetDoctor.id)
+      setDetailSheetDoctor(null)
+    }
+  }
+
+  // Specialty-first flow: continue with selected doctor or skip
+  const handleContinue = () => {
+    const selectedDoctor = sortedDoctors.find((d) => d.id === selectedDoctorId)
+    if (!selectedDoctor) return
+
+    selectDoctor(selectedDoctor)
+    setSpecialtyMatchRequest({
+      specialty: search?.specialty || selectedDoctor.specialty,
+      city: search?.city || selectedDoctor.city,
+      insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
+      doctorId: selectedDoctor.id,
+      doctorName: selectedDoctor.name,
+      availabilityPrefs: availabilityPrefs || { fullyFlexible: true, slots: [] },
+      patientId: profile.id,
+      patientName: profile.fullName,
+    })
+    navigate(PATHS.FAST_LANE_MATCHING)
+  }
+
+  // Specialty-first flow: skip selection, let system choose
+  const handleSkip = () => {
+    setSpecialtyMatchRequest({
+      specialty: search?.specialty || '',
+      city: search?.city || '',
+      insuranceType: (search?.insuranceType || 'GKV') as 'GKV' | 'PKV',
+      doctorId: '', // Empty = system chooses
+      doctorName: '',
+      availabilityPrefs: availabilityPrefs || { fullyFlexible: true, slots: [] },
+      patientId: profile.id,
+      patientName: profile.fullName,
+    })
+    navigate(PATHS.FAST_LANE_MATCHING)
+  }
+
   return (
     <Page>
       {/* Sticky Header */}
@@ -234,6 +301,29 @@ export default function ResultsScreen() {
           <ProgressIndicator currentStep={4} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
         </div>
       )}
+
+      {/* Search Bar */}
+      <div className="px-4 py-3 bg-white border-b border-cream-300">
+        <div className="relative">
+          <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" size={20} stroke={2} />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t('searchDoctorPlaceholder')}
+            className="w-full pl-10 pr-10 py-2.5 bg-cream-100 border border-cream-300 rounded-xl text-sm text-charcoal-500 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-slate-400 hover:text-slate-600"
+              aria-label={t('clearSearch')}
+            >
+              <IconX size={16} stroke={2} />
+            </button>
+          )}
+        </div>
+      </div>
 
       {/* Sort Selector Row */}
       <div className="sticky top-[57px] z-10 bg-cream-100 border-b border-cream-300">
@@ -287,7 +377,7 @@ export default function ResultsScreen() {
       </div>
 
       {/* Results List */}
-      <div className="px-4 py-4 pb-24">
+      <div className={`px-4 py-4 ${isSpecialtyFirstFlow ? 'pb-28' : 'pb-24'}`}>
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
@@ -337,7 +427,12 @@ export default function ResultsScreen() {
               <DoctorCard
                 key={doctor.id}
                 doctor={doctor}
-                slots={doctorSlots[doctor.id] || []}
+                slots={isSpecialtyFirstFlow ? [] : (doctorSlots[doctor.id] || [])}
+                showSlots={!isSpecialtyFirstFlow}
+                selectable={isSpecialtyFirstFlow}
+                selected={selectedDoctorId === doctor.id}
+                onSelect={() => handleDoctorRadioSelect(doctor.id)}
+                onViewDetails={() => handleViewDetails(doctor)}
                 onSelectDoctor={() => handleSelectDoctor(doctor)}
                 onSelectSlot={(slot) => handleSelectSlot(doctor, slot)}
                 onMoreAppointments={() => handleMoreAppointments(doctor)}
@@ -346,6 +441,36 @@ export default function ResultsScreen() {
           </div>
         )}
       </div>
+
+      {/* Bottom action bar for specialty-first flow */}
+      {isSpecialtyFirstFlow && !loading && sortedDoctors.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom z-30">
+          <div className="flex gap-3">
+            <button
+              onClick={handleSkip}
+              className="flex-1 py-3.5 px-4 border border-cream-400 text-slate-600 font-semibold rounded-xl hover:bg-cream-100 transition-colors"
+            >
+              {t('skip')}
+            </button>
+            <button
+              onClick={handleContinue}
+              disabled={!selectedDoctorId}
+              className="flex-1 py-3.5 px-4 bg-teal-500 text-white font-semibold rounded-xl hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {t('continueBtn')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Doctor Detail Sheet */}
+      {detailSheetDoctor && (
+        <DoctorDetailSheet
+          doctor={detailSheetDoctor}
+          onClose={() => setDetailSheetDoctor(null)}
+          onSelect={handleSelectFromSheet}
+        />
+      )}
 
       {/* Filters Sheet */}
       {showFilters && (
@@ -481,7 +606,8 @@ export default function ResultsScreen() {
         </div>
       )}
 
-      <TabBar />
+      {/* Only show TabBar when not in specialty-first flow */}
+      {!isSpecialtyFirstFlow && <TabBar />}
     </Page>
   )
 }

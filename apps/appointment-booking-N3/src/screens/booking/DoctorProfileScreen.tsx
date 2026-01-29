@@ -19,10 +19,13 @@ export default function DoctorProfileScreen() {
     availabilityPrefs,
     search,
     setSpecialtyMatchRequest,
+    bookingFlow,
   } = useBooking()
 
   // Check if we're in the specialty-first flow
   const isSpecialtyFirstFlow = Boolean(availabilityPrefs || search?.fullyFlexible || search?.availabilitySlots)
+  // Check if we're in the doctor-first flow
+  const isDoctorFirstFlow = bookingFlow === 'by_doctor'
   const [doctor, setDoctor] = useState<Doctor | null>(selectedDoctor)
   const [loading, setLoading] = useState(!selectedDoctor)
 
@@ -142,7 +145,14 @@ export default function DoctorProfileScreen() {
         </section>
 
         {/* Book button */}
-        {isSpecialtyFirstFlow ? (
+        {isDoctorFirstFlow ? (
+          <button
+            onClick={() => navigate(PATHS.BOOKING_AVAILABILITY)}
+            className="btn btn-primary btn-block"
+          >
+            {t('continueToAvailability')}
+          </button>
+        ) : isSpecialtyFirstFlow ? (
           <button
             onClick={() => {
               // Set up the specialty match request

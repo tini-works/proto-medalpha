@@ -14,3 +14,6 @@ export { DoctorCard, AppointmentCard, AppointmentListCard, FamilyMemberCard, His
 
 // Notifications
 export { default as NotificationCard } from './notifications/NotificationCard'
+
+// Sheets
+export { DoctorDetailSheet } from './sheets'
