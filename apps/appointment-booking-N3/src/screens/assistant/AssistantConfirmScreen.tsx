@@ -2,9 +2,10 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header, Page, Avatar, Rating } from '../../components'
 import { Button } from '../../components/ui'
-import { PATHS } from '../../routes'
-import { useBooking, useProfile } from '../../state'
+import { PATHS, appointmentDetailPath } from '../../routes'
+import { useBooking, useHistory, useProfile } from '../../state'
 import { IconCalendar, IconMapPin, IconCheck, IconInfoCircle, IconChevronDown, IconPlus } from '@tabler/icons-react'
+import type { Appointment, HistoryItem } from '../../types'
 
 function formatDate(dateISO: string) {
   const date = new Date(dateISO)
@@ -13,8 +14,9 @@ function formatDate(dateISO: string) {
 
 export default function AssistantConfirmScreen() {
   const navigate = useNavigate()
-  const { selectedDoctor, selectedSlot } = useBooking()
+  const { selectedDoctor, selectedSlot, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
+  const { addHistoryItem } = useHistory()
 
   const slotLabel = useMemo(() => {
     if (!selectedSlot) return ''
@@ -125,7 +127,47 @@ export default function AssistantConfirmScreen() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
         <div className="mx-auto max-w-md">
-          <Button variant="primary" size="lg" fullWidth onClick={() => navigate(PATHS.BOOKING_SUCCESS)}>
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
+            onClick={() => {
+              if (!selectedDoctor || !selectedSlot) return
+
+              const appointmentId = `apt_${Date.now()}`
+
+              const appointment: Appointment = {
+                id: appointmentId,
+                doctorId: selectedDoctor.id,
+                doctorName: selectedDoctor.name,
+                specialty: selectedDoctor.specialty,
+                dateISO: selectedSlot.dateISO,
+                time: selectedSlot.time,
+                forUserId: profile.id || 'self',
+                forUserName: profile.fullName || 'You',
+                status: 'confirmed',
+                reminderSet: true,
+                calendarSynced: false,
+              }
+
+              addAppointment(appointment)
+
+              const historyItem: HistoryItem = {
+                id: `h_${Date.now()}`,
+                type: 'appointment',
+                title: `Appointment: ${selectedDoctor.specialty}`,
+                subtitle: `${selectedDoctor.name} · ${selectedDoctor.city}`,
+                dateISO: selectedSlot.dateISO,
+                status: 'planned',
+                forUserId: appointment.forUserId,
+                forUserName: appointment.forUserName,
+              }
+              addHistoryItem(historyItem)
+
+              resetBooking()
+              navigate(appointmentDetailPath(appointmentId), { replace: true })
+            }}
+          >
             Confirm booking →
           </Button>
         </div>

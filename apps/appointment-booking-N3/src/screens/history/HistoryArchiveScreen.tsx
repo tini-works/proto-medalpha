@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppointmentListCard, EmptyState, Header, Page } from '../../components'
-import { PATHS, historyDetailPath } from '../../routes/paths'
+import { PATHS } from '../../routes/paths'
 import { useBooking, useHistory } from '../../state'
 import type { Appointment, HistoryItem } from '../../types'
 
@@ -69,7 +69,6 @@ export default function HistoryArchiveScreen() {
               <AppointmentListCard
                 key={appointment.id}
                 appointment={appointment}
-                onClick={() => navigate(historyDetailPath(appointment.id))}
               />
             ))}
           </div>

@@ -79,12 +79,14 @@ export function AppointmentListCard({
   const doctor = getDoctorById(appointment.doctorId)
   const locationPreference = doctor?.city ?? 'Berlin'
 
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="w-full text-left rounded-2xl border border-cream-300 bg-white p-4 shadow-sm hover:border-cream-400 transition-colors duration-normal ease-out-brand focus:outline-none focus:ring-2 focus:ring-teal-500/30"
-    >
+  const isClickable = typeof onClick === 'function'
+  const containerClassName = `w-full text-left rounded-2xl border border-cream-300 bg-white p-4 shadow-sm transition-colors duration-normal ease-out-brand ${
+    isClickable
+      ? 'hover:border-cream-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 cursor-pointer'
+      : 'cursor-default'
+  }`
+
+  const content = (
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 min-w-0">
           <div className="shrink-0 mt-0.5">
@@ -144,6 +146,15 @@ export function AppointmentListCard({
           <Pill tone={status.tone}>{status.label}</Pill>
         </div>
       </div>
+  )
+
+  if (!isClickable) {
+    return <div className={containerClassName}>{content}</div>
+  }
+
+  return (
+    <button type="button" onClick={onClick} className={containerClassName}>
+      {content}
     </button>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconX } from '@tabler/icons-react'
@@ -21,6 +21,7 @@ export default function ConstraintsScreen() {
   // Location state
   const [selectedCity, setSelectedCity] = useState<string>(search?.city || profile.address?.city || '')
   const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false)
+  const hasAutoOpenedLocationPicker = useRef(false)
 
   // Insurance state
   const [insurance, setInsurance] = useState<InsuranceChoice>(
@@ -33,6 +34,14 @@ export default function ConstraintsScreen() {
       navigate(PATHS.BOOKING_SPECIALTY)
     }
   }, [search?.specialty, navigate])
+
+  useEffect(() => {
+    // If location is missing, auto-open picker once.
+    if (hasAutoOpenedLocationPicker.current) return
+    if (selectedCity) return
+    hasAutoOpenedLocationPicker.current = true
+    setIsLocationPickerOpen(true)
+  }, [selectedCity])
 
   const handleLocationSelect = (location: LocationValue) => {
     setSelectedCity(location.value)

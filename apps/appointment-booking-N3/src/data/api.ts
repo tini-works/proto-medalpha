@@ -159,6 +159,15 @@ export async function apiFastLaneMatch(
   request: FastLaneRequest,
   onStatusChange?: (status: MatchingStatus, doctorCount?: number) => void
 ): Promise<FastLaneMatchResult> {
+  const startedAt = Date.now()
+  const ensureMinTotalDuration = async (totalMs: number) => {
+    const elapsed = Date.now() - startedAt
+    const remaining = totalMs - elapsed
+    if (remaining > 0) {
+      await simulateApiDelay(null, remaining)
+    }
+  }
+
   const { searchDoctors, getDoctorById } = await import('./doctors')
   const { getSlotsForDate } = await import('./timeSlots')
 
@@ -174,6 +183,8 @@ export async function apiFastLaneMatch(
   })
 
   if (matchingDoctors.length === 0) {
+    // Minimum dwell time for no-match so the matching screen feels realistic
+    await simulateApiDelay(null, 60000)
     return { success: false }
   }
 
@@ -193,6 +204,8 @@ export async function apiFastLaneMatch(
   const isSuccessful = Math.random() < 0.9
 
   if (!isSuccessful) {
+    // Doctors matched + random fail: keep matching page visible for ~40s total.
+    await ensureMinTotalDuration(40000)
     return { success: false }
   }
 
@@ -248,6 +261,8 @@ export async function apiFastLaneMatch(
     },
   }
 
+  // Doctors matched + success: keep matching page visible for ~30s total.
+  await ensureMinTotalDuration(30000)
   return { success: true, appointment }
 }
 

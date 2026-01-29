@@ -8,7 +8,7 @@ import {
   AppointmentSummaryCard,
 } from '../../components'
 import { useBooking, useProfile, useHistory } from '../../state'
-import { PATHS, doctorSlotsPath } from '../../routes'
+import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
 import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
@@ -64,7 +64,6 @@ export default function ConfirmScreen() {
   const handleConfirm = () => {
     if (!isOnline) return
     const appointmentId = `apt_${Date.now()}`
-    const confirmationNumber = `BK-${Date.now().toString(36).toUpperCase()}`
 
     // Create appointment
     const appointment: Appointment = {
@@ -100,13 +99,8 @@ export default function ConfirmScreen() {
     // Reset booking state
     resetBooking()
 
-    // Navigate to success
-    navigate(PATHS.BOOKING_SUCCESS, {
-      state: {
-        confirmationNumber,
-        appointment,
-      },
-    })
+    // Standardize confirmed view: go to canonical Appointment Details screen
+    navigate(appointmentDetailPath(appointmentId), { replace: true })
   }
 
   const handleClose = () => {

@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconMapPin, IconShieldCheck, IconCheck } from '@tabler/icons-react'
+import { IconMapPin, IconShieldCheck, IconCheck, IconSearch, IconX } from '@tabler/icons-react'
 import { Header, Page, ReasonTextarea } from '../../../components'
+import { LocationSelector } from '../../../components/forms/LocationSelector'
+import type { LocationValue } from '../../../components/forms/LocationSelector'
 import { useProfile, useBooking } from '../../../state'
 import { PATHS } from '../../../routes'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
+import type { InsuranceType } from '../../../types'
 
 type TabType = 'symptoms' | 'specialty'
 
 const OTHER_ID = '__other__'
+type InsuranceChoice = InsuranceType | ''
 
 export default function CareRequestScreen() {
   const navigate = useNavigate()
@@ -21,7 +25,7 @@ export default function CareRequestScreen() {
   const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null)
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null)
   const [otherSymptomText, setOtherSymptomText] = useState('')
-  const [otherSpecialtyText, setOtherSpecialtyText] = useState('')
+  const [specialtyQuery, setSpecialtyQuery] = useState('')
   const [selectedPatientId, setSelectedPatientId] = useState<string>(profile.id)
 
   const familyMembers = profile.familyMembers || []
@@ -32,15 +36,36 @@ export default function CareRequestScreen() {
       ? { id: profile.id, name: profile.fullName, insuranceType: profile.insuranceType }
       : familyMembers.find((m) => m.id === selectedPatientId)
 
-  const patientInsurance = selectedPatient?.insuranceType || profile.insuranceType
-  const patientCity = profile.address?.city || ''
+  // Location + insurance (cloned from Set Your Preferences)
+  const [selectedCity, setSelectedCity] = useState<string>(profile.address?.city || '')
+  const [isLocationPickerOpen, setIsLocationPickerOpen] = useState(false)
+  const [insurance, setInsurance] = useState<InsuranceChoice>(
+    (selectedPatient?.insuranceType as InsuranceChoice) || (profile.insuranceType as InsuranceChoice) || ''
+  )
+  const hasAutoOpenedLocationPicker = useRef(false)
+
+  useEffect(() => {
+    // When patient changes, reset insurance to their insurance (or empty).
+    setInsurance(
+      (selectedPatient?.insuranceType as InsuranceChoice) || (profile.insuranceType as InsuranceChoice) || ''
+    )
+  }, [selectedPatient?.insuranceType, profile.insuranceType])
+
+  useEffect(() => {
+    // If there's no prefilled location, prompt by opening the picker once.
+    if (hasAutoOpenedLocationPicker.current) return
+    if (selectedCity) return
+    hasAutoOpenedLocationPicker.current = true
+    setIsLocationPickerOpen(true)
+  }, [selectedCity])
 
   const selection = activeTab === 'symptoms' ? selectedSymptom : selectedSpecialty
-  const isOtherSelected =
-    activeTab === 'symptoms' ? selectedSymptom === OTHER_ID : selectedSpecialty === OTHER_ID
-  const otherText = activeTab === 'symptoms' ? otherSymptomText : otherSpecialtyText
+  const isOtherSelected = activeTab === 'symptoms' && selectedSymptom === OTHER_ID
   const canSubmit =
-    selection !== null && Boolean(patientCity) && Boolean(patientInsurance) && (!isOtherSelected || Boolean(otherText.trim()))
+    selection !== null &&
+    Boolean(selectedCity) &&
+    Boolean(insurance) &&
+    (!isOtherSelected || Boolean(otherSymptomText.trim()))
 
   const handleSubmit = () => {
     if (!canSubmit) return
@@ -50,7 +75,6 @@ export default function CareRequestScreen() {
         if (selectedSymptom === OTHER_ID) return 'Primary care'
         return getSpecialtyForSymptom(selectedSymptom!)
       }
-      if (selectedSpecialty === OTHER_ID) return otherSpecialtyText.trim()
       return selectedSpecialty
     })()
 
@@ -66,8 +90,8 @@ export default function CareRequestScreen() {
     setFastLaneRequest({
       specialty,
       symptom: symptomLabel,
-      city: patientCity,
-      insuranceType: patientInsurance as 'GKV' | 'PKV',
+      city: selectedCity,
+      insuranceType: insurance as 'GKV' | 'PKV',
       patientId: selectedPatientId,
       patientName: selectedPatient?.name || profile.fullName,
     })
@@ -174,8 +198,29 @@ export default function CareRequestScreen() {
           {/* Specialty Grid */}
           {activeTab === 'specialty' && (
             <>
+              <div className="relative mb-4">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <IconSearch className="w-5 h-5 text-neutral-400" size={20} stroke={2} />
+                </div>
+                <input
+                  type="text"
+                  value={specialtyQuery}
+                  onChange={(e) => setSpecialtyQuery(e.target.value)}
+                  placeholder={t('specialtySearchPlaceholder')}
+                  className="w-full h-12 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 ring-cream-400 focus:ring-2 focus:ring-teal-500 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand"
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-2">
-                {specialties.map((specialty) => (
+                {specialties
+                  .filter((specialty) => {
+                    const q = specialtyQuery.trim().toLowerCase()
+                    if (!q) return true
+                    const label = t(specialty.labelKey).toLowerCase()
+                    const value = specialty.value.toLowerCase()
+                    return label.includes(q) || value.includes(q)
+                  })
+                  .map((specialty) => (
                   <SelectionChip
                     key={specialty.id}
                     label={t(specialty.labelKey)}
@@ -185,59 +230,75 @@ export default function CareRequestScreen() {
                       setSelectedSymptom(null)
                     }}
                   />
-                ))}
-                <SelectionChip
-                  label={t('other')}
-                  selected={selectedSpecialty === OTHER_ID}
-                  onSelect={() => {
-                    setSelectedSpecialty(OTHER_ID)
-                    setSelectedSymptom(null)
-                  }}
-                />
+                  ))}
               </div>
-
-              {selectedSpecialty === OTHER_ID && (
-                <div className="mt-4">
-                  <ReasonTextarea
-                    value={otherSpecialtyText}
-                    onChange={setOtherSpecialtyText}
-                    label={t('otherSpecialtyLabel')}
-                    placeholder={t('otherSpecialtyPlaceholder')}
-                    maxLength={60}
-                  />
-                </div>
-              )}
             </>
           )}
         </section>
 
-        {/* Location Preview */}
-        <section className="bg-cream-100 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-500">
-              <IconMapPin size={20} stroke={2} />
+        {/* Location + Insurance (cloned from Set Your Preferences) */}
+        <section className="space-y-3">
+          <h2 className="text-sm font-medium text-charcoal-500">{t('whereAreYouLocated')}</h2>
+
+          <button
+            type="button"
+            onClick={() => setIsLocationPickerOpen(true)}
+            className="w-full bg-white rounded-2xl border border-cream-400 p-4 text-left hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center text-slate-500">
+                <IconMapPin size={20} stroke={2} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-slate-500 uppercase tracking-wide">{t('location')}</p>
+                <p className="font-medium text-charcoal-500 truncate">{selectedCity || t('selectCity')}</p>
+              </div>
+              <span className="text-sm font-medium text-teal-700">{t('change')}</span>
             </div>
-            <div className="flex-1">
-              <p className="text-xs text-slate-500 uppercase tracking-wide">{t('location')}</p>
-              <p className="text-sm font-medium text-charcoal-500">
-                {patientCity || t('noLocationSet')}
-              </p>
-            </div>
-          </div>
+          </button>
         </section>
 
-        {/* Insurance Preview */}
-        <section className="bg-cream-100 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-500">
-              <IconShieldCheck size={20} stroke={2} />
-            </div>
-            <div className="flex-1">
-              <p className="text-xs text-slate-500 uppercase tracking-wide">{t('insurance')}</p>
-              <p className="text-sm font-medium text-charcoal-500">
-                {patientInsurance || t('noInsuranceSet')}
-              </p>
-            </div>
+        <section className="space-y-3">
+          <h2 className="text-sm font-medium text-charcoal-500">{t('yourInsuranceType')}</h2>
+
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setInsurance('GKV')}
+              className={`rounded-2xl border p-4 text-center transition-colors duration-normal ease-out-brand ${
+                insurance === 'GKV' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white hover:bg-cream-50'
+              }`}
+              aria-pressed={insurance === 'GKV'}
+            >
+              <div className="w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center bg-cream-100">
+                <IconShieldCheck
+                  size={20}
+                  stroke={2}
+                  className={insurance === 'GKV' ? 'text-teal-600' : 'text-slate-500'}
+                />
+              </div>
+              <p className="font-semibold text-charcoal-500">{t('publicGkv')}</p>
+              <p className="text-xs text-slate-500 mt-1">{t('statutoryInsurance')}</p>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setInsurance('PKV')}
+              className={`rounded-2xl border p-4 text-center transition-colors duration-normal ease-out-brand ${
+                insurance === 'PKV' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white hover:bg-cream-50'
+              }`}
+              aria-pressed={insurance === 'PKV'}
+            >
+              <div className="w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center bg-cream-100">
+                <IconShieldCheck
+                  size={20}
+                  stroke={2}
+                  className={insurance === 'PKV' ? 'text-teal-600' : 'text-slate-500'}
+                />
+              </div>
+              <p className="font-semibold text-charcoal-500">{t('privatePkv')}</p>
+              <p className="text-xs text-slate-500 mt-1">{t('privateInsurance')}</p>
+            </button>
           </div>
         </section>
       </div>
@@ -252,6 +313,44 @@ export default function CareRequestScreen() {
           {t('findAppointment')}
         </button>
       </div>
+
+      {/* Location picker (bottom sheet) */}
+      {isLocationPickerOpen && (
+        <div className="fixed inset-0 z-50">
+          <div
+            className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
+            onClick={() => setIsLocationPickerOpen(false)}
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-[90vh] flex flex-col rounded-t-3xl bg-white overflow-hidden animate-slide-up">
+            <div className="flex justify-center pt-3 pb-2">
+              <div className="w-10 h-1 rounded-full bg-cream-400" />
+            </div>
+            <div className="flex items-center justify-between px-4 pb-4">
+              <h2 className="text-lg font-semibold text-charcoal-500">{t('chooseLocation')}</h2>
+              <button
+                onClick={() => setIsLocationPickerOpen(false)}
+                className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
+                aria-label="Close"
+              >
+                <IconX size={20} stroke={2} className="text-slate-600" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto px-4 pb-6">
+              <LocationSelector
+                onLocationSelect={(location: LocationValue) => {
+                  setSelectedCity(location.value)
+                  setIsLocationPickerOpen(false)
+                }}
+                savedLocations={[]}
+                initialRadius={10}
+                showRadius={false}
+                showMapPreview={false}
+                showSavedLocations={false}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </Page>
   )
 }

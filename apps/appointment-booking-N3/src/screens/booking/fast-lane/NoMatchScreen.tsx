@@ -11,7 +11,7 @@ export default function NoMatchScreen() {
   const { fastLaneRequest, clearFastLaneRequest } = useBooking()
 
   const handleSearchAgain = () => {
-    navigate(PATHS.FAST_LANE)
+    navigate(PATHS.FAST_LANE_MATCHING)
   }
 
   const handleTryDifferentSpecialty = () => {
