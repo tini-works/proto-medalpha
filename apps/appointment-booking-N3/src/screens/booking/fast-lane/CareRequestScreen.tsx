@@ -5,9 +5,10 @@ import { IconMapPin, IconShieldCheck, IconCheck, IconSearch, IconX } from '@tabl
 import { Header, Page, ReasonTextarea } from '../../../components'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
-import { useProfile, useBooking } from '../../../state'
+import { useProfile, useBooking, useAppState } from '../../../state'
 import { PATHS } from '../../../routes'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
+import { runBackgroundMatching, createMatchingAppointment } from '../../../utils/backgroundMatching'
 import type { InsuranceType } from '../../../types'
 
 type TabType = 'symptoms' | 'specialty'
@@ -20,6 +21,7 @@ export default function CareRequestScreen() {
   const { t } = useTranslation('booking')
   const { profile } = useProfile()
   const { setFastLaneRequest } = useBooking()
+  const { addAppointment, updateAppointment, cancelAppointment } = useAppState()
 
   const [activeTab, setActiveTab] = useState<TabType>('symptoms')
   const [selectedSymptom, setSelectedSymptom] = useState<string | null>(null)
@@ -87,16 +89,47 @@ export default function CareRequestScreen() {
           ? otherSymptomText.trim()
           : symptoms.find((s) => s.id === selectedSymptom)?.labelKey
 
+    const patientName = selectedPatient?.name || profile.fullName
+
     setFastLaneRequest({
       specialty,
       symptom: symptomLabel,
       city: selectedCity,
       insuranceType: insurance as 'GKV' | 'PKV',
       patientId: selectedPatientId,
-      patientName: selectedPatient?.name || profile.fullName,
+      patientName,
     })
 
-    navigate(PATHS.FAST_LANE_MATCHING)
+    // Create placeholder appointment with 'matching' status
+    const matchingAppointment = createMatchingAppointment({
+      specialty,
+      patientId: selectedPatientId,
+      patientName,
+    })
+    addAppointment(matchingAppointment)
+
+    // Start background matching (fire-and-forget)
+    runBackgroundMatching({
+      appointmentId: matchingAppointment.id,
+      matchType: 'fast_lane',
+      params: {
+        specialty,
+        city: selectedCity,
+        insuranceType: insurance as 'GKV' | 'PKV',
+        patientId: selectedPatientId,
+        patientName,
+        symptom: symptomLabel,
+      },
+      onSuccess: (updatedData) => {
+        updateAppointment(matchingAppointment.id, updatedData)
+      },
+      onFailure: () => {
+        cancelAppointment(matchingAppointment.id)
+      },
+    })
+
+    // Navigate immediately - don't wait for matching
+    navigate(PATHS.BOOKING_REQUEST_SENT)
   }
 
   return (

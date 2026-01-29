@@ -12,6 +12,7 @@ export { default as ReviewsScreen } from './ReviewsScreen'
 export { default as SlotSelectionScreen } from './SlotSelectionScreen'
 export { default as ConfirmScreen } from './ConfirmScreen'
 export { default as SuccessScreen } from './SuccessScreen'
+export { default as RequestSentScreen } from './RequestSentScreen'
 
 // Fast-Lane screens
 export {

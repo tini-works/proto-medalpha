@@ -89,6 +89,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Book Again & Reschedule**: Guided flows for repeat visits and schedule changes
 - **Assistant**: Entry points for guided discovery and voice support
 - **Appointment History**: View past and upcoming appointments with smart grouping (Upcoming vs Others), status filters (matching, awaiting confirmation, cancelled by doctor), and a floating “Book new appointment” action
+- **Request Sent & in-app status notifications**: After submitting a booking (Fast Lane, specialty, or doctor flow), users are taken to a Request Sent screen while matching runs in the background. When an appointment’s status changes (e.g. confirmed or no match), an in-app toast appears with a short message and optional “View” link; matching duration is configurable for dev/demo.
 - **CMS Integration**: Insurance-specific health content and promotions
 - **Settings**: Account management, notifications, language, privacy, and support
 - **Responsive Design**: Optimized for mobile and desktop experiences

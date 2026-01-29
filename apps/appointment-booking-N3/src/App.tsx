@@ -2,6 +2,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
 import { useI18nSync } from './hooks/useI18nSync'
+import { NotificationToastProvider } from './contexts/NotificationToastContext'
+import AppointmentStatusChangeNotifier from './components/notifications/AppointmentStatusChangeNotifier'
+import ToastRenderer from './components/notifications/ToastRenderer'
 
 // Auth screens
 import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen, ForgotPasswordScreen, ResetPasswordScreen } from './screens/auth'
@@ -37,6 +40,7 @@ import {
   SlotSelectionScreen,
   ConfirmScreen as BookingConfirmScreen,
   SuccessScreen as BookingSuccessScreen,
+  RequestSentScreen,
   // Fast-Lane screens
   FastLaneCareRequestScreen,
   FastLaneMatchingScreen,
@@ -78,9 +82,12 @@ import {
 
 export default function App() {
   return (
-    <AppStateProvider>
-      <AppContent />
-    </AppStateProvider>
+    <NotificationToastProvider>
+      <AppStateProvider>
+        <AppContent />
+        <AppointmentStatusChangeNotifier />
+      </AppStateProvider>
+    </NotificationToastProvider>
   )
 }
 
@@ -395,6 +402,16 @@ function AppContent() {
               </RequireAuth>
             }
           />
+          <Route
+            path={PATHS.BOOKING_REQUEST_SENT}
+            element={
+              <RequireAuth>
+                <RequireProfileComplete>
+                  <RequestSentScreen />
+                </RequireProfileComplete>
+              </RequireAuth>
+            }
+          />
 
           {/* History */}
           <Route
@@ -610,6 +627,8 @@ function AppContent() {
           <Route path="*" element={<Navigate to={PATHS.HOME} replace />} />
         </Routes>
       </div>
+      {/* Toast must render inside BrowserRouter so its Link has router context */}
+      <ToastRenderer />
     </BrowserRouter>
   )
 }
