@@ -4,6 +4,13 @@ High-level, business-focused summary of notable changes.
 
 ## 2026-01-29 (Continued)
 
+### v3 Documentation Suite
+- **INFO-MAP-v3.md**: Created comprehensive Information Architecture document for the N3 booking app with Master IA Diagram using subgraphs, 52 screens documented, route structure, data models, and Appointment Status Lifecycle.
+- **USER-FLOWS-v3.md**: Complete user flows documentation with Jobs-to-be-Done Summary (J1-J8), Flow Steps tables, Decision Points tables, and Mermaid diagrams for 13 flows covering all 3 booking paths.
+- **scope-index-v3.md**: Updated scope index to v3.0 with Core Features Summary (11 features, 5 NEW in v3), Booking Paths Comparison, User Flow Summary diagram, and Appointment Status System.
+- **scope-for-exploration-v3.mdx**: Renamed from v2 to align with v3 documentation.
+- **Archive reorganization**: Moved original and v2 versions to `docs/z.archive/` for reference.
+
 ### UI Polish
 - **DoctorCard "Show detail" link**: Center-aligned the "Show detail" link on Doctor cards in the Select Doctor screen for better visual balance.
 

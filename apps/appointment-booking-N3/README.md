@@ -325,6 +325,14 @@ Currently uses mock data located in `src/data/`. The API functions in `src/data/
 - Mobile browsers (iOS Safari, Chrome Mobile)
 - Responsive design optimized for mobile-first
 
+## Documentation
+
+Design and architecture documentation is available in `docs/`:
+
+- [INFO-MAP-v3.md](../../docs/INFO-MAP-v3.md) - Information Architecture with Master IA Diagram
+- [USER-FLOWS-v3.md](../../docs/USER-FLOWS-v3.md) - User flows and Jobs-to-be-Done
+- [scope-index-v3.md](../../docs/scope-index-v3.md) - Feature scope index
+
 ## Version
 
 **DocliQ N3 v1.0.0**
