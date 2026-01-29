@@ -50,6 +50,9 @@ vi.mock('../../../state', () => ({
   useHistory: () => ({
     addHistoryItem: mockAddHistoryItem,
   }),
+  usePreferences: () => ({
+    language: 'en',
+  }),
 }))
 
 // Initialize test i18n

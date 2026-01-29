@@ -30,6 +30,7 @@ export default function ResultsScreen() {
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [doctorSlots, setDoctorSlots] = useState<Record<string, TimeSlot[]>>({})
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('earliest')
   const [showSortMenu, setShowSortMenu] = useState(false)
   const [hasActiveFilters, setHasActiveFilters] = useState(false)
@@ -75,6 +76,7 @@ export default function ResultsScreen() {
 
     const fetchDoctors = async () => {
       setLoading(true)
+      setError(null)
       try {
         const searchParams = search
           ? {
@@ -93,13 +95,15 @@ export default function ResultsScreen() {
           slotsMap[doctor.id] = getTimeSlots(doctor.id)
         }
         setDoctorSlots(slotsMap)
+      } catch {
+        setError(t('errors.loadDoctorsFailed'))
       } finally {
         setLoading(false)
       }
     }
 
     fetchDoctors()
-  }, [search])
+  }, [search, t])
 
   const availableLanguages = useMemo(() => {
     const set = new Set<string>()
@@ -384,7 +388,17 @@ export default function ResultsScreen() {
 
       {/* Results List */}
       <div className={`px-4 py-4 ${isDoctorFirstFlow ? 'pb-28' : 'pb-24'}`}>
-        {loading ? (
+        {error ? (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-red-600 font-medium">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-3 text-sm text-red-600 underline hover:no-underline"
+            >
+              {t('tryAgain')}
+            </button>
+          </div>
+        ) : loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
               <div

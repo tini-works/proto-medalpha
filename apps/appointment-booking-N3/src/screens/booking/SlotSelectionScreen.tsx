@@ -3,9 +3,10 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Button } from '../../components/ui'
-import { useBooking, useProfile, useReschedule } from '../../state'
+import { useBooking, useProfile, useReschedule, usePreferences } from '../../state'
 import { apiGetAvailableDates, apiGetDoctor, apiGetSlotsForDate } from '../../data'
 import { PATHS, rescheduleConfirmPath, reschedulePath, doctorSlotsPath } from '../../routes'
+import { getLocale } from '../../utils'
 import type { TimeSlot } from '../../types'
 
 export default function SlotSelectionScreen() {
@@ -16,6 +17,8 @@ export default function SlotSelectionScreen() {
   const { selectedDoctor, selectDoctor, selectSlot, selectFamilyMember } = useBooking()
   const { profile } = useProfile()
   const { setRescheduleNewSlot } = useReschedule()
+  const { language } = usePreferences()
+  const locale = getLocale(language)
 
   const rescheduleId = searchParams.get('reschedule')
   const bookAgainId = searchParams.get('bookAgain')
@@ -26,6 +29,7 @@ export default function SlotSelectionScreen() {
   const [selectedSlotValue, setSelectedSlotValue] = useState<TimeSlot | null>(null)
   const [selectedFor, setSelectedFor] = useState<string>('self')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!id) {
@@ -58,11 +62,14 @@ export default function SlotSelectionScreen() {
         }
       })
       .catch(() => {
-        if (rescheduleId) {
-          navigate(reschedulePath(rescheduleId))
-          return
-        }
-        navigate(PATHS.BOOKING_RESULTS)
+        setError(t('errors.loadSlotsFailed'))
+        setTimeout(() => {
+          if (rescheduleId) {
+            navigate(reschedulePath(rescheduleId))
+            return
+          }
+          navigate(PATHS.BOOKING_RESULTS)
+        }, 2000)
       })
       .finally(() => setLoading(false))
   }, [id, selectedDoctor?.id, selectDoctor, navigate, rescheduleId, bookAgainId])
@@ -106,6 +113,19 @@ export default function SlotSelectionScreen() {
     )
   }
 
+  if (error) {
+    return (
+      <Page safeBottom={false}>
+        <Header title={t('selectTime')} showBack />
+        <div className="p-4">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-red-600 font-medium">{error}</p>
+          </div>
+        </div>
+      </Page>
+    )
+  }
+
   return (
     <Page safeBottom={false}>
       <Header
@@ -144,11 +164,11 @@ export default function SlotSelectionScreen() {
                   }`}
                 >
                   <div className="text-xs opacity-80">
-                    {d.toLocaleDateString('de-DE', { weekday: 'short' })}
+                    {d.toLocaleDateString(locale, { weekday: 'short' })}
                   </div>
                   <div className="text-lg font-semibold">{d.getDate()}</div>
                   <div className="text-xs opacity-80">
-                    {d.toLocaleDateString('de-DE', { month: 'short' })}
+                    {d.toLocaleDateString(locale, { month: 'short' })}
                   </div>
                 </button>
               )
@@ -188,7 +208,7 @@ export default function SlotSelectionScreen() {
             <h2 className="text-sm font-medium text-slate-700 mb-3">{t('whoIsAppointmentFor')}</h2>
             <div className="space-y-2">
               <label
-                className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer ${
+                className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-2 ${
                   selectedFor === 'self' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white'
                 }`}
               >
@@ -198,14 +218,14 @@ export default function SlotSelectionScreen() {
                   value="self"
                   checked={selectedFor === 'self'}
                   onChange={(e) => setSelectedFor(e.target.value)}
-                  className="w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
+                  className="w-4 h-4 text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 border-cream-400"
                 />
                 <span className="font-medium">{t('myself')} ({profile.fullName})</span>
               </label>
               {profile.familyMembers.map((member) => (
                 <label
                   key={member.id}
-                  className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer ${
+                  className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-2 ${
                     selectedFor === member.id ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white'
                   }`}
                 >
@@ -215,7 +235,7 @@ export default function SlotSelectionScreen() {
                     value={member.id}
                     checked={selectedFor === member.id}
                     onChange={(e) => setSelectedFor(e.target.value)}
-                    className="w-4 h-4 text-teal-600 focus:ring-teal-500 border-cream-400"
+                    className="w-4 h-4 text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 border-cream-400"
                   />
                   <span className="font-medium">{member.name}</span>
                 </label>

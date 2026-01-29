@@ -293,5 +293,11 @@
   "noAppointmentDataFound": "Keine Termindaten gefunden.",
   "timeUnit": "Uhr",
   "patient": "Patient",
-  "applyFilters": "Filter anwenden"
+  "applyFilters": "Filter anwenden",
+
+  "errors": {
+    "loadSlotsFailed": "Verfügbare Zeiten konnten nicht geladen werden. Zurück zur Suche...",
+    "loadDoctorsFailed": "Ärzte konnten nicht geladen werden. Bitte versuchen Sie es erneut."
+  },
+  "tryAgain": "Erneut versuchen"
 }

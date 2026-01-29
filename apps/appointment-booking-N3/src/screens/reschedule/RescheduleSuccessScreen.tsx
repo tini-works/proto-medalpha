@@ -3,8 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { IconCheck, IconCalendar, IconMapPin } from '@tabler/icons-react'
 import { Page, Avatar, Rating } from '../../components'
 import { Button } from '../../components/ui'
+import { usePreferences } from '../../state'
 import { getDoctorById } from '../../data'
 import { PATHS } from '../../routes/paths'
+import { getLocale } from '../../utils'
 import type { Appointment } from '../../types'
 
 interface LocationState {
@@ -16,6 +18,7 @@ export default function RescheduleSuccessScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const state = location.state as LocationState | undefined
+  const { language } = usePreferences()
 
   const [showCheckmark, setShowCheckmark] = useState(false)
 
@@ -30,11 +33,13 @@ export default function RescheduleSuccessScreen() {
   const doctor = appointment ? getDoctorById(appointment.doctorId) : undefined
 
   const appointmentLabel = (() => {
-    if (!appointment) return 'Tomorrow, 10:00 AM'
+    if (!appointment) return language === 'de' ? 'Morgen, 10:00' : 'Tomorrow, 10:00 AM'
     const today = new Date()
     const date = new Date(appointment.dateISO)
     const diffDays = Math.ceil((date.getTime() - new Date(today.toDateString()).getTime()) / (1000 * 60 * 60 * 24))
-    const dayLabel = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'long' })
+    const todayLabel = language === 'de' ? 'Heute' : 'Today'
+    const tomorrowLabel = language === 'de' ? 'Morgen' : 'Tomorrow'
+    const dayLabel = diffDays === 0 ? todayLabel : diffDays === 1 ? tomorrowLabel : date.toLocaleDateString(getLocale(language), { weekday: 'long' })
     return `${dayLabel}, ${appointment.time}`
   })()
 

@@ -26,7 +26,7 @@ export function RadioGroup({ label, name, options, value, onChange, error, requi
           <label
             key={option.value}
             className={`
-              flex items-start gap-3 p-3 rounded-lg border cursor-pointer
+              flex items-start gap-3 p-3 rounded-lg border cursor-pointer focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-2
               ${
                 value === option.value
                   ? 'border-teal-500 bg-teal-50'
@@ -40,7 +40,7 @@ export function RadioGroup({ label, name, options, value, onChange, error, requi
               value={option.value}
               checked={value === option.value}
               onChange={(e) => onChange(e.target.value)}
-              className="mt-0.5 w-4 h-4 text-teal-600 border-cream-400 focus:ring-teal-500"
+              className="mt-0.5 w-4 h-4 text-teal-600 border-cream-400 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
             />
             <div>
               <span className="block text-body-sm font-medium text-charcoal-500">{option.label}</span>

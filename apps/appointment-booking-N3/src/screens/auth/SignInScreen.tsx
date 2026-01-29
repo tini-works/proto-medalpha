@@ -63,6 +63,7 @@ export default function SignInScreen() {
           value={formData.email}
           onChange={(e) => handleChange('email', e.target.value)}
           placeholder={t('signIn.emailPlaceholder')}
+          hint={t('signIn.emailHint')}
           error={errors.email}
           required
           autoComplete="email"
@@ -75,6 +76,7 @@ export default function SignInScreen() {
             value={formData.password}
             onChange={(e) => handleChange('password', e.target.value)}
             placeholder={t('signIn.passwordPlaceholder')}
+            hint={t('signIn.passwordHint')}
             error={errors.password}
             required
             autoComplete="current-password"

@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { Button } from '../../components/ui'
-import { useProfile } from '../../state'
+import { useProfile, usePreferences } from '../../state'
 import { PATHS } from '../../routes'
 import { EditFamilyMemberSheet } from '../../components/forms'
+import { getLocale } from '../../utils'
 import type { FamilyMember } from '../../types'
 
 export default function FamilyMemberDetailScreen() {
@@ -14,6 +15,7 @@ export default function FamilyMemberDetailScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { profile, removeFamilyMember, updateFamilyMember } = useProfile()
+  const { language } = usePreferences()
   const [showEditSheet, setShowEditSheet] = useState(false)
 
   if (!id) {
@@ -128,7 +130,7 @@ export default function FamilyMemberDetailScreen() {
             <div className="bg-cream-100 rounded-lg p-3">
               <p className="text-xs font-medium text-slate-500 uppercase">{t('detail.dateOfBirth')}</p>
               <p className="text-sm font-medium text-charcoal-500 mt-1">
-                {new Date(member.dateOfBirth).toLocaleDateString('de-DE')}
+                {new Date(member.dateOfBirth).toLocaleDateString(getLocale(language))}
               </p>
             </div>
             <div className="bg-cream-100 rounded-lg p-3">

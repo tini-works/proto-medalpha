@@ -293,5 +293,11 @@
   "noAppointmentDataFound": "No appointment data found.",
   "timeUnit": "",
   "patient": "Patient",
-  "applyFilters": "Apply Filters"
+  "applyFilters": "Apply Filters",
+
+  "errors": {
+    "loadSlotsFailed": "Unable to load available times. Returning to search...",
+    "loadDoctorsFailed": "Unable to load doctors. Please try again."
+  },
+  "tryAgain": "Try again"
 }

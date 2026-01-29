@@ -44,12 +44,12 @@ export function TabBar() {
               <Link
                 key={tab.path}
                 to={tab.path}
-                className={`flex flex-col items-center gap-1 px-4 py-2 min-w-[64px] ${
+                className={`flex flex-col items-center gap-1 px-2 py-2 flex-1 ${
                   isActive ? 'text-charcoal-500' : 'text-slate-400'
                 }`}
               >
                 <TabIcon icon={tab.icon} active={isActive} />
-                <span className="text-xs font-medium">{t(tab.labelKey)}</span>
+                <span className="text-xs font-medium truncate max-w-full">{t(tab.labelKey)}</span>
               </Link>
             )
           })}

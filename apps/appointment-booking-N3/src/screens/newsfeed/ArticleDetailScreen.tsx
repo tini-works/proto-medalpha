@@ -2,13 +2,16 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { IconArrowLeft, IconBookmark, IconBookmarkFilled, IconShare2 } from '@tabler/icons-react'
 import { Page } from '../../components'
 import { Button } from '../../components/ui'
+import { usePreferences } from '../../state'
 import { PATHS } from '../../routes'
 import { mockNewsArticles } from '../../data/newsfeed'
+import { getLocale } from '../../utils'
 import { useState } from 'react'
 
 function ArticleDetailScreen() {
   const { articleId } = useParams<{ articleId: string }>()
   const navigate = useNavigate()
+  const { language } = usePreferences()
   const [isSaved, setIsSaved] = useState(false)
 
   // Navigate back to News Feed tab in Updates screen
@@ -35,8 +38,8 @@ function ArticleDetailScreen() {
     )
   }
 
-  // Format date as "Oct 24, 2023"
-  const formattedDate = article.publishedAt.toLocaleDateString('en-US', {
+  // Format date using user's language preference
+  const formattedDate = article.publishedAt.toLocaleDateString(getLocale(language), {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

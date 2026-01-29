@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { Header, Page, Avatar, Rating } from '../../components'
 import { Button } from '../../components/ui'
 import { PATHS, appointmentDetailPath } from '../../routes'
-import { useBooking, useHistory, useProfile } from '../../state'
+import { useBooking, useHistory, useProfile, usePreferences } from '../../state'
+import { getLocale, type Language } from '../../utils'
 import { IconCalendar, IconMapPin, IconCheck, IconInfoCircle, IconChevronDown, IconPlus } from '@tabler/icons-react'
 import type { Appointment, HistoryItem } from '../../types'
 
-function formatDate(dateISO: string) {
+function formatDate(dateISO: string, language: Language) {
   const date = new Date(dateISO)
-  return date.toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' })
+  return date.toLocaleDateString(getLocale(language), { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
 export default function AssistantConfirmScreen() {
@@ -17,11 +18,12 @@ export default function AssistantConfirmScreen() {
   const { selectedDoctor, selectedSlot, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
+  const { language } = usePreferences()
 
   const slotLabel = useMemo(() => {
     if (!selectedSlot) return ''
-    return `${formatDate(selectedSlot.dateISO)}, ${selectedSlot.time}`
-  }, [selectedSlot])
+    return `${formatDate(selectedSlot.dateISO, language)}, ${selectedSlot.time}`
+  }, [selectedSlot, language])
 
   if (!selectedDoctor || !selectedSlot) {
     return (

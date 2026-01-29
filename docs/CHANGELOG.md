@@ -58,6 +58,14 @@ High-level, business-focused summary of notable changes.
 - **Test tooling**: Added a Vitest + React Testing Library setup (`vitest.config.ts`, JSDOM environment, and `src/test/setup.ts`) with `pnpm test`, `pnpm test:run`, and `pnpm test:coverage` scripts wired into the N3 app.
 - **Initial coverage**: Introduced first component/screen tests for booking cards, header navigation logic, booking confirmation/success flows, and settings sign-out so the most critical user journeys now have automated regression protection.
 
+### Language-aware formatting & sign-in hints
+- **Locale-aware formatting**: Centralized date, time, number, distance, and relative date formatting in `utils/format` with language-aware helpers so German users see `23.01.2026`, `2,5 km` and `Heute / Morgen / vor X Tagen` while English users see `01/23/2026`, `2.5 km` and `Today / Tomorrow / X days ago` across booking, profile, history, reschedule, and news screens.
+- **Sign-in field helpers**: Added subtle email/password hints on the Sign In screen (e.g. “e.g., name@example.com”, “Minimum 8 characters”) in both English and German to reduce friction and failed login attempts.
+
+### Golden tests plan & GDPR gap analysis docs
+- **Golden tests proposal**: Documented a compact Golden Tests suite for 38 high-value user story tests (onboarding, booking, feedback, account, practice changes) with Vitest configuration tuned for reliability (single worker, maxConcurrency 2, retries, bail-on-first-failure) in `docs/appointment-booking/GOLDEN-TESTS-PROPOSAL.md`.
+- **GDPR compliance gap analysis**: Captured a structured UI gap analysis for GDPR and German legal requirements in `docs/appointment-booking/GDPR-COMPLIANCE-GAP-ANALYSIS.md`, highlighting missing legal pages (Privacy Policy, Terms, Impressum), cookie consent banner, and follow-up screens to mock for P0/P1 compliance in the N3 prototype.
+
 ## 2026-01-28 (Continued - Part 7)
 
 ### Matched Doctors radio (DoctorCard) UX

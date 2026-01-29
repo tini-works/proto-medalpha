@@ -8,8 +8,9 @@ import {
   AppointmentSummaryCard,
 } from '../../components'
 import { Button } from '../../components/ui'
-import { useBooking, useProfile, useHistory } from '../../state'
+import { useBooking, useProfile, useHistory, usePreferences } from '../../state'
 import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
+import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
@@ -18,6 +19,7 @@ export default function ConfirmScreen() {
   const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
+  const { language } = usePreferences()
 
   const [patientType, setPatientType] = useState<string>(selectedFamilyMemberId ? 'child' : 'myself')
   const [reason, setReason] = useState('')
@@ -56,7 +58,7 @@ export default function ConfirmScreen() {
   const forUserId = forUser ? forUser.id : profile.id || 'self'
 
   const date = new Date(selectedSlot.dateISO)
-  const formattedDate = date.toLocaleDateString('de-DE', {
+  const formattedDate = date.toLocaleDateString(getLocale(language), {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
