@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Heart, Star, MapPin, ChevronRight, Circle, CircleCheck } from 'tabler-icons-react'
+import { Heart, Star, MapPin, ChevronRight } from 'tabler-icons-react'
 import type { Doctor, TimeSlot } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
@@ -228,20 +228,20 @@ export function DoctorCard({
   if (!selectable) return cardContent
 
   return (
-    <div className="flex items-center gap-3">
-      {/* Radio left of card, vertically centered. Unchecked: Tabler Circle icon; checked: CircleCheck. */}
-      <button
-        onClick={onSelect}
-        className="shrink-0 w-11 h-11 flex items-center justify-center rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:ring-offset-1 opacity-100 relative z-10 transition-colors"
-        aria-label={selected ? 'Deselect doctor' : 'Select doctor'}
-      >
-        {selected ? (
-          <CircleCheck size={24} className="text-teal-500" fill="currentColor" stroke="white" />
-        ) : (
-          <Circle size={24} className="text-slate-500 hover:text-teal-400 transition-colors" />
-        )}
-      </button>
-      <div className="flex-1 min-w-0">{cardContent}</div>
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect?.()
+        }
+      }}
+      className="cursor-pointer"
+      aria-pressed={selected}
+    >
+      {cardContent}
     </div>
   )
 }
