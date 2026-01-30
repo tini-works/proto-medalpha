@@ -20,7 +20,7 @@ import enDetail from '../locales/en/detail.json'
 import deDetail from '../locales/de/detail.json'
 
 // Initialize i18next with English and German translation resources
-// Namespaced approach allows incremental translation of additional domains
+// German is default for DocliQ (Germany market); persisted preference overrides on load
 i18n.use(initReactI18next).init({
   resources: {
     en: {
@@ -46,8 +46,8 @@ i18n.use(initReactI18next).init({
       detail: deDetail,
     },
   },
-  lng: 'en', // default language - will be overridden by persisted preference
-  fallbackLng: 'en',
+  lng: 'de', // default language - will be overridden by persisted preference
+  fallbackLng: 'de',
   ns: ['settings', 'home', 'notifications', 'appointments', 'auth', 'booking', 'profile', 'history', 'detail'],
   defaultNS: 'settings',
   interpolation: {

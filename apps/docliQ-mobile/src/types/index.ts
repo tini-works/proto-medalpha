@@ -108,7 +108,7 @@ export const initialState: AppState = {
   profile: initialProfile,
   preferences: {
     fontScale: 1,
-    language: 'en',
+    language: 'de', // DocliQ default for Germany market
     disableDemoAppointmentsSeed: false,
     notifications: {
       appointmentReminders: true,
