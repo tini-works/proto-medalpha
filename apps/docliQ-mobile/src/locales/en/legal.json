@@ -1,0 +1,293 @@
+{
+  "common": {
+    "lastUpdated": "Last updated: {{date}}",
+    "version": "Version {{version}}",
+    "effectiveDate": "Effective from {{date}}",
+    "backToTop": "Back to top",
+    "tableOfContents": "Table of Contents"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "How we protect and handle your data",
+    "dataController": {
+      "title": "1. Data Controller",
+      "content": "DocliQ GmbH is the data controller responsible for processing your personal data in accordance with the General Data Protection Regulation (GDPR).\n\nDocliQ GmbH\nMusterstraße 123\n10115 Berlin, Germany\nEmail: datenschutz@docliq.de"
+    },
+    "dataCollected": {
+      "title": "2. Data We Collect",
+      "personal": {
+        "title": "2.1 Personal Data",
+        "content": "Name, email address, phone number, date of birth, address, health insurance information (GKV/PKV), EGK number."
+      },
+      "health": {
+        "title": "2.2 Health Data",
+        "content": "Appointment history, symptoms described during booking, medical specialty preferences. This data is classified as special category data under GDPR Art. 9."
+      },
+      "usage": {
+        "title": "2.3 Usage Data",
+        "content": "Device information, IP address, app usage patterns, language preferences. Collected only with your consent for analytics purposes."
+      }
+    },
+    "legalBasis": {
+      "title": "3. Legal Basis for Processing",
+      "content": "We process your data based on:\n\n• **Consent** (Art. 6(1)(a) GDPR) - For marketing communications and analytics\n• **Contract performance** (Art. 6(1)(b)) - To provide appointment booking services\n• **Legal obligations** (Art. 6(1)(c)) - Medical record retention requirements\n• **Legitimate interests** (Art. 6(1)(f)) - Service improvement and fraud prevention\n• **Vital interests** (Art. 9(2)(c)) - For health-related data processing"
+    },
+    "yourRights": {
+      "title": "4. Your Rights (GDPR Art. 12-22)",
+      "content": "You have the following rights regarding your personal data:",
+      "access": "**Right of Access** (Art. 15) - Request a copy of your personal data",
+      "rectification": "**Right to Rectification** (Art. 16) - Correct inaccurate data",
+      "erasure": "**Right to Erasure** (Art. 17) - Request deletion of your data",
+      "restriction": "**Right to Restriction** (Art. 18) - Limit how we use your data",
+      "portability": "**Right to Data Portability** (Art. 20) - Receive your data in a portable format",
+      "objection": "**Right to Object** (Art. 21) - Object to certain processing activities",
+      "withdraw": "**Right to Withdraw Consent** - Withdraw consent at any time without affecting prior processing"
+    },
+    "retention": {
+      "title": "5. Data Retention",
+      "content": "• **Health records**: 10 years (German medical record retention law)\n• **Account data**: Until you request deletion\n• **Usage analytics**: 26 months\n• **Marketing consent records**: 3 years after withdrawal"
+    },
+    "transfers": {
+      "title": "6. Data Transfers",
+      "content": "Your data is stored on servers located in Germany. We do not transfer personal data outside the European Economic Area (EEA). If this changes, we will notify you and ensure appropriate safeguards are in place."
+    },
+    "security": {
+      "title": "7. Data Security",
+      "content": "We implement industry-standard security measures:\n\n• AES-256 encryption for data at rest\n• TLS 1.3 encryption for data in transit\n• ISO 27001 certified data centers\n• Regular security audits and penetration testing"
+    },
+    "contact": {
+      "title": "8. Contact & Complaints",
+      "dpo": {
+        "title": "Data Protection Officer",
+        "content": "datenschutz@docliq.de"
+      },
+      "authority": {
+        "title": "Supervisory Authority",
+        "content": "You have the right to lodge a complaint with the Berlin Commissioner for Data Protection and Freedom of Information (BlnBDI):\n\nBerliner Beauftragte für Datenschutz\nFriedrichstr. 219\n10969 Berlin"
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "subtitle": "General Terms and Conditions (AGB)",
+    "scope": {
+      "title": "1. Scope and Provider",
+      "content": "These Terms of Service govern your use of the DocliQ mobile application and related services provided by DocliQ GmbH, Musterstraße 123, 10115 Berlin, Germany.\n\nBy using DocliQ, you agree to these terms. If you do not agree, please do not use our services."
+    },
+    "services": {
+      "title": "2. Services Description",
+      "content": "DocliQ provides:\n\n• Medical appointment booking with healthcare providers\n• Health record management\n• Family member appointment coordination\n• Health-related content and recommendations\n\nDocliQ is a technology platform that facilitates connections between patients and healthcare providers. We do not provide medical advice or treatment."
+    },
+    "obligations": {
+      "title": "3. User Obligations",
+      "content": "You agree to:\n\n• Provide accurate and complete information\n• Keep your account credentials secure\n• Use the service only for lawful purposes\n• Not misrepresent your identity or health insurance status\n• Cancel appointments you cannot attend at least 24 hours in advance"
+    },
+    "liability": {
+      "title": "4. Liability",
+      "content": "DocliQ is not liable for:\n\n• Medical advice or treatment provided by healthcare professionals\n• Accuracy of information provided by healthcare providers\n• Service interruptions due to technical issues or maintenance\n• Indirect, incidental, or consequential damages\n\nOur liability is limited to the extent permitted by German law."
+    },
+    "termination": {
+      "title": "5. Termination",
+      "content": "You may delete your account at any time through the app settings. We may terminate or suspend your account for violation of these terms.\n\nUpon termination, your data will be handled according to our Privacy Policy and applicable retention requirements."
+    },
+    "disputes": {
+      "title": "6. Dispute Resolution",
+      "content": "These terms are governed by German law. For disputes, the courts of Berlin have exclusive jurisdiction.\n\nFor consumer disputes, you may also use the EU Online Dispute Resolution platform: https://ec.europa.eu/consumers/odr"
+    }
+  },
+  "impressum": {
+    "title": "Impressum",
+    "subtitle": "Legal Notice (TMG §5)",
+    "company": {
+      "title": "Company Information",
+      "name": "DocliQ GmbH",
+      "legalForm": "Gesellschaft mit beschränkter Haftung (GmbH)",
+      "address": "Musterstraße 123\n10115 Berlin\nGermany",
+      "register": "Commercial Register: HRB 123456 B\nAmtsgericht Charlottenburg",
+      "vatId": "VAT ID: DE123456789"
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "+49 30 1234 5678",
+      "email": "kontakt@docliq.de",
+      "website": "www.docliq.de"
+    },
+    "representatives": {
+      "title": "Authorized Representatives",
+      "content": "Managing Director: Dr. Max Mustermann"
+    },
+    "regulatory": {
+      "title": "Regulatory Information",
+      "content": "DocliQ operates as a digital health platform. Our services do not constitute medical treatment or advice.\n\nResponsible supervisory authority: Landesamt für Gesundheit und Soziales Berlin (LAGeSo)"
+    },
+    "liability": {
+      "title": "Liability for Content",
+      "content": "As a service provider, we are responsible for our own content on these pages according to § 7 paragraph 1 TMG. However, according to §§ 8 to 10 TMG, we are not obligated to monitor transmitted or stored third-party information."
+    },
+    "copyright": {
+      "title": "Copyright",
+      "content": "Contents and works on these pages created by the site operators are subject to German copyright law. Duplication, processing, distribution, or any form of commercialization beyond the scope of copyright law requires prior written consent."
+    }
+  },
+  "cookies": {
+    "title": "Cookie Policy",
+    "subtitle": "How we use cookies and similar technologies",
+    "intro": "This Cookie Policy explains how DocliQ uses cookies and similar technologies in accordance with the German Telecommunications-Telemedia Data Protection Act (TTDSG §25).",
+    "banner": {
+      "title": "Cookie Settings",
+      "description": "We use cookies to improve your experience. You can customize your preferences below.",
+      "acceptAll": "Accept All",
+      "rejectNonEssential": "Reject Non-Essential",
+      "customize": "Customize",
+      "savePreferences": "Save Preferences"
+    },
+    "categories": {
+      "essential": {
+        "title": "Essential Cookies",
+        "description": "Required for the app to function. Cannot be disabled.",
+        "examples": "Authentication, security tokens, session management"
+      },
+      "functional": {
+        "title": "Functional Cookies",
+        "description": "Remember your preferences like language and accessibility settings.",
+        "examples": "Language selection, font size, theme preferences"
+      },
+      "analytics": {
+        "title": "Analytics Cookies",
+        "description": "Help us understand how you use DocliQ to improve our services.",
+        "examples": "Page views, feature usage, error tracking"
+      },
+      "marketing": {
+        "title": "Marketing Cookies",
+        "description": "Used to deliver relevant information and measure campaign effectiveness.",
+        "examples": "Campaign tracking, personalized content"
+      }
+    },
+    "ttdsg": {
+      "title": "TTDSG Compliance",
+      "content": "In accordance with the German Telecommunications-Telemedia Data Protection Act (TTDSG §25), we obtain your explicit consent before storing any non-essential cookies or accessing information on your device."
+    },
+    "manage": {
+      "title": "Managing Your Preferences",
+      "content": "You can change your cookie preferences at any time through Settings > Privacy & Data > Cookie Preferences."
+    }
+  },
+  "consent": {
+    "title": "Consent Management",
+    "subtitle": "Manage your data processing preferences",
+    "description": "Control how DocliQ uses your data. You can change these settings at any time.",
+    "history": {
+      "title": "Consent History",
+      "granted": "Granted",
+      "withdrawn": "Withdrawn",
+      "on": "on {{date}}"
+    },
+    "types": {
+      "dataProcessing": {
+        "title": "Data Processing",
+        "description": "Required for using DocliQ services. This consent cannot be withdrawn while using the app."
+      },
+      "marketing": {
+        "title": "Marketing Communications",
+        "description": "Receive news, health tips, and promotional offers via email."
+      },
+      "analytics": {
+        "title": "Usage Analytics",
+        "description": "Help us improve DocliQ by sharing anonymous usage data."
+      },
+      "thirdParty": {
+        "title": "Third-Party Data Sharing",
+        "description": "Share your data with healthcare partners for improved service coordination."
+      }
+    },
+    "withdraw": {
+      "title": "Withdraw Consent",
+      "warning": "Withdrawing certain consents may limit some features.",
+      "confirm": "Withdraw"
+    }
+  },
+  "export": {
+    "title": "Export Your Data",
+    "subtitle": "Download a copy of your personal data (GDPR Art. 20)",
+    "description": "You can request a complete export of your personal data. The export will be prepared and available for download within 30 days.",
+    "requestButton": "Request Data Export",
+    "requestedOn": "Requested on {{date}}",
+    "status": {
+      "pending": "Request submitted",
+      "processing": "Preparing your data...",
+      "ready": "Ready for download",
+      "downloaded": "Downloaded",
+      "expired": "Expired"
+    },
+    "formats": {
+      "title": "Export Format",
+      "json": "JSON (Machine readable)",
+      "pdf": "PDF (Human readable)"
+    },
+    "includes": {
+      "title": "What's Included",
+      "profile": "Profile information",
+      "appointments": "Appointment history",
+      "consents": "Consent records",
+      "familyMembers": "Family member data"
+    },
+    "download": "Download",
+    "newRequest": "Request New Export"
+  },
+  "sharing": {
+    "title": "Data Sharing",
+    "subtitle": "Manage which partners can access your data",
+    "description": "Control which healthcare providers and partners have access to your information. You can revoke access at any time.",
+    "noPartners": "No partners currently have access to your data.",
+    "categories": {
+      "clinic": "Healthcare Providers",
+      "insurance": "Insurance Companies",
+      "pharmacy": "Pharmacies",
+      "lab": "Laboratories"
+    },
+    "access": {
+      "granted": "Access granted",
+      "revoked": "Access revoked",
+      "since": "Since {{date}}",
+      "dataTypes": "Data shared: {{types}}"
+    },
+    "revoke": {
+      "title": "Revoke Access",
+      "confirm": "Are you sure you want to revoke access for {{partner}}?",
+      "button": "Revoke Access",
+      "warning": "This may affect appointment scheduling with this provider."
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} DocliQ GmbH. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "impressum": "Impressum",
+    "cookies": "Cookie Settings"
+  },
+  "privacyHub": {
+    "yourRights": "Your Rights",
+    "yourRightsGdpr": "GDPR Art. 12-22",
+    "downloadHealthData": "Download Health Data",
+    "downloadHealthDataDesc": "Request a secure copy of your data",
+    "dataSharing": "Data Sharing",
+    "dataSharingDesc": "Manage which partners have access",
+    "manageConsents": "Manage Consents",
+    "manageConsentsDesc": "Control your data preferences",
+    "cookiePreferences": "Cookie Preferences",
+    "cookiePreferencesDesc": "Manage cookie and tracking settings",
+    "legalDocuments": "Legal Documents",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "impressum": "Impressum",
+    "cookiePolicy": "Cookie Policy",
+    "appPermissions": "App Permissions",
+    "manageAppPermissions": "Manage App Permissions",
+    "manageAppPermissionsDesc": "Camera, microphone, and location",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete My Account",
+    "deleteAccountDesc": "Permanently delete all your data",
+    "deleteAccountConfirm": "Are you sure? This will permanently delete your account and all associated data. This action cannot be undone.",
+    "deleteAccountWarning": "Open appointments will be cancelled automatically."
+  }
+}

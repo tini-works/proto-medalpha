@@ -89,6 +89,12 @@ export const PATHS = {
   LEGAL_PRIVACY: '/legal/privacy',
   LEGAL_TERMS: '/legal/terms',
   LEGAL_IMPRESSUM: '/legal/impressum',
+  LEGAL_COOKIES: '/legal/cookies',
+
+  // Privacy settings sub-screens (GDPR)
+  SETTINGS_PRIVACY_EXPORT: '/settings/privacy/export',
+  SETTINGS_PRIVACY_SHARING: '/settings/privacy/sharing',
+  SETTINGS_PRIVACY_CONSENTS: '/settings/privacy/consents',
 } as const
 
 export function assistantDoctorPath(id: string) {

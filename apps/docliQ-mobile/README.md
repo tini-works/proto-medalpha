@@ -33,6 +33,13 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - EN + DE via react-i18next; namespaced by domain (auth, profile, settings, home, booking, notifications)
 - Auth, profile, settings, home, notifications translated; FAQ/help from i18n; dates localized (de-DE, en-US); preference in state + localStorage
 
+### GDPR Compliance
+- **Legal pages** (no auth required): Privacy Policy, Terms of Service, Impressum (TMG §5), Cookie Policy
+- **Cookie consent banner**: TTDSG §25 compliant with granular categories (essential/functional/analytics/marketing)
+- **Privacy & Data hub**: Your Rights (GDPR Art. 12-22), Legal Documents, App Permissions, Delete Account
+- **Privacy sub-screens**: Data Export (Art. 20 portability), Data Sharing (third-party access), Consent Management (history + withdraw)
+- **LegalFooter** component with Privacy | Terms | Impressum | Cookies links
+
 ### Other
 - **Home**: Quick actions, upcoming appointments, content
 - **Updates**: Notifications (grouped TODAY/YESTERDAY) + News Feed (guides, featured story, articles, article detail with share/save)
@@ -230,8 +237,15 @@ The app uses React Router with the following main routes:
 - `/assistant/*` - Assistant and voice assistant
 - `/profile/*` - Profile management
 - `/settings/*` - Settings, notifications, language, privacy, support
+- `/settings/privacy/export` - Data export (GDPR Art. 20)
+- `/settings/privacy/sharing` - Third-party data sharing
+- `/settings/privacy/consents` - Consent management
+- `/legal/privacy` - Privacy Policy (no auth required)
+- `/legal/terms` - Terms of Service (no auth required)
+- `/legal/impressum` - Impressum / Legal Notice (no auth required)
+- `/legal/cookies` - Cookie Policy (no auth required)
 
-All routes except auth are protected and require authentication and profile completion.
+All routes except auth and legal pages are protected and require authentication and profile completion.
 
 ## Data & API
 

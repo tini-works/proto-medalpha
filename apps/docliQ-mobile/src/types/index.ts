@@ -95,7 +95,16 @@ export const initialProfile: UserProfile = {
   gdprConsent: {
     dataProcessing: false,
     marketing: false,
+    analytics: false,
+    thirdPartySharing: false,
     consentDate: null,
+    policyVersion: '1.0.0',
+    cookiePreferences: {
+      essential: true,
+      functional: false,
+      analytics: false,
+      marketing: false,
+    },
   },
 }
 

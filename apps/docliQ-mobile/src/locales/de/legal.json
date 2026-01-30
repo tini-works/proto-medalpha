@@ -1,0 +1,293 @@
+{
+  "common": {
+    "lastUpdated": "Zuletzt aktualisiert: {{date}}",
+    "version": "Version {{version}}",
+    "effectiveDate": "Gültig ab {{date}}",
+    "backToTop": "Nach oben",
+    "tableOfContents": "Inhaltsverzeichnis"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "subtitle": "Wie wir Ihre Daten schützen und verarbeiten",
+    "dataController": {
+      "title": "1. Verantwortlicher",
+      "content": "Die DocliQ GmbH ist der für die Verarbeitung Ihrer personenbezogenen Daten Verantwortliche gemäß der Datenschutz-Grundverordnung (DSGVO).\n\nDocliQ GmbH\nMusterstraße 123\n10115 Berlin, Deutschland\nE-Mail: datenschutz@docliq.de"
+    },
+    "dataCollected": {
+      "title": "2. Erhobene Daten",
+      "personal": {
+        "title": "2.1 Personenbezogene Daten",
+        "content": "Name, E-Mail-Adresse, Telefonnummer, Geburtsdatum, Adresse, Krankenversicherungsinformationen (GKV/PKV), eGK-Nummer."
+      },
+      "health": {
+        "title": "2.2 Gesundheitsdaten",
+        "content": "Terminhistorie, bei der Buchung beschriebene Symptome, medizinische Fachrichtungspräferenzen. Diese Daten gelten gemäß Art. 9 DSGVO als besondere Kategorien personenbezogener Daten."
+      },
+      "usage": {
+        "title": "2.3 Nutzungsdaten",
+        "content": "Geräteinformationen, IP-Adresse, App-Nutzungsmuster, Spracheinstellungen. Diese werden nur mit Ihrer Einwilligung für Analysezwecke erhoben."
+      }
+    },
+    "legalBasis": {
+      "title": "3. Rechtsgrundlagen der Verarbeitung",
+      "content": "Wir verarbeiten Ihre Daten auf Grundlage von:\n\n• **Einwilligung** (Art. 6 Abs. 1 lit. a DSGVO) - Für Marketing und Analysen\n• **Vertragserfüllung** (Art. 6 Abs. 1 lit. b) - Zur Bereitstellung der Terminbuchungsdienste\n• **Rechtliche Verpflichtungen** (Art. 6 Abs. 1 lit. c) - Aufbewahrungspflichten für medizinische Unterlagen\n• **Berechtigte Interessen** (Art. 6 Abs. 1 lit. f) - Serviceverbesserung und Betrugsprävention\n• **Schutz lebenswichtiger Interessen** (Art. 9 Abs. 2 lit. c) - Für die Verarbeitung gesundheitsbezogener Daten"
+    },
+    "yourRights": {
+      "title": "4. Ihre Rechte (DSGVO Art. 12-22)",
+      "content": "Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:",
+      "access": "**Auskunftsrecht** (Art. 15) - Kopie Ihrer personenbezogenen Daten anfordern",
+      "rectification": "**Recht auf Berichtigung** (Art. 16) - Unrichtige Daten korrigieren",
+      "erasure": "**Recht auf Löschung** (Art. 17) - Löschung Ihrer Daten beantragen",
+      "restriction": "**Recht auf Einschränkung** (Art. 18) - Einschränkung der Verarbeitung",
+      "portability": "**Recht auf Datenübertragbarkeit** (Art. 20) - Ihre Daten in portablem Format erhalten",
+      "objection": "**Widerspruchsrecht** (Art. 21) - Widerspruch gegen bestimmte Verarbeitungen",
+      "withdraw": "**Recht auf Widerruf der Einwilligung** - Einwilligung jederzeit widerrufen, ohne die Rechtmäßigkeit der bisherigen Verarbeitung zu beeinträchtigen"
+    },
+    "retention": {
+      "title": "5. Speicherdauer",
+      "content": "• **Gesundheitsdaten**: 10 Jahre (deutsche ärztliche Aufbewahrungspflicht)\n• **Kontodaten**: Bis zur Löschanfrage\n• **Nutzungsanalysen**: 26 Monate\n• **Marketing-Einwilligungsnachweise**: 3 Jahre nach Widerruf"
+    },
+    "transfers": {
+      "title": "6. Datenübermittlung",
+      "content": "Ihre Daten werden auf Servern in Deutschland gespeichert. Wir übermitteln keine personenbezogenen Daten außerhalb des Europäischen Wirtschaftsraums (EWR). Sollte sich dies ändern, werden wir Sie informieren und geeignete Schutzmaßnahmen sicherstellen."
+    },
+    "security": {
+      "title": "7. Datensicherheit",
+      "content": "Wir setzen branchenübliche Sicherheitsmaßnahmen ein:\n\n• AES-256-Verschlüsselung für gespeicherte Daten\n• TLS 1.3-Verschlüsselung für Datenübertragung\n• ISO 27001-zertifizierte Rechenzentren\n• Regelmäßige Sicherheitsaudits und Penetrationstests"
+    },
+    "contact": {
+      "title": "8. Kontakt & Beschwerden",
+      "dpo": {
+        "title": "Datenschutzbeauftragter",
+        "content": "datenschutz@docliq.de"
+      },
+      "authority": {
+        "title": "Aufsichtsbehörde",
+        "content": "Sie haben das Recht, eine Beschwerde bei der Berliner Beauftragten für Datenschutz und Informationsfreiheit einzureichen:\n\nBerliner Beauftragte für Datenschutz\nFriedrichstr. 219\n10969 Berlin"
+      }
+    }
+  },
+  "terms": {
+    "title": "Allgemeine Geschäftsbedingungen",
+    "subtitle": "AGB",
+    "scope": {
+      "title": "1. Geltungsbereich und Anbieter",
+      "content": "Diese Allgemeinen Geschäftsbedingungen regeln die Nutzung der DocliQ-Mobilanwendung und der damit verbundenen Dienste der DocliQ GmbH, Musterstraße 123, 10115 Berlin, Deutschland.\n\nMit der Nutzung von DocliQ stimmen Sie diesen Bedingungen zu. Wenn Sie nicht zustimmen, nutzen Sie bitte unsere Dienste nicht."
+    },
+    "services": {
+      "title": "2. Leistungsbeschreibung",
+      "content": "DocliQ bietet:\n\n• Terminbuchung bei Gesundheitsdienstleistern\n• Verwaltung von Gesundheitsdaten\n• Terminkoordination für Familienmitglieder\n• Gesundheitsbezogene Inhalte und Empfehlungen\n\nDocliQ ist eine Technologieplattform, die Verbindungen zwischen Patienten und Gesundheitsdienstleistern ermöglicht. Wir bieten keine medizinische Beratung oder Behandlung an."
+    },
+    "obligations": {
+      "title": "3. Pflichten des Nutzers",
+      "content": "Sie verpflichten sich:\n\n• Genaue und vollständige Angaben zu machen\n• Ihre Zugangsdaten sicher aufzubewahren\n• Den Dienst nur für rechtmäßige Zwecke zu nutzen\n• Ihre Identität oder Ihren Versicherungsstatus nicht falsch darzustellen\n• Termine, die Sie nicht wahrnehmen können, mindestens 24 Stunden vorher abzusagen"
+    },
+    "liability": {
+      "title": "4. Haftung",
+      "content": "DocliQ haftet nicht für:\n\n• Medizinische Beratung oder Behandlung durch Gesundheitsdienstleister\n• Richtigkeit der von Gesundheitsdienstleistern bereitgestellten Informationen\n• Serviceunterbrechungen aufgrund technischer Probleme oder Wartung\n• Indirekte, zufällige oder Folgeschäden\n\nUnsere Haftung ist im gesetzlich zulässigen Rahmen beschränkt."
+    },
+    "termination": {
+      "title": "5. Kündigung",
+      "content": "Sie können Ihr Konto jederzeit über die App-Einstellungen löschen. Wir können Ihr Konto bei Verstoß gegen diese Bedingungen kündigen oder sperren.\n\nNach Kündigung werden Ihre Daten gemäß unserer Datenschutzerklärung und den geltenden Aufbewahrungspflichten behandelt."
+    },
+    "disputes": {
+      "title": "6. Streitbeilegung",
+      "content": "Es gilt deutsches Recht. Für Streitigkeiten sind die Gerichte in Berlin ausschließlich zuständig.\n\nFür Verbraucherstreitigkeiten können Sie auch die EU-Plattform zur Online-Streitbeilegung nutzen: https://ec.europa.eu/consumers/odr"
+    }
+  },
+  "impressum": {
+    "title": "Impressum",
+    "subtitle": "Angaben gemäß TMG §5",
+    "company": {
+      "title": "Unternehmensinformationen",
+      "name": "DocliQ GmbH",
+      "legalForm": "Gesellschaft mit beschränkter Haftung (GmbH)",
+      "address": "Musterstraße 123\n10115 Berlin\nDeutschland",
+      "register": "Handelsregister: HRB 123456 B\nAmtsgericht Charlottenburg",
+      "vatId": "USt-IdNr.: DE123456789"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "+49 30 1234 5678",
+      "email": "kontakt@docliq.de",
+      "website": "www.docliq.de"
+    },
+    "representatives": {
+      "title": "Vertretungsberechtigte",
+      "content": "Geschäftsführer: Dr. Max Mustermann"
+    },
+    "regulatory": {
+      "title": "Aufsichtsbehörde",
+      "content": "DocliQ betreibt eine digitale Gesundheitsplattform. Unsere Dienste stellen keine medizinische Behandlung oder Beratung dar.\n\nZuständige Aufsichtsbehörde: Landesamt für Gesundheit und Soziales Berlin (LAGeSo)"
+    },
+    "liability": {
+      "title": "Haftung für Inhalte",
+      "content": "Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen."
+    },
+    "copyright": {
+      "title": "Urheberrecht",
+      "content": "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung."
+    }
+  },
+  "cookies": {
+    "title": "Cookie-Richtlinie",
+    "subtitle": "Wie wir Cookies und ähnliche Technologien verwenden",
+    "intro": "Diese Cookie-Richtlinie erklärt, wie DocliQ Cookies und ähnliche Technologien gemäß dem deutschen Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG §25) verwendet.",
+    "banner": {
+      "title": "Cookie-Einstellungen",
+      "description": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Sie können Ihre Einstellungen unten anpassen.",
+      "acceptAll": "Alle akzeptieren",
+      "rejectNonEssential": "Nicht-essentielle ablehnen",
+      "customize": "Anpassen",
+      "savePreferences": "Einstellungen speichern"
+    },
+    "categories": {
+      "essential": {
+        "title": "Essentielle Cookies",
+        "description": "Für die Funktion der App erforderlich. Können nicht deaktiviert werden.",
+        "examples": "Authentifizierung, Sicherheits-Tokens, Sitzungsverwaltung"
+      },
+      "functional": {
+        "title": "Funktionale Cookies",
+        "description": "Speichern Ihre Einstellungen wie Sprache und Barrierefreiheit.",
+        "examples": "Sprachauswahl, Schriftgröße, Theme-Einstellungen"
+      },
+      "analytics": {
+        "title": "Analyse-Cookies",
+        "description": "Helfen uns zu verstehen, wie Sie DocliQ nutzen, um unsere Dienste zu verbessern.",
+        "examples": "Seitenaufrufe, Feature-Nutzung, Fehlerverfolgung"
+      },
+      "marketing": {
+        "title": "Marketing-Cookies",
+        "description": "Werden verwendet, um relevante Informationen bereitzustellen und die Kampagneneffektivität zu messen.",
+        "examples": "Kampagnen-Tracking, personalisierte Inhalte"
+      }
+    },
+    "ttdsg": {
+      "title": "TTDSG-Konformität",
+      "content": "Gemäß dem deutschen Telekommunikation-Telemedien-Datenschutz-Gesetz (TTDSG §25) holen wir Ihre ausdrückliche Einwilligung ein, bevor wir nicht-essentielle Cookies speichern oder auf Informationen auf Ihrem Gerät zugreifen."
+    },
+    "manage": {
+      "title": "Einstellungen verwalten",
+      "content": "Sie können Ihre Cookie-Einstellungen jederzeit unter Einstellungen > Datenschutz > Cookie-Einstellungen ändern."
+    }
+  },
+  "consent": {
+    "title": "Einwilligungsverwaltung",
+    "subtitle": "Verwalten Sie Ihre Datenverarbeitungseinstellungen",
+    "description": "Kontrollieren Sie, wie DocliQ Ihre Daten verwendet. Sie können diese Einstellungen jederzeit ändern.",
+    "history": {
+      "title": "Einwilligungshistorie",
+      "granted": "Erteilt",
+      "withdrawn": "Widerrufen",
+      "on": "am {{date}}"
+    },
+    "types": {
+      "dataProcessing": {
+        "title": "Datenverarbeitung",
+        "description": "Für die Nutzung der DocliQ-Dienste erforderlich. Diese Einwilligung kann während der Nutzung der App nicht widerrufen werden."
+      },
+      "marketing": {
+        "title": "Marketing-Kommunikation",
+        "description": "Erhalten Sie Neuigkeiten, Gesundheitstipps und Angebote per E-Mail."
+      },
+      "analytics": {
+        "title": "Nutzungsanalysen",
+        "description": "Helfen Sie uns, DocliQ zu verbessern, indem Sie anonyme Nutzungsdaten teilen."
+      },
+      "thirdParty": {
+        "title": "Datenweitergabe an Dritte",
+        "description": "Teilen Sie Ihre Daten mit Gesundheitspartnern für eine verbesserte Servicekoordination."
+      }
+    },
+    "withdraw": {
+      "title": "Einwilligung widerrufen",
+      "warning": "Das Widerrufen bestimmter Einwilligungen kann einige Funktionen einschränken.",
+      "confirm": "Widerrufen"
+    }
+  },
+  "export": {
+    "title": "Daten exportieren",
+    "subtitle": "Laden Sie eine Kopie Ihrer personenbezogenen Daten herunter (DSGVO Art. 20)",
+    "description": "Sie können einen vollständigen Export Ihrer personenbezogenen Daten anfordern. Der Export wird innerhalb von 30 Tagen erstellt und zum Download bereitgestellt.",
+    "requestButton": "Datenexport anfordern",
+    "requestedOn": "Angefordert am {{date}}",
+    "status": {
+      "pending": "Anfrage eingereicht",
+      "processing": "Daten werden vorbereitet...",
+      "ready": "Zum Download bereit",
+      "downloaded": "Heruntergeladen",
+      "expired": "Abgelaufen"
+    },
+    "formats": {
+      "title": "Exportformat",
+      "json": "JSON (Maschinenlesbar)",
+      "pdf": "PDF (Menschenlesbar)"
+    },
+    "includes": {
+      "title": "Enthaltene Daten",
+      "profile": "Profilinformationen",
+      "appointments": "Terminhistorie",
+      "consents": "Einwilligungsnachweise",
+      "familyMembers": "Familienmitglieder-Daten"
+    },
+    "download": "Herunterladen",
+    "newRequest": "Neuen Export anfordern"
+  },
+  "sharing": {
+    "title": "Datenweitergabe",
+    "subtitle": "Verwalten Sie, welche Partner auf Ihre Daten zugreifen können",
+    "description": "Kontrollieren Sie, welche Gesundheitsdienstleister und Partner Zugriff auf Ihre Informationen haben. Sie können den Zugriff jederzeit widerrufen.",
+    "noPartners": "Derzeit haben keine Partner Zugriff auf Ihre Daten.",
+    "categories": {
+      "clinic": "Gesundheitsdienstleister",
+      "insurance": "Versicherungen",
+      "pharmacy": "Apotheken",
+      "lab": "Labore"
+    },
+    "access": {
+      "granted": "Zugriff gewährt",
+      "revoked": "Zugriff widerrufen",
+      "since": "Seit {{date}}",
+      "dataTypes": "Geteilte Daten: {{types}}"
+    },
+    "revoke": {
+      "title": "Zugriff widerrufen",
+      "confirm": "Sind Sie sicher, dass Sie den Zugriff für {{partner}} widerrufen möchten?",
+      "button": "Zugriff widerrufen",
+      "warning": "Dies kann die Terminplanung mit diesem Anbieter beeinträchtigen."
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} DocliQ GmbH. Alle Rechte vorbehalten.",
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "impressum": "Impressum",
+    "cookies": "Cookie-Einstellungen"
+  },
+  "privacyHub": {
+    "yourRights": "Ihre Rechte",
+    "yourRightsGdpr": "DSGVO Art. 12-22",
+    "downloadHealthData": "Gesundheitsdaten herunterladen",
+    "downloadHealthDataDesc": "Sichere Kopie Ihrer Daten anfordern",
+    "dataSharing": "Datenweitergabe",
+    "dataSharingDesc": "Partnerzugriffe verwalten",
+    "manageConsents": "Einwilligungen verwalten",
+    "manageConsentsDesc": "Ihre Dateneinstellungen kontrollieren",
+    "cookiePreferences": "Cookie-Einstellungen",
+    "cookiePreferencesDesc": "Cookie- und Tracking-Einstellungen verwalten",
+    "legalDocuments": "Rechtliche Dokumente",
+    "privacyPolicy": "Datenschutzerklärung",
+    "termsOfService": "AGB",
+    "impressum": "Impressum",
+    "cookiePolicy": "Cookie-Richtlinie",
+    "appPermissions": "App-Berechtigungen",
+    "manageAppPermissions": "App-Berechtigungen verwalten",
+    "manageAppPermissionsDesc": "Kamera, Mikrofon und Standort",
+    "dangerZone": "Gefahrenzone",
+    "deleteAccount": "Mein Konto löschen",
+    "deleteAccountDesc": "Alle Ihre Daten dauerhaft löschen",
+    "deleteAccountConfirm": "Sind Sie sicher? Dies löscht Ihr Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleteAccountWarning": "Offene Termine werden automatisch abgesagt."
+  }
+}

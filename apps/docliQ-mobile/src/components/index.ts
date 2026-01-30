@@ -17,3 +17,9 @@ export { default as NotificationCard } from './notifications/NotificationCard'
 
 // Sheets
 export { DoctorDetailSheet } from './sheets'
+
+// Legal
+export { LegalFooter, CookieConsentBanner, hasCookieConsent, getCookiePreferences, resetCookiePreferences } from './legal'
+
+// UI
+export { default as SettingsListItem } from './ui/SettingsListItem'

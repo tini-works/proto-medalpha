@@ -80,6 +80,24 @@ import {
   HelpCentreScreen,
 } from './screens/settings'
 
+// Privacy sub-screens (GDPR)
+import {
+  DataExportScreen,
+  DataSharingScreen,
+  ConsentManagementScreen,
+} from './screens/settings/privacy'
+
+// Legal screens
+import {
+  PrivacyPolicyScreen,
+  TermsOfServiceScreen,
+  ImpressumScreen,
+  CookiePolicyScreen,
+} from './screens/legal'
+
+// Cookie consent banner
+import { CookieConsentBanner } from './components'
+
 export default function App() {
   return (
     <NotificationToastProvider>
@@ -648,12 +666,46 @@ function AppContent() {
             }
           />
 
+          {/* Privacy sub-screens (GDPR) */}
+          <Route
+            path={PATHS.SETTINGS_PRIVACY_EXPORT}
+            element={
+              <RequireAuth>
+                <DataExportScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_PRIVACY_SHARING}
+            element={
+              <RequireAuth>
+                <DataSharingScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_PRIVACY_CONSENTS}
+            element={
+              <RequireAuth>
+                <ConsentManagementScreen />
+              </RequireAuth>
+            }
+          />
+
+          {/* Legal pages - NO AUTH REQUIRED (GDPR transparency) */}
+          <Route path={PATHS.LEGAL_PRIVACY} element={<PrivacyPolicyScreen />} />
+          <Route path={PATHS.LEGAL_TERMS} element={<TermsOfServiceScreen />} />
+          <Route path={PATHS.LEGAL_IMPRESSUM} element={<ImpressumScreen />} />
+          <Route path={PATHS.LEGAL_COOKIES} element={<CookiePolicyScreen />} />
+
           {/* Catch all */}
           <Route path="*" element={<Navigate to={PATHS.HOME} replace />} />
         </Routes>
       </div>
       {/* Toast must render inside BrowserRouter so its Link has router context */}
       <ToastRenderer />
+      {/* Cookie consent banner - TTDSG §25 compliance */}
+      <CookieConsentBanner />
     </BrowserRouter>
   )
 }
