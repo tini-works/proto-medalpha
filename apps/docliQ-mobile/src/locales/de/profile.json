@@ -1,0 +1,130 @@
+{
+  "completion": {
+    "title": "Profil vervollständigen",
+    "subtitle": "Fast geschafft! Nur noch ein paar Details.",
+    "submit": "Profil vervollständigen"
+  },
+  "common": {
+    "optional": "optional",
+    "close": "Schließen"
+  },
+  "fullName": {
+    "label": "Vollständiger Name",
+    "placeholder": "Geben Sie Ihren vollständigen Namen ein"
+  },
+  "insurance": {
+    "label": "Versicherungsart (Optional)",
+    "gkv": "GKV (Gesetzlich)",
+    "gkvDescription": "Gesetzliche Krankenversicherung",
+    "pkv": "PKV (Privat)",
+    "pkvDescription": "Private Krankenversicherung",
+    "labelRequired": "Versicherungsart"
+  },
+  "egkNumber": {
+    "label": "eGK-Kartennummer",
+    "placeholder": "Geben Sie Ihre eGK-Nummer ein",
+    "hint": "Befindet sich auf Ihrer Krankenversichertenkarte"
+  },
+  "address": {
+    "title": "Adresse",
+    "street": {
+      "label": "Straße",
+      "placeholder": "Geben Sie die Straße ein"
+    },
+    "postalCode": {
+      "label": "Postleitzahl",
+      "placeholder": "12345"
+    },
+    "city": {
+      "label": "Stadt",
+      "placeholder": "Berlin"
+    }
+  },
+  "gdpr": {
+    "consent": "Ich bin mit der Verarbeitung meiner persönlichen und Gesundheitsdaten gemäß der",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "asterisk": "*"
+  },
+  "family": {
+    "title": "Familienmitglieder",
+    "subtitle": "Verwalten Sie Profile für Ihre Angehörigen",
+    "empty": {
+      "title": "Keine Familienmitglieder",
+      "description": "Fügen Sie Familienmitglieder hinzu, um in deren Namen Termine zu buchen."
+    },
+    "form": {
+      "title": "Familienmitglied hinzufügen",
+      "addButton": "Familienmitglied hinzufügen",
+      "cancel": "Abbrechen",
+      "submit": "Mitglied hinzufügen",
+      "dateOfBirth": "Geburtsdatum",
+      "relationship": "Verhältnis",
+      "relationshipPlaceholder": "Verhältnis auswählen",
+      "insuranceType": "Versicherungsart (optional)",
+      "insurancePlaceholder": "Wie das Hauptkonto"
+    }
+  },
+  "relationship": {
+    "child": "Kind",
+    "spouse": "Ehepartner",
+    "parent": "Elternteil",
+    "other": "Sonstiges"
+  },
+  "detail": {
+    "verification": {
+      "title": "Identitätsverifizierung",
+      "verified": "Identität bestätigt",
+      "pending": "Identitätsverifizierung ausstehend",
+      "verifyButton": "Bestätigen"
+    },
+    "basicInfo": "Grundlegende Informationen",
+    "emergencyContact": "Notfallkontakt",
+    "medicalNotes": "Medizinische Notizen",
+    "dateOfBirth": "Geburtsdatum",
+    "relationshipLabel": "Verhältnis",
+    "insuranceType": "Versicherungsart",
+    "egkNumber": "eGK-Nummer",
+    "emergency": {
+      "name": "Name",
+      "relationship": "Verhältnis",
+      "phone": "Telefon"
+    },
+    "emergencyPlaceholders": {
+      "name": "Kontaktname",
+      "relationship": "z. B. Elternteil, Geschwister, Freund:in"
+    },
+    "edit": "Mitglied bearbeiten",
+    "remove": "Mitglied entfernen",
+    "removeConfirm": "Sind Sie sicher, dass Sie dieses Familienmitglied entfernen möchten?",
+    "yearsOld": "Jahre alt",
+    "verifiedCheckmark": "✓ Bestätigt",
+    "medicalNotesLabel": "Allergien, Erkrankungen oder weitere Hinweise",
+    "medicalNotesPlaceholder": "z. B. Penicillinallergie, Asthma..."
+  },
+  "edit": {
+    "title": "Profil bearbeiten",
+    "personalInfo": "Persönliche Informationen",
+    "address": "Adresse",
+    "email": {
+      "label": "E-Mail"
+    },
+    "phone": {
+      "label": "Telefon (optional)",
+      "placeholder": "+49 123 456789"
+    },
+    "submit": "Änderungen speichern"
+  },
+  "validation": {
+    "fullNameRequired": "Vollständiger Name ist erforderlich",
+    "emailRequired": "E-Mail ist erforderlich",
+    "egkRequired": "eGK-Nummer ist erforderlich",
+    "streetRequired": "Straße ist erforderlich",
+    "postalCodeRequired": "Postleitzahl ist erforderlich",
+    "cityRequired": "Stadt ist erforderlich",
+    "insuranceRequired": "Versicherungsart ist erforderlich",
+    "nameRequired": "Name ist erforderlich",
+    "dateOfBirthRequired": "Geburtsdatum ist erforderlich",
+    "relationshipRequired": "Verhältnis ist erforderlich",
+    "gdprRequired": "Sie müssen den Bedingungen für die Datenverarbeitung zustimmen"
+  }
+}

@@ -1,0 +1,5 @@
+export { default as AssistantScreen } from './AssistantScreen'
+export { default as VoiceAssistantScreen } from './VoiceAssistantScreen'
+export { default as RecommendationsScreen } from './RecommendationsScreen'
+export { default as AssistantDoctorProfileScreen } from './AssistantDoctorProfileScreen'
+export { default as AssistantConfirmScreen } from './AssistantConfirmScreen'

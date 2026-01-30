@@ -1,0 +1,51 @@
+{
+  "notFound": "Appointment not found",
+  "backToAppointments": "Back to appointments",
+  "goBack": "Go back",
+
+  "steps": {
+    "verifyingPreferences": "Verifying your preferences",
+    "checkingAvailability": "Checking doctor availability",
+    "matchingTimeSlot": "Matching you with the best time slot...",
+    "confirmingAppointment": "Confirming your appointment"
+  },
+
+  "matching": {
+    "title": "Finding Your Match...",
+    "description": "We're searching for the best available appointment that fits your preferences",
+    "connectionTitle": "Auto-fixing connection issue...",
+    "connectionSubtitle": "Retrying (2/3) • This may take a moment"
+  },
+
+  "cancelRequest": "Cancel Request",
+  "awaitingConfirmation": "Awaiting Confirmation",
+  "awaitingDescription": "We've found a match! Waiting for {{doctorName}} to confirm your appointment.",
+
+  "confirmed": "Appointment Confirmed!",
+  "confirmedDescription": "Your appointment has been confirmed. We've sent the details to your email and phone.",
+  "calendarEventTitle": "Appointment with {{doctorName}}",
+  "addToCalendar": "Add to Calendar",
+  "cancelAppointment": "Cancel Appointment",
+  "viewAllAppointments": "View all appointments",
+  "backToHome": "Back to Home",
+
+  "canceled": "Appointment Canceled",
+  "canceledDescription": "You've canceled this appointment request. You can submit a new request anytime.",
+  "canceledByYou": "Canceled by You",
+  "submitNewRequest": "Submit New Request",
+
+  "declined": "Appointment Declined",
+  "declinedDescription": "Unfortunately, {{doctorName}} is unable to accept this appointment. Please try booking with another doctor.",
+  "bookNewAppointment": "Book New Appointment",
+
+  "yearsExp": "{{count}} years exp.",
+  "defaultClinicLocation": "Heart Care Clinic, Building A",
+  "keepAppointment": "Keep Appointment",
+
+  "cancelDialog": {
+    "title": "Cancel Appointment?",
+    "message": "Are you sure you want to cancel your appointment with {{doctorName}} on {{date}}?",
+    "policyTitle": "Cancellation Policy:",
+    "policyText": "Free cancellation up to 24 hours before the appointment."
+  }
+}

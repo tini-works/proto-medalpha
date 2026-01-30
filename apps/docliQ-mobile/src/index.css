@@ -1,0 +1,550 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * DocliQ Design System
+ * Based on Brand Guide 2025
+ * Visual Style: Trust, Efficiency, Humanity
+ * WCAG 2.1 AA Compliant
+ */
+
+:root {
+  --scale: 1;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ============================================
+     DocliQ Color Tokens - Semantic
+     ============================================ */
+
+  /* Background Colors */
+  --color-bg-primary: #FAF8F5;      /* Cream 100 - Main app background */
+  --color-bg-secondary: #FFFFFF;     /* White - Card backgrounds */
+  --color-bg-tertiary: #F5F3EF;      /* Cream 200 - Subtle sections */
+  --color-bg-inverse: #1C2A30;       /* Charcoal 500 - Dark sections */
+  --color-bg-brand: #13A3B5;         /* Teal 500 - Brand backgrounds */
+  --color-bg-brand-subtle: #E8F6F8;  /* Teal 50 - Subtle brand */
+
+  /* Text Colors */
+  --color-text-primary: #1C2A30;     /* Charcoal 500 - 12.4:1 on cream */
+  --color-text-secondary: #5E7A86;   /* Slate 500 - 4.7:1 on cream */
+  --color-text-tertiary: #7C939D;    /* Slate 400 - Large text only (3.2:1) */
+  --color-text-inverse: #FFFFFF;     /* White on dark backgrounds */
+  --color-text-brand: #0B6F7C;       /* Teal 700 - 5.1:1 on cream */
+  --color-text-link: #0F8A99;        /* Teal 600 - 4.6:1 on cream */
+  --color-text-on-brand: #FFFFFF;    /* Text on teal backgrounds */
+
+  /* Border Colors */
+  --color-border-default: #E8E3DB;   /* Cream 400 */
+  --color-border-subtle: #EFEBE5;    /* Cream 300 */
+  --color-border-strong: #9DA6AA;    /* Charcoal 200 */
+  --color-border-brand: #13A3B5;     /* Teal 500 */
+  --color-border-focus: #13A3B5;     /* Teal 500 */
+
+  /* Interactive Colors */
+  --color-interactive-primary: #13A3B5;        /* Teal 500 */
+  --color-interactive-primary-hover: #0F8A99;  /* Teal 600 */
+  --color-interactive-primary-active: #0B6F7C; /* Teal 700 */
+  --color-interactive-accent: #E88A73;         /* Coral 500 */
+  --color-interactive-accent-hover: #E06A4F;   /* Coral 600 */
+
+  /* Status Colors */
+  --color-success-bg: #E8F6F8;
+  --color-success-border: #13A3B5;
+  --color-success-text: #0B6F7C;
+  --color-error-bg: #FDF3F0;
+  --color-error-border: #E06A4F;
+  --color-error-text: #A03D2D;
+  --color-warning-bg: #FAE0D9;
+  --color-warning-border: #E88A73;
+  --color-warning-text: #C9503A;
+  --color-info-bg: #EEF1F3;
+  --color-info-border: #5E7A86;
+  --color-info-text: #3E5159;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(28, 42, 48, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(28, 42, 48, 0.07), 0 2px 4px -2px rgba(28, 42, 48, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(28, 42, 48, 0.08), 0 4px 6px -4px rgba(28, 42, 48, 0.05);
+  --shadow-focus: 0 0 0 3px rgba(19, 163, 181, 0.4);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --easing-default: cubic-bezier(0, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+/* Mobile-first app container */
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+  background-color: var(--color-bg-secondary);
+  position: relative;
+}
+
+/* Touch ergonomics - 44px minimum per WCAG & brand guide */
+button,
+a,
+[role='button'] {
+  min-height: 44px;
+}
+
+/* Safe area for bottom tab bar */
+.safe-bottom {
+  padding-bottom: 88px;
+}
+
+/* Font scaling support */
+.scaled-text {
+  font-size: calc(1rem * var(--scale));
+}
+
+/* ============================================
+   DocliQ Component Layer
+   ============================================ */
+@layer components {
+  /* Card with DocliQ styling */
+  .card-docliq {
+    @apply p-4 bg-white rounded-lg border border-cream-400;
+    box-shadow: var(--shadow-sm);
+    min-height: fit-content;
+  }
+
+  .card-docliq-elevated {
+    @apply p-4 bg-white rounded-xl;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Text with proper wrapping for German text expansion */
+  .label-flexible {
+    @apply text-body-sm font-medium text-slate-500;
+    white-space: normal;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Data value - numbers stay prominent */
+  .data-value {
+    @apply text-headline-sm text-charcoal-500 tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Primary CTA Button - Teal background */
+  .btn {
+    @apply px-4 py-3.5 font-medium rounded-lg;
+    @apply transition-colors duration-normal ease-out-brand;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
+    min-height: 44px;
+  }
+
+  .btn-block {
+    @apply w-full;
+  }
+
+  .btn-primary {
+    @apply bg-teal-500 text-white;
+    @apply hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98];
+  }
+
+  .btn-primary:disabled {
+    @apply bg-teal-200 text-teal-800 cursor-not-allowed;
+  }
+
+  /* Secondary Button - Outlined */
+  .btn-secondary {
+    @apply bg-transparent text-teal-700 border border-teal-500;
+    @apply hover:bg-teal-50 active:bg-teal-100 active:scale-[0.98];
+  }
+
+  /* Tertiary/Ghost Button */
+  .btn-tertiary {
+    @apply bg-transparent text-charcoal-500;
+    @apply hover:bg-cream-200 active:bg-cream-300 active:scale-[0.98];
+  }
+
+  /* Accent Button - Coral (use dark text for AA compliance) */
+  .btn-accent {
+    @apply bg-coral-500 text-charcoal-500;
+    @apply hover:bg-coral-600 active:bg-coral-700 active:scale-[0.98];
+    @apply focus-visible:ring-coral-500;
+  }
+
+  /* Status indicators - DocliQ semantic colors */
+  .status-success {
+    @apply bg-teal-50 text-teal-700 border border-teal-500;
+  }
+
+  .status-error {
+    @apply bg-coral-50 text-coral-800 border border-coral-600;
+  }
+
+  .status-warning {
+    @apply bg-coral-100 text-coral-700 border border-coral-500;
+  }
+
+  .status-info {
+    @apply bg-slate-50 text-slate-700 border border-slate-500;
+  }
+
+  .status-neutral {
+    @apply bg-cream-200 text-charcoal-400 border border-cream-400;
+  }
+
+  /* Pill/Badge component */
+  .pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-label-sm font-medium;
+    min-height: 28px;
+  }
+
+  .pill-brand {
+    @apply bg-teal-50 text-teal-700;
+  }
+
+  .pill-accent {
+    @apply bg-coral-50 text-coral-700;
+  }
+
+  .pill-neutral {
+    @apply bg-cream-200 text-charcoal-400;
+  }
+
+  /* Input field styling */
+  .input-field {
+    @apply w-full px-4 py-3 bg-white rounded-lg;
+    @apply border border-cream-400 text-charcoal-500;
+    @apply placeholder:text-slate-400;
+    @apply hover:border-slate-300;
+    @apply focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500;
+    @apply transition-colors duration-fast;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    min-height: 48px;
+  }
+
+  .input-field:disabled {
+    @apply bg-cream-100 text-slate-400 cursor-not-allowed;
+  }
+
+  .input-field.error {
+    @apply border-coral-600 focus:border-coral-600 focus:ring-coral-600;
+  }
+
+  /* Form label */
+  .form-label {
+    @apply block text-label-md text-charcoal-500 mb-2;
+  }
+
+  /* Helper text */
+  .form-helper {
+    @apply text-body-sm text-slate-500 mt-1;
+  }
+
+  .form-error {
+    @apply text-body-sm text-coral-800 mt-1;
+  }
+}
+
+/* Form inputs base */
+input,
+select,
+textarea {
+  font-size: 16px; /* Prevents iOS zoom on focus */
+}
+
+/* Clear grouping for structured layouts */
+.section-group {
+  @apply space-y-4 pb-6 border-b border-cream-300;
+}
+
+.section-group:last-child {
+  @apply border-b-0 pb-0;
+}
+
+/* Typography - DocliQ hierarchy */
+h1 {
+  @apply text-headline-lg text-charcoal-500 leading-tight;
+}
+
+h2 {
+  @apply text-headline-md text-charcoal-500 leading-tight;
+}
+
+h3 {
+  @apply text-headline-sm text-charcoal-500 leading-snug;
+}
+
+/* Overline text (e.g., "01 - MARKENIDENTITAT") */
+.text-overline {
+  @apply text-label-sm text-teal-600 uppercase tracking-wider;
+}
+
+/* Muted helper text */
+.text-helper {
+  @apply text-body-sm text-slate-500 leading-relaxed;
+}
+
+/* Ensure no text gets clipped */
+.text-expand-safe {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Focus states - DocliQ teal focus ring */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling - subtle */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: 2px;
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom range slider - DocliQ styling */
+input[type='range'].radius-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: #E8E3DB; /* cream-400 */
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+input[type='range'].radius-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: #13A3B5; /* teal-500 */
+  cursor: pointer;
+  margin-top: -10px;
+  box-shadow: var(--shadow-md);
+}
+
+input[type='range'].radius-slider::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: #13A3B5; /* teal-500 */
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+input[type='range'].radius-slider::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: #E8E3DB; /* cream-400 */
+  border-radius: 2px;
+}
+
+input[type='range'].radius-slider:focus {
+  outline: none;
+}
+
+input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: var(--shadow-focus);
+}
+
+/* ============================================
+   DocliQ Animations & Transitions
+   Per Brand Guide: Fade 300ms, Scale 200ms, Slide 300ms
+   ============================================ */
+
+@layer utilities {
+  .scale-press {
+    transform: scale(0.98);
+  }
+
+  /* Fade in animation - 300ms per brand guide */
+  .animate-fade-in {
+    animation: fadeIn 300ms var(--easing-default);
+  }
+
+  /* Scale animation - 200ms per brand guide */
+  .animate-scale-in {
+    animation: scaleIn 200ms var(--easing-default);
+  }
+
+  /* Slide up animation - 300ms per brand guide */
+  .animate-slide-up {
+    animation: slideUp 300ms var(--easing-default);
+  }
+
+  /* Slide in from right */
+  .animate-slide-in-right {
+    animation: slideInRight 300ms var(--easing-default);
+  }
+
+  /* Slide in from left */
+  .animate-slide-in-left {
+    animation: slideInLeft 300ms var(--easing-default);
+  }
+
+  /* Location pulse animation */
+  .animate-location-pulse {
+    animation: locationPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes locationPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+/* Loading skeleton animation - DocliQ cream tones */
+.skeleton {
+  @apply bg-cream-200 rounded;
+  animation: shimmer 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    #F5F3EF 25%,
+    #FAF8F5 50%,
+    #F5F3EF 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Tab content transition */
+.tab-content {
+  @apply transition-opacity duration-normal;
+}
+
+.tab-content-enter {
+  opacity: 0;
+}
+
+.tab-content-enter-active {
+  opacity: 1;
+}
+
+.tab-content-exit {
+  opacity: 1;
+}
+
+.tab-content-exit-active {
+  opacity: 0;
+}
+
+/* Reduced motion support per brand guide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,33 +1,47 @@
 # Changelog
 
-All notable changes to this workspace will be documented in this file.
+Notable changes, high level.
 
-## [2026-01-15]
+## 2026-01-29
 
-### Added
-- **Monorepo migration**: Migrated from polyrepo to single pnpm workspaces monorepo structure
-  - Consolidated all packages and apps into unified repository structure
-  - Created `packages/` directory for shared libraries (@meda/tokens, @meda/ui)
-  - Created `apps/` directory for deployable applications (admin, mobile, design-system)
-  - Set up pnpm workspaces for automatic dependency linking
-  - Added shared TypeScript, ESLint, and Prettier configurations at root
-- **Monorepo infrastructure**: Root-level configuration files for unified development experience
-  - `pnpm-workspace.yaml` for workspace package discovery
-  - `tsconfig.base.json` for shared TypeScript compiler settings
-  - `.eslintrc.js` and `.prettierrc` for consistent code formatting
-- **Monorepo documentation**: Updated README with monorepo structure, development commands, and package descriptions
+- **Changelog**: Condensed format (one section per day, fragment bullets).
+- **v3 docs**: INFO-MAP-v3 (52 screens, IA diagram, routes, status lifecycle), USER-FLOWS-v3 (J1–J8, 13 flows), scope-index-v3, scope-for-exploration-v3.mdx; originals/v2 → `z.archive/`.
+- **DoctorCard**: "Show detail" link center-aligned.
+- **Matching**: Configurable mock duration (`config/matching.ts`); all paths → matching appointment → Request Sent → toast on status change; toast queue, Toast inside Router, history dedup by id.
+- **Booking**: Shared `useBookingSubmission`; offline banner from i18n; background match cancel on unmount; detail/history i18n namespaces.
+- **Matched Doctors**: 44×44px radio tap target.
+- **Flows**: Specialty 2-step (no intermediate doctor list); doctor-first 4-step + SymptomsScreen; ResultsScreen unified; symptom state + i18n; plan in `unify-doctor-results-screen.md`.
+- **CTAs**: One arrow on Continue (Button rightIcon); Today's Focus "View details" from i18n.
+- **Welcome**: Tabler v3 icons (was v1).
+- **No-match**: Sets flow before nav (by_specialty / by_doctor). Vite `host: true` for LAN.
+- **Cards & sign-out**: Appointment status/chips i18n; ConfirmModal for sign-out (no window.confirm).
+- **Vitest**: RTL + JSDOM, test/run/coverage scripts; first tests for cards, header, confirmation, sign-out; tuned config, deterministic order.
+- **Formatting**: Locale-aware date/time/number/distance/relative in `utils/format`; sign-in email/password hints (en/de).
+- **Docs**: Golden tests proposal (38 stories), GDPR gap analysis (legal pages, cookie banner, P0/P1).
 
-### Changed
-- **Architecture**: Restructured entire workspace from polyrepo to monorepo pattern
-  - All package.json files updated to use `workspace:*` dependencies
-  - Removed linking scripts (replaced by pnpm workspace automatic linking)
-  - Removed separate infrastructure directory (configs now at root)
-- **Build system**: Unified build commands via root package.json scripts
-  - `pnpm build:packages` to build all shared packages
-  - `pnpm dev:*` commands for running individual apps
-- **Documentation**: Updated README with Tech Stack section and License information
+## 2026-01-28
 
-### Removed
-- **Linking scripts**: Removed `dev-link.sh`, `clone-workspace.sh`, and `push-all.sh` (no longer needed with workspaces)
-- **Infrastructure directory**: Moved shared configs from `infra/` to root level
-- **Separate git repositories**: Consolidated into single monorepo with fresh git history
+- **i18n**: Auth, profile, home, notifications, settings, booking, news—full en/de; `auth`/`profile`/`home`/`notifications`/`booking` namespaces; localized dates, relationship labels, mock news.
+- **Booking**: Type selector (Fast Lane / specialty / doctor), DoctorSearchScreen, Fast Lane + symptom→specialty data; history Upcoming/Others + status chips, archive; booking i18n fix (namespace registered); matching cards redesign + formatDateRelative; confirmation CTAs; Matched Doctors radio left/visible Circle/CircleCheck.
+- **Auth**: Forgot password flow (screens, VerifyScreen reuse, routes, i18n), sign-in link, auto Home after reset.
+- **UI**: Merge conflicts resolved (6 files); Tabler icons migration (54 files); shared Button (8 variants) replacing ~50 instances; archive icon, mock order.
+
+## 2026-01-27
+
+- **News Feed**: Short Guides, Featured Story, Latest Health News; article detail (hero, markdown, share/save); 6 mock articles; nav preserves tab.
+- **Notifications**: Bell + unread dot → Updates (TODAY/YESTERDAY, type cards); appointment notifs → History.
+- **Layout**: Avatar left, bell right; Family back respects history; language options disabled (en only); Save Changes position fix.
+
+## 2026-01-26
+
+- **Settings**: Grouped sections, teal icons, iOS toggles; Language (25), Privacy, FAQ, Contact, Help Centre.
+- **N3**: Identity step, family detail (Edit/Remove), appointment detail, Today's Focus; route/history fix.
+
+## 2026-01-23
+
+- **Docs**: INFO-MAP Mermaid fix; 60+ screen inventory table.
+
+## 2026-01-21
+
+- **appointment-v1**: 4-step doctor search + insurance filter.
+- **@meda/ui**: Primary CTA brand-blue. Mobile: Open Sans bump.

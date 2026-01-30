@@ -1,0 +1,130 @@
+{
+  "completion": {
+    "title": "Complete Profile",
+    "subtitle": "Almost there! Just a few more details.",
+    "submit": "Complete Profile"
+  },
+  "common": {
+    "optional": "optional",
+    "close": "Close"
+  },
+  "fullName": {
+    "label": "Full Name",
+    "placeholder": "Enter your full name"
+  },
+  "insurance": {
+    "label": "Insurance Type (Optional)",
+    "gkv": "GKV (Statutory)",
+    "gkvDescription": "Statutory health insurance",
+    "pkv": "PKV (Private)",
+    "pkvDescription": "Private health insurance",
+    "labelRequired": "Insurance Type"
+  },
+  "egkNumber": {
+    "label": "eGK Card Number",
+    "placeholder": "Enter your eGK number",
+    "hint": "Found on your health insurance card"
+  },
+  "address": {
+    "title": "Address",
+    "street": {
+      "label": "Street Address",
+      "placeholder": "Enter street address"
+    },
+    "postalCode": {
+      "label": "Postal Code",
+      "placeholder": "12345"
+    },
+    "city": {
+      "label": "City",
+      "placeholder": "Berlin"
+    }
+  },
+  "gdpr": {
+    "consent": "I agree to the processing of my personal and health data in accordance with the",
+    "privacyPolicy": "Privacy Policy",
+    "asterisk": "*"
+  },
+  "family": {
+    "title": "Family Members",
+    "subtitle": "Manage profiles for your dependents",
+    "empty": {
+      "title": "No family members",
+      "description": "Add family members to book appointments on their behalf."
+    },
+    "form": {
+      "title": "Add Family Member",
+      "addButton": "Add Family Member",
+      "cancel": "Cancel",
+      "submit": "Add Member",
+      "dateOfBirth": "Date of Birth",
+      "relationship": "Relationship",
+      "relationshipPlaceholder": "Select relationship",
+      "insuranceType": "Insurance Type (optional)",
+      "insurancePlaceholder": "Same as primary account"
+    }
+  },
+  "relationship": {
+    "child": "Child",
+    "spouse": "Spouse",
+    "parent": "Parent",
+    "other": "Other"
+  },
+  "detail": {
+    "verification": {
+      "title": "Identity Verification",
+      "verified": "Identity verified",
+      "pending": "Identity verification pending",
+      "verifyButton": "Verify"
+    },
+    "basicInfo": "Basic Information",
+    "emergencyContact": "Emergency Contact",
+    "medicalNotes": "Medical Notes",
+    "dateOfBirth": "Date of Birth",
+    "relationshipLabel": "Relationship",
+    "insuranceType": "Insurance Type",
+    "egkNumber": "eGK Number",
+    "emergency": {
+      "name": "Name",
+      "relationship": "Relationship",
+      "phone": "Phone"
+    },
+    "emergencyPlaceholders": {
+      "name": "Contact name",
+      "relationship": "e.g. Parent, sibling, friend"
+    },
+    "edit": "Edit Member",
+    "remove": "Remove Member",
+    "removeConfirm": "Are you sure you want to remove this family member?",
+    "yearsOld": "years old",
+    "verifiedCheckmark": "✓ Verified",
+    "medicalNotesLabel": "Allergies, conditions, or other notes",
+    "medicalNotesPlaceholder": "e.g. Penicillin allergy, asthma..."
+  },
+  "edit": {
+    "title": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "address": "Address",
+    "email": {
+      "label": "Email"
+    },
+    "phone": {
+      "label": "Phone (optional)",
+      "placeholder": "+49 123 456789"
+    },
+    "submit": "Save Changes"
+  },
+  "validation": {
+    "fullNameRequired": "Full name is required",
+    "emailRequired": "Email is required",
+    "egkRequired": "eGK number is required",
+    "streetRequired": "Street address is required",
+    "postalCodeRequired": "Postal code is required",
+    "cityRequired": "City is required",
+    "insuranceRequired": "Insurance type is required",
+    "nameRequired": "Name is required",
+    "dateOfBirthRequired": "Date of birth is required",
+    "relationshipRequired": "Relationship is required",
+    "gdprRequired": "You must accept the data processing terms"
+  }
+}

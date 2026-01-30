@@ -13,20 +13,24 @@ Monorepo for the MedAlpha healthcare product prototype.
 ## Quick Start
 
 ```bash
-# Clone the repo
+# Clone the repo (local developer setup)
 git clone git@github.com:tini-works/proto-medalpha.git
 cd proto-medalpha
 
-# Install dependencies
+# Install dependencies for all workspaces
 pnpm install
 
-# Build packages
+# Build shared packages before running apps
 pnpm build:packages
 
-# Start an app
-pnpm dev:admin          # Web admin at http://localhost:5173
-pnpm dev:design-system  # Storybook at http://localhost:6006
-pnpm dev:mobile         # Expo dev server
+# Start an app for local prototyping
+pnpm dev:admin             # Web admin at http://localhost:5196
+pnpm dev:design-system     # Storybook at http://localhost:6006
+pnpm dev:mobile            # Expo dev server
+pnpm dev:appointment-v1    # Appointment booking prototype (web) at http://localhost:5195
+pnpm dev:n1                # Appointment booking N1 at http://localhost:5174
+pnpm dev:n2                # Appointment booking N2 at http://localhost:5192
+pnpm dev:n3                # Appointment booking N3 at http://localhost:5190
 ```
 
 ## Structure
@@ -40,10 +44,16 @@ proto-medalpha/
 ├── apps/
 │   ├── admin/           # Web admin (Vite + React)
 │   ├── mobile/          # Mobile app (Expo)
+│   ├── appointment-v1/  # Appointment booking prototype (web)
 │   └── design-system/   # Storybook documentation
 │
 └── docs/                # Design docs and plans
 ```
+
+## Documentation & Visual Artifacts
+
+- Canonical artifact rules: `docs/z.guidelines/visual-artifacts-rules.md`
+- Default cross-cutting visual constraints: `docs/z.guidelines/visual-guidelines-abstract.md`
 
 ## Development
 
@@ -52,6 +62,10 @@ proto-medalpha/
 | Start admin app | `pnpm dev:admin` |
 | Start mobile app | `pnpm dev:mobile` |
 | Start Storybook | `pnpm dev:design-system` |
+| Start appointment booking prototype | `pnpm dev:appointment-v1` |
+| Start appointment booking N1 | `pnpm dev:n1` |
+| Start appointment booking N2 | `pnpm dev:n2` |
+| Start appointment booking N3 | `pnpm dev:n3` |
 | Build all packages | `pnpm build:packages` |
 | Build everything | `pnpm build` |
 | Clean all | `pnpm clean` |

@@ -1,0 +1,18 @@
+{
+  "welcomeBack": "Welcome back,",
+  "pendingAppointments": "Pending appointments",
+  "viewAll": "View all",
+  "quickActions": "Quick Actions",
+  "bookAppointment": "Book Appointment",
+  "family": "Family",
+  "nextAppointment": "NEXT APPOINTMENT",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "practiceName": "Practice {{name}}",
+  "locationUnavailable": "Location unavailable",
+  "dateAt": "{{date}} at",
+  "viewDetails": "View details",
+  "submitForm": "Submit Form",
+  "latestHealthNews": "Latest Health News",
+  "loadMore": "Load more"
+}

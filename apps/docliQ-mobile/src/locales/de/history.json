@@ -1,0 +1,18 @@
+{
+  "title": "Meine Termine",
+  "archiveButton": "Terminarchiv",
+  "emptyTitle": "Keine Termine",
+  "emptyDescription": "Ändern Sie den Statusfilter oder buchen Sie einen neuen Termin.",
+  "upcoming": "Bevorstehend",
+  "others": "Andere",
+  "filterAll": "Alle",
+  "filterAwaitConfirm": "Warte auf Bestätigung",
+  "filterMatching": "Suche läuft",
+  "filterDoctorCanceled": "Arzt abgesagt",
+  "emptyOthersTitle": "Keine weiteren Termine",
+  "emptyOthersDescription": "Ändern Sie die Filter, um mehr zu sehen.",
+  "bookNewAppointment": "Neuen Termin buchen",
+  "archiveTitle": "Verlauf",
+  "archiveEmptyTitle": "Noch kein Verlauf",
+  "archiveEmptyDescription": "Abgeschlossene und stornierte Termine werden hier angezeigt."
+}

@@ -7,6 +7,8 @@
     "dev:admin": "pnpm --filter admin dev",
     "dev:mobile": "pnpm --filter mobile start",
     "dev:design-system": "pnpm --filter design-system dev",
+    "dev:docliQ": "pnpm --filter docliQ-mobile dev",
+    "dev:n3": "pnpm --filter docliQ-mobile dev",
     "lint": "pnpm -r lint",
     "clean": "pnpm -r exec rm -rf dist node_modules"
   },
@@ -16,5 +18,9 @@
   "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "i18next": "^25.8.0",
+    "react-i18next": "^16.5.4"
   }
 }

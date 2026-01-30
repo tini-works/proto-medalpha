@@ -1,0 +1,53 @@
+import { IconChevronRight } from '@tabler/icons-react'
+import type { CMSContent } from '../../types'
+import { Pill } from '../display/Pill'
+
+interface CMSCardProps {
+  content: CMSContent
+  onClick?: () => void
+}
+
+const typeLabels: Record<CMSContent['type'], string> = {
+  deal: 'Deal',
+  'health-tip': 'Health Tip',
+  payback: 'PAYBACK',
+  announcement: 'News',
+}
+
+// Conservative: use neutral tones for CMS content, no green for promotional content
+const typeTones: Record<CMSContent['type'], 'info' | 'warning' | 'neutral'> = {
+  deal: 'info',
+  'health-tip': 'info',
+  payback: 'warning',
+  announcement: 'neutral',
+}
+
+export function CMSCard({ content, onClick }: CMSCardProps) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full text-left p-4 bg-white rounded-lg border border-cream-400 hover:border-cream-500 hover:shadow-sm transition-colors duration-normal ease-out-brand"
+    >
+      {content.imageUrl && (
+        <img
+          src={content.imageUrl}
+          alt=""
+          className="w-full h-32 object-cover rounded-lg mb-3"
+        />
+      )}
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="font-semibold text-charcoal-500">{content.title}</h3>
+        <Pill tone={typeTones[content.type]} size="sm">
+          {typeLabels[content.type]}
+        </Pill>
+      </div>
+      <p className="mt-1 text-sm text-slate-600 line-clamp-2">{content.description}</p>
+      {content.link && (
+        <span className="mt-2 inline-flex items-center text-sm text-teal-700 font-medium hover:underline">
+          Learn more
+          <IconChevronRight className="w-4 h-4 ml-1" stroke={2} />
+        </span>
+      )}
+    </button>
+  )
+}

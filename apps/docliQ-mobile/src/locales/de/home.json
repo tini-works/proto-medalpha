@@ -1,0 +1,18 @@
+{
+  "welcomeBack": "Willkommen zurück,",
+  "pendingAppointments": "Ausstehende Termine",
+  "viewAll": "Alle anzeigen",
+  "quickActions": "Schnellzugriffe",
+  "bookAppointment": "Termin buchen",
+  "family": "Familie",
+  "nextAppointment": "NÄCHSTER TERMIN",
+  "today": "Heute",
+  "tomorrow": "Morgen",
+  "practiceName": "Praxis {{name}}",
+  "locationUnavailable": "Ort nicht verfügbar",
+  "dateAt": "{{date}} um",
+  "viewDetails": "Details ansehen",
+  "submitForm": "Formular absenden",
+  "latestHealthNews": "Neueste Gesundheitsnachrichten",
+  "loadMore": "Mehr laden"
+}

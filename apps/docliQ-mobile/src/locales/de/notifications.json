@@ -1,0 +1,41 @@
+{
+  "updates": "Aktualisierungen",
+  "notificationsTab": "Benachrichtigungen",
+  "newsFeedTab": "Nachrichtenkanal",
+  "viewEarlier": "Frühere Benachrichtigungen anzeigen",
+  "today": "HEUTE",
+  "yesterday": "GESTERN",
+  "shortGuides": "Kurzanleitungen",
+  "featuredStory": "Beitrag im Fokus",
+  "new": "Neu",
+  "readFullStory": "Vollständigen Beitrag lesen",
+  "categoryBookingUpdate": "TERMINAKTUALISIERUNG",
+  "categoryCancellationAlert": "STORNIERUNGSWARNUNG",
+  "categoryUpcoming": "BEVORSTEHEND",
+  "categorySecurity": "SICHERHEIT",
+  "categoryFamilyProfile": "FAMILIENPROFIL",
+  "actionViewDetails": "Details anzeigen",
+  "actionReschedule": "Neu planen",
+  "actionMyProfile": "Mein Profil",
+  "actionManageFamily": "Familie verwalten",
+  "minRead": "{{count}} Min. Lesezeit",
+  "read": "Lesen",
+  "categoryCardiology": "KARDIOLOGIE",
+  "categoryNutrition": "ERNÄHRUNG",
+  "categoryMentalHealth": "PSYCHISCHE GESUNDHEIT",
+  "categoryFitness": "FITNESS",
+  "categoryGeneral": "ALLGEMEIN",
+  "common": {
+    "goBack": "Zurück"
+  },
+  "article": {
+    "notFound": "Artikel nicht gefunden",
+    "textSizeAria": "Textgröße",
+    "saveAria": "Artikel speichern",
+    "keyTakeaway": "Kernaussage",
+    "relatedTopics": "Verwandte Themen",
+    "share": "Teilen",
+    "save": "Speichern",
+    "saved": "Gespeichert"
+  }
+}

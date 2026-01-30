@@ -1,0 +1,41 @@
+{
+  "updates": "Updates",
+  "notificationsTab": "Notifications",
+  "newsFeedTab": "News Feed",
+  "viewEarlier": "View Earlier Notifications",
+  "today": "TODAY",
+  "yesterday": "YESTERDAY",
+  "shortGuides": "Short Guides",
+  "featuredStory": "Featured Story",
+  "new": "New",
+  "readFullStory": "Read Full Story",
+  "categoryBookingUpdate": "BOOKING UPDATE",
+  "categoryCancellationAlert": "CANCELLATION ALERT",
+  "categoryUpcoming": "UPCOMING",
+  "categorySecurity": "SECURITY",
+  "categoryFamilyProfile": "FAMILY PROFILE",
+  "actionViewDetails": "View Details",
+  "actionReschedule": "Reschedule",
+  "actionMyProfile": "My Profile",
+  "actionManageFamily": "Manage Family",
+  "minRead": "{{count}} min read",
+  "read": "Read",
+  "categoryCardiology": "CARDIOLOGY",
+  "categoryNutrition": "NUTRITION",
+  "categoryMentalHealth": "MENTAL HEALTH",
+  "categoryFitness": "FITNESS",
+  "categoryGeneral": "GENERAL",
+  "common": {
+    "goBack": "Go back"
+  },
+  "article": {
+    "notFound": "Article not found",
+    "textSizeAria": "Text size",
+    "saveAria": "Save article",
+    "keyTakeaway": "Key takeaway",
+    "relatedTopics": "Related topics",
+    "share": "Share",
+    "save": "Save",
+    "saved": "Saved"
+  }
+}

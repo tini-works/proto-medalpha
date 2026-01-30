@@ -11,11 +11,15 @@
     "clean": "rm -rf .expo"
   },
   "dependencies": {
+    "@expo-google-fonts/open-sans": "^0.4.2",
     "@meda/tokens": "workspace:*",
     "expo": "~54.0.31",
+    "expo-font": "~12.0.10",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",
-    "react-native": "0.81.5"
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-web": "~0.19.11"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
