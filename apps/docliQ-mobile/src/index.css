@@ -427,6 +427,19 @@ input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
   .animate-location-pulse {
     animation: locationPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+
+  /* Exit animations for Sheet component - 200ms for snappy feel */
+  .animate-fade-out {
+    animation: fadeOut 200ms var(--easing-default) forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 200ms var(--easing-default) forwards;
+  }
+
+  .animate-scale-out {
+    animation: scaleOut 150ms var(--easing-default) forwards;
+  }
 }
 
 /* Keyframes */
@@ -480,6 +493,38 @@ input[type='range'].radius-slider:focus-visible::-webkit-slider-thumb {
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+/* Exit animation keyframes for Sheet component */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95);
+    opacity: 0;
   }
 }
 

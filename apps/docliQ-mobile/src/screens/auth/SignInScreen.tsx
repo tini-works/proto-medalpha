@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
-import { Field } from '../../components/forms'
+import { Field, PasswordField } from '../../components/forms'
 import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
@@ -70,9 +70,8 @@ export default function SignInScreen() {
         />
 
         <div>
-          <Field
+          <PasswordField
             label={t('signIn.passwordLabel')}
-            type="password"
             value={formData.password}
             onChange={(e) => handleChange('password', e.target.value)}
             placeholder={t('signIn.passwordPlaceholder')}

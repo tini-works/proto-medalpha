@@ -52,9 +52,9 @@ export const initTestI18n = (resources?: Record<string, Record<string, unknown>>
           myDoctors: 'My Doctors',
         },
         auth: {
-          signIn: 'Sign In',
-          signUp: 'Sign Up',
-          signOut: 'Sign Out',
+          signIn: 'Log In',
+          signUp: 'Register',
+          signOut: 'Log Out',
           forgotPassword: 'Forgot Password',
           resetPassword: 'Reset Password',
           verifyEmail: 'Verify Email',

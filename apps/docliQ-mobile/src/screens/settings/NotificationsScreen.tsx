@@ -1,37 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { IconShield } from '@tabler/icons-react'
+import { IconShield, IconToggleRight, IconToggleLeft } from '@tabler/icons-react'
 import { Header, Page, TabBar } from '../../components'
 import { usePreferences } from '../../state'
-
-/**
- * Toggle switch component with iOS-style design.
- * Track is shorter than knob, creating overlapping pill effect.
- * Teal when enabled, slate grey when disabled.
- */
-function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: () => void }) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      onClick={onChange}
-      className="relative inline-flex h-8 w-[52px] flex-shrink-0 cursor-pointer items-center focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:ring-offset-2 rounded-full"
-    >
-      {/* Track - shorter than knob, creates inset look */}
-      <span
-        className={`absolute left-0 right-0 h-[22px] rounded-full transition-colors duration-200 ${
-          checked ? 'bg-teal-500' : 'bg-slate-300'
-        }`}
-      />
-      {/* Knob - larger than track height, overlaps edges */}
-      <span
-        className={`relative z-10 inline-block h-7 w-7 rounded-full bg-white shadow-lg transition-transform duration-200 ease-in-out ${
-          checked ? 'translate-x-[24px]' : 'translate-x-0'
-        }`}
-      />
-    </button>
-  )
-}
 
 /**
  * Notifications preferences screen.
@@ -73,7 +43,17 @@ export default function NotificationsScreen() {
                   {t('appointmentReminders')}
                 </p>
               </div>
-              <ToggleSwitch checked={notifications.appointmentReminders} onChange={toggleAppointments} />
+              <button
+                onClick={toggleAppointments}
+                className="flex-shrink-0"
+                aria-label={notifications.appointmentReminders ? 'Disable appointment reminders' : 'Enable appointment reminders'}
+              >
+                {notifications.appointmentReminders ? (
+                  <IconToggleRight size={32} className="text-teal-600" />
+                ) : (
+                  <IconToggleLeft size={32} className="text-slate-300" />
+                )}
+              </button>
             </div>
           </div>
 
@@ -84,7 +64,17 @@ export default function NotificationsScreen() {
                 <p className="font-semibold text-charcoal-500">{t('marketingNews')}</p>
                 <p className="text-sm text-slate-500 mt-1">{t('stayUpdated')}</p>
               </div>
-              <ToggleSwitch checked={notifications.deals} onChange={toggleMarketing} />
+              <button
+                onClick={toggleMarketing}
+                className="flex-shrink-0"
+                aria-label={notifications.deals ? 'Disable marketing updates' : 'Enable marketing updates'}
+              >
+                {notifications.deals ? (
+                  <IconToggleRight size={32} className="text-teal-600" />
+                ) : (
+                  <IconToggleLeft size={32} className="text-slate-300" />
+                )}
+              </button>
             </div>
           </div>
         </div>

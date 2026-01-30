@@ -15,3 +15,6 @@ export {
 export type { Language } from './format'
 
 export { translateSpecialty, translateLanguage, translateLanguageList } from './translations'
+
+export { validatePassword, getStrengthColor } from './passwordValidation'
+export type { PasswordValidationResult, PasswordRequirements } from './passwordValidation'

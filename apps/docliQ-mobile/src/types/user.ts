@@ -36,8 +36,20 @@ export interface UserProfile {
   gdprConsent: {
     dataProcessing: boolean
     marketing: boolean
+    analytics: boolean
+    thirdPartySharing: boolean
     consentDate: string | null
+    policyVersion: string
+    cookiePreferences: {
+      essential: boolean // always true
+      functional: boolean
+      analytics: boolean
+      marketing: boolean
+    }
   }
+  // OAuth fields
+  photoUrl?: string
+  authProvider?: 'email' | 'google' | 'apple'
 }
 
 export interface AuthState {

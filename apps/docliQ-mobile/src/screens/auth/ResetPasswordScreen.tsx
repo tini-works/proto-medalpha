@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
-import { Field } from '../../components/forms'
+import { PasswordField } from '../../components/forms'
 import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
+import { validatePassword } from '../../utils/passwordValidation'
 
 export default function ResetPasswordScreen() {
   const { t } = useTranslation('auth')
@@ -34,8 +35,11 @@ export default function ResetPasswordScreen() {
 
     if (!formData.password) {
       newErrors.password = t('validation.passwordRequired')
-    } else if (formData.password.length < 8) {
-      newErrors.password = t('validation.passwordMinLength')
+    } else {
+      const validation = validatePassword(formData.password)
+      if (!validation.isValid) {
+        newErrors.password = t('validation.passwordWeak')
+      }
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -63,21 +67,20 @@ export default function ResetPasswordScreen() {
       <Header title={t('resetPassword.title')} showBack subtitle={t('resetPassword.subtitle')} />
 
       <form onSubmit={handleSubmit} className="px-4 py-6 space-y-5">
-        <Field
+        <PasswordField
           label={t('resetPassword.passwordLabel')}
-          type="password"
           value={formData.password}
           onChange={(e) => handleChange('password', e.target.value)}
           placeholder={t('resetPassword.passwordPlaceholder')}
           error={errors.password}
-          hint={t('resetPassword.passwordHint')}
+          showStrengthIndicator
+          showRequirements
           required
           autoComplete="new-password"
         />
 
-        <Field
+        <PasswordField
           label={t('resetPassword.confirmPasswordLabel')}
-          type="password"
           value={formData.confirmPassword}
           onChange={(e) => handleChange('confirmPassword', e.target.value)}
           placeholder={t('resetPassword.confirmPasswordPlaceholder')}

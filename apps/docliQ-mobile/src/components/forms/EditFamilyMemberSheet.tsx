@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { X } from 'tabler-icons-react'
 import { useTranslation } from 'react-i18next'
 import { Field, Select } from './index'
+import { Button, Sheet } from '../ui'
 import type { FamilyMember, InsuranceType } from '../../types'
 
 interface EditFamilyMemberSheetProps {
@@ -67,8 +67,8 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault()
 
     if (!validate()) return
 
@@ -91,29 +91,26 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
   }
 
   return (
-    <>
-      {/* Overlay */}
-      <div
-        className="fixed inset-0 bg-black/20 z-40 transition-opacity"
-        onClick={onClose}
-      />
-
-      {/* Bottom sheet */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-cream-300 px-4 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-charcoal-500">{t('detail.edit')}</h2>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-slate-500 transition-colors"
-            aria-label={t('common.close')}
-          >
-            <X size="24" stroke="2" />
-          </button>
-        </div>
-
-        {/* Form content */}
-        <form onSubmit={handleSubmit} className="px-4 py-6 space-y-4 pb-24">
+    <Sheet
+      open={true}
+      onClose={onClose}
+      variant="bottom"
+      size="xl"
+      title={t('detail.edit')}
+      testId="edit-family-member-sheet"
+      footer={
+        <>
+          <Button onClick={() => handleSubmit()} variant="primary" fullWidth>
+            {t('edit.submit')}
+          </Button>
+          <Button onClick={onClose} variant="tertiary" fullWidth>
+            {t('family.form.cancel')}
+          </Button>
+        </>
+      }
+    >
+      <Sheet.Body>
+        <form onSubmit={handleSubmit} className="px-4 py-6 space-y-4">
           {/* Basic information section */}
           <div className="space-y-4">
             <h3 className="font-semibold text-charcoal-500 text-sm">{t('detail.basicInfo')}</h3>
@@ -222,23 +219,7 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
             </div>
           </div>
         </form>
-
-        {/* Sticky footer with actions */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-3 space-y-3">
-          <button
-            onClick={handleSubmit}
-            className="w-full py-3 px-4 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 transition-colors"
-          >
-            {t('edit.submit')}
-          </button>
-          <button
-            onClick={onClose}
-            className="w-full py-3 px-4 border border-cream-400 text-slate-500 font-medium rounded-lg hover:bg-cream-100 transition-colors"
-          >
-            {t('family.form.cancel')}
-          </button>
-        </div>
-      </div>
-    </>
+      </Sheet.Body>
+    </Sheet>
   )
 }

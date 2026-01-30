@@ -18,6 +18,8 @@ import enHistory from '../locales/en/history.json'
 import deHistory from '../locales/de/history.json'
 import enDetail from '../locales/en/detail.json'
 import deDetail from '../locales/de/detail.json'
+import enLegal from '../locales/en/legal.json'
+import deLegal from '../locales/de/legal.json'
 
 // Initialize i18next with English and German translation resources
 // German is default for DocliQ (Germany market); persisted preference overrides on load
@@ -33,6 +35,7 @@ i18n.use(initReactI18next).init({
       profile: enProfile,
       history: enHistory,
       detail: enDetail,
+      legal: enLegal,
     },
     de: {
       settings: deSettings,
@@ -44,11 +47,12 @@ i18n.use(initReactI18next).init({
       profile: deProfile,
       history: deHistory,
       detail: deDetail,
+      legal: deLegal,
     },
   },
   lng: 'de', // default language - will be overridden by persisted preference
   fallbackLng: 'de',
-  ns: ['settings', 'home', 'notifications', 'appointments', 'auth', 'booking', 'profile', 'history', 'detail'],
+  ns: ['settings', 'home', 'notifications', 'appointments', 'auth', 'booking', 'profile', 'history', 'detail', 'legal'],
   defaultNS: 'settings',
   interpolation: {
     escapeValue: false, // React already escapes values

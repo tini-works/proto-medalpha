@@ -2,6 +2,20 @@
 
 Notable changes, high level.
 
+## 2026-01-30
+
+- **Sheet component**: Unified `<Sheet>` consolidating 6 bottom sheet implementations; variants (bottom/center/fullscreen), sizes (auto/sm/md/lg/xl); focus trap, escape key, body scroll lock, exit animations; compound components (Sheet.Header/Body/Footer).
+- **Sheets migrated**: ConfirmModal, DoctorDetailSheet, EditFamilyMemberSheet, CookieConsentBanner use Sheet internally; FiltersSheet + CancelAppointmentSheet extracted from inline code.
+- **Root README**: N1/N2/N3/appointment-v1 → docliQ; Quick Start + Structure + table; single `pnpm dev:docliQ`.
+- **docliQ-mobile README**: Features (lines 18–95) condensed to high-level bullets; Component System, Auth, Booking, i18n, Other.
+- **OAuth onboarding (mock)**: OAuthConsentScreen (Google/Apple consent + mock user), OAuthErrorScreen, InsuranceRequestScreen (GKV/PKV/Selbstzahler); paths `oauth-consent`, `oauth-error`, `insurance-request`; App routes + WelcomeScreen entry; auth locales (de/en); user types.
+- **WelcomeScreen OAuth buttons**: Apple — black pill, white text/icon, no border (Apple HIG); Google — white pill, official colored G icon; both pill-shaped; Tabler IconBrandApple (brand-apple) with stroke.
+- **GoogleGIcon**: New UI component — multi-color Google G SVG (brand colors) for sign-in button; exported from `components/ui`.
+- **Legal footer**: Privacy/Legal/Terms contrast increased (text-neutral-600, hover charcoal-500).
+- **Password management UX**: PasswordField (show/hide toggle), PasswordStrengthIndicator (strength bar + requirements checklist), validatePassword (OWASP); Register/SignIn/ResetPassword wired; auth locales (de/en); US-1.1.3-PASSWORD-MANAGEMENT-UX-SPEC.md.
+- **Password components**: PasswordField — native input + label/id (a11y), eye button vertical center; PasswordStrengthIndicator — 4-segment bar, score colors (coral/amber/teal/green), CircleCheck/Circle icons.
+- **Docs**: US-1.1.2 OAuth registration spec; US-1.1.3 password management spec (OWASP, GDPR notes).
+
 ## 2026-01-29
 
 - **Changelog**: Condensed format (one section per day, fragment bullets).

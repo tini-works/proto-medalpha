@@ -1,4 +1,6 @@
 export { Field } from './Field'
+export { PasswordField } from './PasswordField'
+export { PasswordStrengthIndicator } from './PasswordStrengthIndicator'
 export { Select } from './Select'
 export { RadioGroup } from './RadioGroup'
 export { PatientSelector } from './PatientSelector'

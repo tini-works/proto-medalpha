@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Page } from '../../components'
+import { Page, CancelAppointmentSheet } from '../../components'
 import { useBooking } from '../../state'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
@@ -298,14 +298,13 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
       </StickyBottomBar>
 
       {/* Cancel Dialog */}
-      {showCancelDialog && (
-        <CancelDialog
-          doctorName={appointment.doctorName}
-          dateISO={appointment.dateISO}
-          onConfirm={handleCancel}
-          onClose={() => setShowCancelDialog(false)}
-        />
-      )}
+      <CancelAppointmentSheet
+        open={showCancelDialog}
+        doctorName={appointment.doctorName}
+        formattedDate={formatDateWithWeekday(appointment.dateISO)}
+        onConfirm={handleCancel}
+        onClose={() => setShowCancelDialog(false)}
+      />
     </Page>
   )
 }
@@ -526,77 +525,3 @@ function addMinutes(time: string, minutes: number): string {
   return `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`
 }
 
-interface CancelDialogProps {
-  doctorName: string
-  dateISO: string
-  onConfirm: () => void
-  onClose: () => void
-}
-
-function CancelDialog({ doctorName, dateISO, onConfirm, onClose }: CancelDialogProps) {
-  const { t } = useTranslation(['detail', 'appointments'])
-  const [isCancelling, setIsCancelling] = useState(false)
-
-  const handleConfirm = async () => {
-    setIsCancelling(true)
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    onConfirm()
-  }
-
-  return (
-    <div className="fixed inset-0 z-50">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
-        onClick={onClose}
-      />
-
-      {/* Bottom Sheet */}
-      <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl overflow-hidden animate-slide-up safe-area-bottom">
-        {/* Handle */}
-        <div className="flex justify-center pt-3 pb-2">
-          <div className="w-10 h-1 rounded-full bg-cream-400" />
-        </div>
-
-        <div className="px-6 pb-6">
-          <h3 className="text-lg font-semibold text-charcoal-500 mb-2 text-center">
-            {t('cancelDialog.title')}
-          </h3>
-          <p className="text-slate-600 mb-4 text-center">
-            {t('cancelDialog.message', { doctorName, date: formatDateWithWeekday(dateISO) })}
-          </p>
-
-          <div className="bg-cream-200 rounded-lg p-3 mb-6">
-            <p className="text-sm text-slate-600 text-center">
-              <strong>{t('cancelDialog.policyTitle')}</strong> {t('cancelDialog.policyText')}
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <button
-              onClick={handleConfirm}
-              disabled={isCancelling}
-              className="w-full py-3.5 px-4 border border-red-300 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors disabled:opacity-50 flex items-center justify-center"
-            >
-              {isCancelling ? (
-                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-              ) : (
-                t('cancelAppointment')
-              )}
-            </button>
-            <button
-              onClick={onClose}
-              disabled={isCancelling}
-              className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors disabled:opacity-50"
-            >
-              {t('keepAppointment')}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}

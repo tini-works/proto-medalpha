@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
-import { Field } from '../../components/forms'
+import { Field, PasswordField } from '../../components/forms'
 import { Button } from '../../components/ui'
 import { useAuth, useProfile } from '../../state'
 import { PATHS } from '../../routes'
+import { validatePassword } from '../../utils/passwordValidation'
 
 export default function RegisterScreen() {
   const { t } = useTranslation('auth')
@@ -43,8 +44,11 @@ export default function RegisterScreen() {
 
     if (!formData.password) {
       newErrors.password = t('validation.passwordRequired')
-    } else if (formData.password.length < 8) {
-      newErrors.password = t('validation.passwordMinLength')
+    } else {
+      const validation = validatePassword(formData.password)
+      if (!validation.isValid) {
+        newErrors.password = t('validation.passwordWeak')
+      }
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -97,21 +101,20 @@ export default function RegisterScreen() {
           autoComplete="email"
         />
 
-        <Field
+        <PasswordField
           label={t('register.passwordLabel')}
-          type="password"
           value={formData.password}
           onChange={(e) => handleChange('password', e.target.value)}
           placeholder={t('register.passwordPlaceholder')}
           error={errors.password}
-          hint={t('register.passwordHint')}
+          showStrengthIndicator
+          showRequirements
           required
           autoComplete="new-password"
         />
 
-        <Field
+        <PasswordField
           label={t('register.confirmPasswordLabel')}
-          type="password"
           value={formData.confirmPassword}
           onChange={(e) => handleChange('confirmPassword', e.target.value)}
           placeholder={t('register.confirmPasswordPlaceholder')}
