@@ -73,6 +73,34 @@ export default {
           800: '#A03D2D',
           900: '#772D21',
         },
+
+        // Semantic Tokens - Design System Layer
+        // Maps design tokens ($accent-primary, etc.) to primitives
+        accent: {
+          primary: '#13A3B5',   // $accent-primary → teal-500
+          light: '#E8F6F8',     // $accent-light → teal-50
+          warm: '#E88A73',      // $accent-warm → coral-500
+        },
+        text: {
+          primary: '#1C2A30',   // $text-primary → charcoal-500
+          secondary: '#5E7A86', // $text-secondary → slate-500
+          tertiary: '#7C939D',  // $text-tertiary → slate-400
+        },
+        background: {
+          primary: '#FAF8F5',   // $bg-primary → cream-100
+          surface: '#FFFFFF',   // $bg-surface → white
+          muted: '#F5F3EF',     // $bg-muted → cream-200
+          elevated: '#FFFFFF',  // $bg-elevated → white + shadow
+        },
+        border: {
+          subtle: '#E8E3DB',    // $border-subtle → cream-400
+          strong: '#9AABB3',    // $border-strong → slate-300
+        },
+        status: {
+          positive: '#13A3B5',  // $status-positive → teal-500 (was green)
+          negative: '#EF4444',  // Error state
+          warning: '#E88A73',   // Warning → coral-500
+        },
       },
       fontFamily: {
         sans: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',

@@ -1,6 +1,7 @@
 {
   "selectSpecialty": "Select a Specialty",
   "searchPlaceholder": "Try 'Dermatologist' or 'HNO'...",
+  "myDoctors": "My Doctors",
   "specialtyPrimaryCare": "Primary care",
   "specialtyDental": "Dental care",
   "specialtyWomens": "Women's health",

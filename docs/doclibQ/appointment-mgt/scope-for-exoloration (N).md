@@ -1,75 +1,10 @@
-# User Stories from Philipp (January 27, 2026)
+# User Stories - N
 
 > **Source**: Issue #18
 > **Status**: Translated from German
 > **Related**: [Requirements Document](/requirements)
 
-> **Coverage Summary (v3 app)**: UX/UI scope only — 🟠 **43%** (avg across 18 designer-relevant US)
-> - 🟢 6 · 🟡 7 · 🟠 2 · ❌ 5
-> - *Excluded from scope: 8 technical US (OAuth, SMS, Biometric, Maintenance, Logs, API errors, Offline sync, Rate limiting)*
-> - *AC legend: *(tech)* = technical (backend, API, performance, infrastructure); unmarked = UX/UI*
 
-## 1.1 Epic: Onboarding
-
-> 🟡 **Coverage (v3 app, UX scope): 63%** — 2 of 5 US in scope (1.1.2, 1.1.4, 1.1.5 technical)
-
-### US 1.1.1: Prominent Appointment Booking on Home Screen
-
-| Field | Details |
-|---|---|
-| User Story | **As a new patient**, I want to see the main "Book Appointment" function prominently on the home screen, so I can quickly start booking. |
-| Acceptance Criteria | 1. The "Book Appointment" button must be visible within 3 seconds after app start *(tech — performance)*<br/>2. The button takes up at least 20% of the visible screen area<br/>3. Legal mandatory information (Imprint, Privacy Policy, Terms of Service) is accessible via a menu<br/>4. The home screen loads within 5 seconds even on slow connections (&lt;3G) *(tech — performance)* |
-| Notes | - **Performance** — Sub-3-second loads. Native feel. No random logouts.<br/>- **Slowness**: "One of the slowest apps I've downloaded in recent years. Sometimes takes 10 min to start"<br/>- "No more phone calls" (Doctolib positive) |
-
----
-
-> ⚙️ **Out of design scope** (technical — OAuth/API integration)
-
-### US 1.1.2: OAuth Registration (Google/Apple)
-
-| Field | Details |
-|---|---|
-| User Story | **As a new patient**, I want to register with my Google or Apple account, to save time and avoid managing additional passwords. |
-| Acceptance Criteria | 1. OAuth 2.0 integration for Google and Apple Sign-In is implemented *(tech)*<br/>2. The API processes OAuth tokens within 2 seconds *(tech)*<br/>3. Upon successful OAuth login, name, email, and (if available) profile photo are automatically imported *(tech)*<br/>4. Missing mandatory fields (e.g., health insurance) are requested after OAuth login<br/>5. In case of OAuth error, a clear error message with an alternative (manual registration) is displayed |
-| Notes | - **Forced re-login**: "Completely logged out every few days, need to re-enter password"<br/>- **Slowness**: "One of the slowest apps I've downloaded in recent years. Sometimes takes 10 min to start" |
-
----
-
-> 🟡 **Coverage (v3 app): 50%**
-
-### US 1.1.3: Email/Password Registration
-
-| Field | Details |
-|---|---|
-| User Story | **As a new patient without Google/Apple account**, I want to register with email and secure password, to use the app. |
-| Acceptance Criteria | 1. Password must comply with current OWASP standards (min. 8 characters, upper/lowercase, number, special character) *(tech)*<br/>2. Real-time password validation with visual strength indicator<br/>3. Email verification via token link with 24h validity *(tech)*<br/>4. API endpoint `/register` must be CAPTCHA-protected (against bots) *(tech)*<br/>5. Confirmation email is delivered within 60 seconds *(tech)* |
-| Notes | - **Forced re-login**: "Completely logged out every few days, need to re-enter password"<br/>- **App bugs**: "Had to attempt to enter my insurance over 5 times before it was finally submitted" |
-
----
-
-> ⚙️ **Out of design scope** (technical — SMS gateway, rate limiting)
-
-### US 1.1.4: SMS Phone Number Verification
-
-| Field | Details |
-|---|---|
-| User Story | **As a new patient**, I want to verify my mobile phone number via SMS, to use secure two-factor authentication. |
-| Acceptance Criteria | 1. SMS code is 6 digits and valid for 10 minutes *(tech)*<br/>2. API integration with SMS gateway (e.g., Twilio) with error handling for undeliverable numbers *(tech)*<br/>3. Maximum wait time for SMS delivery: 3 minutes, then "Resend code" option *(tech — timing; UX: Resend button)*<br/>4. Rate limiting: Maximum 3 SMS codes per number per hour (against abuse) *(tech)*<br/>5. International phone numbers (e.g., +43, +41) are supported *(tech)* |
-| Notes | - Step-by-step guidance; phone support fallback<br/>- **Fear of errors**: Anxiety about making mistakes contributes to resistance |
-
----
-
-> ⚙️ **Out of design scope** (technical — platform/security integration)
-
-### US 1.1.5: Biometric Authentication
-
-| Field | Details |
-|---|---|
-| User Story | **As a security-conscious user**, I want to enable Face-ID/Touch-ID, to protect my health data from unauthorized access. |
-| Acceptance Criteria | 1. Biometric authentication is optional and can be enabled/disabled in settings<br/>2. When biometric is disabled, PIN/password is required<br/>3. Face-ID/Touch-ID is required at every app start and after 5 minutes of inactivity *(tech — platform)*<br/>4. Fallback: After 3 failed biometric attempts, PIN/password is required *(tech)*<br/>5. GDPR-compliant: Biometric data is stored only locally on the device *(tech)* |
-| Notes | - Privacy concerns: Austrian Chamber of Doctors recommends patients opt out<br/>- Privacy fears about employer access to health data |
-
----
 
 ## 1.2 Epic: Appointment Booking and Management
 
@@ -207,31 +142,6 @@
 
 ---
 
-## 1.4 Epic: Customer Account Management
-
-> ❌ **Coverage (v3 app): 0%**
-
-### US 1.4.1: Complete Account Deletion
-
-| Field | Details |
-|---|---|
-| User Story | **As a privacy-conscious patient**, I want to completely delete my account, to exercise my right to be forgotten. |
-| Acceptance Criteria | 1. Before deletion, a warning with consequences is displayed (open appointments will be canceled)<br/>2. Confirmation of deletion via email link (double opt-out)<br/>3. All personal data is deleted from the database within 72h *(tech)*<br/>4. Open appointments are automatically canceled via API and the patient is informed *(tech)*<br/>5. GDPR Art. 17: Deletion confirmation email is sent within 30 days *(tech)* |
-| Notes | - Privacy concerns: Austrian Chamber of Doctors recommends patients opt out<br/>- Privacy fears about employer access to health data |
-
----
-
-> 🟡 **Coverage (v3 app): 50%**
-
-### US 1.4.2: Change Password
-
-| Field | Details |
-|---|---|
-| User Story | **As a patient**, I want to change my password, to increase my account security. |
-| Acceptance Criteria | 1. Password change requires entry of the old password<br/>2. New password must meet OWASP standards (see registration) *(tech)*<br/>3. Upon successful change, confirmation email is sent *(tech)*<br/>4. Optional: "Forgot password" function with token reset via email *(tech)*<br/>5. Rate limiting: Maximum 5 password changes per day *(tech)* |
-| Notes | - **Forced re-login**: "Completely logged out every few days, need to re-enter password"<br/>- Don't require complex setup (NFC + PIN + activation) |
-
----
 
 ## 1.5 Epic: Appointment Changes by Practice
 
@@ -247,45 +157,6 @@
 
 ---
 
-## 1.6 Epic: Content Management
-
-> ❌ **Coverage (v3 app): 0%**
-
-### US 1.6.1: Edit Home Screen Content Without Technical Knowledge
-
-| Field | Details |
-|---|---|
-| User Story | **As a content creator**, I want to edit home screen content without technical knowledge, to quickly respond to changes. |
-| Acceptance Criteria | 1. Login via secured admin area (separate authentication) *(tech)*<br/>2. WYSIWYG editor for home screen, FAQ, imprint<br/>3. The editor supports: text, images, links, lists<br/>4. Changes are displayed via "Preview" function before publication |
-| Notes | - **Language Support** — English immediately; expand to 14 languages. Never switch languages mid-flow.<br/>- **Language switching**: "App is English until you book, then switches to German/French randomly" |
-
----
-
-## 1.7 Epic: Administration
-
-> ⚙️ **Epic out of design scope** (technical — ops/admin)
-
-### US 1.7.1: Maintenance Mode
-
-| Field | Details |
-|---|---|
-| User Story | **As an administrator**, I want to put the app into maintenance mode, to perform updates without user interruption. |
-| Acceptance Criteria | 1. Maintenance mode can be activated/deactivated via admin panel *(tech)*<br/>2. In maintenance mode, all users see a customizable notice<br/>3. The notice contains: reason, expected duration, support contact<br/>4. Appointment booking is not possible in maintenance mode *(tech)*<br/>5. Existing appointments remain visible in the apps *(tech)* |
-| Notes | - **Performance** — Sub-3-second loads. Native feel. No random logouts.<br/>- **Slowness**: "One of the slowest apps I've downloaded in recent years. Sometimes takes 10 min to start" |
-
----
-
-> ⚙️ **Out of design scope** (technical — admin/logging)
-
-### US 1.7.2: Detailed Log Viewing
-
-| Field | Details |
-|---|---|
-| User Story | **As an administrator**, I want to view detailed logs, to quickly diagnose technical problems. |
-| Acceptance Criteria | 1. Logs contain: timestamp, user-ID (anonymized), action, API response *(tech)*<br/>2. Logrotate: Logs are automatically archived after 90 days *(tech)*<br/>3. Filter options: by error type, user-ID, time period, API endpoint<br/>4. Logs are GDPR-compliant (no clear-text names in logs) *(tech)*<br/>5. Export function for logs as .csv *(tech)* |
-| Notes | - **Performance** — Sub-3-second loads. Native feel. No random logouts.<br/>- **App bugs**: "Had to attempt to enter my insurance over 5 times before it was finally submitted" |
-
----
 
 ## 1.8 Epic: Additional User Stories
 
@@ -335,32 +206,6 @@
 | Acceptance Criteria | 1. Maximum API requests per user: 60/minute (local counting) *(tech)*<br/>2. Upon exceeding: Request is placed in a queue *(tech)*<br/>3. The user sees a loading animation (no error message during normal use)<br/>4. For intentional abuse (&gt;200 requests/minute): Temporary account lock (5 minutes) *(tech)*<br/>5. Admin dashboard shows API usage per user (for anomaly detection) *(tech)* |
 | Notes | - **Performance** — Sub-3-second loads. Native feel. No random logouts.<br/>- **Slowness**: "One of the slowest apps I've downloaded in recent years. Sometimes takes 10 min to start" |
 
----
-
-## Summary
-
-This document contains **26 user stories** organized into **8 epics**. For design/UX scope, **18 stories** are in scope; **8 technical stories** are excluded.
-
-| Epic | In Scope | Technical (excluded) | Focus Area |
-|------|----------|----------------------|------------|
-| 1.1 Onboarding | 2 | 3 | Home prominence, email/password form |
-| 1.2 Appointment Booking | 10 | 0 | Search, booking, favorites, status, calendar export |
-| 1.3 Post-Appointment | 1 | 0 | Feedback form |
-| 1.4 Account Management | 2 | 0 | Account deletion, password change flows |
-| 1.5 Practice Changes | 1 | 0 | Practice-initiated change notification |
-| 1.6 Content Management | 1 | 0 | CMS / home screen editing |
-| 1.7 Administration | 0 | 2 | Maintenance mode, logging |
-| 1.8 Additional | 1 | 3 | Consent UI (excl. API errors, offline, rate limiting) |
-
----
-
-## Next Steps
-
-1. **Gap Analysis**: Review against current C3 architecture (see [Issue #18](https://github.com/tini-works/medalpha-req/issues/18))
-2. **Prioritization**: Determine which stories are MVP vs. future phases
-3. **Technical Specs**: Create detailed technical specifications for each story
-4. **ADR Creation**: Use `/c3-skill:alter` for architectural decisions
-5. **Implementation**: Break down into development tasks
 
 ---
 

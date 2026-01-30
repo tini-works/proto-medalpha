@@ -1,0 +1,98 @@
+{
+  "file": "design.pen",
+  "version": "2.6",
+  "totalNodes": 11,
+  "screens": [
+    {
+      "name": "Step 1 - Who is this for?",
+      "id": "JczDD",
+      "width": 402,
+      "layout": "vertical"
+    },
+    {
+      "name": "Step 2 - Specialty Selection",
+      "id": "9gD2Q",
+      "width": 402,
+      "layout": "vertical"
+    },
+    {
+      "name": "Step 3 - Choose Doctor",
+      "id": "bvvLY",
+      "width": 402,
+      "layout": "vertical"
+    },
+    {
+      "name": "Step 4 - Appointment Type",
+      "id": "xxzfV",
+      "width": 402,
+      "layout": "vertical"
+    },
+    {
+      "name": "Step 5 - Review & Submit",
+      "id": "2tMaw",
+      "width": 402,
+      "layout": "vertical"
+    },
+    {
+      "name": "Chat Booking - Conversation Start",
+      "id": "RJPXF",
+      "width": 402,
+      "height": 874,
+      "layout": "vertical"
+    },
+    {
+      "name": "Chat Booking - Time Selection",
+      "id": "inBWB",
+      "width": 402,
+      "height": 874,
+      "layout": "vertical"
+    },
+    {
+      "name": "Chat Booking - Confirmed",
+      "id": "cwEKn",
+      "width": 402,
+      "height": 874,
+      "layout": "vertical"
+    },
+    {
+      "name": "Smart Defaults - Home Dashboard",
+      "id": "KGSf6",
+      "width": 402,
+      "layout": "vertical"
+    },
+    {
+      "name": "Smart Defaults - Quick Book Confirm",
+      "id": "QwK5P",
+      "width": 402,
+      "height": 874,
+      "layout": "vertical"
+    },
+    {
+      "name": "Smart Defaults - Booking Confirmed",
+      "id": "5ZlX8",
+      "width": 402,
+      "layout": "vertical"
+    }
+  ],
+  "tokens": [
+    "$accent-light",
+    "$accent-primary",
+    "$accent-warm",
+    "$bg-elevated",
+    "$bg-muted",
+    "$bg-primary",
+    "$bg-surface",
+    "$border-strong",
+    "$border-subtle",
+    "$font-primary",
+    "$status-positive",
+    "$text-primary",
+    "$text-secondary",
+    "$text-tertiary"
+  ],
+  "fonts": [
+    "$font-primary",
+    "Outfit",
+    "Inter"
+  ]
+}

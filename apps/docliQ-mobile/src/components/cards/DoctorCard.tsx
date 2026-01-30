@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Heart, Star, MapPin, ChevronRight } from 'tabler-icons-react'
 import type { Doctor, TimeSlot } from '../../types'
@@ -7,6 +6,7 @@ import { Pill } from '../display/Pill'
 import { TimeSlotButton } from '../forms/TimeSlotButton'
 import { Button } from '../ui'
 import { translateSpecialty, translateLanguage } from '../../utils'
+import { useFavorites } from '../../state'
 
 interface DoctorCardProps {
   doctor: Doctor
@@ -46,7 +46,8 @@ export function DoctorCard({
   onViewDetails,
 }: DoctorCardProps) {
   const { t } = useTranslation('booking')
-  const [isFavorite, setIsFavorite] = useState(false)
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites()
+  const favorite = isFavorite(doctor.id)
 
   // Get first 3 available slots for quick booking
   const availableSlots = slots.filter((s) => s.available).slice(0, 3)
@@ -63,9 +64,13 @@ export function DoctorCard({
     return '—'
   })()
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsFavorite(!isFavorite)
+    if (favorite) {
+      await removeFavorite(doctor.id)
+    } else {
+      await addFavorite(doctor)
+    }
   }
 
   const handleSlotClick = (slot: TimeSlot) => {
@@ -118,13 +123,13 @@ export function DoctorCard({
             <button
               onClick={handleFavoriteClick}
               className={`p-1.5 rounded-full transition-colors ${
-                isFavorite
+                favorite
                   ? 'text-red-500'
                   : 'text-cream-400 hover:text-red-400'
               }`}
-              aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
+              aria-label={favorite ? t('removeFromFavorites') : t('addToFavorites')}
             >
-              {isFavorite ? (
+              {favorite ? (
                 <Heart size="20" stroke="1.5" fill="currentColor" />
               ) : (
                 <Heart size="20" stroke="1.5" />

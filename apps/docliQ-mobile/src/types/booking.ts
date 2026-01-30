@@ -15,48 +15,42 @@ export interface Doctor {
   languages: string[]
 }
 
-export interface Store {
-  id: string
-  name: string
-  type: 'dm' | 'pharmacy'
-  address: string
+export interface FavoriteDoctor {
+  doctorId: string
+  doctorName: string
+  specialty: string
   city: string
-  openNow: boolean
-  distanceKm: number
-  services: string[]
+  lastBookedAt: string
 }
 
-export interface TimeSlot {
+export interface FavoritesState {
+  doctors: FavoriteDoctor[]
+}
+
+export interface Feedback {
+  id: string
+  appointmentId: string
+  rating: number
+  comment: string
+  createdAt: string
+}
+
+export interface FeedbackRequest {
+  id: string
+  appointmentId: string
+  doctorId: string
+  doctorName: string
+  specialty: string
   dateISO: string
   time: string
-  available: boolean
+  forUserName: string
+  scheduledAt: string
+  sent: boolean
 }
 
-// Availability slot for specialty-first booking flow
-export type DayOfWeek = 'mon' | 'tue' | 'wed' | 'thu' | 'fri'
-export type TimeRange = 'morning' | 'afternoon' | 'evening'
-
-export interface AvailabilitySlot {
-  day: DayOfWeek
-  timeRange: TimeRange
-}
-
-export interface AvailabilityPrefs {
-  fullyFlexible: boolean
-  slots: AvailabilitySlot[]
-}
-
-export type BookingType = 'fast_lane' | 'by_specialty' | 'by_doctor'
-
-export interface MatchingRequest {
-  symptom?: string
-  requestedAt: string
-  city: string
-  insuranceType: InsuranceType
-  // For specialty-first flow
-  selectedDoctorId?: string
-  availabilitySlots?: AvailabilitySlot[]
-  fullyFlexible?: boolean
+export interface FeedbackState {
+  feedbacks: Feedback[]
+  requests: FeedbackRequest[]
 }
 
 export interface Appointment {
@@ -84,6 +78,12 @@ export interface Appointment {
   matchingRequest?: MatchingRequest
 }
 
+export interface TimeSlot {
+  dateISO: string
+  time: string
+  available: boolean
+}
+
 export interface SearchFilters {
   specialty: string
   city: string
@@ -96,7 +96,6 @@ export interface SearchFilters {
   minRating?: number
   languages?: string[]
   sortBy?: 'earliest' | 'rating' | 'distance'
-  // Availability constraints for specialty-first flow
   fullyFlexible?: boolean
   availabilitySlots?: AvailabilitySlot[]
 }
@@ -106,11 +105,9 @@ export interface BookingState {
   selectedDoctor: Doctor | null
   selectedSlot: TimeSlot | null
   selectedFamilyMemberId: string | null
-  // Availability preferences for specialty-first flow
   availabilityPrefs: AvailabilityPrefs | null
 }
 
-// Reschedule flow types
 export interface RescheduleContext {
   originalAppointment: Appointment
   suggestedSlots: SuggestedSlot[]
@@ -123,7 +120,6 @@ export interface SuggestedSlot extends TimeSlot {
   reasonLabel: string
 }
 
-// Book Again flow types
 export interface BookAgainContext {
   sourceAppointmentId: string
   sourceDate: string

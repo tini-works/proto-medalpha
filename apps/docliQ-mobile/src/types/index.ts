@@ -4,8 +4,6 @@ export * from './cms'
 export * from './history'
 
 import type { AuthState, UserProfile } from './user'
-import type { BookingState, Appointment } from './booking'
-import type { HistoryItem } from './history'
 
 // Notification types for the updates/notifications screen
 export type NotificationType = 'BOOKING_UPDATE' | 'CANCELLATION_ALERT' | 'UPCOMING' | 'SECURITY' | 'FAMILY_PROFILE'
@@ -77,6 +75,14 @@ export interface AppState {
     items: HistoryItem[]
   }
   booking: BookingState
+  favorites: FavoritesState
+  reminders: RemindersState
+  feedback: FeedbackState
+}
+
+export const initialFeedback: FeedbackState = {
+  feedbacks: [],
+  requests: [],
 }
 
 export const initialProfile: UserProfile = {
@@ -126,5 +132,15 @@ export const initialState: AppState = {
     selectedSlot: null,
     selectedFamilyMemberId: null,
     availabilityPrefs: null,
+  },
+  favorites: {
+    doctors: [],
+  },
+  reminders: {
+    reminders: [],
+  },
+  feedback: {
+    feedbacks: [],
+    requests: [],
   },
 }

@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5190,
-    strictPort: true,
+    strictPort: false,
     // Listen on all interfaces so the app is reachable on the local network (e.g. phone/tablet)
     host: true,
   },

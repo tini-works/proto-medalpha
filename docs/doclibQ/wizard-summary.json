@@ -1,0 +1,57 @@
+{
+  "file": "wizard-design.pen",
+  "version": "2.6",
+  "totalScreens": 9,
+  "screens": [
+    {
+      "name": "Step 1: Who is this for?",
+      "id": "step1-recipient",
+      "width": 402
+    },
+    {
+      "name": "Step 2: Select Specialty",
+      "id": "step2-specialty",
+      "width": 402
+    },
+    {
+      "name": "Step 3: Choose Doctor",
+      "id": "step3-doctor",
+      "width": 402
+    },
+    {
+      "name": "Step 4: Appointment Details",
+      "id": "step4-details",
+      "width": 402
+    },
+    {
+      "name": "Step 5: Review & Submit",
+      "id": "step5-review",
+      "width": 402
+    },
+    {
+      "name": "Request Sent",
+      "id": "request-sent",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "name": "Matching Status",
+      "id": "matching-status",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "name": "Confirmed",
+      "id": "confirmed",
+      "width": 402,
+      "height": 874
+    },
+    {
+      "name": "No Match",
+      "id": "no-match",
+      "width": 402,
+      "height": 874
+    }
+  ],
+  "lastUpdated": "2026-01-30T06:59:02.794Z"
+}

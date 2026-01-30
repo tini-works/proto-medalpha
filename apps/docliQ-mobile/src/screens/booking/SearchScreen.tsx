@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconSearch, IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
+import { IconSearch, IconMapPin, IconShieldCheck, IconX, IconArrowRight, IconUser } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import { Button } from '../../components/ui'
-import { useBooking, useProfile } from '../../state'
+import { useBooking, useProfile, useFavorites } from '../../state'
+import type { FavoriteDoctor } from '../../types'
 import { PATHS } from '../../routes'
 import { specialties } from '../../data/symptoms'
 import type { InsuranceType } from '../../types'
@@ -18,6 +19,7 @@ export default function SearchScreen() {
   const { t } = useTranslation('booking')
   const { setSearchFilters } = useBooking()
   const { profile } = useProfile()
+  const { favorites } = useFavorites()
 
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null)
@@ -97,6 +99,32 @@ export default function SearchScreen() {
       </div>
 
       <div className="px-4 pb-32 space-y-6">
+        {favorites.length > 0 && (
+          <section>
+            <h2 className="text-sm font-medium text-charcoal-500 mb-3">
+              {t('myDoctors')}
+            </h2>
+            <div className="space-y-2">
+              {favorites.map((fav: FavoriteDoctor) => (
+                <button
+                  key={fav.doctorId}
+                  onClick={() => handleSelectSpecialty(fav.specialty)}
+                  className="w-full flex items-center gap-3 bg-white border border-cream-400 rounded-xl p-4 text-left hover:border-teal-400 transition-colors"
+                >
+                  <div className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center text-slate-500">
+                    <IconUser size={20} stroke={2} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-charcoal-500">{fav.doctorName}</p>
+                    <p className="text-sm text-slate-500">{fav.specialty}</p>
+                  </div>
+                  <IconArrowRight size={20} stroke={2} className="text-slate-400" />
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Search Input */}
         <section>
           <div className="relative">

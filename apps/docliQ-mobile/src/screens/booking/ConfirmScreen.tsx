@@ -8,7 +8,7 @@ import {
   AppointmentSummaryCard,
 } from '../../components'
 import { Button } from '../../components/ui'
-import { useBooking, useProfile, useHistory, usePreferences } from '../../state'
+import { useBooking, useProfile, useHistory, usePreferences, useFavorites } from '../../state'
 import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
 import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
@@ -20,6 +20,7 @@ export default function ConfirmScreen() {
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
   const { language } = usePreferences()
+  const { addFavorite } = useFavorites()
 
   const [patientType, setPatientType] = useState<string>(selectedFamilyMemberId ? 'child' : 'myself')
   const [reason, setReason] = useState('')
@@ -87,7 +88,6 @@ export default function ConfirmScreen() {
 
     addAppointment(appointment)
 
-    // Add to history
     const historyItem: HistoryItem = {
       id: `h_${Date.now()}`,
       type: 'appointment',
@@ -100,6 +100,8 @@ export default function ConfirmScreen() {
     }
 
     addHistoryItem(historyItem)
+
+    addFavorite(selectedDoctor)
 
     // Reset booking state
     resetBooking()

@@ -12,9 +12,29 @@ import type {
   BookAgainContext,
   AvailabilityPrefs,
   InsuranceType,
+  Feedback,
+  FeedbackRequest,
 } from '../types'
 import { initialState } from '../types'
 import { clearState, loadState, saveState } from './storage'
+import {
+  apiGetFavorites,
+  apiAddFavorite,
+  apiRemoveFavorite,
+  apiClearFavorites,
+  apiGetReminders as getReminders,
+  apiScheduleReminder as scheduleReminder,
+  apiCancelReminder,
+  apiClearReminders as clearReminders,
+  apiGetFeedbackRequests,
+  apiScheduleFeedbackRequest,
+  apiCancelFeedbackRequest,
+  apiMarkFeedbackSent,
+  apiClearFeedbackRequests,
+  apiSubmitFeedback,
+  apiGetFeedbackSubmissions,
+  apiGetAppointmentFeedback,
+} from '../data/api'
 
 // Fast-Lane request type
 interface FastLaneRequestState {
@@ -87,6 +107,20 @@ type AppStateApi = {
   // History
   addHistoryItem: (item: HistoryItem) => void
   updateHistoryItem: (id: string, patch: Partial<HistoryItem>) => void
+  loadFavorites: () => Promise<void>
+  addFavorite: (doctor: Doctor) => Promise<void>
+  removeFavorite: (doctorId: string) => Promise<void>
+  clearFavorites: () => Promise<void>
+  isFavorite: (doctorId: string) => boolean
+  loadReminders: () => Promise<void>
+  scheduleReminder: (appointment: Appointment) => Promise<void>
+  cancelReminder: (id: string) => Promise<void>
+  clearReminders: () => Promise<void>
+  loadFeedback: () => Promise<void>
+  scheduleFeedbackRequest: (appointment: Appointment) => Promise<void>
+  submitFeedback: (feedback: { appointmentId: string; rating: number; comment?: string }) => Promise<void>
+  cancelFeedbackRequest: (requestId: string) => Promise<void>
+  clearFeedback: () => Promise<void>
   // Reschedule
   setRescheduleContext: (context: RescheduleContext | null) => void
   setRescheduleNewSlot: (slot: TimeSlot | null) => void
@@ -259,6 +293,26 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     const scale = state.preferences.fontScale
     document.documentElement.style.setProperty('--scale', String(scale))
   }, [state])
+
+  useEffect(() => {
+    const loadFavorites = async () => {
+      const favorites = await apiGetFavorites()
+      setState((s) => ({ ...s, favorites: { doctors: favorites } }))
+    }
+    loadFavorites()
+
+    const loadReminders = async () => {
+      const reminders = await getReminders()
+      setState((s) => ({ ...s, reminders: { reminders } }))
+    }
+    loadReminders()
+
+    const loadFeedback = async () => {
+      const [requests, submissions] = await Promise.all([apiGetFeedbackRequests(), apiGetFeedbackSubmissions()])
+      setState((s) => ({ ...s, feedback: { requests, feedbacks: submissions } }))
+    }
+    loadFeedback()
+  }, [])
 
   const isProfileComplete = Boolean(
     state.profile.fullName.trim() &&
@@ -445,6 +499,92 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
             items: s.history.items.map((item) => (item.id === id ? { ...item, ...patch } : item)),
           },
         })),
+
+      loadFavorites: async () => {
+        const favorites = await apiGetFavorites()
+        setState((s) => ({ ...s, favorites: { doctors: favorites } }))
+      },
+      addFavorite: async (doctor) => {
+        const favorites = await apiAddFavorite({
+          doctorId: doctor.id,
+          doctorName: doctor.name,
+          specialty: doctor.specialty,
+          city: doctor.city,
+        })
+        setState((s) => ({ ...s, favorites: { doctors: favorites } }))
+      },
+      removeFavorite: async (doctorId) => {
+        const favorites = await apiRemoveFavorite(doctorId)
+        setState((s) => ({ ...s, favorites: { doctors: favorites } }))
+      },
+      clearFavorites: async () => {
+        await apiClearFavorites()
+        setState((s) => ({ ...s, favorites: { doctors: [] } }))
+      },
+      isFavorite: (doctorId) => state.favorites.doctors.some((f) => f.doctorId === doctorId),
+
+      loadReminders: async () => {
+        const reminders = await getReminders()
+        setState((s) => ({ ...s, reminders: { reminders } }))
+      },
+      scheduleReminder: async (appointment: Appointment) => {
+        await scheduleReminder({
+          doctorId: appointment.doctorId,
+          doctorName: appointment.doctorName,
+          specialty: appointment.specialty,
+          dateISO: appointment.dateISO,
+          time: appointment.time,
+          forUserName: appointment.forUserName,
+        })
+      },
+      cancelReminder: async (id) => {
+        await apiCancelReminder(id)
+        setState((s) => ({
+          ...s,
+          reminders: { reminders: s.reminders.reminders.filter((r) => r.id !== id) },
+        }))
+      },
+      clearReminders: async () => {
+        await clearReminders()
+        setState((s) => ({ ...s, reminders: { reminders: [] } }))
+      },
+
+      loadFeedback: async () => {
+        const [requests, submissions] = await Promise.all([apiGetFeedbackRequests(), apiGetFeedbackSubmissions()])
+        setState((s) => ({ ...s, feedback: { requests, feedbacks: submissions } }))
+      },
+      scheduleFeedbackRequest: async (appointment: Appointment) => {
+        await apiScheduleFeedbackRequest({
+          id: appointment.id,
+          doctorId: appointment.doctorId,
+          doctorName: appointment.doctorName,
+          specialty: appointment.specialty,
+          dateISO: appointment.dateISO,
+          time: appointment.time,
+          forUserName: appointment.forUserName,
+        })
+      },
+      submitFeedback: async (feedback) => {
+        const newFeedback = await apiSubmitFeedback(feedback)
+        setState((s) => ({
+          ...s,
+          feedback: {
+            requests: s.feedback.requests.filter((r) => r.appointmentId !== feedback.appointmentId),
+            feedbacks: [...s.feedback.feedbacks, newFeedback],
+          },
+        }))
+      },
+      cancelFeedbackRequest: async (requestId) => {
+        await apiCancelFeedbackRequest(requestId)
+        setState((s) => ({
+          ...s,
+          feedback: { ...s.feedback, requests: s.feedback.requests.filter((r) => r.id !== requestId) },
+        }))
+      },
+      clearFeedback: async () => {
+        await apiClearFeedbackRequests()
+        setState((s) => ({ ...s, feedback: { requests: [], feedbacks: [] } }))
+      },
 
       // Reschedule
       setRescheduleContext: (context) =>
@@ -656,5 +796,41 @@ export function useBookAgain() {
     setBookAgainContext,
     getHistoryItemById,
     getAppointmentById,
+  }
+}
+
+export function useReminders() {
+  const { state, loadReminders, scheduleReminder, cancelReminder, clearReminders } = useAppState()
+  return {
+    reminders: state.reminders.reminders,
+    loadReminders,
+    scheduleReminder,
+    cancelReminder,
+    clearReminders,
+  }
+}
+
+export function useFavorites() {
+  const { state, loadFavorites, addFavorite, removeFavorite, clearFavorites, isFavorite } = useAppState()
+  return {
+    favorites: state.favorites.doctors,
+    loadFavorites,
+    addFavorite,
+    removeFavorite,
+    clearFavorites,
+    isFavorite,
+  }
+}
+
+export function useFeedback() {
+  const { state, loadFeedback, scheduleFeedbackRequest, submitFeedback, cancelFeedbackRequest, clearFeedback } = useAppState()
+  return {
+    feedbackRequests: state.feedback.requests,
+    feedbackSubmissions: state.feedback.feedbacks,
+    loadFeedback,
+    scheduleFeedbackRequest,
+    submitFeedback,
+    cancelFeedbackRequest,
+    clearFeedback,
   }
 }

@@ -8,4 +8,7 @@ export {
   usePreferences,
   useReschedule,
   useBookAgain,
+  useFavorites,
+  useReminders,
+  useFeedback,
 } from './AppContext'

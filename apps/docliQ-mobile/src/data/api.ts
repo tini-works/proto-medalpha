@@ -362,7 +362,7 @@ export async function apiSpecialtyMatch(
     evening: [15, 19],
   }
 
-  // Get available slots for the next 14 days
+  // Get available slots for next 14 days
   const today = new Date()
   let selectedSlot: { dateISO: string; time: string } | null = null
 
@@ -410,7 +410,7 @@ export async function apiSpecialtyMatch(
     return { success: false }
   }
 
-  // Create the appointment
+  // Create appointment
   const appointment = {
     id: `SP-${Date.now().toString(36).toUpperCase()}`,
     doctorId: doctor.id,
@@ -436,4 +436,108 @@ export async function apiSpecialtyMatch(
 
   await ensureMinTotalDuration(MOCK_MATCHING_SUCCESS_TOTAL_MS)
   return { success: true, appointment }
+}
+
+export async function apiGetFavorites() {
+  const { apiGetFavorites } = await import('./favorites')
+  return apiGetFavorites()
+}
+
+export async function apiAddFavorite(doctor: {
+  doctorId: string
+  doctorName: string
+  specialty: string
+  city: string
+}) {
+  const { apiAddFavorite } = await import('./favorites')
+  return apiAddFavorite(doctor)
+}
+
+export async function apiRemoveFavorite(doctorId: string) {
+  const { apiRemoveFavorite } = await import('./favorites')
+  return apiRemoveFavorite(doctorId)
+}
+
+export async function apiClearFavorites() {
+  const { apiClearFavorites } = await import('./favorites')
+  return apiClearFavorites()
+}
+
+export async function apiGetReminders() {
+  const { apiGetReminders } = await import('./reminders')
+  return apiGetReminders()
+}
+
+export async function apiScheduleReminder(reminder: {
+  doctorId: string
+  doctorName: string
+  specialty: string
+  dateISO: string
+  time: string
+  forUserName: string
+}) {
+  const { apiScheduleReminder } = await import('./reminders')
+  return apiScheduleReminder(reminder)
+}
+
+export async function apiCancelReminder(id: string) {
+  const { apiCancelReminder } = await import('./reminders')
+  return apiCancelReminder(id)
+}
+
+export async function apiClearReminders() {
+  const { apiClearReminders } = await import('./reminders')
+  return apiClearReminders()
+}
+
+export async function apiGetFeedbackRequests() {
+  const { apiGetFeedbackRequests } = await import('./feedback')
+  return apiGetFeedbackRequests()
+}
+
+export async function apiScheduleFeedbackRequest(appointment: {
+  id: string
+  doctorId: string
+  doctorName: string
+  specialty: string
+  dateISO: string
+  time: string
+  forUserName: string
+}) {
+  const { apiScheduleFeedbackRequest } = await import('./feedback')
+  return apiScheduleFeedbackRequest(appointment)
+}
+
+export async function apiCancelFeedbackRequest(requestId: string) {
+  const { apiCancelFeedbackRequest } = await import('./feedback')
+  return apiCancelFeedbackRequest(requestId)
+}
+
+export async function apiMarkFeedbackSent(requestId: string) {
+  const { apiMarkFeedbackSent } = await import('./feedback')
+  return apiMarkFeedbackSent(requestId)
+}
+
+export async function apiClearFeedbackRequests() {
+  const { apiClearFeedbackRequests } = await import('./feedback')
+  return apiClearFeedbackRequests()
+}
+
+export async function apiSubmitFeedback(feedback: {
+  appointmentId: string
+  rating: number
+  comment?: string
+}) {
+  const { apiSubmitFeedback } = await import('./feedback')
+  return apiSubmitFeedback(feedback)
+}
+
+export async function apiGetFeedbackSubmissions() {
+  const { apiGetFeedbackSubmissions } = await import('./feedback')
+  return apiGetFeedbackSubmissions()
+}
+
+export async function apiGetAppointmentFeedback(appointmentId: string) {
+  const { apiGetAppointmentFeedback } = await import('./feedback')
+  return apiGetAppointmentFeedback(appointmentId)
 }

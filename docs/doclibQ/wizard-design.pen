@@ -1,0 +1,2685 @@
+{
+  "version": "2.6",
+  "children": [
+    {
+      "type": "frame",
+      "id": "step1-recipient",
+      "name": "Step 1: Who is this for?",
+      "width": 402,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "statusBar",
+          "name": "statusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "timeText",
+              "fill": "#1A1918",
+              "content": "9:41",
+              "fontFamily": "Outfit",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "iconsRow",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "signalIcon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "wifiIcon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "batteryIcon",
+                  "width": 24,
+                  "height": 18,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "progressSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "progressBar",
+              "width": "fill_container",
+              "height": 4,
+              "fill": "#E5E4E1",
+              "cornerRadius": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "progressFill",
+                  "width": 80,
+                  "height": "fill_container",
+                  "fill": "#13A3B5",
+                  "cornerRadius": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "stepIndicator",
+              "fill": "#9C9B99",
+              "content": "Step 1 of 5",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "headerSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            24,
+            24,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "headerTitle",
+              "fill": "#1A1918",
+              "content": "Who is this appointment for?",
+              "fontFamily": "Outfit",
+              "fontSize": 26,
+              "fontWeight": "600",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "headerDesc",
+              "fill": "#6D6C6A",
+              "content": "Select yourself or a family member.",
+              "fontFamily": "Outfit",
+              "fontSize": 15,
+              "lineHeight": 1.4
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "optionsSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "selfOption",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 2,
+                "fill": "#13A3B5"
+              },
+              "gap": 16,
+              "padding": 18,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "selfIconWrap",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "#E0F7FA",
+                  "cornerRadius": 100,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "userIcon",
+                      "x": 12,
+                      "y": 12,
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "user",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "selfTextWrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "selfLabel",
+                      "fill": "#1A1918",
+                      "content": "Myself",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "selfDesc",
+                      "fill": "#6D6C6A",
+                      "content": "Book for yourself",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "checkIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "circle-check",
+                  "iconFontFamily": "lucide",
+                  "fill": "#13A3B5"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dependentOption",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "gap": 16,
+              "padding": 18,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "depIconWrap",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "#E5E4E1",
+                  "cornerRadius": 100,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "usersIcon",
+                      "x": 12,
+                      "y": 12,
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "users",
+                      "iconFontFamily": "lucide",
+                      "fill": "#6D6C6A"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "depTextWrap",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "depLabel",
+                      "fill": "#1A1918",
+                      "content": "A Dependent",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "depDesc",
+                      "fill": "#6D6C6A",
+                      "content": "Book for family member",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "chevronIcon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "chevron-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9C9B99"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bottomSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24
+          ],
+          "marginTop": "auto",
+          "children": [
+            {
+              "type": "frame",
+              "id": "continueBtn",
+              "width": "fill_container",
+              "height": 56,
+              "fill": "#13A3B5",
+              "cornerRadius": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "continueText",
+                  "fill": "#F5F4F1",
+                  "content": "Continue",
+                  "fontFamily": "Outfit",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "saveIndicator",
+              "fill": "#9C9B99",
+              "content": "Draft saved",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "textAlign": "center"
+            }
+          ]
+        }
+      ],
+      "x": 0,
+      "y": 0,
+      "height": 874
+    },
+    {
+      "type": "frame",
+      "id": "step2-specialty",
+      "name": "Step 2: Select Specialty",
+      "width": 402,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "statusBar2",
+          "name": "statusBar",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "backIcon",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "chevron-left",
+              "iconFontFamily": "lucide",
+              "fill": "#1A1918"
+            },
+            {
+              "type": "text",
+              "id": "timeText2",
+              "fill": "#1A1918",
+              "content": "9:41",
+              "fontFamily": "Outfit",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "iconsRow2",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "signalIcon2",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "wifiIcon2",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "batteryIcon2",
+                  "width": 24,
+                  "height": 18,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "progressSection2",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "progressBar2",
+              "width": "fill_container",
+              "height": 4,
+              "fill": "#E5E4E1",
+              "cornerRadius": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "progressFill2",
+                  "width": 160,
+                  "height": "fill_container",
+                  "fill": "#13A3B5",
+                  "cornerRadius": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "stepIndicator2",
+              "fill": "#9C9B99",
+              "content": "Step 2 of 5",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "headerSection2",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "headerTitle2",
+              "fill": "#1A1918",
+              "content": "What type of care?",
+              "fontFamily": "Outfit",
+              "fontSize": 26,
+              "fontWeight": "600",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "headerDesc2",
+              "fill": "#6D6C6A",
+              "content": "Select a medical specialty.",
+              "fontFamily": "Outfit",
+              "fontSize": 15,
+              "lineHeight": 1.4
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "searchBar",
+          "width": "fill_container",
+          "height": 48,
+          "fill": "#FFFFFF",
+          "cornerRadius": 12,
+          "padding": [
+            0,
+            16
+          ],
+          "gap": 12,
+          "alignItems": "center",
+          "margin": [
+            0,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "searchIcon",
+              "width": 20,
+              "height": 20,
+              "iconFontName": "search",
+              "iconFontFamily": "lucide",
+              "fill": "#9C9B99"
+            },
+            {
+              "type": "text",
+              "id": "searchPlaceholder",
+              "fill": "#9C9B99",
+              "content": "Search specialties...",
+              "fontFamily": "Outfit",
+              "fontSize": 15
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "popularSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "popularLabel",
+              "fill": "#6D6C6A",
+              "content": "Popular",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": 0.5
+            },
+            {
+              "type": "frame",
+              "id": "popularList",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "spec1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "fill": "#1A1918",
+                      "content": "General Practitioner",
+                      "fontFamily": "Outfit",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "spec2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "fill": "#1A1918",
+                      "content": "Pediatrics",
+                      "fontFamily": "Outfit",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "spec3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "fill": "#1A1918",
+                      "content": "Dermatology",
+                      "fontFamily": "Outfit",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bottomSection2",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24
+          ],
+          "marginTop": "auto",
+          "children": [
+            {
+              "type": "frame",
+              "id": "continueBtn2",
+              "width": "fill_container",
+              "height": 56,
+              "fill": "#13A3B5",
+              "cornerRadius": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "continueText2",
+                  "fill": "#F5F4F1",
+                  "content": "Continue",
+                  "fontFamily": "Outfit",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "saveIndicator2",
+              "fill": "#9C9B99",
+              "content": "Draft saved",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "textAlign": "center"
+            }
+          ]
+        }
+      ],
+      "x": 450,
+      "y": 0,
+      "height": 874
+    },
+    {
+      "type": "frame",
+      "id": "step3-doctor",
+      "name": "Step 3: Choose Doctor",
+      "width": 402,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "statusBar3",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "backIcon3",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "chevron-left",
+              "iconFontFamily": "lucide",
+              "fill": "#1A1918"
+            },
+            {
+              "type": "text",
+              "id": "timeText3",
+              "fill": "#1A1918",
+              "content": "9:41",
+              "fontFamily": "Outfit",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "iconsRow3",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "signalIcon3",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "wifiIcon3",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "batteryIcon3",
+                  "width": 24,
+                  "height": 18,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "progressSection3",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "progressBar3",
+              "width": "fill_container",
+              "height": 4,
+              "fill": "#E5E4E1",
+              "cornerRadius": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "progressFill3",
+                  "width": 240,
+                  "height": "fill_container",
+                  "fill": "#13A3B5",
+                  "cornerRadius": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "stepIndicator3",
+              "fill": "#9C9B99",
+              "content": "Step 3 of 5",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "headerSection3",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "headerTitle3",
+              "fill": "#1A1918",
+              "content": "Choose your doctor",
+              "fontFamily": "Outfit",
+              "fontSize": 26,
+              "fontWeight": "600",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "headerDesc3",
+              "fill": "#6D6C6A",
+              "content": "Select from your doctors or browse available options.",
+              "fontFamily": "Outfit",
+              "fontSize": 15,
+              "lineHeight": 1.4
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "myDoctorsSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "myDocsLabel",
+              "fill": "#13A3B5",
+              "content": "My Doctors",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": 0.5
+            },
+            {
+              "type": "frame",
+              "id": "myDoctorCard",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "padding": 16,
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "docAvatar",
+                  "width": 56,
+                  "height": 56,
+                  "fill": "#E0F7FA",
+                  "cornerRadius": 100,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "docIcon",
+                      "x": 16,
+                      "y": 16,
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "stethoscope",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "docInfo",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "docName",
+                      "fill": "#1A1918",
+                      "content": "Dr. Maria Schmidt",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "docSpecialty",
+                      "fill": "#6D6C6A",
+                      "content": "General Practitioner",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ratingRow",
+                      "width": "fill_container",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "starIcon",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "star",
+                          "iconFontFamily": "lucide",
+                          "fill": "#E88A73"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ratingText",
+                          "fill": "#6D6C6A",
+                          "content": "4.9 (127 reviews)",
+                          "fontFamily": "Outfit",
+                          "fontSize": 13
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "selectedIcon",
+                  "width": 24,
+                  "height": 24,
+                  "iconFontName": "circle-check",
+                  "iconFontFamily": "lucide",
+                  "fill": "#13A3B5"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "otherDoctorsSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "otherLabel",
+              "fill": "#6D6C6A",
+              "content": "Other Available Doctors",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": 0.5
+            },
+            {
+              "type": "frame",
+              "id": "otherDoc1",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "padding": 16,
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "docAvatar2",
+                  "width": 56,
+                  "height": 56,
+                  "fill": "#E5E4E1",
+                  "cornerRadius": 100,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "docIcon2",
+                      "x": 16,
+                      "y": 16,
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "stethoscope",
+                      "iconFontFamily": "lucide",
+                      "fill": "#6D6C6A"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "docInfo2",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 4,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "docName2",
+                      "fill": "#1A1918",
+                      "content": "Dr. Klaus Weber",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "docSpecialty2",
+                      "fill": "#6D6C6A",
+                      "content": "General Practitioner",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ratingRow2",
+                      "width": "fill_container",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "starIcon2",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "star",
+                          "iconFontFamily": "lucide",
+                          "fill": "#E88A73"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ratingText2",
+                          "fill": "#6D6C6A",
+                          "content": "4.7 (89 reviews)",
+                          "fontFamily": "Outfit",
+                          "fontSize": 13
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "chevronDoc",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "chevron-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9C9B99"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bottomSection3",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24
+          ],
+          "marginTop": "auto",
+          "children": [
+            {
+              "type": "frame",
+              "id": "continueBtn3",
+              "width": "fill_container",
+              "height": 56,
+              "fill": "#13A3B5",
+              "cornerRadius": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "continueText3",
+                  "fill": "#F5F4F1",
+                  "content": "Continue",
+                  "fontFamily": "Outfit",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "saveIndicator3",
+              "fill": "#9C9B99",
+              "content": "Draft saved",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "textAlign": "center"
+            }
+          ]
+        }
+      ],
+      "x": 900,
+      "y": 0,
+      "height": 874
+    },
+    {
+      "type": "frame",
+      "id": "step4-details",
+      "name": "Step 4: Appointment Details",
+      "width": 402,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "statusBar4",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "backIcon4",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "chevron-left",
+              "iconFontFamily": "lucide",
+              "fill": "#1A1918"
+            },
+            {
+              "type": "text",
+              "id": "timeText4",
+              "fill": "#1A1918",
+              "content": "9:41",
+              "fontFamily": "Outfit",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "iconsRow4",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "signalIcon4",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "wifiIcon4",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "batteryIcon4",
+                  "width": 24,
+                  "height": 18,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "progressSection4",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "progressBar4",
+              "width": "fill_container",
+              "height": 4,
+              "fill": "#E5E4E1",
+              "cornerRadius": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "progressFill4",
+                  "width": 320,
+                  "height": "fill_container",
+                  "fill": "#13A3B5",
+                  "cornerRadius": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "stepIndicator4",
+              "fill": "#9C9B99",
+              "content": "Step 4 of 5",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "headerSection4",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            24,
+            24,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "headerTitle4",
+              "fill": "#1A1918",
+              "content": "Appointment details",
+              "fontFamily": "Outfit",
+              "fontSize": 26,
+              "fontWeight": "600",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "headerDesc4",
+              "fill": "#6D6C6A",
+              "content": "What brings you in today?",
+              "fontFamily": "Outfit",
+              "fontSize": 15,
+              "lineHeight": 1.4
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "typeSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "typeLabel",
+              "fill": "#6D6C6A",
+              "content": "Appointment Type",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": 0.5
+            },
+            {
+              "type": "frame",
+              "id": "acuteOption",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "stroke": {
+                "align": "inside",
+                "thickness": 2,
+                "fill": "#13A3B5"
+              },
+              "padding": 16,
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "acuteHeader",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "acuteIconWrap",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#E0F7FA",
+                      "cornerRadius": 10,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "acuteIcon",
+                          "x": 8,
+                          "y": 8,
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "heart-pulse",
+                          "iconFontFamily": "lucide",
+                          "fill": "#13A3B5"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "acuteText",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "acuteLabel",
+                          "fill": "#1A1918",
+                          "content": "Acute",
+                          "fontFamily": "Outfit",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "acuteDesc",
+                          "fill": "#6D6C6A",
+                          "content": "Urgent medical concern",
+                          "fontFamily": "Outfit",
+                          "fontSize": 13
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "checkAcute",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "circle-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "symptomsField",
+                  "width": "fill_container",
+                  "fill": "#F5F4F1",
+                  "cornerRadius": 12,
+                  "padding": 12,
+                  "height": 100,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "symptomsPlaceholder",
+                      "fill": "#9C9B99",
+                      "content": "Describe your symptoms (min 10 characters)...",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "validationHint",
+                  "fill": "#E88A73",
+                  "content": "Required: Please describe your symptoms",
+                  "fontFamily": "Outfit",
+                  "fontSize": 12
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "preventionOption",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "padding": 16,
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "prevIconWrap",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#E5E4E1",
+                  "cornerRadius": 10,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "prevIcon",
+                      "x": 8,
+                      "y": 8,
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "shield-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "#6D6C6A"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "prevText",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "prevLabel",
+                      "fill": "#1A1918",
+                      "content": "Prevention",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "prevDesc",
+                      "fill": "#6D6C6A",
+                      "content": "Checkup, vaccination, screening",
+                      "fontFamily": "Outfit",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "chevronPrev",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "chevron-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9C9B99"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "followupOption",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "padding": 16,
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "fuIconWrap",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#E5E4E1",
+                  "cornerRadius": 10,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "fuIcon",
+                      "x": 8,
+                      "y": 8,
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "calendar-check",
+                      "iconFontFamily": "lucide",
+                      "fill": "#6D6C6A"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fuText",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fuLabel",
+                      "fill": "#1A1918",
+                      "content": "Follow-up",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "fuDesc",
+                      "fill": "#6D6C6A",
+                      "content": "Continuing care from previous visit",
+                      "fontFamily": "Outfit",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "chevronFu",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "chevron-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#9C9B99"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "timeSection",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "timeLabel",
+              "fill": "#6D6C6A",
+              "content": "Preferred Time",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": 0.5
+            },
+            {
+              "type": "frame",
+              "id": "timeChips",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "morningChip",
+                  "width": "hug_content",
+                  "fill": "#13A3B5",
+                  "cornerRadius": 20,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "fill": "#F5F4F1",
+                      "content": "Morning",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "afternoonChip",
+                  "width": "hug_content",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "fill": "#1A1918",
+                      "content": "Afternoon",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "eveningChip",
+                  "width": "hug_content",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 20,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "fill": "#1A1918",
+                      "content": "Evening",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bottomSection4",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24
+          ],
+          "marginTop": "auto",
+          "children": [
+            {
+              "type": "frame",
+              "id": "continueBtn4",
+              "width": "fill_container",
+              "height": 56,
+              "fill": "#13A3B5",
+              "cornerRadius": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "continueText4",
+                  "fill": "#F5F4F1",
+                  "content": "Continue",
+                  "fontFamily": "Outfit",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "saveIndicator4",
+              "fill": "#9C9B99",
+              "content": "Draft saved",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "textAlign": "center"
+            }
+          ]
+        }
+      ],
+      "x": 1350,
+      "y": 0,
+      "height": 874
+    },
+    {
+      "type": "frame",
+      "id": "step5-review",
+      "name": "Step 5: Review & Submit",
+      "width": 402,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "statusBar5",
+          "width": "fill_container",
+          "height": 54,
+          "padding": [
+            14,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "backIcon5",
+              "width": 24,
+              "height": 24,
+              "iconFontName": "chevron-left",
+              "iconFontFamily": "lucide",
+              "fill": "#1A1918"
+            },
+            {
+              "type": "text",
+              "id": "timeText5",
+              "fill": "#1A1918",
+              "content": "9:41",
+              "fontFamily": "Outfit",
+              "fontSize": 17,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "iconsRow5",
+              "gap": 6,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "signalIcon5",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "signal",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "wifiIcon5",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "wifi",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "batteryIcon5",
+                  "width": 24,
+                  "height": 18,
+                  "iconFontName": "battery-full",
+                  "iconFontFamily": "lucide",
+                  "fill": "#1A1918"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "progressSection5",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24,
+            24,
+            16,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "progressBar5",
+              "width": "fill_container",
+              "height": 4,
+              "fill": "#E5E4E1",
+              "cornerRadius": 2,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "progressFill5",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": "#13A3B5",
+                  "cornerRadius": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "stepIndicator5",
+              "fill": "#9C9B99",
+              "content": "Step 5 of 5",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "headerSection5",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            0,
+            24,
+            24,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "headerTitle5",
+              "fill": "#1A1918",
+              "content": "Review your booking",
+              "fontFamily": "Outfit",
+              "fontSize": 26,
+              "fontWeight": "600",
+              "letterSpacing": -0.5
+            },
+            {
+              "type": "text",
+              "id": "headerDesc5",
+              "fill": "#6D6C6A",
+              "content": "Please verify all details before submitting.",
+              "fontFamily": "Outfit",
+              "fontSize": 15,
+              "lineHeight": 1.4
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "summaryCard",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "cornerRadius": 20,
+          "padding": 20,
+          "layout": "vertical",
+          "gap": 16,
+          "margin": [
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "row1",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "row1Left",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "userIcon5",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "user",
+                      "iconFontFamily": "lucide",
+                      "fill": "#9C9B99"
+                    },
+                    {
+                      "type": "text",
+                      "id": "row1Label",
+                      "fill": "#9C9B99",
+                      "content": "For",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "row1Right",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "row1Value",
+                      "fill": "#1A1918",
+                      "content": "Myself",
+                      "fontFamily": "Outfit",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "editIcon1",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "pencil",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "row2",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "row2Left",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "stethIcon5",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "stethoscope",
+                      "iconFontFamily": "lucide",
+                      "fill": "#9C9B99"
+                    },
+                    {
+                      "type": "text",
+                      "id": "row2Label",
+                      "fill": "#9C9B99",
+                      "content": "Specialty",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "row2Right",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "row2Value",
+                      "fill": "#1A1918",
+                      "content": "General Practitioner",
+                      "fontFamily": "Outfit",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "editIcon2",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "pencil",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "row3",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "flex-start",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "row3Left",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "docIcon5",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "user",
+                      "iconFontFamily": "lucide",
+                      "fill": "#9C9B99"
+                    },
+                    {
+                      "type": "text",
+                      "id": "row3Label",
+                      "fill": "#9C9B99",
+                      "content": "Doctor",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "row3Right",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "docValue",
+                      "width": "hug_content",
+                      "layout": "vertical",
+                      "alignItems": "flex_end",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "docName5",
+                          "fill": "#1A1918",
+                          "content": "Dr. Maria Schmidt",
+                          "fontFamily": "Outfit",
+                          "fontSize": 15,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "docSpec5",
+                          "fill": "#6D6C6A",
+                          "content": "General Practitioner",
+                          "fontFamily": "Outfit",
+                          "fontSize": 13
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "editIcon3",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "pencil",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "row4",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "flex-start",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "row4Left",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "typeIcon5",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "heart-pulse",
+                      "iconFontFamily": "lucide",
+                      "fill": "#9C9B99"
+                    },
+                    {
+                      "type": "text",
+                      "id": "row4Label",
+                      "fill": "#9C9B99",
+                      "content": "Type",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "row4Right",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "typeValue",
+                      "width": "hug_content",
+                      "layout": "vertical",
+                      "alignItems": "flex_end",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "typeName5",
+                          "fill": "#1A1918",
+                          "content": "Acute",
+                          "fontFamily": "Outfit",
+                          "fontSize": 15,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "text",
+                          "id": "typeDesc5",
+                          "fill": "#6D6C6A",
+                          "content": "Cough and fever for 3 days...",
+                          "fontFamily": "Outfit",
+                          "fontSize": 13,
+                          "maxLines": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "editIcon4",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "pencil",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "row5",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "row5Left",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "clockIcon5",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "clock",
+                      "iconFontFamily": "lucide",
+                      "fill": "#9C9B99"
+                    },
+                    {
+                      "type": "text",
+                      "id": "row5Label",
+                      "fill": "#9C9B99",
+                      "content": "Preferred",
+                      "fontFamily": "Outfit",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "row5Right",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "row5Value",
+                      "fill": "#1A1918",
+                      "content": "Morning",
+                      "fontFamily": "Outfit",
+                      "fontSize": 15,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "editIcon5",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "pencil",
+                      "iconFontFamily": "lucide",
+                      "fill": "#13A3B5"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bottomSection5",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            24
+          ],
+          "marginTop": "auto",
+          "children": [
+            {
+              "type": "frame",
+              "id": "submitBtn",
+              "width": "fill_container",
+              "height": 56,
+              "fill": "#13A3B5",
+              "cornerRadius": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "submitText",
+                  "fill": "#F5F4F1",
+                  "content": "Submit Request",
+                  "fontFamily": "Outfit",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "saveIndicator5",
+              "fill": "#9C9B99",
+              "content": "All information saved ✓",
+              "fontFamily": "Outfit",
+              "fontSize": 13,
+              "textAlign": "center"
+            }
+          ]
+        }
+      ],
+      "x": 1800,
+      "y": 0,
+      "height": 874
+    },
+    {
+      "type": "frame",
+      "id": "request-sent",
+      "name": "Request Sent",
+      "width": 402,
+      "height": 874,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "successIconWrap",
+          "width": 120,
+          "height": 120,
+          "fill": "#E0F7FA",
+          "cornerRadius": 100,
+          "layout": "none",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "successIcon",
+              "x": 28,
+              "y": 28,
+              "width": 64,
+              "height": 64,
+              "iconFontName": "send",
+              "iconFontFamily": "lucide",
+              "fill": "#13A3B5"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "sentTitle",
+          "fill": "#1A1918",
+          "content": "Request sent!",
+          "fontFamily": "Outfit",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "marginTop": 32,
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "id": "sentDesc",
+          "fill": "#6D6C6A",
+          "content": "We are finding the best doctor for you.",
+          "fontFamily": "Outfit",
+          "fontSize": 16,
+          "marginTop": 12,
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "id": "pollingInfo",
+          "fill": "#9C9B99",
+          "content": "Status updates every 60 seconds",
+          "fontFamily": "Outfit",
+          "fontSize": 14,
+          "marginTop": 24,
+          "textAlign": "center"
+        }
+      ],
+      "x": 2250,
+      "y": 0
+    },
+    {
+      "type": "frame",
+      "id": "matching-status",
+      "name": "Matching Status",
+      "width": 402,
+      "height": 874,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "spinnerWrap",
+          "width": 80,
+          "height": 80,
+          "fill": "#E0F7FA",
+          "cornerRadius": 100,
+          "layout": "none",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "spinnerIcon",
+              "x": 20,
+              "y": 20,
+              "width": 40,
+              "height": 40,
+              "iconFontName": "zap",
+              "iconFontFamily": "lucide",
+              "fill": "#13A3B5"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "matchingTitle",
+          "fill": "#1A1918",
+          "content": "Finding your doctor...",
+          "fontFamily": "Outfit",
+          "fontSize": 24,
+          "fontWeight": "600",
+          "marginTop": 32,
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "id": "matchingDesc",
+          "fill": "#6D6C6A",
+          "content": "Searching available slots with Dr. Maria Schmidt",
+          "fontFamily": "Outfit",
+          "fontSize": 15,
+          "marginTop": 12,
+          "textAlign": "center"
+        },
+        {
+          "type": "frame",
+          "id": "matchingProgressWrap",
+          "width": 280,
+          "height": 6,
+          "fill": "#E5E4E1",
+          "cornerRadius": 3,
+          "marginTop": 40,
+          "children": [
+            {
+              "type": "frame",
+              "id": "matchingProgressBar",
+              "width": 180,
+              "height": "fill_container",
+              "fill": "#13A3B5",
+              "cornerRadius": 3
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "matchingPercent",
+          "fill": "#13A3B5",
+          "content": "65%",
+          "fontFamily": "Outfit",
+          "fontSize": 14,
+          "fontWeight": "600",
+          "marginTop": 12
+        }
+      ],
+      "x": 2700,
+      "y": 0
+    },
+    {
+      "type": "frame",
+      "id": "confirmed",
+      "name": "Confirmed",
+      "width": 402,
+      "height": 874,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "checkWrap",
+          "width": 120,
+          "height": 120,
+          "fill": "#3D8A5A",
+          "cornerRadius": 100,
+          "layout": "none",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "successCheckIcon",
+              "x": 28,
+              "y": 28,
+              "width": 64,
+              "height": 64,
+              "iconFontName": "check",
+              "iconFontFamily": "lucide",
+              "fill": "#F5F4F1"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "confirmedTitle",
+          "fill": "#1A1918",
+          "content": "Confirmed!",
+          "fontFamily": "Outfit",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "marginTop": 32,
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "id": "confirmedDesc",
+          "fill": "#6D6C6A",
+          "content": "Your appointment is scheduled.",
+          "fontFamily": "Outfit",
+          "fontSize": 16,
+          "marginTop": 12,
+          "textAlign": "center"
+        },
+        {
+          "type": "frame",
+          "id": "apptCard",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "cornerRadius": 16,
+          "padding": 20,
+          "margin": [
+            40,
+            24,
+            0,
+            24
+          ],
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "apptRow1",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "calendarIcon",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "calendar",
+                  "iconFontFamily": "lucide",
+                  "fill": "#13A3B5"
+                },
+                {
+                  "type": "text",
+                  "id": "apptDate",
+                  "fill": "#1A1918",
+                  "content": "Tomorrow, 10:30 AM",
+                  "fontFamily": "Outfit",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "apptRow2",
+              "width": "fill_container",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "docIconConf",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "user",
+                  "iconFontFamily": "lucide",
+                  "fill": "#6D6C6A"
+                },
+                {
+                  "type": "text",
+                  "id": "apptDoc",
+                  "fill": "#6D6C6A",
+                  "content": "Dr. Maria Schmidt",
+                  "fontFamily": "Outfit",
+                  "fontSize": 15
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "calendarBtn",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#13A3B5",
+          "cornerRadius": 12,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "margin": [
+            40,
+            24,
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "calendarText",
+              "fill": "#F5F4F1",
+              "content": "Add to Calendar",
+              "fontFamily": "Outfit",
+              "fontSize": 16,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ],
+      "x": 3150,
+      "y": 0
+    },
+    {
+      "type": "frame",
+      "id": "no-match",
+      "name": "No Match",
+      "width": 402,
+      "height": 874,
+      "fill": "#F5F4F1",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "xWrap",
+          "width": 120,
+          "height": 120,
+          "fill": "#E5E4E1",
+          "cornerRadius": 100,
+          "layout": "none",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "xIcon",
+              "x": 28,
+              "y": 28,
+              "width": 64,
+              "height": 64,
+              "iconFontName": "x",
+              "iconFontFamily": "lucide",
+              "fill": "#9C9B99"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "noMatchTitle",
+          "fill": "#1A1918",
+          "content": "No availability",
+          "fontFamily": "Outfit",
+          "fontSize": 24,
+          "fontWeight": "600",
+          "marginTop": 32,
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "id": "noMatchDesc",
+          "fill": "#6D6C6A",
+          "content": "Dr. Maria Schmidt has no available slots. Try another doctor or time.",
+          "fontFamily": "Outfit",
+          "fontSize": 15,
+          "marginTop": 12,
+          "textAlign": "center",
+          "maxWidth": 280
+        },
+        {
+          "type": "frame",
+          "id": "altBtn1",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#FFFFFF",
+          "cornerRadius": 12,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "margin": [
+            40,
+            24,
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "altText1",
+              "fill": "#1A1918",
+              "content": "Try different time",
+              "fontFamily": "Outfit",
+              "fontSize": 16,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "altBtn2",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#FFFFFF",
+          "cornerRadius": 12,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "margin": [
+            12,
+            24,
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "altText2",
+              "fill": "#1A1918",
+              "content": "Choose another doctor",
+              "fontFamily": "Outfit",
+              "fontSize": 16,
+              "fontWeight": "500"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "altBtn3",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#13A3B5",
+          "cornerRadius": 12,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "margin": [
+            12,
+            24,
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "altText3",
+              "fill": "#F5F4F1",
+              "content": "Expand search radius",
+              "fontFamily": "Outfit",
+              "fontSize": 16,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ],
+      "x": 3600,
+      "y": 0
+    }
+  ]
+}
