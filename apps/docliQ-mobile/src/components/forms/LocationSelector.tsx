@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconSearch } from '@tabler/icons-react'
-import { useTranslation } from 'react-i18next'
 import { RadiusSlider } from './RadiusSlider'
 import { SavedLocations } from '../display/SavedLocations'
 import { Button } from '../ui'
