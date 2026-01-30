@@ -24,7 +24,11 @@ export default function SuccessScreen() {
         </div>
 
         <h1 className="text-xl font-semibold text-charcoal-500">{t('appointmentConfirmed')}</h1>
+<<<<<<< HEAD
         <p className="text-sm text-slate-500 mt-2">{t('noAppointmentData')}</p>
+=======
+        <p className="text-sm text-slate-500 mt-2">{t('noAppointmentDataFound')}</p>
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 
         <div className="h-24" />
       </div>

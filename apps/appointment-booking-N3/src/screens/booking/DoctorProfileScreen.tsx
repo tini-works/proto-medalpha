@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin } from '@tabler/icons-react'
 import { Header, Page, Avatar, Rating, Pill } from '../../components'
-import { useBooking, useProfile } from '../../state'
+import { useBooking, useProfile, usePreferences } from '../../state'
 import { apiGetDoctor } from '../../data'
 import { doctorSlotsPath, PATHS } from '../../routes'
+import { getLocale } from '../../utils'
 import type { Doctor } from '../../types'
 
 export default function DoctorProfileScreen() {
@@ -21,6 +22,7 @@ export default function DoctorProfileScreen() {
     setSpecialtyMatchRequest,
     bookingFlow,
   } = useBooking()
+  const { language } = usePreferences()
 
   // Check if we're in the specialty-first flow
   const isSpecialtyFirstFlow = Boolean(availabilityPrefs || search?.fullyFlexible || search?.availabilitySlots)
@@ -136,7 +138,11 @@ export default function DoctorProfileScreen() {
         <section className="mb-8 p-4 bg-cream-200 rounded-lg">
           <p className="text-sm text-slate-700">
             <span className="font-medium">{t('nextAvailable')}</span>{' '}
+<<<<<<< HEAD
             {new Date(doctor.nextAvailableISO).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US', {
+=======
+            {new Date(doctor.nextAvailableISO).toLocaleDateString(getLocale(language), {
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
               weekday: 'long',
               day: 'numeric',
               month: 'long',

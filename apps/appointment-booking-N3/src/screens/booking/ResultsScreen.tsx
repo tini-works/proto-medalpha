@@ -8,6 +8,7 @@ import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
+import { translateSpecialty, translateLanguage } from '../../utils'
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
@@ -29,6 +30,7 @@ export default function ResultsScreen() {
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [doctorSlots, setDoctorSlots] = useState<Record<string, TimeSlot[]>>({})
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('earliest')
   const [showSortMenu, setShowSortMenu] = useState(false)
   const [hasActiveFilters, setHasActiveFilters] = useState(false)
@@ -74,6 +76,7 @@ export default function ResultsScreen() {
 
     const fetchDoctors = async () => {
       setLoading(true)
+      setError(null)
       try {
         const searchParams = search
           ? {
@@ -92,13 +95,15 @@ export default function ResultsScreen() {
           slotsMap[doctor.id] = getTimeSlots(doctor.id)
         }
         setDoctorSlots(slotsMap)
+      } catch {
+        setError(t('errors.loadDoctorsFailed'))
       } finally {
         setLoading(false)
       }
     }
 
     fetchDoctors()
-  }, [search])
+  }, [search, t])
 
   const availableLanguages = useMemo(() => {
     const set = new Set<string>()
@@ -300,7 +305,7 @@ export default function ResultsScreen() {
                     : 'bg-cream-100 text-slate-600 hover:bg-cream-200'
                 }`}
               >
-                {specialty}
+                {translateSpecialty(t, specialty)}
               </button>
             ))}
           </div>
@@ -383,7 +388,17 @@ export default function ResultsScreen() {
 
       {/* Results List */}
       <div className={`px-4 py-4 ${isDoctorFirstFlow ? 'pb-28' : 'pb-24'}`}>
-        {loading ? (
+        {error ? (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-red-600 font-medium">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-3 text-sm text-red-600 underline hover:no-underline"
+            >
+              {t('tryAgain')}
+            </button>
+          </div>
+        ) : loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
               <div
@@ -476,13 +491,11 @@ export default function ResultsScreen() {
 
       {/* Filters Sheet */}
       {showFilters && (
-        <div className="fixed inset-0 z-50">
+        <div className="fixed inset-0 z-50" role="dialog" aria-modal="true">
           <div
             className="absolute inset-0 bg-charcoal-900/50 animate-fade-in"
-            onClick={() => {
-              applyFiltersToState()
-              setShowFilters(false)
-            }}
+            data-testid="filter-backdrop"
+            onClick={() => setShowFilters(false)}
           />
           <div className="absolute bottom-0 left-0 right-0 h-[90vh] flex flex-col rounded-t-3xl bg-white overflow-hidden animate-slide-up">
             <div className="flex justify-center pt-3 pb-2">
@@ -503,10 +516,7 @@ export default function ResultsScreen() {
                 {t('clearAll')}
               </button>
                 <button
-                  onClick={() => {
-                    applyFiltersToState()
-                    setShowFilters(false)
-                  }}
+                  onClick={() => setShowFilters(false)}
                   className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center hover:bg-cream-300 transition-colors duration-normal ease-out-brand"
                   aria-label="Close"
                 >
@@ -596,13 +606,28 @@ export default function ResultsScreen() {
                             selected ? 'bg-teal-50 border-teal-500 text-teal-700' : 'bg-white border-cream-400 text-slate-700 hover:bg-cream-50'
                           }`}
                         >
-                          {lang}
+                          {translateLanguage(t, lang)}
                         </button>
                       )
                     })}
                   </div>
                 )}
               </section>
+            </div>
+
+            {/* Apply Filters Button */}
+            <div className="flex-shrink-0 p-4 bg-white border-t border-cream-300">
+              <Button
+                onClick={() => {
+                  applyFiltersToState()
+                  setShowFilters(false)
+                }}
+                variant="primary"
+                fullWidth
+                size="lg"
+              >
+                {t('applyFilters')}
+              </Button>
             </div>
           </div>
         </div>

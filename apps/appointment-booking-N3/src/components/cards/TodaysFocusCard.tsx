@@ -2,7 +2,7 @@ import { IconMapPin } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
-import { formatTime } from '../../utils/format'
+import { formatTime, translateSpecialty } from '../../utils'
 import type { Appointment } from '../../types'
 import { getDoctorById } from '../../data/doctors'
 
@@ -102,27 +102,6 @@ function getRelativeDateLabel(
     day: 'numeric',
     month: 'short',
   })
-}
-
-function translateSpecialty(t: (key: string, options?: any) => string, specialty: string): string {
-  const specialtyKeyByValue: Record<string, string> = {
-    'Primary care': 'specialtyPrimaryCare',
-    Cardiology: 'specialtyCardiology',
-    Dermatology: 'specialtyDermatology',
-    Orthopedics: 'specialtyOrthopedics',
-    Gynecology: 'specialtyGynecology',
-    Ophthalmology: 'specialtyOphthalmology',
-    Pediatrics: 'specialtyPediatrics',
-    Neurology: 'specialtyNeurology',
-    Psychiatry: 'specialtyPsychiatry',
-    Dentistry: 'specialtyDentistry',
-    'ENT (HNO)': 'specialtyENT',
-    Gastroenterology: 'specialtyGastroenterology',
-  }
-
-  const key = specialtyKeyByValue[specialty]
-  if (!key) return specialty
-  return t(key, { ns: 'booking' })
 }
 
 function getPracticeLocationLabel(

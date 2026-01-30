@@ -27,6 +27,7 @@ High-level, business-focused summary of notable changes.
 - **More reliable in-app notifications**: Toast provider now queues multiple status-change toasts so rapid updates don’t overwrite each other.
 - **Localized offline banner**: The global offline banner message is now pulled from `settings` translations (English + German) instead of hard-coded English text.
 - **Safer background matching**: Background matching returns a cancellation function to prevent updates after unmount, and insurance types are standardized across request and API types for consistency.
+- **Detail & history localization**: Appointment detail, history, and doctor cards now use dedicated `history`/`detail` i18n namespaces and translation helpers so headings, labels, statuses, specialties, and languages are consistently localized in English and German.
 
 ### Matched Doctors radio tap area
 - **Accessibility & ergonomics**: Increased the matched doctor selection radio tap target in the N3 Doctor list to a balanced 44×44px square so it has equal padding on all sides, making it easier to tap accurately on touch devices while keeping the visual circle icon size unchanged.
@@ -48,6 +49,23 @@ High-level, business-focused summary of notable changes.
 ### No-match screen flow & dev server
 - **No-match screen**: When the user chooses "Try different specialty" or "Browse doctors" from the Fast Lane no-match screen, the app now sets the booking flow (`by_specialty` or `by_doctor`) before navigating so they land in the correct path (specialty search vs doctor results) instead of a generic search.
 - **Local network dev**: N3 Vite dev server now listens on all interfaces (`host: true`) so the app can be opened from other devices on the same LAN (e.g. phone or tablet) using the network URL Vite prints in the terminal.
+
+### Appointment card i18n & sign-out confirmation
+- **Appointment cards**: Status chips and helper text on appointment cards are now fully localized via the `booking` namespace (matching, awaiting confirmation, confirmed, completed, cancelled by you/doctor), including localized “Finding your doctor…” states, patient label, and time unit so both English and German users see consistent wording in lists and detail surfaces.
+- **Settings sign-out flow**: Replaced the browser `window.confirm` with a reusable, accessible `ConfirmModal` component for signing out, with translated title, primary/secondary button labels, and cancel text in the `settings` namespace.
+
+### Vitest test harness for N3
+- **Test tooling**: Added a Vitest + React Testing Library setup (`vitest.config.ts`, JSDOM environment, and `src/test/setup.ts`) with `pnpm test`, `pnpm test:run`, and `pnpm test:coverage` scripts wired into the N3 app.
+- **Initial coverage**: Introduced first component/screen tests for booking cards, header navigation logic, booking confirmation/success flows, and settings sign-out so the most critical user journeys now have automated regression protection.
+- **Execution tuning**: Refined Vitest configuration (thread pool, isolated test files, targeted `include` globs, CSS disabled by default, single retry, and tighter timeouts) so the suite runs faster and more reliably in local development while still supporting the Golden Tests plan.
+
+### Language-aware formatting & sign-in hints
+- **Locale-aware formatting**: Centralized date, time, number, distance, and relative date formatting in `utils/format` with language-aware helpers so German users see `23.01.2026`, `2,5 km` and `Heute / Morgen / vor X Tagen` while English users see `01/23/2026`, `2.5 km` and `Today / Tomorrow / X days ago` across booking, profile, history, reschedule, and news screens.
+- **Sign-in field helpers**: Added subtle email/password hints on the Sign In screen (e.g. “e.g., name@example.com”, “Minimum 8 characters”) in both English and German to reduce friction and failed login attempts.
+
+### Golden tests plan & GDPR gap analysis docs
+- **Golden tests proposal**: Documented a compact Golden Tests suite for 38 high-value user story tests (onboarding, booking, feedback, account, practice changes) with Vitest configuration tuned for reliability (single worker, maxConcurrency 2, retries, bail-on-first-failure) in `docs/appointment-booking/GOLDEN-TESTS-PROPOSAL.md`.
+- **GDPR compliance gap analysis**: Captured a structured UI gap analysis for GDPR and German legal requirements in `docs/appointment-booking/GDPR-COMPLIANCE-GAP-ANALYSIS.md`, highlighting missing legal pages (Privacy Policy, Terms, Impressum), cookie consent banner, and follow-up screens to mock for P0/P1 compliance in the N3 prototype.
 
 ## 2026-01-28 (Continued - Part 7)
 

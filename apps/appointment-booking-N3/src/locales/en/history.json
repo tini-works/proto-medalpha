@@ -1,0 +1,18 @@
+{
+  "title": "My Appointments",
+  "archiveButton": "Appointment archive",
+  "emptyTitle": "No appointments",
+  "emptyDescription": "Try changing the status filter or book a new appointment.",
+  "upcoming": "Upcoming",
+  "others": "Others",
+  "filterAll": "All",
+  "filterAwaitConfirm": "Await confirm",
+  "filterMatching": "Matching",
+  "filterDoctorCanceled": "Doctor canceled",
+  "emptyOthersTitle": "No other appointments",
+  "emptyOthersDescription": "Try changing the filters to see more.",
+  "bookNewAppointment": "Book new appointment",
+  "archiveTitle": "History",
+  "archiveEmptyTitle": "No history yet",
+  "archiveEmptyDescription": "Completed and canceled appointments will appear here."
+}

@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page, Rating, Pill } from '../../components'
+import { usePreferences } from '../../state'
 import { apiGetDoctor } from '../../data'
 import { PATHS } from '../../routes'
+import { getLocale, type Language } from '../../utils'
 import type { Doctor } from '../../types'
 
 type SortOption = 'newest' | 'highest' | 'lowest'
@@ -16,9 +18,9 @@ type Review = {
   text: string
 }
 
-function formatReviewDate(dateISO: string) {
+function formatReviewDate(dateISO: string, language: Language) {
   try {
-    return new Date(dateISO).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    return new Date(dateISO).toLocaleDateString(getLocale(language), { day: '2-digit', month: '2-digit', year: 'numeric' })
   } catch {
     return dateISO
   }
@@ -64,6 +66,7 @@ export default function ReviewsScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
+  const { language } = usePreferences()
   const [doctor, setDoctor] = useState<Doctor | null>(null)
   const [loading, setLoading] = useState(true)
   const [sortBy, setSortBy] = useState<SortOption>('newest')
@@ -139,7 +142,7 @@ export default function ReviewsScreen() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-semibold text-charcoal-500">{review.title}</p>
-                  <p className="text-sm text-slate-500">{formatReviewDate(review.dateISO)}</p>
+                  <p className="text-sm text-slate-500">{formatReviewDate(review.dateISO, language)}</p>
                 </div>
                 <Pill tone={review.rating >= 4 ? 'positive' : review.rating === 3 ? 'neutral' : 'negative'} size="sm">
                   {review.rating}/5

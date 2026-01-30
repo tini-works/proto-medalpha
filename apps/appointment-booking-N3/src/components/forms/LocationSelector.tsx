@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconSearch } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { RadiusSlider } from './RadiusSlider'
@@ -113,7 +114,11 @@ export function LocationSelector({
           <div className="w-full border-t border-cream-300" />
         </div>
         <div className="relative flex justify-center text-sm">
+<<<<<<< HEAD
           <span className="px-3 bg-cream-100 text-slate-500">{t('orEnterSpecificAddress')}</span>
+=======
+          <span className="px-3 bg-cream-100 text-slate-500">{t('orEnterAddress')}</span>
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </div>
       </div>
 
@@ -127,7 +132,11 @@ export function LocationSelector({
           value={addressQuery}
           onChange={handleAddressChange}
           onKeyDown={handleAddressKeyDown}
+<<<<<<< HEAD
           placeholder={t('addressInputPlaceholder')}
+=======
+          placeholder={t('addressPlaceholder')}
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
           className={`w-full h-14 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 focus:ring-2 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand ${
             locationType === 'address' && addressQuery.trim()
               ? 'ring-teal-500 focus:ring-teal-500'

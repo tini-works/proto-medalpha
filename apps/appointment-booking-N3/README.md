@@ -314,6 +314,12 @@ Currently uses mock data located in `src/data/`. The API functions in `src/data/
 5. Follow existing patterns for state management
 
 ### Testing
+// Automated tests
+- `pnpm test`: Run Vitest in watch mode with React Testing Library
+- `pnpm test:run`: Run the test suite once (CI-friendly)
+- `pnpm test:coverage`: Run tests with coverage reporting
+
+// Manual testing
 - Manual testing recommended for UI flows
 - Check responsive behavior on mobile and desktop
 - Verify route guards work correctly

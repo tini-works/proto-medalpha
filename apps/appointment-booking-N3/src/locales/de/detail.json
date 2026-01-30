@@ -1,0 +1,51 @@
+{
+  "notFound": "Termin nicht gefunden",
+  "backToAppointments": "Zurück zu Terminen",
+  "goBack": "Zurück",
+
+  "steps": {
+    "verifyingPreferences": "Ihre Präferenzen werden geprüft",
+    "checkingAvailability": "Verfügbarkeit beim Arzt wird geprüft",
+    "matchingTimeSlot": "Bestes Zeitfenster wird zugeordnet...",
+    "confirmingAppointment": "Termin wird bestätigt"
+  },
+
+  "matching": {
+    "title": "Passende Übereinstimmung finden...",
+    "description": "Wir suchen nach dem besten verfügbaren Termin, der zu Ihren Präferenzen passt",
+    "connectionTitle": "Verbindungsproblem wird automatisch behoben...",
+    "connectionSubtitle": "Erneuter Versuch (2/3) • Das kann einen Moment dauern"
+  },
+
+  "cancelRequest": "Anfrage abbrechen",
+  "awaitingConfirmation": "Warte auf Bestätigung",
+  "awaitingDescription": "Wir haben eine Übereinstimmung gefunden! Warten auf {{doctorName}}, um Ihren Termin zu bestätigen.",
+
+  "confirmed": "Termin bestätigt!",
+  "confirmedDescription": "Ihr Termin wurde bestätigt. Wir haben die Details an Ihre E-Mail und Ihr Telefon gesendet.",
+  "calendarEventTitle": "Termin bei {{doctorName}}",
+  "addToCalendar": "Zum Kalender hinzufügen",
+  "cancelAppointment": "Termin stornieren",
+  "viewAllAppointments": "Alle Termine anzeigen",
+  "backToHome": "Zurück zur Startseite",
+
+  "canceled": "Termin storniert",
+  "canceledDescription": "Sie haben diese Terminanfrage storniert. Sie können jederzeit eine neue Anfrage stellen.",
+  "canceledByYou": "Von Ihnen storniert",
+  "submitNewRequest": "Neue Anfrage stellen",
+
+  "declined": "Termin abgelehnt",
+  "declinedDescription": "Leider kann {{doctorName}} diesen Termin nicht annehmen. Bitte versuchen Sie, bei einem anderen Arzt zu buchen.",
+  "bookNewAppointment": "Neuen Termin buchen",
+
+  "yearsExp": "{{count}} Jahre Erfahrung",
+  "defaultClinicLocation": "Heart Care Klinik, Gebäude A",
+  "keepAppointment": "Termin behalten",
+
+  "cancelDialog": {
+    "title": "Termin stornieren?",
+    "message": "Sind Sie sicher, dass Sie Ihren Termin bei {{doctorName}} am {{date}} stornieren möchten?",
+    "policyTitle": "Stornierungsrichtlinie:",
+    "policyText": "Kostenlose Stornierung bis 24 Stunden vor dem Termin."
+  }
+}

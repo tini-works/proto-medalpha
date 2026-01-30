@@ -13,24 +13,6 @@ interface HeaderProps {
   rightAction?: ReactNode
 }
 
-// #region agent log
-const logDebug = (location: string, message: string, data: any) => {
-  fetch('http://127.0.0.1:7244/ingest/470418f0-0d1b-444c-9138-7dc93d3f0e03', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      location,
-      message,
-      data,
-      timestamp: Date.now(),
-      sessionId: 'debug-session',
-      runId: 'run1',
-      hypothesisId: 'A',
-    }),
-  }).catch(() => {})
-}
-// #endregion
-
 /**
  * Determines the logical previous screen based on current route
  * Returns an object with the path pattern and extracted params, or null
@@ -138,19 +120,7 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
   const { selectedDoctor } = useBooking()
 
   const handleBack = () => {
-    // #region agent log
-    logDebug('Header.tsx:handleBack', 'Back button clicked', {
-      hasOnBack: !!onBack,
-      currentPath: location.pathname,
-      locationState: location.state,
-      selectedDoctorId: selectedDoctor?.id,
-    })
-    // #endregion
-
     if (onBack) {
-      // #region agent log
-      logDebug('Header.tsx:handleBack', 'Using custom onBack handler', {})
-      // #endregion
       onBack()
       return
     }
@@ -158,22 +128,12 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
     // Check if navigation state provides a 'from' path
     const fromPath = (location.state as any)?.from as string | undefined
     if (fromPath) {
-      // #region agent log
-      logDebug('Header.tsx:handleBack', 'Navigating to from state', { fromPath })
-      // #endregion
       navigate(fromPath)
       return
     }
 
     // Try to determine logical previous screen based on current route
     const previousPathInfo = getPreviousPathInfo(location.pathname)
-    // #region agent log
-    logDebug('Header.tsx:handleBack', 'Route-based logic check', {
-      currentPath: location.pathname,
-      previousPathInfo,
-      pathParts: location.pathname.split('/').filter(Boolean),
-    })
-    // #endregion
 
     if (previousPathInfo) {
       let resolvedPath = previousPathInfo.path
@@ -182,19 +142,10 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
       if (resolvedPath === 'SLOTS_FROM_CONFIRM') {
         if (selectedDoctor) {
           resolvedPath = doctorSlotsPath(selectedDoctor.id)
-          // #region agent log
-          logDebug('Header.tsx:handleBack', 'Confirm screen: navigating to slots with doctor ID', {
-            resolvedPath,
-            doctorId: selectedDoctor.id,
-          })
-          // #endregion
           navigate(resolvedPath)
           return
         } else {
           // Fallback if doctor not available
-          // #region agent log
-          logDebug('Header.tsx:handleBack', 'Confirm screen: no doctor ID, using navigate(-1)', {})
-          // #endregion
           navigate(-1)
           return
         }
@@ -207,21 +158,11 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
         })
       }
 
-      // #region agent log
-      logDebug('Header.tsx:handleBack', 'Navigating to logical previous screen', {
-        resolvedPath,
-        pathInfo: previousPathInfo,
-        beforeReplace: previousPathInfo.path,
-      })
-      // #endregion
       navigate(resolvedPath)
       return
     }
 
     // Last resort: use browser history
-    // #region agent log
-    logDebug('Header.tsx:handleBack', 'Using navigate(-1) as fallback', {})
-    // #endregion
     navigate(-1)
   }
 

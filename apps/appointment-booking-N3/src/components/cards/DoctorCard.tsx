@@ -6,6 +6,7 @@ import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
 import { TimeSlotButton } from '../forms/TimeSlotButton'
 import { Button } from '../ui'
+import { translateSpecialty, translateLanguage } from '../../utils'
 
 interface DoctorCardProps {
   doctor: Doctor
@@ -110,7 +111,7 @@ export function DoctorCard({
               className="text-left focus:outline-none min-w-0 flex-1"
             >
               <h3 className="font-semibold text-charcoal-500 leading-tight truncate">{doctor.name}</h3>
-              <p className="text-sm text-teal-600 font-medium">{doctor.specialty}</p>
+              <p className="text-sm text-teal-600 font-medium">{translateSpecialty(t, doctor.specialty)}</p>
             </button>
 
             {/* Favorite button */}
@@ -154,7 +155,7 @@ export function DoctorCard({
         </Pill>
         {doctor.languages.slice(0, 2).map((lang) => (
           <Pill key={lang} tone="neutral" size="sm">
-            {lang}
+            {translateLanguage(t, lang)}
           </Pill>
         ))}
       </div>

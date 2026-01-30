@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconChevronRight, IconUsers, IconGlobe, IconBell, IconLock, IconHelpCircle, IconMessage, IconBook, IconLogout } from '@tabler/icons-react'
 import { Header, Page, TabBar, Avatar, Pill } from '../../components'
+import { ConfirmModal } from '../../components/ui'
 import { useProfile, useAuth, usePreferences } from '../../state'
 import { PATHS } from '../../routes'
 
@@ -19,12 +21,15 @@ export default function SettingsScreen() {
   const { profile } = useProfile()
   const { signOut } = useAuth()
   const { language } = usePreferences()
+  const [showSignOutModal, setShowSignOutModal] = useState(false)
 
   const handleSignOut = () => {
-    if (window.confirm(t('confirmSignOut'))) {
-      signOut()
-      navigate(PATHS.AUTH_WELCOME)
-    }
+    setShowSignOutModal(true)
+  }
+
+  const confirmSignOut = () => {
+    signOut()
+    navigate(PATHS.AUTH_WELCOME)
   }
 
   // Get localized language name
@@ -200,6 +205,18 @@ export default function SettingsScreen() {
       </div>
 
       <TabBar />
+
+      {/* Sign Out Confirmation Modal */}
+      <ConfirmModal
+        open={showSignOutModal}
+        title={t('signOut')}
+        message={t('confirmSignOut')}
+        confirmLabel={t('logOut')}
+        cancelLabel={t('cancel')}
+        onConfirm={confirmSignOut}
+        onCancel={() => setShowSignOutModal(false)}
+        variant="destructive"
+      />
     </Page>
   )
 }

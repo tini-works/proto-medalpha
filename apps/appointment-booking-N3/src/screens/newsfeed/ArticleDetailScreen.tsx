@@ -3,14 +3,20 @@ import { IconArrowLeft, IconBookmark, IconBookmarkFilled, IconShare2 } from '@ta
 import { useTranslation } from 'react-i18next'
 import { Page } from '../../components'
 import { Button } from '../../components/ui'
+import { usePreferences } from '../../state'
 import { PATHS } from '../../routes'
 import { mockNewsArticles } from '../../data/newsfeed'
+import { getLocale } from '../../utils'
 import { useState } from 'react'
 
 function ArticleDetailScreen() {
   const { articleId } = useParams<{ articleId: string }>()
   const navigate = useNavigate()
+<<<<<<< HEAD
   const { t, i18n } = useTranslation('notifications')
+=======
+  const { language } = usePreferences()
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   const [isSaved, setIsSaved] = useState(false)
 
   // Navigate back to News Feed tab in Updates screen
@@ -37,8 +43,13 @@ function ArticleDetailScreen() {
     )
   }
 
+<<<<<<< HEAD
   // Format date as "Oct 24, 2023"
   const formattedDate = article.publishedAt.toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US', {
+=======
+  // Format date using user's language preference
+  const formattedDate = article.publishedAt.toLocaleDateString(getLocale(language), {
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
     year: 'numeric',
     month: 'short',
     day: 'numeric',

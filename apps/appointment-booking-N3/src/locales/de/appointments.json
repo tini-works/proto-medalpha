@@ -21,6 +21,7 @@
   "matching": {
     "requestedSpecialty": "Gewünschtes Fachgebiet",
     "requestSubmitted": "Eingereicht",
+<<<<<<< HEAD
     "locationPreference": "Standort",
     "title": "Wir finden Ihren Termin...",
     "description": "Wir suchen den besten verfügbaren Termin, der zu Ihren Präferenzen passt.",
@@ -157,4 +158,9 @@
       }
     }
   }
+=======
+    "locationPreference": "Standort"
+  },
+  "timeSuffix": "Uhr"
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 }

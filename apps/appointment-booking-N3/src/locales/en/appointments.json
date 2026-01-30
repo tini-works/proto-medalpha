@@ -21,6 +21,7 @@
   "matching": {
     "requestedSpecialty": "Requested Specialty",
     "requestSubmitted": "Submitted",
+<<<<<<< HEAD
     "locationPreference": "Location",
     "title": "Finding your match...",
     "description": "We're searching for the best available appointment that fits your preferences.",
@@ -157,4 +158,9 @@
       }
     }
   }
+=======
+    "locationPreference": "Location"
+  },
+  "timeSuffix": ""
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 }

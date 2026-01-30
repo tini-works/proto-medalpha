@@ -1,6 +1,7 @@
 import { IconCalendar, IconClock, IconVideo, IconMapPin } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
+import { translateSpecialty } from '../../utils'
 
 interface AppointmentSummaryCardProps {
   doctor: {
@@ -34,7 +35,7 @@ export function AppointmentSummaryCard({
           <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="lg" />
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-charcoal-500 truncate">{doctor.name}</h3>
-            <p className="text-sm text-slate-600">{doctor.specialty}</p>
+            <p className="text-sm text-slate-600">{translateSpecialty(t, doctor.specialty)}</p>
           </div>
         </div>
       </div>

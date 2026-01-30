@@ -152,6 +152,9 @@
   "specialtyDentistry": "Dentistry",
   "specialtyENT": "ENT (HNO)",
   "specialtyGastroenterology": "Gastroenterology",
+  "specialtyPulmonology": "Pulmonology",
+  "specialtyRheumatology": "Rheumatology",
+  "specialtyEndocrinology": "Endocrinology",
 
   "relationship_child": "Child",
   "relationship_spouse": "Spouse",
@@ -265,6 +268,7 @@
   "toastAppointmentCancelledByDoctor": "Appointment cancelled by doctor",
   "toastAppointmentCompleted": "Appointment completed",
 
+<<<<<<< HEAD
   "savedLocations": "Saved locations",
   "savedLocationHome": "Home",
   "savedLocationWork": "Work",
@@ -373,4 +377,39 @@
       }
     }
   }
+=======
+  "useCurrentLocation": "Use Current Location",
+  "orEnterAddress": "Or enter a specific address",
+  "addressPlaceholder": "Enter street, city, or postal code...",
+  "mapPreview": "Map Preview",
+
+  "langGerman": "German",
+  "langEnglish": "English",
+  "langFrench": "French",
+  "langItalian": "Italian",
+  "langSpanish": "Spanish",
+  "langTurkish": "Turkish",
+  "langRussian": "Russian",
+  "langArabic": "Arabic",
+  "langPolish": "Polish",
+  "langPortuguese": "Portuguese",
+
+  "status.matching": "Matching",
+  "status.awaitConfirm": "Awaiting confirmation",
+  "status.confirmed": "Confirmed",
+  "status.completed": "Completed",
+  "status.cancelledPatient": "Cancelled by you",
+  "status.cancelledDoctor": "Cancelled by doctor",
+  "findingDoctor": "Finding your doctor...",
+  "noAppointmentDataFound": "No appointment data found.",
+  "timeUnit": "",
+  "patient": "Patient",
+  "applyFilters": "Apply Filters",
+
+  "errors": {
+    "loadSlotsFailed": "Unable to load available times. Returning to search...",
+    "loadDoctorsFailed": "Unable to load doctors. Please try again."
+  },
+  "tryAgain": "Try again"
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 }

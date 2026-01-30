@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { AppointmentListCard, EmptyState, Header, Page } from '../../components'
 import { PATHS } from '../../routes/paths'
 import { useBooking, useHistory } from '../../state'
@@ -28,6 +29,7 @@ function mapHistoryToAppointment(item: HistoryItem): Appointment {
 
 export default function HistoryArchiveScreen() {
   const navigate = useNavigate()
+  const { t } = useTranslation('history')
   const { appointments } = useBooking()
   const { getFilteredItems } = useHistory()
 
@@ -54,14 +56,14 @@ export default function HistoryArchiveScreen() {
 
   return (
     <Page>
-      <Header title="History" showBack onBack={() => navigate(PATHS.HISTORY)} />
+      <Header title={t('archiveTitle')} showBack onBack={() => navigate(PATHS.HISTORY)} />
 
       <div className="px-4 py-4 pb-16">
         {archivedAppointments.length === 0 ? (
           <EmptyState
             icon="history"
-            title="No history yet"
-            description="Completed and canceled appointments will appear here."
+            title={t('archiveEmptyTitle')}
+            description={t('archiveEmptyDescription')}
           />
         ) : (
           <div className="space-y-3">

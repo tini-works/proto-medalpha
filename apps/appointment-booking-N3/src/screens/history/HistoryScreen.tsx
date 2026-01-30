@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { IconClock, IconFilter, IconSearch, IconX, IconPlus, IconArchive } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
@@ -26,7 +27,11 @@ function dedupeAppointmentsById(appointments: Appointment[]): Appointment[] {
 
 export default function HistoryScreen() {
   const navigate = useNavigate()
+<<<<<<< HEAD
   const { t } = useTranslation('appointments')
+=======
+  const { t } = useTranslation('history')
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   const { appointments } = useBooking()
   const appointmentsDeduped = useMemo(() => dedupeAppointmentsById(appointments), [appointments])
 
@@ -81,22 +86,38 @@ export default function HistoryScreen() {
   const statusChips = [
     {
       value: 'all',
+<<<<<<< HEAD
       label: t('filters.all'),
+=======
+      labelKey: 'filterAll',
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
       icon: IconFilter,
     },
     {
       value: 'await_confirm',
+<<<<<<< HEAD
       label: t('status.awaitConfirm'),
+=======
+      labelKey: 'filterAwaitConfirm',
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
       icon: IconClock,
     },
     {
       value: 'matching',
+<<<<<<< HEAD
       label: t('status.matching'),
+=======
+      labelKey: 'filterMatching',
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
       icon: IconSearch,
     },
     {
       value: 'cancelled_doctor',
+<<<<<<< HEAD
       label: t('status.doctorCancelled'),
+=======
+      labelKey: 'filterDoctorCanceled',
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
       icon: IconX,
     },
   ] as const
@@ -110,12 +131,20 @@ export default function HistoryScreen() {
       {/* Sticky Header */}
       <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between px-4 py-3">
+<<<<<<< HEAD
           <h1 className="text-lg font-semibold text-charcoal-500">{t('history.title')}</h1>
+=======
+          <h1 className="text-lg font-semibold text-charcoal-500">{t('title')}</h1>
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
           <button
             type="button"
             onClick={() => navigate(PATHS.HISTORY_ARCHIVE)}
             className="w-10 h-10 rounded-full bg-cream-100 flex items-center justify-center hover:bg-cream-200 transition-colors duration-normal ease-out-brand"
+<<<<<<< HEAD
             aria-label={t('history.archiveAria')}
+=======
+            aria-label={t('archiveButton')}
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
           >
             <IconArchive size={20} className="text-charcoal-500" strokeWidth={2} />
           </button>
@@ -127,8 +156,13 @@ export default function HistoryScreen() {
         {upcomingConfirmed.length === 0 && others.length === 0 ? (
           <EmptyState
             icon="calendar"
+<<<<<<< HEAD
             title={t('history.empty.title')}
             description={t('history.empty.description')}
+=======
+            title={t('emptyTitle')}
+            description={t('emptyDescription')}
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
           />
         ) : (
           <div className="space-y-8">
@@ -136,8 +170,12 @@ export default function HistoryScreen() {
               <section className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-charcoal-500">
+<<<<<<< HEAD
                     {t('history.sections.upcoming')}{' '}
                     <span className="text-sm font-medium text-slate-500">({upcomingConfirmed.length})</span>
+=======
+                    {t('upcoming')} <span className="text-sm font-medium text-slate-500">({upcomingConfirmed.length})</span>
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
                   </h2>
                 </div>
                 <SwipeableAppointmentStack
@@ -150,22 +188,27 @@ export default function HistoryScreen() {
             <section className="space-y-4">
               <div className="flex items-center gap-3">
                 <h2 className="text-lg font-semibold text-charcoal-500 whitespace-nowrap">
+<<<<<<< HEAD
                   {t('history.sections.others')}{' '}
                   <span className="text-sm font-medium text-slate-500">({others.length})</span>
+=======
+                  {t('others')} <span className="text-sm font-medium text-slate-500">({others.length})</span>
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
                 </h2>
                 <div className="ml-auto flex max-w-[70%] justify-end overflow-x-auto pb-1">
                   <div className="flex gap-2">
                     {statusChips.map((chip) => {
                       const isActive = statusFilter === chip.value
                       const IconComponent = chip.icon
+                      const label = t(chip.labelKey)
                       return (
                         <button
                           key={chip.value}
                           type="button"
                           onClick={() => setStatusFilter(chip.value)}
                           aria-pressed={isActive}
-                          aria-label={chip.label}
-                          title={chip.label}
+                          aria-label={label}
+                          title={label}
                           className={`inline-flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-full text-sm font-medium border transition-colors duration-normal ease-out-brand ${
                             isActive
                               ? 'bg-teal-500 text-white border-teal-500'
@@ -175,7 +218,7 @@ export default function HistoryScreen() {
                           <span className={isActive ? 'text-white' : 'text-slate-600'}>
                             <IconComponent size={16} strokeWidth={2} />
                           </span>
-                          {isActive && <span>{chip.label}</span>}
+                          {isActive && <span>{label}</span>}
                         </button>
                       )
                     })}
@@ -203,8 +246,13 @@ export default function HistoryScreen() {
               ) : (
                 <EmptyState
                   icon="search"
+<<<<<<< HEAD
                   title={t('history.emptyOthers.title')}
                   description={t('history.emptyOthers.description')}
+=======
+                  title={t('emptyOthersTitle')}
+                  description={t('emptyOthersDescription')}
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
                 />
               )}
             </section>
@@ -216,7 +264,11 @@ export default function HistoryScreen() {
       <button
         onClick={() => navigate(PATHS.BOOKING)}
         className="fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all duration-normal ease-out-brand"
+<<<<<<< HEAD
         aria-label={t('history.bookNewAppointmentAria')}
+=======
+        aria-label={t('bookNewAppointment')}
+>>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
       >
         <IconPlus size={28} strokeWidth={2} />
       </button>

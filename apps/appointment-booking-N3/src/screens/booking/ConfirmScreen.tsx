@@ -7,8 +7,10 @@ import {
   InsuranceBanner,
   AppointmentSummaryCard,
 } from '../../components'
-import { useBooking, useProfile, useHistory } from '../../state'
+import { Button } from '../../components/ui'
+import { useBooking, useProfile, useHistory, usePreferences } from '../../state'
 import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
+import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
@@ -17,10 +19,12 @@ export default function ConfirmScreen() {
   const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
+  const { language } = usePreferences()
 
   const [patientType, setPatientType] = useState<string>(selectedFamilyMemberId ? 'child' : 'myself')
   const [reason, setReason] = useState('')
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator === 'undefined' ? true : navigator.onLine)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true)
@@ -54,7 +58,7 @@ export default function ConfirmScreen() {
   const forUserId = forUser ? forUser.id : profile.id || 'self'
 
   const date = new Date(selectedSlot.dateISO)
-  const formattedDate = date.toLocaleDateString('de-DE', {
+  const formattedDate = date.toLocaleDateString(getLocale(language), {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -62,7 +66,8 @@ export default function ConfirmScreen() {
   })
 
   const handleConfirm = () => {
-    if (!isOnline) return
+    if (!isOnline || isSubmitting) return
+    setIsSubmitting(true)
     const appointmentId = `apt_${Date.now()}`
 
     // Create appointment
@@ -195,13 +200,16 @@ export default function ConfirmScreen() {
 
         {/* Fixed footer */}
         <div className="flex-shrink-0 p-4 bg-white border-t border-cream-300">
-          <button
+          <Button
             onClick={handleConfirm}
-            disabled={!isOnline}
-            className="btn btn-primary btn-block h-14 shadow-md"
+            disabled={!isOnline || isSubmitting}
+            loading={isSubmitting}
+            variant="primary"
+            fullWidth
+            size="lg"
           >
             {isOnline ? t('confirmAppointmentBtn') : t('offline')}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
