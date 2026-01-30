@@ -7,7 +7,8 @@ Notable changes, high level.
 - **Root README**: N1/N2/N3/appointment-v1 → docliQ; Quick Start + Structure + table; single `pnpm dev:docliQ`.
 - **docliQ-mobile README**: Features (lines 18–95) condensed to high-level bullets; Component System, Auth, Booking, i18n, Other.
 - **OAuth onboarding (mock)**: OAuthConsentScreen (Google/Apple consent + mock user), OAuthErrorScreen, InsuranceRequestScreen (GKV/PKV/Selbstzahler); paths `oauth-consent`, `oauth-error`, `insurance-request`; App routes + WelcomeScreen entry; auth locales (de/en); user types.
-- **Docs**: US-1.1.2-OAUTH-REGISTRATION-SPEC.md — OAuth registration spec (mock UX/UI, acceptance criteria, component reuse).
+- **Password management UX**: PasswordField (show/hide toggle), PasswordStrengthIndicator (strength bar + requirements checklist), validatePassword (OWASP); Register/SignIn/ResetPassword wired; auth locales (de/en); US-1.1.3-PASSWORD-MANAGEMENT-UX-SPEC.md.
+- **Docs**: US-1.1.2 OAuth registration spec; US-1.1.3 password management spec (OWASP, GDPR notes).
 
 ## 2026-01-29
 

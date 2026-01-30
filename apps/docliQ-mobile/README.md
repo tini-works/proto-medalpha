@@ -21,7 +21,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Design**: DocliQ tokens (teal, coral, red) + Tailwind v3
 
 ### Auth & Profile
-- Welcome, register, sign in, forgot/reset password, verify identity
+- Welcome, register, sign in, forgot/reset password, verify identity; password field (show/hide) + strength indicator (OWASP)
 - Profile + insurance (GKV/PKV), family members + dependents
 
 ### Booking Flow
