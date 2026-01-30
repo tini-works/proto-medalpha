@@ -24,6 +24,11 @@ export default defineConfig({
     maxWorkers: 2,
     minWorkers: 1,
 
+    sequence: {
+      concurrent: false,
+      shuffle: false,
+    },
+
     // Retry once to handle occasional flakiness
     retry: 1,
 
