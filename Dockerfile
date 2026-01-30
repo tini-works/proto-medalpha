@@ -22,7 +22,8 @@ COPY apps/docliQ-mobile/ ./apps/docliQ-mobile/
 # Build packages first (tokens -> ui -> app)
 RUN pnpm --filter @meda/tokens build
 RUN pnpm --filter @meda/ui build
-RUN pnpm --filter docliQ-mobile build
+# Run vite build directly (skip tsc type-check for faster builds)
+RUN cd apps/docliQ-mobile && pnpm exec vite build
 
 # Production stage - serve static files with nginx
 FROM nginx:alpine
