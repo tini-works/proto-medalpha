@@ -218,20 +218,20 @@ export default function ConsentManagementScreen() {
             <p className="text-sm text-slate-600">
               {t('consent.withdraw.warning')}
             </p>
-            <div className="flex gap-3">
-              <Button
-                variant="secondary"
-                fullWidth
-                onClick={() => setConfirmWithdraw(null)}
-              >
-                Cancel
-              </Button>
+            <div className="flex flex-col gap-3">
               <Button
                 variant="destructive"
                 fullWidth
                 onClick={handleConfirmWithdraw}
               >
                 {t('consent.withdraw.confirm')}
+              </Button>
+              <Button
+                variant="tertiary"
+                fullWidth
+                onClick={() => setConfirmWithdraw(null)}
+              >
+                Cancel
               </Button>
             </div>
           </div>

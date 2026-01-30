@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { IconX } from '@tabler/icons-react'
 import { Button } from './Button'
 
 export interface ConfirmModalProps {
@@ -57,27 +56,18 @@ export function ConfirmModal({
         onClick={onCancel}
       />
 
-      {/* Modal */}
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm animate-scale-in">
-          {/* Close button */}
-          <button
-            onClick={onCancel}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-cream-100 flex items-center justify-center hover:bg-cream-200 transition-colors"
-            aria-label="Close"
-          >
-            <IconX size={16} className="text-slate-600" />
-          </button>
-
+      {/* Bottom Sheet */}
+      <div className="absolute inset-0 flex items-end justify-center">
+        <div className="relative bg-white rounded-t-2xl shadow-xl w-full max-w-lg animate-slide-up">
           {/* Content */}
-          <div className="p-6 pt-8">
+          <div className="p-6 space-y-4">
             <h2 id="modal-title" className="text-lg font-semibold text-charcoal-500 text-center">
               {title}
             </h2>
-            <p className="mt-2 text-sm text-slate-600 text-center">{message}</p>
+            <p className="text-sm text-slate-600 text-center">{message}</p>
 
             {/* Actions */}
-            <div className="mt-6 flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
               <Button
                 ref={confirmButtonRef}
                 onClick={onConfirm}

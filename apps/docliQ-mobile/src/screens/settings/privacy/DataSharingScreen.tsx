@@ -186,20 +186,20 @@ export default function DataSharingScreen() {
             <p className="text-xs text-amber-600 bg-amber-50 p-3 rounded-lg">
               {t('sharing.revoke.warning')}
             </p>
-            <div className="flex gap-3">
-              <Button
-                variant="secondary"
-                fullWidth
-                onClick={() => setConfirmRevoke(null)}
-              >
-                Cancel
-              </Button>
+            <div className="flex flex-col gap-3">
               <Button
                 variant="destructive"
                 fullWidth
                 onClick={handleConfirmRevoke}
               >
                 {t('sharing.revoke.button')}
+              </Button>
+              <Button
+                variant="tertiary"
+                fullWidth
+                onClick={() => setConfirmRevoke(null)}
+              >
+                Cancel
               </Button>
             </div>
           </div>
