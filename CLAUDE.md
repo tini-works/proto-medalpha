@@ -13,7 +13,7 @@ proto-medalpha/
 │   └── ui/             # @meda/ui - React UI components
 ├── apps/               # Deployable applications
 │   ├── admin/          # Web admin dashboard (Vite + React)
-│   ├── doclibQ-mobile/  # DoclibQ mobile app
+│   ├── docliQ-mobile/  # DocliQ mobile app
 │   ├── design-system/  # Storybook documentation
 │   └── mobile/         # Mobile app (Expo + React Native)
 └── docs/               # Design documents and plans
@@ -27,7 +27,7 @@ pnpm build:packages     # Build @meda/tokens then @meda/ui (order matters)
 pnpm dev:admin          # Start admin app at http://localhost:5196
 pnpm dev:mobile         # Start Expo dev server
 pnpm dev:design-system  # Start Storybook at http://localhost:6006
-pnpm dev:doclibQ        # DoclibQ mobile app at http://localhost:5190
+pnpm dev:docliQ        # DocliQ mobile app at http://localhost:5190
 ```
 
 ## Development Rules

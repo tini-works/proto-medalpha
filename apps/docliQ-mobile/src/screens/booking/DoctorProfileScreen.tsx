@@ -138,11 +138,7 @@ export default function DoctorProfileScreen() {
         <section className="mb-8 p-4 bg-cream-200 rounded-lg">
           <p className="text-sm text-slate-700">
             <span className="font-medium">{t('nextAvailable')}</span>{' '}
-<<<<<<< HEAD
-            {new Date(doctor.nextAvailableISO).toLocaleDateString(i18n.language === 'de' ? 'de-DE' : 'en-US', {
-=======
             {new Date(doctor.nextAvailableISO).toLocaleDateString(getLocale(language), {
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
               weekday: 'long',
               day: 'numeric',
               month: 'long',

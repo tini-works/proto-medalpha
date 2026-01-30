@@ -10,11 +10,7 @@ import { MatchingStatusView } from '../../components/appointments/MatchingStatus
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation('appointments')
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   const { appointments, cancelAppointment } = useBooking()
 
   const appointment = appointments.find((apt) => apt.id === id)
@@ -73,11 +69,7 @@ interface StatusProps {
 // ============================================
 function BackHeader() {
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation('booking')
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 
   return (
     <header className="sticky top-0 z-10 bg-white px-4 py-3">
@@ -116,11 +108,7 @@ function StickyBottomBar({ children }: BottomBarProps) {
 // ============================================
 function MatchingStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation('appointments')
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   const { cancelAppointment } = useBooking()
   const [currentStep, setCurrentStep] = useState(0)
 
@@ -134,17 +122,10 @@ function MatchingStatus({ appointment }: StatusProps) {
   }, [])
 
   const steps = [
-<<<<<<< HEAD
-    { label: t('matching.steps.verifyPreferences'), done: currentStep >= 1 },
-    { label: t('matching.steps.checkAvailability'), done: currentStep >= 2 },
-    { label: t('matching.steps.matchingBestSlot'), done: false, active: currentStep === 2 },
-    { label: t('matching.steps.confirmingAppointment'), done: false },
-=======
     { label: t('steps.verifyingPreferences'), done: currentStep >= 1 },
     { label: t('steps.checkingAvailability'), done: currentStep >= 2 },
     { label: t('steps.matchingTimeSlot'), done: false, active: currentStep === 2 },
     { label: t('steps.confirmingAppointment'), done: false },
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   ]
 
   const handleCancel = () => {
@@ -162,17 +143,10 @@ function MatchingStatus({ appointment }: StatusProps) {
         connectionTitle={t('matching.connectionTitle')}
         connectionSubtitle={
           <>
-<<<<<<< HEAD
-            {t('matching.connectionRetrying')} <span aria-hidden="true">•</span> {t('matching.connectionMayTakeMoment')}
-          </>
-        }
-        primaryActionLabel={t('matching.cancelRequest')}
-=======
             {t('matching.connectionSubtitle')}
           </>
         }
         primaryActionLabel={t('cancelRequest')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         onPrimaryAction={handleCancel}
       />
     </Page>
@@ -184,11 +158,7 @@ function MatchingStatus({ appointment }: StatusProps) {
 // ============================================
 function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation('appointments')
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 
   const handleCancel = () => {
     onCancel?.()
@@ -211,15 +181,9 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
         </div>
 
         {/* Title */}
-<<<<<<< HEAD
-        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('awaitConfirm.title')}</h1>
-        <p className="text-slate-600 text-center mb-8 max-w-sm">
-          {t('awaitConfirm.description', { doctorName: appointment.doctorName })}
-=======
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('awaitingConfirmation')}</h1>
         <p className="text-slate-600 text-center mb-8 max-w-sm">
           {t('awaitingDescription', { doctorName: appointment.doctorName })}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </p>
 
         {/* Summary Card */}
@@ -236,11 +200,7 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
           onClick={handleCancel}
           className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
         >
-<<<<<<< HEAD
-          {t('awaitConfirm.cancelRequest')}
-=======
           {t('cancelRequest')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </button>
       </StickyBottomBar>
     </Page>
@@ -252,11 +212,7 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
 // ============================================
 function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation(['appointments', 'booking'])
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   const [showCancelDialog, setShowCancelDialog] = useState(false)
 
   const handleAddToCalendar = () => {
@@ -289,15 +245,9 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         </div>
 
         {/* Title */}
-<<<<<<< HEAD
-        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('confirmed.title', { ns: 'appointments' })}</h1>
-        <p className="text-slate-600 text-center mb-8 max-w-sm">
-          {t('confirmed.description', { ns: 'appointments' })}
-=======
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('confirmed')}</h1>
         <p className="text-slate-600 text-center mb-8 max-w-sm">
           {t('confirmedDescription')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </p>
 
         {/* Summary Card */}
@@ -316,21 +266,13 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-<<<<<<< HEAD
-              {t('addToCalendar', { ns: 'booking' })}
-=======
               {t('addToCalendar')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
             </button>
             <button
               onClick={() => setShowCancelDialog(true)}
               className="btn btn-block bg-transparent text-red-600 hover:bg-red-50 active:bg-red-100"
             >
-<<<<<<< HEAD
-              {t('confirmed.cancelAppointment', { ns: 'appointments' })}
-=======
               {t('cancelAppointment')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
             </button>
           </div>
         </div>
@@ -345,21 +287,13 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-<<<<<<< HEAD
-          {t('viewAppointments', { ns: 'booking' })}
-=======
           {t('viewAllAppointments')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </button>
         <button
           onClick={() => navigate(PATHS.HOME)}
           className="btn btn-tertiary btn-block"
         >
-<<<<<<< HEAD
-          {t('backToHome', { ns: 'booking' })}
-=======
           {t('backToHome')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </button>
       </StickyBottomBar>
 
@@ -381,11 +315,7 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
 // ============================================
 function PatientCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation('appointments')
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 
   return (
     <Page className="flex flex-col">
@@ -403,15 +333,9 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
         </div>
 
         {/* Title */}
-<<<<<<< HEAD
-        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('canceled.title')}</h1>
-        <p className="text-slate-600 text-center mb-8 max-w-sm">
-          {t('canceled.description')}
-=======
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('canceled')}</h1>
         <p className="text-slate-600 text-center mb-8 max-w-sm">
           {t('canceledDescription')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </p>
 
         {/* Doctor Card - Grayed out */}
@@ -426,11 +350,7 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-<<<<<<< HEAD
-            {t('canceled.badge')}
-=======
             {t('canceledByYou')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
           </span>
         </div>
       </div>
@@ -444,11 +364,7 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-<<<<<<< HEAD
-          {t('canceled.submitNewRequest')}
-=======
           {t('submitNewRequest')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </button>
       </StickyBottomBar>
     </Page>
@@ -460,11 +376,7 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
 // ============================================
 function DoctorCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
-<<<<<<< HEAD
-  const { t } = useTranslation('appointments')
-=======
   const { t } = useTranslation('detail')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 
   return (
     <Page className="flex flex-col">
@@ -482,15 +394,9 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
         </div>
 
         {/* Title */}
-<<<<<<< HEAD
-        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('declined.title')}</h1>
-        <p className="text-slate-600 text-center mb-8 max-w-sm">
-          {t('declined.description', { doctorName: appointment.doctorName })}
-=======
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('declined')}</h1>
         <p className="text-slate-600 text-center mb-8 max-w-sm">
           {t('declinedDescription', { doctorName: appointment.doctorName })}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </p>
 
         {/* Summary Card */}
@@ -510,21 +416,13 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-<<<<<<< HEAD
-          {t('declined.bookNew')}
-=======
           {t('bookNewAppointment')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </button>
         <button
           onClick={() => navigate(PATHS.HOME)}
           className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
         >
-<<<<<<< HEAD
-          {t('declined.backToHome')}
-=======
           {t('backToHome')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </button>
       </StickyBottomBar>
     </Page>
@@ -542,11 +440,7 @@ interface DoctorInfoCardProps {
 }
 
 function DoctorInfoCard({ appointment, variant = 'default', align = 'center' }: DoctorInfoCardProps) {
-<<<<<<< HEAD
-  const { t } = useTranslation('appointments')
-=======
   const { t } = useTranslation(['detail', 'booking'])
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
   const isGrayed = variant === 'canceled' || variant === 'declined'
   const isDeclined = variant === 'declined'
   const isLeft = align === 'left'
@@ -566,11 +460,7 @@ function DoctorInfoCard({ appointment, variant = 'default', align = 'center' }: 
           {appointment.doctorName}
         </h3>
         <p className={`text-sm ${isGrayed ? 'text-slate-400' : 'text-slate-600'}`}>
-<<<<<<< HEAD
-          {appointment.specialty} • {t('doctorInfo.experienceYears', { count: 15 })}
-=======
           {translateSpecialty(t, appointment.specialty)} • {t('yearsExp', { count: 15 })}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
         </p>
       </div>
     </div>
@@ -644,9 +534,8 @@ interface CancelDialogProps {
 }
 
 function CancelDialog({ doctorName, dateISO, onConfirm, onClose }: CancelDialogProps) {
-  const { t } = useTranslation('detail')
+  const { t } = useTranslation(['detail', 'appointments'])
   const [isCancelling, setIsCancelling] = useState(false)
-  const { t } = useTranslation('appointments')
 
   const handleConfirm = async () => {
     setIsCancelling(true)
@@ -674,20 +563,12 @@ function CancelDialog({ doctorName, dateISO, onConfirm, onClose }: CancelDialogP
             {t('cancelDialog.title')}
           </h3>
           <p className="text-slate-600 mb-4 text-center">
-<<<<<<< HEAD
-            {t('cancelDialog.description', { doctorName, date: formatDateWithWeekday(dateISO) })}
-=======
             {t('cancelDialog.message', { doctorName, date: formatDateWithWeekday(dateISO) })}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
           </p>
 
           <div className="bg-cream-200 rounded-lg p-3 mb-6">
             <p className="text-sm text-slate-600 text-center">
-<<<<<<< HEAD
-              <strong>{t('cancelDialog.cancellationPolicyLabel')}</strong> {t('cancelDialog.cancellationPolicyText')}
-=======
               <strong>{t('cancelDialog.policyTitle')}</strong> {t('cancelDialog.policyText')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
             </p>
           </div>
 
@@ -703,11 +584,7 @@ function CancelDialog({ doctorName, dateISO, onConfirm, onClose }: CancelDialogP
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
               ) : (
-<<<<<<< HEAD
-                t('cancelDialog.confirm')
-=======
                 t('cancelAppointment')
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
               )}
             </button>
             <button
@@ -715,11 +592,7 @@ function CancelDialog({ doctorName, dateISO, onConfirm, onClose }: CancelDialogP
               disabled={isCancelling}
               className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors disabled:opacity-50"
             >
-<<<<<<< HEAD
-              {t('cancelDialog.keep')}
-=======
               {t('keepAppointment')}
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
             </button>
           </div>
         </div>

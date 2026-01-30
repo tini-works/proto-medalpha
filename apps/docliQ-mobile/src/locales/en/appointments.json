@@ -1,0 +1,27 @@
+{
+  "status": {
+    "matching": "Matching",
+    "awaitConfirm": "Await confirm",
+    "confirmed": "Confirmed",
+    "patientCanceled": "Patient canceled",
+    "doctorCancelled": "Doctor cancelled",
+    "completed": "Completed"
+  },
+  "viewDetails": "View details",
+  "estimatedWait": "Estimated wait {{min}}–{{max}} min",
+  "estimatedWaitShort": "Est. wait {{min}}–{{max}} min",
+  "accepts": "Accepts {{insurances}}",
+  "insurance": {
+    "GKV": "public insurance",
+    "PKV": "private insurance"
+  },
+  "list": {
+    "and": "{{a}} and {{b}}"
+  },
+  "matching": {
+    "requestedSpecialty": "Requested Specialty",
+    "requestSubmitted": "Submitted",
+    "locationPreference": "Location"
+  },
+  "timeSuffix": ""
+}

@@ -9,15 +9,9 @@ import { getLocale, type Language } from '../../utils'
 import { IconCalendar, IconMapPin, IconCheck, IconInfoCircle, IconChevronDown, IconPlus } from '@tabler/icons-react'
 import type { Appointment, HistoryItem } from '../../types'
 
-<<<<<<< HEAD
-function formatDate(dateISO: string, locale: string) {
-  const date = new Date(dateISO)
-  return date.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' })
-=======
 function formatDate(dateISO: string, language: Language) {
   const date = new Date(dateISO)
   return date.toLocaleDateString(getLocale(language), { weekday: 'short', day: 'numeric', month: 'short' })
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 }
 
 export default function AssistantConfirmScreen() {
@@ -30,13 +24,8 @@ export default function AssistantConfirmScreen() {
 
   const slotLabel = useMemo(() => {
     if (!selectedSlot) return ''
-<<<<<<< HEAD
-    return `${formatDate(selectedSlot.dateISO, i18n.language === 'de' ? 'de-DE' : 'en-US')}, ${selectedSlot.time}`
-  }, [selectedSlot, i18n.language])
-=======
     return `${formatDate(selectedSlot.dateISO, language)}, ${selectedSlot.time}`
   }, [selectedSlot, language])
->>>>>>> 1a59b28b17b2ebd3e70bf8a74a801693a1e6dfdf
 
   if (!selectedDoctor || !selectedSlot) {
     return (

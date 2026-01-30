@@ -59,27 +59,60 @@ importers:
         specifier: ^5.0.10
         version: 5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1)
 
-  apps/appointment-booking-N1:
+  apps/design-system:
     dependencies:
+      '@meda/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      '@meda/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       react:
         specifier: ^18.2.0
         version: 18.3.1
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
-      react-router-dom:
-        specifier: ^6.20.0
-        version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@storybook/addon-essentials':
+        specifier: ^8.0.0
+        version: 8.6.14(@types/react@18.3.27)(storybook@8.6.15)
+      '@storybook/addon-interactions':
+        specifier: ^8.0.0
+        version: 8.6.14(storybook@8.6.15)
+      '@storybook/addon-links':
+        specifier: ^8.0.0
+        version: 8.6.15(react@18.3.1)(storybook@8.6.15)
+      '@storybook/blocks':
+        specifier: ^8.0.0
+        version: 8.6.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.15)
+      '@storybook/react':
+        specifier: ^8.0.0
+        version: 8.6.15(@storybook/test@8.6.15(storybook@8.6.15))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.15)(typescript@5.9.3)
+      '@storybook/react-vite':
+        specifier: ^8.0.0
+        version: 8.6.15(@storybook/test@8.6.15(storybook@8.6.15))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.55.1)(storybook@8.6.15)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1))
+      '@storybook/test':
+        specifier: ^8.0.0
+        version: 8.6.15(storybook@8.6.15)
       '@types/react':
         specifier: ^18.2.45
         version: 18.3.27
       '@types/react-dom':
         specifier: ^18.2.18
         version: 18.3.7(@types/react@18.3.27)
-      '@vitejs/plugin-react':
-        specifier: ^4.2.1
-        version: 4.7.0(vite@5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1))
+      autoprefixer:
+        specifier: ^10.4.16
+        version: 10.4.23(postcss@8.5.6)
+      postcss:
+        specifier: ^8.4.32
+        version: 8.5.6
+      storybook:
+        specifier: ^8.0.0
+        version: 8.6.15
+      tailwindcss:
+        specifier: ^3.4.0
+        version: 3.4.19(tsx@4.21.0)(yaml@2.8.2)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -87,35 +120,7 @@ importers:
         specifier: ^5.0.10
         version: 5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1)
 
-  apps/appointment-booking-N2:
-    dependencies:
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
-      react-router-dom:
-        specifier: ^6.20.0
-        version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    devDependencies:
-      '@types/react':
-        specifier: ^18.2.45
-        version: 18.3.27
-      '@types/react-dom':
-        specifier: ^18.2.18
-        version: 18.3.7(@types/react@18.3.27)
-      '@vitejs/plugin-react':
-        specifier: ^4.2.1
-        version: 4.7.0(vite@5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1))
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
-      vite:
-        specifier: ^5.0.10
-        version: 5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1)
-
-  apps/appointment-booking-N3:
+  apps/docliQ-mobile:
     dependencies:
       '@meda/tokens':
         specifier: workspace:*
@@ -184,110 +189,6 @@ importers:
       vitest:
         specifier: ^2.0.0
         version: 2.1.9(@types/node@20.19.29)(jsdom@24.1.3)(lightningcss@1.30.2)(terser@5.44.1)
-
-  apps/appointment-v1:
-    dependencies:
-      '@meda/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
-      '@meda/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
-      react-router-dom:
-        specifier: ^6.22.3
-        version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    devDependencies:
-      '@types/react':
-        specifier: ^18.2.45
-        version: 18.3.27
-      '@types/react-dom':
-        specifier: ^18.2.18
-        version: 18.3.7(@types/react@18.3.27)
-      '@vitejs/plugin-react':
-        specifier: ^4.2.1
-        version: 4.7.0(vite@5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1))
-      autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.23(postcss@8.5.6)
-      postcss:
-        specifier: ^8.4.32
-        version: 8.5.6
-      tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(tsx@4.21.0)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
-      vite:
-        specifier: ^5.0.10
-        version: 5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1)
-
-  apps/design-system:
-    dependencies:
-      '@meda/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
-      '@meda/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@storybook/addon-essentials':
-        specifier: ^8.0.0
-        version: 8.6.14(@types/react@18.3.27)(storybook@8.6.15)
-      '@storybook/addon-interactions':
-        specifier: ^8.0.0
-        version: 8.6.14(storybook@8.6.15)
-      '@storybook/addon-links':
-        specifier: ^8.0.0
-        version: 8.6.15(react@18.3.1)(storybook@8.6.15)
-      '@storybook/blocks':
-        specifier: ^8.0.0
-        version: 8.6.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.15)
-      '@storybook/react':
-        specifier: ^8.0.0
-        version: 8.6.15(@storybook/test@8.6.15(storybook@8.6.15))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.15)(typescript@5.9.3)
-      '@storybook/react-vite':
-        specifier: ^8.0.0
-        version: 8.6.15(@storybook/test@8.6.15(storybook@8.6.15))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.55.1)(storybook@8.6.15)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1))
-      '@storybook/test':
-        specifier: ^8.0.0
-        version: 8.6.15(storybook@8.6.15)
-      '@types/react':
-        specifier: ^18.2.45
-        version: 18.3.27
-      '@types/react-dom':
-        specifier: ^18.2.18
-        version: 18.3.7(@types/react@18.3.27)
-      autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.23(postcss@8.5.6)
-      postcss:
-        specifier: ^8.4.32
-        version: 8.5.6
-      storybook:
-        specifier: ^8.0.0
-        version: 8.6.15
-      tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(tsx@4.21.0)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
-      vite:
-        specifier: ^5.0.10
-        version: 5.4.21(@types/node@20.19.29)(lightningcss@1.30.2)(terser@5.44.1)
 
   apps/mobile:
     dependencies:
