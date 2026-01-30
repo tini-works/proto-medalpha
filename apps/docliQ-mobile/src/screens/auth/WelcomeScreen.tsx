@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconHeart, IconBrandApple, IconBrandGoogle, IconMail } from '@tabler/icons-react'
-import { Button } from '../../components/ui'
+// Tabler: brand-apple → IconBrandApple (Apple logo for sign-in)
+import { IconHeart, IconBrandApple, IconMail } from '@tabler/icons-react'
+import { Button, GoogleGIcon } from '../../components/ui'
 import { PATHS } from '../../routes'
 
 export default function WelcomeScreen() {
@@ -32,24 +33,31 @@ export default function WelcomeScreen() {
 
       {/* Action buttons - OAuth first, then email */}
       <div className="px-6 pb-6 flex flex-col gap-3 max-w-md mx-auto w-full">
-        {/* Apple Sign In - black button */}
+        {/* Apple Sign In - Apple HIG: solid black pill, white text and icon, no border */}
         <Button
           variant="secondary"
           fullWidth
-          leftIcon={<IconBrandApple size={20} />}
-          className="bg-charcoal-900 border-charcoal-900 text-white hover:bg-charcoal-800"
+          leftIcon={
+            <IconBrandApple
+              size={20}
+              stroke={1.5}
+              className="text-white shrink-0"
+              fill="currentColor"
+            />
+          }
+          className="rounded-full bg-black border-0 text-white hover:bg-black hover:opacity-90 active:bg-black active:opacity-95"
           onClick={handleAppleSignIn}
           data-testid="apple-signin"
         >
           {t('oauth.continueWithApple', 'Continue with Apple')}
         </Button>
 
-        {/* Google Sign In - white button with border */}
+        {/* Google Sign In - white pill, dark text, official colored G icon */}
         <Button
           variant="secondary"
           fullWidth
-          leftIcon={<IconBrandGoogle size={20} />}
-          className="bg-white border-neutral-300 text-charcoal-500"
+          leftIcon={<GoogleGIcon size={20} />}
+          className="rounded-full bg-white border-neutral-300 text-charcoal-700 hover:bg-neutral-50 active:bg-neutral-100"
           onClick={handleGoogleSignIn}
           data-testid="google-signin"
         >
@@ -83,14 +91,14 @@ export default function WelcomeScreen() {
         </p>
 
         {/* Legal footer */}
-        <div className="flex justify-center gap-6 mt-6 text-xs text-neutral-400 uppercase tracking-wide">
-          <Link to={PATHS.LEGAL_PRIVACY || '#'} className="hover:text-neutral-600">
+        <div className="flex justify-center gap-6 mt-6 text-xs text-neutral-600 uppercase tracking-wide">
+          <Link to={PATHS.LEGAL_PRIVACY || '#'} className="hover:text-charcoal-500">
             {t('legal.privacy', 'Privacy')}
           </Link>
-          <Link to={PATHS.LEGAL_IMPRESSUM || '#'} className="hover:text-neutral-600">
+          <Link to={PATHS.LEGAL_IMPRESSUM || '#'} className="hover:text-charcoal-500">
             {t('legal.legal', 'Legal')}
           </Link>
-          <Link to={PATHS.LEGAL_TERMS || '#'} className="hover:text-neutral-600">
+          <Link to={PATHS.LEGAL_TERMS || '#'} className="hover:text-charcoal-500">
             {t('legal.terms', 'Terms')}
           </Link>
         </div>

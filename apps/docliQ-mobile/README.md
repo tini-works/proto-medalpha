@@ -17,7 +17,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 
 ### Component System
 - **Button**: `src/components/ui/Button.tsx` — 8 variants (primary, secondary, tertiary, accent, destructive, destructive-filled, icon, link), sizes sm/md/lg, loading + icon slots
-- **Icons**: Tabler Icons (`@tabler/icons-react`) — 60+ icons across nav, actions, status, user, location; used app-wide
+- **Icons**: Tabler Icons (`@tabler/icons-react`) — 60+ icons across nav, actions, status, user, location; used app-wide; `GoogleGIcon` (colored Google G) for OAuth sign-in
 - **Design**: DocliQ tokens (teal, coral, red) + Tailwind v3
 
 ### Auth & Profile
