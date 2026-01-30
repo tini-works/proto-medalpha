@@ -7,6 +7,10 @@ export const PATHS = {
   AUTH_VERIFY_IDENTITY: '/auth/verify-identity',
   AUTH_FORGOT_PASSWORD: '/auth/forgot-password',
   AUTH_RESET_PASSWORD: '/auth/reset-password',
+  // OAuth flow
+  AUTH_OAUTH_CONSENT: '/auth/oauth-consent',
+  AUTH_OAUTH_ERROR: '/auth/oauth-error',
+  AUTH_INSURANCE_REQUEST: '/auth/insurance-request',
 
   // Profile
   PROFILE_COMPLETE: '/profile/complete',
@@ -80,6 +84,11 @@ export const PATHS = {
   ASSISTANT_RECOMMENDATIONS: '/assistant/recommendations',
   ASSISTANT_DOCTOR: '/assistant/doctor/:id',
   ASSISTANT_CONFIRM: '/assistant/confirm',
+
+  // Legal pages
+  LEGAL_PRIVACY: '/legal/privacy',
+  LEGAL_TERMS: '/legal/terms',
+  LEGAL_IMPRESSUM: '/legal/impressum',
 } as const
 
 export function assistantDoctorPath(id: string) {

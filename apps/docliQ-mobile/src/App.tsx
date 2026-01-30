@@ -7,7 +7,7 @@ import AppointmentStatusChangeNotifier from './components/notifications/Appointm
 import ToastRenderer from './components/notifications/ToastRenderer'
 
 // Auth screens
-import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen, ForgotPasswordScreen, ResetPasswordScreen } from './screens/auth'
+import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen, ForgotPasswordScreen, ResetPasswordScreen, OAuthConsentScreen, InsuranceRequestScreen, OAuthErrorScreen } from './screens/auth'
 
 // Profile screens
 import {
@@ -149,6 +149,31 @@ function AppContent() {
             element={
               <RedirectIfAuthenticated>
                 <ResetPasswordScreen />
+              </RedirectIfAuthenticated>
+            }
+          />
+          {/* OAuth flow */}
+          <Route
+            path={PATHS.AUTH_OAUTH_CONSENT}
+            element={
+              <RedirectIfAuthenticated>
+                <OAuthConsentScreen />
+              </RedirectIfAuthenticated>
+            }
+          />
+          <Route
+            path={PATHS.AUTH_INSURANCE_REQUEST}
+            element={
+              <RedirectIfAuthenticated>
+                <InsuranceRequestScreen />
+              </RedirectIfAuthenticated>
+            }
+          />
+          <Route
+            path={PATHS.AUTH_OAUTH_ERROR}
+            element={
+              <RedirectIfAuthenticated>
+                <OAuthErrorScreen />
               </RedirectIfAuthenticated>
             }
           />

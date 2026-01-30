@@ -16,83 +16,29 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 ## Features
 
 ### Component System
-- **Unified Button Component**: Reusable `Button` component (`src/components/ui/Button.tsx`) with 8 semantic variants:
-  - `primary`: Main CTAs (teal filled)
-  - `secondary`: Alternative actions (teal outline)
-  - `tertiary`: Low-emphasis actions (ghost)
-  - `accent`: Highlight/urgent actions (coral filled)
-  - `destructive`: Dangerous actions outline (red)
-  - `destructive-filled`: Confirm destructive actions (red filled)
-  - `icon`: Icon-only buttons (circular transparent)
-  - `link`: Text-only buttons
-  - **Sizes**: `sm` (40px), `md` (44px), `lg` (48-56px)
-  - **Features**: Loading state with spinner, full-width support, left/right icon slots
-- **Icon Library**: Tabler Icons (`@tabler/icons-react` v3.36.1) for modern, consistent iconography across 60+ unique icons and 130+ instances:
-  - Navigation: Home, Calendar, Clock, Settings, ChevronLeft, ChevronRight
-  - Actions: Search, Check, Close, Send, Download, Share
-  - Status: CircleCheck, CircleX, AlertCircle, Help
-  - User: User, Users, Heart, HeartFilled
-  - Location: MapPin, Briefcase
-  - **All 54 files migrated**: Components, screens (auth, booking, settings, history, reschedule, assistant, notifications, newsfeed)
-- **Design System**: Built on DocliQ design tokens (teal, coral, red semantic colors) with Tailwind CSS v3
+- **Button**: `src/components/ui/Button.tsx` — 8 variants (primary, secondary, tertiary, accent, destructive, destructive-filled, icon, link), sizes sm/md/lg, loading + icon slots
+- **Icons**: Tabler Icons (`@tabler/icons-react`) — 60+ icons across nav, actions, status, user, location; used app-wide
+- **Design**: DocliQ tokens (teal, coral, red) + Tailwind v3
 
-### Authentication & Profile
-- **Welcome Screen**: Brand introduction and feature overview
-- **User Registration**: Account creation with email verification
-- **Sign In**: Secure authentication flow with forgot password option
-- **Forgot Password**: Email-based password recovery with 6-digit verification code
-- **Reset Password**: Secure password reset with new password confirmation
-- **Verify Identity**: In-app identity check before booking
-- **Profile Management**: Complete profile setup with insurance type (GKV/PKV)
-- **Family Members**: Manage appointments for dependents
-- **Family Member Detail**: View and update dependent profiles
+### Auth & Profile
+- Welcome, register, sign in, forgot/reset password, verify identity
+- Profile + insurance (GKV/PKV), family members + dependents
 
-### Appointment Booking Flow
-1. **Choose how to book**: Booking type screen with three fully supported paths:
-   - **Fast Lane**: Guided flow where users describe symptoms up front and the system auto-matches them to a suitable doctor
-   - **By specialty**: Simplified 2-step flow starting from a medical specialty where users also choose city and insurance before going straight to availability (the system matches a doctor in the background)
-   - **By doctor**: Doctor-first 4-step journey (results → symptoms → availability → confirm) where users pick a doctor, describe symptoms, then choose an appointment time
-2. **Search**: Select a medical specialty or search/browse doctors with recent searches
-3. **Location**: Choose search location with radius filter (where relevant)
-4. **Results**: Browse available doctors with filters (insurance, rating, distance)
-5. **Symptoms (doctor-first)**: Describe symptoms using specialty-filtered chips plus free-text notes so the doctor has structured context before the visit
-6. **Doctor Profile**: View detailed doctor information, reviews, and availability (including bottom-sheet details from the results list)
-7. **Slot Selection**: Choose appointment date and time
-8. **Confirmation**: Review appointment details and select patient
-9. **Success**: Confirmation screen with appointment summary
+### Booking Flow
+- **Paths**: Fast Lane (symptoms → auto-match), By specialty (specialty → city/insurance → availability), By doctor (doctor → symptoms → slot → confirm)
+- **Steps**: Search/specialty → location/radius → results + filters → symptoms (doctor path) → doctor profile → slot → confirmation + patient → success
+- **Matched doctors**: Radio-style selection (Circle/CircleCheck), 44×44px tap target on confirmation
 
-#### Matched Doctors selection UX
-- **Radio placement & iconography**: Matched doctors on the final confirmation step use an explicit radio-style control to the left of each card (Circle / CircleCheck icons) so selection is visually obvious.
-- **Tap target ergonomics**: The radio control has a square 44×44px tap area with equal padding on all sides, keeping the inner circle size stable while making it easier to select the right doctor on small touch screens.
+### i18n
+- EN + DE via react-i18next; namespaced by domain (auth, profile, settings, home, booking, notifications)
+- Auth, profile, settings, home, notifications translated; FAQ/help from i18n; dates localized (de-DE, en-US); preference in state + localStorage
 
-### Internationalization (i18n)
-- **Multi-language support**: English and German translation support using react-i18next
-- **Namespaced translations**: Organized by domain (settings, home, notifications, booking, auth, profile) for incremental expansion
-- **Complete translation coverage**: 
-  - All authentication screens (5 screens, 50+ keys)
-  - All profile screens (4 screens, 80+ keys)
-  - All settings screens (7 screens, 82+ keys including FAQ items and help topics)
-  - Home and notifications screens with localized date formatting
-- **Dynamic content localization**: FAQ accordion items and Help Centre topic grids load from i18n resources, not hardcoded data
-- **Dynamic relationship labels**: Relationship types translate based on current language preference
-- **Localized date formatting**: Date labels and formatting adapt to current language preference (German de-DE and English en-US)
-- **Language persistence**: Language preference stored in app state and localStorage
-
-### Additional Features
-- **Home Dashboard**: Quick actions, upcoming appointments, and personalized content
-- **Today's Focus**: Upcoming appointment spotlight with quick actions
-- **Updates Center**: Bell icon with unread indicator navigates to Updates screen with two tabs:
-  - **Notifications**: Grouped notifications (TODAY, YESTERDAY) for booking updates, cancellations, reminders, security alerts, and family changes with actionable links
-  - **News Feed**: Curated health content featuring Short Guides carousel (video cards), Featured Story with "NEW" badge, and Latest Health News articles with category badges, read times, and "Load more" pagination
-- **Article Detail**: Full article reading experience with hero images, author profiles, rich text content, key takeaway callouts, related topics, and Share/Save actions; back button returns to News Feed tab preserving navigation context
-- **Appointment Details**: View visit summary, location, and actions, with a confirmation screen that prioritizes adding the visit to your calendar while still offering a secondary “View all appointments” CTA
-- **Book Again & Reschedule**: Guided flows for repeat visits and schedule changes
-- **Assistant**: Entry points for guided discovery and voice support
-- **Appointment History**: View past and upcoming appointments with smart grouping (Upcoming vs Others), status filters (matching, awaiting confirmation, cancelled by doctor), and a floating “Book new appointment” action
-- **Request Sent & in-app status notifications**: After submitting a booking (Fast Lane, specialty, or doctor flow), users are taken to a Request Sent screen while matching runs in the background. When an appointment’s status changes (e.g. confirmed or no match), an in-app toast appears with a short message and optional “View” link; matching duration is configurable for dev/demo. Toasts queue when multiple updates happen quickly, and the offline banner text is localized.
-- **CMS Integration**: Insurance-specific health content and promotions
-- **Settings**: Account management, notifications, language, privacy, and support
-- **Responsive Design**: Optimized for mobile and desktop experiences
+### Other
+- **Home**: Quick actions, upcoming appointments, content
+- **Updates**: Notifications (grouped TODAY/YESTERDAY) + News Feed (guides, featured story, articles, article detail with share/save)
+- **Appointments**: Detail (summary, location, add to calendar), book again, reschedule, history (grouped, filters, Book new)
+- **Request Sent**: Post-submit screen; toasts on status change (configurable); queue + localized offline banner
+- CMS content, settings (account, notifications, language, privacy, support), responsive
 
 ## Tech Stack
 

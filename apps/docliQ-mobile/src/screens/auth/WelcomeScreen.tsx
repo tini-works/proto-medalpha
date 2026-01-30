@@ -1,14 +1,24 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconHeart, IconCalendar, IconUsers, IconShield } from '@tabler/icons-react'
+import { IconHeart, IconBrandApple, IconBrandGoogle, IconMail } from '@tabler/icons-react'
 import { Button } from '../../components/ui'
 import { PATHS } from '../../routes'
 
 export default function WelcomeScreen() {
   const { t } = useTranslation('auth')
+  const navigate = useNavigate()
+
+  const handleAppleSignIn = () => {
+    navigate(PATHS.AUTH_OAUTH_CONSENT, { state: { provider: 'apple' } })
+  }
+
+  const handleGoogleSignIn = () => {
+    navigate(PATHS.AUTH_OAUTH_CONSENT, { state: { provider: 'google' } })
+  }
+
   return (
     <div className="min-h-screen bg-cream-100 flex flex-col">
-      {/* Header section - conservative, professional */}
+      {/* Header section */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-14 h-14 bg-teal-500 rounded-xl flex items-center justify-center mb-6 shadow-sm">
           <IconHeart size={32} stroke={1.5} className="text-white" fill="currentColor" />
@@ -18,59 +28,72 @@ export default function WelcomeScreen() {
         <p className="mt-3 text-slate-500 text-center max-w-xs leading-relaxed">
           {t('tagline')}
         </p>
-
-        {/* Features - factual, trust-focused */}
-        <div className="mt-10 space-y-5 w-full max-w-sm">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-              <IconCalendar size={20} stroke={2} className="text-slate-600" />
-            </div>
-            <div>
-              <p className="font-medium text-charcoal-500">{t('feature.appointmentBooking.title')}</p>
-              <p className="text-sm text-slate-500 mt-0.5">{t('feature.appointmentBooking.description')}</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-              <IconUsers size={20} stroke={2} className="text-slate-600" />
-            </div>
-            <div>
-              <p className="font-medium text-charcoal-500">{t('feature.familyManagement.title')}</p>
-              <p className="text-sm text-slate-500 mt-0.5">{t('feature.familyManagement.description')}</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-              <IconShield size={20} stroke={2} className="text-slate-600" />
-            </div>
-            <div>
-              <p className="font-medium text-charcoal-500">{t('feature.privacySecurity.title')}</p>
-              <p className="text-sm text-slate-500 mt-0.5">{t('feature.privacySecurity.description')}</p>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Action buttons - conservative styling */}
-      <div className="px-6 pb-8 flex flex-col gap-3">
-        <Link
-          to={PATHS.AUTH_SIGN_IN}
-          className="no-underline"
+      {/* Action buttons - OAuth first, then email */}
+      <div className="px-6 pb-6 flex flex-col gap-3 max-w-md mx-auto w-full">
+        {/* Apple Sign In - black button */}
+        <Button
+          variant="secondary"
+          fullWidth
+          leftIcon={<IconBrandApple size={20} />}
+          className="bg-charcoal-900 border-charcoal-900 text-white hover:bg-charcoal-800"
+          onClick={handleAppleSignIn}
+          data-testid="apple-signin"
         >
-          <Button variant="primary" fullWidth>
-            {t('signInButton')}
+          {t('oauth.continueWithApple', 'Continue with Apple')}
+        </Button>
+
+        {/* Google Sign In - white button with border */}
+        <Button
+          variant="secondary"
+          fullWidth
+          leftIcon={<IconBrandGoogle size={20} />}
+          className="bg-white border-neutral-300 text-charcoal-500"
+          onClick={handleGoogleSignIn}
+          data-testid="google-signin"
+        >
+          {t('oauth.continueWithGoogle', 'Continue with Google')}
+        </Button>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 my-2">
+          <div className="flex-1 h-px bg-neutral-200" />
+          <span className="text-sm text-neutral-400 uppercase">{t('oauth.or', 'OR')}</span>
+          <div className="flex-1 h-px bg-neutral-200" />
+        </div>
+
+        {/* Email Sign In - teal primary button */}
+        <Link to={PATHS.AUTH_SIGN_IN} className="no-underline">
+          <Button
+            variant="primary"
+            fullWidth
+            leftIcon={<IconMail size={20} />}
+          >
+            {t('oauth.signInWithEmail', 'Sign in with Email')}
           </Button>
         </Link>
-        <Link
-          to={PATHS.AUTH_REGISTER}
-          className="no-underline"
-        >
-          <Button variant="secondary" fullWidth>
-            {t('registerButton')}
-          </Button>
-        </Link>
+
+        {/* Create account link */}
+        <p className="text-center text-sm text-neutral-500 mt-4">
+          {t('oauth.noAccount', "Don't have an account?")}{' '}
+          <Link to={PATHS.AUTH_REGISTER} className="text-teal-600 font-medium hover:underline">
+            {t('oauth.createAccount', 'Create account')}
+          </Link>
+        </p>
+
+        {/* Legal footer */}
+        <div className="flex justify-center gap-6 mt-6 text-xs text-neutral-400 uppercase tracking-wide">
+          <Link to={PATHS.LEGAL_PRIVACY || '#'} className="hover:text-neutral-600">
+            {t('legal.privacy', 'Privacy')}
+          </Link>
+          <Link to={PATHS.LEGAL_IMPRESSUM || '#'} className="hover:text-neutral-600">
+            {t('legal.legal', 'Legal')}
+          </Link>
+          <Link to={PATHS.LEGAL_TERMS || '#'} className="hover:text-neutral-600">
+            {t('legal.terms', 'Terms')}
+          </Link>
+        </div>
       </div>
     </div>
   )

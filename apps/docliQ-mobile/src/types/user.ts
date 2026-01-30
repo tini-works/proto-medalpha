@@ -38,6 +38,9 @@ export interface UserProfile {
     marketing: boolean
     consentDate: string | null
   }
+  // OAuth fields
+  photoUrl?: string
+  authProvider?: 'email' | 'google' | 'apple'
 }
 
 export interface AuthState {

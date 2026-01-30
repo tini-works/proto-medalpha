@@ -27,10 +27,7 @@ pnpm build:packages
 pnpm dev:admin             # Web admin at http://localhost:5196
 pnpm dev:design-system     # Storybook at http://localhost:6006
 pnpm dev:mobile            # Expo dev server
-pnpm dev:appointment-v1    # Appointment booking prototype (web) at http://localhost:5195
-pnpm dev:n1                # Appointment booking N1 at http://localhost:5174
-pnpm dev:n2                # Appointment booking N2 at http://localhost:5192
-pnpm dev:n3                # Appointment booking N3 at http://localhost:5190
+pnpm dev:docliQ            # DocliQ mobile app at http://localhost:5190
 ```
 
 ## Structure
@@ -43,9 +40,9 @@ proto-medalpha/
 │
 ├── apps/
 │   ├── admin/           # Web admin (Vite + React)
-│   ├── mobile/          # Mobile app (Expo)
-│   ├── appointment-v1/  # Appointment booking prototype (web)
-│   └── design-system/   # Storybook documentation
+│   ├── design-system/   # Storybook documentation
+│   ├── docliQ-mobile/   # DocliQ mobile app (Vite + React)
+│   └── mobile/          # Mobile app (Expo + React Native)
 │
 └── docs/                # Design docs and plans
 ```
@@ -62,10 +59,7 @@ proto-medalpha/
 | Start admin app | `pnpm dev:admin` |
 | Start mobile app | `pnpm dev:mobile` |
 | Start Storybook | `pnpm dev:design-system` |
-| Start appointment booking prototype | `pnpm dev:appointment-v1` |
-| Start appointment booking N1 | `pnpm dev:n1` |
-| Start appointment booking N2 | `pnpm dev:n2` |
-| Start appointment booking N3 | `pnpm dev:n3` |
+| Start DocliQ mobile | `pnpm dev:docliQ` |
 | Build all packages | `pnpm build:packages` |
 | Build everything | `pnpm build` |
 | Clean all | `pnpm clean` |
