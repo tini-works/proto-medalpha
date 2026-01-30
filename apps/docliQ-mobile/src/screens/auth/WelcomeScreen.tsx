@@ -33,24 +33,16 @@ export default function WelcomeScreen() {
 
       {/* Action buttons - OAuth first, then email */}
       <div className="px-6 pb-6 flex flex-col gap-3 max-w-md mx-auto w-full">
-        {/* Apple Sign In - Apple HIG: solid black pill, white text and icon, no border */}
-        <Button
-          variant="secondary"
-          fullWidth
-          leftIcon={
-            <IconBrandApple
-              size={20}
-              stroke={1.5}
-              className="text-white shrink-0"
-              fill="currentColor"
-            />
-          }
-          className="rounded-full bg-black border-0 text-white hover:bg-black hover:opacity-90 active:bg-black active:opacity-95"
+        {/* Apple Sign In - Apple HIG: standalone solid black button, white text/icon */}
+        <button
+          type="button"
           onClick={handleAppleSignIn}
           data-testid="apple-signin"
+          className="h-11 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-black text-white font-medium text-base transition-opacity hover:opacity-90 active:opacity-95 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
         >
+          <IconBrandApple size={20} stroke={1.5} fill="currentColor" />
           {t('oauth.continueWithApple', 'Continue with Apple')}
-        </Button>
+        </button>
 
         {/* Google Sign In - white pill, dark text, official colored G icon */}
         <Button
