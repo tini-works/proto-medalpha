@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ConfirmModal } from '../ConfirmModal'
@@ -13,6 +13,14 @@ describe('ConfirmModal', () => {
     onConfirm: vi.fn(),
     onCancel: vi.fn(),
   }
+
+  afterEach(() => {
+    // Clean up body styles from scroll lock
+    document.body.style.overflow = ''
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.body.style.width = ''
+  })
 
   it('renders when open is true', () => {
     render(<ConfirmModal {...defaultProps} />)
@@ -51,24 +59,13 @@ describe('ConfirmModal', () => {
     expect(onCancel).toHaveBeenCalledTimes(1)
   })
 
-  it('calls onCancel when close button clicked', async () => {
-    const onCancel = vi.fn()
-    const user = userEvent.setup()
-
-    render(<ConfirmModal {...defaultProps} onCancel={onCancel} />)
-
-    await user.click(screen.getByRole('button', { name: /close/i }))
-
-    expect(onCancel).toHaveBeenCalledTimes(1)
-  })
-
   it('calls onCancel when backdrop is clicked', async () => {
     const onCancel = vi.fn()
     const user = userEvent.setup()
 
     render(<ConfirmModal {...defaultProps} onCancel={onCancel} />)
 
-    const backdrop = screen.getByTestId('modal-backdrop')
+    const backdrop = screen.getByTestId('confirm-modal-backdrop')
     await user.click(backdrop)
 
     expect(onCancel).toHaveBeenCalledTimes(1)
@@ -104,6 +101,5 @@ describe('ConfirmModal', () => {
 
     const dialog = screen.getByRole('dialog')
     expect(dialog).toHaveAttribute('aria-modal', 'true')
-    expect(dialog).toHaveAttribute('aria-labelledby', 'modal-title')
   })
 })

@@ -4,6 +4,8 @@ Notable changes, high level.
 
 ## 2026-01-30
 
+- **Sheet component**: Unified `<Sheet>` consolidating 6 bottom sheet implementations; variants (bottom/center/fullscreen), sizes (auto/sm/md/lg/xl); focus trap, escape key, body scroll lock, exit animations; compound components (Sheet.Header/Body/Footer).
+- **Sheets migrated**: ConfirmModal, DoctorDetailSheet, EditFamilyMemberSheet, CookieConsentBanner use Sheet internally; FiltersSheet + CancelAppointmentSheet extracted from inline code.
 - **Root README**: N1/N2/N3/appointment-v1 → docliQ; Quick Start + Structure + table; single `pnpm dev:docliQ`.
 - **docliQ-mobile README**: Features (lines 18–95) condensed to high-level bullets; Component System, Auth, Booking, i18n, Other.
 - **OAuth onboarding (mock)**: OAuthConsentScreen (Google/Apple consent + mock user), OAuthErrorScreen, InsuranceRequestScreen (GKV/PKV/Selbstzahler); paths `oauth-consent`, `oauth-error`, `insurance-request`; App routes + WelcomeScreen entry; auth locales (de/en); user types.

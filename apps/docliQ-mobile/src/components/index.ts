@@ -16,7 +16,7 @@ export { DoctorCard, AppointmentCard, AppointmentListCard, FamilyMemberCard, His
 export { default as NotificationCard } from './notifications/NotificationCard'
 
 // Sheets
-export { DoctorDetailSheet } from './sheets'
+export { DoctorDetailSheet, FiltersSheet, CancelAppointmentSheet } from './sheets'
 
 // Legal
 export { LegalFooter, CookieConsentBanner, hasCookieConsent, getCookiePreferences, resetCookiePreferences } from './legal'
