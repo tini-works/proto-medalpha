@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconChevronRight, IconUsers, IconGlobe, IconBell, IconLock, IconHelpCircle, IconMessage, IconBook, IconLogout } from '@tabler/icons-react'
+import { IconChevronRight, IconUsers, IconGlobe, IconBell, IconLock, IconHelpCircle, IconMessage, IconBook, IconLogout, IconAlertTriangle, IconShieldCheck, IconCircleCheck } from '@tabler/icons-react'
 import { Header, Page, TabBar, Avatar, Pill } from '../../components'
 import { ConfirmModal } from '../../components/ui'
 import { useProfile, useAuth, usePreferences } from '../../state'
@@ -19,7 +19,7 @@ export default function SettingsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('settings')
   const { profile } = useProfile()
-  const { signOut } = useAuth()
+  const { signOut, isIdentityVerified } = useAuth()
   const { language } = usePreferences()
   const [showSignOutModal, setShowSignOutModal] = useState(false)
 
@@ -40,6 +40,29 @@ export default function SettingsScreen() {
       <Header title={t('settings')} />
 
       <div className="px-4 py-6 space-y-6">
+        {/* Identity verification alert banner */}
+        {!isIdentityVerified && (
+          <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+            <div className="flex items-start gap-3">
+              <IconAlertTriangle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-amber-800">
+                  {t('verificationRequired.title')}
+                </h3>
+                <p className="text-xs text-amber-700 mt-1">
+                  {t('verificationRequired.description')}
+                </p>
+                <button
+                  onClick={() => navigate(PATHS.ONBOARDING_VERIFY)}
+                  className="mt-2 text-sm font-medium text-amber-800 underline hover:text-amber-900"
+                >
+                  {t('verificationRequired.action')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Profile card */}
         <Link
           to={PATHS.PROFILE_EDIT}
@@ -129,6 +152,32 @@ export default function SettingsScreen() {
               </div>
             </div>
             <IconChevronRight size={20} className="text-slate-400" />
+          </Link>
+
+          {/* Identity Verification */}
+          <Link
+            to={PATHS.ONBOARDING_VERIFY}
+            className="flex items-center justify-between p-4 hover:bg-cream-100 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                isIdentityVerified ? 'bg-teal-50' : 'bg-amber-50'
+              }`}>
+                <IconShieldCheck size={20} className={isIdentityVerified ? 'text-teal-600' : 'text-amber-600'} />
+              </div>
+              <div>
+                <p className="font-medium text-charcoal-500">{t('identityVerification')}</p>
+                <p className={`text-sm ${isIdentityVerified ? 'text-teal-600' : 'text-amber-600'}`}>
+                  {isIdentityVerified ? t('verified') : t('notVerified')}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {isIdentityVerified && (
+                <IconCircleCheck size={18} className="text-teal-500" />
+              )}
+              <IconChevronRight size={20} className="text-slate-400" />
+            </div>
           </Link>
         </div>
 

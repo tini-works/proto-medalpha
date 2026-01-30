@@ -72,10 +72,10 @@ export default function VerifyScreen() {
       // For password reset: go to reset password screen
       navigate(PATHS.AUTH_RESET_PASSWORD, { state: { email } })
     } else if (isRegistration) {
-      // For registration: go to Complete Profile
-      navigate(PATHS.PROFILE_COMPLETE)
+      // For registration: go to onboarding flow
+      navigate(PATHS.ONBOARDING_PROFILE)
     } else {
-      // For sign in: go to Home
+      // For sign in: go to Home (existing users skip onboarding)
       navigate(PATHS.HOME)
     }
   }

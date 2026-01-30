@@ -88,5 +88,13 @@
   "helpTopic_privacy_desc": "Datenschutz- und Sicherheitsfunktionen",
   "helpTopic_troubleshooting": "Fehlerbehebung",
   "helpTopic_troubleshooting_desc": "Häufige Probleme und Lösungen",
-  "offlineBanner": "Sie sind offline. Einige Aktionen sind möglicherweise nicht verfügbar."
+  "offlineBanner": "Sie sind offline. Einige Aktionen sind möglicherweise nicht verfügbar.",
+  "identityVerification": "Identitätsbestätigung",
+  "verified": "Bestätigt",
+  "notVerified": "Nicht bestätigt",
+  "verificationRequired": {
+    "title": "Identitätsbestätigung abschließen",
+    "description": "Sie müssen Ihre Identität bestätigen, um Termine zu buchen. Das dauert nur 2 Minuten.",
+    "action": "Jetzt bestätigen →"
+  }
 }

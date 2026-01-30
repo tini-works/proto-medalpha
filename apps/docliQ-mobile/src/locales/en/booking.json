@@ -300,5 +300,11 @@
     "loadSlotsFailed": "Unable to load available times. Returning to search...",
     "loadDoctorsFailed": "Unable to load doctors. Please try again."
   },
-  "tryAgain": "Try again"
+  "tryAgain": "Try again",
+  "verificationRequired": {
+    "title": "Verification Required",
+    "message": "To book appointments, you must first verify your identity using your eGK card. This ensures secure access to healthcare services.",
+    "verify": "Verify Identity",
+    "cancel": "Not Now"
+  }
 }

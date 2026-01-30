@@ -84,6 +84,9 @@ export const initialProfile: UserProfile = {
   fullName: '',
   email: '',
   phone: '',
+  phoneCountryCode: '+49',
+  dateOfBirth: '',
+  gender: undefined,
   insuranceType: '',
   egkNumber: '',
   address: {
@@ -106,6 +109,8 @@ export const initialProfile: UserProfile = {
       marketing: false,
     },
   },
+  identityVerified: false,
+  identityVerifiedAt: undefined,
 }
 
 export const initialState: AppState = {

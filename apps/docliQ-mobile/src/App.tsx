@@ -11,7 +11,6 @@ import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdenti
 
 // Profile screens
 import {
-  ProfileCompletionScreen,
   FamilyMembersScreen,
   FamilyMemberDetailScreen,
   EditProfileScreen,
@@ -94,6 +93,15 @@ import {
   ImpressumScreen,
   CookiePolicyScreen,
 } from './screens/legal'
+
+// Onboarding screens (identity verification flow)
+import {
+  ProfileSetupScreen,
+  InsuranceSetupScreen,
+  VerifyIntroScreen,
+  CardScanScreen,
+  VerificationSuccessScreen,
+} from './screens/onboarding'
 
 // Cookie consent banner
 import { CookieConsentBanner } from './components'
@@ -196,14 +204,52 @@ function AppContent() {
             }
           />
 
-          {/* Profile */}
+          {/* Onboarding - Identity Verification Flow */}
           <Route
-            path={PATHS.PROFILE_COMPLETE}
+            path={PATHS.ONBOARDING_PROFILE}
             element={
               <RequireAuth>
-                <ProfileCompletionScreen />
+                <ProfileSetupScreen />
               </RequireAuth>
             }
+          />
+          <Route
+            path={PATHS.ONBOARDING_INSURANCE}
+            element={
+              <RequireAuth>
+                <InsuranceSetupScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.ONBOARDING_VERIFY}
+            element={
+              <RequireAuth>
+                <VerifyIntroScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.ONBOARDING_SCAN}
+            element={
+              <RequireAuth>
+                <CardScanScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.ONBOARDING_SUCCESS}
+            element={
+              <RequireAuth>
+                <VerificationSuccessScreen />
+              </RequireAuth>
+            }
+          />
+
+          {/* Profile - Legacy redirect */}
+          <Route
+            path={PATHS.PROFILE_COMPLETE}
+            element={<Navigate to={PATHS.ONBOARDING_PROFILE} replace />}
           />
           <Route
             path={PATHS.PROFILE_FAMILY}

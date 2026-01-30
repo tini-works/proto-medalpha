@@ -65,6 +65,7 @@ type AppStateApi = {
   signIn: (email: string, options?: { isRegistration?: boolean }) => void
   signOut: () => void
   markVerified: () => void
+  markIdentityVerified: () => void
   // Profile
   updateProfile: (patch: Partial<UserProfile>) => void
   addFamilyMember: (member: Omit<FamilyMember, 'id'>) => void
@@ -107,6 +108,7 @@ type AppStateApi = {
   clearBookingFlow: () => void
   // Computed
   isProfileComplete: boolean
+  isIdentityVerified: boolean
   getAppointmentById: (id: string) => Appointment | undefined
   getHistoryItemById: (id: string) => HistoryItem | undefined
   // Reset
@@ -272,11 +274,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       state.profile.gdprConsent.dataProcessing
   )
 
+  const isIdentityVerified = Boolean(state.profile.identityVerified)
+
   const api = useMemo<AppStateApi>(
     () => ({
       state,
       extendedState,
       isProfileComplete,
+      isIdentityVerified,
 
       // Auth
       signIn: (email, options) =>
@@ -300,6 +305,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setState((s) => ({
           ...s,
           auth: { ...s.auth, verified: true },
+        })),
+      markIdentityVerified: () =>
+        setState((s) => ({
+          ...s,
+          profile: {
+            ...s.profile,
+            identityVerified: true,
+            identityVerifiedAt: new Date().toISOString(),
+          },
         })),
 
       // Profile
@@ -496,7 +510,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null })
       },
     }),
-    [state, extendedState, isProfileComplete]
+    [state, extendedState, isProfileComplete, isIdentityVerified]
   )
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>
@@ -510,14 +524,16 @@ export function useAppState() {
 
 // Convenience hooks
 export function useAuth() {
-  const { state, signIn, signOut, markVerified } = useAppState()
+  const { state, signIn, signOut, markVerified, markIdentityVerified, isIdentityVerified } = useAppState()
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerified: state.auth.verified,
+    isIdentityVerified,
     userId: state.auth.userId,
     signIn,
     signOut,
     markVerified,
+    markIdentityVerified,
   }
 }
 

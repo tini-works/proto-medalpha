@@ -88,5 +88,13 @@
   "helpTopic_privacy_desc": "Data protection and security features",
   "helpTopic_troubleshooting": "Troubleshooting",
   "helpTopic_troubleshooting_desc": "Common issues and solutions",
-  "offlineBanner": "You are offline. Some actions may be unavailable."
+  "offlineBanner": "You are offline. Some actions may be unavailable.",
+  "identityVerification": "Identity Verification",
+  "verified": "Verified",
+  "notVerified": "Not verified",
+  "verificationRequired": {
+    "title": "Complete Identity Verification",
+    "description": "You must verify your identity to book appointments. This only takes 2 minutes.",
+    "action": "Verify Now →"
+  }
 }
