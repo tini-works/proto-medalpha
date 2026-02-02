@@ -66,6 +66,7 @@ export interface AppState {
     fontScale: 1 | 1.15 | 1.3
     language: 'en' | 'de'
     disableDemoAppointmentsSeed: boolean
+    biometricsEnabled: boolean
     notifications: {
       appointmentReminders: boolean
       prescriptionUpdates: boolean
@@ -84,6 +85,9 @@ export const initialProfile: UserProfile = {
   fullName: '',
   email: '',
   phone: '',
+  phoneCountryCode: '+49',
+  dateOfBirth: '',
+  gender: undefined,
   insuranceType: '',
   egkNumber: '',
   address: {
@@ -106,6 +110,8 @@ export const initialProfile: UserProfile = {
       marketing: false,
     },
   },
+  identityVerified: false,
+  identityVerifiedAt: undefined,
 }
 
 export const initialState: AppState = {
@@ -119,6 +125,7 @@ export const initialState: AppState = {
     fontScale: 1,
     language: 'de', // DocliQ default for Germany market
     disableDemoAppointmentsSeed: false,
+    biometricsEnabled: false,
     notifications: {
       appointmentReminders: true,
       prescriptionUpdates: true,

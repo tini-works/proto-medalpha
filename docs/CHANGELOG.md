@@ -2,6 +2,18 @@
 
 Notable changes, high level.
 
+## 2026-02-02
+
+- **In-app toasts**: Fix toast dismiss reliability (click X to close); auto-dismiss now 5s; timer/queue handling hardened to avoid stuck toasts.
+- **Cookie consent**: Show confirmation toast when saving cookie preferences; add missing i18n strings for Back + “preferences saved” (en/de).
+- **OTP verification (onboarding)**: OTPInput + ResendTimer in @meda/ui; 6-digit input with auto-focus, countdown timer, resend; VerifyScreen wired; auth locales (verify.resend, resendIn, sending) en/de.
+- **@meda/ui**: OTPInput (useOTPInput), ResendTimer (useCountdown) exported; refinements to OTPInput, useOTPInput, ResendTimer, useCountdown.
+- **SMS phone verification (US 1.1.4)**: VerifyPhoneScreen, phoneVerification mock service; EditProfile phone field + verify button, status badge; profile.phoneVerified/phoneVerifiedAt; paths, AppContext markPhoneVerified; profile locales en/de; US-1.1.4 spec.
+- **Docs**: doclibQ → docliQ rename; component-refactor/ (Sheet, OTP plans); US-1.1.4 implementation plan; PROFILE-OVERVIEW-REDESIGN.md.
+- **Phone verification UX**: PhoneInput verification status (pending/verified) + inline verify button + status icon; EditProfile uses PhoneInput props; VerifyPhoneScreen toasts on success/error; Toast layout alignment; profile locales (pendingVerification, verificationSuccess).
+- **Settings**: New sub-screens — Address edit, Biometrics, Change password, Insurance edit; SettingsScreen layout/IA restructure; settings locales (en/de) extended.
+- **docliQ UI**: Input re-exported from @meda/ui in app components/ui (fix for AddressEditScreen, ChangePasswordScreen, InsuranceEditScreen).
+
 ## 2026-01-30
 
 - **Sheet component**: Unified `<Sheet>` consolidating 6 bottom sheet implementations; variants (bottom/center/fullscreen), sizes (auto/sm/md/lg/xl); focus trap, escape key, body scroll lock, exit animations; compound components (Sheet.Header/Body/Footer).

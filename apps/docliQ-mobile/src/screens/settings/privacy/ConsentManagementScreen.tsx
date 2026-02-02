@@ -2,11 +2,10 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   IconChecks,
-  IconToggleRight,
-  IconToggleLeft,
   IconHistory,
   IconAlertTriangle,
 } from '@tabler/icons-react'
+import { Switch } from '@meda/ui'
 import { Header, Page } from '../../../components'
 import { Button } from '../../../components/ui'
 import type { ConsentRecord, ConsentType } from '../../../types/legal'
@@ -69,6 +68,7 @@ export default function ConsentManagementScreen() {
   const [history] = useState<ConsentRecord[]>(MOCK_HISTORY)
   const [showHistory, setShowHistory] = useState(false)
   const [confirmWithdraw, setConfirmWithdraw] = useState<keyof ConsentState | null>(null)
+  const [loadingKey, setLoadingKey] = useState<keyof ConsentState | null>(null)
 
   const consentTypes: { key: keyof ConsentState; type: ConsentType; required: boolean }[] = [
     { key: 'dataProcessing', type: 'data_processing', required: true },
@@ -77,22 +77,28 @@ export default function ConsentManagementScreen() {
     { key: 'thirdParty', type: 'third_party', required: false },
   ]
 
-  const handleToggle = (key: keyof ConsentState) => {
+  const handleToggle = async (key: keyof ConsentState, checked: boolean) => {
     if (key === 'dataProcessing') return // Cannot toggle required consent
 
-    if (consents[key]) {
+    if (!checked && consents[key]) {
       // Withdrawing - show confirmation
       setConfirmWithdraw(key)
     } else {
-      // Granting
+      // Granting - apply with loading
+      setLoadingKey(key)
       setConsents(prev => ({ ...prev, [key]: true }))
+      await new Promise(r => setTimeout(r, 1000))
+      setLoadingKey(null)
     }
   }
 
-  const handleConfirmWithdraw = () => {
+  const handleConfirmWithdraw = async () => {
     if (confirmWithdraw) {
-      setConsents(prev => ({ ...prev, [confirmWithdraw]: false }))
+      setLoadingKey(confirmWithdraw)
       setConfirmWithdraw(null)
+      setConsents(prev => ({ ...prev, [confirmWithdraw]: false }))
+      await new Promise(r => setTimeout(r, 1000))
+      setLoadingKey(null)
     }
   }
 
@@ -143,21 +149,17 @@ export default function ConsentManagementScreen() {
                     {t(`consent.types.${key}.description`)}
                   </p>
                 </div>
-                <button
-                  onClick={() => handleToggle(key)}
+                <Switch
+                  checked={consents[key]}
+                  onChange={(checked) => handleToggle(key, checked)}
                   disabled={required}
-                  className={`flex-shrink-0 ${required ? 'cursor-not-allowed' : ''}`}
-                  aria-label={consents[key] ? 'Withdraw consent' : 'Grant consent'}
-                >
-                  {consents[key] ? (
-                    <IconToggleRight
-                      size={32}
-                      className={required ? 'text-slate-400' : 'text-teal-600'}
-                    />
-                  ) : (
-                    <IconToggleLeft size={32} className="text-slate-300" />
-                  )}
-                </button>
+                  loading={loadingKey === key}
+                  aria-label={
+                    consents[key]
+                      ? `Withdraw ${t(`consent.types.${key}.title`)} consent`
+                      : `Grant ${t(`consent.types.${key}.title`)} consent`
+                  }
+                />
               </div>
             </div>
           ))}

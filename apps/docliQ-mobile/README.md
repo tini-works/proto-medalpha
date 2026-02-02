@@ -21,8 +21,8 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Design**: DocliQ tokens (teal, coral, red) + Tailwind v3
 
 ### Auth & Profile
-- Welcome, register, sign in, forgot/reset password, verify identity; password field (show/hide) + strength indicator (OWASP)
-- Profile + insurance (GKV/PKV), family members + dependents
+- Welcome, register, sign in, forgot/reset password, verify identity; password field (show/hide) + strength indicator (OWASP); OTP verification (OTPInput + ResendTimer from @meda/ui)
+- Profile + insurance (GKV/PKV), family members + dependents; phone verification (VerifyPhoneScreen, mock SMS service)
 
 ### Booking Flow
 - **Paths**: Fast Lane (symptoms → auto-match), By specialty (specialty → city/insurance → availability), By doctor (doctor → symptoms → slot → confirm)
@@ -45,7 +45,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Updates**: Notifications (grouped TODAY/YESTERDAY) + News Feed (guides, featured story, articles, article detail with share/save)
 - **Appointments**: Detail (summary, location, add to calendar), book again, reschedule, history (grouped, filters, Book new)
 - **Request Sent**: Post-submit screen; toasts on status change (configurable); queue + localized offline banner
-- CMS content, settings (account, notifications, language, privacy, support), responsive
+- CMS content, settings (account, notifications, language, privacy, support; sub-screens: address, biometrics, change password, insurance edit), responsive
 
 ## Tech Stack
 

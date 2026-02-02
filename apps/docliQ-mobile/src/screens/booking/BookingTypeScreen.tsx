@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconBolt, IconStethoscope, IconUserSearch, IconChevronRight } from '@tabler/icons-react'
 import { Header, Page, TabBar } from '../../components'
-import { useBooking } from '../../state'
+import { ConfirmModal } from '../../components/ui'
+import { useBooking, useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
 interface BookingTypeOption {
@@ -44,13 +46,29 @@ export default function BookingTypeScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
   const { setBookingFlow, resetBooking } = useBooking()
+  const { isIdentityVerified } = useAuth()
+  const [showVerificationModal, setShowVerificationModal] = useState(false)
+  const [pendingOption, setPendingOption] = useState<BookingTypeOption | null>(null)
 
   const handleSelect = (option: BookingTypeOption) => {
     if (option.disabled) return
+
+    // Check if user is verified - if not, show modal
+    if (!isIdentityVerified) {
+      setPendingOption(option)
+      setShowVerificationModal(true)
+      return
+    }
+
     // Reset any previous booking state and set the new flow
     resetBooking()
     setBookingFlow(option.id)
     navigate(option.path)
+  }
+
+  const handleVerify = () => {
+    setShowVerificationModal(false)
+    navigate(PATHS.ONBOARDING_VERIFY)
   }
 
   return (
@@ -109,6 +127,17 @@ export default function BookingTypeScreen() {
       </div>
 
       <TabBar />
+
+      {/* Verification Required Modal */}
+      <ConfirmModal
+        open={showVerificationModal}
+        title={t('verificationRequired.title')}
+        message={t('verificationRequired.message')}
+        confirmLabel={t('verificationRequired.verify')}
+        cancelLabel={t('verificationRequired.cancel')}
+        onConfirm={handleVerify}
+        onCancel={() => setShowVerificationModal(false)}
+      />
     </Page>
   )
 }

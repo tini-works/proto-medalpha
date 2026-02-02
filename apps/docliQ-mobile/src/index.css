@@ -100,7 +100,8 @@ body {
 }
 
 /* Touch ergonomics - 44px minimum per WCAG & brand guide */
-button,
+/* Exclude role="switch" as Switch component manages its own touch target */
+button:not([role="switch"]),
 a,
 [role='button'] {
   min-height: 44px;

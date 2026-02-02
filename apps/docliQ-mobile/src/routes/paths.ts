@@ -12,11 +12,19 @@ export const PATHS = {
   AUTH_OAUTH_ERROR: '/auth/oauth-error',
   AUTH_INSURANCE_REQUEST: '/auth/insurance-request',
 
+  // Onboarding flow (3-step identity verification)
+  ONBOARDING_PROFILE: '/onboarding/profile',       // Step 1: DOB, Gender, Phone
+  ONBOARDING_INSURANCE: '/onboarding/insurance',   // Step 2: Insurance selection
+  ONBOARDING_VERIFY: '/onboarding/verify',         // Step 3: eGK scan intro
+  ONBOARDING_SCAN: '/onboarding/scan',             // Step 3b: Camera mock
+  ONBOARDING_SUCCESS: '/onboarding/success',       // Verification complete
+
   // Profile
-  PROFILE_COMPLETE: '/profile/complete',
+  PROFILE_COMPLETE: '/profile/complete',           // Deprecated - redirects to ONBOARDING_PROFILE
   PROFILE_FAMILY: '/profile/family',
   PROFILE_FAMILY_DETAIL: '/profile/family/:id',
   PROFILE_EDIT: '/profile/edit',
+  PROFILE_VERIFY_PHONE: '/profile/verify-phone',
 
   // Home
   HOME: '/home',
@@ -77,6 +85,10 @@ export const PATHS = {
   SETTINGS_FAQ: '/settings/faq',
   SETTINGS_CONTACT: '/settings/contact-support',
   SETTINGS_HELP: '/settings/help-centre',
+  SETTINGS_PASSWORD: '/settings/password',
+  SETTINGS_BIOMETRICS: '/settings/biometrics',
+  SETTINGS_ADDRESS: '/settings/address',
+  SETTINGS_INSURANCE: '/settings/insurance',
 
   // Assistants (optional enhancement)
   ASSISTANT: '/assistant',

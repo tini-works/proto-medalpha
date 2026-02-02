@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconHeart, IconUser, IconMail, IconShieldCheck } from '@tabler/icons-react'
 import { Button } from '../../components/ui'
+import { useAuth, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 
 // Mock user data for prototype
@@ -23,16 +24,28 @@ export default function OAuthConsentScreen() {
   const { t } = useTranslation('auth')
   const navigate = useNavigate()
   const location = useLocation()
+  const { signIn, markVerified } = useAuth()
+  const { updateProfile } = useProfile()
 
   // Get provider from navigation state
   const provider = (location.state?.provider as 'google' | 'apple') || 'google'
   const mockUser = provider === 'google' ? MOCK_GOOGLE_USER : MOCK_APPLE_USER
 
   const handleContinue = () => {
-    // Navigate to insurance request with OAuth data
-    navigate(PATHS.AUTH_INSURANCE_REQUEST, {
-      state: { oauthData: mockUser },
+    // Update profile with OAuth data
+    updateProfile({
+      fullName: mockUser.name,
+      email: mockUser.email,
+      photoUrl: mockUser.photoUrl,
+      authProvider: mockUser.provider,
     })
+
+    // Sign in and mark email as verified (OAuth skips email verification)
+    signIn(mockUser.email, { isRegistration: true })
+    markVerified()
+
+    // Navigate to onboarding flow (new 3-step process)
+    navigate(PATHS.ONBOARDING_PROFILE)
   }
 
   const handleCancel = () => {

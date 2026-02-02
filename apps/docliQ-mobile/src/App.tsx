@@ -11,10 +11,10 @@ import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdenti
 
 // Profile screens
 import {
-  ProfileCompletionScreen,
   FamilyMembersScreen,
   FamilyMemberDetailScreen,
   EditProfileScreen,
+  VerifyPhoneScreen,
 } from './screens/profile'
 
 // Home screen
@@ -78,6 +78,10 @@ import {
   FAQScreen,
   ContactSupportScreen,
   HelpCentreScreen,
+  AddressEditScreen,
+  InsuranceEditScreen,
+  ChangePasswordScreen,
+  BiometricsScreen,
 } from './screens/settings'
 
 // Privacy sub-screens (GDPR)
@@ -94,6 +98,15 @@ import {
   ImpressumScreen,
   CookiePolicyScreen,
 } from './screens/legal'
+
+// Onboarding screens (identity verification flow)
+import {
+  ProfileSetupScreen,
+  InsuranceSetupScreen,
+  VerifyIntroScreen,
+  CardScanScreen,
+  VerificationSuccessScreen,
+} from './screens/onboarding'
 
 // Cookie consent banner
 import { CookieConsentBanner } from './components'
@@ -196,14 +209,52 @@ function AppContent() {
             }
           />
 
-          {/* Profile */}
+          {/* Onboarding - Identity Verification Flow */}
           <Route
-            path={PATHS.PROFILE_COMPLETE}
+            path={PATHS.ONBOARDING_PROFILE}
             element={
               <RequireAuth>
-                <ProfileCompletionScreen />
+                <ProfileSetupScreen />
               </RequireAuth>
             }
+          />
+          <Route
+            path={PATHS.ONBOARDING_INSURANCE}
+            element={
+              <RequireAuth>
+                <InsuranceSetupScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.ONBOARDING_VERIFY}
+            element={
+              <RequireAuth>
+                <VerifyIntroScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.ONBOARDING_SCAN}
+            element={
+              <RequireAuth>
+                <CardScanScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.ONBOARDING_SUCCESS}
+            element={
+              <RequireAuth>
+                <VerificationSuccessScreen />
+              </RequireAuth>
+            }
+          />
+
+          {/* Profile - Legacy redirect */}
+          <Route
+            path={PATHS.PROFILE_COMPLETE}
+            element={<Navigate to={PATHS.ONBOARDING_PROFILE} replace />}
           />
           <Route
             path={PATHS.PROFILE_FAMILY}
@@ -226,6 +277,14 @@ function AppContent() {
             element={
               <RequireAuth>
                 <EditProfileScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.PROFILE_VERIFY_PHONE}
+            element={
+              <RequireAuth>
+                <VerifyPhoneScreen />
               </RequireAuth>
             }
           />
@@ -662,6 +721,38 @@ function AppContent() {
             element={
               <RequireAuth>
                 <HelpCentreScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_PASSWORD}
+            element={
+              <RequireAuth>
+                <ChangePasswordScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_BIOMETRICS}
+            element={
+              <RequireAuth>
+                <BiometricsScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_ADDRESS}
+            element={
+              <RequireAuth>
+                <AddressEditScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_INSURANCE}
+            element={
+              <RequireAuth>
+                <InsuranceEditScreen />
               </RequireAuth>
             }
           />

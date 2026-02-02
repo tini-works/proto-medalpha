@@ -304,5 +304,11 @@
     "loadSlotsFailed": "Verfügbare Zeiten konnten nicht geladen werden. Zurück zur Suche...",
     "loadDoctorsFailed": "Ärzte konnten nicht geladen werden. Bitte versuchen Sie es erneut."
   },
-  "tryAgain": "Erneut versuchen"
+  "tryAgain": "Erneut versuchen",
+  "verificationRequired": {
+    "title": "Bestätigung erforderlich",
+    "message": "Um Termine zu buchen, müssen Sie zunächst Ihre Identität mit Ihrer eGK-Karte bestätigen. Dies gewährleistet sicheren Zugang zu Gesundheitsdiensten.",
+    "verify": "Identität bestätigen",
+    "cancel": "Nicht jetzt"
+  }
 }

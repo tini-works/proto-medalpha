@@ -6,9 +6,8 @@ import {
   IconShieldCheck,
   IconPill,
   IconTestPipe,
-  IconToggleRight,
-  IconToggleLeft,
 } from '@tabler/icons-react'
+import { Switch } from '@meda/ui'
 import { Header, Page } from '../../../components'
 import { Button } from '../../../components/ui'
 import type { ThirdPartyAccess, ThirdPartyType } from '../../../types/legal'
@@ -56,29 +55,38 @@ export default function DataSharingScreen() {
   const { t } = useTranslation('legal')
   const [partners, setPartners] = useState<ThirdPartyAccess[]>(MOCK_PARTNERS)
   const [confirmRevoke, setConfirmRevoke] = useState<string | null>(null)
+  const [loadingPartnerId, setLoadingPartnerId] = useState<string | null>(null)
 
-  const handleToggleAccess = (partnerId: string) => {
+  const handleToggleAccess = async (partnerId: string, checked: boolean) => {
     const partner = partners.find(p => p.id === partnerId)
-    if (partner?.accessGranted) {
+
+    if (!checked && partner?.accessGranted) {
+      // Revoking - show confirmation
       setConfirmRevoke(partnerId)
     } else {
-      // Grant access
+      // Grant access with loading
+      setLoadingPartnerId(partnerId)
       setPartners(prev => prev.map(p =>
         p.id === partnerId
           ? { ...p, accessGranted: true, grantedAt: new Date().toISOString(), revokedAt: undefined }
           : p
       ))
+      await new Promise(r => setTimeout(r, 1000))
+      setLoadingPartnerId(null)
     }
   }
 
-  const handleConfirmRevoke = () => {
+  const handleConfirmRevoke = async () => {
     if (confirmRevoke) {
+      setLoadingPartnerId(confirmRevoke)
+      setConfirmRevoke(null)
       setPartners(prev => prev.map(p =>
         p.id === confirmRevoke
           ? { ...p, accessGranted: false, revokedAt: new Date().toISOString() }
           : p
       ))
-      setConfirmRevoke(null)
+      await new Promise(r => setTimeout(r, 1000))
+      setLoadingPartnerId(null)
     }
   }
 
@@ -146,17 +154,17 @@ export default function DataSharingScreen() {
                           })}
                         </p>
                       </div>
-                      <button
-                        onClick={() => handleToggleAccess(partner.id)}
-                        className="flex-shrink-0 ml-3"
-                        aria-label={partner.accessGranted ? 'Revoke access' : 'Grant access'}
-                      >
-                        {partner.accessGranted ? (
-                          <IconToggleRight size={32} className="text-teal-600" />
-                        ) : (
-                          <IconToggleLeft size={32} className="text-slate-300" />
-                        )}
-                      </button>
+                      <Switch
+                        checked={partner.accessGranted}
+                        onChange={(checked) => handleToggleAccess(partner.id, checked)}
+                        loading={loadingPartnerId === partner.id}
+                        aria-label={
+                          partner.accessGranted
+                            ? `Revoke ${partner.name} access`
+                            : `Grant ${partner.name} access`
+                        }
+                        className="ml-3"
+                      />
                     </div>
                   </div>
                 ))}

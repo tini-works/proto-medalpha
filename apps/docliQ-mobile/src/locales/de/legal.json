@@ -139,7 +139,9 @@
       "acceptAll": "Alle akzeptieren",
       "rejectNonEssential": "Nicht-essentielle ablehnen",
       "customize": "Anpassen",
-      "savePreferences": "Einstellungen speichern"
+      "savePreferences": "Einstellungen speichern",
+      "back": "Zurück",
+      "preferencesSaved": "Cookie-Einstellungen gespeichert"
     },
     "categories": {
       "essential": {

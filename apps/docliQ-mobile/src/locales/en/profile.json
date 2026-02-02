@@ -6,7 +6,8 @@
   },
   "common": {
     "optional": "optional",
-    "close": "Close"
+    "close": "Close",
+    "goBack": "Go Back"
   },
   "fullName": {
     "label": "Full Name",
@@ -105,6 +106,7 @@
     "title": "Edit Profile",
     "personalInfo": "Personal Information",
     "address": "Address",
+    "insurance": "Insurance",
     "email": {
       "label": "Email"
     },
@@ -112,7 +114,26 @@
       "label": "Phone (optional)",
       "placeholder": "+49 123 456789"
     },
-    "submit": "Save Changes"
+    "submit": "Save Changes",
+    "noAddress": "Add your address",
+    "noInsurance": "Add insurance details"
+  },
+  "phone": {
+    "label": "Phone Number (for SMS)",
+    "verified": "Verified",
+    "verify": "Verify",
+    "pendingVerification": "Pending verification",
+    "verifyTitle": "Verify Phone",
+    "verifyHeading": "Enter verification code",
+    "verifySubtitle": "We sent a 6-digit code to {{phone}}",
+    "codeExpires": "Code expires in {{time}}",
+    "resendIn": "Resend in {{seconds}}s",
+    "resend": "Resend code",
+    "sending": "Sending...",
+    "submit": "Verify",
+    "demoHint": "For demo: any 6-digit code works",
+    "noPhoneProvided": "No phone number provided",
+    "verificationSuccess": "Phone number verified"
   },
   "validation": {
     "fullNameRequired": "Full name is required",
@@ -125,6 +146,10 @@
     "nameRequired": "Name is required",
     "dateOfBirthRequired": "Date of birth is required",
     "relationshipRequired": "Relationship is required",
-    "gdprRequired": "You must accept the data processing terms"
+    "gdprRequired": "You must accept the data processing terms",
+    "codeIncomplete": "Please enter the complete 6-digit code",
+    "codeExpired": "Code expired. Please request a new one.",
+    "invalidCode": "Invalid code. Please try again.",
+    "rateLimitExceeded": "Too many attempts. Try again in {{minutes}} minutes."
   }
 }
