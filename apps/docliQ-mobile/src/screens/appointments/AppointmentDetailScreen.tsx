@@ -47,6 +47,7 @@ export default function AppointmentDetailScreen() {
           feedbackComment: typeof details.feedbackComment === 'string' ? details.feedbackComment : undefined,
           feedbackDismissed: Boolean(details.feedbackDismissed),
           feedbackSubmittedAt: typeof details.feedbackSubmittedAt === 'string' ? details.feedbackSubmittedAt : undefined,
+          cancelReason: typeof details.cancelReason === 'string' ? details.cancelReason : undefined,
         }
       })()
     : undefined
@@ -111,6 +112,7 @@ interface StatusProps {
     feedbackComment?: string
     feedbackDismissed?: boolean
     feedbackSubmittedAt?: string
+    cancelReason?: string
   }
   onCancel?: () => void
 }
@@ -460,7 +462,7 @@ function CompletedStatus({
 
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING_SEARCH)}
+          onClick={() => navigate(PATHS.BOOKING)}
           className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -696,27 +698,19 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
           {t('canceledDescription')}
         </p>
 
-        {/* Doctor Card - Grayed out */}
-        <DoctorInfoCard appointment={appointment} variant="canceled" />
-
-        {/* Appointment Details - Grayed out */}
-        <AppointmentDetails appointment={appointment} variant="canceled" />
-
-        {/* Status Badge */}
-        <div className="flex justify-center mt-6">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-charcoal-700 text-white text-sm font-medium">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            {t('canceledByYou')}
-          </span>
+        {/* Summary Card */}
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
+          <DoctorInfoCard appointment={appointment} variant="canceled" align="left" />
+          <div className="h-px bg-cream-200 my-4" />
+          <AppointmentDetails appointment={appointment} variant="canceled" align="left" showLocation />
         </div>
+
       </div>
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING_SEARCH)}
+          onClick={() => navigate(PATHS.BOOKING)}
           className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -759,28 +753,31 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
 
         {/* Summary Card */}
         <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
-          <DoctorInfoCard appointment={appointment} variant="declined" align="left" />
+          <DoctorInfoCard appointment={appointment} variant="canceled" align="left" />
           <div className="h-px bg-cream-200 my-4" />
-          <AppointmentDetails appointment={appointment} variant="canceled" align="left" />
+          <AppointmentDetails appointment={appointment} variant="canceled" align="left" showLocation />
         </div>
+
+        {appointment.cancelReason ? (
+          <div className="mt-4 w-full max-w-sm rounded-xl border border-cream-300 bg-cream-50 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              {t('declinedReasonLabel')}
+            </p>
+            <p className="mt-1 text-sm text-slate-600">{appointment.cancelReason}</p>
+          </div>
+        ) : null}
       </div>
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING_SEARCH)}
+          onClick={() => navigate(PATHS.BOOKING)}
           className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
           {t('bookNewAppointment')}
-        </button>
-        <button
-          onClick={() => navigate(PATHS.HOME)}
-          className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
-        >
-          {t('backToHome')}
         </button>
       </StickyBottomBar>
     </Page>

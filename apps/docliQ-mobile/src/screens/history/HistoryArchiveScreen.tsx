@@ -29,6 +29,7 @@ function mapHistoryToAppointment(item: HistoryItem): Appointment {
     feedbackComment: typeof details.feedbackComment === 'string' ? details.feedbackComment : undefined,
     feedbackDismissed: Boolean(details.feedbackDismissed),
     feedbackSubmittedAt: typeof details.feedbackSubmittedAt === 'string' ? details.feedbackSubmittedAt : undefined,
+    cancelReason: typeof details.cancelReason === 'string' ? details.cancelReason : undefined,
   }
 }
 
@@ -77,7 +78,7 @@ export default function HistoryArchiveScreen() {
                 key={appointment.id}
                 appointment={appointment}
                 onClick={
-                  appointment.status === 'completed'
+                  appointment.status === 'completed' || appointment.status === 'cancelled_patient'
                     ? () => navigate(appointmentDetailPath(appointment.id))
                     : undefined
                 }

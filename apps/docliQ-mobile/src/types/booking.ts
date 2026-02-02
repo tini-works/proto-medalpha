@@ -75,6 +75,7 @@ export interface Appointment {
   feedbackComment?: string
   feedbackDismissed?: boolean
   feedbackSubmittedAt?: string
+  cancelReason?: string
   status:
     | 'matching'
     | 'await_confirm'

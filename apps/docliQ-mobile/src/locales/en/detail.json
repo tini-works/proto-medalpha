@@ -52,10 +52,11 @@
   "canceled": "Appointment Canceled",
   "canceledDescription": "You've canceled this appointment request. You can submit a new request anytime.",
   "canceledByYou": "Canceled by You",
-  "submitNewRequest": "Submit New Request",
+  "submitNewRequest": "Book New Appointment",
 
   "declined": "Appointment Declined",
   "declinedDescription": "Unfortunately, {{doctorName}} is unable to accept this appointment. Please try booking with another doctor.",
+  "declinedReasonLabel": "Reason",
   "bookNewAppointment": "Book New Appointment",
   "completedTitle": "Visit Completed",
   "completedDescription": "Your appointment is complete. If you need anything else, you can book a follow-up.",

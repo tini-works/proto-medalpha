@@ -52,10 +52,11 @@
   "canceled": "Termin storniert",
   "canceledDescription": "Sie haben diese Terminanfrage storniert. Sie können jederzeit eine neue Anfrage stellen.",
   "canceledByYou": "Von Ihnen storniert",
-  "submitNewRequest": "Neue Anfrage stellen",
+  "submitNewRequest": "Neuen Termin buchen",
 
   "declined": "Termin abgelehnt",
   "declinedDescription": "Leider kann {{doctorName}} diesen Termin nicht annehmen. Bitte versuchen Sie, bei einem anderen Arzt zu buchen.",
+  "declinedReasonLabel": "Grund",
   "bookNewAppointment": "Neuen Termin buchen",
   "completedTitle": "Termin abgeschlossen",
   "completedDescription": "Ihr Termin ist abgeschlossen. Wenn Sie etwas benÃ¶tigen, kÃ¶nnen Sie einen Folgetermin buchen.",
