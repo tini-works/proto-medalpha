@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { IconStar, IconStarFilled } from '@tabler/icons-react'
 import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
 import { DestructiveOutlineButton } from '../../components/ui'
 import { AddToCalendarSheet } from '../../components/sheets'
-import { useBooking } from '../../state'
+import { useBooking, useHistory } from '../../state'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
 import { MatchingStatusView } from '../../components/appointments/MatchingStatusView'
@@ -12,12 +13,48 @@ import { MatchingStatusView } from '../../components/appointments/MatchingStatus
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('detail')
   const { appointments, cancelAppointment } = useBooking()
+  const { getHistoryItemById } = useHistory()
 
   const appointment = appointments.find((apt) => apt.id === id)
+  const autoOpenFeedback = Boolean((location.state as { rateVisit?: boolean } | undefined)?.rateVisit)
+  const historyItem = id ? getHistoryItemById(id) : undefined
 
-  if (!appointment) {
+  const historyAppointment = historyItem
+    ? (() => {
+        const title = historyItem.title.replace('Appointment:', '').trim()
+        const parts = historyItem.subtitle.split('·').map((part) => part.trim())
+        const fallbackParts = historyItem.subtitle.split('Â·').map((part) => part.trim())
+        const doctorName = (parts[0] || fallbackParts[0] || 'Dr. Taylor').trim()
+        const specialty = title || 'General Medicine'
+        const details = historyItem.details ?? {}
+        return {
+          id: historyItem.id,
+          doctorId: 'd1',
+          doctorName,
+          specialty,
+          dateISO: historyItem.dateISO,
+          time: '10:00',
+          forUserId: historyItem.forUserId,
+          forUserName: historyItem.forUserName,
+          status: historyItem.status === 'cancelled' ? 'cancelled_patient' : 'completed',
+          reminderSet: false,
+          calendarSynced: false,
+          storeId: undefined,
+          feedbackRating: typeof details.feedbackRating === 'number' ? details.feedbackRating : undefined,
+          feedbackComment: typeof details.feedbackComment === 'string' ? details.feedbackComment : undefined,
+          feedbackDismissed: Boolean(details.feedbackDismissed),
+          feedbackSubmittedAt: typeof details.feedbackSubmittedAt === 'string' ? details.feedbackSubmittedAt : undefined,
+        }
+      })()
+    : undefined
+
+  const resolvedAppointment = appointment ?? historyAppointment
+  const isHistoryFallback = !appointment && Boolean(historyAppointment)
+
+  if (!resolvedAppointment) {
     return (
       <Page>
         <BackHeader />
@@ -37,19 +74,27 @@ export default function AppointmentDetailScreen() {
   }
 
   // Render based on status
-  switch (appointment.status) {
+  switch (resolvedAppointment.status) {
     case 'matching':
-      return <MatchingStatus appointment={appointment} />
+      return <MatchingStatus appointment={resolvedAppointment} />
     case 'await_confirm':
-      return <AwaitConfirmStatus appointment={appointment} onCancel={() => cancelAppointment(appointment.id)} />
+      return <AwaitConfirmStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
     case 'confirmed':
-      return <ConfirmedStatus appointment={appointment} onCancel={() => cancelAppointment(appointment.id)} />
+      return <ConfirmedStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
+    case 'completed':
+      return (
+        <CompletedStatus
+          appointment={resolvedAppointment}
+          autoOpenFeedback={autoOpenFeedback}
+          useHistoryFallback={isHistoryFallback}
+        />
+      )
     case 'cancelled_patient':
-      return <PatientCanceledStatus appointment={appointment} />
+      return <PatientCanceledStatus appointment={resolvedAppointment} />
     case 'cancelled_doctor':
-      return <DoctorCanceledStatus appointment={appointment} />
+      return <DoctorCanceledStatus appointment={resolvedAppointment} />
     default:
-      return <ConfirmedStatus appointment={appointment} onCancel={() => cancelAppointment(appointment.id)} />
+      return <ConfirmedStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
   }
 }
 
@@ -62,6 +107,10 @@ interface StatusProps {
     dateISO: string
     time: string
     status: string
+    feedbackRating?: number
+    feedbackComment?: string
+    feedbackDismissed?: boolean
+    feedbackSubmittedAt?: string
   }
   onCancel?: () => void
 }
@@ -300,6 +349,7 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
           <AppointmentDetails appointment={appointment} align="left" showLocation />
         </div>
 
+
         <div className="w-full max-w-sm mt-6 flex justify-center">
           <div className="w-full space-y-3">
             <button
@@ -363,6 +413,258 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         }}
       />
     </Page>
+  )
+}
+
+// ============================================
+// COMPLETED STATUS
+// ============================================
+function CompletedStatus({
+  appointment,
+  autoOpenFeedback = false,
+  useHistoryFallback = false,
+}: StatusProps & { autoOpenFeedback?: boolean; useHistoryFallback?: boolean }) {
+  const navigate = useNavigate()
+  const { t } = useTranslation('detail')
+
+  return (
+    <Page className="flex flex-col">
+      <BackHeader />
+
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
+          <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
+            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        </div>
+
+        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('completedTitle')}</h1>
+        <p className="text-slate-600 text-center mb-8 max-w-sm">
+          {t('completedDescription')}
+        </p>
+
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
+          <DoctorInfoCard appointment={appointment} variant="confirmed" align="left" />
+          <div className="h-px bg-cream-200 my-4" />
+          <AppointmentDetails appointment={appointment} align="left" showLocation />
+        </div>
+
+        <FeedbackPanel
+          appointment={appointment}
+          autoOpenFeedback={autoOpenFeedback}
+          useHistoryFallback={useHistoryFallback}
+        />
+      </div>
+
+      <StickyBottomBar>
+        <button
+          onClick={() => navigate(PATHS.BOOKING_SEARCH)}
+          className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          {t('bookFollowUp')}
+        </button>
+      </StickyBottomBar>
+    </Page>
+  )
+}
+
+// ============================================
+// FEEDBACK PANEL
+// ============================================
+function FeedbackPanel({
+  appointment,
+  autoOpenFeedback = false,
+  useHistoryFallback = false,
+}: {
+  appointment: StatusProps['appointment']
+  autoOpenFeedback?: boolean
+  useHistoryFallback?: boolean
+}) {
+  const { t } = useTranslation('detail')
+  const { updateAppointment } = useBooking()
+  const { getHistoryItemById, updateHistoryItem } = useHistory()
+  const [feedbackExpanded, setFeedbackExpanded] = useState(false)
+  const [feedbackRating, setFeedbackRating] = useState(appointment.feedbackRating ?? 0)
+  const [feedbackComment, setFeedbackComment] = useState(appointment.feedbackComment ?? '')
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(
+    Boolean(appointment.feedbackSubmittedAt || appointment.feedbackRating)
+  )
+  const feedbackDismissed = Boolean(appointment.feedbackDismissed)
+
+  useEffect(() => {
+    setFeedbackRating(appointment.feedbackRating ?? 0)
+    setFeedbackComment(appointment.feedbackComment ?? '')
+    setFeedbackSubmitted(Boolean(appointment.feedbackSubmittedAt || appointment.feedbackRating))
+  }, [appointment.feedbackComment, appointment.feedbackRating, appointment.feedbackSubmittedAt])
+
+  useEffect(() => {
+    if (feedbackDismissed || feedbackSubmitted) {
+      setFeedbackExpanded(false)
+      return
+    }
+    if (autoOpenFeedback) setFeedbackExpanded(true)
+  }, [autoOpenFeedback, feedbackDismissed, feedbackSubmitted])
+
+  const handleSelectRating = (rating: number) => {
+    setFeedbackRating(rating)
+    setFeedbackExpanded(true)
+  }
+
+  const handleDismissFeedback = () => {
+    if (useHistoryFallback) {
+      const historyItem = getHistoryItemById(appointment.id)
+      const details = historyItem?.details ?? {}
+      updateHistoryItem(appointment.id, {
+        details: { ...details, feedbackDismissed: true },
+      })
+    } else {
+      updateAppointment(appointment.id, { feedbackDismissed: true })
+    }
+    setFeedbackExpanded(false)
+  }
+
+  const handleSubmitFeedback = () => {
+    if (!feedbackRating) return
+    if (useHistoryFallback) {
+      const historyItem = getHistoryItemById(appointment.id)
+      const details = historyItem?.details ?? {}
+      updateHistoryItem(appointment.id, {
+        details: {
+          ...details,
+          feedbackRating,
+          feedbackComment: feedbackComment.trim() ? feedbackComment.trim() : undefined,
+          feedbackDismissed: false,
+          feedbackSubmittedAt: new Date().toISOString(),
+        },
+      })
+    } else {
+      updateAppointment(appointment.id, {
+        feedbackRating,
+        feedbackComment: feedbackComment.trim() ? feedbackComment.trim() : undefined,
+        feedbackDismissed: false,
+        feedbackSubmittedAt: new Date().toISOString(),
+      })
+    }
+    setFeedbackSubmitted(true)
+    setFeedbackExpanded(false)
+  }
+
+  return (
+    <div className="w-full max-w-sm mt-6">
+      <div className="rounded-2xl border border-cream-300 bg-white p-5">
+        {feedbackSubmitted ? (
+          <div className="space-y-2">
+            <p className="text-sm font-semibold text-charcoal-500">{t('feedback.thanksTitle')}</p>
+            <p className="text-sm text-slate-600">{t('feedback.thanksSubtitle')}</p>
+            <div className="flex items-center gap-1 pt-2">
+              {Array.from({ length: 5 }).map((_, index) => {
+                const value = index + 1
+                const filled = value <= (appointment.feedbackRating ?? feedbackRating)
+                return filled ? (
+                  <IconStarFilled key={`submitted_${value}`} size={18} className="text-amber-500" />
+                ) : (
+                  <IconStar key={`submitted_${value}`} size={18} className="text-slate-300" />
+                )
+              })}
+            </div>
+            {appointment.feedbackComment ? (
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  {t('feedback.commentLabel')}
+                </p>
+                <p className="text-sm text-slate-600 italic">"{appointment.feedbackComment}"</p>
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-charcoal-500">{t('feedback.title')}</p>
+              <p className="text-sm text-slate-600">{t('feedback.subtitle')}</p>
+            </div>
+            <div className="flex items-center gap-1">
+              {Array.from({ length: 5 }).map((_, index) => {
+                const value = index + 1
+                const filled = value <= feedbackRating
+                return (
+                  <button
+                    key={`rating_${value}`}
+                    type="button"
+                    onClick={() => handleSelectRating(value)}
+                    className="p-1"
+                    aria-label={`${t('feedback.rateVisit')} ${value}`}
+                  >
+                    {filled ? (
+                      <IconStarFilled size={20} className="text-amber-500" />
+                    ) : (
+                      <IconStar size={20} className="text-slate-300" />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+
+            {feedbackExpanded ? (
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700">
+                    {t('feedback.commentLabel')}
+                  </label>
+                  <textarea
+                    value={feedbackComment}
+                    onChange={(event) => setFeedbackComment(event.target.value)}
+                    placeholder={t('feedback.commentPlaceholder')}
+                    className="mt-2 w-full rounded-xl border border-cream-300 bg-white p-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+                    rows={3}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={handleDismissFeedback}
+                    className="text-sm font-medium text-slate-500 hover:text-slate-600"
+                  >
+                    {t('feedback.notNow')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSubmitFeedback}
+                    disabled={!feedbackRating}
+                    className="px-4 py-2 rounded-lg bg-teal-500 text-white text-sm font-semibold hover:bg-teal-600 disabled:opacity-50"
+                  >
+                    {t('feedback.submit')}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setFeedbackExpanded(true)}
+                  className="text-sm font-semibold text-teal-700 hover:text-teal-800"
+                >
+                  {t('feedback.rateVisit')}
+                </button>
+                {!feedbackDismissed && (
+                  <button
+                    type="button"
+                    onClick={handleDismissFeedback}
+                    className="text-sm font-medium text-slate-500 hover:text-slate-600"
+                  >
+                    {t('feedback.notNow')}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 

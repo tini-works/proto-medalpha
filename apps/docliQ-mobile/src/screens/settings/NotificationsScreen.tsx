@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconShield } from '@tabler/icons-react'
 import { Switch } from '@meda/ui'
+import { Button, Sheet } from '../../components/ui'
 import { Header, Page, TabBar } from '../../components'
 import { usePreferences } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
@@ -17,7 +18,9 @@ export default function NotificationsScreen() {
 
   // Loading states for mock 1s persistence
   const [appointmentsLoading, setAppointmentsLoading] = useState(false)
+  const [feedbackLoading, setFeedbackLoading] = useState(false)
   const [marketingLoading, setMarketingLoading] = useState(false)
+  const [showFeedbackSheet, setShowFeedbackSheet] = useState(false)
 
   const handleToggleAppointments = async (checked: boolean) => {
     setAppointmentsLoading(true)
@@ -35,6 +38,33 @@ export default function NotificationsScreen() {
     setNotificationPreferences({ deals: checked })
     await new Promise((r) => setTimeout(r, 1000))
     setMarketingLoading(false)
+    showToast({
+      title: t('preferencesSaved'),
+      type: 'success',
+    })
+  }
+
+  const handleToggleFeedbackReminders = async (checked: boolean) => {
+    if (checked) {
+      setShowFeedbackSheet(true)
+      return
+    }
+    setFeedbackLoading(true)
+    setNotificationPreferences({ visitFeedbackReminders: false })
+    await new Promise((r) => setTimeout(r, 1000))
+    setFeedbackLoading(false)
+    showToast({
+      title: t('preferencesSaved'),
+      type: 'success',
+    })
+  }
+
+  const handleConfirmFeedbackReminders = async () => {
+    setShowFeedbackSheet(false)
+    setFeedbackLoading(true)
+    setNotificationPreferences({ visitFeedbackReminders: true })
+    await new Promise((r) => setTimeout(r, 1000))
+    setFeedbackLoading(false)
     showToast({
       title: t('preferencesSaved'),
       type: 'success',
@@ -78,6 +108,28 @@ export default function NotificationsScreen() {
             </div>
           </div>
 
+          {/* Visit feedback reminders */}
+          <div className="bg-white rounded-xl border border-cream-400 p-4">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <p className="font-semibold text-charcoal-500">{t('visitFeedbackReminders')}</p>
+                <p className="text-sm text-slate-500 mt-1">
+                  {t('visitFeedbackRemindersDesc')}
+                </p>
+              </div>
+              <Switch
+                checked={notifications.visitFeedbackReminders}
+                onChange={handleToggleFeedbackReminders}
+                loading={feedbackLoading}
+                aria-label={
+                  notifications.visitFeedbackReminders
+                    ? 'Disable visit feedback reminders'
+                    : 'Enable visit feedback reminders'
+                }
+              />
+            </div>
+          </div>
+
           {/* Marketing & News */}
           <div className="bg-white rounded-xl border border-cream-400 p-4">
             <div className="flex items-start justify-between gap-4">
@@ -110,6 +162,32 @@ export default function NotificationsScreen() {
       </div>
 
       <TabBar />
+
+      <Sheet
+        open={showFeedbackSheet}
+        onClose={() => setShowFeedbackSheet(false)}
+        title={t('visitFeedbackRemindersSheetTitle')}
+        description={t('visitFeedbackRemindersSheetBody')}
+        variant="center"
+        size="sm"
+        showDragHandle={false}
+      >
+        <Sheet.Body className="px-4 pb-6 space-y-3">
+          <p className="text-sm text-slate-600">
+            {t('visitFeedbackRemindersSheetBody')}
+          </p>
+        </Sheet.Body>
+        <Sheet.Footer>
+          <div className="flex flex-col gap-2">
+            <Button onClick={handleConfirmFeedbackReminders} fullWidth>
+              {t('visitFeedbackRemindersSheetConfirm')}
+            </Button>
+            <Button onClick={() => setShowFeedbackSheet(false)} variant="tertiary" fullWidth>
+              {t('cancel')}
+            </Button>
+          </div>
+        </Sheet.Footer>
+      </Sheet>
     </Page>
   )
 }

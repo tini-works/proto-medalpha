@@ -24,6 +24,17 @@
 
   "confirmed": "Appointment Confirmed!",
   "confirmedDescription": "Your appointment has been confirmed. We've sent the details to your email and phone.",
+  "feedback": {
+    "title": "How was your visit?",
+    "subtitle": "Tap a star to rate. You can add a note if you want.",
+    "rateVisit": "Rate visit",
+    "notNow": "Not now",
+    "commentLabel": "Optional comment",
+    "commentPlaceholder": "Share anything that could help the practice improve.",
+    "submit": "Submit feedback",
+    "thanksTitle": "Thanks for your feedback",
+    "thanksSubtitle": "Your response helps us improve care."
+  },
   "calendarEventTitle": "Appointment with {{doctorName}}",
   "addToCalendar": "Add to Calendar",
   "addToCalendarDescription": "Choose your preferred calendar app",
@@ -46,6 +57,9 @@
   "declined": "Appointment Declined",
   "declinedDescription": "Unfortunately, {{doctorName}} is unable to accept this appointment. Please try booking with another doctor.",
   "bookNewAppointment": "Book New Appointment",
+  "completedTitle": "Visit Completed",
+  "completedDescription": "Your appointment is complete. If you need anything else, you can book a follow-up.",
+  "bookFollowUp": "Book Follow-up Appointment",
 
   "yearsExp": "{{count}} years exp.",
   "defaultClinicLocation": "Heart Care Clinic, Building A",

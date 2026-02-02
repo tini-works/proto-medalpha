@@ -630,11 +630,12 @@ export function useBooking() {
 }
 
 export function useHistory() {
-  const { state, addHistoryItem, updateHistoryItem } = useAppState()
+  const { state, addHistoryItem, updateHistoryItem, getHistoryItemById } = useAppState()
   return {
     items: state.history.items,
     addHistoryItem,
     updateHistoryItem,
+    getHistoryItemById,
     getFilteredItems: (filters: { type?: string; familyMemberId?: string; dateFrom?: string; dateTo?: string }) => {
       return state.history.items.filter((item) => {
         if (filters.type && filters.type !== 'all' && item.type !== filters.type) return false

@@ -8,6 +8,8 @@
     "completed": "Abgeschlossen"
   },
   "viewDetails": "Details ansehen",
+  "rateVisit": "Termin bewerten",
+  "rated": "Bewertet",
   "estimatedWait": "Geschätzte Wartezeit {{min}}–{{max}} Min.",
   "estimatedWaitShort": "Wartezeit {{min}}–{{max}} Min.",
   "accepts": "Akzeptiert {{insurances}}",

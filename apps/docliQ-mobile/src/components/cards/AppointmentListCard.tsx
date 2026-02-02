@@ -9,9 +9,11 @@ import { Avatar } from '../display/Avatar'
 export function AppointmentListCard({
   appointment,
   onClick,
+  onRate,
 }: {
   appointment: Appointment
   onClick?: () => void
+  onRate?: () => void
 }) {
   const { t } = useTranslation(['appointments', 'booking'])
   const isMatching = appointment.status === 'matching'
@@ -80,6 +82,13 @@ export function AppointmentListCard({
   const locationPreference = doctor?.city ?? 'Berlin'
 
   const isClickable = typeof onClick === 'function'
+  const feedbackComplete = Boolean(appointment.feedbackSubmittedAt || appointment.feedbackRating)
+  const feedbackDismissed = Boolean(appointment.feedbackDismissed)
+  const showRateAction =
+    appointment.status === 'completed' &&
+    typeof onRate === 'function' &&
+    !feedbackComplete &&
+    !feedbackDismissed
   const containerClassName = `w-full text-left rounded-2xl border border-cream-300 bg-white p-4 shadow-sm transition-colors duration-normal ease-out-brand ${
     isClickable
       ? 'hover:border-cream-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 cursor-pointer'
@@ -87,7 +96,8 @@ export function AppointmentListCard({
   }`
 
   const content = (
-      <div className="flex items-start justify-between gap-3">
+    <div className="space-y-3">
+      <div className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-2">
         <div className="flex items-start gap-3 min-w-0">
           <div className="shrink-0 mt-0.5">
             {isMatching ? (
@@ -129,23 +139,47 @@ export function AppointmentListCard({
 
                 {showAccepts ? (
                   <p className="mt-1 text-xs text-slate-500 truncate">{formatInsuranceAccepts()}</p>
-                ) : (
-                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
-                    <IconCalendar className="w-4 h-4 flex-shrink-0" stroke={2} />
-                    <span>
-                      {formatDateShort(appointment.dateISO)}, {formatTime(appointment.time)} {t('timeSuffix')}
-                    </span>
-                  </div>
-                )}
+                ) : null}
               </>
             )}
           </div>
         </div>
 
-        <div className="shrink-0">
+        <div className="shrink-0 text-right">
           <Pill tone={status.tone}>{status.label}</Pill>
         </div>
+
+        {!isMatching && !showAccepts && (
+          <div className="flex items-center gap-2 text-sm text-slate-600">
+            <IconCalendar className="w-4 h-4 flex-shrink-0" stroke={2} />
+            <span>
+              {formatDateShort(appointment.dateISO)}, {formatTime(appointment.time)} {t('timeSuffix')}
+            </span>
+          </div>
+        )}
+
+        <div className="shrink-0 text-right">
+          {appointment.status === 'completed' && feedbackComplete && (
+            <span className="text-sm text-slate-400">{t('rated')}</span>
+          )}
+        </div>
       </div>
+
+      {showRateAction && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              onRate?.()
+            }}
+            className="text-sm font-semibold text-teal-700 hover:text-teal-800"
+          >
+            {t('rateVisit')}
+          </button>
+        </div>
+      )}
+    </div>
   )
 
   if (!isClickable) {

@@ -105,6 +105,7 @@ export default function HistoryScreen() {
     navigate(appointmentDetailPath(appointmentId))
   }
 
+
   return (
       <Page>
       {/* Sticky Header */}

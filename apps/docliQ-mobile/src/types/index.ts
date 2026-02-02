@@ -69,6 +69,7 @@ export interface AppState {
     biometricsEnabled: boolean
     notifications: {
       appointmentReminders: boolean
+      visitFeedbackReminders: boolean
       prescriptionUpdates: boolean
       deals: boolean
     }
@@ -128,6 +129,7 @@ export const initialState: AppState = {
     biometricsEnabled: false,
     notifications: {
       appointmentReminders: true,
+      visitFeedbackReminders: false,
       prescriptionUpdates: true,
       deals: false,
     },
