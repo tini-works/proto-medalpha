@@ -1,4 +1,5 @@
-import { IconPencil } from '@tabler/icons-react'
+import { useRef } from 'react'
+import { IconCamera } from '@tabler/icons-react'
 
 interface AvatarProps {
   name: string
@@ -8,6 +9,7 @@ interface AvatarProps {
   maxInitials?: number
   showEditOverlay?: boolean
   onEdit?: () => void
+  onAvatarChange?: (dataUrl: string) => void
 }
 
 const sizeStyles = {
@@ -108,8 +110,33 @@ export function Avatar({
   maxInitials = 2,
   showEditOverlay = false,
   onEdit,
+  onAvatarChange,
 }: AvatarProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const rounding = shape === 'rounded' ? 'rounded-lg' : 'rounded-full'
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !onAvatarChange) return
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string
+      if (dataUrl) onAvatarChange(dataUrl)
+    }
+    reader.readAsDataURL(file)
+
+    // Reset input so same file can be selected again
+    e.target.value = ''
+  }
+
+  const handleOverlayClick = () => {
+    if (onAvatarChange) {
+      fileInputRef.current?.click()
+    } else if (onEdit) {
+      onEdit()
+    }
+  }
 
   const avatarContent = imageUrl ? (
     <img
@@ -125,20 +152,30 @@ export function Avatar({
     </div>
   )
 
-  if (showEditOverlay && onEdit) {
+  if (showEditOverlay && (onEdit || onAvatarChange)) {
     return (
-      <button
-        onClick={onEdit}
-        className="relative group"
-        aria-label="Edit profile photo"
-      >
-        {avatarContent}
-        <div
-          className={`absolute bottom-0 right-0 w-6 h-6 bg-teal-500 ${rounding} flex items-center justify-center border-2 border-white shadow-sm group-hover:bg-teal-600 transition-colors`}
+      <>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="hidden"
+          aria-hidden="true"
+        />
+        <button
+          onClick={handleOverlayClick}
+          className="relative group"
+          aria-label="Change profile photo"
         >
-          <IconPencil size={editIconSizes[size]} className="text-white" />
-        </div>
-      </button>
+          {avatarContent}
+          <div
+            className={`absolute bottom-0 right-0 w-6 h-6 bg-teal-500 ${rounding} flex items-center justify-center border-2 border-white shadow-sm group-hover:bg-teal-600 transition-colors`}
+          >
+            <IconCamera size={editIconSizes[size]} className="text-white" />
+          </div>
+        </button>
+      </>
     )
   }
 

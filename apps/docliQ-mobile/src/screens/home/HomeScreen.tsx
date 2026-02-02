@@ -60,7 +60,7 @@ export default function HomeScreen() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link to={PATHS.SETTINGS}>
-              <Avatar name={profile.fullName || 'N'} size="md" />
+              <Avatar name={profile.fullName || 'User'} imageUrl={profile.photoUrl} size="md" />
             </Link>
             <div>
               <p className="text-sm text-slate-500">{t('welcomeBack')}</p>

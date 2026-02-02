@@ -32,7 +32,7 @@ import { PATHS } from '../../routes'
 export default function SettingsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('settings')
-  const { profile } = useProfile()
+  const { profile, updateProfile } = useProfile()
   const { signOut } = useAuth()
   const { language, biometricsEnabled } = usePreferences()
   const [showSignOutModal, setShowSignOutModal] = useState(false)
@@ -76,7 +76,7 @@ export default function SettingsScreen() {
             imageUrl={profile.photoUrl}
             size="xl"
             showEditOverlay
-            onEdit={() => navigate(PATHS.PROFILE_EDIT)}
+            onAvatarChange={(dataUrl) => updateProfile({ photoUrl: dataUrl })}
           />
           <h2 className="mt-4 text-lg font-semibold text-charcoal-500">
             {profile.fullName || 'User'}
