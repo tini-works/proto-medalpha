@@ -56,8 +56,9 @@
     "form": {
       "title": "Add Family Member",
       "addButton": "Add Family Member",
+      "addHint": "Tap + to add a family member",
       "cancel": "Cancel",
-      "submit": "Add Member",
+      "submit": "Save Member",
       "dateOfBirth": "Date of Birth",
       "relationship": "Relationship",
       "relationshipPlaceholder": "Select relationship",

@@ -29,14 +29,13 @@ export function FamilyMemberCard({ member, onClick, onEdit, onRemove }: FamilyMe
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold text-charcoal-500 truncate">{member.name}</h3>
         <div className="mt-1 flex items-center gap-2">
-          <Pill tone="neutral">{relationshipLabels[member.relationship]}</Pill>
+          {member.insuranceType && (
+            <Pill tone={member.insuranceType === 'GKV' ? 'info' : 'neutral'}>{member.insuranceType}</Pill>
+          )}
+          <span className="text-sm text-slate-500">{relationshipLabels[member.relationship]}</span>
+          <span className="text-slate-300">·</span>
           {age !== null && <span className="text-sm text-slate-500">{age} years</span>}
         </div>
-        {member.insuranceType && (
-          <div className="mt-2">
-            <Pill tone={member.insuranceType === 'GKV' ? 'info' : 'neutral'}>{member.insuranceType}</Pill>
-          </div>
-        )}
       </div>
       {/* Chevron indicator for navigation */}
       {onClick && (
