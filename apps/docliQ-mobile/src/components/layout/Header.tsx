@@ -26,6 +26,17 @@ function getPreviousPathInfo(currentPath: string): { path: string; params?: Reco
     return { path: 'SLOTS_FROM_CONFIRM' } // Special marker
   }
 
+  // Fast-Lane flow: back should return to booking type selection
+  if (currentPath === PATHS.FAST_LANE) {
+    return { path: PATHS.BOOKING }
+  }
+  if (currentPath === PATHS.FAST_LANE_MATCHING) {
+    return { path: PATHS.FAST_LANE }
+  }
+  if (currentPath === PATHS.FAST_LANE_SUCCESS || currentPath === PATHS.FAST_LANE_NO_MATCH) {
+    return { path: PATHS.FAST_LANE }
+  }
+
   // Slots: /booking/doctor/:id/slots -> Doctor profile: /booking/doctor/:id
   if (pathParts[0] === 'booking' && pathParts[1] === 'doctor' && pathParts[3] === 'slots') {
     const doctorId = pathParts[2]
@@ -45,6 +56,9 @@ function getPreviousPathInfo(currentPath: string): { path: string; params?: Reco
 
   if (currentPath === PATHS.BOOKING_RESULTS) {
     return { path: PATHS.BOOKING_SEARCH }
+  }
+  if (currentPath === PATHS.BOOKING_SPECIALTY || currentPath === PATHS.BOOKING_SEARCH) {
+    return { path: PATHS.BOOKING }
   }
   if (currentPath === PATHS.BOOKING_INSURANCE) {
     return { path: PATHS.BOOKING_LOCATION }

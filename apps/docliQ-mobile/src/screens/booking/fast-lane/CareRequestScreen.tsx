@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IconMapPin, IconShieldCheck, IconCheck, IconSearch, IconX } from '@tabler/icons-react'
+import { IconMapPin, IconShieldCheck, IconCheck, IconX } from '@tabler/icons-react'
 import { Header, Page, ReasonTextarea, StickyActionBar } from '../../../components'
-import { RecentSpecialtyChips } from '../../../components/display/RecentSpecialtyChips'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
+import { SpecialtySearchInput } from '../../../components/forms/SpecialtySearchInput'
 import { useProfile } from '../../../state'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
 import { useBookingSubmission } from '../../../hooks/useBookingSubmission'
 import type { InsuranceType } from '../../../types'
+import { Chip } from '../../../components/ui'
 
 type TabType = 'symptoms' | 'specialty'
 
@@ -199,27 +200,13 @@ export default function CareRequestScreen() {
           {/* Specialty Grid */}
           {activeTab === 'specialty' && (
             <>
-              <div className="relative mb-4">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <IconSearch className="w-5 h-5 text-neutral-400" size={20} stroke={2} />
-                </div>
-                <input
-                  type="text"
+              <div className="mb-4">
+                <SpecialtySearchInput
                   value={specialtyQuery}
-                  onChange={(e) => setSpecialtyQuery(e.target.value)}
+                  onChange={setSpecialtyQuery}
                   placeholder={t('specialtySearchPlaceholder')}
-                  className="w-full h-12 pl-12 pr-4 rounded-xl bg-white shadow-sm ring-1 ring-cream-400 focus:ring-2 focus:ring-teal-500 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-colors duration-normal ease-out-brand"
                 />
               </div>
-
-              <RecentSpecialtyChips
-                query={specialtyQuery}
-                selectedValue={selectedSpecialty}
-                onSelect={(value) => {
-                  setSelectedSpecialty(value)
-                  setSelectedSymptom(null)
-                }}
-              />
 
               <div className="grid grid-cols-2 gap-2">
                 {specialties
@@ -381,18 +368,15 @@ function PatientChip({
   const relationshipLabel = relationship === 'self' ? '' : ` (${t(`relationship_${relationship}`)})`
 
   return (
-    <button
+    <Chip
+      shape="pill"
+      selected={selected}
       onClick={onSelect}
-      className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-        selected
-          ? 'bg-teal-500 text-white'
-          : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-      }`}
+      leadingIcon={selected ? <IconCheck size={16} stroke={2.5} className="text-slate-700" /> : undefined}
     >
-      {selected && <IconCheck size={16} stroke={2.5} />}
       {name}
       {relationshipLabel}
-    </button>
+    </Chip>
   )
 }
 
@@ -406,15 +390,8 @@ function SelectionChip({
   onSelect: () => void
 }) {
   return (
-    <button
-      onClick={onSelect}
-      className={`px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-        selected
-          ? 'bg-teal-500 text-white shadow-md'
-          : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-      }`}
-    >
+    <Chip fullWidth selected={selected} onClick={onSelect}>
       {label}
-    </button>
+    </Chip>
   )
 }

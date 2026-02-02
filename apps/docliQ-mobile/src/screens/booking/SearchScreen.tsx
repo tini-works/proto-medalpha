@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconSearch, IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
+import { IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
-import { RecentSpecialtyChips } from '../../components/display/RecentSpecialtyChips'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
+import { SpecialtySearchInput } from '../../components/forms/SpecialtySearchInput'
 import { Button } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
@@ -100,19 +100,12 @@ export default function SearchScreen() {
       <div className="px-4 pb-32 space-y-6">
         {/* Search Input */}
         <section>
-          <div className="relative">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-              <IconSearch size={20} stroke={2} className="text-slate-400" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={t('searchPlaceholder')}
-              className="w-full h-14 pl-12 pr-4 rounded-xl bg-white border border-cream-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-all duration-normal ease-out-brand"
-            />
-          </div>
+          <SpecialtySearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            onKeyDown={handleKeyDown}
+            placeholder={t('searchPlaceholder')}
+          />
         </section>
 
         {/* Specialty Grid */}
@@ -120,16 +113,6 @@ export default function SearchScreen() {
           <h2 className="text-sm font-medium text-charcoal-500 mb-3">
             {t('specialty')}
           </h2>
-
-          <RecentSpecialtyChips
-            query={searchQuery}
-            selectedValue={selectedSpecialty}
-            labelForValue={(value) => {
-              const found = specialties.find((s) => s.value.toLowerCase() === value.toLowerCase())
-              return found ? t(found.labelKey) : value
-            }}
-            onSelect={(value) => handleSelectSpecialty(value)}
-          />
 
           <div className="grid grid-cols-2 gap-2">
             {filteredSpecialties.map((specialty) => (

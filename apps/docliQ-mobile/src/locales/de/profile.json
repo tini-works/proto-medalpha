@@ -56,8 +56,9 @@
     "form": {
       "title": "Familienmitglied hinzufügen",
       "addButton": "Familienmitglied hinzufügen",
+      "addHint": "Tippen Sie auf +, um ein Familienmitglied hinzuzufügen",
       "cancel": "Abbrechen",
-      "submit": "Mitglied hinzufügen",
+      "submit": "Mitglied speichern",
       "dateOfBirth": "Geburtsdatum",
       "relationship": "Verhältnis",
       "relationshipPlaceholder": "Verhältnis auswählen",
