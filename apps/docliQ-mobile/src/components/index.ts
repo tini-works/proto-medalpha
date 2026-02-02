@@ -1,5 +1,5 @@
 // Layout
-export { Page, Header, TabBar } from './layout'
+export { Page, Header, TabBar, StickyActionBar } from './layout'
 
 // Forms
 export { Field, Select, RadioGroup, TabToggle, PatientSelector, ReasonTextarea, LocationSelector } from './forms'

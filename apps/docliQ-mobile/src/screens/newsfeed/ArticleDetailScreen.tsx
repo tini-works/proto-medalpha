@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { IconArrowLeft, IconBookmark, IconBookmarkFilled, IconShare2 } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
-import { Page } from '../../components'
+import { Page, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { usePreferences } from '../../state'
 import { PATHS } from '../../routes'
@@ -219,27 +219,29 @@ function ArticleDetailScreen() {
       </div>
 
       {/* Bottom action bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 flex items-center gap-3 max-w-md mx-auto">
-        {/* Share button */}
-        <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-normal ease-out-brand">
-          <IconShare2 className="w-5 h-5" stroke={2} />
-          <span>{t('article.share')}</span>
-        </button>
+      <StickyActionBar>
+        <div className="flex items-center gap-3">
+          {/* Share button */}
+          <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-normal ease-out-brand">
+            <IconShare2 className="w-5 h-5" stroke={2} />
+            <span>{t('article.share')}</span>
+          </button>
 
-        {/* Save Article button */}
-        <button
-          onClick={() => setIsSaved(!isSaved)}
-          className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-teal-700 text-white rounded-lg font-medium hover:bg-teal-800 transition-colors duration-normal ease-out-brand"
-          aria-label={t('article.saveAria')}
-        >
-          {isSaved ? (
-            <IconBookmarkFilled className="w-5 h-5" stroke={2} />
-          ) : (
-            <IconBookmark className="w-5 h-5" stroke={2} />
-          )}
-          <span>{isSaved ? t('article.saved') : t('article.save')}</span>
-        </button>
-      </div>
+          {/* Save Article button */}
+          <button
+            onClick={() => setIsSaved(!isSaved)}
+            className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-teal-700 text-white rounded-lg font-medium hover:bg-teal-800 transition-colors duration-normal ease-out-brand"
+            aria-label={t('article.saveAria')}
+          >
+            {isSaved ? (
+              <IconBookmarkFilled className="w-5 h-5" stroke={2} />
+            ) : (
+              <IconBookmark className="w-5 h-5" stroke={2} />
+            )}
+            <span>{isSaved ? t('article.saved') : t('article.save')}</span>
+          </button>
+        </div>
+      </StickyActionBar>
     </Page>
   )
 }

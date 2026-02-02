@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Page, CancelAppointmentSheet } from '../../components'
+import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
 import { useBooking } from '../../state'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
@@ -95,11 +95,9 @@ interface BottomBarProps {
 
 function StickyBottomBar({ children }: BottomBarProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-cream-200">
-      <div className="mx-auto max-w-md px-6 py-4 safe-area-bottom">
-        <div className="space-y-3">{children}</div>
-      </div>
-    </div>
+    <StickyActionBar containerClassName="px-6">
+      <div className="space-y-3">{children}</div>
+    </StickyActionBar>
   )
 }
 

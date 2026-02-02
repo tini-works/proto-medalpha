@@ -96,8 +96,8 @@ export function MatchingStatusView({
       </div>
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-cream-200">
-        <div className="mx-auto max-w-md px-6 py-4 safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-cream-300">
+        <div className="mx-auto max-w-md px-4 py-4 safe-area-bottom">
           <div className="space-y-3">
             <button
               onClick={onPrimaryAction}

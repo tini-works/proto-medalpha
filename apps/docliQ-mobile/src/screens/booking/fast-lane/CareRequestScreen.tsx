@@ -7,6 +7,7 @@ import type { LocationValue } from '../../../components/forms/LocationSelector'
 import { useProfile } from '../../../state'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
 import { useBookingSubmission } from '../../../hooks/useBookingSubmission'
+import { clearRecentSpecialties, getRecentSpecialties } from '../../../data/recentSpecialties'
 import type { InsuranceType } from '../../../types'
 
 type TabType = 'symptoms' | 'specialty'
@@ -25,6 +26,7 @@ export default function CareRequestScreen() {
   const [otherSymptomText, setOtherSymptomText] = useState('')
   const [specialtyQuery, setSpecialtyQuery] = useState('')
   const [selectedPatientId, setSelectedPatientId] = useState<string>(profile.id)
+  const [recentSpecialties, setRecentSpecialties] = useState<string[]>([])
 
   const familyMembers = profile.familyMembers || []
   const hasFamilyMembers = familyMembers.length > 0
@@ -56,6 +58,10 @@ export default function CareRequestScreen() {
     hasAutoOpenedLocationPicker.current = true
     setIsLocationPickerOpen(true)
   }, [selectedCity])
+
+  useEffect(() => {
+    setRecentSpecialties(getRecentSpecialties())
+  }, [])
 
   const selection = activeTab === 'symptoms' ? selectedSymptom : selectedSpecialty
   const isOtherSelected = activeTab === 'symptoms' && selectedSymptom === OTHER_ID
@@ -212,6 +218,36 @@ export default function CareRequestScreen() {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
+                {specialtyQuery.trim().length === 0 && recentSpecialties.length > 0 && (
+                  <>
+                    <div className="col-span-2 flex items-center justify-between pt-1">
+                      <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+                        {t('recentSpecialties')}
+                      </p>
+                      <button
+                        type="button"
+                        className="text-xs font-medium text-teal-700 hover:underline"
+                        onClick={() => {
+                          clearRecentSpecialties()
+                          setRecentSpecialties([])
+                        }}
+                      >
+                        {t('clearRecent')}
+                      </button>
+                    </div>
+                    {recentSpecialties.slice(0, 4).map((value) => (
+                      <SelectionChip
+                        key={`recent-${value}`}
+                        label={value}
+                        selected={selectedSpecialty === value}
+                        onSelect={() => {
+                          setSelectedSpecialty(value)
+                          setSelectedSymptom(null)
+                        }}
+                      />
+                    ))}
+                  </>
+                )}
                 {specialties
                   .filter((specialty) => {
                     const q = specialtyQuery.trim().toLowerCase()
@@ -220,6 +256,7 @@ export default function CareRequestScreen() {
                     const value = specialty.value.toLowerCase()
                     return label.includes(q) || value.includes(q)
                   })
+                  .slice(0, 8)
                   .map((specialty) => (
                   <SelectionChip
                     key={specialty.id}

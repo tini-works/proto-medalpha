@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Header, Page } from '../../components'
+import { Header, Page, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking, useProfile, useReschedule, usePreferences } from '../../state'
 import { apiGetAvailableDates, apiGetDoctor, apiGetSlotsForDate } from '../../data'
@@ -247,19 +247,17 @@ export default function SlotSelectionScreen() {
       </div>
 
       {/* Sticky bottom continue */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button
-            onClick={handleContinue}
-            disabled={!selectedSlotValue}
-            variant="primary"
-            fullWidth
-            size="lg"
-          >
-            {t('continueBtn')}
-          </Button>
-        </div>
-      </div>
+      <StickyActionBar>
+        <Button
+          onClick={handleContinue}
+          disabled={!selectedSlotValue}
+          variant="primary"
+          fullWidth
+          size="lg"
+        >
+          {t('continueBtn')}
+        </Button>
+      </StickyActionBar>
     </Page>
   )
 }

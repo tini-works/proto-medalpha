@@ -6,6 +6,7 @@ import { useBooking, useAppState } from '../../../state'
 import { PATHS, appointmentDetailPath } from '../../../routes'
 import { apiFastLaneMatch, apiSpecialtyMatch } from '../../../data/api'
 import { MatchingStatusView } from '../../../components/appointments/MatchingStatusView'
+import { addRecentSpecialty } from '../../../data/recentSpecialties'
 
 type MatchingStatus = 'searching' | 'found_doctors' | 'checking_availability' | 'awaiting_confirmation'
 
@@ -73,6 +74,7 @@ export default function MatchingStatusScreen() {
 
         if (result.success && result.appointment) {
           addAppointment(result.appointment)
+          addRecentSpecialty(result.appointment.specialty)
           // Standardize confirmed view: go to canonical Appointment Details screen
           navigate(appointmentDetailPath(result.appointment.id), { replace: true })
         } else {

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconSparkles, IconSun, IconMoon, IconCheck, IconCalendar, IconArrowRight } from '@tabler/icons-react'
-import { Header, Page, ProgressIndicator } from '../../components'
+import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
@@ -319,20 +319,18 @@ export default function AvailabilityScreen() {
       </div>
 
       {/* Sticky Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button
-            onClick={handleContinue}
-            disabled={!canContinue}
-            variant="primary"
-            fullWidth
-            size="lg"
-            rightIcon={<IconArrowRight size={20} stroke={2} />}
-          >
-            {t('continueBtn')}
-          </Button>
-        </div>
-      </div>
+      <StickyActionBar>
+        <Button
+          onClick={handleContinue}
+          disabled={!canContinue}
+          variant="primary"
+          fullWidth
+          size="lg"
+          rightIcon={<IconArrowRight size={20} stroke={2} />}
+        >
+          {t('continueBtn')}
+        </Button>
+      </StickyActionBar>
     </Page>
   )
 }
