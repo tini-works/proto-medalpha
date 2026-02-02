@@ -7,6 +7,8 @@ import Toast from './Toast'
  */
 export default function ToastRenderer() {
   const { currentToast, dismissToast } = useNotificationToast()
+
   if (!currentToast) return null
+
   return <Toast toast={currentToast} onClose={() => dismissToast(currentToast.id)} />
 }
