@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { FamilyMember, InsuranceType } from '../../types'
-import { Button, Sheet } from '../ui'
+import { Button, Chip, Sheet } from '../ui'
 import { Field } from './Field'
 
 interface AddFamilyMemberSheetProps {
@@ -105,19 +105,14 @@ export function AddFamilyMemberSheet({ open, onClose, onAdd }: AddFamilyMemberSh
                 { value: 'parent', label: t('relationship.parent') },
                 { value: 'other', label: t('relationship.other') },
               ] as const).map((opt) => (
-                <button
+                <Chip
                   key={opt.value}
-                  type="button"
+                  fullWidth
+                  selected={formData.relationship === opt.value}
                   onClick={() => setFormData((prev) => ({ ...prev, relationship: opt.value }))}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-                    formData.relationship === opt.value
-                      ? 'bg-teal-500 text-white shadow-md'
-                      : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-                  }`}
-                  aria-pressed={formData.relationship === opt.value}
                 >
                   {opt.label}
-                </button>
+                </Chip>
               ))}
             </div>
             {errors.relationship && <p className="text-body-sm text-coral-800 mt-1">{errors.relationship}</p>}

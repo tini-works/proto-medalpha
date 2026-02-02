@@ -9,6 +9,7 @@ import { useProfile } from '../../../state'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
 import { useBookingSubmission } from '../../../hooks/useBookingSubmission'
 import type { InsuranceType } from '../../../types'
+import { Chip } from '../../../components/ui'
 
 type TabType = 'symptoms' | 'specialty'
 
@@ -367,18 +368,15 @@ function PatientChip({
   const relationshipLabel = relationship === 'self' ? '' : ` (${t(`relationship_${relationship}`)})`
 
   return (
-    <button
+    <Chip
+      shape="pill"
+      selected={selected}
       onClick={onSelect}
-      className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-        selected
-          ? 'bg-teal-500 text-white'
-          : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-      }`}
+      leadingIcon={selected ? <IconCheck size={16} stroke={2.5} className="text-slate-700" /> : undefined}
     >
-      {selected && <IconCheck size={16} stroke={2.5} />}
       {name}
       {relationshipLabel}
-    </button>
+    </Chip>
   )
 }
 
@@ -392,15 +390,8 @@ function SelectionChip({
   onSelect: () => void
 }) {
   return (
-    <button
-      onClick={onSelect}
-      className={`px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-        selected
-          ? 'bg-teal-500 text-white shadow-md'
-          : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-      }`}
-    >
+    <Chip fullWidth selected={selected} onClick={onSelect}>
       {label}
-    </button>
+    </Chip>
   )
 }

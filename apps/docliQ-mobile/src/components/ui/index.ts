@@ -1,4 +1,5 @@
 export * from './Button'
+export * from './Chip'
 export * from './ConfirmModal'
 export * from './GoogleGIcon'
 export * from './SecurityBanner'
