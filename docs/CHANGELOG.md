@@ -4,6 +4,7 @@ Notable changes, high level.
 
 ## 2026-02-02
 
+- **QA (docliQ)**: QA audit report + implementation plan in docs/docliQ; test contracts (users, appointments fixtures) and integration tests (routing, form-validation, error-handling, loading-states, toast-notification) under apps/docliQ-mobile/src/test.
 - **In-app toasts**: Fix toast dismiss reliability (click X to close); auto-dismiss now 5s; timer/queue handling hardened to avoid stuck toasts.
 - **Cookie consent**: Show confirmation toast when saving cookie preferences; add missing i18n strings for Back + “preferences saved” (en/de).
 - **OTP verification (onboarding)**: OTPInput + ResendTimer in @meda/ui; 6-digit input with auto-focus, countdown timer, resend; VerifyScreen wired; auth locales (verify.resend, resendIn, sending) en/de.
