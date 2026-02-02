@@ -152,5 +152,7 @@
     "egkNumber": "Versichertenkartennummer",
     "save": "Versicherung speichern",
     "saved": "Versicherung gespeichert"
-  }
+  },
+  "securityBanner": "Ihre persönlichen Daten werden verschlüsselt und gemäß den Sicherheitsvorschriften im Gesundheitswesen gespeichert.",
+  "profileSaved": "Profil gespeichert"
 }

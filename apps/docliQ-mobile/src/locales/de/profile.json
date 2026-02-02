@@ -106,6 +106,7 @@
     "title": "Profil bearbeiten",
     "personalInfo": "Persönliche Informationen",
     "address": "Adresse",
+    "insurance": "Versicherung",
     "email": {
       "label": "E-Mail"
     },
@@ -113,7 +114,9 @@
       "label": "Telefon (optional)",
       "placeholder": "+49 123 456789"
     },
-    "submit": "Änderungen speichern"
+    "submit": "Änderungen speichern",
+    "noAddress": "Adresse hinzufügen",
+    "noInsurance": "Versicherungsdaten hinzufügen"
   },
   "phone": {
     "label": "Telefonnummer (für SMS)",
