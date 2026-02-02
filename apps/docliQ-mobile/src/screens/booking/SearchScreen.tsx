@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconSearch, IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
+import { RecentSpecialtyChips } from '../../components/display/RecentSpecialtyChips'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import { Button } from '../../components/ui'
@@ -119,6 +120,16 @@ export default function SearchScreen() {
           <h2 className="text-sm font-medium text-charcoal-500 mb-3">
             {t('specialty')}
           </h2>
+
+          <RecentSpecialtyChips
+            query={searchQuery}
+            selectedValue={selectedSpecialty}
+            labelForValue={(value) => {
+              const found = specialties.find((s) => s.value.toLowerCase() === value.toLowerCase())
+              return found ? t(found.labelKey) : value
+            }}
+            onSelect={(value) => handleSelectSpecialty(value)}
+          />
 
           <div className="grid grid-cols-2 gap-2">
             {filteredSpecialties.map((specialty) => (

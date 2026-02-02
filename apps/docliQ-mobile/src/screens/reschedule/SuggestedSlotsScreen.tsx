@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IconCalendar, IconStar } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
-import { Page, Header, EmptyState, Avatar } from '../../components'
+import { Page, Header, EmptyState, Avatar, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useReschedule, useBooking } from '../../state'
 import { apiGetSuggestedSlots } from '../../data/api'
@@ -194,13 +194,11 @@ export default function SuggestedSlotsScreen() {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button onClick={handleViewAllSlots} variant="secondary" size="lg" fullWidth>
-            {t('reschedule.suggestions.viewAll')}
-          </Button>
-        </div>
-      </div>
+      <StickyActionBar>
+        <Button onClick={handleViewAllSlots} variant="secondary" size="lg" fullWidth>
+          {t('reschedule.suggestions.viewAll')}
+        </Button>
+      </StickyActionBar>
     </Page>
   )
 }

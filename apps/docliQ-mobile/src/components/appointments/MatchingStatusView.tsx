@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { StickyActionBar } from '../layout/StickyActionBar'
 
 export interface MatchingStep {
   label: string
@@ -96,23 +97,21 @@ export function MatchingStatusView({
       </div>
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-cream-300">
-        <div className="mx-auto max-w-md px-4 py-4 safe-area-bottom">
-          <div className="space-y-3">
-            <button
-              onClick={onPrimaryAction}
-              className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
-            >
-              {primaryActionLabel}
+      <StickyActionBar>
+        <div className="space-y-3">
+          <button
+            onClick={onPrimaryAction}
+            className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
+          >
+            {primaryActionLabel}
+          </button>
+          {secondaryActionLabel && onSecondaryAction ? (
+            <button onClick={onSecondaryAction} className="btn btn-tertiary btn-block">
+              {secondaryActionLabel}
             </button>
-            {secondaryActionLabel && onSecondaryAction ? (
-              <button onClick={onSecondaryAction} className="btn btn-tertiary btn-block">
-                {secondaryActionLabel}
-              </button>
-            ) : null}
-          </div>
+          ) : null}
         </div>
-      </div>
+      </StickyActionBar>
     </>
   )
 }

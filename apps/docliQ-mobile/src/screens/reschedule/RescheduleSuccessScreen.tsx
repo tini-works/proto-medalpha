@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { IconCheck, IconCalendar, IconMapPin } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
-import { Page, Avatar, Rating } from '../../components'
+import { Page, Avatar, Rating, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { usePreferences } from '../../state'
 import { getDoctorById } from '../../data'
@@ -19,6 +19,7 @@ export default function RescheduleSuccessScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const state = location.state as LocationState | undefined
+  const { t } = useTranslation('appointments')
   const { language } = usePreferences()
 
   const [showCheckmark, setShowCheckmark] = useState(false)
@@ -183,8 +184,8 @@ END:VCALENDAR`
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md space-y-3">
+      <StickyActionBar containerClassName="px-6">
+        <div className="space-y-3">
           <Button onClick={() => navigate(PATHS.HISTORY)} variant="primary" size="lg" fullWidth>
             {t('viewAppointments', { ns: 'booking' })}
           </Button>
@@ -192,7 +193,7 @@ END:VCALENDAR`
             {t('backToHome', { ns: 'booking' })}
           </Button>
         </div>
-      </div>
+      </StickyActionBar>
     </Page>
   )
 }

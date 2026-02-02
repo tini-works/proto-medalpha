@@ -1,7 +1,7 @@
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Check } from 'tabler-icons-react'
-import { Page } from '../../components'
+import { Page, StickyActionBar } from '../../components'
 import { PATHS, appointmentDetailPath } from '../../routes'
 import type { Appointment } from '../../types'
 
@@ -26,11 +26,11 @@ export default function SuccessScreen() {
         <h1 className="text-xl font-semibold text-charcoal-500">{t('appointmentConfirmed')}</h1>
         <p className="text-sm text-slate-500 mt-2">{t('noAppointmentDataFound')}</p>
 
-        <div className="h-24" />
+      <div className="h-24" />
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md space-y-3">
+      <StickyActionBar containerClassName="px-6">
+        <div className="space-y-3">
           <Link to={PATHS.HISTORY} className="btn btn-primary btn-block text-center block">
             {t('viewAppointments')}
           </Link>
@@ -38,7 +38,7 @@ export default function SuccessScreen() {
             {t('backToHome')}
           </Link>
         </div>
-      </div>
+      </StickyActionBar>
     </Page>
   )
 }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Header, Page } from '../../components'
+import { Header, Page, StickyActionBar } from '../../components'
 import { PATHS } from '../../routes'
 import { IconSend } from '@tabler/icons-react'
 
@@ -82,8 +82,8 @@ export default function AssistantScreen() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md flex gap-2 items-end">
+      <StickyActionBar>
+        <div className="flex gap-2 items-end">
           <div className="flex-1 bg-cream-100 border border-cream-300 rounded-2xl px-3 py-2">
             <textarea
               className="w-full bg-transparent border-none focus:ring-0 text-sm resize-none leading-5"
@@ -108,7 +108,7 @@ export default function AssistantScreen() {
             <IconSend className="w-5 h-5" />
           </button>
         </div>
-      </div>
+      </StickyActionBar>
     </Page>
   )
 }

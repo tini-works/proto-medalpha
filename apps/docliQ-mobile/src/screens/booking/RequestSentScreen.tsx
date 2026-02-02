@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconCheck } from '@tabler/icons-react'
-import { Page } from '../../components'
+import { Page, StickyActionBar } from '../../components'
 import { PATHS } from '../../routes'
 
 export default function RequestSentScreen() {
@@ -26,8 +26,8 @@ export default function RequestSentScreen() {
       </div>
 
       {/* Fixed bottom buttons */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md space-y-3">
+      <StickyActionBar containerClassName="px-6">
+        <div className="space-y-3">
           <Link to={PATHS.HISTORY} className="btn btn-primary btn-block text-center block">
             {t('viewMyAppointments')}
           </Link>
@@ -35,7 +35,7 @@ export default function RequestSentScreen() {
             {t('backToHome')}
           </Link>
         </div>
-      </div>
+      </StickyActionBar>
 
       <style>{`
         @keyframes bounce-in {

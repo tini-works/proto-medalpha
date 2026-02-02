@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconCheck, IconSearch, IconX } from '@tabler/icons-react'
-import { Header, Page, ReasonTextarea } from '../../../components'
+import { Header, Page, ReasonTextarea, StickyActionBar } from '../../../components'
+import { RecentSpecialtyChips } from '../../../components/display/RecentSpecialtyChips'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
 import { useProfile } from '../../../state'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
 import { useBookingSubmission } from '../../../hooks/useBookingSubmission'
-import { clearRecentSpecialties, getRecentSpecialties } from '../../../data/recentSpecialties'
 import type { InsuranceType } from '../../../types'
 
 type TabType = 'symptoms' | 'specialty'
@@ -26,7 +26,6 @@ export default function CareRequestScreen() {
   const [otherSymptomText, setOtherSymptomText] = useState('')
   const [specialtyQuery, setSpecialtyQuery] = useState('')
   const [selectedPatientId, setSelectedPatientId] = useState<string>(profile.id)
-  const [recentSpecialties, setRecentSpecialties] = useState<string[]>([])
 
   const familyMembers = profile.familyMembers || []
   const hasFamilyMembers = familyMembers.length > 0
@@ -58,10 +57,6 @@ export default function CareRequestScreen() {
     hasAutoOpenedLocationPicker.current = true
     setIsLocationPickerOpen(true)
   }, [selectedCity])
-
-  useEffect(() => {
-    setRecentSpecialties(getRecentSpecialties())
-  }, [])
 
   const selection = activeTab === 'symptoms' ? selectedSymptom : selectedSpecialty
   const isOtherSelected = activeTab === 'symptoms' && selectedSymptom === OTHER_ID
@@ -217,37 +212,16 @@ export default function CareRequestScreen() {
                 />
               </div>
 
+              <RecentSpecialtyChips
+                query={specialtyQuery}
+                selectedValue={selectedSpecialty}
+                onSelect={(value) => {
+                  setSelectedSpecialty(value)
+                  setSelectedSymptom(null)
+                }}
+              />
+
               <div className="grid grid-cols-2 gap-2">
-                {specialtyQuery.trim().length === 0 && recentSpecialties.length > 0 && (
-                  <>
-                    <div className="col-span-2 flex items-center justify-between pt-1">
-                      <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-                        {t('recentSpecialties')}
-                      </p>
-                      <button
-                        type="button"
-                        className="text-xs font-medium text-teal-700 hover:underline"
-                        onClick={() => {
-                          clearRecentSpecialties()
-                          setRecentSpecialties([])
-                        }}
-                      >
-                        {t('clearRecent')}
-                      </button>
-                    </div>
-                    {recentSpecialties.slice(0, 4).map((value) => (
-                      <SelectionChip
-                        key={`recent-${value}`}
-                        label={value}
-                        selected={selectedSpecialty === value}
-                        onSelect={() => {
-                          setSelectedSpecialty(value)
-                          setSelectedSymptom(null)
-                        }}
-                      />
-                    ))}
-                  </>
-                )}
                 {specialties
                   .filter((specialty) => {
                     const q = specialtyQuery.trim().toLowerCase()
@@ -341,7 +315,7 @@ export default function CareRequestScreen() {
       </div>
 
       {/* Fixed Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+      <StickyActionBar>
         <button
           onClick={handleSubmit}
           disabled={!canSubmit}
@@ -349,7 +323,7 @@ export default function CareRequestScreen() {
         >
           {t('findAppointment')}
         </button>
-      </div>
+      </StickyActionBar>
 
       {/* Location picker (bottom sheet) */}
       {isLocationPickerOpen && (

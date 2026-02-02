@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconX } from '@tabler/icons-react'
-import { Header, Page, ProgressIndicator } from '../../components'
+import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import { Button } from '../../components/ui'
@@ -155,19 +155,17 @@ export default function ConstraintsScreen() {
       </div>
 
       {/* Sticky Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button
-            onClick={handleContinue}
-            disabled={!canContinue}
-            variant="primary"
-            fullWidth
-            size="lg"
-          >
-            {t('nextBtn')}
-          </Button>
-        </div>
-      </div>
+      <StickyActionBar>
+        <Button
+          onClick={handleContinue}
+          disabled={!canContinue}
+          variant="primary"
+          fullWidth
+          size="lg"
+        >
+          {t('nextBtn')}
+        </Button>
+      </StickyActionBar>
 
       {/* Location picker (bottom sheet) */}
       {isLocationPickerOpen && (
