@@ -1,5 +1,6 @@
 # Implementation Plan — Selected UX Approaches (Codex-ready, non-technical)
 **Scope:** Implement the chosen UX approaches with minimal impact/refactor by layering new UI behaviors on top of existing booking + appointment surfaces.  
+**Impact report:** [impact-report.md](impact-report.md)  
 **Chosen approaches (your decision):**
 - **EPIC 1.2:** Approach A — Progressive Disclosure Booking  
 - **EPIC 1.3:** Hybrid — A (Micro‑Feedback Nudge) + C (Silent Opt‑In)  
@@ -246,6 +247,7 @@ Use these as “definition of done” for UI output:
 ---
 
 ## Suggested Codex work packages (small slices)
+See also: [impact-report.md](impact-report.md)
 1. **Appointment Card + Status/Stamp system** (Phase 0)  
 2. **Booking Progressive Disclosure flow** (Phase 1)  
 3. **Appointment List + Detail canonical** (Phase 2)  
