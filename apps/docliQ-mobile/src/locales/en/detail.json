@@ -18,6 +18,7 @@
   },
 
   "cancelRequest": "Cancel Request",
+  "cancel": "Cancel",
   "awaitingConfirmation": "Awaiting Confirmation",
   "awaitingDescription": "We've found a match! Waiting for {{doctorName}} to confirm your appointment.",
 
@@ -25,6 +26,14 @@
   "confirmedDescription": "Your appointment has been confirmed. We've sent the details to your email and phone.",
   "calendarEventTitle": "Appointment with {{doctorName}}",
   "addToCalendar": "Add to Calendar",
+  "addToCalendarDescription": "Choose your preferred calendar app",
+  "calendar": {
+    "google": "Google Calendar",
+    "apple": "Apple Calendar",
+    "outlook": "Outlook"
+  },
+  "exportIcs": "Export as .ics File",
+  "getDirections": "Get Directions",
   "cancelAppointment": "Cancel Appointment",
   "viewAllAppointments": "View all appointments",
   "backToHome": "Back to Home",

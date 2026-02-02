@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
+import { AddToCalendarSheet } from '../../components/sheets'
 import { useBooking } from '../../state'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
@@ -185,7 +186,7 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
         </p>
 
         {/* Summary Card */}
-        <div className="w-full max-w-sm rounded-2xl bg-cream-50 border border-cream-200 p-5">
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
           <DoctorInfoCard appointment={appointment} align="left" />
           <div className="h-px bg-cream-200 my-4" />
           <AppointmentDetails appointment={appointment} align="left" showLocation />
@@ -212,13 +213,59 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
   const [showCancelDialog, setShowCancelDialog] = useState(false)
+  const [showCalendarSheet, setShowCalendarSheet] = useState(false)
 
-  const handleAddToCalendar = () => {
+  const openGoogleCalendar = () => {
     const startDate = new Date(`${appointment.dateISO}T${appointment.time}`)
     const endDate = new Date(startDate.getTime() + 30 * 60000)
     const title = t('calendarEventTitle', { doctorName: appointment.doctorName })
     const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`
     window.open(gcalUrl, '_blank')
+  }
+
+  const handleExportIcs = () => {
+    const start = new Date(`${appointment.dateISO}T${appointment.time}`)
+    const end = new Date(start.getTime() + 30 * 60000)
+    const title = t('calendarEventTitle', { doctorName: appointment.doctorName })
+    const location = t('defaultClinicLocation')
+
+    const pad = (n: number) => String(n).padStart(2, '0')
+    const toIcsUtc = (d: Date) =>
+      `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//DocliQ//Appointment//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      `UID:${appointment.id}@docliq`,
+      `DTSTAMP:${toIcsUtc(new Date())}`,
+      `DTSTART:${toIcsUtc(start)}`,
+      `DTEND:${toIcsUtc(end)}`,
+      `SUMMARY:${title}`,
+      `LOCATION:${location}`,
+      'END:VEVENT',
+      'END:VCALENDAR',
+      '',
+    ].join('\r\n')
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `appointment-${appointment.id}.ics`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }
+
+  const handleGetDirections = () => {
+    const destination = t('defaultClinicLocation')
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(destination)}`
+    window.open(url, '_blank')
   }
 
   const handleCancel = () => {
@@ -249,7 +296,7 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         </p>
 
         {/* Summary Card */}
-        <div className="w-full max-w-sm rounded-2xl bg-cream-50 border border-cream-200 p-5">
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
           <DoctorInfoCard appointment={appointment} variant="confirmed" align="left" />
           <div className="h-px bg-cream-200 my-4" />
           <AppointmentDetails appointment={appointment} align="left" showLocation />
@@ -258,7 +305,7 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         <div className="w-full max-w-sm mt-6 flex justify-center">
           <div className="w-full space-y-3">
             <button
-              onClick={handleAddToCalendar}
+              onClick={() => setShowCalendarSheet(true)}
               className="btn btn-secondary btn-block flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,10 +314,23 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
               {t('addToCalendar')}
             </button>
             <button
-              onClick={() => setShowCancelDialog(true)}
-              className="btn btn-block bg-transparent text-red-600 hover:bg-red-50 active:bg-red-100"
+              onClick={handleExportIcs}
+              className="btn btn-secondary btn-block flex items-center justify-center gap-2"
             >
-              {t('cancelAppointment')}
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
+              </svg>
+              {t('exportIcs')}
+            </button>
+            <button
+              onClick={handleGetDirections}
+              className="w-full py-3.5 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 bg-teal-50 text-teal-700 hover:bg-teal-100"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9-7-9-7-9 7 9 7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12l9-7" />
+              </svg>
+              {t('getDirections')}
             </button>
           </div>
         </div>
@@ -279,19 +339,10 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.HISTORY)}
-          className="btn btn-secondary btn-block flex items-center justify-center gap-2"
+          onClick={() => setShowCancelDialog(true)}
+          className="w-full py-3.5 px-4 border-2 border-red-500 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          {t('viewAllAppointments')}
-        </button>
-        <button
-          onClick={() => navigate(PATHS.HOME)}
-          className="btn btn-tertiary btn-block"
-        >
-          {t('backToHome')}
+          {t('cancelAppointment')}
         </button>
       </StickyBottomBar>
 
@@ -302,6 +353,19 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         formattedDate={formatDateWithWeekday(appointment.dateISO)}
         onConfirm={handleCancel}
         onClose={() => setShowCancelDialog(false)}
+      />
+
+      <AddToCalendarSheet
+        open={showCalendarSheet}
+        onClose={() => setShowCalendarSheet(false)}
+        onSelect={(provider) => {
+          setShowCalendarSheet(false)
+          if (provider === 'google') openGoogleCalendar()
+          if (provider === 'apple' || provider === 'outlook') {
+            // TODO: implement native calendar/ICS; fallback to Google Calendar web for now.
+            openGoogleCalendar()
+          }
+        }}
       />
     </Page>
   )
@@ -397,7 +461,7 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
         </p>
 
         {/* Summary Card */}
-        <div className="w-full max-w-sm rounded-2xl bg-cream-50 border border-cream-200 p-5">
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
           <DoctorInfoCard appointment={appointment} variant="declined" align="left" />
           <div className="h-px bg-cream-200 my-4" />
           <AppointmentDetails appointment={appointment} variant="canceled" align="left" />

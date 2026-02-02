@@ -18,6 +18,7 @@
   },
 
   "cancelRequest": "Anfrage abbrechen",
+  "cancel": "Abbrechen",
   "awaitingConfirmation": "Warte auf Bestätigung",
   "awaitingDescription": "Wir haben eine Übereinstimmung gefunden! Warten auf {{doctorName}}, um Ihren Termin zu bestätigen.",
 
@@ -25,6 +26,14 @@
   "confirmedDescription": "Ihr Termin wurde bestätigt. Wir haben die Details an Ihre E-Mail und Ihr Telefon gesendet.",
   "calendarEventTitle": "Termin bei {{doctorName}}",
   "addToCalendar": "Zum Kalender hinzufügen",
+  "addToCalendarDescription": "Wählen Sie Ihre bevorzugte Kalender-App",
+  "calendar": {
+    "google": "Google Kalender",
+    "apple": "Apple Kalender",
+    "outlook": "Outlook"
+  },
+  "exportIcs": "Als .ics-Datei exportieren",
+  "getDirections": "Route anzeigen",
   "cancelAppointment": "Termin stornieren",
   "viewAllAppointments": "Alle Termine anzeigen",
   "backToHome": "Zurück zur Startseite",

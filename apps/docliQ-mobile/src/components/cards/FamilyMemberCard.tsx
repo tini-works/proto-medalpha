@@ -2,6 +2,7 @@ import { IconChevronRight } from '@tabler/icons-react'
 import type { FamilyMember } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
+import { Button } from '../ui'
 
 interface FamilyMemberCardProps {
   member: FamilyMember
@@ -70,12 +71,11 @@ export function FamilyMemberCard({ member, onClick, onEdit, onRemove }: FamilyMe
             </button>
           )}
           {onRemove && (
-            <button
-              onClick={onRemove}
-              className="flex-1 py-2 text-sm font-medium text-coral-700 hover:bg-coral-50 rounded-lg transition-colors duration-normal ease-out-brand"
-            >
-              Remove
-            </button>
+            <div className="flex-1">
+              <Button onClick={onRemove} variant="destructive" size="md" className="w-full">
+                Remove
+              </Button>
+            </div>
           )}
         </div>
       )}
