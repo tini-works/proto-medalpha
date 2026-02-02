@@ -12,3 +12,4 @@ export {
 } from './Card'
 export { OTPInput, type OTPInputProps } from './OTPInput'
 export { ResendTimer, type ResendTimerProps } from './ResendTimer'
+export { Switch, type SwitchProps } from './Switch'
