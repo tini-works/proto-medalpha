@@ -59,6 +59,8 @@ export default function CareRequestScreen() {
 
   const selection = activeTab === 'symptoms' ? selectedSymptom : selectedSpecialty
   const isOtherSelected = activeTab === 'symptoms' && selectedSymptom === OTHER_ID
+  // Keep the symptom grid compact (8 chips total including "Other")
+  const symptomChips = symptoms.slice(0, 7)
   const canSubmit =
     selection !== null &&
     Boolean(selectedCity) &&
@@ -158,7 +160,7 @@ export default function CareRequestScreen() {
           {activeTab === 'symptoms' && (
             <>
               <div className="grid grid-cols-2 gap-2">
-                {symptoms.map((symptom) => (
+                {symptomChips.map((symptom) => (
                   <SelectionChip
                     key={symptom.id}
                     label={t(symptom.labelKey)}

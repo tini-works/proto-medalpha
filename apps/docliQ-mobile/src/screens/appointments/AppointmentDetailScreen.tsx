@@ -72,7 +72,7 @@ function BackHeader() {
   const { t } = useTranslation('detail')
 
   return (
-    <header className="sticky top-0 z-10 bg-white px-4 py-3">
+    <header className="sticky top-0 z-10 h-16 bg-white px-4 flex items-center">
       <button
         onClick={() => navigate(-1)}
         className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"
@@ -524,4 +524,3 @@ function addMinutes(time: string, minutes: number): string {
   const newM = totalMinutes % 60
   return `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`
 }
-

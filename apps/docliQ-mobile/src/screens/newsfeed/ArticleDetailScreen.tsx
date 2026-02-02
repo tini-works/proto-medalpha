@@ -54,8 +54,8 @@ function ArticleDetailScreen() {
   return (
     <Page>
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
-        <div className="flex items-center justify-between px-4 py-4">
+      <header className="sticky top-0 z-10 h-16 bg-white border-b border-cream-300">
+        <div className="flex h-full items-center justify-between px-4">
           {/* Back button */}
           {/* Back button uses shared Button component with icon variant */}
           <Button

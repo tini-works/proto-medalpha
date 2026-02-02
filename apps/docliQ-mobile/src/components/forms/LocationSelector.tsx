@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconSearch } from '@tabler/icons-react'
 import { RadiusSlider } from './RadiusSlider'
@@ -21,6 +21,39 @@ interface LocationSelectorProps {
   showSavedLocations?: boolean
 }
 
+const RECENT_KEY = 'docliq_recent_location_searches'
+const MAX_RECENTS = 5
+
+// Simulated location suggestions for the bottom-sheet search UI.
+// Keep to common German cities (i18n-safe strings) and a few postal codes.
+const LOCATION_SUGGESTIONS = [
+  'Berlin',
+  'Hamburg',
+  'München',
+  'Köln',
+  'Frankfurt am Main',
+  'Stuttgart',
+  'Düsseldorf',
+  'Leipzig',
+  'Dortmund',
+  'Essen',
+  'Bremen',
+  'Dresden',
+  'Hannover',
+  'Nürnberg',
+  'Duisburg',
+  'Bochum',
+  'Wuppertal',
+  'Bielefeld',
+  'Bonn',
+  'Mannheim',
+  '10115',
+  '20095',
+  '80331',
+  '50667',
+  '60311',
+] as const
+
 export function LocationSelector({
   onLocationSelect,
   savedLocations = [],
@@ -34,6 +67,55 @@ export function LocationSelector({
   const [radius, setRadius] = useState(initialRadius)
   const [selectedSavedId, setSelectedSavedId] = useState<string | undefined>()
   const [locationType, setLocationType] = useState<'gps' | 'address' | 'saved' | null>(null)
+  const [recentSearches, setRecentSearches] = useState<string[]>([])
+
+  useEffect(() => {
+    const stored = localStorage.getItem(RECENT_KEY)
+    if (!stored) return
+    try {
+      const parsed = JSON.parse(stored)
+      if (Array.isArray(parsed)) setRecentSearches(parsed.filter((v) => typeof v === 'string'))
+    } catch {
+      // ignore
+    }
+  }, [])
+
+  const persistRecents = (items: string[]) => {
+    setRecentSearches(items)
+    localStorage.setItem(RECENT_KEY, JSON.stringify(items))
+  }
+
+  const saveRecentSearch = (value: string) => {
+    const trimmed = value.trim()
+    if (!trimmed) return
+    const next = [trimmed, ...recentSearches.filter((v) => v.toLowerCase() !== trimmed.toLowerCase())].slice(
+      0,
+      MAX_RECENTS
+    )
+    persistRecents(next)
+  }
+
+  const filteredSuggestions = useMemo(() => {
+    const q = addressQuery.trim().toLowerCase()
+    if (!q) return []
+    return LOCATION_SUGGESTIONS.filter((s) => s.toLowerCase().includes(q)).slice(0, 6)
+  }, [addressQuery])
+
+  const showRecents = useMemo(() => addressQuery.trim().length === 0 && recentSearches.length > 0, [addressQuery, recentSearches.length])
+
+  const selectAddress = (value: string) => {
+    const trimmed = value.trim()
+    if (!trimmed) return
+    setAddressQuery(trimmed)
+    setLocationType('address')
+    setSelectedSavedId(undefined)
+    saveRecentSearch(trimmed)
+    onLocationSelect({
+      type: 'address',
+      value: trimmed,
+      radius,
+    })
+  }
 
   const handleUseCurrentLocation = () => {
     setLocationType('gps')
@@ -58,11 +140,11 @@ export function LocationSelector({
   const handleAddressKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && addressQuery.trim()) {
       e.preventDefault()
-      onLocationSelect({
-        type: 'address',
-        value: addressQuery.trim(),
-        radius,
-      })
+      if (filteredSuggestions.length > 0) {
+        selectAddress(filteredSuggestions[0])
+      } else {
+        selectAddress(addressQuery.trim())
+      }
     }
   }
 
@@ -135,6 +217,54 @@ export function LocationSelector({
           }`}
         />
       </div>
+
+      {/* Recent Searches / Suggestions */}
+      {(showRecents || filteredSuggestions.length > 0) && (
+        <div className="bg-white rounded-xl border border-cream-300 shadow-sm overflow-hidden">
+          {showRecents && (
+            <div className="flex items-center justify-between px-4 py-3 border-b border-cream-200">
+              <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">{t('recentSearches')}</p>
+              <button
+                type="button"
+                className="text-xs font-medium text-teal-700 hover:underline"
+                onClick={() => persistRecents([])}
+              >
+                {t('clearRecent')}
+              </button>
+            </div>
+          )}
+
+          {filteredSuggestions.length > 0 && (
+            <div className="flex items-center justify-between px-4 py-3 border-b border-cream-200">
+              <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">{t('suggestions')}</p>
+            </div>
+          )}
+
+          <div className="divide-y divide-cream-200">
+            {showRecents &&
+              recentSearches.map((value) => (
+                <button
+                  key={`recent-${value}`}
+                  type="button"
+                  className="w-full px-4 py-3 text-left text-sm text-charcoal-500 hover:bg-cream-50 transition-colors"
+                  onClick={() => selectAddress(value)}
+                >
+                  {value}
+                </button>
+              ))}
+            {filteredSuggestions.map((value) => (
+              <button
+                key={`suggest-${value}`}
+                type="button"
+                className="w-full px-4 py-3 text-left text-sm text-charcoal-500 hover:bg-cream-50 transition-colors"
+                onClick={() => selectAddress(value)}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Map Preview */}
       {showMapPreview && (

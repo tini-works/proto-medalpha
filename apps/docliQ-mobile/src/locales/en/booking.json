@@ -271,6 +271,9 @@
   "useCurrentLocation": "Use Current Location",
   "orEnterAddress": "Or enter a specific address",
   "addressPlaceholder": "Enter street, city, or postal code...",
+  "recentSearches": "Recent searches",
+  "clearRecent": "Clear",
+  "suggestions": "Suggestions",
   "mapPreview": "Map Preview",
 
   "langGerman": "German",

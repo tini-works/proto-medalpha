@@ -271,6 +271,9 @@
   "useCurrentLocation": "Aktuellen Standort verwenden",
   "orEnterAddress": "Oder eine bestimmte Adresse eingeben",
   "addressPlaceholder": "Straße, Stadt oder Postleitzahl eingeben...",
+  "recentSearches": "Letzte Suchen",
+  "clearRecent": "Löschen",
+  "suggestions": "Vorschläge",
   "mapPreview": "Kartenvorschau",
 
   "langGerman": "Deutsch",
