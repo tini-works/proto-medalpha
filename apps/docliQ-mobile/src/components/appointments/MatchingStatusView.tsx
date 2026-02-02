@@ -68,7 +68,7 @@ export function MatchingStatusView({
                 <div className="w-6 h-6 rounded-full border-2 border-cream-400 flex-shrink-0" />
               )}
               <span
-                className={`text-sm ${step.done ? 'text-green-600' : step.active ? 'text-charcoal-500' : 'text-slate-400'}`}
+                className={`text-base ${step.done ? 'text-green-600' : step.active ? 'text-charcoal-500' : 'text-slate-400'}`}
               >
                 {step.label}
               </span>
@@ -87,8 +87,8 @@ export function MatchingStatusView({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M18.5 5.5a8 8 0 01-12.7 9.2L4 14" />
               </svg>
               <div className="min-w-0">
-                {connectionTitle && <p className="text-xs font-medium leading-snug">{connectionTitle}</p>}
-                {connectionSubtitle && <p className="mt-0.5 text-xs text-sky-700/90 leading-snug">{connectionSubtitle}</p>}
+                {connectionTitle && <p className="text-sm font-medium leading-snug">{connectionTitle}</p>}
+                {connectionSubtitle && <p className="mt-0.5 text-sm text-sky-700/90 leading-snug">{connectionSubtitle}</p>}
               </div>
             </div>
           </div>
