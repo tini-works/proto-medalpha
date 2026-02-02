@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
+import { DestructiveOutlineButton } from '../../components/ui'
 import { AddToCalendarSheet } from '../../components/sheets'
 import { useBooking } from '../../state'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
@@ -195,12 +196,9 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
-        <button
-          onClick={handleCancel}
-          className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
-        >
+        <DestructiveOutlineButton onClick={handleCancel}>
           {t('cancelRequest')}
-        </button>
+        </DestructiveOutlineButton>
       </StickyBottomBar>
     </Page>
   )
@@ -338,12 +336,9 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
-        <button
-          onClick={() => setShowCancelDialog(true)}
-          className="w-full py-3.5 px-4 border-2 border-red-500 text-red-600 font-medium rounded-xl hover:bg-red-50 transition-colors"
-        >
+        <DestructiveOutlineButton onClick={() => setShowCancelDialog(true)}>
           {t('cancelAppointment')}
-        </button>
+        </DestructiveOutlineButton>
       </StickyBottomBar>
 
       {/* Cancel Dialog */}

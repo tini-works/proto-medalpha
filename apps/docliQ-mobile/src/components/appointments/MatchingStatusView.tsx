@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { StickyActionBar } from '../layout/StickyActionBar'
+import { DestructiveOutlineButton } from '../ui'
 
 export interface MatchingStep {
   label: string
@@ -99,12 +100,9 @@ export function MatchingStatusView({
       {/* Sticky Bottom Bar */}
       <StickyActionBar>
         <div className="space-y-3">
-          <button
-            onClick={onPrimaryAction}
-            className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
-          >
+          <DestructiveOutlineButton onClick={onPrimaryAction}>
             {primaryActionLabel}
-          </button>
+          </DestructiveOutlineButton>
           {secondaryActionLabel && onSecondaryAction ? (
             <button onClick={onSecondaryAction} className="btn btn-tertiary btn-block">
               {secondaryActionLabel}
