@@ -65,6 +65,7 @@
   "yearsExp": "{{count}} years exp.",
   "defaultClinicLocation": "Heart Care Clinic, Building A",
   "keepAppointment": "Keep Appointment",
+  "lastUpdated": "Last updated:",
 
   "cancelDialog": {
     "title": "Cancel Appointment?",

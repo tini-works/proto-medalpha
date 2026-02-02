@@ -65,6 +65,7 @@
   "yearsExp": "{{count}} Jahre Erfahrung",
   "defaultClinicLocation": "Heart Care Klinik, Gebäude A",
   "keepAppointment": "Termin behalten",
+  "lastUpdated": "Zuletzt aktualisiert:",
 
   "cancelDialog": {
     "title": "Termin stornieren?",

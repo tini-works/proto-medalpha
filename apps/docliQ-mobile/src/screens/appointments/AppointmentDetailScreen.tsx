@@ -108,6 +108,8 @@ interface StatusProps {
     dateISO: string
     time: string
     status: string
+    createdAt?: string
+    updatedAt?: string
     feedbackRating?: number
     feedbackComment?: string
     feedbackDismissed?: boolean
@@ -840,6 +842,14 @@ function AppointmentDetails({
   const textColor = isGrayed ? 'text-slate-400' : 'text-slate-600'
   const iconColor = isGrayed ? 'text-slate-300' : 'text-slate-500'
   const rowAlign = align === 'left' ? 'justify-start' : 'justify-center'
+  const lastUpdatedIso = appointment.updatedAt ?? appointment.createdAt ?? `${appointment.dateISO}T${appointment.time}`
+  const lastUpdatedDate = new Date(lastUpdatedIso)
+  const lastUpdatedDateISO = Number.isNaN(lastUpdatedDate.getTime())
+    ? appointment.dateISO
+    : lastUpdatedDate.toISOString().slice(0, 10)
+  const lastUpdatedTime = Number.isNaN(lastUpdatedDate.getTime())
+    ? appointment.time
+    : `${String(lastUpdatedDate.getHours()).padStart(2, '0')}:${String(lastUpdatedDate.getMinutes()).padStart(2, '0')}`
 
   return (
     <div className="space-y-3">
@@ -869,6 +879,10 @@ function AppointmentDetails({
           <span className={textColor}>{t('defaultClinicLocation')}</span>
         </div>
       )}
+
+      <div className="mt-2 rounded-lg bg-cream-100 px-3 py-2 text-center text-xs text-slate-500">
+        {t('lastUpdated')} {formatDateWithWeekday(lastUpdatedDateISO)} {formatTime(lastUpdatedTime)}
+      </div>
     </div>
   )
 }
