@@ -15,6 +15,7 @@ export function DevToggleButton() {
   }
 
   const handleToggleOffline = () => {
+    ;(window as any).__devOnlineOverride = !isOnline
     window.dispatchEvent(new Event(isOnline ? 'offline' : 'online'))
   }
 
