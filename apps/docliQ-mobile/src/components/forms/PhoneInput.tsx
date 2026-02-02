@@ -1,3 +1,5 @@
+import { AlertCircle, CircleCheck } from 'tabler-icons-react'
+
 interface PhoneInputProps {
   label: string
   countryCode: string
@@ -8,6 +10,11 @@ interface PhoneInputProps {
   hint?: string
   required?: boolean
   disabled?: boolean
+  // Verification props
+  verificationStatus?: 'none' | 'pending' | 'verified'
+  onVerifyClick?: () => void
+  verifyLabel?: string
+  pendingHint?: string
 }
 
 const COUNTRY_CODES = [
@@ -33,15 +40,35 @@ export function PhoneInput({
   hint,
   required,
   disabled,
+  verificationStatus = 'none',
+  onVerifyClick,
+  verifyLabel = 'Verify',
+  pendingHint,
 }: PhoneInputProps) {
   const inputId = label.toLowerCase().replace(/\s+/g, '-')
+  const showVerifyButton = verificationStatus === 'pending' && onVerifyClick
+  const showPendingHint = verificationStatus === 'pending' && pendingHint
 
   return (
     <div className="space-y-1">
-      <label htmlFor={inputId} className="block text-label-md text-slate-700">
-        {label}
-        {required && <span className="text-coral-600 ml-0.5">*</span>}
-      </label>
+      {/* Label row with optional Verify button */}
+      <div className="flex items-center justify-between">
+        <label htmlFor={inputId} className="block text-label-md text-slate-700">
+          {label}
+          {required && <span className="text-coral-600 ml-0.5">*</span>}
+        </label>
+        {showVerifyButton && (
+          <button
+            type="button"
+            onClick={onVerifyClick}
+            className="text-sm font-medium text-teal-600 hover:text-teal-700"
+          >
+            {verifyLabel}
+          </button>
+        )}
+      </div>
+
+      {/* Input row with status icon */}
       <div className="flex gap-2">
         {/* Country code selector */}
         <div className="relative">
@@ -71,25 +98,50 @@ export function PhoneInput({
           </select>
         </div>
 
-        {/* Phone number input */}
-        <input
-          id={inputId}
-          type="tel"
-          value={phoneNumber}
-          onChange={(e) => onPhoneNumberChange(e.target.value.replace(/[^\d\s-]/g, ''))}
-          placeholder="123 456 7890"
-          disabled={disabled}
-          className={`
-            flex-1 px-3 py-2.5 text-body-md rounded-lg border bg-white
-            ${error ? 'border-coral-600 focus:ring-coral-500' : 'border-cream-400 focus:ring-teal-500'}
-            focus:outline-none focus:ring-2 focus:border-transparent
-            disabled:bg-cream-200 disabled:text-slate-500
-            placeholder:text-slate-400
-          `}
-        />
+        {/* Phone number input with status icon */}
+        <div className="relative flex-1">
+          <input
+            id={inputId}
+            type="tel"
+            value={phoneNumber}
+            onChange={(e) => onPhoneNumberChange(e.target.value.replace(/[^\d\s-]/g, ''))}
+            placeholder="123 456 7890"
+            disabled={disabled}
+            className={`
+              w-full px-3 py-2.5 text-body-md rounded-lg border bg-white
+              ${error ? 'border-coral-600 focus:ring-coral-500' : 'border-cream-400 focus:ring-teal-500'}
+              focus:outline-none focus:ring-2 focus:border-transparent
+              disabled:bg-cream-200 disabled:text-slate-500
+              placeholder:text-slate-400
+              ${verificationStatus !== 'none' ? 'pr-10' : ''}
+            `}
+          />
+          {/* Status icon inside input */}
+          {verificationStatus === 'pending' && (
+            <AlertCircle
+              size={20}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-500"
+              fill="currentColor"
+              stroke="white"
+            />
+          )}
+          {verificationStatus === 'verified' && (
+            <CircleCheck
+              size={20}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-teal-600"
+            />
+          )}
+        </div>
       </div>
+
+      {/* Help text / error */}
       {error && <p className="text-body-sm text-coral-800">{error}</p>}
-      {hint && !error && <p className="text-body-sm text-slate-500">{hint}</p>}
+      {showPendingHint && !error && (
+        <p className="text-body-sm text-slate-400 italic">{pendingHint}</p>
+      )}
+      {hint && !error && !showPendingHint && (
+        <p className="text-body-sm text-slate-500">{hint}</p>
+      )}
     </div>
   )
 }

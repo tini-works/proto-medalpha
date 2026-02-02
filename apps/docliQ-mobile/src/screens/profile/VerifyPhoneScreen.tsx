@@ -6,6 +6,7 @@ import { OTPInput, ResendTimer } from '@meda/ui'
 import { Header, Page } from '../../components'
 import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
+import { useNotificationToast } from '../../contexts/NotificationToastContext'
 import {
   sendVerificationCode,
   verifyCode,
@@ -22,6 +23,7 @@ export default function VerifyPhoneScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const { markPhoneVerified } = useProfile()
+  const { showToast } = useNotificationToast()
 
   // Get phone from navigation state
   const state = (location.state as LocationState) ?? {}
@@ -30,6 +32,7 @@ export default function VerifyPhoneScreen() {
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [codeSent, setCodeSent] = useState(false)
+  const [code, setCode] = useState('')
 
   // Send initial code on mount
   useEffect(() => {
@@ -59,6 +62,10 @@ export default function VerifyPhoneScreen() {
 
     if (result.success) {
       markPhoneVerified()
+      showToast({
+        title: t('phone.verificationSuccess'),
+        type: 'success',
+      })
       navigate(-1)
     } else {
       // Map error codes to translation keys
@@ -68,6 +75,10 @@ export default function VerifyPhoneScreen() {
           ? 'validation.codeExpired'
           : 'validation.invalidCode'
       setError(t(errorKey))
+      showToast({
+        title: t(errorKey),
+        type: 'warning',
+      })
       setIsSubmitting(false)
     }
   }
@@ -123,6 +134,10 @@ export default function VerifyPhoneScreen() {
 
         {/* OTP Input */}
         <OTPInput
+          onChange={(value) => {
+            setCode(value)
+            if (error) setError('')
+          }}
           onComplete={handleComplete}
           error={error}
           disabled={isSubmitting}
@@ -142,7 +157,11 @@ export default function VerifyPhoneScreen() {
           loading={isSubmitting}
           disabled={isSubmitting}
           onClick={() => {
-            // This is a fallback - OTPInput should auto-submit
+            if (code.length === 0) {
+              setError(t('validation.codeIncomplete'))
+              return
+            }
+            handleComplete(code)
           }}
         >
           {t('phone.submit')}

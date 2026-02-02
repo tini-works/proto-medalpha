@@ -8,6 +8,7 @@ Notable changes, high level.
 - **@meda/ui**: OTPInput (useOTPInput), ResendTimer (useCountdown) exported.
 - **SMS phone verification (US 1.1.4)**: VerifyPhoneScreen, phoneVerification mock service; EditProfile phone field + verify button, status badge; profile.phoneVerified/phoneVerifiedAt; paths, AppContext markPhoneVerified; profile locales en/de; US-1.1.4 spec.
 - **Docs**: doclibQ → docliQ rename; component-refactor/ (Sheet, OTP plans); US-1.1.4 implementation plan.
+- **Phone verification UX**: PhoneInput verification status (pending/verified) + inline verify button + status icon; EditProfile uses PhoneInput props; VerifyPhoneScreen toasts on success/error; Toast layout alignment; profile locales (pendingVerification, verificationSuccess).
 
 ## 2026-01-30
 

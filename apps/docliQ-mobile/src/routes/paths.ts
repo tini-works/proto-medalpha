@@ -85,6 +85,10 @@ export const PATHS = {
   SETTINGS_FAQ: '/settings/faq',
   SETTINGS_CONTACT: '/settings/contact-support',
   SETTINGS_HELP: '/settings/help-centre',
+  SETTINGS_PASSWORD: '/settings/password',
+  SETTINGS_BIOMETRICS: '/settings/biometrics',
+  SETTINGS_ADDRESS: '/settings/address',
+  SETTINGS_INSURANCE: '/settings/insurance',
 
   // Assistants (optional enhancement)
   ASSISTANT: '/assistant',

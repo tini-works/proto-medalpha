@@ -116,9 +116,10 @@
     "submit": "Änderungen speichern"
   },
   "phone": {
-    "label": "Telefonnummer",
+    "label": "Telefonnummer (für SMS)",
     "verified": "Bestätigt",
     "verify": "Bestätigen",
+    "pendingVerification": "Verifizierung ausstehend",
     "verifyTitle": "Telefon bestätigen",
     "verifyHeading": "Bestätigungscode eingeben",
     "verifySubtitle": "Wir haben einen 6-stelligen Code an {{phone}} gesendet",
@@ -128,7 +129,8 @@
     "sending": "Wird gesendet...",
     "submit": "Bestätigen",
     "demoHint": "Für Demo: Jeder 6-stellige Code funktioniert",
-    "noPhoneProvided": "Keine Telefonnummer angegeben"
+    "noPhoneProvided": "Keine Telefonnummer angegeben",
+    "verificationSuccess": "Telefonnummer bestätigt"
   },
   "validation": {
     "fullNameRequired": "Vollständiger Name ist erforderlich",

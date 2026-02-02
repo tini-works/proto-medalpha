@@ -116,9 +116,10 @@
     "submit": "Save Changes"
   },
   "phone": {
-    "label": "Phone Number",
+    "label": "Phone Number (for SMS)",
     "verified": "Verified",
     "verify": "Verify",
+    "pendingVerification": "Pending verification",
     "verifyTitle": "Verify Phone",
     "verifyHeading": "Enter verification code",
     "verifySubtitle": "We sent a 6-digit code to {{phone}}",
@@ -128,7 +129,8 @@
     "sending": "Sending...",
     "submit": "Verify",
     "demoHint": "For demo: any 6-digit code works",
-    "noPhoneProvided": "No phone number provided"
+    "noPhoneProvided": "No phone number provided",
+    "verificationSuccess": "Phone number verified"
   },
   "validation": {
     "fullNameRequired": "Full name is required",

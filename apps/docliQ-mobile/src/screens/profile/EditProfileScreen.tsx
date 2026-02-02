@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck } from 'tabler-icons-react'
 import { Header, Page } from '../../components'
 import { Field, RadioGroup, PhoneInput } from '../../components/forms'
 import { Button } from '../../components/ui'
@@ -133,41 +132,30 @@ export default function EditProfileScreen() {
           />
 
           <PhoneInput
-            label={t('edit.phone.label')}
+            label={t('phone.label')}
             countryCode={formData.phoneCountryCode}
             phoneNumber={formData.phone}
             onCountryCodeChange={(code) => handleChange('phoneCountryCode', code)}
             onPhoneNumberChange={(number) => handleChange('phone', number)}
             error={errors.phone}
+            verificationStatus={
+              !formData.phone
+                ? 'none'
+                : isPhoneVerified
+                  ? 'verified'
+                  : 'pending'
+            }
+            onVerifyClick={() =>
+              navigate(PATHS.PROFILE_VERIFY_PHONE, {
+                state: {
+                  phone: formData.phone,
+                  phoneCountryCode: formData.phoneCountryCode,
+                },
+              })
+            }
+            verifyLabel={t('phone.verify')}
+            pendingHint={t('phone.pendingVerification')}
           />
-
-          {/* Phone verification status */}
-          {formData.phone && (
-            <div className="flex items-center gap-2 -mt-2">
-              {isPhoneVerified ? (
-                <span className="flex items-center gap-1 text-sm text-teal-600">
-                  <CircleCheck size={16} />
-                  {t('phone.verified')}
-                </span>
-              ) : (
-                <Button
-                  variant="tertiary"
-                  size="sm"
-                  type="button"
-                  onClick={() =>
-                    navigate(PATHS.PROFILE_VERIFY_PHONE, {
-                      state: {
-                        phone: formData.phone,
-                        phoneCountryCode: formData.phoneCountryCode,
-                      },
-                    })
-                  }
-                >
-                  {t('phone.verify')}
-                </Button>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Insurance */}
