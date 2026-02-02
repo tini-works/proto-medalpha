@@ -6,6 +6,8 @@ Notable changes, high level.
 
 - **OTP verification (onboarding)**: OTPInput + ResendTimer in @meda/ui; 6-digit input with auto-focus, countdown timer, resend; VerifyScreen wired; auth locales (verify.resend, resendIn, sending) en/de.
 - **@meda/ui**: OTPInput (useOTPInput), ResendTimer (useCountdown) exported.
+- **SMS phone verification (US 1.1.4)**: VerifyPhoneScreen, phoneVerification mock service; EditProfile phone field + verify button, status badge; profile.phoneVerified/phoneVerifiedAt; paths, AppContext markPhoneVerified; profile locales en/de; US-1.1.4 spec.
+- **Docs**: doclibQ → docliQ rename; component-refactor/ (Sheet, OTP plans); US-1.1.4 implementation plan.
 
 ## 2026-01-30
 

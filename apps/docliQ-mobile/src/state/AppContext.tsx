@@ -66,6 +66,7 @@ type AppStateApi = {
   signOut: () => void
   markVerified: () => void
   markIdentityVerified: () => void
+  markPhoneVerified: () => void
   // Profile
   updateProfile: (patch: Partial<UserProfile>) => void
   addFamilyMember: (member: Omit<FamilyMember, 'id'>) => void
@@ -315,6 +316,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
             identityVerifiedAt: new Date().toISOString(),
           },
         })),
+      markPhoneVerified: () =>
+        setState((s) => ({
+          ...s,
+          profile: {
+            ...s.profile,
+            phoneVerified: true,
+            phoneVerifiedAt: new Date().toISOString(),
+          },
+        })),
 
       // Profile
       updateProfile: (patch) =>
@@ -545,6 +555,7 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    markPhoneVerified,
     isProfileComplete,
   } = useAppState()
   return {
@@ -555,6 +566,7 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    markPhoneVerified,
   }
 }
 

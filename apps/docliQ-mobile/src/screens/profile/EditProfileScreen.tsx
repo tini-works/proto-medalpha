@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { CircleCheck } from 'tabler-icons-react'
 import { Header, Page } from '../../components'
-import { Field, RadioGroup } from '../../components/forms'
+import { Field, RadioGroup, PhoneInput } from '../../components/forms'
 import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
+import { PATHS } from '../../routes'
 import type { InsuranceType } from '../../types'
 
 export default function EditProfileScreen() {
@@ -16,6 +18,7 @@ export default function EditProfileScreen() {
     fullName: profile.fullName,
     email: profile.email,
     phone: profile.phone || '',
+    phoneCountryCode: profile.phoneCountryCode || '+49',
     insuranceType: profile.insuranceType,
     egkNumber: profile.egkNumber,
     street: profile.address.street,
@@ -23,6 +26,14 @@ export default function EditProfileScreen() {
     city: profile.address.city,
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  // Track if phone was changed (to reset verification status)
+  const phoneChanged =
+    formData.phone !== (profile.phone || '') ||
+    formData.phoneCountryCode !== (profile.phoneCountryCode || '+49')
+
+  // Check if phone is currently verified (and hasn't been changed)
+  const isPhoneVerified = profile.phoneVerified && !phoneChanged && formData.phone !== ''
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -71,10 +82,16 @@ export default function EditProfileScreen() {
 
     if (!validate()) return
 
+    // If phone changed, reset verification status
+    const phoneVerificationReset = phoneChanged
+      ? { phoneVerified: false, phoneVerifiedAt: undefined }
+      : {}
+
     updateProfile({
       fullName: formData.fullName,
       email: formData.email,
       phone: formData.phone || undefined,
+      phoneCountryCode: formData.phoneCountryCode,
       insuranceType: formData.insuranceType as InsuranceType,
       egkNumber: formData.egkNumber,
       address: {
@@ -82,6 +99,7 @@ export default function EditProfileScreen() {
         postalCode: formData.postalCode,
         city: formData.city,
       },
+      ...phoneVerificationReset,
     })
 
     navigate(-1)
@@ -114,13 +132,42 @@ export default function EditProfileScreen() {
             required
           />
 
-          <Field
+          <PhoneInput
             label={t('edit.phone.label')}
-            type="tel"
-            value={formData.phone}
-            onChange={(e) => handleChange('phone', e.target.value)}
-            placeholder={t('edit.phone.placeholder')}
+            countryCode={formData.phoneCountryCode}
+            phoneNumber={formData.phone}
+            onCountryCodeChange={(code) => handleChange('phoneCountryCode', code)}
+            onPhoneNumberChange={(number) => handleChange('phone', number)}
+            error={errors.phone}
           />
+
+          {/* Phone verification status */}
+          {formData.phone && (
+            <div className="flex items-center gap-2 -mt-2">
+              {isPhoneVerified ? (
+                <span className="flex items-center gap-1 text-sm text-teal-600">
+                  <CircleCheck size={16} />
+                  {t('phone.verified')}
+                </span>
+              ) : (
+                <Button
+                  variant="tertiary"
+                  size="sm"
+                  type="button"
+                  onClick={() =>
+                    navigate(PATHS.PROFILE_VERIFY_PHONE, {
+                      state: {
+                        phone: formData.phone,
+                        phoneCountryCode: formData.phoneCountryCode,
+                      },
+                    })
+                  }
+                >
+                  {t('phone.verify')}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Insurance */}

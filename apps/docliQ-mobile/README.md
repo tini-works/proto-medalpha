@@ -22,7 +22,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 
 ### Auth & Profile
 - Welcome, register, sign in, forgot/reset password, verify identity; password field (show/hide) + strength indicator (OWASP); OTP verification (OTPInput + ResendTimer from @meda/ui)
-- Profile + insurance (GKV/PKV), family members + dependents
+- Profile + insurance (GKV/PKV), family members + dependents; phone verification (VerifyPhoneScreen, mock SMS service)
 
 ### Booking Flow
 - **Paths**: Fast Lane (symptoms → auto-match), By specialty (specialty → city/insurance → availability), By doctor (doctor → symptoms → slot → confirm)

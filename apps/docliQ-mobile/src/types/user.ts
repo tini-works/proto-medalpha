@@ -57,6 +57,9 @@ export interface UserProfile {
   // Identity verification
   identityVerified: boolean
   identityVerifiedAt?: string // ISO timestamp
+  // Phone verification
+  phoneVerified?: boolean
+  phoneVerifiedAt?: string // ISO timestamp
 }
 
 export interface AuthState {

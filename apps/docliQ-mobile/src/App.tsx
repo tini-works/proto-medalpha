@@ -14,6 +14,7 @@ import {
   FamilyMembersScreen,
   FamilyMemberDetailScreen,
   EditProfileScreen,
+  VerifyPhoneScreen,
 } from './screens/profile'
 
 // Home screen
@@ -272,6 +273,14 @@ function AppContent() {
             element={
               <RequireAuth>
                 <EditProfileScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.PROFILE_VERIFY_PHONE}
+            element={
+              <RequireAuth>
+                <VerifyPhoneScreen />
               </RequireAuth>
             }
           />

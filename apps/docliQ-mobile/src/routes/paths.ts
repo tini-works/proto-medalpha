@@ -24,6 +24,7 @@ export const PATHS = {
   PROFILE_FAMILY: '/profile/family',
   PROFILE_FAMILY_DETAIL: '/profile/family/:id',
   PROFILE_EDIT: '/profile/edit',
+  PROFILE_VERIFY_PHONE: '/profile/verify-phone',
 
   // Home
   HOME: '/home',
