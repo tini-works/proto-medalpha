@@ -1,5 +1,6 @@
 export type InsuranceType = 'GKV' | 'PKV'
 export type InsuranceChoice = InsuranceType | 'Selbstzahler' // For UI selection only - gets converted to '' for storage
+export type Gender = 'male' | 'female' | 'diverse' | 'prefer_not_to_say'
 
 export interface FamilyMember {
   id: string
@@ -25,6 +26,9 @@ export interface UserProfile {
   fullName: string
   email: string
   phone?: string
+  phoneCountryCode?: string // e.g., '+49'
+  dateOfBirth?: string // ISO format YYYY-MM-DD
+  gender?: Gender
   insuranceType: InsuranceType | ''
   egkNumber: string
   address: {
@@ -50,6 +54,12 @@ export interface UserProfile {
   // OAuth fields
   photoUrl?: string
   authProvider?: 'email' | 'google' | 'apple'
+  // Identity verification
+  identityVerified: boolean
+  identityVerifiedAt?: string // ISO timestamp
+  // Phone verification
+  phoneVerified?: boolean
+  phoneVerifiedAt?: string // ISO timestamp
 }
 
 export interface AuthState {

@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IconShield, IconToggleRight, IconToggleLeft } from '@tabler/icons-react'
+import { IconShield } from '@tabler/icons-react'
+import { Switch } from '@meda/ui'
 import { Header, Page, TabBar } from '../../components'
 import { usePreferences } from '../../state'
+import { useNotificationToast } from '../../contexts/NotificationToastContext'
 
 /**
  * Notifications preferences screen.
@@ -10,13 +13,32 @@ import { usePreferences } from '../../state'
 export default function NotificationsScreen() {
   const { t } = useTranslation('settings')
   const { notifications, setNotificationPreferences } = usePreferences()
+  const { showToast } = useNotificationToast()
 
-  const toggleAppointments = () => {
-    setNotificationPreferences({ appointmentReminders: !notifications.appointmentReminders })
+  // Loading states for mock 1s persistence
+  const [appointmentsLoading, setAppointmentsLoading] = useState(false)
+  const [marketingLoading, setMarketingLoading] = useState(false)
+
+  const handleToggleAppointments = async (checked: boolean) => {
+    setAppointmentsLoading(true)
+    setNotificationPreferences({ appointmentReminders: checked })
+    await new Promise((r) => setTimeout(r, 1000))
+    setAppointmentsLoading(false)
+    showToast({
+      title: t('preferencesSaved'),
+      type: 'success',
+    })
   }
 
-  const toggleMarketing = () => {
-    setNotificationPreferences({ deals: !notifications.deals })
+  const handleToggleMarketing = async (checked: boolean) => {
+    setMarketingLoading(true)
+    setNotificationPreferences({ deals: checked })
+    await new Promise((r) => setTimeout(r, 1000))
+    setMarketingLoading(false)
+    showToast({
+      title: t('preferencesSaved'),
+      type: 'success',
+    })
   }
 
   return (
@@ -43,17 +65,16 @@ export default function NotificationsScreen() {
                   {t('appointmentReminders')}
                 </p>
               </div>
-              <button
-                onClick={toggleAppointments}
-                className="flex-shrink-0"
-                aria-label={notifications.appointmentReminders ? 'Disable appointment reminders' : 'Enable appointment reminders'}
-              >
-                {notifications.appointmentReminders ? (
-                  <IconToggleRight size={32} className="text-teal-600" />
-                ) : (
-                  <IconToggleLeft size={32} className="text-slate-300" />
-                )}
-              </button>
+              <Switch
+                checked={notifications.appointmentReminders}
+                onChange={handleToggleAppointments}
+                loading={appointmentsLoading}
+                aria-label={
+                  notifications.appointmentReminders
+                    ? 'Disable appointment reminders'
+                    : 'Enable appointment reminders'
+                }
+              />
             </div>
           </div>
 
@@ -64,17 +85,16 @@ export default function NotificationsScreen() {
                 <p className="font-semibold text-charcoal-500">{t('marketingNews')}</p>
                 <p className="text-sm text-slate-500 mt-1">{t('stayUpdated')}</p>
               </div>
-              <button
-                onClick={toggleMarketing}
-                className="flex-shrink-0"
-                aria-label={notifications.deals ? 'Disable marketing updates' : 'Enable marketing updates'}
-              >
-                {notifications.deals ? (
-                  <IconToggleRight size={32} className="text-teal-600" />
-                ) : (
-                  <IconToggleLeft size={32} className="text-slate-300" />
-                )}
-              </button>
+              <Switch
+                checked={notifications.deals}
+                onChange={handleToggleMarketing}
+                loading={marketingLoading}
+                aria-label={
+                  notifications.deals
+                    ? 'Disable marketing updates'
+                    : 'Enable marketing updates'
+                }
+              />
             </div>
           </div>
         </div>

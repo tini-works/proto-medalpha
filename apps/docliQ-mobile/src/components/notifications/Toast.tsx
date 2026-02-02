@@ -52,10 +52,10 @@ export default function Toast({ toast, onClose }: ToastProps) {
       role="alert"
       className="fixed top-6 left-4 right-4 z-50 max-w-md mx-auto bg-white rounded-lg p-4 border border-cream-300 shadow-lg safe-area-top"
     >
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
         {renderIcon()}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-charcoal-500 mb-1">{toast.title}</h3>
+          <h3 className="text-sm font-semibold text-charcoal-500">{toast.title}</h3>
           {toast.appointmentId && (
             <Link
               to={appointmentDetailPath(toast.appointmentId)}
@@ -66,11 +66,11 @@ export default function Toast({ toast, onClose }: ToastProps) {
             </Link>
           )}
         </div>
-        <div className={`w-3 h-3 rounded-full ${dotColor} flex-shrink-0 mt-1`} />
+        <div className={`w-3 h-3 rounded-full ${dotColor} flex-shrink-0`} />
         <button
           type="button"
           onClick={onClose}
-          className="flex-shrink-0 p-1 -mr-1 -mt-1 rounded-full hover:bg-cream-100 text-slate-400"
+          className="flex-shrink-0 p-1 -mr-1 rounded-full hover:bg-cream-100 text-slate-400"
           aria-label="Dismiss"
         >
           <IconX size={16} stroke={2} />

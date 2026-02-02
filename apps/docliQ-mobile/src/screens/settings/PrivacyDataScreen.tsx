@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
@@ -13,7 +14,7 @@ import {
   IconTrash,
 } from '@tabler/icons-react'
 import { Header, Page, SettingsListItem } from '../../components'
-import { Button } from '../../components/ui'
+import { Button, ConfirmModal } from '../../components/ui'
 import { useAppState } from '../../state'
 import { PATHS } from '../../routes'
 import { resetCookiePreferences } from '../../components/legal'
@@ -28,12 +29,15 @@ export default function PrivacyDataScreen() {
   const { t } = useTranslation('legal')
   const { t: tSettings } = useTranslation('settings')
   const { resetAll } = useAppState()
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const handleDeleteAccount = () => {
-    if (window.confirm(t('privacyHub.deleteAccountConfirm'))) {
-      resetAll()
-      navigate(PATHS.AUTH_WELCOME)
-    }
+    setShowDeleteModal(true)
+  }
+
+  const confirmDeleteAccount = () => {
+    resetAll()
+    navigate(PATHS.AUTH_WELCOME)
   }
 
   const handleCookiePreferences = () => {
@@ -154,7 +158,9 @@ export default function PrivacyDataScreen() {
                 </div>
                 <div>
                   <p className="font-medium text-charcoal-500">{t('privacyHub.deleteAccount')}</p>
-                  <p className="text-sm text-slate-500">{t('privacyHub.deleteAccountDesc')}</p>
+                  <p className="text-sm text-slate-500" id="delete-account-warning">
+                    {t('privacyHub.deleteAccountDesc')}
+                  </p>
                 </div>
               </div>
               <p className="text-xs text-slate-400 mb-3">
@@ -164,6 +170,7 @@ export default function PrivacyDataScreen() {
                 onClick={handleDeleteAccount}
                 variant="destructive"
                 fullWidth
+                aria-describedby="delete-account-warning"
               >
                 {t('privacyHub.deleteAccount')}
               </Button>
@@ -176,6 +183,18 @@ export default function PrivacyDataScreen() {
           {tSettings('versionFooter')}
         </p>
       </div>
+
+      {/* Delete Account Confirmation Modal */}
+      <ConfirmModal
+        open={showDeleteModal}
+        title={t('privacyHub.deleteAccount')}
+        message={t('privacyHub.deleteAccountConfirm')}
+        confirmLabel={t('privacyHub.deleteAccount')}
+        cancelLabel={tSettings('cancel')}
+        onConfirm={confirmDeleteAccount}
+        onCancel={() => setShowDeleteModal(false)}
+        variant="destructive"
+      />
     </Page>
   )
 }

@@ -65,6 +65,8 @@ type AppStateApi = {
   signIn: (email: string, options?: { isRegistration?: boolean }) => void
   signOut: () => void
   markVerified: () => void
+  markIdentityVerified: () => void
+  markPhoneVerified: () => void
   // Profile
   updateProfile: (patch: Partial<UserProfile>) => void
   addFamilyMember: (member: Omit<FamilyMember, 'id'>) => void
@@ -74,6 +76,7 @@ type AppStateApi = {
   // Preferences
   setFontScale: (scale: AppState['preferences']['fontScale']) => void
   setLanguage: (language: AppState['preferences']['language']) => void
+  setBiometricsEnabled: (enabled: boolean) => void
   setNotificationPreferences: (patch: Partial<AppState['preferences']['notifications']>) => void
   // Booking
   setSearchFilters: (filters: SearchFilters) => void
@@ -107,6 +110,7 @@ type AppStateApi = {
   clearBookingFlow: () => void
   // Computed
   isProfileComplete: boolean
+  isIdentityVerified: boolean
   getAppointmentById: (id: string) => Appointment | undefined
   getHistoryItemById: (id: string) => HistoryItem | undefined
   // Reset
@@ -272,11 +276,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       state.profile.gdprConsent.dataProcessing
   )
 
+  const isIdentityVerified = Boolean(state.profile.identityVerified)
+
   const api = useMemo<AppStateApi>(
     () => ({
       state,
       extendedState,
       isProfileComplete,
+      isIdentityVerified,
 
       // Auth
       signIn: (email, options) =>
@@ -300,6 +307,24 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setState((s) => ({
           ...s,
           auth: { ...s.auth, verified: true },
+        })),
+      markIdentityVerified: () =>
+        setState((s) => ({
+          ...s,
+          profile: {
+            ...s.profile,
+            identityVerified: true,
+            identityVerifiedAt: new Date().toISOString(),
+          },
+        })),
+      markPhoneVerified: () =>
+        setState((s) => ({
+          ...s,
+          profile: {
+            ...s.profile,
+            phoneVerified: true,
+            phoneVerifiedAt: new Date().toISOString(),
+          },
         })),
 
       // Profile
@@ -360,6 +385,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setState((s) => ({
           ...s,
           preferences: { ...s.preferences, language },
+        })),
+      setBiometricsEnabled: (biometricsEnabled) =>
+        setState((s) => ({
+          ...s,
+          preferences: { ...s.preferences, biometricsEnabled },
         })),
       setNotificationPreferences: (patch) =>
         setState((s) => ({
@@ -496,7 +526,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null })
       },
     }),
-    [state, extendedState, isProfileComplete]
+    [state, extendedState, isProfileComplete, isIdentityVerified]
   )
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>
@@ -510,14 +540,16 @@ export function useAppState() {
 
 // Convenience hooks
 export function useAuth() {
-  const { state, signIn, signOut, markVerified } = useAppState()
+  const { state, signIn, signOut, markVerified, markIdentityVerified, isIdentityVerified } = useAppState()
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isVerified: state.auth.verified,
+    isIdentityVerified,
     userId: state.auth.userId,
     signIn,
     signOut,
     markVerified,
+    markIdentityVerified,
   }
 }
 
@@ -529,6 +561,7 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    markPhoneVerified,
     isProfileComplete,
   } = useAppState()
   return {
@@ -539,6 +572,7 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    markPhoneVerified,
   }
 }
 
@@ -615,13 +649,15 @@ export function useHistory() {
 }
 
 export function usePreferences() {
-  const { state, setFontScale, setLanguage, setNotificationPreferences } = useAppState()
+  const { state, setFontScale, setLanguage, setBiometricsEnabled, setNotificationPreferences } = useAppState()
   return {
     fontScale: state.preferences.fontScale,
     language: state.preferences.language,
+    biometricsEnabled: state.preferences.biometricsEnabled,
     notifications: state.preferences.notifications,
     setFontScale,
     setLanguage,
+    setBiometricsEnabled,
     setNotificationPreferences,
   }
 }

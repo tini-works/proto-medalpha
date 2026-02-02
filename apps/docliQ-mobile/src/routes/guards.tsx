@@ -11,11 +11,16 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     return <Navigate to={PATHS.AUTH_WELCOME} replace />
   }
 
-  // Allow unverified users to access Verify Identity screen, Profile Complete, and Home
-  // (booking features require profile completion, enforced separately)
+  // Allow unverified users to access onboarding screens, Home, and appointment details
+  // (booking features require identity verification, enforced separately)
   const allowedUnverifiedPaths = [
     PATHS.AUTH_VERIFY_IDENTITY,
     PATHS.PROFILE_COMPLETE,
+    PATHS.ONBOARDING_PROFILE,
+    PATHS.ONBOARDING_INSURANCE,
+    PATHS.ONBOARDING_VERIFY,
+    PATHS.ONBOARDING_SCAN,
+    PATHS.ONBOARDING_SUCCESS,
     PATHS.HOME,
     PATHS.APPOINTMENT_DETAIL,
   ]

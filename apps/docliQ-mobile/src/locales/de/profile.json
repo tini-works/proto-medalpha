@@ -6,7 +6,8 @@
   },
   "common": {
     "optional": "optional",
-    "close": "Schließen"
+    "close": "Schließen",
+    "goBack": "Zurück"
   },
   "fullName": {
     "label": "Vollständiger Name",
@@ -114,6 +115,23 @@
     },
     "submit": "Änderungen speichern"
   },
+  "phone": {
+    "label": "Telefonnummer (für SMS)",
+    "verified": "Bestätigt",
+    "verify": "Bestätigen",
+    "pendingVerification": "Verifizierung ausstehend",
+    "verifyTitle": "Telefon bestätigen",
+    "verifyHeading": "Bestätigungscode eingeben",
+    "verifySubtitle": "Wir haben einen 6-stelligen Code an {{phone}} gesendet",
+    "codeExpires": "Code läuft ab in {{time}}",
+    "resendIn": "Erneut senden in {{seconds}}s",
+    "resend": "Code erneut senden",
+    "sending": "Wird gesendet...",
+    "submit": "Bestätigen",
+    "demoHint": "Für Demo: Jeder 6-stellige Code funktioniert",
+    "noPhoneProvided": "Keine Telefonnummer angegeben",
+    "verificationSuccess": "Telefonnummer bestätigt"
+  },
   "validation": {
     "fullNameRequired": "Vollständiger Name ist erforderlich",
     "emailRequired": "E-Mail ist erforderlich",
@@ -125,6 +143,10 @@
     "nameRequired": "Name ist erforderlich",
     "dateOfBirthRequired": "Geburtsdatum ist erforderlich",
     "relationshipRequired": "Verhältnis ist erforderlich",
-    "gdprRequired": "Sie müssen den Bedingungen für die Datenverarbeitung zustimmen"
+    "gdprRequired": "Sie müssen den Bedingungen für die Datenverarbeitung zustimmen",
+    "codeIncomplete": "Bitte geben Sie den vollständigen 6-stelligen Code ein",
+    "codeExpired": "Code abgelaufen. Bitte fordern Sie einen neuen an.",
+    "invalidCode": "Ungültiger Code. Bitte versuchen Sie es erneut.",
+    "rateLimitExceeded": "Zu viele Versuche. Versuchen Sie es in {{minutes}} Minuten erneut."
   }
 }
