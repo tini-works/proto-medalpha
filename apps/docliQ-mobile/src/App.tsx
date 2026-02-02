@@ -3,8 +3,10 @@ import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
 import { useI18nSync } from './hooks/useI18nSync'
 import { NotificationToastProvider } from './contexts/NotificationToastContext'
+import { DevModeProvider } from './contexts/DevModeContext'
 import AppointmentStatusChangeNotifier from './components/notifications/AppointmentStatusChangeNotifier'
 import ToastRenderer from './components/notifications/ToastRenderer'
+import { DeviceFrame, DevToggleButton, SpecsDrawer } from './components/dev'
 
 // Auth screens
 import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdentityScreen, ForgotPasswordScreen, ResetPasswordScreen, OAuthConsentScreen, InsuranceRequestScreen, OAuthErrorScreen } from './screens/auth'
@@ -113,12 +115,15 @@ import { CookieConsentBanner } from './components'
 
 export default function App() {
   return (
-    <NotificationToastProvider>
-      <AppStateProvider>
-        <AppContent />
-        <AppointmentStatusChangeNotifier />
-      </AppStateProvider>
-    </NotificationToastProvider>
+    <DevModeProvider>
+      <NotificationToastProvider>
+        <AppStateProvider>
+          <AppContent />
+          <AppointmentStatusChangeNotifier />
+        </AppStateProvider>
+      </NotificationToastProvider>
+      <DevToggleButton />
+    </DevModeProvider>
   )
 }
 
@@ -128,8 +133,9 @@ function AppContent() {
   useI18nSync()
 
   return (
-    <BrowserRouter>
-      <div className="app-shell relative">
+    <DeviceFrame>
+      <BrowserRouter>
+        <div className="app-shell relative">
         <Routes>
           <Route path="/" element={<Navigate to={PATHS.HOME} replace />} />
 
@@ -797,6 +803,9 @@ function AppContent() {
       <ToastRenderer />
       {/* Cookie consent banner - TTDSG §25 compliance */}
       <CookieConsentBanner />
+      {/* Dev mode specs drawer - needs router context for location */}
+      <SpecsDrawer />
     </BrowserRouter>
+    </DeviceFrame>
   )
 }
