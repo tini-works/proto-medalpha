@@ -85,6 +85,7 @@ export function DeviceFrame({ children }: DeviceFrameProps) {
         .device-screen {
           width: 430px;
           height: 932px;
+          --app-height: 932px;  /* Override app height for responsive content */
           background: #fff;
           border-radius: 32px;
           overflow: hidden;
