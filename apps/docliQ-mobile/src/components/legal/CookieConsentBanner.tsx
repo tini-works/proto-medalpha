@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { IconCookie, IconSquare, IconSquareCheckFilled } from '@tabler/icons-react'
 import { Button, Sheet } from '../ui'
 import { PATHS } from '../../routes'
+import { useNotificationToast } from '../../contexts/NotificationToastContext'
 
 const COOKIE_CONSENT_KEY = 'docliq_cookie_consent'
 
@@ -30,6 +31,7 @@ const DEFAULT_PREFERENCES: CookiePreferences = {
  */
 export default function CookieConsentBanner() {
   const { t } = useTranslation('legal')
+  const { showToast } = useNotificationToast()
   const [isVisible, setIsVisible] = useState(false)
   const [showCustomize, setShowCustomize] = useState(false)
   const [preferences, setPreferences] = useState<CookiePreferences>(DEFAULT_PREFERENCES)
@@ -70,6 +72,10 @@ export default function CookieConsentBanner() {
 
   const handleSaveCustom = () => {
     savePreferences(preferences)
+    showToast({
+      type: 'success',
+      title: t('cookies.banner.preferencesSaved'),
+    })
   }
 
   const togglePreference = (key: keyof Omit<CookiePreferences, 'essential' | 'consentDate'>) => {
@@ -95,7 +101,7 @@ export default function CookieConsentBanner() {
                 {t('cookies.banner.savePreferences')}
               </Button>
               <Button onClick={() => setShowCustomize(false)} variant="tertiary" fullWidth>
-                {t('cookies.banner.back') || 'Back'}
+                {t('cookies.banner.back')}
               </Button>
             </>
           ) : (

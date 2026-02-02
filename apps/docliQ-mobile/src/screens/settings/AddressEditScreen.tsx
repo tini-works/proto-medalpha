@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
-import { Button, Input } from '../../components/ui'
+import { Button, Input, SecurityBanner } from '../../components/ui'
 import { useProfile } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
 
@@ -41,36 +41,38 @@ export default function AddressEditScreen() {
     <Page safeBottom={false}>
       <Header title={t('addressEdit.title')} showBack />
 
-      <div className="flex-1 flex flex-col px-4 py-6">
-        <div className="space-y-4">
-          <Input
-            label={t('addressEdit.street')}
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-            placeholder="Musterstraße 123"
-          />
+      <div className="px-4 py-6 space-y-4">
+        <Input
+          label={t('addressEdit.street')}
+          value={street}
+          onChange={(e) => setStreet(e.target.value)}
+          placeholder="Musterstraße 123"
+        />
 
-          <Input
-            label={t('addressEdit.postalCode')}
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            placeholder="10115"
-            maxLength={5}
-          />
+        <Input
+          label={t('addressEdit.postalCode')}
+          value={postalCode}
+          onChange={(e) => setPostalCode(e.target.value)}
+          placeholder="10115"
+          maxLength={5}
+        />
 
-          <Input
-            label={t('addressEdit.city')}
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Berlin"
-          />
+        <Input
+          label={t('addressEdit.city')}
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Berlin"
+        />
+      </div>
+
+      {/* Fixed bottom section */}
+      <div className="fixed bottom-0 left-0 right-0 bg-cream-100 px-4 pb-6 pt-2">
+        <div className="mx-auto max-w-md space-y-4">
+          <SecurityBanner />
+          <Button onClick={handleSave} disabled={!isValid} fullWidth>
+            {t('addressEdit.save')}
+          </Button>
         </div>
-
-        <div className="flex-1" />
-
-        <Button onClick={handleSave} disabled={!isValid} fullWidth>
-          {t('addressEdit.save')}
-        </Button>
       </div>
     </Page>
   )

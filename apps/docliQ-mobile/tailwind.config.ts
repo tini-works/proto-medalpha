@@ -124,6 +124,7 @@ export default {
         'scale-in': 'scaleIn 200ms ease-out',
         'slide-up': 'slideUp 300ms ease-out',
         'slide-down': 'slideDown 300ms ease-out',
+        'slide-out': 'slideOut 200ms ease-in forwards',
       },
       keyframes: {
         fadeIn: {
@@ -141,6 +142,10 @@ export default {
         slideDown: {
           from: { transform: 'translateY(-10px)', opacity: '0' },
           to: { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideOut: {
+          from: { transform: 'translateY(0)', opacity: '1' },
+          to: { transform: 'translateY(-10px)', opacity: '0' },
         },
       },
     },

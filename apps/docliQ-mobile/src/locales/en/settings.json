@@ -152,5 +152,7 @@
     "egkNumber": "Insurance Card Number",
     "save": "Save Insurance",
     "saved": "Insurance saved"
-  }
+  },
+  "securityBanner": "Your personal information is encrypted and stored securely according to healthcare security regulations.",
+  "profileSaved": "Profile saved"
 }

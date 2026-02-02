@@ -1,6 +1,35 @@
 export type InsuranceType = 'GKV' | 'PKV'
 export type InsuranceChoice = InsuranceType | 'Selbstzahler' // For UI selection only - gets converted to '' for storage
 export type Gender = 'male' | 'female' | 'diverse' | 'prefer_not_to_say'
+export type AddressType = 'residential' | 'work' | 'other'
+
+/**
+ * Future-prep: Structured address for multi-address support
+ * Current UserProfile uses inline { street, postalCode, city }
+ * Migration path: address → addresses[] with primaryAddressId
+ */
+export interface Address {
+  id: string
+  type: AddressType
+  label?: string // e.g., "Home", "Office", custom name
+  street: string
+  postalCode: string
+  city: string
+  isDefault: boolean
+}
+
+/**
+ * Future-prep: Structured insurance for multi-insurance support
+ * Current UserProfile uses insuranceType + egkNumber
+ * Migration path: insuranceType/egkNumber → insurances[] with primaryInsuranceId
+ */
+export interface Insurance {
+  id: string
+  insuranceType: InsuranceType
+  egkNumber: string
+  provider?: string // e.g., "TK", "AOK", "Allianz"
+  isDefault: boolean
+}
 
 export interface FamilyMember {
   id: string

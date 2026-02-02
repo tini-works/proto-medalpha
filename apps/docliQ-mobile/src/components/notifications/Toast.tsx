@@ -16,7 +16,6 @@ interface ToastProps {
 export default function Toast({ toast, onClose }: ToastProps) {
   const { t } = useTranslation('booking')
 
-  // Icon + background based on type (matches NotificationCard pattern)
   const renderIcon = () => {
     switch (toast.type) {
       case 'success':
@@ -40,13 +39,6 @@ export default function Toast({ toast, onClose }: ToastProps) {
     }
   }
 
-  // Dot color (matches NotificationCard pattern)
-  const dotColor = {
-    success: 'bg-teal-500',
-    warning: 'bg-amber-500',
-    info: 'bg-slate-500',
-  }[toast.type]
-
   return (
     <div
       role="alert"
@@ -66,7 +58,6 @@ export default function Toast({ toast, onClose }: ToastProps) {
             </Link>
           )}
         </div>
-        <div className={`w-3 h-3 rounded-full ${dotColor} flex-shrink-0`} />
         <button
           type="button"
           onClick={onClose}

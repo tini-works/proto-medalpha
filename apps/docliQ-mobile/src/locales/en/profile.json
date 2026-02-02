@@ -106,6 +106,7 @@
     "title": "Edit Profile",
     "personalInfo": "Personal Information",
     "address": "Address",
+    "insurance": "Insurance",
     "email": {
       "label": "Email"
     },
@@ -113,7 +114,9 @@
       "label": "Phone (optional)",
       "placeholder": "+49 123 456789"
     },
-    "submit": "Save Changes"
+    "submit": "Save Changes",
+    "noAddress": "Add your address",
+    "noInsurance": "Add insurance details"
   },
   "phone": {
     "label": "Phone Number (for SMS)",

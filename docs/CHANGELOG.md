@@ -4,6 +4,8 @@ Notable changes, high level.
 
 ## 2026-02-02
 
+- **In-app toasts**: Fix toast dismiss reliability (click X to close); auto-dismiss now 5s; timer/queue handling hardened to avoid stuck toasts.
+- **Cookie consent**: Show confirmation toast when saving cookie preferences; add missing i18n strings for Back + “preferences saved” (en/de).
 - **OTP verification (onboarding)**: OTPInput + ResendTimer in @meda/ui; 6-digit input with auto-focus, countdown timer, resend; VerifyScreen wired; auth locales (verify.resend, resendIn, sending) en/de.
 - **@meda/ui**: OTPInput (useOTPInput), ResendTimer (useCountdown) exported; refinements to OTPInput, useOTPInput, ResendTimer, useCountdown.
 - **SMS phone verification (US 1.1.4)**: VerifyPhoneScreen, phoneVerification mock service; EditProfile phone field + verify button, status badge; profile.phoneVerified/phoneVerifiedAt; paths, AppContext markPhoneVerified; profile locales en/de; US-1.1.4 spec.
