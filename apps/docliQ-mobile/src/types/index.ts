@@ -66,6 +66,7 @@ export interface AppState {
     fontScale: 1 | 1.15 | 1.3
     language: 'en' | 'de'
     disableDemoAppointmentsSeed: boolean
+    biometricsEnabled: boolean
     notifications: {
       appointmentReminders: boolean
       prescriptionUpdates: boolean
@@ -124,6 +125,7 @@ export const initialState: AppState = {
     fontScale: 1,
     language: 'de', // DocliQ default for Germany market
     disableDemoAppointmentsSeed: false,
+    biometricsEnabled: false,
     notifications: {
       appointmentReminders: true,
       prescriptionUpdates: true,

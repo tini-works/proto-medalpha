@@ -78,6 +78,10 @@ import {
   FAQScreen,
   ContactSupportScreen,
   HelpCentreScreen,
+  AddressEditScreen,
+  InsuranceEditScreen,
+  ChangePasswordScreen,
+  BiometricsScreen,
 } from './screens/settings'
 
 // Privacy sub-screens (GDPR)
@@ -717,6 +721,38 @@ function AppContent() {
             element={
               <RequireAuth>
                 <HelpCentreScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_PASSWORD}
+            element={
+              <RequireAuth>
+                <ChangePasswordScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_BIOMETRICS}
+            element={
+              <RequireAuth>
+                <BiometricsScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_ADDRESS}
+            element={
+              <RequireAuth>
+                <AddressEditScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.SETTINGS_INSURANCE}
+            element={
+              <RequireAuth>
+                <InsuranceEditScreen />
               </RequireAuth>
             }
           />

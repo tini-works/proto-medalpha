@@ -21,6 +21,14 @@ export interface OTPInputProps
   mask?: boolean
   /** Delay before auto-submit in ms (default: 300, 0 to disable) */
   autoSubmitDelay?: number
+  /** Screen reader label for input group */
+  groupLabel?: string
+  /** Pattern for digit labels - use {{index}} and {{total}} */
+  digitLabel?: string
+  /** Label for verifying state */
+  verifyingLabel?: string
+  /** Label for progress - use {{filled}} and {{total}} */
+  progressLabel?: string
 }
 
 export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
@@ -35,6 +43,10 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
       disabled = false,
       mask = false,
       autoSubmitDelay = 300,
+      groupLabel,
+      digitLabel,
+      verifyingLabel,
+      progressLabel,
       className = '',
       ...props
     },
@@ -43,16 +55,24 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
     const errorId = useId()
     const groupId = useId()
 
-    const { digits, inputRefs, setDigit, handlePaste, focusInput, hasInteracted } =
-      useOTPInput({
-        length,
-        value,
-        onChange,
-        onComplete,
-        autoSubmitDelay,
-        disabled,
-        autoFocus,
-      })
+    const {
+      digits,
+      inputRefs,
+      setDigit,
+      handlePaste,
+      focusInput,
+      hasInteracted,
+      showComplete,
+      isVerifying,
+    } = useOTPInput({
+      length,
+      value,
+      onChange,
+      onComplete,
+      autoSubmitDelay,
+      disabled,
+      autoFocus,
+    })
 
     // Auto-clear error when user starts typing
     const showError = error && !hasInteracted
@@ -127,9 +147,12 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
       handlePaste(index, pastedText)
     }
 
-    // Styling
+    // Progress for screen readers
+    const filledCount = digits.filter((d) => d !== '').length
+
+    // Styling - 56px x 64px touch targets
     const inputBaseStyles = `
-      w-12 h-14 text-center text-xl font-semibold rounded-lg border
+      w-14 h-16 text-center text-xl font-semibold rounded-lg border
       transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1
       disabled:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50
     `
@@ -138,10 +161,25 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
       if (showError) {
         return 'border-error-500 focus:ring-error-500'
       }
+      // Completion animation - green pulse
+      if (showComplete) {
+        return 'border-success-500 bg-success-50 focus:ring-success-500'
+      }
+      // Filled inputs - blue border/bg for clear visual progress
       if (digit) {
-        return 'border-neutral-400 bg-neutral-50 focus:ring-primary-500 focus:border-primary-500'
+        return 'border-primary-500 bg-primary-50 focus:ring-primary-500 focus:border-primary-500'
       }
       return 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+    }
+
+    // Helper to get localized digit label
+    const getDigitLabel = (index: number) => {
+      if (digitLabel) {
+        return digitLabel
+          .replace('{{index}}', String(index + 1))
+          .replace('{{total}}', String(length))
+      }
+      return `Digit ${index + 1} of ${length}`
     }
 
     return (
@@ -154,7 +192,7 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
           className="flex justify-center gap-2"
         >
           <span id={groupId} className="sr-only">
-            Verification code input
+            {groupLabel ?? 'Verification code input'}
           </span>
 
           {digits.map((digit, index) => (
@@ -171,13 +209,42 @@ export const OTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={(e) => handlePasteEvent(index, e)}
-              disabled={disabled}
+              disabled={disabled || isVerifying}
               autoComplete={index === 0 ? 'one-time-code' : 'off'}
-              aria-label={`Digit ${index + 1} of ${length}`}
+              aria-label={getDigitLabel(index)}
               aria-invalid={showError ? true : undefined}
               className={`${inputBaseStyles} ${getInputStyles(digit)}`}
             />
           ))}
+        </div>
+
+        {/* Verifying indicator */}
+        {isVerifying && (
+          <div
+            className="flex justify-center items-center gap-2 mt-2"
+            aria-live="polite"
+          >
+            <div className="w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-sm text-neutral-500">
+              {verifyingLabel ?? 'Verifying...'}
+            </span>
+          </div>
+        )}
+
+        {/* Screen reader announcements */}
+        <div aria-live="assertive" className="sr-only">
+          {isVerifying && (verifyingLabel ?? 'Verifying...')}
+        </div>
+
+        {/* Progress indicator for screen readers */}
+        <div aria-live="polite" className="sr-only">
+          {filledCount > 0 &&
+            filledCount < length &&
+            (progressLabel
+              ? progressLabel
+                  .replace('{{filled}}', String(filledCount))
+                  .replace('{{total}}', String(length))
+              : `${filledCount} of ${length} digits entered`)}
         </div>
 
         {/* Error message */}

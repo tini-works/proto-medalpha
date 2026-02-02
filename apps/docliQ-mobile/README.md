@@ -45,7 +45,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Updates**: Notifications (grouped TODAY/YESTERDAY) + News Feed (guides, featured story, articles, article detail with share/save)
 - **Appointments**: Detail (summary, location, add to calendar), book again, reschedule, history (grouped, filters, Book new)
 - **Request Sent**: Post-submit screen; toasts on status change (configurable); queue + localized offline banner
-- CMS content, settings (account, notifications, language, privacy, support), responsive
+- CMS content, settings (account, notifications, language, privacy, support; sub-screens: address, biometrics, change password, insurance edit), responsive
 
 ## Tech Stack
 

@@ -29,6 +29,10 @@ export function useOTPInput(options: UseOTPInputOptions) {
   // Internal error state for auto-clear behavior
   const [hasInteracted, setHasInteracted] = useState(false)
 
+  // Visual feedback states
+  const [showComplete, setShowComplete] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false)
+
   // Controlled vs uncontrolled: derive digits from value or use internal state
   const digits =
     value !== undefined
@@ -84,21 +88,32 @@ export function useOTPInput(options: UseOTPInputOptions) {
       onChange?.(code)
 
       // Check if complete (all digits filled)
-      const isComplete = newDigits.every((d) => d !== '')
-      if (isComplete && code.length === length) {
+      const isCodeComplete = newDigits.every((d) => d !== '')
+      if (isCodeComplete && code.length === length) {
         // Clear any existing timer
         if (submitTimerRef.current) {
           clearTimeout(submitTimerRef.current)
         }
 
-        // Schedule auto-submit
+        // Show completion animation, then verify
+        setShowComplete(true)
+
         if (autoSubmitDelay > 0) {
+          // Brief pause for completion animation, then show verifying state
           submitTimerRef.current = setTimeout(() => {
-            if (!disabled) {
-              onComplete?.(code)
-            }
-          }, autoSubmitDelay)
+            setShowComplete(false)
+            setIsVerifying(true)
+
+            // After verifying delay, trigger callback
+            submitTimerRef.current = setTimeout(() => {
+              setIsVerifying(false)
+              if (!disabled) {
+                onComplete?.(code)
+              }
+            }, autoSubmitDelay)
+          }, 200) // 200ms for completion animation
         } else {
+          setShowComplete(false)
           onComplete?.(code)
         }
       }
@@ -135,19 +150,29 @@ export function useOTPInput(options: UseOTPInputOptions) {
       focusInput(nextIndex)
 
       // Check completion
-      const isComplete = newDigits.every((d) => d !== '')
-      if (isComplete && code.length === length) {
+      const isCodeComplete = newDigits.every((d) => d !== '')
+      if (isCodeComplete && code.length === length) {
         if (submitTimerRef.current) {
           clearTimeout(submitTimerRef.current)
         }
 
+        // Show completion animation, then verify
+        setShowComplete(true)
+
         if (autoSubmitDelay > 0) {
           submitTimerRef.current = setTimeout(() => {
-            if (!disabled) {
-              onComplete?.(code)
-            }
-          }, autoSubmitDelay)
+            setShowComplete(false)
+            setIsVerifying(true)
+
+            submitTimerRef.current = setTimeout(() => {
+              setIsVerifying(false)
+              if (!disabled) {
+                onComplete?.(code)
+              }
+            }, autoSubmitDelay)
+          }, 200)
         } else {
+          setShowComplete(false)
           onComplete?.(code)
         }
       }
@@ -182,5 +207,7 @@ export function useOTPInput(options: UseOTPInputOptions) {
     focusInput,
     clear,
     hasInteracted,
+    showComplete,
+    isVerifying,
   }
 }

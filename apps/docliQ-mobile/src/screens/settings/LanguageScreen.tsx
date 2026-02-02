@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
 import { usePreferences } from '../../state'
+import { useNotificationToast } from '../../contexts/NotificationToastContext'
 
 /**
  * Language selection screen with German and English options.
@@ -15,10 +16,20 @@ const LANGUAGES = [
 export default function LanguageScreen() {
   const { t } = useTranslation('settings')
   const { language, setLanguage } = usePreferences()
+  const { showToast } = useNotificationToast()
 
   const handleLanguageChange = (newLanguage: 'en' | 'de') => {
+    if (newLanguage === language) return
+
     // Apply language change immediately
     setLanguage(newLanguage)
+
+    // Show confirmation toast
+    const langName = newLanguage === 'en' ? 'English' : 'Deutsch'
+    showToast({
+      title: t('languageSaved', { language: langName }),
+      type: 'success',
+    })
   }
 
   return (

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Mail } from 'tabler-icons-react'
 import { OTPInput, ResendTimer } from '@meda/ui'
 import { Header, Page } from '../../components'
-import { Button } from '../../components/ui'
 import { useAuth } from '../../state'
 import { PATHS } from '../../routes'
 
@@ -89,16 +88,16 @@ export default function VerifyScreen() {
           onComplete={handleComplete}
           error={error}
           disabled={isSubmitting}
+          groupLabel={t('verify.a11y.groupLabel')}
+          digitLabel={t('verify.a11y.digitLabel')}
+          verifyingLabel={t('verify.a11y.verifyingLabel')}
+          progressLabel={t('verify.a11y.progressLabel')}
           className="mb-4"
         />
 
         <p className="text-center text-sm text-neutral-500 mb-6">
           {t('verify.demoHint')}
         </p>
-
-        <Button variant="primary" fullWidth type="submit" loading={isSubmitting}>
-          {t('verify.submit')}
-        </Button>
 
         {/* Resend timer with countdown */}
         <ResendTimer

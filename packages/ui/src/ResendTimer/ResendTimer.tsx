@@ -13,6 +13,8 @@ export interface ResendTimerProps
   resendingLabel?: string
   /** Text showing countdown - use {{seconds}} placeholder (default: "Resend in {{seconds}}s") */
   countdownLabel?: string
+  /** Start with button enabled (first resend available immediately) */
+  startEnabled?: boolean
 }
 
 export const ResendTimer = forwardRef<HTMLButtonElement, ResendTimerProps>(
@@ -23,6 +25,7 @@ export const ResendTimer = forwardRef<HTMLButtonElement, ResendTimerProps>(
       label = 'Resend code',
       resendingLabel = 'Sending...',
       countdownLabel = 'Resend in {{seconds}}s',
+      startEnabled = false,
       className = '',
       disabled,
       ...props
@@ -30,7 +33,10 @@ export const ResendTimer = forwardRef<HTMLButtonElement, ResendTimerProps>(
     ref
   ) => {
     const [isResending, setIsResending] = useState(false)
-    const { secondsLeft, isComplete, reset } = useCountdown({ initialSeconds })
+    const { secondsLeft, isComplete, reset } = useCountdown({
+      initialSeconds,
+      startComplete: startEnabled,
+    })
 
     const handleClick = async () => {
       if (!isComplete || isResending) return

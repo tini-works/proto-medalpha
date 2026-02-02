@@ -2,10 +2,17 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 
 interface UseCountdownOptions {
   initialSeconds: number
+  /** Start with timer at 0 (first action available immediately) */
+  startComplete?: boolean
 }
 
-export function useCountdown({ initialSeconds }: UseCountdownOptions) {
-  const [secondsLeft, setSecondsLeft] = useState(initialSeconds)
+export function useCountdown({
+  initialSeconds,
+  startComplete = false,
+}: UseCountdownOptions) {
+  const [secondsLeft, setSecondsLeft] = useState(
+    startComplete ? 0 : initialSeconds
+  )
   const [isRunning, setIsRunning] = useState(true)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 

@@ -1,15 +1,27 @@
+import { IconPencil } from '@tabler/icons-react'
+
 interface AvatarProps {
   name: string
   imageUrl?: string
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
   shape?: 'circle' | 'rounded'
   maxInitials?: number
+  showEditOverlay?: boolean
+  onEdit?: () => void
 }
 
 const sizeStyles = {
   sm: 'w-8 h-8 text-xs',
   md: 'w-10 h-10 text-sm',
   lg: 'w-12 h-12 text-base',
+  xl: 'w-20 h-20 text-xl',
+}
+
+const editIconSizes = {
+  sm: 12,
+  md: 14,
+  lg: 16,
+  xl: 18,
 }
 
 function normalizeNameForInitials(name: string): string {
@@ -88,24 +100,47 @@ function getColorFromName(name: string): string {
   return colors[Math.abs(hash) % colors.length]
 }
 
-export function Avatar({ name, imageUrl, size = 'md', shape = 'circle', maxInitials = 2 }: AvatarProps) {
+export function Avatar({
+  name,
+  imageUrl,
+  size = 'md',
+  shape = 'circle',
+  maxInitials = 2,
+  showEditOverlay = false,
+  onEdit,
+}: AvatarProps) {
   const rounding = shape === 'rounded' ? 'rounded-lg' : 'rounded-full'
 
-  if (imageUrl) {
-    return (
-      <img
-        src={imageUrl}
-        alt={name}
-        className={`${sizeStyles[size]} ${rounding} object-cover`}
-      />
-    )
-  }
-
-  return (
+  const avatarContent = imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={name}
+      className={`${sizeStyles[size]} ${rounding} object-cover`}
+    />
+  ) : (
     <div
       className={`${sizeStyles[size]} ${getColorFromName(name)} ${rounding} flex items-center justify-center text-white font-medium`}
     >
       {getInitials(name, maxInitials)}
     </div>
   )
+
+  if (showEditOverlay && onEdit) {
+    return (
+      <button
+        onClick={onEdit}
+        className="relative group"
+        aria-label="Edit profile photo"
+      >
+        {avatarContent}
+        <div
+          className={`absolute bottom-0 right-0 w-6 h-6 bg-teal-500 ${rounding} flex items-center justify-center border-2 border-white shadow-sm group-hover:bg-teal-600 transition-colors`}
+        >
+          <IconPencil size={editIconSizes[size]} className="text-white" />
+        </div>
+      </button>
+    )
+  }
+
+  return avatarContent
 }
