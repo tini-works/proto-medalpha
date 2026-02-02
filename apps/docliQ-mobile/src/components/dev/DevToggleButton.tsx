@@ -31,15 +31,29 @@ export function DevToggleButton() {
           <span>DEV</span>
           {isDevMode && <span className="dev-active-dot" />}
         </button>
-        <button
-          onClick={handleToggleOffline}
-          className={`dev-toggle-button dev-toggle-secondary ${isOnline ? '' : 'dev-offline'}`}
-          aria-label={isOnline ? 'Go offline' : 'Go online'}
-          title={isOnline ? 'Go offline' : 'Go online'}
-        >
-          {isOnline ? <IconWifiOff size={18} /> : <IconWifi size={18} />}
-          <span>{isOnline ? 'OFFLINE' : 'ONLINE'}</span>
-        </button>
+
+        <div className="dev-toggle-segment" role="group" aria-label="Network mode">
+          <button
+            type="button"
+            onClick={() => isOnline || handleToggleOffline()}
+            className={`dev-segment ${isOnline ? 'dev-segment-active' : ''}`}
+            aria-pressed={isOnline}
+            title="Go online"
+          >
+            <IconWifi size={16} />
+            <span>ONLINE</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => (!isOnline ? undefined : handleToggleOffline())}
+            className={`dev-segment ${!isOnline ? 'dev-segment-active offline' : ''}`}
+            aria-pressed={!isOnline}
+            title="Go offline"
+          >
+            <IconWifiOff size={16} />
+            <span>OFFLINE</span>
+          </button>
+        </div>
       </div>
 
       <style>{`
@@ -73,18 +87,45 @@ export function DevToggleButton() {
           transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .dev-toggle-secondary {
-          background: linear-gradient(135deg, #334155 0%, #1f2937 100%);
+        .dev-toggle-segment {
+          display: inline-flex;
+          align-items: stretch;
+          border-radius: 999px;
+          background: #0f172a;
+          padding: 4px;
           box-shadow:
-            0 4px 12px rgba(15, 23, 42, 0.35),
-            0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            0 6px 18px rgba(15, 23, 42, 0.35),
+            0 0 0 1px rgba(255, 255, 255, 0.08) inset;
         }
 
-        .dev-offline {
-          background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+        .dev-segment {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 10px;
+          border: none;
+          background: transparent;
+          color: #cbd5f5;
+          font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.4px;
+          border-radius: 999px;
+          cursor: pointer;
+          transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .dev-segment-active {
+          background: #f8fafc;
+          color: #0f172a;
           box-shadow:
-            0 4px 12px rgba(37, 99, 235, 0.35),
-            0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+            0 3px 10px rgba(15, 23, 42, 0.2),
+            0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        }
+
+        .dev-segment-active.offline {
+          background: #e0f2fe;
+          color: #0f172a;
         }
 
         .dev-toggle-button:hover {
@@ -94,16 +135,10 @@ export function DevToggleButton() {
             0 0 0 1px rgba(255, 255, 255, 0.2) inset;
         }
 
-        .dev-toggle-secondary:hover {
+        .dev-toggle-segment:hover {
           box-shadow:
-            0 6px 16px rgba(15, 23, 42, 0.4),
-            0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-        }
-
-        .dev-offline:hover {
-          box-shadow:
-            0 6px 16px rgba(37, 99, 235, 0.4),
-            0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            0 8px 22px rgba(15, 23, 42, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15) inset;
         }
 
         .dev-toggle-button:active {
