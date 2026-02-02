@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Header, Page, Avatar, Rating } from '../../components'
+import { Header, Page, Avatar, Rating, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { PATHS, appointmentDetailPath } from '../../routes'
 import { useBooking, useHistory, useProfile, usePreferences } from '../../state'
@@ -16,7 +16,7 @@ function formatDate(dateISO: string, language: Language) {
 
 export default function AssistantConfirmScreen() {
   const navigate = useNavigate()
-  const { t, i18n } = useTranslation('booking')
+  const { t } = useTranslation('booking')
   const { selectedDoctor, selectedSlot, addAppointment, resetBooking } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
@@ -129,53 +129,51 @@ export default function AssistantConfirmScreen() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button
-            variant="primary"
-            size="lg"
-            fullWidth
-            onClick={() => {
-              if (!selectedDoctor || !selectedSlot) return
+      <StickyActionBar>
+        <Button
+          variant="primary"
+          size="lg"
+          fullWidth
+          onClick={() => {
+            if (!selectedDoctor || !selectedSlot) return
 
-              const appointmentId = `apt_${Date.now()}`
+            const appointmentId = `apt_${Date.now()}`
 
-              const appointment: Appointment = {
-                id: appointmentId,
-                doctorId: selectedDoctor.id,
-                doctorName: selectedDoctor.name,
-                specialty: selectedDoctor.specialty,
-                dateISO: selectedSlot.dateISO,
-                time: selectedSlot.time,
-                forUserId: profile.id || 'self',
-                forUserName: profile.fullName || t('assistant.you'),
-                status: 'confirmed',
-                reminderSet: true,
-                calendarSynced: false,
-              }
+            const appointment: Appointment = {
+              id: appointmentId,
+              doctorId: selectedDoctor.id,
+              doctorName: selectedDoctor.name,
+              specialty: selectedDoctor.specialty,
+              dateISO: selectedSlot.dateISO,
+              time: selectedSlot.time,
+              forUserId: profile.id || 'self',
+              forUserName: profile.fullName || t('assistant.you'),
+              status: 'confirmed',
+              reminderSet: true,
+              calendarSynced: false,
+            }
 
-              addAppointment(appointment)
+            addAppointment(appointment)
 
-              const historyItem: HistoryItem = {
-                id: `h_${Date.now()}`,
-                type: 'appointment',
-                title: `Appointment: ${selectedDoctor.specialty}`,
-                subtitle: `${selectedDoctor.name} · ${selectedDoctor.city}`,
-                dateISO: selectedSlot.dateISO,
-                status: 'planned',
-                forUserId: appointment.forUserId,
-                forUserName: appointment.forUserName,
-              }
-              addHistoryItem(historyItem)
+            const historyItem: HistoryItem = {
+              id: `h_${Date.now()}`,
+              type: 'appointment',
+              title: `Appointment: ${selectedDoctor.specialty}`,
+              subtitle: `${selectedDoctor.name} · ${selectedDoctor.city}`,
+              dateISO: selectedSlot.dateISO,
+              status: 'planned',
+              forUserId: appointment.forUserId,
+              forUserName: appointment.forUserName,
+            }
+            addHistoryItem(historyItem)
 
-              resetBooking()
-              navigate(appointmentDetailPath(appointmentId), { replace: true })
-            }}
-          >
-            {t('assistant.confirmBookingCta')} →
-          </Button>
-        </div>
-      </div>
+            resetBooking()
+            navigate(appointmentDetailPath(appointmentId), { replace: true })
+          }}
+        >
+          {t('assistant.confirmBookingCta')} →
+        </Button>
+      </StickyActionBar>
     </Page>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Header, Page } from '../../components'
+import { Header, Page, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useProfile, usePreferences } from '../../state'
 import { PATHS } from '../../routes'
@@ -189,21 +189,23 @@ export default function FamilyMemberDetailScreen() {
       </div>
 
       {/* Action buttons - sticky footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-3 space-y-3">
-        <button
-          onClick={() => setShowEditSheet(true)}
-          className="w-full py-3 px-4 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 transition-colors"
-        >
-          {t('detail.edit')}
-        </button>
-        <Button
-          onClick={handleRemove}
-          variant="destructive"
-          fullWidth
-        >
-          {t('detail.remove')}
-        </Button>
-      </div>
+      <StickyActionBar containerClassName="py-3">
+        <div className="space-y-3">
+          <button
+            onClick={() => setShowEditSheet(true)}
+            className="w-full py-3 px-4 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 transition-colors"
+          >
+            {t('detail.edit')}
+          </button>
+          <Button
+            onClick={handleRemove}
+            variant="destructive"
+            fullWidth
+          >
+            {t('detail.remove')}
+          </Button>
+        </div>
+      </StickyActionBar>
 
       {/* Edit sheet */}
       {showEditSheet && (

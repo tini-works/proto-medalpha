@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch, IconArrowRight } from '@tabler/icons-react'
-import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet, FiltersSheet } from '../../components'
+import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet, FiltersSheet, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
@@ -242,8 +242,8 @@ export default function ResultsScreen() {
   return (
     <Page>
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 bg-white border-b border-cream-300">
-        <div className="flex items-center justify-between px-4 py-3">
+      <header className="sticky top-0 z-20 h-16 bg-white border-b border-cream-300">
+        <div className="flex h-full items-center justify-between px-4">
           {/* Back button */}
           <button
             onClick={handleBack}
@@ -464,20 +464,18 @@ export default function ResultsScreen() {
 
       {/* Bottom action bar for doctor-first flow */}
       {isDoctorFirstFlow && !loading && sortedDoctors.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom z-30">
-          <div className="mx-auto max-w-md">
-            <Button
-              onClick={handleContinue}
-              disabled={!selectedDoctorId}
-              variant="primary"
-              fullWidth
-              size="lg"
-              rightIcon={<IconArrowRight size={20} stroke={2} />}
-            >
-              {t('continueBtn')}
-            </Button>
-          </div>
-        </div>
+        <StickyActionBar zIndexClassName="z-30">
+          <Button
+            onClick={handleContinue}
+            disabled={!selectedDoctorId}
+            variant="primary"
+            fullWidth
+            size="lg"
+            rightIcon={<IconArrowRight size={20} stroke={2} />}
+          >
+            {t('continueBtn')}
+          </Button>
+        </StickyActionBar>
       )}
 
       {/* Doctor Detail Sheet */}

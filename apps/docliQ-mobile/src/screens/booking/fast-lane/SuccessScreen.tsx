@@ -1,7 +1,7 @@
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconCheck } from '@tabler/icons-react'
-import { Page } from '../../../components'
+import { Page, StickyActionBar } from '../../../components'
 import { PATHS, appointmentDetailPath } from '../../../routes'
 import type { Appointment } from '../../../types'
 
@@ -31,13 +31,13 @@ export default function FastLaneSuccessScreen() {
       </div>
 
       {/* Fixed bottom buttons */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-6 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md space-y-3">
+      <StickyActionBar containerClassName="px-6">
+        <div className="space-y-3">
           <Link to={PATHS.HOME} className="btn btn-tertiary btn-block text-center block">
             {t('backToHome')}
           </Link>
         </div>
-      </div>
+      </StickyActionBar>
 
       <style>{`
         @keyframes bounce-in {

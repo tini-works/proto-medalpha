@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Avatar, Header, Page, Pill, Rating } from '../../components'
+import { Avatar, Header, Page, Pill, Rating, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { apiGetDoctor, getTimeSlots } from '../../data'
 import { PATHS } from '../../routes'
@@ -117,23 +117,21 @@ export default function AssistantDoctorProfileScreen() {
       </div>
 
       {/* Sticky bottom button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button
-            variant="primary"
-            size="lg"
-            disabled={!pickedSlot}
-            fullWidth
-            onClick={() => {
-              if (!pickedSlot) return
-              selectSlot(pickedSlot)
-              navigate(PATHS.ASSISTANT_CONFIRM)
-            }}
-          >
-            {t('continueBtn')}
-          </Button>
-        </div>
-      </div>
+      <StickyActionBar>
+        <Button
+          variant="primary"
+          size="lg"
+          disabled={!pickedSlot}
+          fullWidth
+          onClick={() => {
+            if (!pickedSlot) return
+            selectSlot(pickedSlot)
+            navigate(PATHS.ASSISTANT_CONFIRM)
+          }}
+        >
+          {t('continueBtn')}
+        </Button>
+      </StickyActionBar>
     </Page>
   )
 }

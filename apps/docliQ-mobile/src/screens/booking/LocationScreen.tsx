@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Building, Home, Calendar, AlertCircle, Microphone, X } from 'tabler-icons-react'
-import { Header, Page, ProgressIndicator } from '../../components'
+import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import type { SavedLocation } from '../../components/display/SavedLocations'
@@ -248,8 +248,8 @@ export default function LocationScreen() {
       </div>
 
       {/* Sticky Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md flex items-center gap-3">
+      <StickyActionBar>
+        <div className="flex items-center gap-3">
           <button
             onClick={handleContinue}
             disabled={!selectedLocation}
@@ -266,7 +266,7 @@ export default function LocationScreen() {
             <Microphone size="20" stroke="2" />
           </button>
         </div>
-      </div>
+      </StickyActionBar>
 
       {/* Location picker (bottom sheet) */}
       {isLocationPickerOpen && (

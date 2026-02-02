@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Page, Header, Avatar, Rating, PatientSelector } from '../../components'
+import { Page, Header, Avatar, Rating, PatientSelector, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useBookAgain, useBooking, useHistory, useProfile } from '../../state'
 import { getDoctorById } from '../../data'
@@ -278,8 +278,8 @@ export default function BookAgainContextScreen() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md space-y-3">
+      <StickyActionBar>
+        <div className="space-y-3">
           <Button
             onClick={handleViewSlots}
             disabled={!doctor}
@@ -298,7 +298,7 @@ export default function BookAgainContextScreen() {
             {t('bookAgain.context.seeAlternatives')}
           </Button>
         </div>
-      </div>
+      </StickyActionBar>
 
       {editSheet && (
         <div className="fixed inset-0 z-50">

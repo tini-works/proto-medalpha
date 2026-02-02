@@ -10,6 +10,7 @@ import {
 import { Button } from '../../components/ui'
 import { useBooking, useProfile, useHistory, usePreferences } from '../../state'
 import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
+import { addRecentSpecialty } from '../../data/recentSpecialties'
 import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
 
@@ -100,6 +101,7 @@ export default function ConfirmScreen() {
     }
 
     addHistoryItem(historyItem)
+    addRecentSpecialty(selectedDoctor.specialty)
 
     // Reset booking state
     resetBooking()

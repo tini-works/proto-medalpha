@@ -82,8 +82,8 @@ export default function DoctorSearchScreen() {
   return (
     <Page>
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 bg-white border-b border-cream-300">
-        <div className="flex items-center justify-between px-4 py-3">
+      <header className="sticky top-0 z-20 h-16 bg-white border-b border-cream-300">
+        <div className="flex h-full items-center justify-between px-4">
           {/* Back button */}
           <button
             onClick={handleBack}

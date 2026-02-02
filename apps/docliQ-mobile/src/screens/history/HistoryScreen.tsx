@@ -108,8 +108,8 @@ export default function HistoryScreen() {
   return (
       <Page>
       {/* Sticky Header */}
-      <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
-        <div className="flex items-center justify-between px-4 py-3">
+      <header className="sticky top-0 z-10 h-16 bg-white border-b border-cream-300">
+        <div className="flex h-full items-center justify-between px-4">
           <h1 className="text-lg font-semibold text-charcoal-500">{t('title')}</h1>
           <button
             type="button"

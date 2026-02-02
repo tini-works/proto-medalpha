@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Page, CancelAppointmentSheet } from '../../components'
+import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
 import { useBooking } from '../../state'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
@@ -72,7 +72,7 @@ function BackHeader() {
   const { t } = useTranslation('detail')
 
   return (
-    <header className="sticky top-0 z-10 bg-white px-4 py-3">
+    <header className="sticky top-0 z-10 h-16 bg-white px-4 flex items-center">
       <button
         onClick={() => navigate(-1)}
         className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"
@@ -95,11 +95,9 @@ interface BottomBarProps {
 
 function StickyBottomBar({ children }: BottomBarProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-cream-200">
-      <div className="mx-auto max-w-md px-6 py-4 safe-area-bottom">
-        <div className="space-y-3">{children}</div>
-      </div>
-    </div>
+    <StickyActionBar containerClassName="px-6">
+      <div className="space-y-3">{children}</div>
+    </StickyActionBar>
   )
 }
 
@@ -524,4 +522,3 @@ function addMinutes(time: string, minutes: number): string {
   const newM = totalMinutes % 60
   return `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`
 }
-

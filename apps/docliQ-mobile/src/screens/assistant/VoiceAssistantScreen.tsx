@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Header, Page } from '../../components'
+import { Header, Page, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { Avatar } from '../../components/display/Avatar'
 import { PATHS } from '../../routes'
@@ -84,18 +84,16 @@ export default function VoiceAssistantScreen() {
       </div>
 
       {/* Sticky bottom button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md">
-          <Button
-            variant="primary"
-            size="lg"
-            fullWidth
-            onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)}
-          >
-            {t('assistant.voice.send')}
-          </Button>
-        </div>
-      </div>
+      <StickyActionBar>
+        <Button
+          variant="primary"
+          size="lg"
+          fullWidth
+          onClick={() => navigate(PATHS.ASSISTANT_RECOMMENDATIONS)}
+        >
+          {t('assistant.voice.send')}
+        </Button>
+      </StickyActionBar>
     </Page>
   )
 }

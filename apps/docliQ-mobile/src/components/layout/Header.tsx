@@ -167,9 +167,9 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
   }
 
   return (
-    <header className="sticky top-0 z-10 bg-white border-b border-cream-300">
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-10 h-16 bg-white border-b border-cream-300">
+      <div className="flex h-full items-center justify-between px-4">
+        <div className="flex min-w-0 items-center gap-3">
           {/* Back button uses shared Button component with icon variant */}
           {showBack && (
             <Button
@@ -182,9 +182,9 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
               <IconChevronLeft className="text-slate-700" size={24} stroke={2} />
             </Button>
           )}
-          <div>
-            <h1 className="text-lg font-semibold text-charcoal-500">{title}</h1>
-            {subtitle && <p className="text-sm text-slate-500">{subtitle}</p>}
+          <div className="min-w-0">
+            <h1 className="truncate text-lg font-semibold text-charcoal-500">{title}</h1>
+            {subtitle && <p className="truncate text-sm text-slate-500">{subtitle}</p>}
           </div>
         </div>
         {rightAction && <div>{rightAction}</div>}

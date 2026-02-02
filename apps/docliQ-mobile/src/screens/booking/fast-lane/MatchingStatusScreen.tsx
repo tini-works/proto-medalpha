@@ -6,6 +6,7 @@ import { useBooking, useAppState } from '../../../state'
 import { PATHS, appointmentDetailPath } from '../../../routes'
 import { apiFastLaneMatch, apiSpecialtyMatch } from '../../../data/api'
 import { MatchingStatusView } from '../../../components/appointments/MatchingStatusView'
+import { addRecentSpecialty } from '../../../data/recentSpecialties'
 
 type MatchingStatus = 'searching' | 'found_doctors' | 'checking_availability' | 'awaiting_confirmation'
 
@@ -73,6 +74,7 @@ export default function MatchingStatusScreen() {
 
         if (result.success && result.appointment) {
           addAppointment(result.appointment)
+          addRecentSpecialty(result.appointment.specialty)
           // Standardize confirmed view: go to canonical Appointment Details screen
           navigate(appointmentDetailPath(result.appointment.id), { replace: true })
         } else {
@@ -138,7 +140,7 @@ function BackHeader() {
   const navigate = useNavigate()
 
   return (
-    <header className="sticky top-0 z-10 bg-white px-4 py-3">
+    <header className="sticky top-0 z-10 h-16 bg-white px-4 flex items-center">
       <button
         onClick={() => navigate(-1)}
         className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"

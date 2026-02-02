@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IconCalendar, IconClock } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
-import { Avatar, Header, Page } from '../../components'
+import { Avatar, Header, Page, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking, useReschedule } from '../../state'
 import { PATHS, reschedulePath } from '../../routes'
@@ -123,8 +123,8 @@ export default function RescheduleReasonScreen() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
-        <div className="mx-auto max-w-md flex flex-col gap-3">
+      <StickyActionBar>
+        <div className="flex flex-col gap-3">
           <Button
             onClick={handleNext}
             disabled={!reason}
@@ -138,7 +138,7 @@ export default function RescheduleReasonScreen() {
             {t('reschedule.skip')}
           </Button>
         </div>
-      </div>
+      </StickyActionBar>
     </Page>
   )
 }

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconCheck, IconSearch, IconX } from '@tabler/icons-react'
-import { Header, Page, ReasonTextarea } from '../../../components'
+import { Header, Page, ReasonTextarea, StickyActionBar } from '../../../components'
+import { RecentSpecialtyChips } from '../../../components/display/RecentSpecialtyChips'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
 import { useProfile } from '../../../state'
@@ -59,6 +60,8 @@ export default function CareRequestScreen() {
 
   const selection = activeTab === 'symptoms' ? selectedSymptom : selectedSpecialty
   const isOtherSelected = activeTab === 'symptoms' && selectedSymptom === OTHER_ID
+  // Keep the symptom grid compact (8 chips total including "Other")
+  const symptomChips = symptoms.slice(0, 7)
   const canSubmit =
     selection !== null &&
     Boolean(selectedCity) &&
@@ -158,7 +161,7 @@ export default function CareRequestScreen() {
           {activeTab === 'symptoms' && (
             <>
               <div className="grid grid-cols-2 gap-2">
-                {symptoms.map((symptom) => (
+                {symptomChips.map((symptom) => (
                   <SelectionChip
                     key={symptom.id}
                     label={t(symptom.labelKey)}
@@ -209,6 +212,15 @@ export default function CareRequestScreen() {
                 />
               </div>
 
+              <RecentSpecialtyChips
+                query={specialtyQuery}
+                selectedValue={selectedSpecialty}
+                onSelect={(value) => {
+                  setSelectedSpecialty(value)
+                  setSelectedSymptom(null)
+                }}
+              />
+
               <div className="grid grid-cols-2 gap-2">
                 {specialties
                   .filter((specialty) => {
@@ -218,6 +230,7 @@ export default function CareRequestScreen() {
                     const value = specialty.value.toLowerCase()
                     return label.includes(q) || value.includes(q)
                   })
+                  .slice(0, 8)
                   .map((specialty) => (
                   <SelectionChip
                     key={specialty.id}
@@ -302,7 +315,7 @@ export default function CareRequestScreen() {
       </div>
 
       {/* Fixed Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cream-300 px-4 py-4 safe-area-bottom">
+      <StickyActionBar>
         <button
           onClick={handleSubmit}
           disabled={!canSubmit}
@@ -310,7 +323,7 @@ export default function CareRequestScreen() {
         >
           {t('findAppointment')}
         </button>
-      </div>
+      </StickyActionBar>
 
       {/* Location picker (bottom sheet) */}
       {isLocationPickerOpen && (
