@@ -75,7 +75,7 @@ Design tokens exported as:
 
 ### @meda/ui
 
-React components (Button, Input, Card) using Tailwind CSS classes.
+React components (Button, Input, Card, OTPInput, ResendTimer) using Tailwind CSS classes.
 
 ## Adding Dependencies
 

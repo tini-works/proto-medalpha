@@ -2,6 +2,11 @@
 
 Notable changes, high level.
 
+## 2026-02-02
+
+- **OTP verification (onboarding)**: OTPInput + ResendTimer in @meda/ui; 6-digit input with auto-focus, countdown timer, resend; VerifyScreen wired; auth locales (verify.resend, resendIn, sending) en/de.
+- **@meda/ui**: OTPInput (useOTPInput), ResendTimer (useCountdown) exported.
+
 ## 2026-01-30
 
 - **Sheet component**: Unified `<Sheet>` consolidating 6 bottom sheet implementations; variants (bottom/center/fullscreen), sizes (auto/sm/md/lg/xl); focus trap, escape key, body scroll lock, exit animations; compound components (Sheet.Header/Body/Footer).
