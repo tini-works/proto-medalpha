@@ -273,6 +273,20 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.style.setProperty('--scale', String(scale))
   }, [state])
 
+  useEffect(() => {
+    const handleOnline = () => {
+      setState((s) => ({
+        ...s,
+        appointments: s.appointments.map((apt) => ({
+          ...apt,
+          updatedAt: new Date().toISOString(),
+        })),
+      }))
+    }
+    window.addEventListener('online', handleOnline)
+    return () => window.removeEventListener('online', handleOnline)
+  }, [])
+
   const isProfileComplete = Boolean(
     state.profile.fullName.trim() &&
       state.profile.email.trim() &&

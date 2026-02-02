@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { IconStar, IconStarFilled } from '@tabler/icons-react'
 import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
 import { DestructiveOutlineButton } from '../../components/ui'
-import { AddToCalendarSheet } from '../../components/sheets'
+import { AddToCalendarSheet, OfflineBookingSheet } from '../../components/sheets'
 import { useBooking, useHistory } from '../../state'
+import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
 import { MatchingStatusView } from '../../components/appointments/MatchingStatusView'
@@ -430,6 +431,8 @@ function CompletedStatus({
 }: StatusProps & { autoOpenFeedback?: boolean; useHistoryFallback?: boolean }) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   return (
     <Page className="flex flex-col">
@@ -464,8 +467,11 @@ function CompletedStatus({
 
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING)}
-          className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
+          onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+          aria-disabled={!isOnline}
+          className={`w-full py-3.5 px-4 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 ${
+            isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+          }`}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -473,6 +479,8 @@ function CompletedStatus({
           {t('bookFollowUp')}
         </button>
       </StickyBottomBar>
+
+      <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
     </Page>
   )
 }
@@ -678,6 +686,8 @@ function FeedbackPanel({
 function PatientCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   return (
     <Page className="flex flex-col">
@@ -712,8 +722,11 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING)}
-          className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
+          onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+          aria-disabled={!isOnline}
+          className={`w-full py-3.5 px-4 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 ${
+            isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+          }`}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -731,6 +744,8 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
 function DoctorCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   return (
     <Page className="flex flex-col">
@@ -773,8 +788,11 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING)}
-          className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
+          onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+          aria-disabled={!isOnline}
+          className={`w-full py-3.5 px-4 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 ${
+            isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+          }`}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -782,6 +800,8 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
           {t('bookNewAppointment')}
         </button>
       </StickyBottomBar>
+
+      <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
     </Page>
   )
 }
