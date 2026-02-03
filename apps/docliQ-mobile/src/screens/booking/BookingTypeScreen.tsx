@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconAlertCircle, IconCheck, IconShield, IconCalendar } from '@tabler/icons-react'
 import { Header, Page, StickyActionBar, ProgressIndicator } from '../../components'
@@ -26,6 +26,7 @@ function formatAge(dateOfBirthISO?: string) {
 
 export default function BookingTypeScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('booking')
   const { profile } = useProfile()
   const { selectedFamilyMemberId, selectFamilyMember, setBookingFlow, resetBooking, selectDoctor, selectSlot } = useBooking()
@@ -175,7 +176,7 @@ export default function BookingTypeScreen() {
               <p className="text-sm text-slate-600">{t('noFamilyMembers')}</p>
               <button
                 type="button"
-                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD)}
+                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD, { state: { from: location.pathname } })}
                 className="mt-3 text-sm font-medium text-teal-700 hover:text-teal-800"
               >
                 {t('addFamilyMember')}
