@@ -69,6 +69,7 @@ export default function HistoryScreen() {
     return appointmentsDeduped
       .filter((apt) => apt.status === 'confirmed')
       .sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
+      .slice(0, 3)
   }, [appointmentsDeduped])
 
   // Others section: filter applies only here
@@ -105,7 +106,7 @@ export default function HistoryScreen() {
     },
     {
       value: 'modified_by_practice',
-      labelKey: 'filterModifiedByPractice',
+      labelKey: 'filterDoctorRescheduled',
       icon: IconClock,
     },
   ] as const

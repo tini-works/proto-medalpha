@@ -3,6 +3,7 @@
     "matching": "Matching",
     "awaitConfirm": "Await confirm",
     "confirmed": "Confirmed",
+    "modifiedByPractice": "Doctor rescheduled",
     "patientCanceled": "Patient canceled",
     "doctorCancelled": "Doctor cancelled",
     "completed": "Completed",

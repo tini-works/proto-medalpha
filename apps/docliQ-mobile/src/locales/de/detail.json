@@ -22,7 +22,7 @@
   "awaitingConfirmation": "Warte auf Bestätigung",
   "awaitingDescription": "Wir haben eine Übereinstimmung gefunden! Warten auf {{doctorName}}, um Ihren Termin zu bestätigen.",
 
-  "confirmed": "Termin bestätigt!",
+  "confirmed": "Termin bestätigt",
   "confirmedDescription": "Ihr Termin wurde bestätigt. Wir haben die Details an Ihre E-Mail und Ihr Telefon gesendet.",
   "feedback": {
     "title": "Wie war Ihr Termin?",
@@ -46,6 +46,24 @@
   "exportIcs": "Als .ics-Datei exportieren",
   "getDirections": "Route anzeigen",
   "cancelAppointment": "Termin stornieren",
+  "modifiedTitle": "Termin aktualisiert",
+  "modifiedDescription": "Die Praxis hat Ihren Termin geändert. Bitte prüfen Sie die Änderungen.",
+  "changedBannerTitle": "Ihr Termin wurde von der Praxis geändert",
+  "changedBannerSubtitle": "Bitte prüfen Sie, was aktualisiert wurde.",
+  "reviewChanges": "Änderungen prüfen",
+  "changesTitle": "Was aktualisiert wurde",
+  "acknowledge": "Bestätigen",
+  "viewDiff": "Differenz anzeigen",
+  "hideDiff": "Differenz ausblenden",
+  "notProvided": "Nicht angegeben",
+  "diff": {
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "location": "Ort",
+    "doctor": "Ärztin/Arzt",
+    "type": "Art",
+    "notes": "Notizen"
+  },
   "viewAllAppointments": "Alle Termine anzeigen",
   "backToHome": "Zurück zur Startseite",
 

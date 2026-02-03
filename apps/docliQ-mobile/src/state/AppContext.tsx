@@ -221,16 +221,90 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           id: 'seed_confirmed',
           doctorId: 'd3',
           doctorName: 'Dr. Lena Hoffmann',
-          specialty: 'General Medicine',
+          specialty: 'Dermatology',
           dateISO: isoDay(1),
           time: '10:15',
           forUserId: s.profile.id || 'self',
           forUserName: s.profile.fullName || 'You',
           status: 'confirmed' as const,
+          appointmentType: 'Follow-up',
+          notes: 'Discuss lab results.',
+          locationName: 'Skin Health Center, Suite 3',
           reminderSet: true,
           calendarSynced: false,
           createdAt: isoAt(-1420),
           updatedAt: isoAt(-10),
+        },
+        {
+          id: 'seed_confirmed_2',
+          doctorId: 'd8',
+          doctorName: 'Dr. Amir Kaya',
+          specialty: 'Cardiology',
+          dateISO: isoDay(2),
+          time: '09:00',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'confirmed' as const,
+          appointmentType: 'Acute',
+          notes: 'Blood pressure review.',
+          locationName: 'Heart Care Clinic, Building A',
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1600),
+          updatedAt: isoAt(-20),
+        },
+        {
+          id: 'seed_confirmed_3',
+          doctorId: 'd9',
+          doctorName: 'Dr. Sofia Brandt',
+          specialty: 'ENT',
+          dateISO: isoDay(3),
+          time: '13:45',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'confirmed' as const,
+          appointmentType: 'Prevention',
+          notes: 'Annual checkup.',
+          locationName: 'City Clinic, Floor 2',
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1700),
+          updatedAt: isoAt(-30),
+        },
+        {
+          id: 'seed_modified_practice',
+          doctorId: 'd7',
+          doctorName: 'Dr. Maria Keller',
+          specialty: 'Cardiology',
+          dateISO: isoDay(5),
+          time: '15:30',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'modified_by_practice' as const,
+          appointmentType: 'Acute',
+          notes: 'Bring previous ECG results.',
+          locationName: 'Heart Care Clinic, Building B',
+          changeHistory: [
+            {
+              id: 'chg_1',
+              changedAt: isoAt(-120),
+              summary: 'Practice updated time and location.',
+              before: {
+                dateISO: isoDay(4),
+                time: '14:30',
+                locationName: 'Heart Care Clinic, Building A',
+              },
+              after: {
+                dateISO: isoDay(5),
+                time: '15:30',
+                locationName: 'Heart Care Clinic, Building B',
+              },
+            },
+          ],
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-2000),
+          updatedAt: isoAt(-120),
         },
         {
           id: 'seed_cancelled_doctor',
@@ -313,11 +387,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         const needsReason =
           apt.id === 'seed_cancelled_doctor' && !nextAppointments[idx].cancelReason && apt.cancelReason
 
-        if (nextAppointments[idx].status !== apt.status || needsReason) {
+        const needsChangeHistory =
+          apt.id === 'seed_modified_practice' && !nextAppointments[idx].changeHistory && apt.changeHistory
+
+        if (nextAppointments[idx].status !== apt.status || needsReason || needsChangeHistory) {
           nextAppointments[idx] = {
             ...nextAppointments[idx],
             status: apt.status,
             cancelReason: needsReason ? apt.cancelReason : nextAppointments[idx].cancelReason,
+            changeHistory: needsChangeHistory ? apt.changeHistory : nextAppointments[idx].changeHistory,
             updatedAt: isoAt(-5),
           }
           changed = true

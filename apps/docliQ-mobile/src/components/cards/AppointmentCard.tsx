@@ -22,6 +22,7 @@ const statusConfig: Record<
   matching: { tone: 'info', labelKey: 'status.matching' },
   await_confirm: { tone: 'pending', labelKey: 'status.awaitConfirm' },
   confirmed: { tone: 'positive', labelKey: 'status.confirmed' },
+  modified_by_practice: { tone: 'pending', labelKey: 'status.modifiedByPractice' },
   completed: { tone: 'neutral', labelKey: 'status.completed' },
   cancelled_patient: { tone: 'negative', labelKey: 'status.cancelledPatient' },
   cancelled_doctor: { tone: 'negative', labelKey: 'status.cancelledDoctor' },
