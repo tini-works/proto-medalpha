@@ -222,7 +222,9 @@ export default function HomeScreen() {
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+              onClick={() =>
+                isOnline ? navigate(PATHS.BOOKING, { state: { from: PATHS.HOME } }) : setShowOfflineSheet(true)
+              }
               aria-disabled={!isOnline}
               className={`p-4 rounded-lg text-white transition-colors duration-normal ease-out-brand ${
                 isOnline
