@@ -2,6 +2,11 @@
 
 Notable changes, high level.
 
+## 2026-02-03
+
+- **docliQ-mobile (build fix)**: Add missing `OfflineBookingSheet` component and `useOnlineStatus` hook — fix Vite import-resolution errors.
+- **Offline UX**: OfflineBookingSheet shows “booking requires internet” (settings i18n); useOnlineStatus exposes `isOnline`, `justCameOnlineAt`, `refreshOnlineStatus` for Page offline banner and “Try again”.
+
 ## 2026-02-02
 
 - **QA (docliQ)**: QA audit report + implementation plan in docs/docliQ; test contracts (users, appointments fixtures) and integration tests (routing, form-validation, error-handling, loading-states, toast-notification) under apps/docliQ-mobile/src/test.
