@@ -66,12 +66,9 @@ export function BiometricPromptSheet({
             <Button onClick={onRetry} variant="primary" fullWidth>
               {t('biometricPrompt.tryAgain')}
             </Button>
-            <button
-              onClick={onUsePassword}
-              className="w-full text-sm text-teal-600 hover:text-teal-700 hover:underline py-2"
-            >
+            <Button onClick={onUsePassword} variant="link" fullWidth>
               {t('biometricPrompt.usePassword')}
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="space-y-3">
