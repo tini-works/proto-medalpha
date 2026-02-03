@@ -24,6 +24,8 @@ export function OfflineBookingSheet({ open, onClose }: OfflineBookingSheetProps)
           {t('offlineBookingAction')}
         </Button>
       }
-    />
+    >
+      {null}
+    </Sheet>
   )
 }

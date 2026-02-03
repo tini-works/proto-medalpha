@@ -687,7 +687,7 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
   const { isOnline } = useOnlineStatus()
-  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
+  const [_showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   return (
     <Page className="flex flex-col">

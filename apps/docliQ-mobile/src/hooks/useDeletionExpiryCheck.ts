@@ -18,8 +18,7 @@ export function useDeletionExpiryCheck() {
     if (now >= expiresAt) {
       completeDeletion()
       showToast({
-        title: 'Account Deleted',
-        message: 'Your account has been permanently deleted.',
+        title: 'Your account has been permanently deleted.',
         type: 'info',
       })
       navigate(PATHS.AUTH_WELCOME, { replace: true })
