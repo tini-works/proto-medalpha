@@ -26,6 +26,9 @@ function getToastForStatusChange(
   if (prevStatus === 'confirmed' && newStatus === 'cancelled_doctor') {
     return { messageKey: 'toastAppointmentCancelledByDoctor', type: 'warning' }
   }
+  if (newStatus === 'modified_by_practice') {
+    return { messageKey: 'toastAppointmentModifiedByPractice', type: 'warning' }
+  }
   if (newStatus === 'completed') {
     return { messageKey: 'toastAppointmentCompleted', type: 'success' }
   }

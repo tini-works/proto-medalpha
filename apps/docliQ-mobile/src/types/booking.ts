@@ -83,6 +83,7 @@ export interface Appointment {
     | 'completed'
     | 'cancelled_patient'
     | 'cancelled_doctor'
+    | 'modified_by_practice'
   reminderSet: boolean
   calendarSynced: boolean
   bookingType?: BookingType

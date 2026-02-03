@@ -39,7 +39,7 @@ export default function HistoryScreen() {
   const [showCancelModal, setShowCancelModal] = useState(false)
 
   const [statusFilter, setStatusFilter] = useState<
-    'all' | 'matching' | 'await_confirm' | 'cancelled_doctor'
+    'all' | 'matching' | 'await_confirm' | 'cancelled_doctor' | 'modified_by_practice'
   >('all')
 
   const getLastUpdatedTs = (appointment: Appointment) => {
@@ -77,7 +77,7 @@ export default function HistoryScreen() {
 
   // Others section: filter applies only here
   const others = useMemo(() => {
-    const otherStatuses: Appointment['status'][] = ['matching', 'await_confirm', 'cancelled_doctor']
+    const otherStatuses: Appointment['status'][] = ['matching', 'await_confirm', 'cancelled_doctor', 'modified_by_practice']
     const allowed = appointmentsDeduped.filter((apt) => otherStatuses.includes(apt.status))
     const filtered = statusFilter === 'all' ? allowed : allowed.filter((apt) => apt.status === statusFilter)
     return filtered.sort((a, b) => getLastUpdatedTs(b) - getLastUpdatedTs(a))
@@ -106,6 +106,11 @@ export default function HistoryScreen() {
       value: 'cancelled_doctor',
       labelKey: 'filterDoctorCanceled',
       icon: IconX,
+    },
+    {
+      value: 'modified_by_practice',
+      labelKey: 'filterModifiedByPractice',
+      icon: IconClock,
     },
   ] as const
 

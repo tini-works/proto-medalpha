@@ -302,6 +302,7 @@
   "toastNoMatchFound": "No match found",
   "toastAppointmentCancelled": "Appointment cancelled",
   "toastAppointmentCancelledByDoctor": "Appointment cancelled by doctor",
+  "toastAppointmentModifiedByPractice": "Appointment modified by practice - please review",
   "toastAppointmentCompleted": "Appointment completed",
 
   "useCurrentLocation": "Use Current Location",
@@ -329,6 +330,9 @@
   "status.completed": "Completed",
   "status.cancelledPatient": "Cancelled by you",
   "status.cancelledDoctor": "Cancelled by doctor",
+  "status.modifiedByPractice": "Modified by practice",
+  "practiceModified.title": "The practice has modified your appointment",
+  "practiceModified.subtitle": "Please review the new details below",
   "findingDoctor": "Finding your doctor...",
   "noAppointmentDataFound": "No appointment data found.",
   "timeUnit": "",

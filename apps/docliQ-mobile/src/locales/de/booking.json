@@ -302,6 +302,7 @@
   "toastNoMatchFound": "Kein passender Termin gefunden",
   "toastAppointmentCancelled": "Termin storniert",
   "toastAppointmentCancelledByDoctor": "Termin vom Arzt abgesagt",
+  "toastAppointmentModifiedByPractice": "Termin von Praxis geändert - bitte prüfen",
   "toastAppointmentCompleted": "Termin abgeschlossen",
 
   "useCurrentLocation": "Aktuellen Standort verwenden",
@@ -329,6 +330,9 @@
   "status.completed": "Abgeschlossen",
   "status.cancelledPatient": "Von Ihnen storniert",
   "status.cancelledDoctor": "Vom Arzt storniert",
+  "status.modifiedByPractice": "Von Praxis geändert",
+  "practiceModified.title": "Die Praxis hat Ihren Termin geändert",
+  "practiceModified.subtitle": "Bitte prüfen Sie die neuen Details unten",
   "findingDoctor": "Suche nach Arzt...",
   "noAppointmentDataFound": "Keine Termindaten gefunden.",
   "timeUnit": "Uhr",
