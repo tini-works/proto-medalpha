@@ -86,7 +86,12 @@ Toggle OFF → Confirm modal → biometricsEnabled = false
 
 ## Implementation Status
 
-All tasks completed ✅
+**All tasks completed ✅**
+
+**Test Coverage Summary:**
+- UI Component Tests: 36 tests
+- State Management Tests: 41 tests ⭐ NEW
+- **Grand Total: 77 tests**
 
 ### Task 1: Create `BiometricPromptSheet` component ✅
 
@@ -256,11 +261,45 @@ export type { BiometricPromptSheetProps } from './BiometricPromptSheet'
 
 ---
 
-### Task 8: Integration tests (Pending)
+### Task 8: State Management Tests ✅
 
-**File:** `src/test/integration/biometrics-flow.test.tsx`
+**Test files:**
+- `src/state/__tests__/storage.test.ts` (25 tests) ⭐ NEW
+- `src/state/__tests__/AppContext.biometrics.test.tsx` (16 tests) ⭐ NEW
 
-Integration tests for full flow verification are pending.
+**storage.test.ts:**
+- ✅ Returns userId when present in localStorage
+- ✅ Returns null when no userId in localStorage
+- ✅ Returns null when localStorage throws
+- ✅ Returns null in Safari private browsing mode
+- ✅ Saves userId to localStorage when provided
+- ✅ Removes key from localStorage when userId is null
+- ✅ Silently handles localStorage quota exceeded error
+- ✅ Silently handles localStorage private mode error
+- ✅ Handles empty string userId by saving it
+- ✅ Handles special characters in email
+- ✅ Handles very long email addresses
+- ✅ Integration: save and load cycle
+- ✅ Integration: cleared userId returns null when loaded
+- ✅ Integration: overwrites previous userId with new one
+
+**AppContext.biometrics.test.tsx:**
+- ✅ Sets biometricsEnabled to true in preferences
+- ✅ Saves current user email to storage
+- ✅ Sets biometricUserId in extended state
+- ✅ Syncs state and storage atomically
+- ✅ Uses current profile email when user is authenticated
+- ✅ Sets biometricsEnabled to false in preferences (disable)
+- ✅ Clears biometricUserId from storage (disable)
+- ✅ Clears biometricUserId from extended state (disable)
+- ✅ Handles disable when already disabled gracefully
+- ✅ Complete enable then disable cycle
+- ✅ Handles rapid enable/disable toggling
+- ✅ setBiometricsEnabled direct setter updates preference without touching storage
+- ✅ Loads biometricUserId from storage on mount
+- ✅ Handles storage save failure silently
+- ✅ Handles storage clear failure silently
+- ✅ Uses empty string if email somehow missing
 
 ---
 
@@ -269,9 +308,11 @@ Integration tests for full flow verification are pending.
 **New files:**
 - `src/components/biometrics/BiometricPromptSheet.tsx`
 - `src/components/biometrics/index.ts`
-- `src/components/biometrics/__tests__/BiometricPromptSheet.test.tsx`
-- `src/screens/auth/__tests__/SignInScreen.biometrics.test.tsx`
-- `src/screens/settings/__tests__/BiometricsScreen.test.tsx`
+- `src/components/biometrics/__tests__/BiometricPromptSheet.test.tsx` (15 tests)
+- `src/screens/auth/__tests__/SignInScreen.biometrics.test.tsx` (11 tests)
+- `src/screens/settings/__tests__/BiometricsScreen.test.tsx` (10 tests)
+- `src/state/__tests__/storage.test.ts` (25 tests) ⭐ NEW
+- `src/state/__tests__/AppContext.biometrics.test.tsx` (16 tests) ⭐ NEW
 - `src/hooks/useOnlineStatus.ts`
 
 **Modified files:**
@@ -279,6 +320,7 @@ Integration tests for full flow verification are pending.
 - `src/screens/settings/BiometricsScreen.tsx` - make functional
 - `src/state/AppContext.tsx` - add biometricUserId + actions
 - `src/state/storage.ts` - persist biometricUserId
+- `src/test/setup.ts` - add window.scrollTo mock ⭐ NEW
 - `src/locales/en/settings.json` - new strings
 - `src/locales/de/settings.json` - new strings
 - `src/components/forms/PasswordField.tsx` - add forwardRef support
@@ -296,16 +338,23 @@ Integration tests for full flow verification are pending.
 pnpm --filter docliQ-mobile test
 ```
 
-**Run biometrics tests only:**
+**Run all biometrics tests:**
 ```bash
-pnpm exec vitest run --reporter=verbose src/components/biometrics src/screens/settings/__tests__/BiometricsScreen.test.tsx src/screens/auth/__tests__/SignInScreen.biometrics.test.tsx
+pnpm exec vitest run --reporter=verbose \
+  src/components/biometrics \
+  src/screens/settings/__tests__/BiometricsScreen.test.tsx \
+  src/screens/auth/__tests__/SignInScreen.biometrics.test.tsx \
+  src/state/__tests__/storage.test.ts \
+  src/state/__tests__/AppContext.biometrics.test.tsx
 ```
 
 **Test counts:**
 - BiometricPromptSheet: 15 tests
 - SignInScreen biometrics: 11 tests
 - BiometricsScreen: 10 tests
-- **Total: 36 biometrics tests**
+- storage.ts: 25 tests ⭐ NEW
+- AppContext biometrics: 16 tests ⭐ NEW
+- **Total: 77 biometrics tests** (was 36)
 
 ### Manual Verification Checklist
 

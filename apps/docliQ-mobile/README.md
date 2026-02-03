@@ -277,6 +277,7 @@ Currently uses mock data located in `src/data/`. The API functions in `src/data/
 
 ### Testing
 - **Automated**: `pnpm test` (watch), `pnpm test:run` (CI), `pnpm test:coverage`; Vitest + React Testing Library. Test layout: `src/test/contracts/` (fixtures), `src/test/integration/` (routing, form-validation, error-handling, loading-states, toast-notification).
+- **Biometrics QA**: Dedicated biometrics QA audit and coverage overview in `docs/docliQ/biometrics-qa-audit.md` (77 tests across UI, storage, and AppContext).
 - **Manual**: UI flows, responsive behavior, route guards, localStorage persistence.
 - Manual testing recommended for UI flows
 - Check responsive behavior on mobile and desktop
