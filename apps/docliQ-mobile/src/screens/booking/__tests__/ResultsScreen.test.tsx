@@ -46,6 +46,10 @@ vi.mock('../../../state', () => ({
     bookingFlow: 'by_doctor',
     setBookingFlow: mockSetBookingFlow,
   }),
+  useProfile: () => ({
+    profile: { myDoctors: [] },
+    toggleMyDoctor: vi.fn(),
+  }),
 }))
 
 // Initialize test i18n

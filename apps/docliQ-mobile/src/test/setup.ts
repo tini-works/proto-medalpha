@@ -39,3 +39,9 @@ Object.defineProperty(window, 'ResizeObserver', {
   writable: true,
   value: MockResizeObserver,
 })
+
+// jsdom doesn't implement scrollTo; Sheet scroll lock calls it during cleanup
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: vi.fn(),
+})

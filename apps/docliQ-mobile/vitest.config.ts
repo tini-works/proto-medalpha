@@ -11,8 +11,13 @@ export default defineConfig({
     // CSS disabled - tests use toHaveClass() not computed styles
     css: false,
 
-    // Thread-based execution for better parallelism
-    pool: 'threads',
+    // Use forked processes to reduce long-lived heap growth in large suites
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        execArgv: ['--max-old-space-size=4096'],
+      },
+    },
 
     // Test isolation: each test file runs in fresh context
     // Pros: prevents state leakage, more reliable
@@ -20,8 +25,8 @@ export default defineConfig({
     isolate: true,
 
     // Resource optimization
-    maxConcurrency: 2,
-    maxWorkers: 2,
+    maxConcurrency: 1,
+    maxWorkers: 1,
     minWorkers: 1,
 
     sequence: {

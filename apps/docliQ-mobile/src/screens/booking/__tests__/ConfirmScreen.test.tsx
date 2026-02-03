@@ -46,6 +46,7 @@ vi.mock('../../../state', () => ({
       insuranceType: 'GKV',
       familyMembers: [],
     },
+    upsertMyDoctor: vi.fn(),
   }),
   useHistory: () => ({
     addHistoryItem: mockAddHistoryItem,

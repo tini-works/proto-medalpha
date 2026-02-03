@@ -15,6 +15,7 @@ import type {
 } from '../types'
 import { initialState } from '../types'
 import { clearState, loadState, saveState } from './storage'
+import type { MyDoctorEntry } from '../types/user'
 
 // Fast-Lane request type
 interface FastLaneRequestState {
@@ -73,6 +74,8 @@ type AppStateApi = {
   removeFamilyMember: (id: string) => void
   updateFamilyMember: (id: string, patch: Partial<FamilyMember>) => void
   updateGdprConsent: (consent: Partial<AppState['profile']['gdprConsent']>) => void
+  upsertMyDoctor: (doctor: Doctor, bookedAtISO?: string) => void
+  toggleMyDoctor: (doctor: Doctor) => void
   // Preferences
   setFontScale: (scale: AppState['preferences']['fontScale']) => void
   setLanguage: (language: AppState['preferences']['language']) => void
@@ -129,6 +132,30 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     availabilityPrefs: null,
     bookingFlow: null,
     symptomInfo: null,
+  })
+
+  const normalizeMyDoctors = (entries: MyDoctorEntry[]) => {
+    const sorted = [...entries].sort((a, b) => {
+      const aKey = a.lastBookedAt ?? a.addedAt
+      const bKey = b.lastBookedAt ?? b.addedAt
+      return bKey.localeCompare(aKey)
+    })
+    return sorted.slice(0, 5)
+  }
+
+  const snapshotDoctor = (doctor: Doctor) => ({
+    id: doctor.id,
+    name: doctor.name,
+    specialty: doctor.specialty,
+    city: doctor.city,
+    address: doctor.address,
+    accepts: doctor.accepts,
+    languages: doctor.languages,
+    rating: doctor.rating,
+    reviewCount: doctor.reviewCount,
+    nextAvailableISO: doctor.nextAvailableISO,
+    imageUrl: doctor.imageUrl,
+    about: doctor.about,
   })
 
   useEffect(() => {
@@ -398,6 +425,34 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           },
         })),
 
+      upsertMyDoctor: (doctor, bookedAtISO) => {
+        const now = bookedAtISO ?? new Date().toISOString()
+        setState((s) => {
+          const existing = s.profile.myDoctors ?? []
+          const idx = existing.findIndex((e) => e.doctor.id === doctor.id)
+          const next: MyDoctorEntry[] =
+            idx >= 0
+              ? existing.map((e, i) => (i === idx ? { ...e, doctor: snapshotDoctor(doctor), lastBookedAt: now } : e))
+              : [{ doctor: snapshotDoctor(doctor), lastBookedAt: now, addedAt: now }, ...existing]
+
+          return { ...s, profile: { ...s.profile, myDoctors: normalizeMyDoctors(next) } }
+        })
+      },
+
+      toggleMyDoctor: (doctor) => {
+        const now = new Date().toISOString()
+        setState((s) => {
+          const existing = s.profile.myDoctors ?? []
+          const idx = existing.findIndex((e) => e.doctor.id === doctor.id)
+          const next: MyDoctorEntry[] =
+            idx >= 0
+              ? existing.filter((e) => e.doctor.id !== doctor.id)
+              : [{ doctor: snapshotDoctor(doctor), addedAt: now }, ...existing]
+
+          return { ...s, profile: { ...s.profile, myDoctors: normalizeMyDoctors(next) } }
+        })
+      },
+
       // Preferences
       setFontScale: (fontScale) =>
         setState((s) => ({
@@ -584,6 +639,8 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    upsertMyDoctor,
+    toggleMyDoctor,
     markPhoneVerified,
     isProfileComplete,
   } = useAppState()
@@ -595,6 +652,8 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    upsertMyDoctor,
+    toggleMyDoctor,
     markPhoneVerified,
   }
 }

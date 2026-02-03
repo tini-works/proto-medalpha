@@ -97,6 +97,7 @@ export const initialProfile: UserProfile = {
     city: '',
   },
   familyMembers: [],
+  myDoctors: [],
   gdprConsent: {
     dataProcessing: false,
     marketing: false,
