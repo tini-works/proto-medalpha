@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
@@ -113,10 +114,23 @@ import {
 
 // Cookie consent banner
 import { CookieConsentBanner } from './components'
+import { recordNavigation } from './utils/navigation'
 
 function BookingEntryRedirect() {
   const location = useLocation()
   return <Navigate to={PATHS.BOOKING_INTENT} replace state={location.state} />
+}
+
+function NavigationTracker() {
+  const location = useLocation()
+
+  useEffect(() => {
+    const currentPath = `${location.pathname}${location.search}`
+    const skip = Boolean((location.state as any)?.skipInBackStack)
+    if (!skip) recordNavigation(currentPath)
+  }, [location.pathname, location.search])
+
+  return null
 }
 
 export default function App() {
@@ -141,6 +155,7 @@ function AppContent() {
   return (
     <DeviceFrame>
       <BrowserRouter>
+        <NavigationTracker />
         <div className="app-shell relative">
         <Routes>
           <Route path="/" element={<Navigate to={PATHS.HOME} replace />} />

@@ -4,6 +4,7 @@ import { IconChevronLeft } from '@tabler/icons-react'
 import { PATHS, doctorSlotsPath } from '../../routes/paths'
 import { useBooking } from '../../state'
 import { Button } from '../ui'
+import { popBackPath } from '../../utils/navigation'
 
 interface HeaderProps {
   title: string
@@ -143,6 +144,13 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
     const fromPath = (location.state as any)?.from as string | undefined
     if (fromPath) {
       navigate(fromPath)
+      return
+    }
+
+    const currentPath = `${location.pathname}${location.search}`
+    const backPath = popBackPath(currentPath)
+    if (backPath && backPath !== currentPath) {
+      navigate(backPath)
       return
     }
 

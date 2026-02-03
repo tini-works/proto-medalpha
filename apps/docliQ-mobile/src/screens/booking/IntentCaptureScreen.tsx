@@ -485,7 +485,11 @@ export default function IntentCaptureScreen() {
                 size="sm"
                 className="w-auto px-4"
                 leftIcon={<IconPlus size={16} stroke={2} />}
-                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD, { state: { from: location.pathname } })}
+                onClick={() =>
+                  navigate(PATHS.PROFILE_FAMILY_ADD, {
+                    state: { from: location.pathname, skipInBackStack: true },
+                  })
+                }
               >
                 {t('addFamilyMember')}
               </Button>

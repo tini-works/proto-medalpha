@@ -176,7 +176,11 @@ export default function BookingTypeScreen() {
               <p className="text-sm text-slate-600">{t('noFamilyMembers')}</p>
               <button
                 type="button"
-                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD, { state: { from: location.pathname } })}
+                onClick={() =>
+                  navigate(PATHS.PROFILE_FAMILY_ADD, {
+                    state: { from: location.pathname, skipInBackStack: true },
+                  })
+                }
                 className="mt-3 text-sm font-medium text-teal-700 hover:text-teal-800"
               >
                 {t('addFamilyMember')}
