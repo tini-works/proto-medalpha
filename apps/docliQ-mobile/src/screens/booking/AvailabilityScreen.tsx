@@ -83,7 +83,16 @@ export default function AvailabilityScreen() {
   const handleFullyFlexibleToggle = () => {
     setFullyFlexible((prev) => !prev)
     if (!fullyFlexible) {
-      // Clear manual selections when choosing fully flexible
+      // Select all slots when choosing fully flexible
+      const allSlots = new Set<string>()
+      DAYS.forEach((day) => {
+        TIME_RANGES.forEach((timeRange) => {
+          allSlots.add(slotKey(day, timeRange))
+        })
+      })
+      setSelectedSlots(allSlots)
+    } else {
+      // Clear selections when unchecking fully flexible
       setSelectedSlots(new Set())
     }
   }
@@ -279,11 +288,11 @@ export default function AvailabilityScreen() {
                     type="button"
                     onClick={() => toggleSlot(day, timeRange)}
                     disabled={fullyFlexible}
-                    className={`h-10 rounded-lg flex items-center justify-center transition-all duration-150 ${
-                      fullyFlexible
-                        ? 'bg-cream-100 cursor-not-allowed'
-                        : isSelected
-                          ? 'bg-teal-500 text-white'
+                    className={`h-10 rounded-xl flex items-center justify-center transition-all duration-150 ${
+                      isSelected
+                        ? 'bg-[#3AAAB6] text-white'
+                        : fullyFlexible
+                          ? 'bg-cream-100 cursor-not-allowed'
                           : 'bg-cream-100 hover:bg-cream-200'
                     }`}
                     aria-pressed={isSelected}
@@ -311,18 +320,18 @@ export default function AvailabilityScreen() {
 
         {/* Selection summary */}
         {canContinue && (
-          <div className="bg-cream-100 rounded-2xl p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-teal-600">
-                <IconCalendar size={20} stroke={2} />
+          <div className="bg-[#E8F4F6] rounded-2xl p-4 border border-[#B8E0E6]">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#3AAAB6] border border-[#D4EBEF]">
+                <IconCalendar size={20} stroke={1.5} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-charcoal-500">{selectionSummary.primary}</p>
+                <p className="font-semibold text-slate-800 text-sm">{selectionSummary.primary}</p>
                 {selectionSummary.secondary && (
-                  <p className="text-sm text-slate-500 mt-0.5">{selectionSummary.secondary}</p>
+                  <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">{selectionSummary.secondary}</p>
                 )}
               </div>
-              <span className="px-2 py-1 rounded-full bg-teal-100 text-xs font-semibold text-teal-700">
+              <span className="px-3 py-1.5 rounded-full bg-white border border-[#3AAAB6] text-xs font-semibold text-[#3AAAB6] whitespace-nowrap">
                 {selectionSummary.count} {t('slots')}
               </span>
             </div>

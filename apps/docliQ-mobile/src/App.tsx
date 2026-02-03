@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
 import { useI18nSync } from './hooks/useI18nSync'
@@ -113,6 +113,11 @@ import {
 
 // Cookie consent banner
 import { CookieConsentBanner } from './components'
+
+function BookingEntryRedirect() {
+  const location = useLocation()
+  return <Navigate to={PATHS.BOOKING_INTENT} replace state={location.state} />
+}
 
 export default function App() {
   return (
@@ -337,7 +342,7 @@ function AppContent() {
           {/* Booking - Entry Point (redirects to intent capture) */}
           <Route
             path={PATHS.BOOKING}
-            element={<Navigate to={PATHS.BOOKING_INTENT} replace />}
+            element={<BookingEntryRedirect />}
           />
 
           {/* Intent-Based Smart Router (Approach A) */}

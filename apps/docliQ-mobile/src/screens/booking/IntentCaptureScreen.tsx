@@ -159,7 +159,7 @@ export default function IntentCaptureScreen() {
           if (doctor) {
             setBookingFlow('by_doctor')
             selectDoctor(doctor)
-            navigate(PATHS.BOOKING_SLOTS.replace(':id', doctor.id))
+            navigate(`/booking/doctor/${doctor.id}/slots`)
             return
           }
         }
@@ -222,7 +222,7 @@ export default function IntentCaptureScreen() {
       selectFamilyMember(patientSegment === 'family' ? profile.familyMembers[0]?.id || null : null)
       setBookingFlow('by_doctor')
       selectDoctor(recentDoctor)
-      navigate(PATHS.BOOKING_SLOTS.replace(':id', recentDoctor.id))
+      navigate(`/booking/doctor/${recentDoctor.id}/slots`)
     }
   }
 
