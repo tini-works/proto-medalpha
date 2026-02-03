@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
+/** Returns current online status and helpers for banners / manual refresh. */
 interface OnlineStatus {
   isOnline: boolean
   justCameOnlineAt: number | null
@@ -8,14 +9,9 @@ interface OnlineStatus {
 
 export function useOnlineStatus(): OnlineStatus {
   const [isOnline, setIsOnline] = useState(
-    typeof navigator !== 'undefined' ? navigator.onLine : true
+    () => (typeof navigator !== 'undefined' ? navigator.onLine : true)
   )
   const [justCameOnlineAt, setJustCameOnlineAt] = useState<number | null>(null)
-
-  const refreshOnlineStatus = useCallback(() => {
-    const online = typeof navigator !== 'undefined' ? navigator.onLine : true
-    setIsOnline(online)
-  }, [])
 
   useEffect(() => {
     const handleOnline = () => {
@@ -29,12 +25,19 @@ export function useOnlineStatus(): OnlineStatus {
 
     window.addEventListener('online', handleOnline)
     window.addEventListener('offline', handleOffline)
-
     return () => {
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
     }
   }, [])
 
+  const refreshOnlineStatus = useCallback(() => {
+    if (typeof navigator === 'undefined') return
+    const nowOnline = navigator.onLine
+    setIsOnline(nowOnline)
+    setJustCameOnlineAt(nowOnline ? Date.now() : null)
+  }, [])
+
   return { isOnline, justCameOnlineAt, refreshOnlineStatus }
 }
+

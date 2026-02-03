@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { IconBell, IconCalendar, IconUsers } from '@tabler/icons-react'
 import { Page, TabBar, Avatar, TodaysFocusCard, SwipeableAppointmentStack } from '../../components'
 import { OfflineBookingSheet } from '../../components/sheets'
+import { PendingDeletionBanner } from '../../components/account'
+import { ConfirmModal } from '../../components/ui'
 import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { LatestNewsSection } from '../../components/newsfeed'
-import { useAuth, useProfile, useBooking } from '../../state'
+import { useAuth, useProfile, useBooking, useAppState } from '../../state'
 import { mockNewsArticles } from '../../data/newsfeed'
 import { PATHS, appointmentDetailPath } from '../../routes'
 
@@ -15,10 +17,12 @@ export default function HomeScreen() {
   const { isVerified } = useAuth()
   const { profile } = useProfile()
   const { appointments } = useBooking()
+  const { pendingDeletion, cancelDeletion, completeDeletion } = useAppState()
   const { t } = useTranslation('home')
   const [pendingStackIndex, setPendingStackIndex] = useState(0)
   const { isOnline } = useOnlineStatus()
   const [showOfflineSheet, setShowOfflineSheet] = useState(false)
+  const [showCancelModal, setShowCancelModal] = useState(false)
 
   const getLastUpdatedTs = (appointment: (typeof appointments)[number]) => {
     const ts =
@@ -81,6 +85,17 @@ export default function HomeScreen() {
           </Link>
         </div>
       </header>
+
+      {pendingDeletion && (
+        <PendingDeletionBanner
+          expiresAt={pendingDeletion.expiresAt}
+          onCancel={() => setShowCancelModal(true)}
+          onSkipToDeletion={() => {
+            completeDeletion()
+            navigate(PATHS.AUTH_WELCOME)
+          }}
+        />
+      )}
 
       <div className="px-4 py-6 space-y-6">
         {/* Today's Focus */}
@@ -157,6 +172,19 @@ export default function HomeScreen() {
       <TabBar />
 
       <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
+
+      <ConfirmModal
+        open={showCancelModal}
+        title={t('deleteCancel.title', { ns: 'legal' })}
+        message={t('deleteCancel.message', { ns: 'legal' })}
+        confirmLabel={t('deleteCancel.keepButton', { ns: 'legal' })}
+        cancelLabel={t('deleteCancel.continueButton', { ns: 'legal' })}
+        onConfirm={() => {
+          cancelDeletion()
+          setShowCancelModal(false)
+        }}
+        onCancel={() => setShowCancelModal(false)}
+      />
     </Page>
   )
 }

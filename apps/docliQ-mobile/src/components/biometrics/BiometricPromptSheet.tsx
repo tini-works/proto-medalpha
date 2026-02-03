@@ -66,12 +66,9 @@ export function BiometricPromptSheet({
             <Button onClick={onRetry} variant="primary" fullWidth>
               {t('biometricPrompt.tryAgain')}
             </Button>
-            <button
-              onClick={onUsePassword}
-              className="w-full text-sm text-teal-600 hover:text-teal-700 hover:underline py-2"
-            >
+            <Button onClick={onUsePassword} variant="link" fullWidth>
               {t('biometricPrompt.usePassword')}
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -80,30 +77,32 @@ export function BiometricPromptSheet({
               {t('biometricPrompt.cancel')}
             </Button>
 
-            {/* DEV simulation buttons */}
-            <div className="pt-4 border-t border-cream-300">
-              <p className="text-xs text-slate-400 text-center mb-3 uppercase tracking-wider">
-                Development Only
-              </p>
-              <div className="flex gap-3">
-                <Button
-                  onClick={onSuccess}
-                  variant="primary"
-                  fullWidth
-                  testId="biometric-dev-success"
-                >
-                  {t('biometricPrompt.mockSuccess')}
-                </Button>
-                <Button
-                  onClick={onFailure}
-                  variant="destructive-filled"
-                  fullWidth
-                  testId="biometric-dev-failure"
-                >
-                  {t('biometricPrompt.mockFailure')}
-                </Button>
+            {/* DEV simulation buttons - only shown in development mode */}
+            {import.meta.env.DEV && (
+              <div className="pt-4 border-t border-cream-300">
+                <p className="text-xs text-slate-400 text-center mb-3 uppercase tracking-wider">
+                  Development Only
+                </p>
+                <div className="flex gap-3">
+                  <Button
+                    onClick={onSuccess}
+                    variant="primary"
+                    fullWidth
+                    testId="biometric-dev-success"
+                  >
+                    {t('biometricPrompt.mockSuccess')}
+                  </Button>
+                  <Button
+                    onClick={onFailure}
+                    variant="destructive-filled"
+                    fullWidth
+                    testId="biometric-dev-failure"
+                  >
+                    {t('biometricPrompt.mockFailure')}
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>

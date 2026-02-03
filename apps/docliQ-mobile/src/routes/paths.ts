@@ -108,6 +108,9 @@ export const PATHS = {
   SETTINGS_PRIVACY_EXPORT: '/settings/privacy/export',
   SETTINGS_PRIVACY_SHARING: '/settings/privacy/sharing',
   SETTINGS_PRIVACY_CONSENTS: '/settings/privacy/consents',
+
+  // Account deletion
+  SETTINGS_DELETE_EMAIL_CONFIRM: '/settings/delete-email-confirm',
 } as const
 
 export function assistantDoctorPath(id: string) {

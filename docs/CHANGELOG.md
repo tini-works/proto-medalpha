@@ -4,9 +4,13 @@ Notable changes, high level.
 
 ## 2026-02-03
 
+- **docliQ-mobile (build fix)**: Add missing `OfflineBookingSheet` component and `useOnlineStatus` hook — fix Vite import-resolution errors.
+- **Offline UX**: OfflineBookingSheet shows "booking requires internet" (settings i18n); useOnlineStatus exposes `isOnline`, `justCameOnlineAt`, `refreshOnlineStatus` for Page offline banner and "Try again".
 - **Biometrics state**: Add biometric user ID storage and AppContext APIs (enableBiometrics, disableBiometrics, biometricUserId); separate localStorage key for biometric enrollment; cleared on resetAll.
 - **Biometric sign-in**: BiometricPromptSheet component with success/failure/retry states; SignInScreen fingerprint button for enrolled users; BiometricsScreen enable/disable with confirmation modal.
 - **PasswordField**: Convert to forwardRef for programmatic focus after biometric fallback.
+- **Biometrics QA (docliQ-mobile)**: QA audit doc + expanded coverage for storage/AppContext; 77 biometrics tests total; jsdom scrollTo warnings removed via shared test setup.
+- **IndexedDB architecture (docliQ-mobile)**: Architecture plan for IndexedDB-backed appointments/profile/notifications, with repository + migration patterns and phased implementation.
 
 ## 2026-02-02
 
