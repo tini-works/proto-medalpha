@@ -14,5 +14,12 @@
   "viewDetails": "View details",
   "submitForm": "Submit Form",
   "latestHealthNews": "Latest Health News",
-  "loadMore": "Load more"
+  "loadMore": "Load more",
+  "continueWithDoctor": "Continue with {{name}}",
+  "nextAvailableInline": "Next available: tap to book instantly",
+  "myDoctors": "My Doctors",
+  "searchNewDoctor": "Search new doctor",
+  "toggleFavorite": "Toggle favorite",
+  "myDoctorsEmptyTitle": "Welcome!",
+  "myDoctorsEmptySubtitle": "Book once to start building your My Doctors list (up to 5)."
 }
