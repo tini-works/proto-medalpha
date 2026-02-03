@@ -2,6 +2,10 @@
 
 Notable changes, high level.
 
+## 2026-02-03
+
+- **Biometrics state**: Add biometric user ID storage and AppContext APIs (enableBiometrics, disableBiometrics, biometricUserId); separate localStorage key for biometric enrollment; cleared on resetAll.
+
 ## 2026-02-02
 
 - **QA (docliQ)**: QA audit report + implementation plan in docs/docliQ; test contracts (users, appointments fixtures) and integration tests (routing, form-validation, error-handling, loading-states, toast-notification) under apps/docliQ-mobile/src/test.

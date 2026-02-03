@@ -14,7 +14,14 @@ import type {
   InsuranceType,
 } from '../types'
 import { initialState } from '../types'
-import { clearState, loadState, saveState } from './storage'
+import {
+  clearState,
+  loadState,
+  saveState,
+  loadBiometricUserId,
+  saveBiometricUserId,
+  clearBiometricUserId,
+} from './storage'
 
 // Fast-Lane request type
 interface FastLaneRequestState {
@@ -56,6 +63,7 @@ interface ExtendedState {
   availabilityPrefs: AvailabilityPrefs | null
   bookingFlow: BookingFlow
   symptomInfo: SymptomInfo | null
+  biometricUserId: string | null
 }
 
 type AppStateApi = {
@@ -108,6 +116,10 @@ type AppStateApi = {
   // Booking flow tracking
   setBookingFlow: (flow: BookingFlow) => void
   clearBookingFlow: () => void
+  // Biometrics
+  biometricUserId: string | null
+  enableBiometrics: () => void
+  disableBiometrics: () => void
   // Computed
   isProfileComplete: boolean
   isIdentityVerified: boolean
@@ -121,7 +133,7 @@ const Ctx = createContext<AppStateApi | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>(() => loadState(initialState))
-  const [extendedState, setExtendedState] = useState<ExtendedState>({
+  const [extendedState, setExtendedState] = useState<ExtendedState>(() => ({
     reschedule: null,
     bookAgain: null,
     fastLane: null,
@@ -129,7 +141,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     availabilityPrefs: null,
     bookingFlow: null,
     symptomInfo: null,
-  })
+    biometricUserId: loadBiometricUserId(),
+  }))
 
   useEffect(() => {
     setState((s) => {
@@ -538,6 +551,20 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       clearBookingFlow: () =>
         setExtendedState((s) => ({ ...s, bookingFlow: null })),
 
+      // Biometrics
+      biometricUserId: extendedState.biometricUserId,
+      enableBiometrics: () => {
+        const email = state.profile.email
+        saveBiometricUserId(email)
+        setExtendedState((s) => ({ ...s, biometricUserId: email }))
+        setState((s) => ({ ...s, preferences: { ...s.preferences, biometricsEnabled: true } }))
+      },
+      disableBiometrics: () => {
+        clearBiometricUserId()
+        setExtendedState((s) => ({ ...s, biometricUserId: null }))
+        setState((s) => ({ ...s, preferences: { ...s.preferences, biometricsEnabled: false } }))
+      },
+
       // Computed/getters
       getAppointmentById: (id) => state.appointments.find((apt) => apt.id === id),
       getHistoryItemById: (id) => state.history.items.find((item) => item.id === id),
@@ -545,8 +572,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       // Reset
       resetAll: () => {
         clearState()
+        clearBiometricUserId()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null, biometricUserId: null })
       },
     }),
     [state, extendedState, isProfileComplete, isIdentityVerified]
@@ -673,15 +701,27 @@ export function useHistory() {
 }
 
 export function usePreferences() {
-  const { state, setFontScale, setLanguage, setBiometricsEnabled, setNotificationPreferences } = useAppState()
+  const {
+    state,
+    setFontScale,
+    setLanguage,
+    setBiometricsEnabled,
+    setNotificationPreferences,
+    enableBiometrics,
+    disableBiometrics,
+    biometricUserId,
+  } = useAppState()
   return {
     fontScale: state.preferences.fontScale,
     language: state.preferences.language,
     biometricsEnabled: state.preferences.biometricsEnabled,
+    biometricUserId,
     notifications: state.preferences.notifications,
     setFontScale,
     setLanguage,
     setBiometricsEnabled,
+    enableBiometrics,
+    disableBiometrics,
     setNotificationPreferences,
   }
 }
