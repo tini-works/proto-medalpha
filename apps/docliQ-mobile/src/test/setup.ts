@@ -39,3 +39,9 @@ Object.defineProperty(window, 'ResizeObserver', {
   writable: true,
   value: MockResizeObserver,
 })
+
+// Mock window.scrollTo (not implemented in jsdom)
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: vi.fn(),
+})
