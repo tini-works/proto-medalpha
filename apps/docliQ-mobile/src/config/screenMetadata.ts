@@ -122,6 +122,20 @@ export const screenMetadata: Record<string, ScreenMetadata> = {
       ).length,
     }),
   },
+  '/booking/intent': {
+    name: 'Book Appointment (Intent)',
+    intention: {
+      userGoal: 'Start a new appointment request',
+      uxPurpose: 'Capture intent and route to the right booking flow',
+    },
+  },
+  '/profile/family/add': {
+    name: 'Add Family Member',
+    intention: {
+      userGoal: 'Add a dependent profile',
+      uxPurpose: 'Collect family member details for booking on their behalf',
+    },
+  },
   '/notifications': {
     name: 'Updates',
     intention: {

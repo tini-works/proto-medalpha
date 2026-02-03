@@ -11,6 +11,7 @@ import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../uti
 import { PATHS } from '../../routes/paths'
 import { MatchingStatusView } from '../../components/appointments/MatchingStatusView'
 import type { Appointment } from '../../types'
+import { popBackPath } from '../../utils/navigation'
 
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
@@ -152,12 +153,26 @@ interface StatusProps {
 // ============================================
 function BackHeader() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('detail')
 
   return (
     <header className="sticky top-0 z-10 h-16 bg-white px-4 flex items-center">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          const fromPath = (location.state as any)?.from as string | undefined
+          if (fromPath) {
+            navigate(fromPath)
+            return
+          }
+          const currentPath = `${location.pathname}${location.search}`
+          const backPath = popBackPath(currentPath)
+          if (backPath && backPath !== currentPath) {
+            navigate(backPath)
+            return
+          }
+          navigate(-1)
+        }}
         className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"
         aria-label={t('goBack')}
       >
