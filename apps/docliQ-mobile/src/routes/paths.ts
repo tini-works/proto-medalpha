@@ -22,6 +22,7 @@ export const PATHS = {
   // Profile
   PROFILE_COMPLETE: '/profile/complete',           // Deprecated - redirects to ONBOARDING_PROFILE
   PROFILE_FAMILY: '/profile/family',
+  PROFILE_FAMILY_ADD: '/profile/family/add',
   PROFILE_FAMILY_DETAIL: '/profile/family/:id',
   PROFILE_EDIT: '/profile/edit',
   PROFILE_VERIFY_PHONE: '/profile/verify-phone',

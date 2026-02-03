@@ -25,7 +25,7 @@ export function Chip({
   const widthClass = fullWidth ? 'w-full' : ''
 
   const stateClass = selected
-    ? 'bg-white border border-teal-500 text-charcoal-500 shadow-sm'
+    ? 'bg-teal-50 border border-teal-500 text-charcoal-500 shadow-sm'
     : 'bg-white border border-cream-400 text-charcoal-500 hover:bg-cream-50 hover:border-cream-500'
 
   const disabledClass = disabled ? 'opacity-60 cursor-not-allowed pointer-events-none' : ''
@@ -43,4 +43,3 @@ export function Chip({
     </button>
   )
 }
-

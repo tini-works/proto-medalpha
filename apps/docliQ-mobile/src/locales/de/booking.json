@@ -16,6 +16,12 @@
   "step1Of4": "SCHRITT 1 VON 4",
   "step2Of4": "SCHRITT 2 VON 4",
   "step3Of4": "SCHRITT 3 VON 4",
+  "step1Of5": "SCHRITT 1 VON 5",
+  "step2Of5": "SCHRITT 2 VON 5",
+  "step3Of5": "SCHRITT 3 VON 5",
+  "step4Of5": "SCHRITT 4 VON 5",
+  "step5Of5": "SCHRITT 5 VON 5",
+  "step1Of3": "SCHRITT 1 VON 3",
   "yourRequest": "Ihre Anfrage",
   "inClinic": "Praxisbesuch",
   "homeVisit": "Hausbesuch",
@@ -65,6 +71,34 @@
   "availableTimes": "Verfügbare Uhrzeiten",
   "whoIsAppointmentFor": "Für wen ist dieser Termin?",
   "myself": "Mich selbst",
+  "familyMember": "Familienmitglied",
+  "noFamilyMembers": "Noch keine Familienmitglieder.",
+  "addFamilyMember": "Familienmitglied hinzufügen",
+  "appointmentTypeTitle": "Terminart",
+  "appointmentType": {
+    "acute": {
+      "title": "Akut / Dringend",
+      "description": "Neue Symptome oder Erkrankung, die Aufmerksamkeit erfordert"
+    },
+    "prevention": {
+      "title": "Prävention / Vorsorge",
+      "description": "Jährliche Check-ups, Screenings, Impfungen"
+    },
+    "followUp": {
+      "title": "Folgetermin",
+      "description": "Weiterbehandlung nach einem früheren Termin"
+    }
+  },
+  "family": {
+    "relationship": {
+      "child": "Kind",
+      "spouse": "Partner/in",
+      "parent": "Elternteil",
+      "other": "Andere"
+    },
+    "age": "Alter {{age}}",
+    "ageUnknown": "Alter unbekannt"
+  },
   "insurance": "Versicherung",
   "whatInsuranceType": "Welchen Versicherungstyp haben Sie?",
   "publicGkv": "Gesetzlich (GKV)",
@@ -242,6 +276,7 @@
 
   "step1Of2": "SCHRITT 1 VON 2",
   "step2Of2": "SCHRITT 2 VON 2",
+  "step3Of3": "SCHRITT 3 VON 3",
   "step1Of4": "SCHRITT 1 VON 4",
   "allSpecialties": "Alle",
   "describeSymptoms": "Beschreiben Sie Ihre Symptome",
