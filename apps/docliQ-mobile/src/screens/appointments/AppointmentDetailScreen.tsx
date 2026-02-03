@@ -10,6 +10,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
 import { MatchingStatusView } from '../../components/appointments/MatchingStatusView'
+import type { Appointment } from '../../types'
 
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
@@ -83,6 +84,8 @@ export default function AppointmentDetailScreen() {
       return <AwaitConfirmStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
     case 'confirmed':
       return <ConfirmedStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
+    case 'modified_by_practice':
+      return <ModifiedByPracticeStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
     case 'completed':
       return (
         <CompletedStatus
@@ -116,6 +119,30 @@ interface StatusProps {
     feedbackDismissed?: boolean
     feedbackSubmittedAt?: string
     cancelReason?: string
+    appointmentType?: string
+    notes?: string
+    locationName?: string
+    changeHistory?: {
+      id: string
+      changedAt: string
+      summary: string
+      before: {
+        dateISO?: string
+        time?: string
+        locationName?: string
+        doctorName?: string
+        appointmentType?: string
+        notes?: string
+      }
+      after: {
+        dateISO?: string
+        time?: string
+        locationName?: string
+        doctorName?: string
+        appointmentType?: string
+        notes?: string
+      }
+    }[]
   }
   onCancel?: () => void
 }
@@ -139,6 +166,56 @@ function BackHeader() {
         </svg>
       </button>
     </header>
+  )
+}
+
+// ============================================
+// STATUS ICON
+// ============================================
+function StatusIcon({ status }: { status: Appointment['status'] }) {
+  const config = (() => {
+    switch (status) {
+      case 'confirmed':
+        return { outer: 'bg-green-100', inner: 'bg-green-500', icon: 'check' as const }
+      case 'completed':
+        return { outer: 'bg-slate-200', inner: 'bg-slate-400', icon: 'check' as const }
+      case 'await_confirm':
+        return { outer: 'bg-amber-100', inner: 'bg-amber-500', icon: 'clock' as const }
+      case 'modified_by_practice':
+        return { outer: 'bg-amber-100', inner: 'bg-amber-500', icon: 'alert' as const }
+      case 'cancelled_patient':
+      case 'cancelled_doctor':
+        return { outer: 'bg-red-100', inner: 'bg-red-500', icon: 'close' as const }
+      default:
+        return { outer: 'bg-slate-200', inner: 'bg-slate-400', icon: 'check' as const }
+    }
+  })()
+
+  return (
+    <div className={`w-20 h-20 rounded-full ${config.outer} flex items-center justify-center mb-6`}>
+      <div className={`w-14 h-14 rounded-full ${config.inner} flex items-center justify-center`}>
+        {config.icon === 'check' && (
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        )}
+        {config.icon === 'clock' && (
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        )}
+        {config.icon === 'close' && (
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        )}
+        {config.icon === 'alert' && (
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M12 3a9 9 0 110 18 9 9 0 010-18z" />
+          </svg>
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -225,14 +302,7 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
 
       {/* Center-aligned Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
-        {/* Icon */}
-        <div className="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center mb-6">
-          <div className="w-14 h-14 rounded-full bg-amber-500 flex items-center justify-center">
-            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-        </div>
+        <StatusIcon status="await_confirm" />
 
         {/* Title */}
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('awaitingConfirmation')}</h1>
@@ -332,14 +402,7 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
 
       {/* Center-aligned Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
-        {/* Icon */}
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
-          <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
-            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-        </div>
+        <StatusIcon status="confirmed" />
 
         {/* Title */}
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('confirmed')}</h1>
@@ -422,6 +485,107 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
 }
 
 // ============================================
+// MODIFIED BY PRACTICE STATUS
+// ============================================
+function ModifiedByPracticeStatus({ appointment, onCancel }: StatusProps) {
+  const navigate = useNavigate()
+  const { t } = useTranslation('detail')
+  const [showCancelDialog, setShowCancelDialog] = useState(false)
+  const [showChanges, setShowChanges] = useState(true)
+
+  const handleCancel = () => {
+    onCancel?.()
+    setShowCancelDialog(false)
+    navigate(PATHS.HISTORY)
+  }
+
+  return (
+    <Page className="flex flex-col">
+      <BackHeader />
+
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+        <StatusIcon status="modified_by_practice" />
+
+        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">
+          {t('modifiedTitle')}
+        </h1>
+        <p className="text-slate-600 text-center mb-6 max-w-sm">
+          {t('modifiedDescription')}
+        </p>
+
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
+          <DoctorInfoCard appointment={appointment} variant="confirmed" align="left" />
+          <div className="h-px bg-cream-200 my-4" />
+          <AppointmentDetails appointment={appointment} align="left" showLocation />
+        </div>
+
+        {showChanges && appointment.changeHistory && appointment.changeHistory.length > 0 && (
+          <div className="w-full max-w-sm mt-6">
+            <div className="rounded-xl border border-cream-300 bg-cream-50 px-4 py-3 space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                {t('changesTitle')}
+              </p>
+              <div className="space-y-2 text-sm text-slate-600">
+                {appointment.changeHistory.map((change) => (
+                  <ChangeEntry key={change.id} change={change} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <StickyBottomBar>
+        <DestructiveOutlineButton onClick={() => setShowCancelDialog(true)}>
+          {t('cancelAppointment')}
+        </DestructiveOutlineButton>
+      </StickyBottomBar>
+
+      <CancelAppointmentSheet
+        open={showCancelDialog}
+        doctorName={appointment.doctorName}
+        formattedDate={formatDateWithWeekday(appointment.dateISO)}
+        onConfirm={handleCancel}
+        onClose={() => setShowCancelDialog(false)}
+      />
+    </Page>
+  )
+}
+
+function ChangeEntry({ change }: { change: NonNullable<StatusProps['appointment']['changeHistory']>[number] }) {
+  const { t } = useTranslation('detail')
+  const formatValue = (value?: string) => value || t('notProvided')
+
+  return (
+    <div className="bg-white p-0">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+        </div>
+      </div>
+
+      <div className="mt-3 space-y-2 text-sm text-slate-600">
+        <DiffRow label={t('diff.date')} before={change.before.dateISO} after={change.after.dateISO} />
+        <DiffRow label={t('diff.time')} before={change.before.time} after={change.after.time} />
+        <DiffRow label={t('diff.doctor')} before={change.before.doctorName} after={change.after.doctorName} />
+        <DiffRow label={t('diff.type')} before={change.before.appointmentType} after={change.after.appointmentType} />
+        <DiffRow label={t('diff.notes')} before={change.before.notes} after={change.after.notes} />
+      </div>
+    </div>
+  )
+}
+
+function DiffRow({ label, before, after }: { label: string; before?: string; after?: string }) {
+  if (!before && !after) return null
+  return (
+    <div className="grid grid-cols-[90px_1fr_1fr] gap-2 items-start text-sm">
+      <span className="font-semibold text-slate-500">{label}</span>
+      <span className="text-slate-500 line-through">{before || '—'}</span>
+      <span className="text-charcoal-500">{after || '—'}</span>
+    </div>
+  )
+}
+
+// ============================================
 // COMPLETED STATUS
 // ============================================
 function CompletedStatus({
@@ -439,13 +603,7 @@ function CompletedStatus({
       <BackHeader />
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
-          <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
-            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-        </div>
+        <StatusIcon status="completed" />
 
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('completedTitle')}</h1>
         <p className="text-slate-600 text-center mb-8 max-w-sm">
@@ -696,13 +854,7 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
       {/* Center-aligned Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
         {/* Icon */}
-        <div className="w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center mb-6">
-          <div className="w-14 h-14 rounded-full bg-slate-400 flex items-center justify-center">
-            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-        </div>
+        <StatusIcon status="cancelled_patient" />
 
         {/* Title */}
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('canceled')}</h1>
@@ -754,13 +906,7 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
       {/* Center-aligned Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
         {/* Icon */}
-        <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mb-6">
-          <div className="w-14 h-14 rounded-full bg-red-500 flex items-center justify-center">
-            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-        </div>
+        <StatusIcon status="cancelled_doctor" />
 
         {/* Title */}
         <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('declined')}</h1>
@@ -776,11 +922,11 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
         </div>
 
         {appointment.cancelReason ? (
-          <div className="mt-4 w-full max-w-sm rounded-xl border border-cream-300 bg-cream-50 px-4 py-3">
+          <div className="mt-4 w-full max-w-sm rounded-xl border border-cream-300 bg-cream-50 px-4 py-3 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               {t('declinedReasonLabel')}
             </p>
-            <p className="mt-1 text-sm text-slate-600">{appointment.cancelReason}</p>
+            <p className="text-sm text-slate-600">{appointment.cancelReason}</p>
           </div>
         ) : null}
       </div>
@@ -896,7 +1042,7 @@ function AppointmentDetails({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <span className={textColor}>{t('defaultClinicLocation')}</span>
+          <span className={textColor}>{appointment.locationName || t('defaultClinicLocation')}</span>
         </div>
       )}
 

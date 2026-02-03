@@ -304,6 +304,8 @@
   "toastAppointmentCancelledByDoctor": "Appointment cancelled by doctor",
   "toastAppointmentModifiedByPractice": "Appointment modified by practice - please review",
   "toastAppointmentCompleted": "Appointment completed",
+  "toastAppointmentModified": "Your appointment was changed by the practice.",
+  "toastReviewChanges": "Review",
 
   "useCurrentLocation": "Use Current Location",
   "orEnterAddress": "Or enter a specific address",
@@ -327,6 +329,7 @@
   "status.matching": "Matching",
   "status.awaitConfirm": "Awaiting confirmation",
   "status.confirmed": "Confirmed",
+  "status.modifiedByPractice": "Doctor rescheduled",
   "status.completed": "Completed",
   "status.cancelledPatient": "Cancelled by you",
   "status.cancelledDoctor": "Cancelled by doctor",

@@ -304,6 +304,8 @@
   "toastAppointmentCancelledByDoctor": "Termin vom Arzt abgesagt",
   "toastAppointmentModifiedByPractice": "Termin von Praxis geändert - bitte prüfen",
   "toastAppointmentCompleted": "Termin abgeschlossen",
+  "toastAppointmentModified": "Ihr Termin wurde von der Praxis geändert.",
+  "toastReviewChanges": "Änderungen prüfen",
 
   "useCurrentLocation": "Aktuellen Standort verwenden",
   "orEnterAddress": "Oder eine bestimmte Adresse eingeben",
@@ -327,6 +329,7 @@
   "status.matching": "Suche läuft",
   "status.awaitConfirm": "Wartet auf Bestätigung",
   "status.confirmed": "Bestätigt",
+  "status.modifiedByPractice": "Von Ärztin/Arzt verschoben",
   "status.completed": "Abgeschlossen",
   "status.cancelledPatient": "Von Ihnen storniert",
   "status.cancelledDoctor": "Vom Arzt storniert",
