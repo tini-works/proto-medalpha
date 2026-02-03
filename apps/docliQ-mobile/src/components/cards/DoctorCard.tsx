@@ -127,17 +127,11 @@ export function DoctorCard({
             <button
               onClick={handleFavoriteClick}
               className={`p-1.5 rounded-full transition-colors ${
-                isSaved
-                  ? 'text-red-500'
-                  : 'text-cream-400 hover:text-red-400'
+                isSaved ? 'text-slate-500' : 'text-slate-400 hover:text-slate-500'
               }`}
               aria-label={isSaved ? t('removeFromFavorites') : t('addToFavorites')}
             >
-              {isSaved ? (
-                <Heart size="20" stroke="1.5" fill="currentColor" />
-              ) : (
-                <Heart size="20" stroke="1.5" />
-              )}
+              <Heart size="20" stroke="1.5" />
             </button>
           </div>
 

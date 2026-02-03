@@ -123,7 +123,26 @@ type AppStateApi = {
 const Ctx = createContext<AppStateApi | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<AppState>(() => loadState(initialState))
+  const [state, setState] = useState<AppState>(() => {
+    const loaded = loadState(initialState) as any
+    return {
+      ...initialState,
+      ...loaded,
+      auth: { ...initialState.auth, ...(loaded?.auth ?? {}) },
+      preferences: { ...initialState.preferences, ...(loaded?.preferences ?? {}) },
+      profile: {
+        ...initialState.profile,
+        ...(loaded?.profile ?? {}),
+        familyMembers: loaded?.profile?.familyMembers ?? initialState.profile.familyMembers,
+        myDoctors: loaded?.profile?.myDoctors ?? initialState.profile.myDoctors,
+        gdprConsent: { ...initialState.profile.gdprConsent, ...(loaded?.profile?.gdprConsent ?? {}) },
+        address: { ...initialState.profile.address, ...(loaded?.profile?.address ?? {}) },
+      },
+      booking: { ...initialState.booking, ...(loaded?.booking ?? {}) },
+      history: { ...initialState.history, ...(loaded?.history ?? {}) },
+      appointments: loaded?.appointments ?? initialState.appointments,
+    }
+  })
   const [extendedState, setExtendedState] = useState<ExtendedState>({
     reschedule: null,
     bookAgain: null,
