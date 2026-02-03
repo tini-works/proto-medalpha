@@ -185,7 +185,8 @@ describe('SignInScreen - Biometrics', () => {
 
       // Error should be cleared, back to normal state
       expect(screen.queryByText('Fingerprint not recognized')).not.toBeInTheDocument()
-      expect(screen.getByText('Touch the fingerprint sensor')).toBeInTheDocument()
+      // Subtitle text appears multiple times (visible + sr-only), so use getAllByText
+      expect(screen.getAllByText('Touch the fingerprint sensor').length).toBeGreaterThan(0)
     })
 
     it('closes sheet and focuses password on Use password', async () => {
@@ -225,8 +226,8 @@ describe('SignInScreen - Biometrics', () => {
       const user = userEvent.setup()
       renderSignInScreen()
 
-      await user.type(screen.getByLabelText(/email/i), 'test@example.com')
-      await user.type(screen.getByLabelText(/password/i), 'password123')
+      await user.type(screen.getByPlaceholderText('Enter email'), 'test@example.com')
+      await user.type(screen.getByPlaceholderText('Enter password'), 'password123')
       await user.click(screen.getByRole('button', { name: 'Sign In' }))
 
       expect(mockSignIn).toHaveBeenCalledWith('test@example.com')
