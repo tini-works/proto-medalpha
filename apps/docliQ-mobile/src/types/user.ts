@@ -50,6 +50,38 @@ export interface FamilyMember {
   medicalNotes?: string // allergies, conditions, etc.
 }
 
+export interface MyDoctorEntry {
+  doctor: DoctorSnapshot
+  /**
+   * ISO timestamp when this doctor was last booked.
+   * Used for sorting "My Doctors" newest-first.
+   */
+  lastBookedAt?: string
+  /**
+   * ISO timestamp when user manually saved this doctor.
+   */
+  addedAt: string
+}
+
+/**
+ * Snapshot of a Doctor used for persistence in user profile.
+ * Keep it compatible with the booking UI surfaces that render Doctor cards.
+ */
+export type DoctorSnapshot = {
+  id: string
+  name: string
+  specialty: string
+  city: string
+  address: string
+  accepts: InsuranceType[]
+  languages: string[]
+  rating: number
+  reviewCount: number
+  nextAvailableISO: string
+  imageUrl?: string
+  about?: string
+}
+
 export interface UserProfile {
   id: string
   fullName: string
@@ -66,6 +98,7 @@ export interface UserProfile {
     city: string
   }
   familyMembers: FamilyMember[]
+  myDoctors: MyDoctorEntry[]
   gdprConsent: {
     dataProcessing: boolean
     marketing: boolean

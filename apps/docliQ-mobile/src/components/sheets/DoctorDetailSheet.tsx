@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { IconMapPin } from '@tabler/icons-react'
+import { IconMapPin, IconHeart, IconHeartFilled } from '@tabler/icons-react'
 import { Avatar } from '../display/Avatar'
 import { Rating } from '../display/Rating'
 import { Pill } from '../display/Pill'
@@ -11,9 +11,11 @@ interface DoctorDetailSheetProps {
   doctor: Doctor
   onClose: () => void
   onSelect: () => void
+  saved?: boolean
+  onToggleSaved?: () => void
 }
 
-export function DoctorDetailSheet({ doctor, onClose, onSelect }: DoctorDetailSheetProps) {
+export function DoctorDetailSheet({ doctor, onClose, onSelect, saved = false, onToggleSaved }: DoctorDetailSheetProps) {
   const { t } = useTranslation('booking')
 
   return (
@@ -35,7 +37,19 @@ export function DoctorDetailSheet({ doctor, onClose, onSelect }: DoctorDetailShe
         <div className="flex items-start gap-4 py-4 border-b border-cream-300">
           <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="lg" />
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-charcoal-500">{doctor.name}</h3>
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-xl font-semibold text-charcoal-500">{doctor.name}</h3>
+              <button
+                type="button"
+                onClick={onToggleSaved}
+                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
+                  saved ? 'text-coral-500 hover:bg-coral-50' : 'text-slate-400 hover:bg-cream-100'
+                }`}
+                aria-label={saved ? t('removeFromFavorites') : t('addToFavorites')}
+              >
+                {saved ? <IconHeartFilled size={20} stroke={2} /> : <IconHeart size={20} stroke={2} />}
+              </button>
+            </div>
             <p className="text-teal-600 font-medium">{translateSpecialty(t, doctor.specialty)}</p>
             <div className="mt-2">
               <Rating value={doctor.rating} reviewCount={doctor.reviewCount} />

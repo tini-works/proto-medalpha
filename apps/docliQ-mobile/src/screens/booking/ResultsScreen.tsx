@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch, IconArrowRight } from '@tabler/icons-react'
 import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet, FiltersSheet, StickyActionBar } from '../../components'
 import { Button, Chip } from '../../components/ui'
-import { useBooking } from '../../state'
+import { useBooking, useProfile } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
@@ -23,6 +23,8 @@ export default function ResultsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
   const { search, setSearchFilters, selectDoctor, selectSlot, bookingFlow, setBookingFlow } = useBooking()
+  const { profile, toggleMyDoctor } = useProfile()
+  const savedDoctorIds = useMemo(() => new Set(profile.myDoctors.map((e) => e.doctor.id)), [profile.myDoctors])
 
   // Doctor-first flow is the primary use case for this screen now
   const isDoctorFirstFlow = bookingFlow === 'by_doctor'
@@ -308,6 +310,26 @@ export default function ResultsScreen() {
         </div>
       )}
 
+      {/* My Doctors */}
+      {profile.myDoctors.length > 0 && (
+        <div className="px-4 py-4 bg-white border-b border-cream-300">
+          <h2 className="text-sm font-semibold text-charcoal-500 mb-3">{t('myDoctors')}</h2>
+          <div className="space-y-3">
+            {profile.myDoctors.map((entry) => (
+              <DoctorCard
+                key={entry.doctor.id}
+                doctor={entry.doctor}
+                showSlots={false}
+                onSelectDoctor={() => handleSelectDoctor(entry.doctor)}
+                onViewDetails={() => handleViewDetails(entry.doctor)}
+                saved
+                onToggleSaved={() => toggleMyDoctor(entry.doctor)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Search Bar */}
       <div className="px-4 py-3 bg-white border-b border-cream-300">
         <div className="relative">
@@ -445,6 +467,8 @@ export default function ResultsScreen() {
                 doctor={doctor}
                 slots={isDoctorFirstFlow ? [] : (doctorSlots[doctor.id] || [])}
                 showSlots={!isDoctorFirstFlow}
+                saved={savedDoctorIds.has(doctor.id)}
+                onToggleSaved={() => toggleMyDoctor(doctor)}
                 selectable={isDoctorFirstFlow}
                 selected={selectedDoctorId === doctor.id}
                 onSelect={() => handleDoctorRadioSelect(doctor.id)}
@@ -480,6 +504,8 @@ export default function ResultsScreen() {
           doctor={detailSheetDoctor}
           onClose={() => setDetailSheetDoctor(null)}
           onSelect={handleSelectFromSheet}
+          saved={savedDoctorIds.has(detailSheetDoctor.id)}
+          onToggleSaved={() => toggleMyDoctor(detailSheetDoctor)}
         />
       )}
 

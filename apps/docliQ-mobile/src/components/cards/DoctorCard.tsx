@@ -15,6 +15,8 @@ interface DoctorCardProps {
   onSelectSlot?: (slot: TimeSlot) => void
   onMoreAppointments?: () => void
   showSlots?: boolean
+  saved?: boolean
+  onToggleSaved?: () => void
   // New props for specialty-first flow
   selectable?: boolean
   selected?: boolean
@@ -40,13 +42,16 @@ export function DoctorCard({
   onSelectSlot,
   onMoreAppointments,
   showSlots = true,
+  saved,
+  onToggleSaved,
   selectable = false,
   selected = false,
   onSelect,
   onViewDetails,
 }: DoctorCardProps) {
   const { t } = useTranslation('booking')
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [localSaved, setLocalSaved] = useState(false)
+  const isSaved = saved ?? localSaved
 
   // Get first 3 available slots for quick booking
   const availableSlots = slots.filter((s) => s.available).slice(0, 3)
@@ -65,7 +70,11 @@ export function DoctorCard({
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsFavorite(!isFavorite)
+    if (onToggleSaved) {
+      onToggleSaved()
+      return
+    }
+    setLocalSaved(!localSaved)
   }
 
   const handleSlotClick = (slot: TimeSlot) => {
@@ -118,13 +127,13 @@ export function DoctorCard({
             <button
               onClick={handleFavoriteClick}
               className={`p-1.5 rounded-full transition-colors ${
-                isFavorite
+                isSaved
                   ? 'text-red-500'
                   : 'text-cream-400 hover:text-red-400'
               }`}
-              aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
+              aria-label={isSaved ? t('removeFromFavorites') : t('addToFavorites')}
             >
-              {isFavorite ? (
+              {isSaved ? (
                 <Heart size="20" stroke="1.5" fill="currentColor" />
               ) : (
                 <Heart size="20" stroke="1.5" />

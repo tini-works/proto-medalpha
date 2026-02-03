@@ -17,7 +17,7 @@ export default function ConfirmScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
   const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
-  const { profile } = useProfile()
+  const { profile, upsertMyDoctor } = useProfile()
   const { addHistoryItem } = useHistory()
   const { language } = usePreferences()
 
@@ -100,6 +100,9 @@ export default function ConfirmScreen() {
     }
 
     addHistoryItem(historyItem)
+
+    // Update "My Doctors" (last 5 booked)
+    upsertMyDoctor(selectedDoctor)
 
     // Reset booking state
     resetBooking()
