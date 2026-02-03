@@ -167,5 +167,23 @@
     "saved": "Insurance saved"
   },
   "securityBanner": "Your personal information is encrypted and stored securely according to healthcare security regulations.",
-  "profileSaved": "Profile saved"
+  "profileSaved": "Profile saved",
+  "biometricPrompt": {
+    "title": "Verify your identity",
+    "subtitle": "Touch the fingerprint sensor",
+    "cancel": "Cancel",
+    "mockSuccess": "DEV: Simulate Success",
+    "mockFailure": "DEV: Simulate Failure",
+    "errorNotRecognized": "Fingerprint not recognized",
+    "tryAgain": "Try again",
+    "usePassword": "Use password instead"
+  },
+  "biometricSetup": {
+    "enabledToast": "Biometrics enabled",
+    "disabledToast": "Biometrics disabled",
+    "disableTitle": "Disable Biometrics?",
+    "disableMessage": "You'll need to use your password to sign in.",
+    "disableConfirm": "Disable"
+  },
+  "signInWithFingerprint": "Sign in with fingerprint"
 }

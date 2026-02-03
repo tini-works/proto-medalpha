@@ -14,7 +14,17 @@ import type {
   InsuranceType,
 } from '../types'
 import { initialState } from '../types'
-import { clearState, loadState, saveState, loadPendingDeletion, savePendingDeletion, clearPendingDeletion } from './storage'
+import {
+  clearState,
+  loadState,
+  saveState,
+  loadPendingDeletion,
+  savePendingDeletion,
+  clearPendingDeletion,
+  loadBiometricUserId,
+  saveBiometricUserId,
+  clearBiometricUserId,
+} from './storage'
 
 // Fast-Lane request type
 interface FastLaneRequestState {
@@ -64,6 +74,7 @@ interface ExtendedState {
   bookingFlow: BookingFlow
   symptomInfo: SymptomInfo | null
   pendingDeletion: PendingDeletionState | null
+  biometricUserId: string | null
 }
 
 type AppStateApi = {
@@ -121,6 +132,10 @@ type AppStateApi = {
   startDeletion: (email: string) => void
   cancelDeletion: () => void
   completeDeletion: () => void
+  // Biometrics
+  biometricUserId: string | null
+  enableBiometrics: () => void
+  disableBiometrics: () => void
   // Computed
   isProfileComplete: boolean
   isIdentityVerified: boolean
@@ -143,6 +158,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     bookingFlow: null,
     symptomInfo: null,
     pendingDeletion: loadPendingDeletion(),
+    biometricUserId: loadBiometricUserId(),
   }))
 
   useEffect(() => {
@@ -574,6 +590,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       },
       completeDeletion: () => {
         clearPendingDeletion()
+        clearBiometricUserId()
         clearState()
         setState(initialState)
         setExtendedState({
@@ -585,7 +602,22 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           bookingFlow: null,
           symptomInfo: null,
           pendingDeletion: null,
+          biometricUserId: null,
         })
+      },
+
+      // Biometrics
+      biometricUserId: extendedState.biometricUserId,
+      enableBiometrics: () => {
+        const email = state.profile.email
+        saveBiometricUserId(email)
+        setExtendedState((s) => ({ ...s, biometricUserId: email }))
+        setState((s) => ({ ...s, preferences: { ...s.preferences, biometricsEnabled: true } }))
+      },
+      disableBiometrics: () => {
+        clearBiometricUserId()
+        setExtendedState((s) => ({ ...s, biometricUserId: null }))
+        setState((s) => ({ ...s, preferences: { ...s.preferences, biometricsEnabled: false } }))
       },
 
       // Computed/getters
@@ -595,8 +627,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       // Reset
       resetAll: () => {
         clearState()
+        clearPendingDeletion()
+        clearBiometricUserId()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null, pendingDeletion: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null, pendingDeletion: null, biometricUserId: null })
       },
     }),
     [state, extendedState, isProfileComplete, isIdentityVerified]
@@ -723,15 +757,27 @@ export function useHistory() {
 }
 
 export function usePreferences() {
-  const { state, setFontScale, setLanguage, setBiometricsEnabled, setNotificationPreferences } = useAppState()
+  const {
+    state,
+    setFontScale,
+    setLanguage,
+    setBiometricsEnabled,
+    setNotificationPreferences,
+    enableBiometrics,
+    disableBiometrics,
+    biometricUserId,
+  } = useAppState()
   return {
     fontScale: state.preferences.fontScale,
     language: state.preferences.language,
     biometricsEnabled: state.preferences.biometricsEnabled,
+    biometricUserId,
     notifications: state.preferences.notifications,
     setFontScale,
     setLanguage,
     setBiometricsEnabled,
+    enableBiometrics,
+    disableBiometrics,
     setNotificationPreferences,
   }
 }
@@ -766,5 +812,15 @@ export function useBookAgain() {
     setBookAgainContext,
     getHistoryItemById,
     getAppointmentById,
+  }
+}
+
+export function useAccountDeletion() {
+  const { pendingDeletion, startDeletion, cancelDeletion, completeDeletion } = useAppState()
+  return {
+    pendingDeletion,
+    startDeletion,
+    cancelDeletion,
+    completeDeletion,
   }
 }

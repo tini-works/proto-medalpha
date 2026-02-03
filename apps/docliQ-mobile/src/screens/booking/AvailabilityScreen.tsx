@@ -181,13 +181,13 @@ export default function AvailabilityScreen() {
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {isDoctorFirstFlow ? t('step3Of4') : t('step2Of2')}
+            {isDoctorFirstFlow ? t('step4Of5') : t('step3Of3')}
           </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator
-          currentStep={isDoctorFirstFlow ? 3 : 2}
-          totalSteps={isDoctorFirstFlow ? 4 : 2}
+          currentStep={isDoctorFirstFlow ? 4 : 3}
+          totalSteps={isDoctorFirstFlow ? 5 : 3}
           variant="bar"
           showLabel={false}
           showPercentage={false}

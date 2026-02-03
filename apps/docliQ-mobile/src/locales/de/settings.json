@@ -167,5 +167,23 @@
     "saved": "Versicherung gespeichert"
   },
   "securityBanner": "Ihre persönlichen Daten werden verschlüsselt und gemäß den Sicherheitsvorschriften im Gesundheitswesen gespeichert.",
-  "profileSaved": "Profil gespeichert"
+  "profileSaved": "Profil gespeichert",
+  "biometricPrompt": {
+    "title": "Identität bestätigen",
+    "subtitle": "Berühren Sie den Fingerabdrucksensor",
+    "cancel": "Abbrechen",
+    "mockSuccess": "DEV: Erfolg simulieren",
+    "mockFailure": "DEV: Fehler simulieren",
+    "errorNotRecognized": "Fingerabdruck nicht erkannt",
+    "tryAgain": "Erneut versuchen",
+    "usePassword": "Stattdessen Passwort verwenden"
+  },
+  "biometricSetup": {
+    "enabledToast": "Biometrie aktiviert",
+    "disabledToast": "Biometrie deaktiviert",
+    "disableTitle": "Biometrie deaktivieren?",
+    "disableMessage": "Sie müssen Ihr Passwort zum Anmelden verwenden.",
+    "disableConfirm": "Deaktivieren"
+  },
+  "signInWithFingerprint": "Mit Fingerabdruck anmelden"
 }

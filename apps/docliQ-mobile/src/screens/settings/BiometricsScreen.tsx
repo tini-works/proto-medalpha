@@ -1,24 +1,44 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconFingerprint, IconFaceId } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
+import { ConfirmModal } from '../../components/ui/ConfirmModal'
 import { usePreferences } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
 
 /**
- * Biometrics settings screen - placeholder for future implementation.
- * Shows toggle for FaceID/Fingerprint authentication.
+ * Biometrics settings screen.
+ * Allows user to enable/disable biometric authentication.
  */
 export default function BiometricsScreen() {
   const { t } = useTranslation('settings')
-  const { biometricsEnabled, setBiometricsEnabled } = usePreferences()
+  const { biometricsEnabled, enableBiometrics, disableBiometrics } = usePreferences()
   const { showToast } = useNotificationToast()
+  const [showDisableConfirm, setShowDisableConfirm] = useState(false)
 
   const handleToggle = () => {
-    setBiometricsEnabled(!biometricsEnabled)
+    if (biometricsEnabled) {
+      setShowDisableConfirm(true)
+    } else {
+      enableBiometrics()
+      showToast({
+        title: t('biometricSetup.enabledToast'),
+        type: 'success',
+      })
+    }
+  }
+
+  const handleConfirmDisable = () => {
+    disableBiometrics()
+    setShowDisableConfirm(false)
     showToast({
-      title: t('comingSoon'),
+      title: t('biometricSetup.disabledToast'),
       type: 'info',
     })
+  }
+
+  const handleCancelDisable = () => {
+    setShowDisableConfirm(false)
   }
 
   return (
@@ -75,6 +95,17 @@ export default function BiometricsScreen() {
           </p>
         </div>
       </div>
+
+      <ConfirmModal
+        open={showDisableConfirm}
+        title={t('biometricSetup.disableTitle')}
+        message={t('biometricSetup.disableMessage')}
+        confirmLabel={t('biometricSetup.disableConfirm')}
+        cancelLabel={t('cancel')}
+        onConfirm={handleConfirmDisable}
+        onCancel={handleCancelDisable}
+        variant="destructive"
+      />
     </Page>
   )
 }

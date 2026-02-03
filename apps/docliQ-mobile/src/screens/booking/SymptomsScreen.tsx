@@ -44,17 +44,17 @@ export default function SymptomsScreen() {
     <Page safeBottom={false}>
       <Header title={t('describeSymptoms')} showBack onBack={handleBack} />
 
-      {/* Progress indicator - Step 2 of 4 */}
+      {/* Progress indicator - Step 3 of 5 (after Booking Type) */}
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {t('step2Of4')}
+            {t('step3Of5')}
           </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator
-          currentStep={2}
-          totalSteps={4}
+          currentStep={3}
+          totalSteps={5}
           variant="bar"
           showLabel={false}
           showPercentage={false}

@@ -54,10 +54,10 @@ export default function InsuranceScreen() {
 
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step3Of4')}</span>
+          <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step4Of5')}</span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
-        <ProgressIndicator currentStep={3} totalSteps={4} variant="bar" showLabel={false} showPercentage={false} />
+        <ProgressIndicator currentStep={4} totalSteps={5} variant="bar" showLabel={false} showPercentage={false} />
       </div>
 
       <div className="px-4 pb-28 space-y-4">

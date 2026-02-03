@@ -1,18 +1,15 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconPlus, IconX } from '@tabler/icons-react'
+import { IconPlus } from '@tabler/icons-react'
 import { Header, Page, FamilyMemberCard, EmptyState } from '../../components'
-import { AddFamilyMemberSheet } from '../../components/forms'
 import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
-import { familyMemberDetailPath } from '../../routes'
+import { PATHS, familyMemberDetailPath } from '../../routes'
 
 export default function FamilyMembersScreen() {
   const { t } = useTranslation('profile')
   const navigate = useNavigate()
-  const { profile, addFamilyMember } = useProfile()
-  const [isAddOpen, setIsAddOpen] = useState(false)
+  const { profile } = useProfile()
 
   const handleCardClick = (memberId: string) => {
     navigate(familyMemberDetailPath(memberId))
@@ -25,15 +22,14 @@ export default function FamilyMembersScreen() {
         subtitle={t('family.subtitle')}
         showBack
         rightAction={
-          isAddOpen ? (
-            <Button variant="icon" size="sm" onClick={() => setIsAddOpen(false)} aria-label={t('family.form.cancel')}>
-              <IconX size={20} stroke={2} className="text-slate-700" />
-            </Button>
-          ) : (
-            <Button variant="icon" size="sm" onClick={() => setIsAddOpen(true)} aria-label={t('family.form.addButton')}>
-              <IconPlus size={20} stroke={2} className="text-slate-700" />
-            </Button>
-          )
+          <Button
+            variant="icon"
+            size="sm"
+            onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD)}
+            aria-label={t('family.form.addButton')}
+          >
+            <IconPlus size={20} stroke={2} className="text-slate-700" />
+          </Button>
         }
       />
 
@@ -50,28 +46,25 @@ export default function FamilyMembersScreen() {
             ))}
           </div>
         ) : (
-          !isAddOpen && (
-            <div className="space-y-3">
-              <EmptyState
-                icon="user"
-                title={t('family.empty.title')}
-                description={t('family.empty.description')}
-              />
-              <div className="pt-2 flex justify-center">
-                <Button variant="primary" onClick={() => setIsAddOpen(true)}>
-                  {t('family.form.addButton')}
-                </Button>
-              </div>
+          <div className="space-y-3">
+            <EmptyState
+              icon="user"
+              title={t('family.empty.title')}
+              description={t('family.empty.description')}
+            />
+            <div className="pt-2 flex justify-center">
+              <Button
+                variant="primary"
+                size="lg"
+                leftIcon={<IconPlus size={18} stroke={2} />}
+                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD)}
+              >
+                {t('family.form.addButton')}
+              </Button>
             </div>
-          )
+          </div>
         )}
       </div>
-
-      <AddFamilyMemberSheet
-        open={isAddOpen}
-        onClose={() => setIsAddOpen(false)}
-        onAdd={addFamilyMember}
-      />
     </Page>
   )
 }

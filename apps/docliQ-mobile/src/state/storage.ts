@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'docliq_n3_state_v1'
 const PENDING_DELETION_KEY = 'docliq_pending_deletion_v1'
+const BIOMETRIC_USER_KEY = 'docliq_biometric_user_v1'
 
 export function loadState<T>(fallback: T): T {
   try {
@@ -58,6 +59,34 @@ export function saveState<T>(state: T): void {
 export function clearState(): void {
   try {
     localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // Ignore
+  }
+}
+
+export function loadBiometricUserId(): string | null {
+  try {
+    return localStorage.getItem(BIOMETRIC_USER_KEY)
+  } catch {
+    return null
+  }
+}
+
+export function saveBiometricUserId(userId: string | null): void {
+  try {
+    if (userId) {
+      localStorage.setItem(BIOMETRIC_USER_KEY, userId)
+    } else {
+      localStorage.removeItem(BIOMETRIC_USER_KEY)
+    }
+  } catch {
+    // Ignore
+  }
+}
+
+export function clearBiometricUserId(): void {
+  try {
+    localStorage.removeItem(BIOMETRIC_USER_KEY)
   } catch {
     // Ignore
   }

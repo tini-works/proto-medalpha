@@ -16,6 +16,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: ReactNode
   // Icon element after button text
   rightIcon?: ReactNode
+  // Test ID for testing-library queries
+  testId?: string
 }
 
 // Tailwind class sets for each variant
@@ -70,6 +72,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className = '',
       disabled,
       children,
+      testId,
       ...props
     },
     ref
@@ -82,6 +85,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={combinedClassName}
         disabled={disabled || loading}
+        data-testid={testId}
         {...props}
       >
         {/* Icon + text layout: left icon, then text, then right icon */}
