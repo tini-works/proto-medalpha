@@ -1,5 +1,6 @@
 export { default as ProfileCompletionScreen } from './ProfileCompletionScreen'
 export { default as FamilyMembersScreen } from './FamilyMembersScreen'
+export { default as AddFamilyMemberScreen } from './AddFamilyMemberScreen'
 export { default as FamilyMemberDetailScreen } from './FamilyMemberDetailScreen'
 export { default as EditProfileScreen } from './EditProfileScreen'
 export { default as VerifyPhoneScreen } from './VerifyPhoneScreen'

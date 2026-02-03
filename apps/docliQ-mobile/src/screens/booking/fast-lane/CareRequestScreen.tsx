@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconCheck, IconX } from '@tabler/icons-react'
-import { Header, Page, ReasonTextarea, StickyActionBar } from '../../../components'
+import { Header, Page, ReasonTextarea, StickyActionBar, ProgressIndicator } from '../../../components'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
 import { SpecialtySearchInput } from '../../../components/forms/SpecialtySearchInput'
@@ -104,6 +104,14 @@ export default function CareRequestScreen() {
   return (
     <Page>
       <Header title={t('fastLaneBooking')} showBack />
+
+      <div className="px-4 py-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step2Of2')}</span>
+          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+        </div>
+        <ProgressIndicator currentStep={2} totalSteps={2} variant="bar" showLabel={false} showPercentage={false} />
+      </div>
 
       <div className="px-4 py-4 space-y-6 pb-32">
         {/* Patient Selector - only show if family members exist */}

@@ -6,7 +6,7 @@ import { Header, Page, ProgressIndicator, StickyActionBar } from '../../componen
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import { SpecialtySearchInput } from '../../components/forms/SpecialtySearchInput'
-import { Button } from '../../components/ui'
+import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { specialties } from '../../data/symptoms'
@@ -80,17 +80,17 @@ export default function SearchScreen() {
     <Page safeBottom={false}>
       <Header title={t('selectSpecialty')} showBack />
 
-      {/* Progress indicator - Step 1 of 2 for specialty-first flow */}
+      {/* Progress indicator - Step 2 of 3 (after Booking Type) */}
       <div className="px-4 py-4 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {t('step1Of2')}
+            {t('step2Of3')}
           </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator
-          currentStep={1}
-          totalSteps={2}
+          currentStep={2}
+          totalSteps={3}
           variant="bar"
           showLabel={false}
           showPercentage={false}
@@ -116,17 +116,14 @@ export default function SearchScreen() {
 
           <div className="grid grid-cols-2 gap-2">
             {filteredSpecialties.map((specialty) => (
-              <button
+              <Chip
                 key={specialty.id}
+                fullWidth
+                selected={selectedSpecialty === specialty.value}
                 onClick={() => handleSelectSpecialty(specialty.value)}
-                className={`px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-                  selectedSpecialty === specialty.value
-                    ? 'bg-teal-500 text-white shadow-md'
-                    : 'bg-white border border-cream-400 text-charcoal-500 hover:border-teal-400'
-                }`}
               >
                 {t(specialty.labelKey)}
-              </button>
+              </Chip>
             ))}
           </div>
 

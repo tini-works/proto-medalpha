@@ -14,6 +14,7 @@ import { WelcomeScreen, RegisterScreen, SignInScreen, VerifyScreen, VerifyIdenti
 // Profile screens
 import {
   FamilyMembersScreen,
+  AddFamilyMemberScreen,
   FamilyMemberDetailScreen,
   EditProfileScreen,
   VerifyPhoneScreen,
@@ -267,6 +268,14 @@ function AppContent() {
             element={
               <RequireAuth>
                 <FamilyMembersScreen />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={PATHS.PROFILE_FAMILY_ADD}
+            element={
+              <RequireAuth>
+                <AddFamilyMemberScreen />
               </RequireAuth>
             }
           />
