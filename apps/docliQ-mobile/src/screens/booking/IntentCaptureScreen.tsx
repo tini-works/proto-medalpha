@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useMemo, useRef, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   IconSearch,
@@ -9,6 +9,7 @@ import {
   IconClock,
   IconMapPin,
   IconShieldCheck,
+  IconPlus,
 } from '@tabler/icons-react'
 import { Header, Page, StickyActionBar } from '../../components'
 import { Button, Chip } from '../../components/ui'
@@ -33,8 +34,25 @@ interface IntentClassification {
   }
 }
 
+// Suggestion types for autocomplete
+type SuggestionType = 'doctor' | 'specialty' | 'symptom'
+
+interface SearchSuggestion {
+  id: string
+  type: SuggestionType
+  title: string
+  subtitle?: string
+  icon: 'doctor' | 'specialty' | 'symptom'
+  data: {
+    doctorId?: string
+    specialty?: string
+    symptom?: string
+  }
+}
+
 export default function IntentCaptureScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('booking')
   const { profile } = useProfile()
   const {
@@ -48,6 +66,9 @@ export default function IntentCaptureScreen() {
   const [searchQuery, setSearchQuery] = useState('')
   const [patientSegment, setPatientSegment] = useState<PatientSegment>('myself')
   const [showManualOptions, setShowManualOptions] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const suggestionsRef = useRef<HTMLDivElement>(null)
 
   // Check if user has recent doctors for "See my doctor again" feature
   const hasRecentDoctors = useMemo(() => {
@@ -138,6 +159,142 @@ export default function IntentCaptureScreen() {
       data: {},
     }
   }, [searchQuery, t])
+
+  // Generate search suggestions when user types 2+ characters
+  const searchSuggestions = useMemo((): SearchSuggestion[] => {
+    const query = searchQuery.trim().toLowerCase()
+    if (query.length < 2) return []
+
+    const suggestions: SearchSuggestion[] = []
+
+    // Find matching doctors (limit to 3)
+    const matchingDoctors = doctors
+      .filter(
+        (d) =>
+          d.name.toLowerCase().includes(query) ||
+          d.specialty.toLowerCase().includes(query)
+      )
+      .slice(0, 3)
+
+    matchingDoctors.forEach((doctor) => {
+      suggestions.push({
+        id: `doc-${doctor.id}`,
+        type: 'doctor',
+        title: doctor.name,
+        subtitle: doctor.specialty,
+        icon: 'doctor',
+        data: { doctorId: doctor.id },
+      })
+    })
+
+    // Find matching specialties (limit to 3)
+    const matchingSpecialties = specialties
+      .filter(
+        (s) =>
+          s.value.toLowerCase().includes(query) ||
+          t(s.labelKey).toLowerCase().includes(query)
+      )
+      .slice(0, 3)
+
+    matchingSpecialties.forEach((specialty) => {
+      // Only add if not already added via doctor match
+      const alreadyAdded = suggestions.some(
+        (s) => s.type === 'specialty' && s.data.specialty === specialty.value
+      )
+      if (!alreadyAdded) {
+        suggestions.push({
+          id: `spec-${specialty.id}`,
+          type: 'specialty',
+          title: t(specialty.labelKey),
+          subtitle: t('bookBySpecialtyDesc'),
+          icon: 'specialty',
+          data: { specialty: specialty.value },
+        })
+      }
+    })
+
+    // Find matching symptoms (limit to 3)
+    const matchingSymptoms = symptoms
+      .filter((s) => t(s.labelKey).toLowerCase().includes(query))
+      .slice(0, 3)
+
+    matchingSymptoms.forEach((symptom) => {
+      suggestions.push({
+        id: `sym-${symptom.id}`,
+        type: 'symptom',
+        title: t(symptom.labelKey),
+        subtitle: `${t('specialty')}: ${t(
+          `specialty${symptom.specialty.replace(/\s/g, '')}`
+        )}`,
+        icon: 'symptom',
+        data: { specialty: symptom.specialty, symptom: symptom.id },
+      })
+    })
+
+    // Limit total suggestions to 7
+    return suggestions.slice(0, 7)
+  }, [searchQuery, t])
+
+  // Click outside handler to close suggestions dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node) &&
+        !searchInputRef.current?.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  // Handle suggestion selection and navigate
+  const handleSuggestionSelect = (suggestion: SearchSuggestion) => {
+    setShowSuggestions(false)
+    resetBooking()
+    selectFamilyMember(
+      patientSegment === 'family' ? profile.familyMembers[0]?.id || null : null
+    )
+
+    switch (suggestion.type) {
+      case 'doctor':
+        if (suggestion.data.doctorId) {
+          const doctor = doctors.find((d) => d.id === suggestion.data.doctorId)
+          if (doctor) {
+            setBookingFlow('by_doctor')
+            selectDoctor(doctor)
+            navigate(`/booking/doctor/${doctor.id}/slots`)
+          }
+        }
+        break
+
+      case 'specialty':
+      case 'symptom':
+        if (suggestion.data.specialty) {
+          setBookingFlow('by_specialty')
+          setSearchFilters({
+            specialty: suggestion.data.specialty,
+            city: profile.address?.city || '',
+            insuranceType: profile.insuranceType || 'GKV',
+            includeStores: false,
+            radius: 10,
+            visitType: 'in_clinic',
+            urgency: suggestion.data.symptom ? 'urgent' : 'routine',
+            onlyPublic: profile.insuranceType === 'GKV',
+            minRating: 0,
+            languages: [],
+            sortBy: 'earliest',
+          })
+          navigate(PATHS.BOOKING_AVAILABILITY)
+        }
+        break
+    }
+  }
 
   // Handle routing based on intent
   const handleContinue = () => {
@@ -321,12 +478,14 @@ export default function IntentCaptureScreen() {
           )}
 
           {patientSegment === 'family' && profile.familyMembers.length === 0 && (
-            <div className="mt-3 bg-cream-100 rounded-xl p-4 text-center">
-              <p className="text-sm text-slate-600 mb-2">{t('noFamilyMembers')}</p>
+            <div className="mt-3 bg-cream-100 rounded-xl p-4 text-center space-y-2">
+              <p className="text-sm text-slate-600">{t('noFamilyMembers')}</p>
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD)}
+                className="w-auto px-4"
+                leftIcon={<IconPlus size={16} stroke={2} />}
+                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD, { state: { from: location.pathname } })}
               >
                 {t('addFamilyMember')}
               </Button>
@@ -343,15 +502,74 @@ export default function IntentCaptureScreen() {
               <IconSearch size={20} stroke={2} className="text-slate-400" />
             </div>
             <input
+              ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => {
-                setSearchQuery(e.target.value)
+                const value = e.target.value
+                setSearchQuery(value)
                 setShowManualOptions(false)
+                setShowSuggestions(value.trim().length >= 2)
+              }}
+              onFocus={() => {
+                if (searchQuery.trim().length >= 2) {
+                  setShowSuggestions(true)
+                }
               }}
               placeholder={t('intentSearchPlaceholder')}
               className="w-full h-14 pl-12 pr-4 rounded-xl bg-white border border-cream-400 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 focus:outline-none text-charcoal-500 placeholder:text-slate-400 transition-all duration-normal ease-out-brand"
             />
+
+            {/* Suggestions Dropdown */}
+            {showSuggestions && searchSuggestions.length > 0 && (
+              <div
+                ref={suggestionsRef}
+                className="absolute left-0 right-0 top-full mt-2 bg-white border border-cream-400 rounded-xl shadow-lg shadow-slate-200/50 z-50 overflow-hidden"
+              >
+                <div className="max-h-72 overflow-y-auto py-2">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <button
+                      key={suggestion.id}
+                      type="button"
+                      onClick={() => handleSuggestionSelect(suggestion)}
+                      className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-cream-50 transition-colors ${
+                        index !== searchSuggestions.length - 1 ? 'border-b border-cream-200' : ''
+                      }`}
+                    >
+                      {/* Icon */}
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          suggestion.icon === 'doctor'
+                            ? 'bg-sky-100 text-sky-600'
+                            : suggestion.icon === 'specialty'
+                              ? 'bg-emerald-100 text-emerald-600'
+                              : 'bg-amber-100 text-amber-600'
+                        }`}
+                      >
+                        {suggestion.icon === 'doctor' && <IconUser size={20} stroke={2} />}
+                        {suggestion.icon === 'specialty' && <IconShieldCheck size={20} stroke={2} />}
+                        {suggestion.icon === 'symptom' && <IconClock size={20} stroke={2} />}
+                      </div>
+
+                      {/* Text */}
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-charcoal-500 text-sm truncate">
+                          {suggestion.title}
+                        </div>
+                        {suggestion.subtitle && (
+                          <div className="text-xs text-slate-500 truncate">
+                            {suggestion.subtitle}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Arrow */}
+                      <IconArrowRight size={18} className="text-slate-400 flex-shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Intent suggestion hint */}
@@ -511,7 +729,7 @@ export default function IntentCaptureScreen() {
           disabled={!searchQuery.trim() && !showManualOptions}
           rightIcon={<IconArrowRight size={20} stroke={2} />}
         >
-          {showManualOptions ? t('continueBtn') : t('analyzeMyRequest')}
+          {t('continueBtn')}
         </Button>
       </StickyActionBar>
     </Page>
