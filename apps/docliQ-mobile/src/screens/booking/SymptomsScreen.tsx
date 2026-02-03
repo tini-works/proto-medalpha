@@ -5,11 +5,12 @@ import { Header, Page, ProgressIndicator, ReasonTextarea, StickyActionBar } from
 import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
 import { PATHS } from '../../routes'
+import { resolveBookingProgress } from './bookingProgress'
 
 export default function SymptomsScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, setSymptomInfo } = useBooking()
+  const { selectedDoctor, setSymptomInfo, bookingFlow } = useBooking()
 
   const [additionalNotes, setAdditionalNotes] = useState('')
 
@@ -45,20 +46,25 @@ export default function SymptomsScreen() {
       <Header title={t('describeSymptoms')} showBack onBack={handleBack} />
 
       {/* Progress indicator - Step 3 of 5 (after Booking Type) */}
-      <div className="px-4 py-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {t('step3Of5')}
-          </span>
-          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-        </div>
-        <ProgressIndicator
-          currentStep={3}
-          totalSteps={5}
-          variant="bar"
-          showLabel={false}
-          showPercentage={false}
-        />
+      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
+        {(() => {
+          const progress = resolveBookingProgress({ bookingFlow, fallbackFlow: 'by_doctor', currentStep: 3 })
+          return (
+            <>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold tracking-wide text-slate-600">{t(progress.stepLabelKey)}</span>
+                <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+              </div>
+              <ProgressIndicator
+                currentStep={progress.currentStep}
+                totalSteps={progress.totalSteps}
+                variant="bar"
+                showLabel={false}
+                showPercentage={false}
+              />
+            </>
+          )
+        })()}
       </div>
 
       <div className="px-4 pb-28 space-y-6">

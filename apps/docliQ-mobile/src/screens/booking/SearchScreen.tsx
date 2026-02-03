@@ -11,6 +11,7 @@ import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { specialties } from '../../data/symptoms'
 import type { InsuranceType } from '../../types'
+import { getStepLabelKey } from './bookingProgress'
 
 type InsuranceChoice = InsuranceType | ''
 
@@ -81,10 +82,10 @@ export default function SearchScreen() {
       <Header title={t('selectSpecialty')} showBack />
 
       {/* Progress indicator - Step 2 of 3 (after Booking Type) */}
-      <div className="px-4 py-4 space-y-3">
+      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {t('step2Of3')}
+            {t(getStepLabelKey(2, 3))}
           </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>

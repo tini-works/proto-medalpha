@@ -9,6 +9,7 @@ import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
 import { translateSpecialty } from '../../utils'
+import { resolveBookingProgress } from './bookingProgress'
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
@@ -275,11 +276,24 @@ export default function ResultsScreen() {
       {/* Progress indicator for doctor-first flow */}
       {isDoctorFirstFlow && (
         <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step2Of5')}</span>
-            <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-          </div>
-          <ProgressIndicator currentStep={2} totalSteps={5} variant="bar" showLabel={false} showPercentage={false} />
+          {(() => {
+            const progress = resolveBookingProgress({ bookingFlow, fallbackFlow: 'by_doctor', currentStep: 2 })
+            return (
+              <>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold tracking-wide text-slate-600">{t(progress.stepLabelKey)}</span>
+                  <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+                </div>
+                <ProgressIndicator
+                  currentStep={progress.currentStep}
+                  totalSteps={progress.totalSteps}
+                  variant="bar"
+                  showLabel={false}
+                  showPercentage={false}
+                />
+              </>
+            )
+          })()}
         </div>
       )}
 
