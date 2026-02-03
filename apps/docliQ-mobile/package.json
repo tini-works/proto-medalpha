@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:run:ps": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"npm run test:run -- $args\"",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
