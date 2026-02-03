@@ -187,19 +187,21 @@ export default function AvailabilityScreen() {
             currentStep: isDoctorFirstFlow ? 4 : 3,
           })
           return (
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {t(progress.stepLabelKey)}
-          </span>
-          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-        </div>
-        <ProgressIndicator
-          currentStep={progress.currentStep}
-          totalSteps={progress.totalSteps}
-          variant="bar"
-          showLabel={false}
-          showPercentage={false}
-        />
+            <>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold tracking-wide text-slate-600">
+                  {t(progress.stepLabelKey)}
+                </span>
+                <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+              </div>
+              <ProgressIndicator
+                currentStep={progress.currentStep}
+                totalSteps={progress.totalSteps}
+                variant="bar"
+                showLabel={false}
+                showPercentage={false}
+              />
+            </>
           )
         })()}
       </div>

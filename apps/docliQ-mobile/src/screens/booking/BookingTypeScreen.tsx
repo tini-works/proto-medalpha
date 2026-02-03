@@ -7,6 +7,8 @@ import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { Button } from '../../components/ui'
 import { getStepLabelKey } from './bookingProgress'
+import { getTimeSlots } from '../../data'
+import { pickNextAvailableSlot } from './quickRebook'
 
 type AppointmentTypeId = 'acute_urgent' | 'prevention_wellness' | 'follow_up'
 type PatientSegment = 'myself' | 'family'
@@ -26,7 +28,7 @@ export default function BookingTypeScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
   const { profile } = useProfile()
-  const { selectedFamilyMemberId, selectFamilyMember, setBookingFlow, resetBooking } = useBooking()
+  const { selectedFamilyMemberId, selectFamilyMember, setBookingFlow, resetBooking, selectDoctor, selectSlot } = useBooking()
   const [appointmentTypeId, setAppointmentTypeId] = useState<AppointmentTypeId>('acute_urgent')
   const [patientSegment, setPatientSegment] = useState<PatientSegment>(
     selectedFamilyMemberId ? 'family' : 'myself'
@@ -54,6 +56,21 @@ export default function BookingTypeScreen() {
 
     const { flow, path } = mapping[appointmentTypeId]
     setBookingFlow(flow)
+
+    // Approach2: Follow-up becomes quick rebook when we have a recent doctor.
+    if (appointmentTypeId === 'follow_up') {
+      const recentDoctor = profile.myDoctors?.[0]?.doctor
+      if (recentDoctor) {
+        const nextSlot = pickNextAvailableSlot(getTimeSlots(recentDoctor.id))
+        if (nextSlot) {
+          selectDoctor(recentDoctor as any)
+          selectSlot(nextSlot)
+          navigate(PATHS.BOOKING_CONFIRM)
+          return
+        }
+      }
+    }
+
     navigate(path)
   }
 

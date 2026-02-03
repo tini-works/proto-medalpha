@@ -14,5 +14,12 @@
   "viewDetails": "Details ansehen",
   "submitForm": "Formular absenden",
   "latestHealthNews": "Neueste Gesundheitsnachrichten",
-  "loadMore": "Mehr laden"
+  "loadMore": "Mehr laden",
+  "continueWithDoctor": "Weiter mit {{name}}",
+  "nextAvailableInline": "Nächster Termin: Antippen für Sofortbuchung",
+  "myDoctors": "Meine Ärzt:innen",
+  "searchNewDoctor": "Neue Ärzt:innen suchen",
+  "toggleFavorite": "Favorit umschalten",
+  "myDoctorsEmptyTitle": "Willkommen!",
+  "myDoctorsEmptySubtitle": "Buchen Sie einmal, um Ihre Liste „Meine Ärzt:innen“ aufzubauen (bis zu 5)."
 }
