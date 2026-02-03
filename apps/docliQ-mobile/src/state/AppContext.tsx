@@ -14,7 +14,7 @@ import type {
   InsuranceType,
 } from '../types'
 import { initialState } from '../types'
-import { clearState, loadState, saveState } from './storage'
+import { clearState, loadState, saveState, loadPendingDeletion, savePendingDeletion, clearPendingDeletion } from './storage'
 
 // Fast-Lane request type
 interface FastLaneRequestState {
@@ -47,6 +47,13 @@ interface SymptomInfo {
   additionalNotes: string
 }
 
+// Pending deletion state (persisted to detect expiry on app restart)
+interface PendingDeletionState {
+  requestedAt: string    // ISO timestamp
+  expiresAt: string      // ISO timestamp (requestedAt + 72h)
+  email: string          // masked email for display
+}
+
 // Extended state for reschedule and book again flows (not persisted)
 interface ExtendedState {
   reschedule: RescheduleContext | null
@@ -56,6 +63,7 @@ interface ExtendedState {
   availabilityPrefs: AvailabilityPrefs | null
   bookingFlow: BookingFlow
   symptomInfo: SymptomInfo | null
+  pendingDeletion: PendingDeletionState | null
 }
 
 type AppStateApi = {
@@ -108,6 +116,11 @@ type AppStateApi = {
   // Booking flow tracking
   setBookingFlow: (flow: BookingFlow) => void
   clearBookingFlow: () => void
+  // Account deletion
+  pendingDeletion: PendingDeletionState | null
+  startDeletion: (email: string) => void
+  cancelDeletion: () => void
+  completeDeletion: () => void
   // Computed
   isProfileComplete: boolean
   isIdentityVerified: boolean
@@ -121,7 +134,7 @@ const Ctx = createContext<AppStateApi | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>(() => loadState(initialState))
-  const [extendedState, setExtendedState] = useState<ExtendedState>({
+  const [extendedState, setExtendedState] = useState<ExtendedState>(() => ({
     reschedule: null,
     bookAgain: null,
     fastLane: null,
@@ -129,7 +142,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     availabilityPrefs: null,
     bookingFlow: null,
     symptomInfo: null,
-  })
+    pendingDeletion: loadPendingDeletion(),
+  }))
 
   useEffect(() => {
     setState((s) => {
@@ -538,6 +552,42 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       clearBookingFlow: () =>
         setExtendedState((s) => ({ ...s, bookingFlow: null })),
 
+      // Account deletion
+      pendingDeletion: extendedState.pendingDeletion,
+      startDeletion: (email: string) => {
+        const now = new Date()
+        const expiresAt = new Date(now.getTime() + 72 * 60 * 60 * 1000) // 72 hours from now
+        const data = {
+          requestedAt: now.toISOString(),
+          expiresAt: expiresAt.toISOString(),
+          email,
+        }
+        savePendingDeletion(data)
+        setExtendedState((s) => ({
+          ...s,
+          pendingDeletion: data,
+        }))
+      },
+      cancelDeletion: () => {
+        clearPendingDeletion()
+        setExtendedState((s) => ({ ...s, pendingDeletion: null }))
+      },
+      completeDeletion: () => {
+        clearPendingDeletion()
+        clearState()
+        setState(initialState)
+        setExtendedState({
+          reschedule: null,
+          bookAgain: null,
+          fastLane: null,
+          specialtyMatch: null,
+          availabilityPrefs: null,
+          bookingFlow: null,
+          symptomInfo: null,
+          pendingDeletion: null,
+        })
+      },
+
       // Computed/getters
       getAppointmentById: (id) => state.appointments.find((apt) => apt.id === id),
       getHistoryItemById: (id) => state.history.items.find((item) => item.id === id),
@@ -546,7 +596,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       resetAll: () => {
         clearState()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null, pendingDeletion: null })
       },
     }),
     [state, extendedState, isProfileComplete, isIdentityVerified]

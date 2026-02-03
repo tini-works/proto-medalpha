@@ -18,7 +18,8 @@ import {
 } from '@tabler/icons-react'
 import { Header, Page, TabBar, Avatar } from '../../components'
 import { Button, ConfirmModal } from '../../components/ui'
-import { useProfile, useAuth, usePreferences } from '../../state'
+import { PendingDeletionBanner } from '../../components/account'
+import { useProfile, useAuth, usePreferences, useAppState } from '../../state'
 import { PATHS } from '../../routes'
 
 /**
@@ -35,7 +36,9 @@ export default function SettingsScreen() {
   const { profile, updateProfile } = useProfile()
   const { signOut } = useAuth()
   const { language, biometricsEnabled } = usePreferences()
+  const { pendingDeletion, cancelDeletion, completeDeletion } = useAppState()
   const [showSignOutModal, setShowSignOutModal] = useState(false)
+  const [showCancelDeletionModal, setShowCancelDeletionModal] = useState(false)
 
   const handleSignOut = () => {
     setShowSignOutModal(true)
@@ -67,6 +70,17 @@ export default function SettingsScreen() {
   return (
     <Page>
       <Header title={t('profileOverview')} />
+
+      {pendingDeletion && (
+        <PendingDeletionBanner
+          expiresAt={pendingDeletion.expiresAt}
+          onCancel={() => setShowCancelDeletionModal(true)}
+          onSkipToDeletion={() => {
+            completeDeletion()
+            navigate(PATHS.AUTH_WELCOME)
+          }}
+        />
+      )}
 
       <div className="px-4 py-6 space-y-6">
         {/* User Identity Header */}
@@ -349,6 +363,20 @@ export default function SettingsScreen() {
         onConfirm={confirmSignOut}
         onCancel={() => setShowSignOutModal(false)}
         variant="destructive"
+      />
+
+      {/* Cancel Deletion Confirmation Modal */}
+      <ConfirmModal
+        open={showCancelDeletionModal}
+        title={t('deleteCancel.title', { ns: 'legal' })}
+        message={t('deleteCancel.message', { ns: 'legal' })}
+        confirmLabel={t('deleteCancel.keepButton', { ns: 'legal' })}
+        cancelLabel={t('deleteCancel.continueButton', { ns: 'legal' })}
+        onConfirm={() => {
+          cancelDeletion()
+          setShowCancelDeletionModal(false)
+        }}
+        onCancel={() => setShowCancelDeletionModal(false)}
       />
     </Page>
   )

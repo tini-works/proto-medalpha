@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
 import { useI18nSync } from './hooks/useI18nSync'
+import { useDeletionExpiryCheck } from './hooks/useDeletionExpiryCheck'
 import { NotificationToastProvider } from './contexts/NotificationToastContext'
 import { DevModeProvider } from './contexts/DevModeContext'
 import AppointmentStatusChangeNotifier from './components/notifications/AppointmentStatusChangeNotifier'
@@ -84,6 +85,7 @@ import {
   InsuranceEditScreen,
   ChangePasswordScreen,
   BiometricsScreen,
+  DeleteEmailConfirmScreen,
 } from './screens/settings'
 
 // Privacy sub-screens (GDPR)
@@ -127,6 +129,12 @@ export default function App() {
   )
 }
 
+// Check for deletion expiry on app startup
+function DeletionExpiryChecker() {
+  useDeletionExpiryCheck()
+  return null
+}
+
 // Inner component to use i18n hook within app state context
 function AppContent() {
   // Synchronize i18next language with app state preferences
@@ -135,6 +143,7 @@ function AppContent() {
   return (
     <DeviceFrame>
       <BrowserRouter>
+        <DeletionExpiryChecker />
         <div className="app-shell relative">
         <Routes>
           <Route path="/" element={<Navigate to={PATHS.HOME} replace />} />
@@ -785,6 +794,16 @@ function AppContent() {
             element={
               <RequireAuth>
                 <ConsentManagementScreen />
+              </RequireAuth>
+            }
+          />
+
+          {/* Account deletion */}
+          <Route
+            path={PATHS.SETTINGS_DELETE_EMAIL_CONFIRM}
+            element={
+              <RequireAuth>
+                <DeleteEmailConfirmScreen />
               </RequireAuth>
             }
           />
