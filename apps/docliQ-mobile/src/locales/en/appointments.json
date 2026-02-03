@@ -5,7 +5,8 @@
     "confirmed": "Confirmed",
     "patientCanceled": "Patient canceled",
     "doctorCancelled": "Doctor cancelled",
-    "completed": "Completed"
+    "completed": "Completed",
+    "modifiedByPractice": "Modified by practice"
   },
   "viewDetails": "View details",
   "rateVisit": "Rate visit",

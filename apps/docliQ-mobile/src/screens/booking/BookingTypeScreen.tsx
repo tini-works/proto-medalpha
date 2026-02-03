@@ -6,6 +6,7 @@ import { Header, Page, StickyActionBar, ProgressIndicator } from '../../componen
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { Button } from '../../components/ui'
+import { getStepLabelKey } from './bookingProgress'
 
 type AppointmentTypeId = 'acute_urgent' | 'prevention_wellness' | 'follow_up'
 type PatientSegment = 'myself' | 'family'
@@ -35,9 +36,9 @@ export default function BookingTypeScreen() {
     patientSegment === 'myself' || (patientSegment === 'family' && profile.familyMembers.length > 0 && !!selectedFamilyMemberId)
 
   const progressConfig = (() => {
-    if (appointmentTypeId === 'follow_up') return { totalSteps: 2, label: t('step1Of2') }
-    if (appointmentTypeId === 'prevention_wellness') return { totalSteps: 5, label: t('step1Of5') }
-    return { totalSteps: 3, label: t('step1Of3') }
+    if (appointmentTypeId === 'follow_up') return { totalSteps: 2 }
+    if (appointmentTypeId === 'prevention_wellness') return { totalSteps: 5 }
+    return { totalSteps: 3 }
   })()
 
   const handleContinue = () => {
@@ -62,7 +63,9 @@ export default function BookingTypeScreen() {
 
       <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">{progressConfig.label}</span>
+          <span className="text-xs font-semibold tracking-wide text-slate-600">
+            {t(getStepLabelKey(1, progressConfig.totalSteps))}
+          </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator

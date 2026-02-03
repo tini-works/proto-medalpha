@@ -5,7 +5,8 @@
     "confirmed": "Bestätigt",
     "patientCanceled": "Von Patient:in storniert",
     "doctorCancelled": "Von Ärzt:in storniert",
-    "completed": "Abgeschlossen"
+    "completed": "Abgeschlossen",
+    "modifiedByPractice": "Von Praxis geändert"
   },
   "viewDetails": "Details ansehen",
   "rateVisit": "Termin bewerten",

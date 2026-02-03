@@ -308,6 +308,21 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           createdAt: isoAt(-6000),
           updatedAt: isoAt(-4000),
         },
+        {
+          id: 'seed_modified_by_practice',
+          doctorId: 'd7',
+          doctorName: 'Dr. Maria Fischer',
+          specialty: 'Dermatology',
+          dateISO: isoDay(2),
+          time: '15:30',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'modified_by_practice' as const,
+          reminderSet: false,
+          calendarSynced: false,
+          createdAt: isoAt(-2000),
+          updatedAt: isoAt(-100),
+        },
       ]
 
       const nextAppointments = [...s.appointments]

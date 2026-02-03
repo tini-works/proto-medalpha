@@ -105,7 +105,7 @@ export default function CareRequestScreen() {
     <Page>
       <Header title={t('fastLaneBooking')} showBack />
 
-      <div className="px-4 py-4 space-y-3">
+      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">{t('step2Of2')}</span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>

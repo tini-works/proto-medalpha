@@ -8,6 +8,7 @@ import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { useBookingSubmission } from '../../hooks/useBookingSubmission'
 import type { DayOfWeek, TimeRange, AvailabilitySlot, InsuranceType } from '../../types'
+import { resolveBookingProgress } from './bookingProgress'
 
 const DAYS: DayOfWeek[] = ['mon', 'tue', 'wed', 'thu', 'fri']
 const TIME_RANGES: TimeRange[] = ['morning', 'afternoon', 'evening']
@@ -178,20 +179,29 @@ export default function AvailabilityScreen() {
       <Header title={t('selectAvailability')} showBack onBack={handleBack} />
 
       {/* Progress indicator */}
-      <div className="px-4 py-4 space-y-3">
+      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
+        {(() => {
+          const progress = resolveBookingProgress({
+            bookingFlow,
+            fallbackFlow: isDoctorFirstFlow ? 'by_doctor' : 'by_specialty',
+            currentStep: isDoctorFirstFlow ? 4 : 3,
+          })
+          return (
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {isDoctorFirstFlow ? t('step4Of5') : t('step3Of3')}
+            {t(progress.stepLabelKey)}
           </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator
-          currentStep={isDoctorFirstFlow ? 4 : 3}
-          totalSteps={isDoctorFirstFlow ? 5 : 3}
+          currentStep={progress.currentStep}
+          totalSteps={progress.totalSteps}
           variant="bar"
           showLabel={false}
           showPercentage={false}
         />
+          )
+        })()}
       </div>
 
       <div className="px-4 pb-28 space-y-6">
