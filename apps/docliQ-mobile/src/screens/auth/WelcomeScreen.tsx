@@ -18,7 +18,7 @@ export default function WelcomeScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col">
+    <div className="min-h-[var(--app-height)] bg-cream-100 flex flex-col">
       {/* Header section */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-14 h-14 bg-teal-500 rounded-xl flex items-center justify-center mb-6 shadow-sm">
