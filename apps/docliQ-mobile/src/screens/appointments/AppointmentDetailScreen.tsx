@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { IconStar, IconStarFilled } from '@tabler/icons-react'
 import { Page, CancelAppointmentSheet, StickyActionBar } from '../../components'
-import { useBooking } from '../../state'
+import { DestructiveOutlineButton } from '../../components/ui'
+import { AddToCalendarSheet, OfflineBookingSheet } from '../../components/sheets'
+import { useBooking, useHistory } from '../../state'
+import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../utils'
 import { PATHS } from '../../routes/paths'
 import { MatchingStatusView } from '../../components/appointments/MatchingStatusView'
@@ -10,12 +14,49 @@ import { MatchingStatusView } from '../../components/appointments/MatchingStatus
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('detail')
   const { appointments, cancelAppointment } = useBooking()
+  const { getHistoryItemById } = useHistory()
 
   const appointment = appointments.find((apt) => apt.id === id)
+  const autoOpenFeedback = Boolean((location.state as { rateVisit?: boolean } | undefined)?.rateVisit)
+  const historyItem = id ? getHistoryItemById(id) : undefined
 
-  if (!appointment) {
+  const historyAppointment = historyItem
+    ? (() => {
+        const title = historyItem.title.replace('Appointment:', '').trim()
+        const parts = historyItem.subtitle.split('·').map((part) => part.trim())
+        const fallbackParts = historyItem.subtitle.split('Â·').map((part) => part.trim())
+        const doctorName = (parts[0] || fallbackParts[0] || 'Dr. Taylor').trim()
+        const specialty = title || 'General Medicine'
+        const details = historyItem.details ?? {}
+        return {
+          id: historyItem.id,
+          doctorId: 'd1',
+          doctorName,
+          specialty,
+          dateISO: historyItem.dateISO,
+          time: '10:00',
+          forUserId: historyItem.forUserId,
+          forUserName: historyItem.forUserName,
+          status: historyItem.status === 'cancelled' ? 'cancelled_patient' : 'completed',
+          reminderSet: false,
+          calendarSynced: false,
+          storeId: undefined,
+          feedbackRating: typeof details.feedbackRating === 'number' ? details.feedbackRating : undefined,
+          feedbackComment: typeof details.feedbackComment === 'string' ? details.feedbackComment : undefined,
+          feedbackDismissed: Boolean(details.feedbackDismissed),
+          feedbackSubmittedAt: typeof details.feedbackSubmittedAt === 'string' ? details.feedbackSubmittedAt : undefined,
+          cancelReason: typeof details.cancelReason === 'string' ? details.cancelReason : undefined,
+        }
+      })()
+    : undefined
+
+  const resolvedAppointment = appointment ?? historyAppointment
+  const isHistoryFallback = !appointment && Boolean(historyAppointment)
+
+  if (!resolvedAppointment) {
     return (
       <Page>
         <BackHeader />
@@ -35,19 +76,27 @@ export default function AppointmentDetailScreen() {
   }
 
   // Render based on status
-  switch (appointment.status) {
+  switch (resolvedAppointment.status) {
     case 'matching':
-      return <MatchingStatus appointment={appointment} />
+      return <MatchingStatus appointment={resolvedAppointment} />
     case 'await_confirm':
-      return <AwaitConfirmStatus appointment={appointment} onCancel={() => cancelAppointment(appointment.id)} />
+      return <AwaitConfirmStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
     case 'confirmed':
-      return <ConfirmedStatus appointment={appointment} onCancel={() => cancelAppointment(appointment.id)} />
+      return <ConfirmedStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
+    case 'completed':
+      return (
+        <CompletedStatus
+          appointment={resolvedAppointment}
+          autoOpenFeedback={autoOpenFeedback}
+          useHistoryFallback={isHistoryFallback}
+        />
+      )
     case 'cancelled_patient':
-      return <PatientCanceledStatus appointment={appointment} />
+      return <PatientCanceledStatus appointment={resolvedAppointment} />
     case 'cancelled_doctor':
-      return <DoctorCanceledStatus appointment={appointment} />
+      return <DoctorCanceledStatus appointment={resolvedAppointment} />
     default:
-      return <ConfirmedStatus appointment={appointment} onCancel={() => cancelAppointment(appointment.id)} />
+      return <ConfirmedStatus appointment={resolvedAppointment} onCancel={() => cancelAppointment(resolvedAppointment.id)} />
   }
 }
 
@@ -60,6 +109,13 @@ interface StatusProps {
     dateISO: string
     time: string
     status: string
+    createdAt?: string
+    updatedAt?: string
+    feedbackRating?: number
+    feedbackComment?: string
+    feedbackDismissed?: boolean
+    feedbackSubmittedAt?: string
+    cancelReason?: string
   }
   onCancel?: () => void
 }
@@ -185,7 +241,7 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
         </p>
 
         {/* Summary Card */}
-        <div className="w-full max-w-sm rounded-2xl bg-cream-50 border border-cream-200 p-5">
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
           <DoctorInfoCard appointment={appointment} align="left" />
           <div className="h-px bg-cream-200 my-4" />
           <AppointmentDetails appointment={appointment} align="left" showLocation />
@@ -194,12 +250,9 @@ function AwaitConfirmStatus({ appointment, onCancel }: StatusProps) {
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
-        <button
-          onClick={handleCancel}
-          className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
-        >
+        <DestructiveOutlineButton onClick={handleCancel}>
           {t('cancelRequest')}
-        </button>
+        </DestructiveOutlineButton>
       </StickyBottomBar>
     </Page>
   )
@@ -212,13 +265,59 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
   const [showCancelDialog, setShowCancelDialog] = useState(false)
+  const [showCalendarSheet, setShowCalendarSheet] = useState(false)
 
-  const handleAddToCalendar = () => {
+  const openGoogleCalendar = () => {
     const startDate = new Date(`${appointment.dateISO}T${appointment.time}`)
     const endDate = new Date(startDate.getTime() + 30 * 60000)
     const title = t('calendarEventTitle', { doctorName: appointment.doctorName })
     const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`
     window.open(gcalUrl, '_blank')
+  }
+
+  const handleExportIcs = () => {
+    const start = new Date(`${appointment.dateISO}T${appointment.time}`)
+    const end = new Date(start.getTime() + 30 * 60000)
+    const title = t('calendarEventTitle', { doctorName: appointment.doctorName })
+    const location = t('defaultClinicLocation')
+
+    const pad = (n: number) => String(n).padStart(2, '0')
+    const toIcsUtc = (d: Date) =>
+      `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//DocliQ//Appointment//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      `UID:${appointment.id}@docliq`,
+      `DTSTAMP:${toIcsUtc(new Date())}`,
+      `DTSTART:${toIcsUtc(start)}`,
+      `DTEND:${toIcsUtc(end)}`,
+      `SUMMARY:${title}`,
+      `LOCATION:${location}`,
+      'END:VEVENT',
+      'END:VCALENDAR',
+      '',
+    ].join('\r\n')
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `appointment-${appointment.id}.ics`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }
+
+  const handleGetDirections = () => {
+    const destination = t('defaultClinicLocation')
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(destination)}`
+    window.open(url, '_blank')
   }
 
   const handleCancel = () => {
@@ -249,16 +348,17 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         </p>
 
         {/* Summary Card */}
-        <div className="w-full max-w-sm rounded-2xl bg-cream-50 border border-cream-200 p-5">
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
           <DoctorInfoCard appointment={appointment} variant="confirmed" align="left" />
           <div className="h-px bg-cream-200 my-4" />
           <AppointmentDetails appointment={appointment} align="left" showLocation />
         </div>
 
+
         <div className="w-full max-w-sm mt-6 flex justify-center">
           <div className="w-full space-y-3">
             <button
-              onClick={handleAddToCalendar}
+              onClick={() => setShowCalendarSheet(true)}
               className="btn btn-secondary btn-block flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,10 +367,23 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
               {t('addToCalendar')}
             </button>
             <button
-              onClick={() => setShowCancelDialog(true)}
-              className="btn btn-block bg-transparent text-red-600 hover:bg-red-50 active:bg-red-100"
+              onClick={handleExportIcs}
+              className="btn btn-secondary btn-block flex items-center justify-center gap-2"
             >
-              {t('cancelAppointment')}
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
+              </svg>
+              {t('exportIcs')}
+            </button>
+            <button
+              onClick={handleGetDirections}
+              className="w-full py-3.5 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 bg-teal-50 text-teal-700 hover:bg-teal-100"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9-7-9-7-9 7 9 7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12l9-7" />
+              </svg>
+              {t('getDirections')}
             </button>
           </div>
         </div>
@@ -278,21 +391,9 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
-        <button
-          onClick={() => navigate(PATHS.HISTORY)}
-          className="btn btn-secondary btn-block flex items-center justify-center gap-2"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          {t('viewAllAppointments')}
-        </button>
-        <button
-          onClick={() => navigate(PATHS.HOME)}
-          className="btn btn-tertiary btn-block"
-        >
-          {t('backToHome')}
-        </button>
+        <DestructiveOutlineButton onClick={() => setShowCancelDialog(true)}>
+          {t('cancelAppointment')}
+        </DestructiveOutlineButton>
       </StickyBottomBar>
 
       {/* Cancel Dialog */}
@@ -303,7 +404,279 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
         onConfirm={handleCancel}
         onClose={() => setShowCancelDialog(false)}
       />
+
+      <AddToCalendarSheet
+        open={showCalendarSheet}
+        onClose={() => setShowCalendarSheet(false)}
+        onSelect={(provider) => {
+          setShowCalendarSheet(false)
+          if (provider === 'google') openGoogleCalendar()
+          if (provider === 'apple' || provider === 'outlook') {
+            // TODO: implement native calendar/ICS; fallback to Google Calendar web for now.
+            openGoogleCalendar()
+          }
+        }}
+      />
     </Page>
+  )
+}
+
+// ============================================
+// COMPLETED STATUS
+// ============================================
+function CompletedStatus({
+  appointment,
+  autoOpenFeedback = false,
+  useHistoryFallback = false,
+}: StatusProps & { autoOpenFeedback?: boolean; useHistoryFallback?: boolean }) {
+  const navigate = useNavigate()
+  const { t } = useTranslation('detail')
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
+
+  return (
+    <Page className="flex flex-col">
+      <BackHeader />
+
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6">
+          <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
+            <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        </div>
+
+        <h1 className="text-2xl font-semibold text-charcoal-500 text-center mb-2">{t('completedTitle')}</h1>
+        <p className="text-slate-600 text-center mb-8 max-w-sm">
+          {t('completedDescription')}
+        </p>
+
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
+          <DoctorInfoCard appointment={appointment} variant="confirmed" align="left" />
+          <div className="h-px bg-cream-200 my-4" />
+          <AppointmentDetails appointment={appointment} align="left" showLocation />
+        </div>
+
+        <FeedbackPanel
+          appointment={appointment}
+          autoOpenFeedback={autoOpenFeedback}
+          useHistoryFallback={useHistoryFallback}
+        />
+      </div>
+
+      <StickyBottomBar>
+        <button
+          onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+          aria-disabled={!isOnline}
+          className={`w-full py-3.5 px-4 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 ${
+            isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+          }`}
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          {t('bookFollowUp')}
+        </button>
+      </StickyBottomBar>
+
+      <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
+    </Page>
+  )
+}
+
+// ============================================
+// FEEDBACK PANEL
+// ============================================
+function FeedbackPanel({
+  appointment,
+  autoOpenFeedback = false,
+  useHistoryFallback = false,
+}: {
+  appointment: StatusProps['appointment']
+  autoOpenFeedback?: boolean
+  useHistoryFallback?: boolean
+}) {
+  const { t } = useTranslation('detail')
+  const { updateAppointment } = useBooking()
+  const { getHistoryItemById, updateHistoryItem } = useHistory()
+  const [feedbackExpanded, setFeedbackExpanded] = useState(false)
+  const [feedbackRating, setFeedbackRating] = useState(appointment.feedbackRating ?? 0)
+  const [feedbackComment, setFeedbackComment] = useState(appointment.feedbackComment ?? '')
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(
+    Boolean(appointment.feedbackSubmittedAt || appointment.feedbackRating)
+  )
+  const feedbackDismissed = Boolean(appointment.feedbackDismissed)
+
+  useEffect(() => {
+    setFeedbackRating(appointment.feedbackRating ?? 0)
+    setFeedbackComment(appointment.feedbackComment ?? '')
+    setFeedbackSubmitted(Boolean(appointment.feedbackSubmittedAt || appointment.feedbackRating))
+  }, [appointment.feedbackComment, appointment.feedbackRating, appointment.feedbackSubmittedAt])
+
+  useEffect(() => {
+    if (feedbackDismissed || feedbackSubmitted) {
+      setFeedbackExpanded(false)
+      return
+    }
+    if (autoOpenFeedback) setFeedbackExpanded(true)
+  }, [autoOpenFeedback, feedbackDismissed, feedbackSubmitted])
+
+  const handleSelectRating = (rating: number) => {
+    setFeedbackRating(rating)
+    setFeedbackExpanded(true)
+  }
+
+  const handleDismissFeedback = () => {
+    if (useHistoryFallback) {
+      const historyItem = getHistoryItemById(appointment.id)
+      const details = historyItem?.details ?? {}
+      updateHistoryItem(appointment.id, {
+        details: { ...details, feedbackDismissed: true },
+      })
+    } else {
+      updateAppointment(appointment.id, { feedbackDismissed: true })
+    }
+    setFeedbackExpanded(false)
+  }
+
+  const handleSubmitFeedback = () => {
+    if (!feedbackRating) return
+    if (useHistoryFallback) {
+      const historyItem = getHistoryItemById(appointment.id)
+      const details = historyItem?.details ?? {}
+      updateHistoryItem(appointment.id, {
+        details: {
+          ...details,
+          feedbackRating,
+          feedbackComment: feedbackComment.trim() ? feedbackComment.trim() : undefined,
+          feedbackDismissed: false,
+          feedbackSubmittedAt: new Date().toISOString(),
+        },
+      })
+    } else {
+      updateAppointment(appointment.id, {
+        feedbackRating,
+        feedbackComment: feedbackComment.trim() ? feedbackComment.trim() : undefined,
+        feedbackDismissed: false,
+        feedbackSubmittedAt: new Date().toISOString(),
+      })
+    }
+    setFeedbackSubmitted(true)
+    setFeedbackExpanded(false)
+  }
+
+  return (
+    <div className="w-full max-w-sm mt-6">
+      <div className="rounded-2xl border border-cream-300 bg-white p-5">
+        {feedbackSubmitted ? (
+          <div className="space-y-2">
+            <p className="text-sm font-semibold text-charcoal-500">{t('feedback.thanksTitle')}</p>
+            <p className="text-sm text-slate-600">{t('feedback.thanksSubtitle')}</p>
+            <div className="flex items-center gap-1 pt-2">
+              {Array.from({ length: 5 }).map((_, index) => {
+                const value = index + 1
+                const filled = value <= (appointment.feedbackRating ?? feedbackRating)
+                return filled ? (
+                  <IconStarFilled key={`submitted_${value}`} size={18} className="text-amber-500" />
+                ) : (
+                  <IconStar key={`submitted_${value}`} size={18} className="text-slate-300" />
+                )
+              })}
+            </div>
+            {appointment.feedbackComment ? (
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  {t('feedback.commentLabel')}
+                </p>
+                <p className="text-sm text-slate-600 italic">"{appointment.feedbackComment}"</p>
+              </div>
+            ) : null}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-charcoal-500">{t('feedback.title')}</p>
+              <p className="text-sm text-slate-600">{t('feedback.subtitle')}</p>
+            </div>
+            <div className="flex items-center gap-1">
+              {Array.from({ length: 5 }).map((_, index) => {
+                const value = index + 1
+                const filled = value <= feedbackRating
+                return (
+                  <button
+                    key={`rating_${value}`}
+                    type="button"
+                    onClick={() => handleSelectRating(value)}
+                    className="p-1"
+                    aria-label={`${t('feedback.rateVisit')} ${value}`}
+                  >
+                    {filled ? (
+                      <IconStarFilled size={20} className="text-amber-500" />
+                    ) : (
+                      <IconStar size={20} className="text-slate-300" />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+
+            {feedbackExpanded ? (
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700">
+                    {t('feedback.commentLabel')}
+                  </label>
+                  <textarea
+                    value={feedbackComment}
+                    onChange={(event) => setFeedbackComment(event.target.value)}
+                    placeholder={t('feedback.commentPlaceholder')}
+                    className="mt-2 w-full rounded-xl border border-cream-300 bg-white p-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30"
+                    rows={3}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={handleDismissFeedback}
+                    className="text-sm font-medium text-slate-500 hover:text-slate-600"
+                  >
+                    {t('feedback.notNow')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSubmitFeedback}
+                    disabled={!feedbackRating}
+                    className="px-4 py-2 rounded-lg bg-teal-500 text-white text-sm font-semibold hover:bg-teal-600 disabled:opacity-50"
+                  >
+                    {t('feedback.submit')}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setFeedbackExpanded(true)}
+                  className="text-sm font-semibold text-teal-700 hover:text-teal-800"
+                >
+                  {t('feedback.rateVisit')}
+                </button>
+                {!feedbackDismissed && (
+                  <button
+                    type="button"
+                    onClick={handleDismissFeedback}
+                    className="text-sm font-medium text-slate-500 hover:text-slate-600"
+                  >
+                    {t('feedback.notNow')}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -313,6 +686,8 @@ function ConfirmedStatus({ appointment, onCancel }: StatusProps) {
 function PatientCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   return (
     <Page className="flex flex-col">
@@ -335,28 +710,23 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
           {t('canceledDescription')}
         </p>
 
-        {/* Doctor Card - Grayed out */}
-        <DoctorInfoCard appointment={appointment} variant="canceled" />
-
-        {/* Appointment Details - Grayed out */}
-        <AppointmentDetails appointment={appointment} variant="canceled" />
-
-        {/* Status Badge */}
-        <div className="flex justify-center mt-6">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-charcoal-700 text-white text-sm font-medium">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            {t('canceledByYou')}
-          </span>
+        {/* Summary Card */}
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
+          <DoctorInfoCard appointment={appointment} variant="canceled" align="left" />
+          <div className="h-px bg-cream-200 my-4" />
+          <AppointmentDetails appointment={appointment} variant="canceled" align="left" showLocation />
         </div>
+
       </div>
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING_SEARCH)}
-          className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
+          onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+          aria-disabled={!isOnline}
+          className={`w-full py-3.5 px-4 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 ${
+            isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+          }`}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -374,6 +744,8 @@ function PatientCanceledStatus({ appointment }: StatusProps) {
 function DoctorCanceledStatus({ appointment }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   return (
     <Page className="flex flex-col">
@@ -397,31 +769,39 @@ function DoctorCanceledStatus({ appointment }: StatusProps) {
         </p>
 
         {/* Summary Card */}
-        <div className="w-full max-w-sm rounded-2xl bg-cream-50 border border-cream-200 p-5">
-          <DoctorInfoCard appointment={appointment} variant="declined" align="left" />
+        <div className="w-full max-w-sm rounded-2xl bg-white border border-cream-300 p-5">
+          <DoctorInfoCard appointment={appointment} variant="canceled" align="left" />
           <div className="h-px bg-cream-200 my-4" />
-          <AppointmentDetails appointment={appointment} variant="canceled" align="left" />
+          <AppointmentDetails appointment={appointment} variant="canceled" align="left" showLocation />
         </div>
+
+        {appointment.cancelReason ? (
+          <div className="mt-4 w-full max-w-sm rounded-xl border border-cream-300 bg-cream-50 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              {t('declinedReasonLabel')}
+            </p>
+            <p className="mt-1 text-sm text-slate-600">{appointment.cancelReason}</p>
+          </div>
+        ) : null}
       </div>
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar>
         <button
-          onClick={() => navigate(PATHS.BOOKING_SEARCH)}
-          className="w-full py-3.5 px-4 bg-teal-500 text-white font-medium rounded-xl hover:bg-teal-600 transition-colors flex items-center justify-center gap-2"
+          onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+          aria-disabled={!isOnline}
+          className={`w-full py-3.5 px-4 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 ${
+            isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+          }`}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
           {t('bookNewAppointment')}
         </button>
-        <button
-          onClick={() => navigate(PATHS.HOME)}
-          className="w-full py-3.5 px-4 border border-cream-400 text-charcoal-500 font-medium rounded-xl hover:bg-cream-50 transition-colors"
-        >
-          {t('backToHome')}
-        </button>
       </StickyBottomBar>
+
+      <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
     </Page>
   )
 }
@@ -482,6 +862,14 @@ function AppointmentDetails({
   const textColor = isGrayed ? 'text-slate-400' : 'text-slate-600'
   const iconColor = isGrayed ? 'text-slate-300' : 'text-slate-500'
   const rowAlign = align === 'left' ? 'justify-start' : 'justify-center'
+  const lastUpdatedIso = appointment.updatedAt ?? appointment.createdAt ?? `${appointment.dateISO}T${appointment.time}`
+  const lastUpdatedDate = new Date(lastUpdatedIso)
+  const lastUpdatedDateISO = Number.isNaN(lastUpdatedDate.getTime())
+    ? appointment.dateISO
+    : lastUpdatedDate.toISOString().slice(0, 10)
+  const lastUpdatedTime = Number.isNaN(lastUpdatedDate.getTime())
+    ? appointment.time
+    : `${String(lastUpdatedDate.getHours()).padStart(2, '0')}:${String(lastUpdatedDate.getMinutes()).padStart(2, '0')}`
 
   return (
     <div className="space-y-3">
@@ -511,6 +899,10 @@ function AppointmentDetails({
           <span className={textColor}>{t('defaultClinicLocation')}</span>
         </div>
       )}
+
+      <div className="mt-2 rounded-lg bg-cream-100 px-3 py-2 text-center text-xs text-slate-500">
+        {t('lastUpdated')} {formatDateWithWeekday(lastUpdatedDateISO)} {formatTime(lastUpdatedTime)}
+      </div>
     </div>
   )
 }

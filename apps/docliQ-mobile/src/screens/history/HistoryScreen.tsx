@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconClock, IconFilter, IconSearch, IconX, IconPlus, IconArchive } from '@tabler/icons-react'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
+import { OfflineBookingSheet } from '../../components/sheets'
+import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { useBooking } from '../../state'
 import { PATHS, appointmentDetailPath } from '../../routes/paths'
 import { formatDateLong } from '../../utils/format'
@@ -29,6 +31,8 @@ export default function HistoryScreen() {
   const { t } = useTranslation('history')
   const { appointments } = useBooking()
   const appointmentsDeduped = useMemo(() => dedupeAppointmentsById(appointments), [appointments])
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   const [statusFilter, setStatusFilter] = useState<
     'all' | 'matching' | 'await_confirm' | 'cancelled_doctor'
@@ -104,6 +108,7 @@ export default function HistoryScreen() {
   const handleAppointmentClick = (appointmentId: string) => {
     navigate(appointmentDetailPath(appointmentId))
   }
+
 
   return (
       <Page>
@@ -213,14 +218,18 @@ export default function HistoryScreen() {
 
       {/* Floating Action Button */}
       <button
-        onClick={() => navigate(PATHS.BOOKING)}
-        className="fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full bg-teal-500 text-white shadow-lg flex items-center justify-center hover:bg-teal-600 active:scale-95 transition-all duration-normal ease-out-brand"
+        onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+        aria-disabled={!isOnline}
+        className={`fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center active:scale-95 transition-all duration-normal ease-out-brand ${
+          isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
+        }`}
         aria-label={t('bookNewAppointment')}
       >
         <IconPlus size={28} strokeWidth={2} />
       </button>
 
       <TabBar />
+      <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
     </Page>
   )
 }

@@ -18,13 +18,33 @@
   },
 
   "cancelRequest": "Anfrage abbrechen",
+  "cancel": "Abbrechen",
   "awaitingConfirmation": "Warte auf Bestätigung",
   "awaitingDescription": "Wir haben eine Übereinstimmung gefunden! Warten auf {{doctorName}}, um Ihren Termin zu bestätigen.",
 
   "confirmed": "Termin bestätigt!",
   "confirmedDescription": "Ihr Termin wurde bestätigt. Wir haben die Details an Ihre E-Mail und Ihr Telefon gesendet.",
+  "feedback": {
+    "title": "Wie war Ihr Termin?",
+    "subtitle": "Tippen Sie auf einen Stern. Wenn Sie möchten, können Sie eine Notiz hinzufügen.",
+    "rateVisit": "Termin bewerten",
+    "notNow": "Jetzt nicht",
+    "commentLabel": "Optionaler Kommentar",
+    "commentPlaceholder": "Teilen Sie, was der Praxis helfen könnte, sich zu verbessern.",
+    "submit": "Feedback senden",
+    "thanksTitle": "Danke für Ihr Feedback",
+    "thanksSubtitle": "Ihre Rückmeldung hilft uns, die Versorgung zu verbessern."
+  },
   "calendarEventTitle": "Termin bei {{doctorName}}",
   "addToCalendar": "Zum Kalender hinzufügen",
+  "addToCalendarDescription": "Wählen Sie Ihre bevorzugte Kalender-App",
+  "calendar": {
+    "google": "Google Kalender",
+    "apple": "Apple Kalender",
+    "outlook": "Outlook"
+  },
+  "exportIcs": "Als .ics-Datei exportieren",
+  "getDirections": "Route anzeigen",
   "cancelAppointment": "Termin stornieren",
   "viewAllAppointments": "Alle Termine anzeigen",
   "backToHome": "Zurück zur Startseite",
@@ -32,15 +52,20 @@
   "canceled": "Termin storniert",
   "canceledDescription": "Sie haben diese Terminanfrage storniert. Sie können jederzeit eine neue Anfrage stellen.",
   "canceledByYou": "Von Ihnen storniert",
-  "submitNewRequest": "Neue Anfrage stellen",
+  "submitNewRequest": "Neuen Termin buchen",
 
   "declined": "Termin abgelehnt",
   "declinedDescription": "Leider kann {{doctorName}} diesen Termin nicht annehmen. Bitte versuchen Sie, bei einem anderen Arzt zu buchen.",
+  "declinedReasonLabel": "Grund",
   "bookNewAppointment": "Neuen Termin buchen",
+  "completedTitle": "Termin abgeschlossen",
+  "completedDescription": "Ihr Termin ist abgeschlossen. Wenn Sie etwas benÃ¶tigen, kÃ¶nnen Sie einen Folgetermin buchen.",
+  "bookFollowUp": "Folgetermin buchen",
 
   "yearsExp": "{{count}} Jahre Erfahrung",
   "defaultClinicLocation": "Heart Care Klinik, Gebäude A",
   "keepAppointment": "Termin behalten",
+  "lastUpdated": "Zuletzt aktualisiert:",
 
   "cancelDialog": {
     "title": "Termin stornieren?",

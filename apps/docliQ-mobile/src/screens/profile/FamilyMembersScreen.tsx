@@ -57,9 +57,11 @@ export default function FamilyMembersScreen() {
                 title={t('family.empty.title')}
                 description={t('family.empty.description')}
               />
-              <p className="text-sm text-slate-500 text-center">
-                {t('family.form.addHint')}
-              </p>
+              <div className="pt-2 flex justify-center">
+                <Button variant="primary" onClick={() => setIsAddOpen(true)}>
+                  {t('family.form.addButton')}
+                </Button>
+              </div>
             </div>
           )
         )}

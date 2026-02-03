@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AppointmentListCard, EmptyState, Header, Page } from '../../components'
-import { PATHS } from '../../routes/paths'
+import { PATHS, appointmentDetailPath } from '../../routes/paths'
 import { useBooking, useHistory } from '../../state'
 import type { Appointment, HistoryItem } from '../../types'
 
@@ -11,6 +11,7 @@ function mapHistoryToAppointment(item: HistoryItem): Appointment {
   const [doctorNameRaw] = item.subtitle.split('·').map((part) => part.trim())
   const doctorName = doctorNameRaw || 'Dr. Taylor'
   const specialty = title || 'General Medicine'
+  const details = item.details ?? {}
   return {
     id: item.id,
     doctorId: 'd1',
@@ -24,6 +25,11 @@ function mapHistoryToAppointment(item: HistoryItem): Appointment {
     reminderSet: false,
     calendarSynced: false,
     storeId: undefined,
+    feedbackRating: typeof details.feedbackRating === 'number' ? details.feedbackRating : undefined,
+    feedbackComment: typeof details.feedbackComment === 'string' ? details.feedbackComment : undefined,
+    feedbackDismissed: Boolean(details.feedbackDismissed),
+    feedbackSubmittedAt: typeof details.feedbackSubmittedAt === 'string' ? details.feedbackSubmittedAt : undefined,
+    cancelReason: typeof details.cancelReason === 'string' ? details.cancelReason : undefined,
   }
 }
 
@@ -71,6 +77,16 @@ export default function HistoryArchiveScreen() {
               <AppointmentListCard
                 key={appointment.id}
                 appointment={appointment}
+                onClick={
+                  appointment.status === 'completed' || appointment.status === 'cancelled_patient'
+                    ? () => navigate(appointmentDetailPath(appointment.id))
+                    : undefined
+                }
+                onRate={
+                  appointment.status === 'completed'
+                    ? () => navigate(appointmentDetailPath(appointment.id), { state: { rateVisit: true } })
+                    : undefined
+                }
               />
             ))}
           </div>

@@ -71,6 +71,11 @@ export interface Appointment {
   forUserName: string
   createdAt?: string
   updatedAt?: string
+  feedbackRating?: number
+  feedbackComment?: string
+  feedbackDismissed?: boolean
+  feedbackSubmittedAt?: string
+  cancelReason?: string
   status:
     | 'matching'
     | 'await_confirm'

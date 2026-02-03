@@ -18,13 +18,33 @@
   },
 
   "cancelRequest": "Cancel Request",
+  "cancel": "Cancel",
   "awaitingConfirmation": "Awaiting Confirmation",
   "awaitingDescription": "We've found a match! Waiting for {{doctorName}} to confirm your appointment.",
 
   "confirmed": "Appointment Confirmed!",
   "confirmedDescription": "Your appointment has been confirmed. We've sent the details to your email and phone.",
+  "feedback": {
+    "title": "How was your visit?",
+    "subtitle": "Tap a star to rate. You can add a note if you want.",
+    "rateVisit": "Rate visit",
+    "notNow": "Not now",
+    "commentLabel": "Optional comment",
+    "commentPlaceholder": "Share anything that could help the practice improve.",
+    "submit": "Submit feedback",
+    "thanksTitle": "Thanks for your feedback",
+    "thanksSubtitle": "Your response helps us improve care."
+  },
   "calendarEventTitle": "Appointment with {{doctorName}}",
   "addToCalendar": "Add to Calendar",
+  "addToCalendarDescription": "Choose your preferred calendar app",
+  "calendar": {
+    "google": "Google Calendar",
+    "apple": "Apple Calendar",
+    "outlook": "Outlook"
+  },
+  "exportIcs": "Export as .ics File",
+  "getDirections": "Get Directions",
   "cancelAppointment": "Cancel Appointment",
   "viewAllAppointments": "View all appointments",
   "backToHome": "Back to Home",
@@ -32,15 +52,20 @@
   "canceled": "Appointment Canceled",
   "canceledDescription": "You've canceled this appointment request. You can submit a new request anytime.",
   "canceledByYou": "Canceled by You",
-  "submitNewRequest": "Submit New Request",
+  "submitNewRequest": "Book New Appointment",
 
   "declined": "Appointment Declined",
   "declinedDescription": "Unfortunately, {{doctorName}} is unable to accept this appointment. Please try booking with another doctor.",
+  "declinedReasonLabel": "Reason",
   "bookNewAppointment": "Book New Appointment",
+  "completedTitle": "Visit Completed",
+  "completedDescription": "Your appointment is complete. If you need anything else, you can book a follow-up.",
+  "bookFollowUp": "Book Follow-up Appointment",
 
   "yearsExp": "{{count}} years exp.",
   "defaultClinicLocation": "Heart Care Clinic, Building A",
   "keepAppointment": "Keep Appointment",
+  "lastUpdated": "Last updated:",
 
   "cancelDialog": {
     "title": "Cancel Appointment?",

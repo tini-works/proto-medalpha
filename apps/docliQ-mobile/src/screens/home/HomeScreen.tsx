@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconBell, IconCalendar, IconUsers } from '@tabler/icons-react'
 import { Page, TabBar, Avatar, TodaysFocusCard, SwipeableAppointmentStack } from '../../components'
+import { OfflineBookingSheet } from '../../components/sheets'
+import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { LatestNewsSection } from '../../components/newsfeed'
 import { useAuth, useProfile, useBooking } from '../../state'
 import { mockNewsArticles } from '../../data/newsfeed'
@@ -15,6 +17,8 @@ export default function HomeScreen() {
   const { appointments } = useBooking()
   const { t } = useTranslation('home')
   const [pendingStackIndex, setPendingStackIndex] = useState(0)
+  const { isOnline } = useOnlineStatus()
+  const [showOfflineSheet, setShowOfflineSheet] = useState(false)
 
   const getLastUpdatedTs = (appointment: (typeof appointments)[number]) => {
     const ts =
@@ -120,13 +124,19 @@ export default function HomeScreen() {
         <section>
           <h2 className="text-lg font-semibold text-charcoal-500 mb-3">{t('quickActions')}</h2>
           <div className="grid grid-cols-2 gap-3">
-            <Link
-              to={PATHS.BOOKING}
-              className="p-4 bg-teal-500 rounded-lg text-white hover:bg-teal-600 transition-colors duration-normal ease-out-brand"
+            <button
+              type="button"
+              onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+              aria-disabled={!isOnline}
+              className={`p-4 rounded-lg text-white transition-colors duration-normal ease-out-brand ${
+                isOnline
+                  ? 'bg-teal-500 hover:bg-teal-600'
+                  : 'bg-teal-300 cursor-not-allowed'
+              }`}
             >
               <IconCalendar size={24} strokeWidth={2} className="mb-2" />
               <span className="font-medium">{t('bookAppointment')}</span>
-            </Link>
+            </button>
 
             <Link
               to={PATHS.PROFILE_FAMILY}
@@ -145,6 +155,8 @@ export default function HomeScreen() {
       </div>
 
       <TabBar />
+
+      <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
     </Page>
   )
 }

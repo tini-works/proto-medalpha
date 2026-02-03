@@ -8,6 +8,8 @@
     "completed": "Completed"
   },
   "viewDetails": "View details",
+  "rateVisit": "Rate visit",
+  "rated": "Rated",
   "estimatedWait": "Estimated wait {{min}}–{{max}} min",
   "estimatedWaitShort": "Est. wait {{min}}–{{max}} min",
   "accepts": "Accepts {{insurances}}",

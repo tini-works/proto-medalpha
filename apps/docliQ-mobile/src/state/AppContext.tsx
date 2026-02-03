@@ -196,6 +196,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           forUserId: s.profile.id || 'self',
           forUserName: s.profile.fullName || 'You',
           status: 'cancelled_doctor' as const,
+          cancelReason: 'The practice is unavailable at the requested time.',
           reminderSet: false,
           calendarSynced: false,
           createdAt: isoAt(-1410),
@@ -248,8 +249,16 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           continue
         }
 
-        if (nextAppointments[idx].status !== apt.status) {
-          nextAppointments[idx] = { ...nextAppointments[idx], status: apt.status, updatedAt: isoAt(-5) }
+        const needsReason =
+          apt.id === 'seed_cancelled_doctor' && !nextAppointments[idx].cancelReason && apt.cancelReason
+
+        if (nextAppointments[idx].status !== apt.status || needsReason) {
+          nextAppointments[idx] = {
+            ...nextAppointments[idx],
+            status: apt.status,
+            cancelReason: needsReason ? apt.cancelReason : nextAppointments[idx].cancelReason,
+            updatedAt: isoAt(-5),
+          }
           changed = true
         }
       }
@@ -263,6 +272,20 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     const scale = state.preferences.fontScale
     document.documentElement.style.setProperty('--scale', String(scale))
   }, [state])
+
+  useEffect(() => {
+    const handleOnline = () => {
+      setState((s) => ({
+        ...s,
+        appointments: s.appointments.map((apt) => ({
+          ...apt,
+          updatedAt: new Date().toISOString(),
+        })),
+      }))
+    }
+    window.addEventListener('online', handleOnline)
+    return () => window.removeEventListener('online', handleOnline)
+  }, [])
 
   const isProfileComplete = Boolean(
     state.profile.fullName.trim() &&
@@ -630,11 +653,12 @@ export function useBooking() {
 }
 
 export function useHistory() {
-  const { state, addHistoryItem, updateHistoryItem } = useAppState()
+  const { state, addHistoryItem, updateHistoryItem, getHistoryItemById } = useAppState()
   return {
     items: state.history.items,
     addHistoryItem,
     updateHistoryItem,
+    getHistoryItemById,
     getFilteredItems: (filters: { type?: string; familyMemberId?: string; dateFrom?: string; dateTo?: string }) => {
       return state.history.items.filter((item) => {
         if (filters.type && filters.type !== 'all' && item.type !== filters.type) return false

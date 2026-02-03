@@ -6,10 +6,12 @@ import { AppointmentListCard } from './AppointmentListCard'
 export function SwipeableAppointmentStack({
   appointments,
   onOpen,
+  onRate,
   onActiveIndexChange,
 }: {
   appointments: Appointment[]
   onOpen: (id: string) => void
+  onRate?: (id: string) => void
   onActiveIndexChange?: (index: number) => void
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -112,6 +114,13 @@ export function SwipeableAppointmentStack({
                       }
                       onOpen(appointment.id)
                     }}
+                    onRate={
+                      onRate
+                        ? () => {
+                            onRate(appointment.id)
+                          }
+                        : undefined
+                    }
                   />
                 </div>
               )
