@@ -119,37 +119,33 @@ export default function HomeScreen() {
       )}
 
       <div className="px-4 py-6 space-y-6">
-        {/* Approach2: Quick rebook + My Doctors */}
-        <section className="space-y-4">
-          {continueDoctor ? (
-            <button
-              type="button"
-              onClick={() => handleQuickBookDoctor(continueDoctor)}
-              className="w-full text-left bg-white border border-cream-400 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold tracking-wide text-slate-600 uppercase">
-                    {t('continueWithDoctor', { name: continueDoctor.name })}
-                  </p>
-                  <p className="text-sm text-slate-600 mt-1">
-                    {t('nextAvailableInline')}
-                  </p>
+        {/* My Doctors Section - Only shown when doctors exist */}
+        {(continueDoctor || myDoctors.length > 0) && (
+          <section className="space-y-4">
+            {continueDoctor && (
+              <button
+                type="button"
+                onClick={() => handleQuickBookDoctor(continueDoctor)}
+                className="w-full text-left bg-white border border-cream-400 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-cream-50 transition-colors duration-normal ease-out-brand"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold tracking-wide text-slate-600 uppercase">
+                      {t('continueWithDoctor', { name: continueDoctor.name })}
+                    </p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      {t('nextAvailableInline')}
+                    </p>
+                  </div>
+                  <div className="shrink-0 w-9 h-9 rounded-full bg-cream-100 flex items-center justify-center text-slate-600">
+                    <IconChevronRight size={18} stroke={2} />
+                  </div>
                 </div>
-                <div className="shrink-0 w-9 h-9 rounded-full bg-cream-100 flex items-center justify-center text-slate-600">
-                  <IconChevronRight size={18} stroke={2} />
-                </div>
-              </div>
-            </button>
-          ) : (
-            <div className="bg-white border border-cream-400 rounded-2xl p-4">
-              <p className="text-sm text-slate-600">{t('myDoctorsEmptyTitle')}</p>
-              <p className="text-xs text-slate-500 mt-1">{t('myDoctorsEmptySubtitle')}</p>
-            </div>
-          )}
+              </button>
+            )}
 
-          {myDoctors.length > 0 && (
-            <div className="space-y-2">
+            {myDoctors.length > 0 && (
+              <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-charcoal-500">{t('myDoctors')}</h2>
                 <Link to={PATHS.BOOKING_RESULTS} className="text-xs text-teal-700 font-medium hover:underline">
@@ -193,6 +189,7 @@ export default function HomeScreen() {
             </div>
           )}
         </section>
+        )}
 
         {/* Today's Focus */}
         {isVerified && nextAppointment && (

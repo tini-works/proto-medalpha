@@ -32,7 +32,7 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 
 // Booking screens
 import {
-  BookingTypeScreen,
+  IntentCaptureScreen,
   SearchScreen as BookingSearchScreen,
   SymptomsScreen as BookingSymptomsScreen,
   AvailabilityScreen as BookingAvailabilityScreen,
@@ -343,13 +343,19 @@ function AppContent() {
             }
           />
 
-          {/* Booking - Entry Point */}
+          {/* Booking - Entry Point (redirects to intent capture) */}
           <Route
             path={PATHS.BOOKING}
+            element={<Navigate to={PATHS.BOOKING_INTENT} replace />}
+          />
+
+          {/* Intent-Based Smart Router (Approach A) */}
+          <Route
+            path={PATHS.BOOKING_INTENT}
             element={
               <RequireAuth>
                 <RequireProfileComplete>
-                  <BookingTypeScreen />
+                  <IntentCaptureScreen />
                 </RequireProfileComplete>
               </RequireAuth>
             }

@@ -153,6 +153,9 @@ const Ctx = createContext<AppStateApi | null>(null)
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>(() => {
     const loaded = loadState(initialState) as any
+    const sanitizedAppointments = (loaded?.appointments ?? initialState.appointments).filter(
+      (apt: Appointment) => apt.id !== 'seed_modified_by_practice'
+    )
     return {
       ...initialState,
       ...loaded,
@@ -168,7 +171,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       },
       booking: { ...initialState.booking, ...(loaded?.booking ?? {}) },
       history: { ...initialState.history, ...(loaded?.history ?? {}) },
-      appointments: loaded?.appointments ?? initialState.appointments,
+      appointments: sanitizedAppointments,
     }
   })
   const [extendedState, setExtendedState] = useState<ExtendedState>(() => ({
@@ -381,21 +384,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           calendarSynced: false,
           createdAt: isoAt(-6000),
           updatedAt: isoAt(-4000),
-        },
-        {
-          id: 'seed_modified_by_practice',
-          doctorId: 'd7',
-          doctorName: 'Dr. Maria Fischer',
-          specialty: 'Dermatology',
-          dateISO: isoDay(2),
-          time: '15:30',
-          forUserId: s.profile.id || 'self',
-          forUserName: s.profile.fullName || 'You',
-          status: 'modified_by_practice' as const,
-          reminderSet: false,
-          calendarSynced: false,
-          createdAt: isoAt(-2000),
-          updatedAt: isoAt(-100),
         },
       ]
 

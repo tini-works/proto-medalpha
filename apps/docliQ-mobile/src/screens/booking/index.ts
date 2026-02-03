@@ -1,4 +1,5 @@
 export { default as BookingTypeScreen } from './BookingTypeScreen'
+export { default as IntentCaptureScreen } from './IntentCaptureScreen'
 export { default as SearchScreen } from './SearchScreen'
 export { default as DoctorSearchScreen } from './DoctorSearchScreen'
 export { default as ConstraintsScreen } from './ConstraintsScreen'

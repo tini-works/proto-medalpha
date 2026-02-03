@@ -491,7 +491,13 @@ function ModifiedByPracticeStatus({ appointment, onCancel }: StatusProps) {
   const navigate = useNavigate()
   const { t } = useTranslation('detail')
   const [showCancelDialog, setShowCancelDialog] = useState(false)
-  const [showChanges, setShowChanges] = useState(true)
+  const change = appointment.changeHistory?.[0]
+  const beforeDate = change?.before.dateISO ? formatDateIso(change.before.dateISO) : undefined
+  const afterDate = change?.after.dateISO
+    ? formatDateIso(change.after.dateISO)
+    : formatDateIso(appointment.dateISO)
+  const beforeTime = change?.before.time ? formatTime(change.before.time) : undefined
+  const afterTime = change?.after.time ? formatTime(change.after.time) : formatTime(appointment.time)
 
   const handleCancel = () => {
     onCancel?.()
@@ -519,20 +525,22 @@ function ModifiedByPracticeStatus({ appointment, onCancel }: StatusProps) {
           <AppointmentDetails appointment={appointment} align="left" showLocation />
         </div>
 
-        {showChanges && appointment.changeHistory && appointment.changeHistory.length > 0 && (
-          <div className="w-full max-w-sm mt-6">
-            <div className="rounded-xl border border-cream-300 bg-cream-50 px-4 py-3 space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                {t('changesTitle')}
-              </p>
-              <div className="space-y-2 text-sm text-slate-600">
-                {appointment.changeHistory.map((change) => (
-                  <ChangeEntry key={change.id} change={change} />
-                ))}
-              </div>
+        <div className="w-full max-w-sm mt-6">
+          <div className="rounded-2xl border border-cream-300 bg-white px-4 py-3 space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              {t('changesTitle')}
+            </p>
+            <div className="grid grid-cols-[70px_1fr_1fr] gap-x-3 gap-y-2 text-sm">
+              <span className="text-slate-600 font-medium">{t('diff.date')}</span>
+              <span className="text-slate-500">{beforeDate ?? t('notProvided')}</span>
+              <span className="text-charcoal-500">{afterDate ?? t('notProvided')}</span>
+
+              <span className="text-slate-600 font-medium">{t('diff.time')}</span>
+              <span className="text-slate-500">{beforeTime ?? t('notProvided')}</span>
+              <span className="text-charcoal-500">{afterTime ?? t('notProvided')}</span>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       <StickyBottomBar>
@@ -552,39 +560,14 @@ function ModifiedByPracticeStatus({ appointment, onCancel }: StatusProps) {
   )
 }
 
-function ChangeEntry({ change }: { change: NonNullable<StatusProps['appointment']['changeHistory']>[number] }) {
-  const { t } = useTranslation('detail')
-  const formatValue = (value?: string) => value || t('notProvided')
-
-  return (
-    <div className="bg-white p-0">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-        </div>
-      </div>
-
-      <div className="mt-3 space-y-2 text-sm text-slate-600">
-        <DiffRow label={t('diff.date')} before={change.before.dateISO} after={change.after.dateISO} />
-        <DiffRow label={t('diff.time')} before={change.before.time} after={change.after.time} />
-        <DiffRow label={t('diff.doctor')} before={change.before.doctorName} after={change.after.doctorName} />
-        <DiffRow label={t('diff.type')} before={change.before.appointmentType} after={change.after.appointmentType} />
-        <DiffRow label={t('diff.notes')} before={change.before.notes} after={change.after.notes} />
-      </div>
-    </div>
-  )
+function formatDateIso(dateISO: string): string {
+  const date = new Date(dateISO)
+  if (Number.isNaN(date.getTime())) return dateISO
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${year}-${month}-${day}`
 }
-
-function DiffRow({ label, before, after }: { label: string; before?: string; after?: string }) {
-  if (!before && !after) return null
-  return (
-    <div className="grid grid-cols-[90px_1fr_1fr] gap-2 items-start text-sm">
-      <span className="font-semibold text-slate-500">{label}</span>
-      <span className="text-slate-500 line-through">{before || '—'}</span>
-      <span className="text-charcoal-500">{after || '—'}</span>
-    </div>
-  )
-}
-
 // ============================================
 // COMPLETED STATUS
 // ============================================
@@ -1060,3 +1043,4 @@ function addMinutes(time: string, minutes: number): string {
   const newM = totalMinutes % 60
   return `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`
 }
+

@@ -25,11 +25,10 @@ export function AppointmentListCard({
     matching: { tone: 'info', label: t('status.matching') },
     await_confirm: { tone: 'pending', label: t('status.awaitConfirm') },
     confirmed: { tone: 'positive', label: t('status.confirmed') },
-    modified_by_practice: { tone: 'pending', label: t('status.modifiedByPractice') },
+    modified_by_practice: { tone: 'warning', label: t('status.modifiedByPractice') },
     cancelled_doctor: { tone: 'negative', label: t('status.doctorCancelled') },
     completed: { tone: 'neutral', label: t('status.completed') },
     cancelled_patient: { tone: 'negative', label: t('status.patientCanceled') },
-    modified_by_practice: { tone: 'warning', label: t('status.modifiedByPractice') },
   }
 
   const status = statusConfig[appointment.status]

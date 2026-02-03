@@ -30,10 +30,10 @@ export default function AddFamilyMemberScreen() {
         title={t('family.form.title')}
         subtitle={t('family.subtitle')}
         showBack
+        onBack={handleClose}
       />
 
       <AddFamilyMemberSheet open onClose={handleClose} onAdd={handleAdd} />
     </Page>
   )
 }
-

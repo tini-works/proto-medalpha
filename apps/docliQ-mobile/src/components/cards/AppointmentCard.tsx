@@ -1,4 +1,4 @@
-import { Stethoscope, Clock, Heart, Circle, Loader2, AlertCircle } from 'tabler-icons-react'
+import { Stethoscope, Clock, Heart, Circle, Loader2 } from 'tabler-icons-react'
 import { useTranslation } from 'react-i18next'
 import type { Appointment } from '../../types'
 import { Pill } from '../display/Pill'
@@ -22,11 +22,10 @@ const statusConfig: Record<
   matching: { tone: 'info', labelKey: 'status.matching' },
   await_confirm: { tone: 'pending', labelKey: 'status.awaitConfirm' },
   confirmed: { tone: 'positive', labelKey: 'status.confirmed' },
-  modified_by_practice: { tone: 'pending', labelKey: 'status.modifiedByPractice' },
+  modified_by_practice: { tone: 'warning', labelKey: 'status.modifiedByPractice' },
   completed: { tone: 'neutral', labelKey: 'status.completed' },
   cancelled_patient: { tone: 'negative', labelKey: 'status.cancelledPatient' },
   cancelled_doctor: { tone: 'negative', labelKey: 'status.cancelledDoctor' },
-  modified_by_practice: { tone: 'warning', labelKey: 'status.modifiedByPractice' },
 }
 
 // Check if doctor info should be visible based on status
@@ -132,22 +131,6 @@ export function AppointmentCard({
         </div>
       )}
 
-      {/* Practice-modified notice */}
-      {appointment.status === 'modified_by_practice' && (
-        <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
-          <div className="flex gap-2">
-            <AlertCircle size="16" stroke="1.5" className="text-amber-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium text-amber-800">
-                {t('practiceModified.title')}
-              </p>
-              <p className="text-xs text-amber-700 mt-0.5">
-                {t('practiceModified.subtitle')}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </button>
   )
 }

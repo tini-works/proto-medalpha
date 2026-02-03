@@ -352,5 +352,19 @@
     "message": "To book appointments, you must first verify your identity using your eGK card. This ensures secure access to healthcare services.",
     "verify": "Verify Identity",
     "cancel": "Not Now"
-  }
+  },
+
+  "whatBringsYouIn": "What brings you in today?",
+  "intentSearchPlaceholder": "e.g. 'Dr. Müller', 'cardiology', 'knee pain'...",
+  "intentHelperText": "Search by doctor name, specialty, symptom, or condition",
+  "analyzeMyRequest": "Analyze My Request",
+  "quickOptions": "Quick options",
+  "seeMyDoctorAgain": "See my doctor again",
+  "recentDoctor": "Book again with {{name}}",
+  "unclearIntentHelp": "I'm not sure what you're looking for. Please choose how you'd like to book:",
+  "backToSearch": "Back to search",
+  "intentSuggestionDoctor": "Looking for a specific doctor",
+  "intentSuggestionSpecialty": "Searching by specialty",
+  "intentSuggestionUrgent": "Routing to urgent care",
+  "intentSuggestionUnclear": "Please provide more details or choose an option below"
 }

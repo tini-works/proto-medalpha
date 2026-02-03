@@ -23,11 +23,23 @@ export function useOnlineStatus(): OnlineStatus {
   const [justCameOnlineAt, setJustCameOnlineAt] = useState<number | null>(null)
 
   const refreshOnlineStatus = useCallback(() => {
-    const currentStatus = getOnlineStatus()
-    const wasOffline = !isOnline
-    setIsOnline(currentStatus)
-    if (currentStatus && wasOffline) setJustCameOnlineAt(Date.now())
-  }, [getOnlineStatus, isOnline])
+    const hadDevOverride = typeof window !== 'undefined' && (window as any).__devOnlineOverride !== undefined
+    if (hadDevOverride) {
+      // Clear dev override so "Try again" checks the real connection.
+      delete (window as any).__devOnlineOverride
+    }
+
+    const currentStatus = typeof navigator === 'undefined' ? true : navigator.onLine
+    if (hadDevOverride && typeof window !== 'undefined') {
+      // Notify other hook instances to sync their state.
+      window.dispatchEvent(new Event(currentStatus ? 'online' : 'offline'))
+    }
+    setIsOnline((prev) => {
+      if (!prev && currentStatus) setJustCameOnlineAt(Date.now())
+      if (prev && !currentStatus) setJustCameOnlineAt(null)
+      return currentStatus
+    })
+  }, [])
 
   useEffect(() => {
     const handleOnline = () => {
