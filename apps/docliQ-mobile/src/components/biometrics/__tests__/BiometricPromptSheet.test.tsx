@@ -56,7 +56,8 @@ describe('BiometricPromptSheet', () => {
       renderBiometricPromptSheet()
 
       expect(screen.getByText('Verify your identity')).toBeInTheDocument()
-      expect(screen.getByText('Touch the fingerprint sensor')).toBeInTheDocument()
+      // Subtitle appears in both visible text and sr-only description
+      expect(screen.getAllByText('Touch the fingerprint sensor').length).toBeGreaterThan(0)
     })
 
     it('does not render when open is false', () => {
