@@ -1,35 +1,77 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { IconLock } from '@tabler/icons-react'
 import { Header, Page } from '../../components'
-import { Button, Input } from '../../components/ui'
+import { PasswordField } from '../../components/forms'
+import { Button } from '../../components/ui'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
+import { validatePassword } from '../../utils/passwordValidation'
+import { PATHS } from '../../routes'
 
 /**
- * Change Password screen - placeholder for future implementation.
- * Shows form fields but displays "Coming soon" on submit.
+ * Change Password screen with OWASP-compliant validation.
+ * GDPR: Password values never logged or exposed in error messages.
  */
 export default function ChangePasswordScreen() {
   const { t } = useTranslation('settings')
+  const navigate = useNavigate()
   const { showToast } = useNotificationToast()
 
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const handleSubmit = () => {
-    showToast({
-      title: t('comingSoon'),
-      type: 'info',
-    })
-  }
+  // OWASP validation for new password
+  const validation = validatePassword(newPassword)
+
+  // Validation logic:
+  // - Current password: required (non-empty)
+  // - New password: OWASP score = 4 (strong)
+  // - Confirm: must match new password
+  // - New ≠ Current
+  const isCurrentValid = currentPassword.trim().length > 0
+  const isNewValid = validation.isValid
+  const isConfirmMatch = newPassword === confirmPassword
+  const isDifferentFromCurrent = newPassword !== currentPassword
 
   const isValid =
-    currentPassword.trim() &&
-    newPassword.trim() &&
-    confirmPassword.trim() &&
-    newPassword === confirmPassword &&
-    newPassword.length >= 8
+    isCurrentValid &&
+    isNewValid &&
+    isConfirmMatch &&
+    isDifferentFromCurrent
+
+  // Determine confirm password error
+  const getConfirmError = () => {
+    if (!confirmPassword) return undefined
+    if (!isConfirmMatch) return t('passwordMismatch')
+    return undefined
+  }
+
+  // Determine new password error (same as current)
+  const getNewPasswordError = () => {
+    if (newPassword && currentPassword && newPassword === currentPassword) {
+      return t('passwordSameAsCurrent')
+    }
+    return undefined
+  }
+
+  const handleSubmit = () => {
+    // Mock success - in production this would call backend API
+    showToast({
+      title: t('passwordChanged'),
+      type: 'success',
+    })
+
+    // Navigate back after 1.5s
+    setTimeout(() => {
+      navigate(PATHS.SETTINGS)
+    }, 1500)
+  }
+
+  const handleForgotPassword = () => {
+    navigate(PATHS.AUTH_FORGOT_PASSWORD)
+  }
 
   return (
     <Page safeBottom={false}>
@@ -49,29 +91,42 @@ export default function ChangePasswordScreen() {
         </div>
 
         <div className="space-y-4">
-          <Input
-            label={t('currentPassword')}
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            placeholder="********"
-          />
+          {/* Current Password Field */}
+          <div>
+            <PasswordField
+              label={t('currentPassword')}
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="********"
+            />
+            {/* Forgot password link */}
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="mt-2 text-sm text-teal-600 hover:text-teal-700 hover:underline"
+            >
+              {t('forgotCurrentPassword')}
+            </button>
+          </div>
 
-          <Input
+          {/* New Password Field with strength indicator */}
+          <PasswordField
             label={t('newPassword')}
-            type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="********"
+            showStrengthIndicator
+            showRequirements
+            error={getNewPasswordError()}
           />
 
-          <Input
+          {/* Confirm Password Field */}
+          <PasswordField
             label={t('confirmPassword')}
-            type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="********"
-            error={confirmPassword && newPassword !== confirmPassword ? t('passwordMismatch') : undefined}
+            error={getConfirmError()}
           />
         </div>
 

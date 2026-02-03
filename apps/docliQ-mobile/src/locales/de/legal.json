@@ -291,5 +291,35 @@
     "deleteAccountDesc": "Alle Ihre Daten dauerhaft löschen",
     "deleteAccountConfirm": "Sind Sie sicher? Dies löscht Ihr Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.",
     "deleteAccountWarning": "Offene Termine werden automatisch abgesagt."
+  },
+  "deleteWarning": {
+    "title": "Konto löschen?",
+    "consequence1": "Alle anstehenden Termine werden storniert",
+    "consequence2": "Ihre Gesundheitsdaten werden dauerhaft gelöscht",
+    "consequence3": "Verbindungen zu Ihren Ärzten werden getrennt",
+    "consequence4": "Diese Aktion kann nicht rückgängig gemacht werden",
+    "cancel": "Abbrechen",
+    "continue": "Ich verstehe, fortfahren"
+  },
+  "deleteEmail": {
+    "title": "Per E-Mail bestätigen",
+    "description": "Zu Ihrer Sicherheit senden wir einen Bestätigungslink an:",
+    "explanation": "Klicken Sie auf den Link in der E-Mail, um den 72-Stunden-Countdown zur Löschung zu starten.",
+    "sendButton": "Bestätigungs-E-Mail senden",
+    "checkInbox": "Prüfen Sie Ihren Posteingang",
+    "resend": "E-Mail erneut senden",
+    "mockConfirm": "DEV: E-Mail-Bestätigung simulieren"
+  },
+  "deletePending": {
+    "title": "Kontolöschung geplant",
+    "countdown": "Ihr Konto wird in {{time}} gelöscht",
+    "cancelButton": "Löschung abbrechen",
+    "mockSkip": "DEV: Zur Löschung springen"
+  },
+  "deleteCancel": {
+    "title": "Konto behalten?",
+    "message": "Ihr Konto wird nicht gelöscht und alle Ihre Daten bleiben erhalten.",
+    "keepButton": "Mein Konto behalten",
+    "continueButton": "Löschung fortsetzen"
   }
 }

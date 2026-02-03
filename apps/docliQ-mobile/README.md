@@ -45,6 +45,7 @@ The app follows a mobile-first design approach with a focus on trust, efficiency
 - **Updates**: Notifications (grouped TODAY/YESTERDAY) + News Feed (guides, featured story, articles, article detail with share/save)
 - **Appointments**: Detail (summary, location, add to calendar), book again, reschedule, history (grouped, filters, Book new)
 - **Request Sent**: Post-submit screen; toasts on status change (configurable); queue + localized offline banner
+- **Offline**: OfflineBookingSheet (“booking requires internet”) + useOnlineStatus (isOnline, justCameOnlineAt, refreshOnlineStatus) for Page banner and “Try again”
 - CMS content, settings (account, notifications, language, privacy, support; sub-screens: address, biometrics, change password, insurance edit), responsive
 
 ## Tech Stack
@@ -84,7 +85,8 @@ appointment-booking-N3/
 │   ├── i18n/               # Internationalization (i18n)
 │   │   └── index.ts        # i18next configuration and initialization
 │   ├── hooks/              # Custom React hooks
-│   │   └── useI18nSync.ts  # Hook to sync i18n language with app state
+│   │   ├── useI18nSync.ts  # Hook to sync i18n language with app state
+│   │   └── useOnlineStatus.ts # Online/offline status (navigator + events) for banner and booking
 │   ├── locales/            # Translation files
 │   │   ├── en/             # English translations
 │   │   │   ├── settings.json
@@ -275,6 +277,7 @@ Currently uses mock data located in `src/data/`. The API functions in `src/data/
 
 ### Testing
 - **Automated**: `pnpm test` (watch), `pnpm test:run` (CI), `pnpm test:coverage`; Vitest + React Testing Library. Test layout: `src/test/contracts/` (fixtures), `src/test/integration/` (routing, form-validation, error-handling, loading-states, toast-notification).
+- **Biometrics QA**: Dedicated biometrics QA audit and coverage overview in `docs/docliQ/biometrics-qa-audit.md` (77 tests across UI, storage, and AppContext).
 - **Manual**: UI flows, responsive behavior, route guards, localStorage persistence.
 - Manual testing recommended for UI flows
 - Check responsive behavior on mobile and desktop

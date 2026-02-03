@@ -12,9 +12,11 @@ import {
   IconBuilding,
   IconSettings,
   IconTrash,
+  IconClock,
 } from '@tabler/icons-react'
 import { Header, Page, SettingsListItem } from '../../components'
 import { Button, ConfirmModal } from '../../components/ui'
+import { DeleteWarningModal, PendingDeletionBanner } from '../../components/account'
 import { useAppState } from '../../state'
 import { PATHS } from '../../routes'
 import { resetCookiePreferences } from '../../components/legal'
@@ -28,15 +30,30 @@ export default function PrivacyDataScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('legal')
   const { t: tSettings } = useTranslation('settings')
-  const { resetAll } = useAppState()
+  const { pendingDeletion, cancelDeletion, completeDeletion } = useAppState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showCancelModal, setShowCancelModal] = useState(false)
 
   const handleDeleteAccount = () => {
     setShowDeleteModal(true)
   }
 
-  const confirmDeleteAccount = () => {
-    resetAll()
+  const handleWarningContinue = () => {
+    setShowDeleteModal(false)
+    navigate(PATHS.SETTINGS_DELETE_EMAIL_CONFIRM)
+  }
+
+  const handleCancelDeletion = () => {
+    setShowCancelModal(true)
+  }
+
+  const confirmCancelDeletion = () => {
+    cancelDeletion()
+    setShowCancelModal(false)
+  }
+
+  const handleSkipToDeletion = () => {
+    completeDeletion()
     navigate(PATHS.AUTH_WELCOME)
   }
 
@@ -49,6 +66,14 @@ export default function PrivacyDataScreen() {
   return (
     <Page safeBottom={false}>
       <Header title={tSettings('privacyData')} showBack />
+
+      {pendingDeletion && (
+        <PendingDeletionBanner
+          expiresAt={pendingDeletion.expiresAt}
+          onCancel={handleCancelDeletion}
+          onSkipToDeletion={handleSkipToDeletion}
+        />
+      )}
 
       <div className="px-4 py-6 space-y-6">
         {/* Encryption status banner */}
@@ -152,28 +177,53 @@ export default function PrivacyDataScreen() {
           </h4>
           <div className="bg-white rounded-xl border border-coral-200">
             <div className="p-4">
-              <div className="flex items-start gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-coral-50 flex items-center justify-center flex-shrink-0">
-                  <IconTrash size={20} className="text-coral-500" />
-                </div>
-                <div>
-                  <p className="font-medium text-charcoal-500">{t('privacyHub.deleteAccount')}</p>
-                  <p className="text-sm text-slate-500" id="delete-account-warning">
-                    {t('privacyHub.deleteAccountDesc')}
+              {pendingDeletion ? (
+                <>
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
+                      <IconClock size={20} className="text-amber-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-charcoal-500">{t('deletePending.title')}</p>
+                      <p className="text-sm text-slate-500">
+                        {t('deleteEmail.explanation')}
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={handleCancelDeletion}
+                    variant="secondary"
+                    fullWidth
+                  >
+                    {t('deletePending.cancelButton')}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-coral-50 flex items-center justify-center flex-shrink-0">
+                      <IconTrash size={20} className="text-coral-500" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-charcoal-500">{t('privacyHub.deleteAccount')}</p>
+                      <p className="text-sm text-slate-500" id="delete-account-warning">
+                        {t('privacyHub.deleteAccountDesc')}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400 mb-3">
+                    {t('privacyHub.deleteAccountWarning')}
                   </p>
-                </div>
-              </div>
-              <p className="text-xs text-slate-400 mb-3">
-                {t('privacyHub.deleteAccountWarning')}
-              </p>
-              <Button
-                onClick={handleDeleteAccount}
-                variant="destructive"
-                fullWidth
-                aria-describedby="delete-account-warning"
-              >
-                {t('privacyHub.deleteAccount')}
-              </Button>
+                  <Button
+                    onClick={handleDeleteAccount}
+                    variant="destructive"
+                    fullWidth
+                    aria-describedby="delete-account-warning"
+                  >
+                    {t('privacyHub.deleteAccount')}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -184,16 +234,22 @@ export default function PrivacyDataScreen() {
         </p>
       </div>
 
-      {/* Delete Account Confirmation Modal */}
-      <ConfirmModal
+      {/* Delete Warning Modal */}
+      <DeleteWarningModal
         open={showDeleteModal}
-        title={t('privacyHub.deleteAccount')}
-        message={t('privacyHub.deleteAccountConfirm')}
-        confirmLabel={t('privacyHub.deleteAccount')}
-        cancelLabel={tSettings('cancel')}
-        onConfirm={confirmDeleteAccount}
         onCancel={() => setShowDeleteModal(false)}
-        variant="destructive"
+        onContinue={handleWarningContinue}
+      />
+
+      {/* Cancel Deletion Confirmation Modal */}
+      <ConfirmModal
+        open={showCancelModal}
+        title={t('deleteCancel.title')}
+        message={t('deleteCancel.message')}
+        confirmLabel={t('deleteCancel.keepButton')}
+        cancelLabel={t('deleteCancel.continueButton')}
+        onConfirm={confirmCancelDeletion}
+        onCancel={() => setShowCancelModal(false)}
       />
     </Page>
   )

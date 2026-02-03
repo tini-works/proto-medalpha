@@ -18,6 +18,9 @@ import {
   clearState,
   loadState,
   saveState,
+  loadPendingDeletion,
+  savePendingDeletion,
+  clearPendingDeletion,
   loadBiometricUserId,
   saveBiometricUserId,
   clearBiometricUserId,
@@ -54,6 +57,13 @@ interface SymptomInfo {
   additionalNotes: string
 }
 
+// Pending deletion state (persisted to detect expiry on app restart)
+interface PendingDeletionState {
+  requestedAt: string    // ISO timestamp
+  expiresAt: string      // ISO timestamp (requestedAt + 72h)
+  email: string          // masked email for display
+}
+
 // Extended state for reschedule and book again flows (not persisted)
 interface ExtendedState {
   reschedule: RescheduleContext | null
@@ -63,6 +73,7 @@ interface ExtendedState {
   availabilityPrefs: AvailabilityPrefs | null
   bookingFlow: BookingFlow
   symptomInfo: SymptomInfo | null
+  pendingDeletion: PendingDeletionState | null
   biometricUserId: string | null
 }
 
@@ -116,6 +127,11 @@ type AppStateApi = {
   // Booking flow tracking
   setBookingFlow: (flow: BookingFlow) => void
   clearBookingFlow: () => void
+  // Account deletion
+  pendingDeletion: PendingDeletionState | null
+  startDeletion: (email: string) => void
+  cancelDeletion: () => void
+  completeDeletion: () => void
   // Biometrics
   biometricUserId: string | null
   enableBiometrics: () => void
@@ -141,6 +157,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     availabilityPrefs: null,
     bookingFlow: null,
     symptomInfo: null,
+    pendingDeletion: loadPendingDeletion(),
     biometricUserId: loadBiometricUserId(),
   }))
 
@@ -551,6 +568,44 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       clearBookingFlow: () =>
         setExtendedState((s) => ({ ...s, bookingFlow: null })),
 
+      // Account deletion
+      pendingDeletion: extendedState.pendingDeletion,
+      startDeletion: (email: string) => {
+        const now = new Date()
+        const expiresAt = new Date(now.getTime() + 72 * 60 * 60 * 1000) // 72 hours from now
+        const data = {
+          requestedAt: now.toISOString(),
+          expiresAt: expiresAt.toISOString(),
+          email,
+        }
+        savePendingDeletion(data)
+        setExtendedState((s) => ({
+          ...s,
+          pendingDeletion: data,
+        }))
+      },
+      cancelDeletion: () => {
+        clearPendingDeletion()
+        setExtendedState((s) => ({ ...s, pendingDeletion: null }))
+      },
+      completeDeletion: () => {
+        clearPendingDeletion()
+        clearBiometricUserId()
+        clearState()
+        setState(initialState)
+        setExtendedState({
+          reschedule: null,
+          bookAgain: null,
+          fastLane: null,
+          specialtyMatch: null,
+          availabilityPrefs: null,
+          bookingFlow: null,
+          symptomInfo: null,
+          pendingDeletion: null,
+          biometricUserId: null,
+        })
+      },
+
       // Biometrics
       biometricUserId: extendedState.biometricUserId,
       enableBiometrics: () => {
@@ -572,9 +627,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       // Reset
       resetAll: () => {
         clearState()
+        clearPendingDeletion()
         clearBiometricUserId()
         setState(initialState)
-        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null, biometricUserId: null })
+        setExtendedState({ reschedule: null, bookAgain: null, fastLane: null, specialtyMatch: null, availabilityPrefs: null, bookingFlow: null, symptomInfo: null, pendingDeletion: null, biometricUserId: null })
       },
     }),
     [state, extendedState, isProfileComplete, isIdentityVerified]
@@ -756,5 +812,15 @@ export function useBookAgain() {
     setBookAgainContext,
     getHistoryItemById,
     getAppointmentById,
+  }
+}
+
+export function useAccountDeletion() {
+  const { pendingDeletion, startDeletion, cancelDeletion, completeDeletion } = useAppState()
+  return {
+    pendingDeletion,
+    startDeletion,
+    cancelDeletion,
+    completeDeletion,
   }
 }

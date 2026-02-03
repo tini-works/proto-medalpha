@@ -12,7 +12,7 @@ import type { Doctor } from '../../types'
 export default function DoctorProfileScreen() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { t, i18n } = useTranslation('booking')
+  const { t } = useTranslation('booking')
   const { profile } = useProfile()
   const {
     selectedDoctor,

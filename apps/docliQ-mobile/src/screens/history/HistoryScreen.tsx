@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { IconClock, IconFilter, IconSearch, IconX, IconPlus, IconArchive } from '@tabler/icons-react'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { OfflineBookingSheet } from '../../components/sheets'
+import { PendingDeletionBanner } from '../../components/account'
+import { ConfirmModal } from '../../components/ui'
 import { useOnlineStatus } from '../../hooks/useOnlineStatus'
-import { useBooking } from '../../state'
+import { useBooking, useAppState } from '../../state'
 import { PATHS, appointmentDetailPath } from '../../routes/paths'
 import { formatDateLong } from '../../utils/format'
 import type { Appointment } from '../../types'
@@ -33,6 +35,8 @@ export default function HistoryScreen() {
   const appointmentsDeduped = useMemo(() => dedupeAppointmentsById(appointments), [appointments])
   const { isOnline } = useOnlineStatus()
   const [showOfflineSheet, setShowOfflineSheet] = useState(false)
+  const { pendingDeletion, cancelDeletion, completeDeletion } = useAppState()
+  const [showCancelModal, setShowCancelModal] = useState(false)
 
   const [statusFilter, setStatusFilter] = useState<
     'all' | 'matching' | 'await_confirm' | 'cancelled_doctor'
@@ -126,6 +130,17 @@ export default function HistoryScreen() {
           </button>
         </div>
       </header>
+
+      {pendingDeletion && (
+        <PendingDeletionBanner
+          expiresAt={pendingDeletion.expiresAt}
+          onCancel={() => setShowCancelModal(true)}
+          onSkipToDeletion={() => {
+            completeDeletion()
+            navigate(PATHS.AUTH_WELCOME)
+          }}
+        />
+      )}
 
       {/* Filters + List */}
       <div className="px-4 py-4 pb-16 space-y-4">
@@ -230,6 +245,19 @@ export default function HistoryScreen() {
 
       <TabBar />
       <OfflineBookingSheet open={showOfflineSheet} onClose={() => setShowOfflineSheet(false)} />
+
+      <ConfirmModal
+        open={showCancelModal}
+        title={t('deleteCancel.title', { ns: 'legal' })}
+        message={t('deleteCancel.message', { ns: 'legal' })}
+        confirmLabel={t('deleteCancel.keepButton', { ns: 'legal' })}
+        cancelLabel={t('deleteCancel.continueButton', { ns: 'legal' })}
+        onConfirm={() => {
+          cancelDeletion()
+          setShowCancelModal(false)
+        }}
+        onCancel={() => setShowCancelModal(false)}
+      />
     </Page>
   )
 }

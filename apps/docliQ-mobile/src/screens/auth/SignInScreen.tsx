@@ -74,6 +74,9 @@ export default function SignInScreen() {
     if (biometricUserId) {
       signIn(biometricUserId)
       navigate(PATHS.HOME)
+    } else {
+      // biometricUserId unexpectedly null - user needs to re-enable biometrics
+      console.warn('Biometric success but no biometricUserId found')
     }
   }
 
@@ -88,6 +91,7 @@ export default function SignInScreen() {
   const handleUsePassword = () => {
     setShowBiometricPrompt(false)
     setBiometricError(null)
+    // Delay focus to allow sheet close animation to complete
     setTimeout(() => {
       passwordInputRef.current?.focus()
     }, 100)

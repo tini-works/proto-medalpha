@@ -291,5 +291,35 @@
     "deleteAccountDesc": "Permanently delete all your data",
     "deleteAccountConfirm": "Are you sure? This will permanently delete your account and all associated data. This action cannot be undone.",
     "deleteAccountWarning": "Open appointments will be cancelled automatically."
+  },
+  "deleteWarning": {
+    "title": "Delete Your Account?",
+    "consequence1": "All upcoming appointments will be cancelled",
+    "consequence2": "Your health records will be permanently deleted",
+    "consequence3": "Connections with your doctors will be severed",
+    "consequence4": "This action cannot be undone",
+    "cancel": "Cancel",
+    "continue": "I Understand, Continue"
+  },
+  "deleteEmail": {
+    "title": "Confirm via Email",
+    "description": "For your security, we'll send a confirmation link to:",
+    "explanation": "Click the link in the email to start the 72-hour deletion countdown.",
+    "sendButton": "Send Confirmation Email",
+    "checkInbox": "Check your inbox",
+    "resend": "Resend email",
+    "mockConfirm": "DEV: Simulate Email Confirmed"
+  },
+  "deletePending": {
+    "title": "Account deletion scheduled",
+    "countdown": "Your account will be deleted in {{time}}",
+    "cancelButton": "Cancel Deletion",
+    "mockSkip": "DEV: Skip to deletion"
+  },
+  "deleteCancel": {
+    "title": "Keep Your Account?",
+    "message": "Your account will not be deleted and all your data will remain intact.",
+    "keepButton": "Keep My Account",
+    "continueButton": "Continue Deletion"
   }
 }

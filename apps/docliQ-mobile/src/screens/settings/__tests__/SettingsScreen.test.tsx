@@ -35,6 +35,11 @@ vi.mock('../../../state', () => ({
   useBooking: () => ({
     selectedDoctor: null,
   }),
+  useAppState: () => ({
+    pendingDeletion: null,
+    cancelDeletion: vi.fn(),
+    completeDeletion: vi.fn(),
+  }),
 }))
 
 // Spy on window.confirm
@@ -161,7 +166,7 @@ describe('SettingsScreen - Sign Out', () => {
     await user.click(screen.getByRole('button', { name: /log out/i }))
 
     // Click backdrop
-    const backdrop = screen.getByTestId('modal-backdrop')
+    const backdrop = screen.getByTestId('confirm-modal-backdrop')
     await user.click(backdrop)
 
     // Modal closed
