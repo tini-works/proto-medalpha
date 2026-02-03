@@ -32,8 +32,9 @@ export const PATHS = {
   NOTIFICATIONS: '/notifications',
   ARTICLE_DETAIL: '/news/:articleId',
 
-  // Booking - Entry point
+  // Booking - Entry points
   BOOKING: '/booking',
+  BOOKING_INTENT: '/booking/intent',
 
   // Fast-Lane flow
   FAST_LANE: '/booking/fast-lane',

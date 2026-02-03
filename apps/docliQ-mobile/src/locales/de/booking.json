@@ -352,5 +352,19 @@
     "message": "Um Termine zu buchen, müssen Sie zunächst Ihre Identität mit Ihrer eGK-Karte bestätigen. Dies gewährleistet sicheren Zugang zu Gesundheitsdiensten.",
     "verify": "Identität bestätigen",
     "cancel": "Nicht jetzt"
-  }
+  },
+
+  "whatBringsYouIn": "Was führt Sie heute zu uns?",
+  "intentSearchPlaceholder": "z.B. 'Dr. Müller', 'Kardiologie', 'Knie-Schmerzen'...",
+  "intentHelperText": "Suche nach Arztname, Fachrichtung, Symptom oder Beschwerde",
+  "analyzeMyRequest": "Anfrage analysieren",
+  "quickOptions": "Schnelloptionen",
+  "seeMyDoctorAgain": "Meinen Arzt wiedersehen",
+  "recentDoctor": "Erneut buchen mit {{name}}",
+  "unclearIntentHelp": "Ich bin mir nicht sicher, wonach Sie suchen. Bitte wählen Sie, wie Sie buchen möchten:",
+  "backToSearch": "Zurück zur Suche",
+  "intentSuggestionDoctor": "Suche nach bestimmtem Arzt",
+  "intentSuggestionSpecialty": "Suche nach Fachrichtung",
+  "intentSuggestionUrgent": "Weiterleitung zu Notfallversorgung",
+  "intentSuggestionUnclear": "Bitte geben Sie mehr Details an oder wählen Sie eine Option unten"
 }
