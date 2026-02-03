@@ -1,40 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconCheck } from '@tabler/icons-react'
-import { Page, ProgressIndicator, StickyActionBar } from '../../components'
+import { Page, StickyActionBar } from '../../components'
 import { PATHS } from '../../routes'
-import { useBooking } from '../../state'
-import { resolveBookingProgress } from './bookingProgress'
 
 export default function RequestSentScreen() {
   const { t } = useTranslation('booking')
-  const { bookingFlow, fastLaneRequest, specialtyMatchRequest } = useBooking()
-
-  const inferredFlow =
-    bookingFlow ??
-    (fastLaneRequest ? 'fast_lane' : specialtyMatchRequest ? (specialtyMatchRequest.doctorId ? 'by_doctor' : 'by_specialty') : null)
-  const progress = resolveBookingProgress({
-    bookingFlow: inferredFlow,
-    fallbackFlow: 'by_specialty',
-    currentStep: 999,
-  })
 
   return (
     <Page safeBottom={false}>
-      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">{t(progress.stepLabelKey)}</span>
-          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-        </div>
-        <ProgressIndicator
-          currentStep={progress.currentStep}
-          totalSteps={progress.totalSteps}
-          variant="bar"
-          showLabel={false}
-          showPercentage={false}
-        />
-      </div>
-
       <div className="min-h-screen flex flex-col px-6 py-10">
         <div className="flex-1 flex flex-col items-center justify-center text-center">
           {/* Success icon */}

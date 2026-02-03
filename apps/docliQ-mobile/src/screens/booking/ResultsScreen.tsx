@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconArrowLeft, IconFilter, IconChevronDown, IconX, IconSearch, IconArrowRight } from '@tabler/icons-react'
-import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet, FiltersSheet, StickyActionBar } from '../../components'
+import { IconChevronDown, IconX, IconSearch, IconArrowRight } from '@tabler/icons-react'
+import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet, StickyActionBar, Header } from '../../components'
 import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
@@ -36,8 +36,6 @@ export default function ResultsScreen() {
   const [error, setError] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('earliest')
   const [showSortMenu, setShowSortMenu] = useState(false)
-  const [hasActiveFilters, setHasActiveFilters] = useState(false)
-  const [showFilters, setShowFilters] = useState(false)
   const [radius, setRadius] = useState<number>(search?.radius ?? 10)
   const [minRating, setMinRating] = useState<number>(search?.minRating ?? 0)
   const [onlyPublic, setOnlyPublic] = useState<boolean>(Boolean(search?.onlyPublic))
@@ -66,15 +64,6 @@ export default function ResultsScreen() {
       setOnlyPublic(Boolean(search.onlyPublic))
       setSelectedLanguages(search.languages ?? [])
       setSortBy((search.sortBy as SortOption) || 'earliest')
-
-      setHasActiveFilters(
-        Boolean(
-          (search.radius ?? 10) !== 10 ||
-            Boolean(search.onlyPublic) ||
-            (search.minRating ?? 0) > 0 ||
-            (search.languages?.length ?? 0) > 0
-        )
-      )
     }
 
     const fetchDoctors = async () => {
@@ -126,27 +115,6 @@ export default function ResultsScreen() {
     }
     return Array.from(set).sort()
   }, [doctors])
-
-  const activeFilterCount = useMemo(() => {
-    let count = 0
-    if (radius !== 10) count += 1
-    if (onlyPublic) count += 1
-    if (minRating > 0) count += 1
-    if (selectedLanguages.length > 0) count += 1
-    return count
-  }, [radius, onlyPublic, minRating, selectedLanguages.length])
-
-  const applyFiltersToState = () => {
-    if (!search) return
-    setSearchFilters({
-      ...search,
-      radius,
-      minRating,
-      onlyPublic,
-      languages: selectedLanguages,
-      sortBy,
-    })
-  }
 
   const filteredDoctors = useMemo(() => {
     return doctors.filter((doctor) => {
@@ -206,15 +174,6 @@ export default function ResultsScreen() {
     navigate(doctorSlotsPath(doctor.id))
   }
 
-  // Back navigation: go to booking type selection
-  const handleBack = () => {
-    navigate(PATHS.BOOKING)
-  }
-
-  const handleFilterClick = () => {
-    setShowFilters(true)
-  }
-
   // Specialty-first flow: handle doctor selection via radio
   const handleDoctorRadioSelect = (doctorId: string) => {
     setSelectedDoctorId(selectedDoctorId === doctorId ? null : doctorId)
@@ -244,34 +203,7 @@ export default function ResultsScreen() {
 
   return (
     <Page>
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-20 h-16 bg-white border-b border-cream-300">
-        <div className="flex h-full items-center justify-between px-4">
-          {/* Back button */}
-          <button
-            onClick={handleBack}
-            className="flex items-center justify-center w-10 h-10 -ml-2 rounded-full hover:bg-neutral-100"
-            aria-label={t('goBack')}
-          >
-            <IconArrowLeft className="w-6 h-6 text-neutral-700" size={24} stroke={2} />
-          </button>
-
-          {/* Title */}
-          <h1 className="text-lg font-semibold text-charcoal-500">
-            {isDoctorFirstFlow ? t('selectDoctor') : t('searchResults')}
-          </h1>
-
-          {/* Filter button with badge */}
-          <button
-            onClick={handleFilterClick}
-            className="relative flex items-center justify-center w-10 h-10 -mr-2 rounded-full hover:bg-neutral-100 text-neutral-600"
-            aria-label={t('filters')}
-          >
-            <IconFilter className="w-5 h-5" size={20} stroke={2} />
-            {hasActiveFilters && <span className="absolute -top-0.5 -right-0.5 text-[11px] font-semibold bg-teal-600 text-white rounded-full px-1.5 py-0.5">{activeFilterCount}</span>}
-          </button>
-        </div>
-      </header>
+      <Header title={isDoctorFirstFlow ? t('selectDoctor') : t('searchResults')} showBack />
 
       {/* Progress indicator for doctor-first flow */}
       {isDoctorFirstFlow && (
@@ -368,7 +300,7 @@ export default function ResultsScreen() {
       </div>
 
       {/* Sort Selector Row */}
-      <div className="sticky top-[57px] z-10 bg-cream-100 border-b border-cream-300">
+      <div className="bg-cream-100 border-b border-cream-300">
         <div className="px-4 py-2.5">
           <div className="relative">
             <button
@@ -522,22 +454,6 @@ export default function ResultsScreen() {
           onToggleSaved={() => toggleMyDoctor(detailSheetDoctor)}
         />
       )}
-
-      {/* Filters Sheet */}
-      <FiltersSheet
-        open={showFilters}
-        onClose={() => setShowFilters(false)}
-        onApply={applyFiltersToState}
-        radius={radius}
-        setRadius={setRadius}
-        minRating={minRating}
-        setMinRating={setMinRating}
-        onlyPublic={onlyPublic}
-        setOnlyPublic={setOnlyPublic}
-        selectedLanguages={selectedLanguages}
-        setSelectedLanguages={setSelectedLanguages}
-        availableLanguages={availableLanguages}
-      />
 
       {/* Only show TabBar when not in doctor-first flow */}
       {!isDoctorFirstFlow && <TabBar />}

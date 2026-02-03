@@ -238,7 +238,9 @@ export default function HistoryScreen() {
 
       {/* Floating Action Button */}
       <button
-        onClick={() => (isOnline ? navigate(PATHS.BOOKING) : setShowOfflineSheet(true))}
+        onClick={() =>
+          isOnline ? navigate(PATHS.BOOKING, { state: { from: PATHS.HISTORY } }) : setShowOfflineSheet(true)
+        }
         aria-disabled={!isOnline}
         className={`fixed bottom-24 right-4 z-20 w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center active:scale-95 transition-all duration-normal ease-out-brand ${
           isOnline ? 'bg-teal-500 hover:bg-teal-600' : 'bg-teal-300 cursor-not-allowed'
