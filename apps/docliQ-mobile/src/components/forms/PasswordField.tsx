@@ -32,6 +32,14 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
     const validation = validatePassword(String(value))
     const inputId = id || label.toLowerCase().replace(/\s+/g, '-')
 
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        '[Deprecated] PasswordField from components/forms is deprecated. ' +
+        'Use PasswordField from @meda/ui instead. ' +
+        'See: docs/docliQ/unified-inputs-plan.md'
+      )
+    }
+
     const toggleVisibility = () => setVisible((v) => !v)
 
     return (
