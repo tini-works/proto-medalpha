@@ -15,8 +15,8 @@ export default function ConfirmScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
-  const { profile, upsertMyDoctor } = useProfile()
+  const { selectedDoctor, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
+  const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
   const { language } = usePreferences()
 
@@ -35,7 +35,7 @@ export default function ConfirmScreen() {
     }
   }, [])
 
-  if (!selectedDoctor || !selectedSlot) {
+  if (!selectedDoctor) {
     navigate(PATHS.BOOKING_SEARCH)
     return null
   }
@@ -47,13 +47,8 @@ export default function ConfirmScreen() {
   const forUserName = forUser ? forUser.name : profile.fullName
   const forUserId = forUser ? forUser.id : profile.id || 'self'
 
-  const date = new Date(selectedSlot.dateISO)
-  const formattedDate = date.toLocaleDateString(getLocale(language), {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  // Keep locale computed even though date/time is placeholder on this screen.
+  getLocale(language)
 
   // UI: time is a placeholder until the request is sent and the nearest available slot is found.
   const summaryDateLabel = t('appointmentTimePlaceholderTitle')
@@ -66,20 +61,24 @@ export default function ConfirmScreen() {
     if (!isOnline || isSubmitting) return
     setIsSubmitting(true)
     const appointmentId = `apt_${Date.now()}`
+    const now = new Date()
+    const dateISO = now.toISOString().slice(0, 10)
+    const time = now.toTimeString().slice(0, 5)
 
-    // Create appointment
+    // Create appointment request (matching) - actual slot is determined after request is sent
     const appointment: Appointment = {
       id: appointmentId,
       doctorId: selectedDoctor.id,
       doctorName: selectedDoctor.name,
       specialty: selectedDoctor.specialty,
-      dateISO: selectedSlot.dateISO,
-      time: selectedSlot.time,
+      dateISO,
+      time,
       forUserId,
       forUserName,
-      status: 'confirmed',
+      status: 'matching',
       reminderSet: true,
       calendarSynced: false,
+      notes: reason.trim(),
     }
 
     addAppointment(appointment)
@@ -90,16 +89,13 @@ export default function ConfirmScreen() {
       type: 'appointment',
       title: `Appointment: ${selectedDoctor.specialty}`,
       subtitle: `${selectedDoctor.name} · ${selectedDoctor.city}`,
-      dateISO: selectedSlot.dateISO,
+      dateISO,
       status: 'planned',
       forUserId,
       forUserName,
     }
 
     addHistoryItem(historyItem)
-
-    // Update "My Doctors" (last 5 booked)
-    upsertMyDoctor(selectedDoctor)
 
     // Reset booking state
     resetBooking()

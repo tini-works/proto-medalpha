@@ -9,8 +9,7 @@ import { LatestNewsSection } from '../../components/newsfeed'
 import { useAuth, useProfile, useBooking } from '../../state'
 import { mockNewsArticles } from '../../data/newsfeed'
 import { PATHS, appointmentDetailPath } from '../../routes'
-import { apiGetDoctor, getTimeSlots } from '../../data'
-import { pickNextAvailableSlot } from '../booking/quickRebook'
+import { apiGetDoctor } from '../../data'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
@@ -60,7 +59,6 @@ export default function HomeScreen() {
   const safePendingIndex = Math.min(Math.max(pendingStackIndex, 0), Math.max(pendingAppointments.length - 1, 0))
 
   const myDoctors = profile.myDoctors ?? []
-  const continueDoctor = myDoctors[0]?.doctor
 
   const lastConfirmedAppointment = useMemo(() => {
     const byDateDesc = (a: (typeof appointments)[number], b: (typeof appointments)[number]) => {
@@ -80,24 +78,14 @@ export default function HomeScreen() {
       return
     }
 
-    const nextSlot = pickNextAvailableSlot(getTimeSlots(doctor.id))
-    if (!nextSlot) return
-
     resetBooking()
     setBookingFlow('fast_lane')
     selectDoctor(doctor)
-    selectSlot(nextSlot)
     navigate(PATHS.BOOKING_CONFIRM)
   }
 
   const handleFollowUpVisit = async () => {
-    const doctorFromFavorites = continueDoctor
     const doctorIdFromHistory = lastConfirmedAppointment?.doctorId
-
-    if (doctorFromFavorites) {
-      handleQuickBookDoctor(doctorFromFavorites as any)
-      return
-    }
 
     if (!doctorIdFromHistory) return
     if (!isOnline) {
@@ -107,13 +95,10 @@ export default function HomeScreen() {
 
     try {
       const doctor = await apiGetDoctor(doctorIdFromHistory)
-      const nextSlot = pickNextAvailableSlot(getTimeSlots(doctor.id))
-      if (!nextSlot) return
 
       resetBooking()
       setBookingFlow('fast_lane')
       selectDoctor(doctor as any)
-      selectSlot(nextSlot)
       navigate(PATHS.BOOKING_CONFIRM)
     } catch {
       // no-op: keep user on home
@@ -214,9 +199,9 @@ export default function HomeScreen() {
         </section>
 
         {/* Follow-up visit + My Doctors - Under Quick Actions */}
-        {(continueDoctor || lastConfirmedAppointment || myDoctors.length > 0) && (
+        {(lastConfirmedAppointment || myDoctors.length > 0) && (
           <section className="space-y-4">
-            {(continueDoctor || lastConfirmedAppointment) && (
+            {lastConfirmedAppointment && (
               <button
                 type="button"
                 onClick={handleFollowUpVisit}
@@ -225,7 +210,7 @@ export default function HomeScreen() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold tracking-wide text-slate-600 uppercase">
-                      {t('continueWithDoctor', { name: continueDoctor?.name ?? lastConfirmedAppointment?.doctorName ?? '' })}
+                      {t('continueWithDoctor', { name: lastConfirmedAppointment?.doctorName ?? '' })}
                     </p>
                     <p className="text-sm text-slate-600 mt-1">{t('nextAvailableInline')}</p>
                   </div>
