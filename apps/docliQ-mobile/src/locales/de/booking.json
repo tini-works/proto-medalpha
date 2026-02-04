@@ -111,6 +111,7 @@
   "confirmAppointment": "Termin bestätigen",
   "costCoverage": "Kosten & Abdeckung",
   "doctorToBeAssigned": "Ärztin/Arzt (wird zugewiesen)",
+  "specialtyToBeDetermined": "Fachgebiet (wird festgelegt)",
   "appointmentTimePlaceholderTitle": "Nächster verfügbarer Termin",
   "appointmentTimePlaceholderSubtitle": "Wir bestätigen die nächstmögliche Uhrzeit, nachdem Sie die Anfrage gesendet haben",
   "reasonForVisit": "Grund für den Besuch",
