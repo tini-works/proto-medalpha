@@ -35,7 +35,7 @@ export default function CookiePolicyScreen() {
     },
     {
       icon: <IconSpeakerphone size={20} className="text-teal-600" />,
-      key: 'marketing',
+      key: 'marketingEmails',
       required: false,
     },
   ] as const

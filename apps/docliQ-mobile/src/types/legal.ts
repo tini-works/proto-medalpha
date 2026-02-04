@@ -7,9 +7,10 @@ export interface CookieConsent {
   essential: boolean // Always true, required for app function
   functional: boolean // Remember preferences (language, etc.)
   analytics: boolean // Usage tracking
-  marketing: boolean // Ad tracking
+  marketingEmails: boolean // Email communications (news, tips, offers)
   consentDate: string | null
   lastUpdated: string | null
+  policyVersion: string | null // Track which policy version was consented to
 }
 
 export type ConsentType =

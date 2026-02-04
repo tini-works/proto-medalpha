@@ -159,10 +159,10 @@
         "description": "Help us understand how you use DocliQ to improve our services.",
         "examples": "Page views, feature usage, error tracking"
       },
-      "marketing": {
-        "title": "Marketing Cookies",
-        "description": "Used to deliver relevant information and measure campaign effectiveness.",
-        "examples": "Campaign tracking, personalized content"
+      "marketingEmails": {
+        "title": "Marketing Emails",
+        "description": "Receive news, health tips, and promotional offers via email.",
+        "examples": "Newsletter, health tips, special offers"
       }
     },
     "ttdsg": {

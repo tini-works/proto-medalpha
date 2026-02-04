@@ -4,12 +4,13 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from 'i18next'
 import type { ReactElement, ReactNode } from 'react'
 import { AppProvider } from '../state/AppContext'
+import { NotificationToastProvider } from '../contexts/NotificationToastContext'
 
 // Initialize a test i18n instance that returns keys
 i18n.init({
   lng: 'en',
   fallbackLng: 'en',
-  ns: ['common', 'booking', 'auth', 'settings', 'home', 'history'],
+  ns: ['common', 'booking', 'auth', 'settings', 'home', 'history', 'legal'],
   defaultNS: 'common',
   resources: {
     en: {
@@ -19,6 +20,7 @@ i18n.init({
       settings: {},
       home: {},
       history: {},
+      legal: {},
     },
   },
   interpolation: {
@@ -38,7 +40,9 @@ function AllProviders({ children }: WrapperProps) {
   return (
     <I18nextProvider i18n={i18n}>
       <BrowserRouter>
-        <AppProvider>{children}</AppProvider>
+        <NotificationToastProvider>
+          <AppProvider>{children}</AppProvider>
+        </NotificationToastProvider>
       </BrowserRouter>
     </I18nextProvider>
   )
@@ -55,7 +59,9 @@ export function renderWithProviders(
       wrapper: ({ children }) => (
         <I18nextProvider i18n={i18n}>
           <MemoryRouter initialEntries={initialEntries}>
-            <AppProvider>{children}</AppProvider>
+            <NotificationToastProvider>
+              <AppProvider>{children}</AppProvider>
+            </NotificationToastProvider>
           </MemoryRouter>
         </I18nextProvider>
       ),
