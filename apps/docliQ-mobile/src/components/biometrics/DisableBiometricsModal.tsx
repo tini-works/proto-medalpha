@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconFingerprint } from '@tabler/icons-react'
-import { Sheet } from '../ui/Sheet'
-import { Button } from '../ui/Button'
+import { Sheet, Button } from '../ui'
 import { PasswordField } from '../forms/PasswordField'
 import { announceToScreenReader } from '../../utils'
 

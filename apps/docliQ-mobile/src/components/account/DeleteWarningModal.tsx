@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconX } from '@tabler/icons-react'
-import { Button } from '../ui/Button'
+import { Button } from '../ui'
 import { Sheet } from '../ui/Sheet'
 
 export interface DeleteWarningModalProps {

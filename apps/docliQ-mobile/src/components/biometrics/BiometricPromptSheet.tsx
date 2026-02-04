@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconFingerprint, IconCheck } from '@tabler/icons-react'
-import { Sheet } from '../ui/Sheet'
-import { Button } from '../ui/Button'
+import { Sheet, Button } from '../ui'
 import { useDevMode } from '../../contexts/DevModeContext'
 import { haptics, announceToScreenReader } from '../../utils'
 
