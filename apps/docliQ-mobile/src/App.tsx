@@ -115,23 +115,10 @@ import {
 
 // Cookie consent banner
 import { CookieConsentBanner } from './components'
-import { recordNavigation } from './utils/navigation'
 
 function BookingEntryRedirect() {
   const location = useLocation()
   return <Navigate to={PATHS.BOOKING_INTENT} replace state={location.state} />
-}
-
-function NavigationTracker() {
-  const location = useLocation()
-
-  useEffect(() => {
-    const currentPath = `${location.pathname}${location.search}`
-    const skip = Boolean((location.state as any)?.skipInBackStack)
-    if (!skip) recordNavigation(currentPath)
-  }, [location.pathname, location.search])
-
-  return null
 }
 
 export default function App() {
@@ -163,7 +150,6 @@ function AppContent() {
     <DeviceFrame>
       <BrowserRouter>
         <DeletionExpiryChecker />
-        <NavigationTracker />
         <div className="app-shell relative">
         <Routes>
           <Route path="/" element={<Navigate to={PATHS.HOME} replace />} />

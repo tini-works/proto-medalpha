@@ -368,7 +368,7 @@ export default function ResultsScreen() {
             description={t('noResultsHint')}
             action={
               <button
-                onClick={() => setShowFilters(true)}
+                onClick={() => navigate(PATHS.BOOKING_SPECIALTY)}
                 className="btn btn-primary btn-block"
               >
                 {t('updateRequest')}

@@ -6,7 +6,6 @@ import { useBooking, useAppState } from '../../../state'
 import { PATHS, appointmentDetailPath } from '../../../routes'
 import { apiFastLaneMatch, apiSpecialtyMatch } from '../../../data/api'
 import { MatchingStatusView } from '../../../components/appointments/MatchingStatusView'
-import { popBackPath } from '../../../utils/navigation'
 
 type MatchingStatus = 'searching' | 'found_doctors' | 'checking_availability' | 'awaiting_confirmation'
 
@@ -146,12 +145,6 @@ function BackHeader() {
           const fromPath = (location.state as any)?.from as string | undefined
           if (fromPath) {
             navigate(fromPath)
-            return
-          }
-          const currentPath = `${location.pathname}${location.search}`
-          const backPath = popBackPath(currentPath)
-          if (backPath && backPath !== currentPath) {
-            navigate(backPath)
             return
           }
           navigate(-1)

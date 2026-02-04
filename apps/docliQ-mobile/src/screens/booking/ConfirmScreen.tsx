@@ -11,26 +11,6 @@ import { PATHS, appointmentDetailPath } from '../../routes'
 import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
 
-const CONFIRM_ORIGIN_KEY = 'booking.confirm.originFrom'
-
-function readConfirmOrigin(): string | null {
-  if (typeof window === 'undefined') return null
-  try {
-    return sessionStorage.getItem(CONFIRM_ORIGIN_KEY)
-  } catch {
-    return null
-  }
-}
-
-function writeConfirmOrigin(path: string) {
-  if (typeof window === 'undefined') return
-  try {
-    sessionStorage.setItem(CONFIRM_ORIGIN_KEY, path)
-  } catch {
-    // ignore
-  }
-}
-
 export default function ConfirmScreen() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -90,15 +70,6 @@ export default function ConfirmScreen() {
   const summaryTimeLabel = t('appointmentTimePlaceholderSubtitle')
 
   useEffect(() => {
-    const from = (location.state as any)?.from as string | undefined
-    // Persist the sheet origin so that closing the sheet doesn't jump to unrelated screens
-    // (e.g. profile flows used while inside the sheet).
-    if (from && !from.startsWith('/profile')) {
-      writeConfirmOrigin(from)
-    }
-  }, [location.state])
-
-  useEffect(() => {
     setPatientSegment(selectedFamilyMemberId ? 'family' : 'myself')
   }, [selectedFamilyMemberId])
 
@@ -152,13 +123,12 @@ export default function ConfirmScreen() {
 
   const handleClose = () => {
     const from = (location.state as any)?.from as string | undefined
-    const origin = readConfirmOrigin()
-    const target = origin ?? from
-    if (target) {
-      navigate(target)
+    if (from) {
+      navigate(from)
       return
     }
-    navigate(-1)
+    // Fallback: go to availability screen or use browser history
+    navigate(PATHS.BOOKING_AVAILABILITY)
   }
 
   return (
@@ -292,7 +262,7 @@ export default function ConfirmScreen() {
                     className="w-auto px-4"
                     onClick={() =>
                       navigate(PATHS.PROFILE_FAMILY_ADD, {
-                        state: { from: location.pathname, skipInBackStack: true, bookingFrom: readConfirmOrigin() },
+                        state: { from: location.pathname, skipInBackStack: true },
                       })
                     }
                   >

@@ -11,7 +11,6 @@ import { formatDateWithWeekday, formatTime, translateSpecialty } from '../../uti
 import { PATHS } from '../../routes/paths'
 import { MatchingStatusView } from '../../components/appointments/MatchingStatusView'
 import type { Appointment } from '../../types'
-import { popBackPath } from '../../utils/navigation'
 
 export default function AppointmentDetailScreen() {
   const { id } = useParams<{ id: string }>()
@@ -163,12 +162,6 @@ function BackHeader() {
           const fromPath = (location.state as any)?.from as string | undefined
           if (fromPath) {
             navigate(fromPath)
-            return
-          }
-          const currentPath = `${location.pathname}${location.search}`
-          const backPath = popBackPath(currentPath)
-          if (backPath && backPath !== currentPath) {
-            navigate(backPath)
             return
           }
           navigate(-1)

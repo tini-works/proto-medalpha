@@ -1,10 +1,7 @@
 import type { ReactNode } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { IconChevronLeft } from '@tabler/icons-react'
-import { PATHS } from '../../routes/paths'
-import { useBooking } from '../../state'
 import { Button } from '../ui'
-import { popBackPath } from '../../utils/navigation'
 
 interface HeaderProps {
   title: string
@@ -14,158 +11,27 @@ interface HeaderProps {
   rightAction?: ReactNode
 }
 
-/**
- * Determines the logical previous screen based on current route
- * Returns an object with the path pattern and extracted params, or null
- */
-function getPreviousPathInfo(currentPath: string): { path: string; params?: Record<string, string> } | null {
-  const pathParts = currentPath.split('/').filter(Boolean)
-
-  // Booking flow navigation hierarchy
-  if (currentPath === PATHS.BOOKING_CONFIRM) {
-    return { path: PATHS.BOOKING_AVAILABILITY }
-  }
-
-  // Fast-Lane flow: back should return to booking type selection
-  if (currentPath === PATHS.FAST_LANE) {
-    return { path: PATHS.BOOKING }
-  }
-  if (currentPath === PATHS.FAST_LANE_MATCHING) {
-    return { path: PATHS.FAST_LANE }
-  }
-  if (currentPath === PATHS.FAST_LANE_SUCCESS || currentPath === PATHS.FAST_LANE_NO_MATCH) {
-    return { path: PATHS.FAST_LANE }
-  }
-
-  // Doctor profile: /booking/doctor/:id -> Results
-  if (pathParts[0] === 'booking' && pathParts[1] === 'doctor' && pathParts.length === 3) {
-    return { path: PATHS.BOOKING_RESULTS }
-  }
-
-  // Reviews: /booking/doctor/:id/reviews -> Doctor profile: /booking/doctor/:id
-  if (pathParts[0] === 'booking' && pathParts[1] === 'doctor' && pathParts[3] === 'reviews') {
-    const doctorId = pathParts[2]
-    return { path: PATHS.BOOKING_DOCTOR, params: { id: doctorId } }
-  }
-
-  if (currentPath === PATHS.BOOKING_RESULTS) {
-    return { path: PATHS.BOOKING_SEARCH }
-  }
-  if (currentPath === PATHS.BOOKING_SPECIALTY || currentPath === PATHS.BOOKING_SEARCH) {
-    return { path: PATHS.BOOKING }
-  }
-  if (currentPath === PATHS.BOOKING_INSURANCE) {
-    return { path: PATHS.BOOKING_LOCATION }
-  }
-  if (currentPath === PATHS.BOOKING_LOCATION) {
-    return { path: PATHS.BOOKING_SEARCH }
-  }
-
-  // Profile screens
-  if (currentPath === PATHS.PROFILE_EDIT) {
-    return { path: PATHS.HOME }
-  }
-  if (pathParts[0] === 'profile' && pathParts[1] === 'family' && pathParts.length === 3) {
-    return { path: PATHS.PROFILE_FAMILY }
-  }
-  // Family Members screen: always navigate back to Settings
-  if (currentPath === PATHS.PROFILE_FAMILY) {
-    return { path: PATHS.SETTINGS }
-  }
-
-  // Settings screens
-  if (
-    currentPath === PATHS.SETTINGS_NOTIFICATIONS ||
-    currentPath === PATHS.SETTINGS_LANGUAGE ||
-    currentPath === PATHS.SETTINGS_PRIVACY ||
-    currentPath === PATHS.SETTINGS_FAQ ||
-    currentPath === PATHS.SETTINGS_CONTACT ||
-    currentPath === PATHS.SETTINGS_HELP
-  ) {
-    return { path: PATHS.SETTINGS }
-  }
-
-  // History screens
-  if (pathParts[0] === 'history' && pathParts.length === 2) {
-    return { path: PATHS.HISTORY }
-  }
-  if (pathParts[0] === 'appointments' && pathParts.length === 2) {
-    return { path: PATHS.HOME }
-  }
-
-  // Reschedule flow
-  if (pathParts[0] === 'reschedule' && pathParts.length === 2) {
-    // Base reschedule path -> appointment detail
-    const id = pathParts[1]
-    return { path: `/appointments/${id}` }
-  }
-  if (pathParts[0] === 'reschedule' && pathParts[2] === 'confirm') {
-    const id = pathParts[1]
-    return { path: `/reschedule/${id}` }
-  }
-  if (pathParts[0] === 'reschedule' && pathParts[2] === 'reason') {
-    const id = pathParts[1]
-    return { path: `/appointments/${id}` }
-  }
-
-  // Book again flow
-  if (pathParts[0] === 'book-again' && pathParts.length === 2) {
-    // Base book-again path -> appointment detail or history
-    const id = pathParts[1]
-    return { path: `/appointments/${id}` }
-  }
-  if (pathParts[0] === 'book-again' && pathParts[2] === 'alternatives') {
-    const id = pathParts[1]
-    return { path: `/book-again/${id}` }
-  }
-
-  return null
-}
-
 export function Header({ title, subtitle, showBack = false, onBack, rightAction }: HeaderProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  useBooking()
 
   const handleBack = () => {
+    // Priority 1: Use custom onBack handler if provided
     if (onBack) {
       onBack()
       return
     }
 
-    // Check if navigation state provides a 'from' path
+    // Priority 2: Use location.state.from if available
     const fromPath = (location.state as any)?.from as string | undefined
     const currentPath = `${location.pathname}${location.search}`
-    // Guard against accidental self-references which can create navigation loops.
+    // Guard against self-references which can create navigation loops
     if (fromPath && fromPath !== currentPath) {
       navigate(fromPath)
       return
     }
 
-    const backPath = popBackPath(currentPath)
-    if (backPath && backPath !== currentPath) {
-      navigate(backPath)
-      return
-    }
-
-    // Try to determine logical previous screen based on current route
-    const previousPathInfo = getPreviousPathInfo(location.pathname)
-
-    if (previousPathInfo) {
-      let resolvedPath = previousPathInfo.path
-
-      // Replace dynamic params in path pattern
-      if (previousPathInfo.params) {
-        Object.entries(previousPathInfo.params).forEach(([key, value]) => {
-          resolvedPath = resolvedPath.replace(`:${key}`, value)
-        })
-      }
-
-      navigate(resolvedPath)
-      return
-    }
-
-    // Last resort: use browser history
+    // Priority 3: Use browser history
     navigate(-1)
   }
 
