@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'i18next'
+import { DevModeProvider } from '../../../contexts/DevModeContext'
 import BiometricsScreen from '../BiometricsScreen'
 
 const ALLOW_LOADING_MS = 1500
@@ -88,9 +89,11 @@ i18n.init({
 function renderBiometricsScreen() {
   return render(
     <I18nextProvider i18n={i18n}>
-      <MemoryRouter>
-        <BiometricsScreen />
-      </MemoryRouter>
+      <DevModeProvider>
+        <MemoryRouter>
+          <BiometricsScreen />
+        </MemoryRouter>
+      </DevModeProvider>
     </I18nextProvider>
   )
 }
@@ -107,6 +110,8 @@ describe('BiometricsScreen', () => {
     document.body.style.position = ''
     document.body.style.top = ''
     document.body.style.width = ''
+    // Test hygiene: ensure fake timers don't leak to later tests on failure.
+    vi.useRealTimers()
   })
 
   describe('Rendering', () => {
@@ -114,7 +119,8 @@ describe('BiometricsScreen', () => {
       renderBiometricsScreen()
 
       expect(screen.getByText('Biometric Settings')).toBeInTheDocument()
-      expect(screen.getByText(/Protect your medical records/)).toBeInTheDocument()
+      // UX intent: subtitle appears in both the toggle card and the simulation area.
+      expect(screen.getAllByText(/Protect your medical records/).length).toBeGreaterThan(0)
     })
 
     it('renders toggle switch', () => {
@@ -123,18 +129,18 @@ describe('BiometricsScreen', () => {
       expect(screen.getByRole('switch')).toBeInTheDocument()
     })
 
-    it('shows OFF status when biometrics disabled', () => {
+    it('switch is unchecked when biometrics disabled', () => {
       mockBiometricsEnabled = false
       renderBiometricsScreen()
 
-      expect(screen.getByText('OFF')).toBeInTheDocument()
+      expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'false')
     })
 
-    it('shows ON status when biometrics enabled', () => {
+    it('switch is checked when biometrics enabled', () => {
       mockBiometricsEnabled = true
       renderBiometricsScreen()
 
-      expect(screen.getByText('ON')).toBeInTheDocument()
+      expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true')
     })
   })
 
@@ -157,6 +163,12 @@ describe('BiometricsScreen', () => {
 
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       await user.click(screen.getByRole('switch'))
+      // Sheet uses timers for enter animation; flush 0ms so the modal mounts in fake-timer mode.
+      await act(() => {
+        vi.advanceTimersByTime(0)
+      })
+      // UX intent: enabling biometrics always goes through the allow modal.
+      expect(screen.getByText('Allow DocliQ to use Biometrics?')).toBeInTheDocument()
       await user.click(screen.getByRole('button', { name: 'Allow Biometrics' }))
 
       await act(() => {
@@ -171,7 +183,6 @@ describe('BiometricsScreen', () => {
         title: 'Biometrics enabled',
         type: 'success',
       })
-      vi.useRealTimers()
     })
 
     it('Don\'t Allow closes modal without enabling', async () => {
@@ -219,9 +230,9 @@ describe('BiometricsScreen', () => {
       renderBiometricsScreen()
 
       await user.click(screen.getByRole('switch'))
-      await user.click(screen.getByRole('button', { name: 'Disable Biometrics' }))
-
-      expect(screen.getByText('Password is required')).toBeInTheDocument()
+      // Security UX: destructive action is disabled until password is non-empty.
+      expect(screen.getByRole('button', { name: 'Disable Biometrics' })).toBeDisabled()
+      expect(screen.queryByText('Password is required')).not.toBeInTheDocument()
       expect(mockDisableBiometrics).not.toHaveBeenCalled()
     })
 

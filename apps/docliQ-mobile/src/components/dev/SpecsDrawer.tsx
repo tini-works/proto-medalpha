@@ -1,12 +1,109 @@
 import { createPortal } from 'react-dom'
 import { useLocation } from 'react-router-dom'
-import { IconX, IconRoute, IconTarget, IconDatabase } from '@tabler/icons-react'
+import { IconX, IconRoute, IconTarget, IconDatabase, IconFingerprint } from '@tabler/icons-react'
 import { useDevMode } from '../../contexts/DevModeContext'
+import type { BiometricSimulationTarget } from '../../contexts/DevModeContext'
 import { getScreenMetadata } from '../../config/screenMetadata'
 import { useAppState } from '../../state'
+import { PATHS } from '../../routes/paths'
+
+const BIOMETRIC_ROUTES = [PATHS.SETTINGS_BIOMETRICS, PATHS.AUTH_SIGN_IN] as const
+
+function BiometricSimulationSection({
+  pathname,
+  onRequest,
+}: {
+  pathname: string
+  onRequest: (type: 'success' | 'fail', target: BiometricSimulationTarget) => void
+}) {
+  if (pathname === PATHS.SETTINGS_BIOMETRICS) {
+    return (
+      <div className="specs-section">
+        <div className="specs-section-header">
+          <IconFingerprint size={14} />
+          <span>Biometric simulation</span>
+        </div>
+        <div className="specs-simulation-block">
+          <div className="specs-simulation-label">Settings screen</div>
+          <div className="specs-simulation-buttons">
+            <button
+              type="button"
+              className="specs-sim-btn specs-sim-success"
+              onClick={() => onRequest('success', 'biometrics-settings')}
+            >
+              Simulate success
+            </button>
+            <button
+              type="button"
+              className="specs-sim-btn specs-sim-fail"
+              onClick={() => onRequest('fail', 'biometrics-settings')}
+            >
+              Simulate fail
+            </button>
+          </div>
+        </div>
+        <div className="specs-simulation-block">
+          <div className="specs-simulation-label">Allow modal</div>
+          <div className="specs-simulation-buttons">
+            <button
+              type="button"
+              className="specs-sim-btn specs-sim-success"
+              onClick={() => onRequest('success', 'allow-modal')}
+            >
+              Simulate success
+            </button>
+            <button
+              type="button"
+              className="specs-sim-btn specs-sim-fail"
+              onClick={() => onRequest('fail', 'allow-modal')}
+            >
+              Simulate fail
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  if (pathname === PATHS.AUTH_SIGN_IN) {
+    return (
+      <div className="specs-section">
+        <div className="specs-section-header">
+          <IconFingerprint size={14} />
+          <span>Biometric simulation</span>
+        </div>
+        <div className="specs-simulation-block">
+          <div className="specs-simulation-label">Sign-in prompt</div>
+          <div className="specs-simulation-buttons">
+            <button
+              type="button"
+              className="specs-sim-btn specs-sim-success"
+              onClick={() => onRequest('success', 'sign-in-prompt')}
+            >
+              Simulate success
+            </button>
+            <button
+              type="button"
+              className="specs-sim-btn specs-sim-fail"
+              onClick={() => onRequest('fail', 'sign-in-prompt')}
+            >
+              Simulate fail
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  return null
+}
 
 export function SpecsDrawer() {
-  const { isDevMode, isDrawerOpen, closeDrawer, toggleDevMode } = useDevMode()
+  const {
+    isDevMode,
+    isDrawerOpen,
+    closeDrawer,
+    toggleDevMode,
+    requestBiometricSimulation,
+  } = useDevMode()
   const location = useLocation()
   const { state } = useAppState()
 
@@ -76,6 +173,14 @@ export function SpecsDrawer() {
                 ))}
               </div>
             </div>
+          )}
+
+          {/* Biometric simulation (panel-only; no inline DEV buttons on screen) */}
+          {BIOMETRIC_ROUTES.includes(location.pathname as (typeof BIOMETRIC_ROUTES)[number]) && (
+            <BiometricSimulationSection
+              pathname={location.pathname}
+              onRequest={requestBiometricSimulation}
+            />
           )}
 
           {/* No metadata warning */}
@@ -236,6 +341,46 @@ export function SpecsDrawer() {
           font-weight: 600;
           font-family: ui-monospace, monospace;
           font-size: 13px;
+        }
+
+        .specs-simulation-block {
+          margin-bottom: 12px;
+        }
+        .specs-simulation-block:last-child {
+          margin-bottom: 0;
+        }
+        .specs-simulation-label {
+          color: #6b7280;
+          font-size: 12px;
+          margin-bottom: 6px;
+        }
+        .specs-simulation-buttons {
+          display: flex;
+          gap: 8px;
+        }
+        .specs-sim-btn {
+          flex: 1;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background 0.15s ease;
+        }
+        .specs-sim-success {
+          background: #d1fae5;
+          color: #065f46;
+        }
+        .specs-sim-success:hover {
+          background: #a7f3d0;
+        }
+        .specs-sim-fail {
+          background: #fee2e2;
+          color: #991b1b;
+        }
+        .specs-sim-fail:hover {
+          background: #fecaca;
         }
 
         .specs-warning {

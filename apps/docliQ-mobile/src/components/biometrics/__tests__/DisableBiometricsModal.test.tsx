@@ -84,14 +84,15 @@ describe('DisableBiometricsModal', () => {
     expect(screen.getByRole('button', { name: 'Disable Biometrics' })).toBeInTheDocument()
   })
 
-  it('empty password + Disable shows error', async () => {
+  it('empty password disables Disable button', async () => {
     const onDisable = vi.fn()
     const user = userEvent.setup()
     renderModal({ onDisable })
 
     await user.click(screen.getByRole('button', { name: 'Disable Biometrics' }))
 
-    expect(screen.getAllByText('Password is required').length).toBeGreaterThan(0)
+    // Business intent: user must enter a password before they can disable biometrics.
+    expect(screen.getByRole('button', { name: 'Disable Biometrics' })).toBeDisabled()
     expect(onDisable).not.toHaveBeenCalled()
   })
 
@@ -102,6 +103,7 @@ describe('DisableBiometricsModal', () => {
     renderModal({ onDisable, onClose })
 
     await user.type(screen.getByPlaceholderText('Enter your password'), 'secret')
+    expect(screen.getByRole('button', { name: 'Disable Biometrics' })).not.toBeDisabled()
     await user.click(screen.getByRole('button', { name: 'Disable Biometrics' }))
 
     expect(onDisable).toHaveBeenCalledTimes(1)

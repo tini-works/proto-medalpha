@@ -1,12 +1,36 @@
-import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'i18next'
+import { DevModeProvider, useDevMode } from '../../../contexts/DevModeContext'
 import { BiometricPromptSheet } from '../BiometricPromptSheet'
 
 const LOADING_MS = 1500
 const SUCCESS_HOLD_MS = 800
+
+/** Renders panel trigger buttons so tests can drive simulation via Dev Mode panel. */
+function PanelTriggers() {
+  const { requestBiometricSimulation } = useDevMode()
+  return (
+    <div>
+      <button
+        type="button"
+        data-testid="panel-trigger-success"
+        onClick={() => requestBiometricSimulation('success', 'sign-in-prompt')}
+      >
+        Panel success
+      </button>
+      <button
+        type="button"
+        data-testid="panel-trigger-fail"
+        onClick={() => requestBiometricSimulation('fail', 'sign-in-prompt')}
+      >
+        Panel fail
+      </button>
+    </div>
+  )
+}
 
 // Initialize test i18n
 i18n.init({
@@ -47,7 +71,10 @@ function renderBiometricPromptSheet(props: Partial<Parameters<typeof BiometricPr
 
   return render(
     <I18nextProvider i18n={i18n}>
-      <BiometricPromptSheet {...defaultProps} />
+      <DevModeProvider>
+        <PanelTriggers />
+        <BiometricPromptSheet {...defaultProps} />
+      </DevModeProvider>
     </I18nextProvider>
   )
 }
@@ -91,11 +118,11 @@ describe('BiometricPromptSheet', () => {
       expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
     })
 
-    it('shows DEV simulation buttons', () => {
+    it('does not show inline DEV simulation buttons (moved to Dev Mode panel)', () => {
       renderBiometricPromptSheet()
 
-      expect(screen.getByTestId('biometric-dev-success')).toBeInTheDocument()
-      expect(screen.getByTestId('biometric-dev-failure')).toBeInTheDocument()
+      expect(screen.queryByTestId('biometric-dev-success')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('biometric-dev-failure')).not.toBeInTheDocument()
     })
 
     it('calls onCancel when Cancel clicked', async () => {
@@ -109,14 +136,14 @@ describe('BiometricPromptSheet', () => {
       expect(onCancel).toHaveBeenCalledTimes(1)
     })
 
-    it('calls onSuccess when DEV Success clicked', async () => {
+    it('calls onSuccess when panel triggers Simulate success', async () => {
       vi.useFakeTimers()
       const onSuccess = vi.fn()
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 
       renderBiometricPromptSheet({ onSuccess })
 
-      await user.click(screen.getByTestId('biometric-dev-success'))
+      await user.click(screen.getByTestId('panel-trigger-success'))
       await act(() => {
         vi.advanceTimersByTime(LOADING_MS + SUCCESS_HOLD_MS)
       })
@@ -125,14 +152,14 @@ describe('BiometricPromptSheet', () => {
       vi.useRealTimers()
     })
 
-    it('calls onFailure when DEV Failure clicked', async () => {
+    it('calls onFailure when panel triggers Simulate fail', async () => {
       vi.useFakeTimers()
       const onFailure = vi.fn()
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 
       renderBiometricPromptSheet({ onFailure })
 
-      await user.click(screen.getByTestId('biometric-dev-failure'))
+      await user.click(screen.getByTestId('panel-trigger-fail'))
       await act(() => {
         vi.advanceTimersByTime(LOADING_MS)
       })

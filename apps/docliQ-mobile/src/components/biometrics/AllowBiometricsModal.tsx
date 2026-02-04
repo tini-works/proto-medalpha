@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { IconFingerprint, IconFaceId, IconLock, IconCheck, IconX } from '@tabler/icons-react'
 import { Sheet } from '../ui/Sheet'
 import { Button } from '../ui/Button'
+import { useDevMode } from '../../contexts/DevModeContext'
 import { haptics, announceToScreenReader } from '../../utils'
 
 const LOADING_DURATION_MS = 1500
@@ -22,6 +23,7 @@ export function AllowBiometricsModal({
   onAllow,
 }: AllowBiometricsModalProps) {
   const { t } = useTranslation('settings')
+  const { biometricSimulationRequest, clearBiometricSimulationRequest } = useDevMode()
   const [phase, setPhase] = useState<Phase>('idle')
   const allowButtonRef = useRef<HTMLButtonElement>(null)
   const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -46,6 +48,23 @@ export function AllowBiometricsModal({
     },
     []
   )
+
+  // Consume panel-driven biometric simulation for allow modal
+  useEffect(() => {
+    if (
+      !open ||
+      !biometricSimulationRequest ||
+      biometricSimulationRequest.target !== 'allow-modal'
+    ) {
+      return
+    }
+    if (biometricSimulationRequest.type === 'success') {
+      handleAllow()
+    } else {
+      handleDevFail()
+    }
+    clearBiometricSimulationRequest()
+  }, [open, biometricSimulationRequest, clearBiometricSimulationRequest])
 
   const handleAllow = () => {
     setPhase('loading')
@@ -221,22 +240,6 @@ export function AllowBiometricsModal({
               >
                 {t('biometricAllow.denyButton')}
               </Button>
-            )}
-            {import.meta.env.DEV && (phase === 'idle' || phase === 'loading') && (
-              <div className="pt-4 border-t border-cream-300">
-                <p className="text-xs text-slate-400 text-center mb-2 uppercase tracking-wider">
-                  Development
-                </p>
-                <Button
-                  onClick={handleDevFail}
-                  variant="destructive-filled"
-                  fullWidth
-                  disabled={false}
-                  testId="allow-biometrics-dev-fail"
-                >
-                  DEV: Fail
-                </Button>
-              </div>
             )}
           </div>
         )}

@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'i18next'
+import { DevModeProvider } from '../../../contexts/DevModeContext'
 import { AllowBiometricsModal } from '../AllowBiometricsModal'
 
 const LOADING_MS = 1500
@@ -32,12 +33,14 @@ i18n.init({
 function renderModal(props: Partial<Parameters<typeof AllowBiometricsModal>[0]> = {}) {
   return render(
     <I18nextProvider i18n={i18n}>
-      <AllowBiometricsModal
-        open={true}
-        onClose={vi.fn()}
-        onAllow={vi.fn()}
-        {...props}
-      />
+      <DevModeProvider>
+        <AllowBiometricsModal
+          open={true}
+          onClose={vi.fn()}
+          onAllow={vi.fn()}
+          {...props}
+        />
+      </DevModeProvider>
     </I18nextProvider>
   )
 }

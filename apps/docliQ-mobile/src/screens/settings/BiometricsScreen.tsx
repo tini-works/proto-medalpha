@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconFingerprint, IconShieldCheck } from '@tabler/icons-react'
+import { Switch } from '@meda/ui'
 import { Header, Page } from '../../components'
-import { Button } from '../../components/ui/Button'
 import { AllowBiometricsModal, DisableBiometricsModal } from '../../components/biometrics'
 import { usePreferences } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
+import { useDevMode } from '../../contexts/DevModeContext'
 import { haptics, announceToScreenReader } from '../../utils'
 
 const LOADING_DURATION_MS = 1500
@@ -17,6 +18,7 @@ export default function BiometricsScreen() {
   const { t } = useTranslation('settings')
   const { biometricsEnabled, enableBiometrics, disableBiometrics } = usePreferences()
   const { showToast } = useNotificationToast()
+  const { biometricSimulationRequest, clearBiometricSimulationRequest } = useDevMode()
 
   const [showAllowModal, setShowAllowModal] = useState(false)
   const [showDisableModal, setShowDisableModal] = useState(false)
@@ -34,8 +36,23 @@ export default function BiometricsScreen() {
     []
   )
 
-  const handleToggle = () => {
-    if (biometricsEnabled) {
+  // Consume panel-driven biometric simulation for settings screen (only when Allow modal is not open)
+  useEffect(() => {
+    if (
+      !biometricSimulationRequest ||
+      biometricSimulationRequest.target !== 'biometrics-settings' ||
+      showAllowModal
+    ) {
+      return
+    }
+    runSimulation(biometricSimulationRequest.type === 'fail')
+    clearBiometricSimulationRequest()
+  }, [biometricSimulationRequest, showAllowModal, clearBiometricSimulationRequest])
+
+  const handleToggle = (checked: boolean) => {
+    // UX intent: switching ON asks for biometric permission via modal;
+    // switching OFF requires password confirmation in a destructive flow.
+    if (!checked) {
       setShowDisableModal(true)
     } else {
       setShowAllowModal(true)
@@ -103,21 +120,12 @@ export default function BiometricsScreen() {
               <p className="font-medium text-charcoal-500">{t('biometricSettings.enableTitle')}</p>
               <p className="text-sm text-slate-500">{t('biometricSettings.enableSubtitle')}</p>
             </div>
-            <button
-              onClick={handleToggle}
-              className={`relative w-12 h-7 rounded-full transition-colors ${
-                biometricsEnabled ? 'bg-teal-500' : 'bg-slate-300'
-              }`}
-              role="switch"
-              aria-checked={biometricsEnabled}
+            <Switch
+              checked={biometricsEnabled}
+              onChange={handleToggle}
+              // Accessibility intent: clear announcement for assistive tech users.
               aria-label={biometricsEnabled ? t('disableBiometrics') : t('enableBiometrics')}
-            >
-              <div
-                className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${
-                  biometricsEnabled ? 'translate-x-5' : 'translate-x-0.5'
-                }`}
-              />
-            </button>
+            />
           </div>
         </div>
 
@@ -188,20 +196,6 @@ export default function BiometricsScreen() {
                   : t('biometricSettings.enableSubtitle')}
           </p>
         </div>
-
-        {import.meta.env.DEV && (
-          <div className="mb-6">
-            <Button
-              onClick={() => runSimulation(true)}
-              variant="destructive-filled"
-              fullWidth
-              size="sm"
-              testId="biometrics-settings-dev-fail"
-            >
-              DEV: Simulate fail
-            </Button>
-          </div>
-        )}
 
         <div className="mt-auto flex items-start gap-3 p-4 bg-cream-100 rounded-lg">
           <IconShieldCheck size={20} className="text-teal-600 flex-shrink-0 mt-0.5" aria-hidden="true" />

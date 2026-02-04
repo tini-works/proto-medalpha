@@ -21,6 +21,8 @@ export function DisableBiometricsModal({
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
+  // Security UX: prevent accidental disables until user confirms with password.
+  const isDisableDisabled = password.trim().length === 0
 
   useEffect(() => {
     if (open) {
@@ -111,20 +113,22 @@ export function DisableBiometricsModal({
 
         <div className="space-y-3">
           <Button
+            onClick={handleDisable}
+            variant="destructive-filled"
+            fullWidth
+            disabled={isDisableDisabled}
+            testId="disable-biometrics-confirm"
+          >
+            {t('biometricDisable.disableButton')}
+          </Button>
+          <Button
             onClick={handleKeepEnabled}
-            variant="primary"
+            // UX intent: keep-safe choice is lower-emphasis than the destructive action.
+            variant="secondary"
             fullWidth
             testId="disable-biometrics-keep-enabled"
           >
             {t('biometricDisable.keepEnabled')}
-          </Button>
-          <Button
-            onClick={handleDisable}
-            variant="destructive-filled"
-            fullWidth
-            testId="disable-biometrics-confirm"
-          >
-            {t('biometricDisable.disableButton')}
           </Button>
         </div>
       </div>

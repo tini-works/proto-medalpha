@@ -4,8 +4,32 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'i18next'
+import { DevModeProvider, useDevMode } from '../../../contexts/DevModeContext'
 import SignInScreen from '../SignInScreen'
 import { PATHS } from '../../../routes'
+
+/** Panel trigger buttons for biometric simulation (mirrors SpecsDrawer on sign-in). */
+function PanelTriggers() {
+  const { requestBiometricSimulation } = useDevMode()
+  return (
+    <div>
+      <button
+        type="button"
+        data-testid="panel-trigger-success"
+        onClick={() => requestBiometricSimulation('success', 'sign-in-prompt')}
+      >
+        Panel success
+      </button>
+      <button
+        type="button"
+        data-testid="panel-trigger-fail"
+        onClick={() => requestBiometricSimulation('fail', 'sign-in-prompt')}
+      >
+        Panel fail
+      </button>
+    </div>
+  )
+}
 
 // Mock navigation
 const mockNavigate = vi.fn()
@@ -84,9 +108,12 @@ i18n.init({
 function renderSignInScreen() {
   return render(
     <I18nextProvider i18n={i18n}>
-      <MemoryRouter>
-        <SignInScreen />
-      </MemoryRouter>
+      <DevModeProvider>
+        <MemoryRouter>
+          <PanelTriggers />
+          <SignInScreen />
+        </MemoryRouter>
+      </DevModeProvider>
     </I18nextProvider>
   )
 }
@@ -156,13 +183,13 @@ describe('SignInScreen - Biometrics', () => {
       expect(screen.getByText('Verify your identity')).toBeInTheDocument()
     })
 
-    it('signs in and navigates to Home on DEV Success', async () => {
+    it('signs in and navigates to Home on panel Simulate success', async () => {
       vi.useFakeTimers()
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
-      await user.click(screen.getByTestId('biometric-dev-success'))
+      await user.click(screen.getByTestId('panel-trigger-success'))
       await act(() => {
         vi.advanceTimersByTime(1500 + 800)
       })
@@ -172,13 +199,13 @@ describe('SignInScreen - Biometrics', () => {
       vi.useRealTimers()
     })
 
-    it('shows error state on DEV Failure', async () => {
+    it('shows error state on panel Simulate fail', async () => {
       vi.useFakeTimers()
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
-      await user.click(screen.getByTestId('biometric-dev-failure'))
+      await user.click(screen.getByTestId('panel-trigger-fail'))
       await act(() => {
         vi.advanceTimersByTime(1500)
       })
@@ -193,7 +220,7 @@ describe('SignInScreen - Biometrics', () => {
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
-      await user.click(screen.getByTestId('biometric-dev-failure'))
+      await user.click(screen.getByTestId('panel-trigger-fail'))
       await act(() => {
         vi.advanceTimersByTime(1500)
       })
@@ -212,7 +239,7 @@ describe('SignInScreen - Biometrics', () => {
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
-      await user.click(screen.getByTestId('biometric-dev-failure'))
+      await user.click(screen.getByTestId('panel-trigger-fail'))
       await act(() => {
         vi.advanceTimersByTime(1500)
       })
