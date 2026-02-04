@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a pnpm workspaces monorepo for the MedAlpha healthcare prototype. It contains shared packages and multiple applications.
+This is a pnpm workspaces monorepo for the DocliQ healthcare prototype. It contains shared packages and multiple applications.
 
 ## Architecture
 
