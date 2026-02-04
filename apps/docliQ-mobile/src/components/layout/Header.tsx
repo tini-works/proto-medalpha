@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { IconChevronLeft } from '@tabler/icons-react'
-import { PATHS, doctorSlotsPath } from '../../routes/paths'
+import { PATHS } from '../../routes/paths'
 import { useBooking } from '../../state'
 import { Button } from '../ui'
 import { popBackPath } from '../../utils/navigation'
@@ -23,8 +23,7 @@ function getPreviousPathInfo(currentPath: string): { path: string; params?: Reco
 
   // Booking flow navigation hierarchy
   if (currentPath === PATHS.BOOKING_CONFIRM) {
-    // Confirm always comes from slots selection - need doctor ID from booking state
-    return { path: 'SLOTS_FROM_CONFIRM' } // Special marker
+    return { path: PATHS.BOOKING_AVAILABILITY }
   }
 
   // Fast-Lane flow: back should return to booking type selection
@@ -36,12 +35,6 @@ function getPreviousPathInfo(currentPath: string): { path: string; params?: Reco
   }
   if (currentPath === PATHS.FAST_LANE_SUCCESS || currentPath === PATHS.FAST_LANE_NO_MATCH) {
     return { path: PATHS.FAST_LANE }
-  }
-
-  // Slots: /booking/doctor/:id/slots -> Doctor profile: /booking/doctor/:id
-  if (pathParts[0] === 'booking' && pathParts[1] === 'doctor' && pathParts[3] === 'slots') {
-    const doctorId = pathParts[2]
-    return { path: PATHS.BOOKING_DOCTOR, params: { id: doctorId } }
   }
 
   // Doctor profile: /booking/doctor/:id -> Results
@@ -132,7 +125,7 @@ function getPreviousPathInfo(currentPath: string): { path: string; params?: Reco
 export function Header({ title, subtitle, showBack = false, onBack, rightAction }: HeaderProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  const { selectedDoctor } = useBooking()
+  useBooking()
 
   const handleBack = () => {
     if (onBack) {
@@ -142,12 +135,13 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
 
     // Check if navigation state provides a 'from' path
     const fromPath = (location.state as any)?.from as string | undefined
-    if (fromPath) {
+    const currentPath = `${location.pathname}${location.search}`
+    // Guard against accidental self-references which can create navigation loops.
+    if (fromPath && fromPath !== currentPath) {
       navigate(fromPath)
       return
     }
 
-    const currentPath = `${location.pathname}${location.search}`
     const backPath = popBackPath(currentPath)
     if (backPath && backPath !== currentPath) {
       navigate(backPath)
@@ -159,19 +153,6 @@ export function Header({ title, subtitle, showBack = false, onBack, rightAction 
 
     if (previousPathInfo) {
       let resolvedPath = previousPathInfo.path
-
-      // Handle special case: Confirm screen needs doctor ID from booking state
-      if (resolvedPath === 'SLOTS_FROM_CONFIRM') {
-        if (selectedDoctor) {
-          resolvedPath = doctorSlotsPath(selectedDoctor.id)
-          navigate(resolvedPath)
-          return
-        } else {
-          // Fallback if doctor not available
-          navigate(-1)
-          return
-        }
-      }
 
       // Replace dynamic params in path pattern
       if (previousPathInfo.params) {

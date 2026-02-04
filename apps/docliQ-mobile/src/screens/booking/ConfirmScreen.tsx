@@ -11,11 +11,31 @@ import { PATHS, appointmentDetailPath } from '../../routes'
 import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
 
+const CONFIRM_ORIGIN_KEY = 'booking.confirm.originFrom'
+
+function readConfirmOrigin(): string | null {
+  if (typeof window === 'undefined') return null
+  try {
+    return sessionStorage.getItem(CONFIRM_ORIGIN_KEY)
+  } catch {
+    return null
+  }
+}
+
+function writeConfirmOrigin(path: string) {
+  if (typeof window === 'undefined') return
+  try {
+    sessionStorage.setItem(CONFIRM_ORIGIN_KEY, path)
+  } catch {
+    // ignore
+  }
+}
+
 export default function ConfirmScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
+  const { selectedDoctor, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking, search, fastLaneRequest, specialtyMatchRequest } = useBooking()
   const { profile } = useProfile()
   const { addHistoryItem } = useHistory()
   const { language } = usePreferences()
@@ -23,6 +43,9 @@ export default function ConfirmScreen() {
   const [reason, setReason] = useState('')
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator === 'undefined' ? true : navigator.onLine)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [patientSegment, setPatientSegment] = useState<'myself' | 'family'>(
+    selectedFamilyMemberId ? 'family' : 'myself'
+  )
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true)
@@ -35,9 +58,20 @@ export default function ConfirmScreen() {
     }
   }, [])
 
-  if (!selectedDoctor) {
-    navigate(PATHS.BOOKING_SEARCH)
-    return null
+  const requestedSpecialty =
+    selectedDoctor?.specialty ??
+    specialtyMatchRequest?.specialty ??
+    fastLaneRequest?.specialty ??
+    search?.specialty ??
+    'Primary care'
+
+  const effectiveDoctor = selectedDoctor ?? {
+    id: 'unassigned',
+    name: t('doctorToBeAssigned'),
+    specialty: requestedSpecialty,
+    city: '',
+    address: '',
+    imageUrl: '',
   }
 
   const forUser = selectedFamilyMemberId
@@ -54,7 +88,18 @@ export default function ConfirmScreen() {
   const summaryDateLabel = t('appointmentTimePlaceholderTitle')
   const summaryTimeLabel = t('appointmentTimePlaceholderSubtitle')
 
-  const patientSegment: 'myself' | 'family' = selectedFamilyMemberId ? 'family' : 'myself'
+  useEffect(() => {
+    const from = (location.state as any)?.from as string | undefined
+    // Persist the sheet origin so that closing the sheet doesn't jump to unrelated screens
+    // (e.g. profile flows used while inside the sheet).
+    if (from && !from.startsWith('/profile')) {
+      writeConfirmOrigin(from)
+    }
+  }, [location.state])
+
+  useEffect(() => {
+    setPatientSegment(selectedFamilyMemberId ? 'family' : 'myself')
+  }, [selectedFamilyMemberId])
 
   const handleConfirm = () => {
     if (!reason.trim()) return
@@ -68,9 +113,9 @@ export default function ConfirmScreen() {
     // Create appointment request (matching) - actual slot is determined after request is sent
     const appointment: Appointment = {
       id: appointmentId,
-      doctorId: selectedDoctor.id,
-      doctorName: selectedDoctor.name,
-      specialty: selectedDoctor.specialty,
+      doctorId: effectiveDoctor.id,
+      doctorName: effectiveDoctor.name,
+      specialty: effectiveDoctor.specialty,
       dateISO,
       time,
       forUserId,
@@ -87,8 +132,8 @@ export default function ConfirmScreen() {
     const historyItem: HistoryItem = {
       id: `h_${Date.now()}`,
       type: 'appointment',
-      title: `Appointment: ${selectedDoctor.specialty}`,
-      subtitle: `${selectedDoctor.name} · ${selectedDoctor.city}`,
+      title: `Appointment: ${effectiveDoctor.specialty}`,
+      subtitle: effectiveDoctor.city ? `${effectiveDoctor.name} · ${effectiveDoctor.city}` : effectiveDoctor.name,
       dateISO,
       status: 'planned',
       forUserId,
@@ -106,8 +151,10 @@ export default function ConfirmScreen() {
 
   const handleClose = () => {
     const from = (location.state as any)?.from as string | undefined
-    if (from) {
-      navigate(from)
+    const origin = readConfirmOrigin()
+    const target = origin ?? from
+    if (target) {
+      navigate(target)
       return
     }
     navigate(-1)
@@ -158,15 +205,15 @@ export default function ConfirmScreen() {
             {/* Appointment Summary Card */}
             <AppointmentSummaryCard
               doctor={{
-                name: selectedDoctor.name,
-                specialty: selectedDoctor.specialty,
-                imageUrl: selectedDoctor.imageUrl,
+                name: effectiveDoctor.name,
+                specialty: effectiveDoctor.specialty,
+                imageUrl: effectiveDoctor.imageUrl,
               }}
               date={summaryDateLabel}
               time={summaryTimeLabel}
               type="in-person"
               showVisitType={false}
-              address={selectedDoctor.address}
+              address={effectiveDoctor.address}
             />
 
             {/* Patient selection */}
@@ -175,7 +222,10 @@ export default function ConfirmScreen() {
               <div className="flex gap-2">
                 <Chip
                   selected={patientSegment === 'myself'}
-                  onClick={() => selectFamilyMember(null)}
+                  onClick={() => {
+                    setPatientSegment('myself')
+                    selectFamilyMember(null)
+                  }}
                   fullWidth
                 >
                   {t('myself')}
@@ -183,11 +233,12 @@ export default function ConfirmScreen() {
                 <Chip
                   selected={patientSegment === 'family'}
                   onClick={() => {
-                    if (profile.familyMembers.length === 0) return
-                    selectFamilyMember(profile.familyMembers[0].id)
+                    setPatientSegment('family')
+                    if (profile.familyMembers.length > 0 && !selectedFamilyMemberId) {
+                      selectFamilyMember(profile.familyMembers[0].id)
+                    }
                   }}
                   fullWidth
-                  disabled={profile.familyMembers.length === 0}
                 >
                   {t('familyMember')}
                 </Chip>
@@ -228,6 +279,24 @@ export default function ConfirmScreen() {
                       </div>
                     </button>
                   ))}
+                </div>
+              )}
+
+              {patientSegment === 'family' && profile.familyMembers.length === 0 && (
+                <div className="mt-3 bg-cream-100 rounded-xl p-4 text-center space-y-2">
+                  <p className="text-sm text-slate-600">{t('noFamilyMembers')}</p>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="w-auto px-4"
+                    onClick={() =>
+                      navigate(PATHS.PROFILE_FAMILY_ADD, {
+                        state: { from: location.pathname, skipInBackStack: true, bookingFrom: readConfirmOrigin() },
+                      })
+                    }
+                  >
+                    {t('addFamilyMember')}
+                  </Button>
                 </div>
               )}
             </section>

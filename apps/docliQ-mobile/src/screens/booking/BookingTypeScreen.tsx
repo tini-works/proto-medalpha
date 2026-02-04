@@ -72,7 +72,7 @@ export default function BookingTypeScreen() {
       }
     }
 
-    navigate(path)
+    navigate(path, { state: { from: location.pathname } })
   }
 
   return (

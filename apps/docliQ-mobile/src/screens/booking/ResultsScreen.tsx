@@ -6,7 +6,7 @@ import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSh
 import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
-import { doctorPath, doctorSlotsPath, PATHS } from '../../routes'
+import { PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
 import { translateSpecialty } from '../../utils'
 import { resolveBookingProgress } from './bookingProgress'
@@ -154,24 +154,19 @@ export default function ResultsScreen() {
   }, [filteredDoctors, sortBy])
 
   const handleSelectDoctor = (doctor: Doctor) => {
-    // In doctor-first flow, tapping card opens detail sheet
-    if (isDoctorFirstFlow) {
-      setDetailSheetDoctor(doctor)
-      return
-    }
     selectDoctor(doctor)
-    navigate(doctorPath(doctor.id))
+    navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: PATHS.BOOKING_RESULTS, submitMode: 'confirm' } })
   }
 
   const handleSelectSlot = (doctor: Doctor, slot: TimeSlot) => {
     selectDoctor(doctor)
     selectSlot(slot)
-    navigate(PATHS.BOOKING_CONFIRM)
+    navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: PATHS.BOOKING_RESULTS, submitMode: 'confirm' } })
   }
 
   const handleMoreAppointments = (doctor: Doctor) => {
     selectDoctor(doctor)
-    navigate(doctorSlotsPath(doctor.id))
+    navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: PATHS.BOOKING_RESULTS, submitMode: 'confirm' } })
   }
 
   // Specialty-first flow: handle doctor selection via radio
@@ -198,7 +193,7 @@ export default function ResultsScreen() {
     if (!selectedDoctor) return
 
     selectDoctor(selectedDoctor)
-    navigate(PATHS.BOOKING_SYMPTOMS)
+    navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: PATHS.BOOKING_RESULTS, submitMode: 'confirm' } })
   }
 
   return (

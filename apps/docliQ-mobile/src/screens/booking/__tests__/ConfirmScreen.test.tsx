@@ -13,7 +13,7 @@ vi.mock('react-router-dom', async () => {
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-    useLocation: () => ({ state: { from: '/booking/doctor/d1/slots' } }),
+    useLocation: () => ({ state: { from: '/booking/availability' } }),
   }
 })
 
@@ -146,7 +146,7 @@ describe('ConfirmScreen', () => {
     renderConfirmScreen()
 
     await user.click(screen.getByRole('button', { name: /close/i }))
-    expect(mockNavigate).toHaveBeenCalledWith('/booking/doctor/d1/slots')
+    expect(mockNavigate).toHaveBeenCalledWith('/booking/availability')
   })
 
   it('disables confirm button when offline', () => {
