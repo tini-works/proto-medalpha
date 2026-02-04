@@ -17,6 +17,70 @@ import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { doctors, specialties, symptoms } from '../../data'
 
+function normalizeForMatch(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\p{L}\p{N}\s]+/gu, ' ')
+    .toLowerCase()
+    .trim()
+}
+
+function levenshteinDistance(aRaw: string, bRaw: string) {
+  const a = normalizeForMatch(aRaw)
+  const b = normalizeForMatch(bRaw)
+  if (a === b) return 0
+  if (!a) return b.length
+  if (!b) return a.length
+
+  const v0 = new Array<number>(b.length + 1)
+  const v1 = new Array<number>(b.length + 1)
+  for (let i = 0; i <= b.length; i++) v0[i] = i
+
+  for (let i = 0; i < a.length; i++) {
+    v1[0] = i + 1
+    for (let j = 0; j < b.length; j++) {
+      const cost = a[i] === b[j] ? 0 : 1
+      v1[j + 1] = Math.min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost)
+    }
+    for (let j = 0; j <= b.length; j++) v0[j] = v1[j]
+  }
+
+  return v1[b.length]
+}
+
+function isLooseNameMatch(queryRaw: string, candidateRaw: string) {
+  const query = normalizeForMatch(queryRaw)
+  const candidate = normalizeForMatch(candidateRaw)
+  if (!query || !candidate) return false
+
+  if (candidate.includes(query)) return true
+
+  const queryTokens = query.split(/\s+/).filter(Boolean)
+  const candidateTokens = candidate.split(/\s+/).filter(Boolean)
+
+  // Short query: allow fuzzy prefix matching (e.g. "sm" -> "schmidt")
+  if (query.length >= 2 && query.length <= 3) {
+    for (const token of candidateTokens) {
+      if (token.length < query.length) continue
+      const tokenPrefix = token.slice(0, query.length)
+      if (levenshteinDistance(query, tokenPrefix) <= 1) return true
+    }
+  }
+
+  // Quick token containment (handles "schmid", "dr schmidt", etc.)
+  for (const qt of queryTokens) {
+    if (candidateTokens.some((ct) => ct.includes(qt))) return true
+  }
+
+  // Fuzzy match on last-name-ish tokens to tolerate small typos (e.g. "smithch" -> "schmidt")
+  const queryCore = queryTokens[queryTokens.length - 1] ?? query
+  const candidateCore = candidateTokens[candidateTokens.length - 1] ?? candidate
+
+  if (queryCore.length < 4 || candidateCore.length < 4) return false
+  return levenshteinDistance(queryCore, candidateCore) <= 2
+}
+
 // Patient segment type
 type PatientSegment = 'myself' | 'family'
 
@@ -79,13 +143,13 @@ export default function IntentCaptureScreen() {
   const classifiedIntent = useMemo((): IntentClassification | null => {
     if (!searchQuery.trim()) return null
 
-    const query = searchQuery.toLowerCase().trim()
+    const query = normalizeForMatch(searchQuery)
 
     // Check for doctor names (partial match)
     const doctorMatch = doctors.find(
       (d) =>
-        d.name.toLowerCase().includes(query) ||
-        query.includes(d.name.toLowerCase().split(' ')[1]) // Try matching last name
+        isLooseNameMatch(query, d.name) ||
+        isLooseNameMatch(query, d.specialty) // allow specialty-in-name matching to still route
     )
 
     if (doctorMatch) {
@@ -99,8 +163,8 @@ export default function IntentCaptureScreen() {
     // Check for specialties
     const specialtyMatch = specialties.find(
       (s) =>
-        s.value.toLowerCase().includes(query) ||
-        t(s.labelKey).toLowerCase().includes(query)
+        normalizeForMatch(s.value).includes(query) ||
+        normalizeForMatch(t(s.labelKey)).includes(query)
     )
 
     if (specialtyMatch) {
@@ -160,9 +224,9 @@ export default function IntentCaptureScreen() {
     }
   }, [searchQuery, t])
 
-  // Generate search suggestions when user types 2+ characters
+    // Generate search suggestions when user types 2+ characters
   const searchSuggestions = useMemo((): SearchSuggestion[] => {
-    const query = searchQuery.trim().toLowerCase()
+    const query = normalizeForMatch(searchQuery)
     if (query.length < 2) return []
 
     const suggestions: SearchSuggestion[] = []
@@ -171,8 +235,8 @@ export default function IntentCaptureScreen() {
     const matchingDoctors = doctors
       .filter(
         (d) =>
-          d.name.toLowerCase().includes(query) ||
-          d.specialty.toLowerCase().includes(query)
+          isLooseNameMatch(query, d.name) ||
+          normalizeForMatch(d.specialty).includes(query)
       )
       .slice(0, 3)
 
@@ -191,8 +255,8 @@ export default function IntentCaptureScreen() {
     const matchingSpecialties = specialties
       .filter(
         (s) =>
-          s.value.toLowerCase().includes(query) ||
-          t(s.labelKey).toLowerCase().includes(query)
+          normalizeForMatch(s.value).includes(query) ||
+          normalizeForMatch(t(s.labelKey)).includes(query)
       )
       .slice(0, 3)
 
@@ -215,7 +279,7 @@ export default function IntentCaptureScreen() {
 
     // Find matching symptoms (limit to 3)
     const matchingSymptoms = symptoms
-      .filter((s) => t(s.labelKey).toLowerCase().includes(query))
+      .filter((s) => normalizeForMatch(t(s.labelKey)).includes(query))
       .slice(0, 3)
 
     matchingSymptoms.forEach((symptom) => {
@@ -294,6 +358,14 @@ export default function IntentCaptureScreen() {
         }
         break
     }
+  }
+
+  const handleViewAllDoctors = () => {
+    setShowSuggestions(false)
+    resetBooking()
+    selectFamilyMember(patientSegment === 'family' ? profile.familyMembers[0]?.id || null : null)
+    setBookingFlow('by_doctor')
+    navigate(PATHS.BOOKING_RESULTS)
   }
 
   // Handle routing based on intent
@@ -525,7 +597,7 @@ export default function IntentCaptureScreen() {
             />
 
             {/* Suggestions Dropdown */}
-            {showSuggestions && searchSuggestions.length > 0 && (
+            {showSuggestions && (searchSuggestions.length > 0 || normalizeForMatch(searchQuery).length >= 2) && (
               <div
                 ref={suggestionsRef}
                 className="absolute left-0 right-0 top-full mt-2 bg-white border border-cream-400 rounded-xl shadow-lg shadow-slate-200/50 z-50 overflow-hidden"
@@ -571,6 +643,29 @@ export default function IntentCaptureScreen() {
                       <IconArrowRight size={18} className="text-slate-400 flex-shrink-0" />
                     </button>
                   ))}
+
+                  {normalizeForMatch(searchQuery).length >= 2 && (
+                    <>
+                      {searchSuggestions.length > 0 && (
+                        <div className="border-t border-cream-200 my-1" />
+                      )}
+                      <button
+                        type="button"
+                        onClick={handleViewAllDoctors}
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-cream-50 transition-colors"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 flex-shrink-0">
+                          <IconMapPin size={20} stroke={2} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-charcoal-500 text-sm truncate">
+                            {t('viewAllDoctors')}
+                          </div>
+                        </div>
+                        <IconArrowRight size={18} className="text-slate-400 flex-shrink-0" />
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             )}

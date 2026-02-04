@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
-  PatientSelector,
   ReasonTextarea,
   InsuranceBanner,
   AppointmentSummaryCard,
@@ -16,12 +15,11 @@ import type { Appointment, HistoryItem } from '../../types'
 export default function ConfirmScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
+  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, addAppointment, resetBooking } = useBooking()
   const { profile, upsertMyDoctor } = useProfile()
   const { addHistoryItem } = useHistory()
   const { language } = usePreferences()
 
-  const [patientType, setPatientType] = useState<string>(selectedFamilyMemberId ? 'child' : 'myself')
   const [reason, setReason] = useState('')
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator === 'undefined' ? true : navigator.onLine)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,14 +38,6 @@ export default function ConfirmScreen() {
   if (!selectedDoctor || !selectedSlot) {
     navigate(PATHS.BOOKING_SEARCH)
     return null
-  }
-
-  const handlePatientChange = (value: string) => {
-    setPatientType(value)
-    if (value === 'myself') {
-      selectFamilyMember(null)
-    }
-    // For 'child', the family member selection would happen in a separate flow
   }
 
   const forUser = selectedFamilyMemberId
@@ -163,13 +153,6 @@ export default function ConfirmScreen() {
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto px-4 pb-4">
           <div className="space-y-6">
-            {/* Patient Selector */}
-            <PatientSelector
-              value={patientType}
-              onChange={handlePatientChange}
-              label={t('whoIsAppointmentFor')}
-            />
-
             {/* Appointment Summary Card */}
             <AppointmentSummaryCard
               doctor={{
