@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Field, RadioGroup } from '@meda/ui'
 import { Header, Page } from '../../components'
-import { Button, Input, SecurityBanner } from '../../components/ui'
+import { Button, SecurityBanner } from '../../components/ui'
 import { useProfile } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
 import type { InsuranceType } from '../../types'
@@ -40,53 +41,19 @@ export default function InsuranceEditScreen() {
 
       <div className="px-4 py-6 space-y-4">
         {/* Insurance Type Selection */}
-        <div>
-          <label className="block text-sm font-medium text-charcoal-500 mb-2">
-            {t('insuranceEdit.type')}
-          </label>
-          <div className="space-y-2">
-            <label className="flex items-center justify-between p-4 bg-white rounded-xl border border-cream-400 cursor-pointer hover:bg-cream-100 transition-colors">
-              <span className="font-medium text-charcoal-500">{t('insuranceEdit.gkv')}</span>
-              <div
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                  insuranceType === 'GKV' ? 'border-teal-500 bg-white' : 'border-cream-400 bg-white'
-                }`}
-              >
-                {insuranceType === 'GKV' && <div className="w-3 h-3 rounded-full bg-teal-500" />}
-              </div>
-              <input
-                type="radio"
-                name="insuranceType"
-                value="GKV"
-                checked={insuranceType === 'GKV'}
-                onChange={() => setInsuranceType('GKV')}
-                className="sr-only"
-              />
-            </label>
-
-            <label className="flex items-center justify-between p-4 bg-white rounded-xl border border-cream-400 cursor-pointer hover:bg-cream-100 transition-colors">
-              <span className="font-medium text-charcoal-500">{t('insuranceEdit.pkv')}</span>
-              <div
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                  insuranceType === 'PKV' ? 'border-teal-500 bg-white' : 'border-cream-400 bg-white'
-                }`}
-              >
-                {insuranceType === 'PKV' && <div className="w-3 h-3 rounded-full bg-teal-500" />}
-              </div>
-              <input
-                type="radio"
-                name="insuranceType"
-                value="PKV"
-                checked={insuranceType === 'PKV'}
-                onChange={() => setInsuranceType('PKV')}
-                className="sr-only"
-              />
-            </label>
-          </div>
-        </div>
+        <RadioGroup
+          label={t('insuranceEdit.type')}
+          name="insuranceType"
+          value={insuranceType}
+          onChange={(value) => setInsuranceType(value as InsuranceType)}
+          options={[
+            { value: 'GKV', label: t('insuranceEdit.gkv') },
+            { value: 'PKV', label: t('insuranceEdit.pkv') },
+          ]}
+        />
 
         {/* Insurance Card Number */}
-        <Input
+        <Field
           label={t('insuranceEdit.egkNumber')}
           value={egkNumber}
           onChange={(e) => setEgkNumber(e.target.value)}

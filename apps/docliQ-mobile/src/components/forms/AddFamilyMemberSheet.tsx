@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { FamilyMember, InsuranceType } from '../../types'
 import { Button, Chip, Sheet } from '../ui'
-import { Field } from './Field'
+import { Field } from '@meda/ui'
 
 interface AddFamilyMemberSheetProps {
   open: boolean

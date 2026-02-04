@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
-import { Button, Input, SecurityBanner } from '../../components/ui'
+import { Field } from '@meda/ui'
+import { Button, SecurityBanner } from '../../components/ui'
 import { useProfile } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
 
@@ -42,14 +43,14 @@ export default function AddressEditScreen() {
       <Header title={t('addressEdit.title')} showBack />
 
       <div className="px-4 py-6 space-y-4">
-        <Input
+        <Field
           label={t('addressEdit.street')}
           value={street}
           onChange={(e) => setStreet(e.target.value)}
           placeholder="Musterstraße 123"
         />
 
-        <Input
+        <Field
           label={t('addressEdit.postalCode')}
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
@@ -57,7 +58,7 @@ export default function AddressEditScreen() {
           maxLength={5}
         />
 
-        <Input
+        <Field
           label={t('addressEdit.city')}
           value={city}
           onChange={(e) => setCity(e.target.value)}

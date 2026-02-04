@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Field, Select } from './index'
+import { Field, Select, TextareaField } from '@meda/ui'
 import { Button, Sheet } from '../ui'
 import type { FamilyMember, InsuranceType } from '../../types'
 
@@ -205,18 +205,13 @@ export function EditFamilyMemberSheet({ member, onSave, onClose }: EditFamilyMem
             <h3 className="font-semibold text-charcoal-500 text-sm">
               {t('detail.medicalNotes')} ({t('common.optional')})
             </h3>
-            <div>
-              <label className="block text-sm font-medium text-charcoal-500 mb-2">
-                {t('detail.medicalNotesLabel')}
-              </label>
-              <textarea
-                value={medicalNotes}
-                onChange={(e) => setMedicalNotes(e.target.value)}
-                placeholder={t('detail.medicalNotesPlaceholder')}
-                className="w-full px-3 py-2 border border-cream-400 rounded-lg text-charcoal-500 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                rows={4}
-              />
-            </div>
+            <TextareaField
+              label={t('detail.medicalNotesLabel')}
+              value={medicalNotes}
+              onChange={setMedicalNotes}
+              placeholder={t('detail.medicalNotesPlaceholder')}
+              rows={4}
+            />
           </div>
         </form>
       </Sheet.Body>

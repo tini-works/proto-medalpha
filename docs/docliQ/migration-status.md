@@ -29,7 +29,7 @@ Last updated: 2026-02-04
 | RegisterScreen | Field, PasswordField | ✅ | Complete |
 | WelcomeScreen | - | N/A | No form inputs |
 | VerifyScreen | - | N/A | Uses OTPInput (already in @meda/ui) |
-| VerifyIdentityScreen | - | ⏳ | Pending |
+| VerifyIdentityScreen | - | N/A | No form inputs (info screen only) |
 
 ### Settings Screens
 
@@ -37,28 +37,44 @@ Last updated: 2026-02-04
 |--------|-----------------|----------|--------|
 | ChangePasswordScreen | PasswordField | ✅ | Complete |
 | DeleteEmailConfirmScreen | - | N/A | No form inputs |
-| EditProfileScreen | Multiple | ⏳ | Pending |
-| AddressEditScreen | Field | ⏳ | Pending |
-| InsuranceEditScreen | Field, Select | ⏳ | Pending |
+| EditProfileScreen | Field, PhoneInput | ✅ | Complete |
+| AddressEditScreen | Field | ✅ | Complete |
+| InsuranceEditScreen | Field, RadioGroup | ✅ | Complete |
 
 ### Profile Screens
 
 | Screen | Components Used | Migrated | Status |
 |--------|-----------------|----------|--------|
-| ProfileCompletionScreen | Multiple | ⏳ | Pending |
-| EditProfileScreen | Multiple | ⏳ | Pending |
-| AddFamilyMemberScreen | Multiple | ⏳ | Pending |
-| FamilyMemberDetailScreen | Multiple | ⏳ | Pending |
-| VerifyPhoneScreen | PhoneInput | ⏳ | Pending |
+| ProfileCompletionScreen | Field, RadioGroup | ✅ | Complete |
+| EditProfileScreen | Field, PhoneInput | ✅ | Complete |
+| AddFamilyMemberScreen | - | N/A | Uses AddFamilyMemberSheet |
+| FamilyMemberDetailScreen | - | N/A | Uses EditFamilyMemberSheet |
+| VerifyPhoneScreen | - | N/A | Uses OTPInput (already in @meda/ui) |
 
-### Booking Screens
+### Onboarding Screens
 
 | Screen | Components Used | Migrated | Status |
 |--------|-----------------|----------|--------|
-| SearchScreen | SearchInput | ⏳ | Pending |
-| DoctorSearchScreen | SearchInput | ⏳ | Pending |
-| ConstraintsScreen | Select, DateInput | ⏳ | Pending |
-| CareRequestScreen | TextareaField | ⏳ | Pending |
+| ProfileSetupScreen | PhoneInput, DateInput | ✅ | Complete |
+| InsuranceSetupScreen | - | N/A | Uses InsuranceCard (custom UI) |
+
+### Form Component Sheets
+
+| Component | Components Used | Migrated | Status |
+|-----------|-----------------|----------|--------|
+| AddFamilyMemberSheet | Field | ✅ | Complete |
+| EditFamilyMemberSheet | Field, Select, TextareaField | ✅ | Complete |
+
+### Booking Screens (Out of Scope)
+
+> **Note:** Booking screens are explicitly excluded from this migration phase per project decision. Will be addressed in a future iteration.
+
+| Screen | Components Used | Migrated | Status |
+|--------|-----------------|----------|--------|
+| SearchScreen | SearchInput | ❌ | Out of scope |
+| DoctorSearchScreen | SearchInput | ❌ | Out of scope |
+| ConstraintsScreen | Select, DateInput | ❌ | Out of scope |
+| CareRequestScreen | TextareaField | ❌ | Out of scope |
 
 ### Onboarding Screens
 
@@ -75,12 +91,13 @@ Added to old components in `docliQ-mobile/src/components/forms/`:
 
 ## Summary
 
-- **Migrated screens:** 5
-- **Pending screens:** ~15+
+- **Migrated screens:** 12+
+- **Migrated form sheets:** 2
 - **Components with deprecation warnings:** 2
+- **Booking screens:** Explicitly out of scope
 
 ## Next Steps
 
-1. Continue migrating remaining screens in complexity order
-2. Add deprecation warnings to remaining form components (Select, DateInput, etc.)
-3. Once all screens migrated, remove old components
+1. Add deprecation warnings to remaining form components (Select, DateInput, PhoneInput, RadioGroup)
+2. Once all screens migrated, remove old components
+3. When booking screens are back in scope, complete their migration
