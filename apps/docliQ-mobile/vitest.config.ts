@@ -19,9 +19,9 @@ export default defineConfig({
     // Cons: slight overhead per file (~50-100ms)
     isolate: true,
 
-    // Resource optimization
-    maxConcurrency: 2,
-    maxWorkers: 2,
+    // Resource optimization: cap parallel tests to avoid overloading local dev machines.
+    maxConcurrency: 3,
+    maxWorkers: 3,
     minWorkers: 1,
 
     sequence: {
