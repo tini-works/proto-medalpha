@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Page } from '../../../components'
 import { useBooking, useAppState } from '../../../state'
 import { PATHS, appointmentDetailPath } from '../../../routes'
 import { apiFastLaneMatch, apiSpecialtyMatch } from '../../../data/api'
 import { MatchingStatusView } from '../../../components/appointments/MatchingStatusView'
+import { popBackPath } from '../../../utils/navigation'
 
 type MatchingStatus = 'searching' | 'found_doctors' | 'checking_availability' | 'awaiting_confirmation'
 
@@ -136,11 +137,25 @@ export default function MatchingStatusScreen() {
 
 function BackHeader() {
   const navigate = useNavigate()
+  const location = useLocation()
 
   return (
     <header className="sticky top-0 z-10 h-16 bg-white px-4 flex items-center">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          const fromPath = (location.state as any)?.from as string | undefined
+          if (fromPath) {
+            navigate(fromPath)
+            return
+          }
+          const currentPath = `${location.pathname}${location.search}`
+          const backPath = popBackPath(currentPath)
+          if (backPath && backPath !== currentPath) {
+            navigate(backPath)
+            return
+          }
+          navigate(-1)
+        }}
         className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-cream-100 transition-colors"
         aria-label="Go back"
       >

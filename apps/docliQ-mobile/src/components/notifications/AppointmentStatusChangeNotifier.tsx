@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useAppState } from '../../state'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
 import type { Appointment } from '../../types'
+import { appointmentDetailPath } from '../../routes/paths'
 
 type AppointmentStatus = Appointment['status']
 
@@ -25,6 +26,9 @@ function getToastForStatusChange(
   }
   if (prevStatus === 'confirmed' && newStatus === 'cancelled_doctor') {
     return { messageKey: 'toastAppointmentCancelledByDoctor', type: 'warning' }
+  }
+  if (newStatus === 'modified_by_practice') {
+    return { messageKey: 'toastAppointmentModified', type: 'warning' }
   }
   if (newStatus === 'completed') {
     return { messageKey: 'toastAppointmentCompleted', type: 'success' }
@@ -65,6 +69,8 @@ export default function AppointmentStatusChangeNotifier() {
           title: t(toastConfig.messageKey),
           appointmentId: apt.id,
           type: toastConfig.type,
+          actionLabel: toastConfig.messageKey === 'toastAppointmentModified' ? t('toastReviewChanges') : undefined,
+          actionPath: toastConfig.messageKey === 'toastAppointmentModified' ? appointmentDetailPath(apt.id) : undefined,
         })
       }
       prev[apt.id] = newStatus

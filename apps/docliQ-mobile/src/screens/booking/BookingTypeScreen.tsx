@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconAlertCircle, IconCheck, IconShield, IconCalendar } from '@tabler/icons-react'
 import { Header, Page, StickyActionBar, ProgressIndicator } from '../../components'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { Button } from '../../components/ui'
+import { getStepLabelKey } from './bookingProgress'
+import { getTimeSlots } from '../../data'
+import { pickNextAvailableSlot } from './quickRebook'
 
 type AppointmentTypeId = 'acute_urgent' | 'prevention_wellness' | 'follow_up'
 type PatientSegment = 'myself' | 'family'
@@ -23,9 +26,10 @@ function formatAge(dateOfBirthISO?: string) {
 
 export default function BookingTypeScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('booking')
   const { profile } = useProfile()
-  const { selectedFamilyMemberId, selectFamilyMember, setBookingFlow, resetBooking } = useBooking()
+  const { selectedFamilyMemberId, selectFamilyMember, setBookingFlow, resetBooking, selectDoctor, selectSlot } = useBooking()
   const [appointmentTypeId, setAppointmentTypeId] = useState<AppointmentTypeId>('acute_urgent')
   const [patientSegment, setPatientSegment] = useState<PatientSegment>(
     selectedFamilyMemberId ? 'family' : 'myself'
@@ -35,9 +39,9 @@ export default function BookingTypeScreen() {
     patientSegment === 'myself' || (patientSegment === 'family' && profile.familyMembers.length > 0 && !!selectedFamilyMemberId)
 
   const progressConfig = (() => {
-    if (appointmentTypeId === 'follow_up') return { totalSteps: 2, label: t('step1Of2') }
-    if (appointmentTypeId === 'prevention_wellness') return { totalSteps: 5, label: t('step1Of5') }
-    return { totalSteps: 3, label: t('step1Of3') }
+    if (appointmentTypeId === 'follow_up') return { totalSteps: 2 }
+    if (appointmentTypeId === 'prevention_wellness') return { totalSteps: 5 }
+    return { totalSteps: 3 }
   })()
 
   const handleContinue = () => {
@@ -53,7 +57,22 @@ export default function BookingTypeScreen() {
 
     const { flow, path } = mapping[appointmentTypeId]
     setBookingFlow(flow)
-    navigate(path)
+
+    // Approach2: Follow-up becomes quick rebook when we have a recent doctor.
+    if (appointmentTypeId === 'follow_up') {
+      const recentDoctor = profile.myDoctors?.[0]?.doctor
+      if (recentDoctor) {
+        const nextSlot = pickNextAvailableSlot(getTimeSlots(recentDoctor.id))
+        if (nextSlot) {
+          selectDoctor(recentDoctor as any)
+          selectSlot(nextSlot)
+          navigate(PATHS.BOOKING_CONFIRM)
+          return
+        }
+      }
+    }
+
+    navigate(path, { state: { from: location.pathname } })
   }
 
   return (
@@ -62,7 +81,9 @@ export default function BookingTypeScreen() {
 
       <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">{progressConfig.label}</span>
+          <span className="text-xs font-semibold tracking-wide text-slate-600">
+            {t(getStepLabelKey(1, progressConfig.totalSteps))}
+          </span>
           <span className="text-xs text-slate-500">{t('yourRequest')}</span>
         </div>
         <ProgressIndicator
@@ -155,7 +176,11 @@ export default function BookingTypeScreen() {
               <p className="text-sm text-slate-600">{t('noFamilyMembers')}</p>
               <button
                 type="button"
-                onClick={() => navigate(PATHS.PROFILE_FAMILY_ADD)}
+                onClick={() =>
+                  navigate(PATHS.PROFILE_FAMILY_ADD, {
+                    state: { from: location.pathname, skipInBackStack: true },
+                  })
+                }
                 className="mt-3 text-sm font-medium text-teal-700 hover:text-teal-800"
               >
                 {t('addFamilyMember')}

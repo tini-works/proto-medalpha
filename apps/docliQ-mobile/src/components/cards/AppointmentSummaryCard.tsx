@@ -1,7 +1,31 @@
-import { IconCalendar, IconClock, IconVideo, IconMapPin } from '@tabler/icons-react'
+import { IconCalendar, IconVideo, IconMapPin } from '@tabler/icons-react'
 import { useTranslation } from 'react-i18next'
 import { Avatar } from '../display/Avatar'
 import { translateSpecialty } from '../../utils'
+
+function parseDurationMinutes(duration?: string) {
+  if (!duration) return null
+  const m = duration.match(/(\d+)\s*(min|mins|minute|minutes)/i)
+  if (!m) return null
+  const minutes = Number(m[1])
+  return Number.isFinite(minutes) && minutes > 0 ? minutes : null
+}
+
+function formatEndTime(startTime: string, durationMinutes: number) {
+  // Expects "HH:MM" (24h). Falls back to null if parsing fails.
+  const m = startTime.match(/^(\d{1,2}):(\d{2})$/)
+  if (!m) return null
+  const hours = Number(m[1])
+  const minutes = Number(m[2])
+  if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return null
+  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return null
+
+  const total = hours * 60 + minutes + durationMinutes
+  const endHours = Math.floor((total % (24 * 60)) / 60)
+  const endMinutes = total % 60
+  const pad2 = (n: number) => String(n).padStart(2, '0')
+  return `${pad2(endHours)}:${pad2(endMinutes)}`
+}
 
 interface AppointmentSummaryCardProps {
   doctor: {
@@ -14,6 +38,7 @@ interface AppointmentSummaryCardProps {
   duration?: string
   type: 'in-person' | 'video'
   address?: string
+  showVisitType?: boolean
 }
 
 export function AppointmentSummaryCard({
@@ -23,9 +48,12 @@ export function AppointmentSummaryCard({
   duration,
   type,
   address,
+  showVisitType = true,
 }: AppointmentSummaryCardProps) {
   const { t } = useTranslation('booking')
   const typeLabel = type === 'in-person' ? t('inPersonVisit') : t('videoConsultation')
+  const durationMinutes = parseDurationMinutes(duration) ?? null
+  const endTime = durationMinutes ? formatEndTime(time, durationMinutes) : null
 
   return (
     <div className="bg-white rounded-xl border border-cream-400 overflow-hidden">
@@ -45,36 +73,33 @@ export function AppointmentSummaryCard({
 
       {/* Details section */}
       <div className="p-4 space-y-3">
-        {/* Date */}
+        {/* Date + time */}
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
             <IconCalendar className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
           </div>
-          <span className="text-sm text-slate-700">{date}</span>
-        </div>
-
-        {/* Time */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-            <IconClock className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
+          <div className="min-w-0">
+            <div className="text-sm text-slate-700">{date}</div>
+            <div className="text-sm text-slate-600">
+              {endTime ? `${time}–${endTime}` : time}
+              {duration ? <span className="text-slate-400"> ({duration})</span> : null}
+            </div>
           </div>
-          <span className="text-sm text-slate-700">
-            {time}
-            {duration && <span className="text-slate-400"> ({duration})</span>}
-          </span>
         </div>
 
         {/* Visit type */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
-            {type === 'video' ? (
-              <IconVideo className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
-            ) : (
-              <IconMapPin className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
-            )}
+        {showVisitType && (
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-cream-200 flex items-center justify-center flex-shrink-0">
+              {type === 'video' ? (
+                <IconVideo className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
+              ) : (
+                <IconMapPin className="w-4.5 h-4.5 text-slate-600" stroke={1.5} />
+              )}
+            </div>
+            <span className="text-sm text-slate-700">{typeLabel}</span>
           </div>
-          <span className="text-sm text-slate-700">{typeLabel}</span>
-        </div>
+        )}
 
         {/* Address (if in-person) */}
         {address && type === 'in-person' && (

@@ -91,12 +91,14 @@ export const initialProfile: UserProfile = {
   gender: undefined,
   insuranceType: '',
   egkNumber: '',
+  photoUrl: '/images/avatar-max.png',
   address: {
     street: '',
     postalCode: '',
     city: '',
   },
   familyMembers: [],
+  myDoctors: [],
   gdprConsent: {
     dataProcessing: false,
     marketing: false,

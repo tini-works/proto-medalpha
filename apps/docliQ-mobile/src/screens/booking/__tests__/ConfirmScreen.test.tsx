@@ -13,6 +13,7 @@ vi.mock('react-router-dom', async () => {
   return {
     ...actual,
     useNavigate: () => mockNavigate,
+    useLocation: () => ({ state: { from: '/booking/availability' } }),
   }
 })
 
@@ -46,6 +47,7 @@ vi.mock('../../../state', () => ({
       insuranceType: 'GKV',
       familyMembers: [],
     },
+    upsertMyDoctor: vi.fn(),
   }),
   useHistory: () => ({
     addHistoryItem: mockAddHistoryItem,
@@ -100,6 +102,9 @@ describe('ConfirmScreen', () => {
     renderConfirmScreen()
 
     const confirmButton = screen.getByRole('button', { name: /confirm/i })
+    expect(confirmButton).toBeDisabled()
+
+    await user.type(screen.getByRole('textbox'), 'Headache and dizziness')
     expect(confirmButton).not.toBeDisabled()
 
     await user.click(confirmButton)
@@ -113,6 +118,7 @@ describe('ConfirmScreen', () => {
     renderConfirmScreen()
 
     const confirmButton = screen.getByRole('button', { name: /confirm/i })
+    await user.type(screen.getByRole('textbox'), 'Headache and dizziness')
 
     // Click twice rapidly
     await user.click(confirmButton)
@@ -126,12 +132,21 @@ describe('ConfirmScreen', () => {
     const user = userEvent.setup()
     renderConfirmScreen()
 
+    await user.type(screen.getByRole('textbox'), 'Headache and dizziness')
     await user.click(screen.getByRole('button', { name: /confirm/i }))
 
     expect(mockAddAppointment).toHaveBeenCalledTimes(1)
     expect(mockAddHistoryItem).toHaveBeenCalledTimes(1)
     expect(mockResetBooking).toHaveBeenCalledTimes(1)
-    expect(mockNavigate).toHaveBeenCalled()
+    expect(mockNavigate).toHaveBeenCalledWith('/booking/request-sent', expect.anything())
+  })
+
+  it('navigates back to last route when close is clicked', async () => {
+    const user = userEvent.setup()
+    renderConfirmScreen()
+
+    await user.click(screen.getByRole('button', { name: /close/i }))
+    expect(mockNavigate).toHaveBeenCalledWith('/booking/availability')
   })
 
   it('disables confirm button when offline', () => {

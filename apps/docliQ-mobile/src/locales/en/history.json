@@ -9,6 +9,7 @@
   "filterAwaitConfirm": "Await confirm",
   "filterMatching": "Matching",
   "filterDoctorCanceled": "Doctor canceled",
+  "filterDoctorRescheduled": "Doctor rescheduled",
   "emptyOthersTitle": "No other appointments",
   "emptyOthersDescription": "Try changing the filters to see more.",
   "bookNewAppointment": "Book new appointment",

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Heart, Star, MapPin, ChevronRight } from 'tabler-icons-react'
+import { Star, MapPin, ChevronRight } from 'tabler-icons-react'
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react'
 import type { Doctor, TimeSlot } from '../../types'
 import { Avatar } from '../display/Avatar'
 import { Pill } from '../display/Pill'
@@ -15,6 +16,8 @@ interface DoctorCardProps {
   onSelectSlot?: (slot: TimeSlot) => void
   onMoreAppointments?: () => void
   showSlots?: boolean
+  saved?: boolean
+  onToggleSaved?: () => void
   // New props for specialty-first flow
   selectable?: boolean
   selected?: boolean
@@ -40,13 +43,16 @@ export function DoctorCard({
   onSelectSlot,
   onMoreAppointments,
   showSlots = true,
+  saved,
+  onToggleSaved,
   selectable = false,
   selected = false,
   onSelect,
   onViewDetails,
 }: DoctorCardProps) {
   const { t } = useTranslation('booking')
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [localSaved, setLocalSaved] = useState(false)
+  const isSaved = saved ?? localSaved
 
   // Get first 3 available slots for quick booking
   const availableSlots = slots.filter((s) => s.available).slice(0, 3)
@@ -57,15 +63,19 @@ export function DoctorCard({
   const insuranceTag = (() => {
     const hasGkv = doctor.accepts.includes('GKV')
     const hasPkv = doctor.accepts.includes('PKV')
-    if (hasGkv && hasPkv) return t('both')
-    if (hasGkv) return t('public')
-    if (hasPkv) return t('private')
+    if (hasGkv && hasPkv) return 'GKV / PKV'
+    if (hasGkv) return 'GKV'
+    if (hasPkv) return 'PKV'
     return '—'
   })()
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsFavorite(!isFavorite)
+    if (onToggleSaved) {
+      onToggleSaved()
+      return
+    }
+    setLocalSaved(!localSaved)
   }
 
   const handleSlotClick = (slot: TimeSlot) => {
@@ -116,19 +126,14 @@ export function DoctorCard({
 
             {/* Favorite button */}
             <button
+              type="button"
               onClick={handleFavoriteClick}
-              className={`p-1.5 rounded-full transition-colors ${
-                isFavorite
-                  ? 'text-red-500'
-                  : 'text-cream-400 hover:text-red-400'
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors flex-shrink-0 self-start ${
+                isSaved ? 'text-coral-500 hover:bg-coral-50' : 'text-slate-500 hover:bg-cream-100'
               }`}
-              aria-label={isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
+              aria-label={isSaved ? t('removeFromFavorites') : t('addToFavorites')}
             >
-              {isFavorite ? (
-                <Heart size="20" stroke="1.5" fill="currentColor" />
-              ) : (
-                <Heart size="20" stroke="1.5" />
-              )}
+              {isSaved ? <IconHeartFilled size={20} stroke={2} /> : <IconHeart size={20} stroke={2} />}
             </button>
           </div>
 
@@ -142,7 +147,7 @@ export function DoctorCard({
             <span className="text-cream-400">|</span>
             <div className="flex items-center gap-1">
               <MapPin size="14" stroke="1.5" />
-              <span>{distanceKm} km</span>
+              <span>~{distanceKm} km</span>
             </div>
           </div>
         </div>

@@ -76,17 +76,45 @@ export interface Appointment {
   feedbackDismissed?: boolean
   feedbackSubmittedAt?: string
   cancelReason?: string
+  appointmentType?: string
+  notes?: string
+  locationName?: string
+  changeHistory?: AppointmentChange[]
   status:
     | 'matching'
     | 'await_confirm'
     | 'confirmed'
+    | 'modified_by_practice'
     | 'completed'
     | 'cancelled_patient'
     | 'cancelled_doctor'
+    | 'modified_by_practice'
   reminderSet: boolean
   calendarSynced: boolean
   bookingType?: BookingType
   matchingRequest?: MatchingRequest
+}
+
+export interface AppointmentChange {
+  id: string
+  changedAt: string
+  summary: string
+  before: {
+    dateISO?: string
+    time?: string
+    locationName?: string
+    doctorName?: string
+    appointmentType?: string
+    notes?: string
+  }
+  after: {
+    dateISO?: string
+    time?: string
+    locationName?: string
+    doctorName?: string
+    appointmentType?: string
+    notes?: string
+  }
 }
 
 export interface SearchFilters {

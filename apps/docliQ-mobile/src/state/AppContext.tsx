@@ -25,6 +25,7 @@ import {
   saveBiometricUserId,
   clearBiometricUserId,
 } from './storage'
+import type { MyDoctorEntry } from '../types/user'
 
 // Fast-Lane request type
 interface FastLaneRequestState {
@@ -92,6 +93,8 @@ type AppStateApi = {
   removeFamilyMember: (id: string) => void
   updateFamilyMember: (id: string, patch: Partial<FamilyMember>) => void
   updateGdprConsent: (consent: Partial<AppState['profile']['gdprConsent']>) => void
+  upsertMyDoctor: (doctor: Doctor, bookedAtISO?: string) => void
+  toggleMyDoctor: (doctor: Doctor) => void
   // Preferences
   setFontScale: (scale: AppState['preferences']['fontScale']) => void
   setLanguage: (language: AppState['preferences']['language']) => void
@@ -148,7 +151,29 @@ type AppStateApi = {
 const Ctx = createContext<AppStateApi | null>(null)
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<AppState>(() => loadState(initialState))
+  const [state, setState] = useState<AppState>(() => {
+    const loaded = loadState(initialState) as any
+    const sanitizedAppointments = (loaded?.appointments ?? initialState.appointments).filter(
+      (apt: Appointment) => apt.id !== 'seed_modified_by_practice'
+    )
+    return {
+      ...initialState,
+      ...loaded,
+      auth: { ...initialState.auth, ...(loaded?.auth ?? {}) },
+      preferences: { ...initialState.preferences, ...(loaded?.preferences ?? {}) },
+      profile: {
+        ...initialState.profile,
+        ...(loaded?.profile ?? {}),
+        familyMembers: loaded?.profile?.familyMembers ?? initialState.profile.familyMembers,
+        myDoctors: loaded?.profile?.myDoctors ?? initialState.profile.myDoctors,
+        gdprConsent: { ...initialState.profile.gdprConsent, ...(loaded?.profile?.gdprConsent ?? {}) },
+        address: { ...initialState.profile.address, ...(loaded?.profile?.address ?? {}) },
+      },
+      booking: { ...initialState.booking, ...(loaded?.booking ?? {}) },
+      history: { ...initialState.history, ...(loaded?.history ?? {}) },
+      appointments: sanitizedAppointments,
+    }
+  })
   const [extendedState, setExtendedState] = useState<ExtendedState>(() => ({
     reschedule: null,
     bookAgain: null,
@@ -160,6 +185,30 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     pendingDeletion: loadPendingDeletion(),
     biometricUserId: loadBiometricUserId(),
   }))
+
+  const normalizeMyDoctors = (entries: MyDoctorEntry[]) => {
+    const sorted = [...entries].sort((a, b) => {
+      const aKey = a.lastBookedAt ?? a.addedAt
+      const bKey = b.lastBookedAt ?? b.addedAt
+      return bKey.localeCompare(aKey)
+    })
+    return sorted.slice(0, 5)
+  }
+
+  const snapshotDoctor = (doctor: Doctor) => ({
+    id: doctor.id,
+    name: doctor.name,
+    specialty: doctor.specialty,
+    city: doctor.city,
+    address: doctor.address,
+    accepts: doctor.accepts,
+    languages: doctor.languages,
+    rating: doctor.rating,
+    reviewCount: doctor.reviewCount,
+    nextAvailableISO: doctor.nextAvailableISO,
+    imageUrl: doctor.imageUrl,
+    about: doctor.about,
+  })
 
   useEffect(() => {
     setState((s) => {
@@ -205,16 +254,90 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           id: 'seed_confirmed',
           doctorId: 'd3',
           doctorName: 'Dr. Lena Hoffmann',
-          specialty: 'General Medicine',
+          specialty: 'Dermatology',
           dateISO: isoDay(1),
           time: '10:15',
           forUserId: s.profile.id || 'self',
           forUserName: s.profile.fullName || 'You',
           status: 'confirmed' as const,
+          appointmentType: 'Follow-up',
+          notes: 'Discuss lab results.',
+          locationName: 'Skin Health Center, Suite 3',
           reminderSet: true,
           calendarSynced: false,
           createdAt: isoAt(-1420),
           updatedAt: isoAt(-10),
+        },
+        {
+          id: 'seed_confirmed_2',
+          doctorId: 'd8',
+          doctorName: 'Dr. Amir Kaya',
+          specialty: 'Cardiology',
+          dateISO: isoDay(2),
+          time: '09:00',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'confirmed' as const,
+          appointmentType: 'Acute',
+          notes: 'Blood pressure review.',
+          locationName: 'Heart Care Clinic, Building A',
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1600),
+          updatedAt: isoAt(-20),
+        },
+        {
+          id: 'seed_confirmed_3',
+          doctorId: 'd9',
+          doctorName: 'Dr. Sofia Brandt',
+          specialty: 'ENT',
+          dateISO: isoDay(3),
+          time: '13:45',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'confirmed' as const,
+          appointmentType: 'Prevention',
+          notes: 'Annual checkup.',
+          locationName: 'City Clinic, Floor 2',
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-1700),
+          updatedAt: isoAt(-30),
+        },
+        {
+          id: 'seed_modified_practice',
+          doctorId: 'd7',
+          doctorName: 'Dr. Maria Keller',
+          specialty: 'Cardiology',
+          dateISO: isoDay(5),
+          time: '15:30',
+          forUserId: s.profile.id || 'self',
+          forUserName: s.profile.fullName || 'You',
+          status: 'modified_by_practice' as const,
+          appointmentType: 'Acute',
+          notes: 'Bring previous ECG results.',
+          locationName: 'Heart Care Clinic, Building B',
+          changeHistory: [
+            {
+              id: 'chg_1',
+              changedAt: isoAt(-120),
+              summary: 'Practice updated time and location.',
+              before: {
+                dateISO: isoDay(4),
+                time: '14:30',
+                locationName: 'Heart Care Clinic, Building A',
+              },
+              after: {
+                dateISO: isoDay(5),
+                time: '15:30',
+                locationName: 'Heart Care Clinic, Building B',
+              },
+            },
+          ],
+          reminderSet: true,
+          calendarSynced: false,
+          createdAt: isoAt(-2000),
+          updatedAt: isoAt(-120),
         },
         {
           id: 'seed_cancelled_doctor',
@@ -282,11 +405,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         const needsReason =
           apt.id === 'seed_cancelled_doctor' && !nextAppointments[idx].cancelReason && apt.cancelReason
 
-        if (nextAppointments[idx].status !== apt.status || needsReason) {
+        const needsChangeHistory =
+          apt.id === 'seed_modified_practice' && !nextAppointments[idx].changeHistory && apt.changeHistory
+
+        if (nextAppointments[idx].status !== apt.status || needsReason || needsChangeHistory) {
           nextAppointments[idx] = {
             ...nextAppointments[idx],
             status: apt.status,
             cancelReason: needsReason ? apt.cancelReason : nextAppointments[idx].cancelReason,
+            changeHistory: needsChangeHistory ? apt.changeHistory : nextAppointments[idx].changeHistory,
             updatedAt: isoAt(-5),
           }
           changed = true
@@ -427,6 +554,34 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
             },
           },
         })),
+
+      upsertMyDoctor: (doctor, bookedAtISO) => {
+        const now = bookedAtISO ?? new Date().toISOString()
+        setState((s) => {
+          const existing = s.profile.myDoctors ?? []
+          const idx = existing.findIndex((e) => e.doctor.id === doctor.id)
+          const next: MyDoctorEntry[] =
+            idx >= 0
+              ? existing.map((e, i) => (i === idx ? { ...e, doctor: snapshotDoctor(doctor), lastBookedAt: now } : e))
+              : [{ doctor: snapshotDoctor(doctor), lastBookedAt: now, addedAt: now }, ...existing]
+
+          return { ...s, profile: { ...s.profile, myDoctors: normalizeMyDoctors(next) } }
+        })
+      },
+
+      toggleMyDoctor: (doctor) => {
+        const now = new Date().toISOString()
+        setState((s) => {
+          const existing = s.profile.myDoctors ?? []
+          const idx = existing.findIndex((e) => e.doctor.id === doctor.id)
+          const next: MyDoctorEntry[] =
+            idx >= 0
+              ? existing.filter((e) => e.doctor.id !== doctor.id)
+              : [{ doctor: snapshotDoctor(doctor), addedAt: now }, ...existing]
+
+          return { ...s, profile: { ...s.profile, myDoctors: normalizeMyDoctors(next) } }
+        })
+      },
 
       // Preferences
       setFontScale: (fontScale) =>
@@ -668,6 +823,8 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    upsertMyDoctor,
+    toggleMyDoctor,
     markPhoneVerified,
     isProfileComplete,
   } = useAppState()
@@ -679,6 +836,8 @@ export function useProfile() {
     removeFamilyMember,
     updateFamilyMember,
     updateGdprConsent,
+    upsertMyDoctor,
+    toggleMyDoctor,
     markPhoneVerified,
   }
 }

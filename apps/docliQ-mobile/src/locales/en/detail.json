@@ -22,7 +22,7 @@
   "awaitingConfirmation": "Awaiting Confirmation",
   "awaitingDescription": "We've found a match! Waiting for {{doctorName}} to confirm your appointment.",
 
-  "confirmed": "Appointment Confirmed!",
+  "confirmed": "Appointment Confirmed",
   "confirmedDescription": "Your appointment has been confirmed. We've sent the details to your email and phone.",
   "feedback": {
     "title": "How was your visit?",
@@ -46,6 +46,24 @@
   "exportIcs": "Export as .ics File",
   "getDirections": "Get Directions",
   "cancelAppointment": "Cancel Appointment",
+  "modifiedTitle": "Appointment Updated",
+  "modifiedDescription": "The practice adjusted your appointment. Review the changes below.",
+  "changedBannerTitle": "Your appointment was changed by the practice",
+  "changedBannerSubtitle": "Please review what was updated.",
+  "reviewChanges": "Review changes",
+  "changesTitle": "What was updated",
+  "acknowledge": "Acknowledge",
+  "viewDiff": "View diff",
+  "hideDiff": "Hide diff",
+  "notProvided": "Not provided",
+  "diff": {
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "doctor": "Doctor",
+    "type": "Type",
+    "notes": "Notes"
+  },
   "viewAllAppointments": "View all appointments",
   "backToHome": "Back to Home",
 

@@ -1,4 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AppStateProvider } from './state'
 import { RequireAuth, RequireProfileComplete, RedirectIfAuthenticated, PATHS } from './routes'
 import { useI18nSync } from './hooks/useI18nSync'
@@ -32,7 +33,7 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 
 // Booking screens
 import {
-  BookingTypeScreen,
+  IntentCaptureScreen,
   SearchScreen as BookingSearchScreen,
   SymptomsScreen as BookingSymptomsScreen,
   AvailabilityScreen as BookingAvailabilityScreen,
@@ -115,6 +116,24 @@ import {
 
 // Cookie consent banner
 import { CookieConsentBanner } from './components'
+import { recordNavigation } from './utils/navigation'
+
+function BookingEntryRedirect() {
+  const location = useLocation()
+  return <Navigate to={PATHS.BOOKING_INTENT} replace state={location.state} />
+}
+
+function NavigationTracker() {
+  const location = useLocation()
+
+  useEffect(() => {
+    const currentPath = `${location.pathname}${location.search}`
+    const skip = Boolean((location.state as any)?.skipInBackStack)
+    if (!skip) recordNavigation(currentPath)
+  }, [location.pathname, location.search])
+
+  return null
+}
 
 export default function App() {
   return (
@@ -145,6 +164,7 @@ function AppContent() {
     <DeviceFrame>
       <BrowserRouter>
         <DeletionExpiryChecker />
+        <NavigationTracker />
         <div className="app-shell relative">
         <Routes>
           <Route path="/" element={<Navigate to={PATHS.HOME} replace />} />
@@ -343,13 +363,19 @@ function AppContent() {
             }
           />
 
-          {/* Booking - Entry Point */}
+          {/* Booking - Entry Point (redirects to intent capture) */}
           <Route
             path={PATHS.BOOKING}
+            element={<BookingEntryRedirect />}
+          />
+
+          {/* Intent-Based Smart Router (Approach A) */}
+          <Route
+            path={PATHS.BOOKING_INTENT}
             element={
               <RequireAuth>
                 <RequireProfileComplete>
-                  <BookingTypeScreen />
+                  <IntentCaptureScreen />
                 </RequireProfileComplete>
               </RequireAuth>
             }

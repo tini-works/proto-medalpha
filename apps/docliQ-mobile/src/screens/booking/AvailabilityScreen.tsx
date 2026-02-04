@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconSparkles, IconSun, IconMoon, IconCheck, IconCalendar, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
@@ -8,6 +8,7 @@ import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { useBookingSubmission } from '../../hooks/useBookingSubmission'
 import type { DayOfWeek, TimeRange, AvailabilitySlot, InsuranceType } from '../../types'
+import { resolveBookingProgress } from './bookingProgress'
 
 const DAYS: DayOfWeek[] = ['mon', 'tue', 'wed', 'thu', 'fri']
 const TIME_RANGES: TimeRange[] = ['morning', 'afternoon', 'evening']
@@ -29,11 +30,14 @@ const DAY_LABELS: Record<DayOfWeek, string> = {
 export default function AvailabilityScreen() {
   const { t } = useTranslation('booking')
   const navigate = useNavigate()
+  const location = useLocation()
   const { profile } = useProfile()
-  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor } = useBooking()
+  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
   const { submitSpecialty } = useBookingSubmission()
 
   const isDoctorFirstFlow = bookingFlow === 'by_doctor'
+  const submitMode = ((location.state as any)?.submitMode as 'confirm' | 'direct' | undefined) ?? 'direct'
+  const from = (location.state as any)?.from as string | undefined
 
   const [fullyFlexible, setFullyFlexible] = useState(false)
   const [selectedSlots, setSelectedSlots] = useState<Set<string>>(new Set())
@@ -43,12 +47,12 @@ export default function AvailabilityScreen() {
     if (isDoctorFirstFlow) {
       // Doctor-first flow: redirect if no doctor selected
       if (!selectedDoctor) {
-        navigate(PATHS.BOOKING_RESULTS)
+        navigate(PATHS.BOOKING_RESULTS, { replace: true, state: { from: PATHS.BOOKING_INTENT } })
       }
     } else {
       // Specialty-first flow: redirect if no specialty or city
       if (!search?.specialty || !search?.city) {
-        navigate(PATHS.BOOKING_SPECIALTY)
+        navigate(PATHS.BOOKING_SPECIALTY, { replace: true, state: { from: PATHS.BOOKING_INTENT } })
       }
     }
   }, [isDoctorFirstFlow, selectedDoctor, search?.specialty, search?.city, navigate])
@@ -82,7 +86,16 @@ export default function AvailabilityScreen() {
   const handleFullyFlexibleToggle = () => {
     setFullyFlexible((prev) => !prev)
     if (!fullyFlexible) {
-      // Clear manual selections when choosing fully flexible
+      // Select all slots when choosing fully flexible
+      const allSlots = new Set<string>()
+      DAYS.forEach((day) => {
+        TIME_RANGES.forEach((timeRange) => {
+          allSlots.add(slotKey(day, timeRange))
+        })
+      })
+      setSelectedSlots(allSlots)
+    } else {
+      // Clear selections when unchecking fully flexible
       setSelectedSlots(new Set())
     }
   }
@@ -136,13 +149,11 @@ export default function AvailabilityScreen() {
   }, [selectedSlots, fullyFlexible, t])
 
   const handleBack = () => {
-    if (isDoctorFirstFlow) {
-      // Doctor-first flow: go back to symptoms screen
-      navigate(PATHS.BOOKING_SYMPTOMS)
-    } else {
-      // Specialty-first flow: go back to combined specialty screen
-      navigate(PATHS.BOOKING_SPECIALTY)
+    if (from) {
+      navigate(from)
+      return
     }
+    navigate(isDoctorFirstFlow ? PATHS.BOOKING_INTENT : PATHS.BOOKING_SPECIALTY)
   }
 
   const handleContinue = () => {
@@ -158,8 +169,7 @@ export default function AvailabilityScreen() {
       ? (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV')
       : ((search?.insuranceType || 'GKV') as InsuranceType)
 
-    // Submit using the shared hook
-    submitSpecialty({
+    const requestPayload = {
       specialty: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.specialty : (search?.specialty || ''),
       city: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.city : (search?.city || ''),
       insuranceType,
@@ -168,7 +178,17 @@ export default function AvailabilityScreen() {
       availabilityPrefs: prefs,
       patientId: profile.id,
       patientName: profile.fullName,
-    })
+    }
+
+    if (submitMode === 'confirm') {
+      // Store request state for the confirmation screen, but do not submit yet.
+      setSpecialtyMatchRequest(requestPayload)
+      navigate(PATHS.BOOKING_CONFIRM, { state: { from: PATHS.BOOKING_AVAILABILITY } })
+      return
+    }
+
+    // Direct mode: submit immediately and navigate to Request Sent
+    submitSpecialty(requestPayload)
   }
 
   const canContinue = fullyFlexible || selectedSlots.size > 0
@@ -178,21 +198,31 @@ export default function AvailabilityScreen() {
       <Header title={t('selectAvailability')} showBack onBack={handleBack} />
 
       {/* Progress indicator */}
-      <div className="px-4 py-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {isDoctorFirstFlow ? t('step4Of5') : t('step3Of3')}
-          </span>
-          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-        </div>
-        <ProgressIndicator
-          currentStep={isDoctorFirstFlow ? 4 : 3}
-          totalSteps={isDoctorFirstFlow ? 5 : 3}
-          variant="bar"
-          showLabel={false}
-          showPercentage={false}
-        />
-      </div>
+      {(() => {
+        const progress = resolveBookingProgress({
+          bookingFlow,
+          fallbackFlow: isDoctorFirstFlow ? 'by_doctor' : 'by_specialty',
+          currentStep: isDoctorFirstFlow ? 4 : 3,
+        })
+        if (progress.totalSteps < 3) return null
+        return (
+          <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold tracking-wide text-slate-600">
+                {t(progress.stepLabelKey)}
+              </span>
+              <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+            </div>
+            <ProgressIndicator
+              currentStep={progress.currentStep}
+              totalSteps={progress.totalSteps}
+              variant="bar"
+              showLabel={false}
+              showPercentage={false}
+            />
+          </div>
+        )
+      })()}
 
       <div className="px-4 pb-28 space-y-6">
         {/* Subtitle */}
@@ -267,11 +297,11 @@ export default function AvailabilityScreen() {
                     type="button"
                     onClick={() => toggleSlot(day, timeRange)}
                     disabled={fullyFlexible}
-                    className={`h-10 rounded-lg flex items-center justify-center transition-all duration-150 ${
-                      fullyFlexible
-                        ? 'bg-cream-100 cursor-not-allowed'
-                        : isSelected
-                          ? 'bg-teal-500 text-white'
+                    className={`h-10 rounded-xl flex items-center justify-center transition-all duration-150 ${
+                      isSelected
+                        ? 'bg-[#3AAAB6] text-white'
+                        : fullyFlexible
+                          ? 'bg-cream-100 cursor-not-allowed'
                           : 'bg-cream-100 hover:bg-cream-200'
                     }`}
                     aria-pressed={isSelected}
@@ -299,18 +329,18 @@ export default function AvailabilityScreen() {
 
         {/* Selection summary */}
         {canContinue && (
-          <div className="bg-cream-100 rounded-2xl p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-teal-600">
-                <IconCalendar size={20} stroke={2} />
+          <div className="bg-[#E8F4F6] rounded-2xl p-4 border border-[#B8E0E6]">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#3AAAB6] border border-[#D4EBEF]">
+                <IconCalendar size={20} stroke={1.5} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-charcoal-500">{selectionSummary.primary}</p>
+                <p className="font-semibold text-slate-800 text-sm">{selectionSummary.primary}</p>
                 {selectionSummary.secondary && (
-                  <p className="text-sm text-slate-500 mt-0.5">{selectionSummary.secondary}</p>
+                  <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">{selectionSummary.secondary}</p>
                 )}
               </div>
-              <span className="px-2 py-1 rounded-full bg-teal-100 text-xs font-semibold text-teal-700">
+              <span className="px-3 py-1.5 rounded-full bg-white border border-[#3AAAB6] text-xs font-semibold text-[#3AAAB6] whitespace-nowrap">
                 {selectionSummary.count} {t('slots')}
               </span>
             </div>
