@@ -10,7 +10,7 @@ const MOCK_GOOGLE_USER = {
   provider: 'google' as const,
   name: 'Max Mustermann',
   email: 'max.mustermann@gmail.com',
-  photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Max',
+  photoUrl: '/images/avatar-max.png',
 }
 
 const MOCK_APPLE_USER = {
