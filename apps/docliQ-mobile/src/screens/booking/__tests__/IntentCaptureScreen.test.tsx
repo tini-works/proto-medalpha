@@ -26,30 +26,30 @@ describe('IntentCaptureScreen', () => {
   it('renders patient selection with myself and family options', () => {
     renderIntentCapture()
     
-    expect(screen.getByText('Who is this appointment for?')).toBeInTheDocument()
-    expect(screen.getByText('Myself')).toBeInTheDocument()
-    expect(screen.getByText('Family Member')).toBeInTheDocument()
+    expect(screen.getByText('whoIsAppointmentFor')).toBeInTheDocument()
+    expect(screen.getByText('myself')).toBeInTheDocument()
+    expect(screen.getByText('familyMember')).toBeInTheDocument()
   })
 
   it('renders search input with placeholder', () => {
     renderIntentCapture()
     
-    const searchInput = screen.getByPlaceholderText(/e.g.*Dr.*Müller.*cardiology/i)
+    const searchInput = screen.getByPlaceholderText('intentSearchPlaceholder')
     expect(searchInput).toBeInTheDocument()
   })
 
   it('shows quick options including Fast-Lane and Book by Specialty', () => {
     renderIntentCapture()
     
-    expect(screen.getByText('Quick options')).toBeInTheDocument()
-    expect(screen.getByText('Fast-Lane')).toBeInTheDocument()
-    expect(screen.getByText('Book by Specialty')).toBeInTheDocument()
+    expect(screen.getByText('quickOptions')).toBeInTheDocument()
+    expect(screen.getByText('fastLane')).toBeInTheDocument()
+    expect(screen.getByText('bookBySpecialty')).toBeInTheDocument()
   })
 
   it('routes to Fast-Lane when Fast-Lane quick option is clicked', async () => {
     renderIntentCapture()
     
-    const fastLaneButton = screen.getByText('Fast-Lane').closest('button')
+    const fastLaneButton = screen.getByText('fastLane').closest('button')
     fireEvent.click(fastLaneButton!)
     
     await waitFor(() => {
@@ -60,37 +60,60 @@ describe('IntentCaptureScreen', () => {
   it('shows manual options when intent is unclear', async () => {
     renderIntentCapture()
     
-    const searchInput = screen.getByPlaceholderText(/e.g.*Dr.*Müller.*cardiology/i)
+    const searchInput = screen.getByPlaceholderText('intentSearchPlaceholder')
     fireEvent.change(searchInput, { target: { value: 'xyz' } })
     
-    const analyzeButton = screen.getByText('Analyze My Request')
-    fireEvent.click(analyzeButton)
+    const continueButton = screen.getByText('continueBtn')
+    fireEvent.click(continueButton)
     
     await waitFor(() => {
-      expect(screen.getByText(/not sure what you're looking for/i)).toBeInTheDocument()
-      expect(screen.getByText('How would you like to book?')).toBeInTheDocument()
+      expect(screen.getByText('unclearIntentHelp')).toBeInTheDocument()
+      expect(screen.getByText('howWouldYouLikeToBook')).toBeInTheDocument()
     })
   })
 
   it('routes to doctor flow when doctor name is entered', async () => {
     renderIntentCapture()
     
-    const searchInput = screen.getByPlaceholderText(/e.g.*Dr.*Müller.*cardiology/i)
-    fireEvent.change(searchInput, { target: { value: 'Dr. Anna' } })
+    const searchInput = screen.getByPlaceholderText('intentSearchPlaceholder')
+    fireEvent.change(searchInput, { target: { value: 'Anna' } })
     
-    const analyzeButton = screen.getByText('Analyze My Request')
-    fireEvent.click(analyzeButton)
+    const continueButton = screen.getByText('continueBtn')
+    fireEvent.click(continueButton)
     
-    // Should show suggestion or route to doctor
     await waitFor(() => {
-      expect(screen.getByText(/Looking for a specific doctor/i)).toBeInTheDocument()
+      expect(screen.getByTestId('slots')).toBeInTheDocument()
     })
   })
 
-  it('shows "See my doctor again" quick option text', () => {
+  it('does not show "See my doctor again" when user has no favorites', () => {
     renderIntentCapture()
     
-    // Quick option should be visible even without doctors (just tests UI presence)
-    expect(screen.getByText('See my doctor again')).toBeInTheDocument()
+    expect(screen.queryByText('seeMyDoctorAgain')).not.toBeInTheDocument()
+  })
+
+  it('shows doctor suggestions for short queries', async () => {
+    renderIntentCapture()
+
+    const searchInput = screen.getByPlaceholderText('intentSearchPlaceholder')
+    fireEvent.change(searchInput, { target: { value: 'sm' } })
+
+    await waitFor(() => {
+      expect(screen.getByText('Dr. Michael Schmidt')).toBeInTheDocument()
+    })
+  })
+
+  it('shows "View all doctors" in suggestions and routes to results', async () => {
+    renderIntentCapture()
+
+    const searchInput = screen.getByPlaceholderText('intentSearchPlaceholder')
+    fireEvent.change(searchInput, { target: { value: 'sm' } })
+
+    const viewAll = await screen.findByText('viewAllDoctors')
+    fireEvent.click(viewAll)
+
+    await waitFor(() => {
+      expect(screen.getByTestId('results')).toBeInTheDocument()
+    })
   })
 })

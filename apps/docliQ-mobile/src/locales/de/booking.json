@@ -360,6 +360,7 @@
   "analyzeMyRequest": "Anfrage analysieren",
   "quickOptions": "Schnelloptionen",
   "seeMyDoctorAgain": "Meinen Arzt wiedersehen",
+  "viewAllDoctors": "Alle Ärzte anzeigen",
   "recentDoctor": "Erneut buchen mit {{name}}",
   "unclearIntentHelp": "Ich bin mir nicht sicher, wonach Sie suchen. Bitte wählen Sie, wie Sie buchen möchten:",
   "backToSearch": "Zurück zur Suche",

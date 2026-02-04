@@ -14,8 +14,7 @@ export default function SlotSelectionScreen() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, selectDoctor, selectSlot, selectFamilyMember } = useBooking()
-  const { profile } = useProfile()
+  const { selectedDoctor, selectDoctor, selectSlot } = useBooking()
   const { setRescheduleNewSlot } = useReschedule()
   const { language } = usePreferences()
   const locale = getLocale(language)
@@ -27,7 +26,6 @@ export default function SlotSelectionScreen() {
   const [selectedDate, setSelectedDate] = useState<string>('')
   const [slots, setSlots] = useState<TimeSlot[]>([])
   const [selectedSlotValue, setSelectedSlotValue] = useState<TimeSlot | null>(null)
-  const [selectedFor, setSelectedFor] = useState<string>('self')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -96,7 +94,6 @@ export default function SlotSelectionScreen() {
     }
 
     selectSlot(selectedSlotValue)
-    selectFamilyMember(selectedFor === 'self' ? null : selectedFor)
     navigate(PATHS.BOOKING_CONFIRM, {
       state: { from: doctorSlotsPath(id || '') },
     })
@@ -201,48 +198,6 @@ export default function SlotSelectionScreen() {
             })}
           </div>
         </section>
-
-        {/* Who is this for */}
-        {profile.familyMembers.length > 0 && (
-          <section>
-            <h2 className="text-sm font-medium text-slate-700 mb-3">{t('whoIsAppointmentFor')}</h2>
-            <div className="space-y-2">
-              <label
-                className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-2 ${
-                  selectedFor === 'self' ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="bookingFor"
-                  value="self"
-                  checked={selectedFor === 'self'}
-                  onChange={(e) => setSelectedFor(e.target.value)}
-                  className="w-4 h-4 text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 border-cream-400"
-                />
-                <span className="font-medium">{t('myself')} ({profile.fullName})</span>
-              </label>
-              {profile.familyMembers.map((member) => (
-                <label
-                  key={member.id}
-                  className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-2 ${
-                    selectedFor === member.id ? 'border-teal-500 bg-teal-50' : 'border-cream-400 bg-white'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="bookingFor"
-                    value={member.id}
-                    checked={selectedFor === member.id}
-                    onChange={(e) => setSelectedFor(e.target.value)}
-                    className="w-4 h-4 text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 border-cream-400"
-                  />
-                  <span className="font-medium">{member.name}</span>
-                </label>
-              ))}
-            </div>
-          </section>
-        )}
 
       </div>
 

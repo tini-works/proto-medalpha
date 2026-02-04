@@ -360,6 +360,7 @@
   "analyzeMyRequest": "Analyze My Request",
   "quickOptions": "Quick options",
   "seeMyDoctorAgain": "See my doctor again",
+  "viewAllDoctors": "View all doctors",
   "recentDoctor": "Book again with {{name}}",
   "unclearIntentHelp": "I'm not sure what you're looking for. Please choose how you'd like to book:",
   "backToSearch": "Back to search",
