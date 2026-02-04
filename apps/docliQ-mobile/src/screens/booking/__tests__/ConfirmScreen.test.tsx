@@ -13,6 +13,7 @@ vi.mock('react-router-dom', async () => {
   return {
     ...actual,
     useNavigate: () => mockNavigate,
+    useLocation: () => ({ state: { from: '/booking/doctor/d1/slots' } }),
   }
 })
 
@@ -138,6 +139,14 @@ describe('ConfirmScreen', () => {
     expect(mockAddHistoryItem).toHaveBeenCalledTimes(1)
     expect(mockResetBooking).toHaveBeenCalledTimes(1)
     expect(mockNavigate).toHaveBeenCalled()
+  })
+
+  it('navigates back to last route when close is clicked', async () => {
+    const user = userEvent.setup()
+    renderConfirmScreen()
+
+    await user.click(screen.getByRole('button', { name: /close/i }))
+    expect(mockNavigate).toHaveBeenCalledWith('/booking/doctor/d1/slots')
   })
 
   it('disables confirm button when offline', () => {
