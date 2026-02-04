@@ -110,6 +110,8 @@
   "showOnlyPublicDoctors": "Nur Ärzte mit gesetzlicher Krankenversicherung anzeigen",
   "confirmAppointment": "Termin bestätigen",
   "costCoverage": "Kosten & Abdeckung",
+  "appointmentTimePlaceholderTitle": "Nächster verfügbarer Termin",
+  "appointmentTimePlaceholderSubtitle": "Wir bestätigen die nächstmögliche Uhrzeit, nachdem Sie die Anfrage gesendet haben",
   "reasonForVisit": "Grund für den Besuch",
   "reasonPlaceholder": "Beschreiben Sie Ihre Symptome oder den Grund für Ihren Besuch...",
   "confirmAppointmentBtn": "Termin bestätigen",

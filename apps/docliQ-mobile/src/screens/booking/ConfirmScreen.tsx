@@ -55,6 +55,10 @@ export default function ConfirmScreen() {
     year: 'numeric',
   })
 
+  // UI: time is a placeholder until the request is sent and the nearest available slot is found.
+  const summaryDateLabel = t('appointmentTimePlaceholderTitle')
+  const summaryTimeLabel = t('appointmentTimePlaceholderSubtitle')
+
   const patientSegment: 'myself' | 'family' = selectedFamilyMemberId ? 'family' : 'myself'
 
   const handleConfirm = () => {
@@ -100,8 +104,8 @@ export default function ConfirmScreen() {
     // Reset booking state
     resetBooking()
 
-    // Standardize confirmed view: go to canonical Appointment Details screen
-    navigate(appointmentDetailPath(appointmentId), { replace: true })
+    // Confirm CTA: go to Request Sent screen
+    navigate(PATHS.BOOKING_REQUEST_SENT, { replace: true, state: { appointmentId } })
   }
 
   const handleClose = () => {
@@ -162,9 +166,8 @@ export default function ConfirmScreen() {
                 specialty: selectedDoctor.specialty,
                 imageUrl: selectedDoctor.imageUrl,
               }}
-              date={formattedDate}
-              time={selectedSlot.time}
-              duration="30 min"
+              date={summaryDateLabel}
+              time={summaryTimeLabel}
               type="in-person"
               showVisitType={false}
               address={selectedDoctor.address}

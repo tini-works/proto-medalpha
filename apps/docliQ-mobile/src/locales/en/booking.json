@@ -110,6 +110,8 @@
   "showOnlyPublicDoctors": "Show only public-insurance doctors",
   "confirmAppointment": "Confirm Appointment",
   "costCoverage": "Cost & Coverage",
+  "appointmentTimePlaceholderTitle": "Next available appointment",
+  "appointmentTimePlaceholderSubtitle": "We’ll confirm the nearest available time after you send the request",
   "reasonForVisit": "Reason for visit",
   "reasonPlaceholder": "Describe your symptoms or reason for visit...",
   "confirmAppointmentBtn": "Confirm Appointment",
