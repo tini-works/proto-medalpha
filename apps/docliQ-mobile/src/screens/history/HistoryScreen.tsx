@@ -104,14 +104,14 @@ export default function HistoryScreen() {
       icon: IconSearch,
     },
     {
-      value: 'cancelled_doctor',
-      labelKey: 'filterDoctorCanceled',
-      icon: IconX,
-    },
-    {
       value: 'modified_by_practice',
       labelKey: 'filterDoctorRescheduled',
       icon: IconClock,
+    },
+    {
+      value: 'cancelled_doctor',
+      labelKey: 'filterDoctorCanceled',
+      icon: IconX,
     },
   ] as const
 
@@ -173,11 +173,11 @@ export default function HistoryScreen() {
             )}
 
             <section className="space-y-4">
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-semibold text-charcoal-500 whitespace-nowrap">
+              <div className="space-y-3">
+                <h2 className="text-lg font-semibold text-charcoal-500">
                   {t('others')} <span className="text-sm font-medium text-slate-500">({others.length})</span>
                 </h2>
-                <div className="ml-auto flex max-w-[70%] justify-end overflow-x-auto pb-1">
+                <div className="overflow-x-auto pb-1">
                   <div className="flex gap-2">
                     {statusChips.map((chip) => {
                       const isActive = statusFilter === chip.value
