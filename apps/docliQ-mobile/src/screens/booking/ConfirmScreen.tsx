@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   ReasonTextarea,
-  InsuranceBanner,
   AppointmentSummaryCard,
 } from '../../components'
-import { Button } from '../../components/ui'
+import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile, useHistory, usePreferences } from '../../state'
 import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
 import { getLocale } from '../../utils'
@@ -15,7 +14,7 @@ import type { Appointment, HistoryItem } from '../../types'
 export default function ConfirmScreen() {
   const navigate = useNavigate()
   const { t } = useTranslation('booking')
-  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, addAppointment, resetBooking } = useBooking()
+  const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
   const { profile, upsertMyDoctor } = useProfile()
   const { addHistoryItem } = useHistory()
   const { language } = usePreferences()
@@ -55,7 +54,10 @@ export default function ConfirmScreen() {
     year: 'numeric',
   })
 
+  const patientSegment: 'myself' | 'family' = selectedFamilyMemberId ? 'family' : 'myself'
+
   const handleConfirm = () => {
+    if (!reason.trim()) return
     if (!isOnline || isSubmitting) return
     setIsSubmitting(true)
     const appointmentId = `apt_${Date.now()}`
@@ -164,20 +166,78 @@ export default function ConfirmScreen() {
               time={selectedSlot.time}
               duration="30 min"
               type="in-person"
+              showVisitType={false}
               address={selectedDoctor.address}
             />
 
-            {/* Insurance Banner */}
-            <InsuranceBanner
-              insuranceType={profile.insuranceType === 'PKV' ? 'PKV' : 'GKV'}
-              label={t('costCoverage')}
-            />
+            {/* Patient selection */}
+            <section className="space-y-2">
+              <h2 className="text-sm font-medium text-charcoal-500">{t('whoIsAppointmentFor')}</h2>
+              <div className="flex gap-2">
+                <Chip
+                  selected={patientSegment === 'myself'}
+                  onClick={() => selectFamilyMember(null)}
+                  fullWidth
+                >
+                  {t('myself')}
+                </Chip>
+                <Chip
+                  selected={patientSegment === 'family'}
+                  onClick={() => {
+                    if (profile.familyMembers.length === 0) return
+                    selectFamilyMember(profile.familyMembers[0].id)
+                  }}
+                  fullWidth
+                  disabled={profile.familyMembers.length === 0}
+                >
+                  {t('familyMember')}
+                </Chip>
+              </div>
+
+              {patientSegment === 'family' && profile.familyMembers.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  {profile.familyMembers.map((member) => (
+                    <button
+                      key={member.id}
+                      type="button"
+                      onClick={() => selectFamilyMember(member.id)}
+                      className={`w-full bg-white border rounded-xl p-3 text-left transition-all ${
+                        selectedFamilyMemberId === member.id
+                          ? 'border-teal-500 bg-teal-50'
+                          : 'border-cream-400 hover:border-teal-400'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-charcoal-500 truncate">{member.name}</div>
+                          <div className="text-xs text-slate-500">
+                            {t(`family.relationship.${member.relationship}`)}
+                          </div>
+                        </div>
+                        <div
+                          className={`w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 ${
+                            selectedFamilyMemberId === member.id
+                              ? 'border-teal-500 bg-teal-500'
+                              : 'border-cream-400 bg-white'
+                          }`}
+                          aria-hidden="true"
+                        >
+                          {selectedFamilyMemberId === member.id && (
+                            <div className="w-2 h-2 rounded-full bg-white" />
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </section>
 
             {/* Reason Textarea */}
             <ReasonTextarea
               value={reason}
               onChange={setReason}
-              label={t('reasonForVisit')}
+              label={`${t('reasonForVisit')} *`}
               placeholder={t('reasonPlaceholder')}
               maxLength={200}
             />
@@ -188,7 +248,7 @@ export default function ConfirmScreen() {
         <div className="flex-shrink-0 p-4 bg-white border-t border-cream-300">
           <Button
             onClick={handleConfirm}
-            disabled={!isOnline || isSubmitting}
+            disabled={!isOnline || isSubmitting || !reason.trim()}
             loading={isSubmitting}
             variant="primary"
             fullWidth
