@@ -2,6 +2,12 @@
 
 Notable changes, high level.
 
+## 2026-02-04
+
+- **Biometrics settings UI (docliQ-mobile)**: Enable flow via AllowBiometricsModal (centered modal with loading → success/fail simulation, DEV Fail); disable flow via DisableBiometricsModal (password required, mock accept non-empty); BiometricsScreen redesigned (toggle opens modals, tappable fingerprint area for simulation, security disclaimer); BiometricPromptSheet sign-in flow with phases (idle/loading/success/failed), haptics and aria-live.
+- **Biometrics utilities**: `utils/haptics.ts` (Vibration API, Android-only), `utils/a11y.ts` (announceToScreenReader); Tailwind animations (modal-enter/exit, pulse-scan, success-spring, shake-error); i18n keys for biometricSettings, biometricAllow, biometricDisable (en/de).
+- **Biometrics tests**: AllowBiometricsModal and DisableBiometricsModal tests; BiometricsScreen and BiometricPromptSheet tests updated for async simulation (fake timers); SignInScreen biometrics tests updated for phased flow.
+
 ## 2026-02-03
 
 - **docliQ-mobile (build fix)**: Add missing `OfflineBookingSheet` component and `useOnlineStatus` hook — fix Vite import-resolution errors.

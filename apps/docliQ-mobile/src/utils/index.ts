@@ -18,3 +18,6 @@ export { translateSpecialty, translateLanguage, translateLanguageList } from './
 
 export { validatePassword, getStrengthColor } from './passwordValidation'
 export type { PasswordValidationResult, PasswordRequirements } from './passwordValidation'
+
+export { haptics } from './haptics'
+export { announceToScreenReader } from './a11y'

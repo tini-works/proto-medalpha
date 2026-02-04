@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
@@ -72,6 +72,9 @@ i18n.init({
           errorNotRecognized: 'Fingerprint not recognized',
           tryAgain: 'Try again',
           usePassword: 'Use password instead',
+        },
+        biometricAllow: {
+          a11y: { scanning: 'Scanning...', success: 'Success', failed: 'Failed' },
         },
       },
     },
@@ -154,51 +157,68 @@ describe('SignInScreen - Biometrics', () => {
     })
 
     it('signs in and navigates to Home on DEV Success', async () => {
-      const user = userEvent.setup()
+      vi.useFakeTimers()
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
       await user.click(screen.getByTestId('biometric-dev-success'))
+      await act(() => {
+        vi.advanceTimersByTime(1500 + 800)
+      })
 
       expect(mockSignIn).toHaveBeenCalledWith('user@example.com')
       expect(mockNavigate).toHaveBeenCalledWith(PATHS.HOME)
+      vi.useRealTimers()
     })
 
     it('shows error state on DEV Failure', async () => {
-      const user = userEvent.setup()
+      vi.useFakeTimers()
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
       await user.click(screen.getByTestId('biometric-dev-failure'))
+      await act(() => {
+        vi.advanceTimersByTime(1500)
+      })
 
       expect(screen.getByText('Fingerprint not recognized')).toBeInTheDocument()
+      vi.useRealTimers()
     })
 
     it('clears error and retries on Try again', async () => {
-      const user = userEvent.setup()
+      vi.useFakeTimers()
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       renderSignInScreen()
 
-      // Open prompt, fail, then retry
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
       await user.click(screen.getByTestId('biometric-dev-failure'))
+      await act(() => {
+        vi.advanceTimersByTime(1500)
+      })
+
       await user.click(screen.getByRole('button', { name: 'Try again' }))
 
-      // Error should be cleared, back to normal state
+      // Error should be cleared, back to idle state
       expect(screen.queryByText('Fingerprint not recognized')).not.toBeInTheDocument()
-      // Subtitle text appears multiple times (visible + sr-only), so use getAllByText
       expect(screen.getAllByText('Touch the fingerprint sensor').length).toBeGreaterThan(0)
+      vi.useRealTimers()
     })
 
     it('closes sheet and focuses password on Use password', async () => {
-      const user = userEvent.setup()
-      vi.useFakeTimers({ shouldAdvanceTime: true })
+      vi.useFakeTimers()
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
       renderSignInScreen()
 
       await user.click(screen.getByLabelText('Sign in with fingerprint'))
       await user.click(screen.getByTestId('biometric-dev-failure'))
+      await act(() => {
+        vi.advanceTimersByTime(1500)
+      })
+
       await user.click(screen.getByRole('button', { name: 'Use password instead' }))
 
-      // Sheet should close
       await waitFor(() => {
         expect(screen.queryByText('Verify your identity')).not.toBeInTheDocument()
       })

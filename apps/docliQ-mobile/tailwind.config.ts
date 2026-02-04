@@ -129,6 +129,11 @@ export default {
         'slide-out': 'slideOut 200ms ease-in forwards',
         'pulse-gentle': 'pulseGentle 2s ease-in-out infinite',
         shake: 'shake 0.5s ease-in-out',
+        'modal-enter': 'modalEnter 350ms cubic-bezier(0, 0, 0.2, 1)',
+        'modal-exit': 'modalExit 250ms cubic-bezier(0.4, 0, 1, 1)',
+        'pulse-scan': 'pulseGentle 1500ms ease-in-out infinite',
+        'success-spring': 'successSpring 400ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'shake-error': 'shakeError 400ms ease-in-out',
       },
       keyframes: {
         fadeIn: {
@@ -167,6 +172,23 @@ export default {
           '0%, 100%': { transform: 'translateX(0)' },
           '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-4px)' },
           '20%, 40%, 60%, 80%': { transform: 'translateX(4px)' },
+        },
+        modalEnter: {
+          from: { opacity: '0', transform: 'scale(0.95)' },
+          to: { opacity: '1', transform: 'scale(1)' },
+        },
+        modalExit: {
+          from: { opacity: '1', transform: 'scale(1)' },
+          to: { opacity: '0', transform: 'scale(0.95)' },
+        },
+        successSpring: {
+          '0%': { transform: 'scale(0.8)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        shakeError: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-8px)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(8px)' },
         },
       },
     },

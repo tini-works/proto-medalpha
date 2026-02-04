@@ -4,21 +4,29 @@
 
 Implement simulated biometric login for Android in the docliQ-mobile web app. Since this is a web app (not native), we mock the Android BiometricPrompt experience with DEV buttons for testing.
 
-## User Flow
+## User Flow (Updated Feb 2025)
 
 ```
 SETUP (BiometricsScreen):
-Toggle ON → biometricsEnabled = true → Success toast
+Toggle ON → AllowBiometricsModal opens →
+  [Allow Biometrics] → Loading 1.5s → Success 0.8s → enableBiometrics + toast
+  [Don't Allow] → Close modal, stay disabled
+  [DEV: Fail] → Error state → Try Again
 
 SIGN-IN (SignInScreen):
 [If biometricsEnabled] → Show fingerprint button →
-Tap → Android-style bottom sheet →
-  [DEV: Success] → Sign in → Navigate to Home
-  [DEV: Failure] → Shake + error → "Try again" / "Use password"
+Tap → BiometricPromptSheet (bottom sheet) →
+  [DEV: Success] → Loading → Success → signIn() → Navigate Home
+  [DEV: Failure] → Loading → Error → "Try again" / "Use password"
 
 DISABLE (BiometricsScreen):
-Toggle OFF → Confirm modal → biometricsEnabled = false
+Toggle OFF → DisableBiometricsModal (password required) →
+  [Enter password] + [Disable Biometrics] → disableBiometrics + toast
+  [Keep Enabled] → Close modal, stay enabled
+  Empty password → Error "Password is required"
 ```
+
+**Simulation:** TouchID/FaceID loading → success/failed in both AllowBiometricsModal and BiometricPromptSheet. Haptic feedback (Android Vibration API). Apple HIG animation timing.
 
 ---
 
@@ -87,6 +95,17 @@ Toggle OFF → Confirm modal → biometricsEnabled = false
 ## Implementation Status
 
 **All tasks completed ✅**
+
+### Updated Components (Feb 2025)
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| AllowBiometricsModal | `components/biometrics/AllowBiometricsModal.tsx` | Enable confirmation with biometric simulation (loading → success/fail) |
+| DisableBiometricsModal | `components/biometrics/DisableBiometricsModal.tsx` | Disable confirmation with mock password verification |
+| BiometricsScreen | `screens/settings/BiometricsScreen.tsx` | Settings UI with toggle, fingerprint simulation area, privacy disclaimer |
+| BiometricPromptSheet | `components/biometrics/BiometricPromptSheet.tsx` | Sign-in prompt with loading/success/failed phases |
+
+**Utilities:** `utils/haptics.ts` (Vibration API), `utils/a11y.ts` (screen reader announcements).
 
 **Test Coverage Summary:**
 - UI Component Tests: 36 tests

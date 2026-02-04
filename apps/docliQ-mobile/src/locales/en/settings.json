@@ -185,5 +185,36 @@
     "disableMessage": "You'll need to use your password to sign in.",
     "disableConfirm": "Disable"
   },
-  "signInWithFingerprint": "Sign in with fingerprint"
+  "signInWithFingerprint": "Sign in with fingerprint",
+  "biometricSettings": {
+    "title": "Biometric Settings",
+    "enableTitle": "Enable Face ID / Touch ID",
+    "enableSubtitle": "Protect your medical records with biometric authentication",
+    "securityDisclaimer": "DocliQ uses your device's secure enclave to store biometric data. We never store your physical prints or facial scans on our servers. Biometric data remains encrypted and private."
+  },
+  "biometricAllow": {
+    "title": "Allow DocliQ to use Biometrics?",
+    "description": "This allows you to access your medical records securely without typing your password.",
+    "allowButton": "Allow Biometrics",
+    "denyButton": "Don't Allow",
+    "secureEncryption": "SECURE ENCRYPTION",
+    "scanning": "Scanning...",
+    "success": "Success",
+    "failed": "Authentication failed",
+    "tryAgain": "Try Again",
+    "a11y": {
+      "scanning": "Scanning biometrics...",
+      "success": "Biometric authentication successful",
+      "failed": "Biometric authentication failed. Try again or cancel."
+    }
+  },
+  "biometricDisable": {
+    "title": "Disable Biometric Login?",
+    "description": "For your security, you will need to enter your password to confirm this change. This will affect fast login and sensitive data access.",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "keepEnabled": "Keep Enabled",
+    "disableButton": "Disable Biometrics",
+    "passwordRequired": "Password is required"
+  }
 }

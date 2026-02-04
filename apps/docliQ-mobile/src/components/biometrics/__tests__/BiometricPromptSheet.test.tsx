@@ -1,9 +1,12 @@
-import { describe, it, expect, vi, afterEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'i18next'
 import { BiometricPromptSheet } from '../BiometricPromptSheet'
+
+const LOADING_MS = 1500
+const SUCCESS_HOLD_MS = 800
 
 // Initialize test i18n
 i18n.init({
@@ -20,6 +23,13 @@ i18n.init({
           errorNotRecognized: 'Fingerprint not recognized',
           tryAgain: 'Try again',
           usePassword: 'Use password instead',
+        },
+        biometricAllow: {
+          a11y: {
+            scanning: 'Scanning biometrics...',
+            success: 'Biometric authentication successful',
+            failed: 'Biometric authentication failed. Try again or cancel.',
+          },
         },
       },
     },
@@ -100,25 +110,35 @@ describe('BiometricPromptSheet', () => {
     })
 
     it('calls onSuccess when DEV Success clicked', async () => {
+      vi.useFakeTimers()
       const onSuccess = vi.fn()
-      const user = userEvent.setup()
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 
       renderBiometricPromptSheet({ onSuccess })
 
       await user.click(screen.getByTestId('biometric-dev-success'))
+      await act(() => {
+        vi.advanceTimersByTime(LOADING_MS + SUCCESS_HOLD_MS)
+      })
 
       expect(onSuccess).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
     })
 
     it('calls onFailure when DEV Failure clicked', async () => {
+      vi.useFakeTimers()
       const onFailure = vi.fn()
-      const user = userEvent.setup()
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
 
       renderBiometricPromptSheet({ onFailure })
 
       await user.click(screen.getByTestId('biometric-dev-failure'))
+      await act(() => {
+        vi.advanceTimersByTime(LOADING_MS)
+      })
 
       expect(onFailure).toHaveBeenCalledTimes(1)
+      vi.useRealTimers()
     })
   })
 
@@ -166,17 +186,18 @@ describe('BiometricPromptSheet', () => {
     it('applies shake animation class when error is present', () => {
       const { container } = renderBiometricPromptSheet({ error: 'Fingerprint not recognized' })
 
-      const iconContainer = container.querySelector('.animate-shake')
+      const iconContainer = container.querySelector('.animate-shake-error')
       expect(iconContainer).toBeInTheDocument()
     })
   })
 
   describe('Animation states', () => {
-    it('applies pulse animation when no error', () => {
+    it('idle state shows fingerprint icon without error styling', () => {
       const { container } = renderBiometricPromptSheet()
 
-      const iconContainer = container.querySelector('.animate-pulse-gentle')
+      const iconContainer = container.querySelector('.bg-teal-50')
       expect(iconContainer).toBeInTheDocument()
+      expect(iconContainer).not.toHaveClass('animate-shake-error')
     })
   })
 })
