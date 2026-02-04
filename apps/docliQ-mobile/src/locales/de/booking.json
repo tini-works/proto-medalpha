@@ -110,7 +110,7 @@
   "showOnlyPublicDoctors": "Nur Ärzte mit gesetzlicher Krankenversicherung anzeigen",
   "confirmAppointment": "Termin bestätigen",
   "costCoverage": "Kosten & Abdeckung",
-  "reasonForVisit": "Grund für den Besuch (optional)",
+  "reasonForVisit": "Grund für den Besuch",
   "reasonPlaceholder": "Beschreiben Sie Ihre Symptome oder den Grund für Ihren Besuch...",
   "confirmAppointmentBtn": "Termin bestätigen",
   "offline": "Offline",

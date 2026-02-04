@@ -101,6 +101,9 @@ describe('ConfirmScreen', () => {
     renderConfirmScreen()
 
     const confirmButton = screen.getByRole('button', { name: /confirm/i })
+    expect(confirmButton).toBeDisabled()
+
+    await user.type(screen.getByRole('textbox'), 'Headache and dizziness')
     expect(confirmButton).not.toBeDisabled()
 
     await user.click(confirmButton)
@@ -114,6 +117,7 @@ describe('ConfirmScreen', () => {
     renderConfirmScreen()
 
     const confirmButton = screen.getByRole('button', { name: /confirm/i })
+    await user.type(screen.getByRole('textbox'), 'Headache and dizziness')
 
     // Click twice rapidly
     await user.click(confirmButton)
@@ -127,6 +131,7 @@ describe('ConfirmScreen', () => {
     const user = userEvent.setup()
     renderConfirmScreen()
 
+    await user.type(screen.getByRole('textbox'), 'Headache and dizziness')
     await user.click(screen.getByRole('button', { name: /confirm/i }))
 
     expect(mockAddAppointment).toHaveBeenCalledTimes(1)

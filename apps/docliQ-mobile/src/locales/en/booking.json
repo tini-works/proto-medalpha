@@ -110,7 +110,7 @@
   "showOnlyPublicDoctors": "Show only public-insurance doctors",
   "confirmAppointment": "Confirm Appointment",
   "costCoverage": "Cost & Coverage",
-  "reasonForVisit": "Reason for visit (optional)",
+  "reasonForVisit": "Reason for visit",
   "reasonPlaceholder": "Describe your symptoms or reason for visit...",
   "confirmAppointmentBtn": "Confirm Appointment",
   "offline": "Offline",
