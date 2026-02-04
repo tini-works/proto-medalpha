@@ -15,8 +15,60 @@ interface DoctorDetailSheetProps {
   onToggleSaved?: () => void
 }
 
+function mockPracticeName(doctor: Doctor) {
+  const lastName = doctor.name.split(' ').slice(-1)[0] ?? doctor.name
+  return `Praxis ${lastName}`
+}
+
+function mockPhoneNumber(doctor: Doctor) {
+  const seed = Math.abs(parseInt(doctor.id.replace(/\D/g, ''), 10) || 0)
+  const ext = 1000 + (seed * 137) % 9000
+  return `+49 30 ${ext}`
+}
+
+function chamberForCity(city: string) {
+  const c = city.toLowerCase()
+  if (c.includes('berlin')) return 'Ärztekammer Berlin'
+  if (c.includes('munich') || c.includes('münchen')) return 'Bayerische Landesärztekammer'
+  if (c.includes('hamburg')) return 'Ärztekammer Hamburg'
+  if (c.includes('frankfurt')) return 'Landesärztekammer Hessen'
+  if (c.includes('cologne') || c.includes('köln')) return 'Ärztekammer Nordrhein'
+  return 'Ärztekammer'
+}
+
+function mockLicenseReference(doctor: Doctor) {
+  const seed = Math.abs(parseInt(doctor.id.replace(/\D/g, ''), 10) || 0)
+  const reg = 100000 + (seed * 173) % 900000
+  return `${chamberForCity(doctor.city)} · Reg.-Nr. ${reg}`
+}
+
+function mockAcceptingNewPatients(doctor: Doctor) {
+  const seed = Math.abs(parseInt(doctor.id.replace(/\D/g, ''), 10) || 0)
+  return seed % 3 !== 0
+}
+
+function mockYearsExperience(doctor: Doctor) {
+  const seed = Math.abs(parseInt(doctor.id.replace(/\D/g, ''), 10) || 0)
+  return 5 + (seed % 21)
+}
+
+function insuranceLimitations(doctor: Doctor) {
+  const acceptsGkv = doctor.accepts.includes('GKV')
+  const acceptsPkv = doctor.accepts.includes('PKV')
+  if (acceptsGkv && acceptsPkv) return null
+  if (acceptsGkv) return 'Public insurance (GKV) only'
+  if (acceptsPkv) return 'Private insurance (PKV) only'
+  return 'Please contact the practice to confirm insurance eligibility'
+}
+
 export function DoctorDetailSheet({ doctor, onClose, onSelect, saved = false, onToggleSaved }: DoctorDetailSheetProps) {
   const { t } = useTranslation('booking')
+  const practiceName = mockPracticeName(doctor)
+  const phoneNumber = mockPhoneNumber(doctor)
+  const licenseRef = mockLicenseReference(doctor)
+  const acceptsNewPatients = mockAcceptingNewPatients(doctor)
+  const yearsExperience = mockYearsExperience(doctor)
+  const insuranceNotes = insuranceLimitations(doctor)
 
   return (
     <Sheet
@@ -86,6 +138,31 @@ export function DoctorDetailSheet({ doctor, onClose, onSelect, saved = false, on
           <p className="text-charcoal-500">{translateLanguageList(t, doctor.languages)}</p>
         </section>
 
+        {/* Practice (name + phone) */}
+        <section className="py-4 border-b border-cream-300">
+          <h4 className="text-sm font-medium text-slate-500 mb-2">{t('practice')}</h4>
+          <div className="space-y-1">
+            <p className="text-charcoal-500">{practiceName}</p>
+            <p className="text-sm text-slate-600">
+              {t('phone')}: {phoneNumber}
+            </p>
+          </div>
+        </section>
+
+        {/* Professional */}
+        <section className="py-4 border-b border-cream-300">
+          <h4 className="text-sm font-medium text-slate-500 mb-2">{t('professional')}</h4>
+          <div className="space-y-2">
+            <p className="text-sm text-slate-600">{t('medicalLicense')}: {licenseRef}</p>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-slate-600">{t('acceptingNewPatients')}:</span>
+              <Pill tone={acceptsNewPatients ? 'info' : 'neutral'} size="sm">
+                {acceptsNewPatients ? t('yes') : t('no')}
+              </Pill>
+            </div>
+          </div>
+        </section>
+
         {/* About */}
         {doctor.about && (
           <section className="py-4 border-b border-cream-300">
@@ -93,6 +170,20 @@ export function DoctorDetailSheet({ doctor, onClose, onSelect, saved = false, on
             <p className="text-slate-700 leading-relaxed">{doctor.about}</p>
           </section>
         )}
+
+        {/* Insurance limitations (if any) */}
+        {insuranceNotes && (
+          <section className="py-4 border-b border-cream-300">
+            <h4 className="text-sm font-medium text-slate-500 mb-2">{t('insuranceDetails')}</h4>
+            <p className="text-charcoal-500">{insuranceNotes}</p>
+          </section>
+        )}
+
+        {/* Experience */}
+        <section className="py-4 border-b border-cream-300">
+          <h4 className="text-sm font-medium text-slate-500 mb-2">{t('experience')}</h4>
+          <p className="text-charcoal-500">{t('yearsExperience')}: {yearsExperience}</p>
+        </section>
 
         {/* Reviews preview */}
         <section className="py-4">
@@ -106,6 +197,18 @@ export function DoctorDetailSheet({ doctor, onClose, onSelect, saved = false, on
               "Clear communication and professional care. Appointment started on time."
             </p>
             <p className="text-xs text-slate-500 mt-2">{t('sampleReview')}</p>
+          </div>
+        </section>
+
+        {/* Map preview (static placeholder) */}
+        <section className="py-4 border-t border-cream-300">
+          <h4 className="text-sm font-medium text-slate-500 mb-2">{t('mapPreview')}</h4>
+          <div className="bg-cream-100 border border-cream-300 rounded-xl p-4">
+            <div className="flex items-center gap-2 text-slate-600">
+              <IconMapPin size={18} stroke={2} className="text-slate-500" />
+              <span className="text-sm">{doctor.address}</span>
+            </div>
+            <div className="mt-3 h-28 rounded-lg bg-gradient-to-br from-cream-200 to-cream-100 border border-cream-200" />
           </div>
         </section>
       </Sheet.Body>
