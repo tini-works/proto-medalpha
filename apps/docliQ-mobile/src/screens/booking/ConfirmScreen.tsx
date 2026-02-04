@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   ReasonTextarea,
@@ -7,12 +7,13 @@ import {
 } from '../../components'
 import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile, useHistory, usePreferences } from '../../state'
-import { PATHS, appointmentDetailPath, doctorSlotsPath } from '../../routes'
+import { PATHS, appointmentDetailPath } from '../../routes'
 import { getLocale } from '../../utils'
 import type { Appointment, HistoryItem } from '../../types'
 
 export default function ConfirmScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('booking')
   const { selectedDoctor, selectedSlot, selectedFamilyMemberId, selectFamilyMember, addAppointment, resetBooking } = useBooking()
   const { profile, upsertMyDoctor } = useProfile()
@@ -104,13 +105,12 @@ export default function ConfirmScreen() {
   }
 
   const handleClose = () => {
-    // Navigate back to slots selection screen for the selected doctor
-    if (selectedDoctor) {
-      navigate(doctorSlotsPath(selectedDoctor.id))
-    } else {
-      // Fallback if doctor is not available
-      navigate(PATHS.BOOKING_SEARCH)
+    const from = (location.state as any)?.from as string | undefined
+    if (from) {
+      navigate(from)
+      return
     }
+    navigate(-1)
   }
 
   return (
