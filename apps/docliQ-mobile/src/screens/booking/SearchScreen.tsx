@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
@@ -17,6 +17,7 @@ type InsuranceChoice = InsuranceType | ''
 
 export default function SearchScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useTranslation('booking')
   const { setSearchFilters } = useBooking()
   const { profile } = useProfile()
@@ -66,7 +67,7 @@ export default function SearchScreen() {
       sortBy: 'earliest',
     })
 
-    navigate(PATHS.BOOKING_AVAILABILITY)
+    navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: location.pathname, submitMode: 'confirm' } })
   }
 
   // Filter specialties based on search query

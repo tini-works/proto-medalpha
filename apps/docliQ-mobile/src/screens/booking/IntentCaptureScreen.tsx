@@ -332,7 +332,7 @@ export default function IntentCaptureScreen() {
           if (doctor) {
             setBookingFlow('by_doctor')
             selectDoctor(doctor)
-            navigate(`/booking/doctor/${doctor.id}/slots`)
+            navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: location.pathname, submitMode: 'confirm' } })
           }
         }
         break
@@ -354,7 +354,7 @@ export default function IntentCaptureScreen() {
             languages: [],
             sortBy: 'earliest',
           })
-          navigate(PATHS.BOOKING_AVAILABILITY)
+          navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: location.pathname, submitMode: 'confirm' } })
         }
         break
     }
@@ -365,7 +365,7 @@ export default function IntentCaptureScreen() {
     resetBooking()
     selectFamilyMember(patientSegment === 'family' ? profile.familyMembers[0]?.id || null : null)
     setBookingFlow('by_doctor')
-    navigate(PATHS.BOOKING_RESULTS)
+    navigate(PATHS.BOOKING_RESULTS, { state: { from: location.pathname } })
   }
 
   // Handle routing based on intent
@@ -388,7 +388,7 @@ export default function IntentCaptureScreen() {
           if (doctor) {
             setBookingFlow('by_doctor')
             selectDoctor(doctor)
-            navigate(`/booking/doctor/${doctor.id}/slots`)
+            navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: location.pathname, submitMode: 'confirm' } })
             return
           }
         }
@@ -410,14 +410,14 @@ export default function IntentCaptureScreen() {
             languages: [],
             sortBy: 'earliest',
           })
-          navigate(PATHS.BOOKING_AVAILABILITY)
+          navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: location.pathname, submitMode: 'confirm' } })
           return
         }
         break
 
       case 'urgent':
         setBookingFlow('fast_lane')
-        navigate(PATHS.FAST_LANE)
+        navigate(PATHS.BOOKING_CONFIRM, { state: { from: location.pathname } })
         return
 
       case 'rebook':
@@ -451,7 +451,7 @@ export default function IntentCaptureScreen() {
       selectFamilyMember(patientSegment === 'family' ? profile.familyMembers[0]?.id || null : null)
       setBookingFlow('by_doctor')
       selectDoctor(recentDoctor)
-      navigate(`/booking/doctor/${recentDoctor.id}/slots`)
+      navigate(PATHS.BOOKING_AVAILABILITY, { state: { from: location.pathname, submitMode: 'confirm' } })
     }
   }
 
@@ -463,10 +463,10 @@ export default function IntentCaptureScreen() {
 
     switch (flow) {
       case 'fast_lane':
-        navigate(PATHS.FAST_LANE)
+        navigate(PATHS.BOOKING_CONFIRM, { state: { from: location.pathname } })
         break
       case 'by_specialty':
-        navigate(PATHS.BOOKING_SPECIALTY)
+        navigate(PATHS.BOOKING_SPECIALTY, { state: { from: location.pathname } })
         break
       case 'by_doctor':
         navigate(PATHS.BOOKING_DOCTOR_SEARCH)
@@ -602,8 +602,9 @@ export default function IntentCaptureScreen() {
                 ref={suggestionsRef}
                 className="absolute left-0 right-0 top-full mt-2 bg-white border border-cream-400 rounded-xl shadow-lg shadow-slate-200/50 z-50 overflow-hidden"
               >
-                <div className="max-h-72 overflow-y-auto py-2">
-                  {searchSuggestions.map((suggestion, index) => (
+                <div className="max-h-72 flex flex-col">
+                  <div className="overflow-y-auto py-2">
+                    {searchSuggestions.map((suggestion, index) => (
                     (() => {
                       if (suggestion.type !== 'doctor' || !suggestion.data.doctorId) return null
                       const doctor = doctors.find((d) => d.id === suggestion.data.doctorId)
@@ -687,28 +688,27 @@ export default function IntentCaptureScreen() {
                     </button>
                     )
                   ))}
+                  </div>
 
+                  {/* Sticky footer: View all doctors */}
                   {normalizeForMatch(searchQuery).length >= 2 && (
-                    <>
-                      {searchSuggestions.length > 0 && (
-                        <div className="border-t border-cream-200 my-1" />
-                      )}
+                    <div className="sticky bottom-0 bg-white border-t border-cream-200">
                       <button
                         type="button"
                         onClick={handleViewAllDoctors}
-                        className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-cream-50 transition-colors"
+                        className="w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-teal-50 transition-colors"
                       >
-                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 flex-shrink-0">
-                          <IconMapPin size={20} stroke={2} />
+                        <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-700 flex-shrink-0">
+                          <IconUsers size={20} stroke={2} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="font-medium text-charcoal-500 text-sm truncate">
                             {t('viewAllDoctors')}
                           </div>
                         </div>
-                        <IconArrowRight size={18} className="text-slate-400 flex-shrink-0" />
+                        <IconArrowRight size={18} className="text-teal-700 flex-shrink-0" />
                       </button>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

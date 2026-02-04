@@ -81,7 +81,7 @@ export default function HomeScreen() {
     resetBooking()
     setBookingFlow('fast_lane')
     selectDoctor(doctor)
-    navigate(PATHS.BOOKING_CONFIRM)
+    navigate(PATHS.BOOKING_CONFIRM, { state: { from: PATHS.HOME } })
   }
 
   const handleFollowUpVisit = async () => {
@@ -99,7 +99,7 @@ export default function HomeScreen() {
       resetBooking()
       setBookingFlow('fast_lane')
       selectDoctor(doctor as any)
-      navigate(PATHS.BOOKING_CONFIRM)
+      navigate(PATHS.BOOKING_CONFIRM, { state: { from: PATHS.HOME } })
     } catch {
       // no-op: keep user on home
     }
@@ -175,7 +175,7 @@ export default function HomeScreen() {
             <button
               type="button"
               onClick={() =>
-                isOnline ? navigate(PATHS.BOOKING, { state: { from: PATHS.HOME } }) : setShowOfflineSheet(true)
+                isOnline ? navigate(PATHS.BOOKING_INTENT, { state: { from: PATHS.HOME } }) : setShowOfflineSheet(true)
               }
               aria-disabled={!isOnline}
               className={`p-4 rounded-lg text-white transition-colors duration-normal ease-out-brand ${

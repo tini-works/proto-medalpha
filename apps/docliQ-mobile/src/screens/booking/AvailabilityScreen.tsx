@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconSparkles, IconSun, IconMoon, IconCheck, IconCalendar, IconArrowRight } from '@tabler/icons-react'
 import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
@@ -30,11 +30,14 @@ const DAY_LABELS: Record<DayOfWeek, string> = {
 export default function AvailabilityScreen() {
   const { t } = useTranslation('booking')
   const navigate = useNavigate()
+  const location = useLocation()
   const { profile } = useProfile()
-  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor } = useBooking()
+  const { search, setAvailabilityPrefs, bookingFlow, selectedDoctor, setSpecialtyMatchRequest } = useBooking()
   const { submitSpecialty } = useBookingSubmission()
 
   const isDoctorFirstFlow = bookingFlow === 'by_doctor'
+  const submitMode = ((location.state as any)?.submitMode as 'confirm' | 'direct' | undefined) ?? 'direct'
+  const from = (location.state as any)?.from as string | undefined
 
   const [fullyFlexible, setFullyFlexible] = useState(false)
   const [selectedSlots, setSelectedSlots] = useState<Set<string>>(new Set())
@@ -44,12 +47,12 @@ export default function AvailabilityScreen() {
     if (isDoctorFirstFlow) {
       // Doctor-first flow: redirect if no doctor selected
       if (!selectedDoctor) {
-        navigate(PATHS.BOOKING_RESULTS)
+        navigate(PATHS.BOOKING_RESULTS, { replace: true, state: { from: PATHS.BOOKING_INTENT } })
       }
     } else {
       // Specialty-first flow: redirect if no specialty or city
       if (!search?.specialty || !search?.city) {
-        navigate(PATHS.BOOKING_SPECIALTY)
+        navigate(PATHS.BOOKING_SPECIALTY, { replace: true, state: { from: PATHS.BOOKING_INTENT } })
       }
     }
   }, [isDoctorFirstFlow, selectedDoctor, search?.specialty, search?.city, navigate])
@@ -146,13 +149,11 @@ export default function AvailabilityScreen() {
   }, [selectedSlots, fullyFlexible, t])
 
   const handleBack = () => {
-    if (isDoctorFirstFlow) {
-      // Doctor-first flow: go back to symptoms screen
-      navigate(PATHS.BOOKING_SYMPTOMS)
-    } else {
-      // Specialty-first flow: go back to combined specialty screen
-      navigate(PATHS.BOOKING_SPECIALTY)
+    if (from) {
+      navigate(from)
+      return
     }
+    navigate(isDoctorFirstFlow ? PATHS.BOOKING_INTENT : PATHS.BOOKING_SPECIALTY)
   }
 
   const handleContinue = () => {
@@ -168,8 +169,7 @@ export default function AvailabilityScreen() {
       ? (selectedDoctor.accepts.includes('GKV') ? 'GKV' : 'PKV')
       : ((search?.insuranceType || 'GKV') as InsuranceType)
 
-    // Submit using the shared hook
-    submitSpecialty({
+    const requestPayload = {
       specialty: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.specialty : (search?.specialty || ''),
       city: isDoctorFirstFlow && selectedDoctor ? selectedDoctor.city : (search?.city || ''),
       insuranceType,
@@ -178,7 +178,17 @@ export default function AvailabilityScreen() {
       availabilityPrefs: prefs,
       patientId: profile.id,
       patientName: profile.fullName,
-    })
+    }
+
+    if (submitMode === 'confirm') {
+      // Store request state for the confirmation screen, but do not submit yet.
+      setSpecialtyMatchRequest(requestPayload)
+      navigate(PATHS.BOOKING_CONFIRM, { state: { from: PATHS.BOOKING_AVAILABILITY } })
+      return
+    }
+
+    // Direct mode: submit immediately and navigate to Request Sent
+    submitSpecialty(requestPayload)
   }
 
   const canContinue = fullyFlexible || selectedSlots.size > 0
@@ -188,32 +198,31 @@ export default function AvailabilityScreen() {
       <Header title={t('selectAvailability')} showBack onBack={handleBack} />
 
       {/* Progress indicator */}
-      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
-        {(() => {
-          const progress = resolveBookingProgress({
-            bookingFlow,
-            fallbackFlow: isDoctorFirstFlow ? 'by_doctor' : 'by_specialty',
-            currentStep: isDoctorFirstFlow ? 4 : 3,
-          })
-          return (
-            <>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold tracking-wide text-slate-600">
-                  {t(progress.stepLabelKey)}
-                </span>
-                <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-              </div>
-              <ProgressIndicator
-                currentStep={progress.currentStep}
-                totalSteps={progress.totalSteps}
-                variant="bar"
-                showLabel={false}
-                showPercentage={false}
-              />
-            </>
-          )
-        })()}
-      </div>
+      {(() => {
+        const progress = resolveBookingProgress({
+          bookingFlow,
+          fallbackFlow: isDoctorFirstFlow ? 'by_doctor' : 'by_specialty',
+          currentStep: isDoctorFirstFlow ? 4 : 3,
+        })
+        if (progress.totalSteps < 3) return null
+        return (
+          <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold tracking-wide text-slate-600">
+                {t(progress.stepLabelKey)}
+              </span>
+              <span className="text-xs text-slate-500">{t('yourRequest')}</span>
+            </div>
+            <ProgressIndicator
+              currentStep={progress.currentStep}
+              totalSteps={progress.totalSteps}
+              variant="bar"
+              showLabel={false}
+              showPercentage={false}
+            />
+          </div>
+        )
+      })()}
 
       <div className="px-4 pb-28 space-y-6">
         {/* Subtitle */}

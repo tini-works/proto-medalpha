@@ -34,14 +34,13 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 import {
   IntentCaptureScreen,
   SearchScreen as BookingSearchScreen,
-  SymptomsScreen as BookingSymptomsScreen,
   AvailabilityScreen as BookingAvailabilityScreen,
   LocationScreen as BookingLocationScreen,
   InsuranceScreen as BookingInsuranceScreen,
   ResultsScreen as BookingResultsScreen,
   DoctorProfileScreen,
   ReviewsScreen as BookingReviewsScreen,
-  SlotSelectionScreen,
+  SlotsRedirectScreen,
   ConfirmScreen as BookingConfirmScreen,
   SuccessScreen as BookingSuccessScreen,
   RequestSentScreen,
@@ -437,13 +436,7 @@ function AppContent() {
           />
           <Route
             path={PATHS.BOOKING_SYMPTOMS}
-            element={
-              <RequireAuth>
-                <RequireProfileComplete>
-                  <BookingSymptomsScreen />
-                </RequireProfileComplete>
-              </RequireAuth>
-            }
+            element={<Navigate to={PATHS.BOOKING_AVAILABILITY} replace />}
           />
           <Route
             path={PATHS.BOOKING_AVAILABILITY}
@@ -520,7 +513,7 @@ function AppContent() {
             element={
               <RequireAuth>
                 <RequireProfileComplete>
-                  <SlotSelectionScreen />
+                  <SlotsRedirectScreen />
                 </RequireProfileComplete>
               </RequireAuth>
             }

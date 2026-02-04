@@ -15,7 +15,8 @@ const renderIntentCapture = () => {
           <Route path={PATHS.FAST_LANE} element={<div data-testid="fast-lane">Fast Lane</div>} />
           <Route path={PATHS.BOOKING_SPECIALTY} element={<div data-testid="specialty-flow">Specialty Flow</div>} />
           <Route path={PATHS.BOOKING_RESULTS} element={<div data-testid="results">Results</div>} />
-          <Route path={PATHS.BOOKING_SLOTS} element={<div data-testid="slots">Slots</div>} />
+          <Route path={PATHS.BOOKING_AVAILABILITY} element={<div data-testid="availability">Availability</div>} />
+          <Route path={PATHS.BOOKING_CONFIRM} element={<div data-testid="confirm">Confirm</div>} />
         </Routes>
       </AppStateProvider>
     </MemoryRouter>
@@ -53,7 +54,7 @@ describe('IntentCaptureScreen', () => {
     fireEvent.click(fastLaneButton!)
     
     await waitFor(() => {
-      expect(screen.getByTestId('fast-lane')).toBeInTheDocument()
+      expect(screen.getByTestId('confirm')).toBeInTheDocument()
     })
   })
 
@@ -82,7 +83,7 @@ describe('IntentCaptureScreen', () => {
     fireEvent.click(continueButton)
     
     await waitFor(() => {
-      expect(screen.getByTestId('slots')).toBeInTheDocument()
+      expect(screen.getByTestId('availability')).toBeInTheDocument()
     })
   })
 
