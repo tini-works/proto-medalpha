@@ -138,7 +138,7 @@ describe('ConfirmScreen', () => {
     expect(mockAddAppointment).toHaveBeenCalledTimes(1)
     expect(mockAddHistoryItem).toHaveBeenCalledTimes(1)
     expect(mockResetBooking).toHaveBeenCalledTimes(1)
-    expect(mockNavigate).toHaveBeenCalled()
+    expect(mockNavigate).toHaveBeenCalledWith('/booking/request-sent', expect.anything())
   })
 
   it('navigates back to last route when close is clicked', async () => {
