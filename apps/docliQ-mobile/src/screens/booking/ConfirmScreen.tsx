@@ -58,12 +58,13 @@ export default function ConfirmScreen() {
     }
   }, [])
 
-  const requestedSpecialty =
+  const requestedSpecialtyFromContext =
     selectedDoctor?.specialty ??
     specialtyMatchRequest?.specialty ??
     fastLaneRequest?.specialty ??
-    search?.specialty ??
-    'Primary care'
+    search?.specialty
+
+  const requestedSpecialty = requestedSpecialtyFromContext ?? t('specialtyToBeDetermined')
 
   const effectiveDoctor = selectedDoctor ?? {
     id: 'unassigned',

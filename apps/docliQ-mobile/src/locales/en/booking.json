@@ -111,6 +111,7 @@
   "confirmAppointment": "Confirm Appointment",
   "costCoverage": "Cost & Coverage",
   "doctorToBeAssigned": "Doctor (to be assigned)",
+  "specialtyToBeDetermined": "Specialty (to be determined)",
   "appointmentTimePlaceholderTitle": "Next available appointment",
   "appointmentTimePlaceholderSubtitle": "We’ll confirm the nearest available time after you send the request",
   "reasonForVisit": "Reason for visit",
