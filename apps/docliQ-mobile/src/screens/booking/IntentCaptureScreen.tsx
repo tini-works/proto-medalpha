@@ -11,7 +11,7 @@ import {
   IconShieldCheck,
   IconPlus,
 } from '@tabler/icons-react'
-import { Header, Page, StickyActionBar } from '../../components'
+import { Header, Page, StickyActionBar, Avatar } from '../../components'
 import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
@@ -604,6 +604,49 @@ export default function IntentCaptureScreen() {
               >
                 <div className="max-h-72 overflow-y-auto py-2">
                   {searchSuggestions.map((suggestion, index) => (
+                    (() => {
+                      if (suggestion.type !== 'doctor' || !suggestion.data.doctorId) return null
+                      const doctor = doctors.find((d) => d.id === suggestion.data.doctorId)
+                      if (!doctor) return null
+                      const distanceKm = (parseFloat(doctor.id.replace('d', '')) * 0.7 + 0.8).toFixed(1)
+                      const insurance =
+                        doctor.accepts.includes('GKV') && doctor.accepts.includes('PKV')
+                          ? 'GKV / PKV'
+                          : doctor.accepts.includes('GKV')
+                            ? 'GKV'
+                            : doctor.accepts.includes('PKV')
+                              ? 'PKV'
+                              : '—'
+
+                      const showDivider = index !== searchSuggestions.length - 1
+
+                      return (
+                        <button
+                          key={suggestion.id}
+                          type="button"
+                          onClick={() => handleSuggestionSelect(suggestion)}
+                          className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-cream-50 transition-colors ${
+                            showDivider ? 'border-b border-cream-200' : ''
+                          }`}
+                        >
+                          <div className="w-10 h-10 rounded-full overflow-hidden bg-cream-100 flex items-center justify-center flex-shrink-0">
+                            <Avatar name={doctor.name} imageUrl={doctor.imageUrl} size="sm" />
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-charcoal-500 text-sm truncate">
+                              {doctor.name}
+                            </div>
+                            <div className="text-xs text-slate-500 truncate">{doctor.specialty}</div>
+                            <div className="text-xs text-slate-500 mt-0.5">
+                              ★ {doctor.rating.toFixed(1)} ({doctor.reviewCount}) · ~{distanceKm} km · {insurance}
+                            </div>
+                          </div>
+
+                          <IconArrowRight size={18} className="text-slate-400 flex-shrink-0" />
+                        </button>
+                      )
+                    })() ?? (
                     <button
                       key={suggestion.id}
                       type="button"
@@ -622,7 +665,7 @@ export default function IntentCaptureScreen() {
                               : 'bg-amber-100 text-amber-600'
                         }`}
                       >
-                        {suggestion.icon === 'doctor' && <IconUser size={20} stroke={2} />}
+                        {suggestion.icon === 'doctor' && <IconUsers size={20} stroke={2} />}
                         {suggestion.icon === 'specialty' && <IconShieldCheck size={20} stroke={2} />}
                         {suggestion.icon === 'symptom' && <IconClock size={20} stroke={2} />}
                       </div>
@@ -642,6 +685,7 @@ export default function IntentCaptureScreen() {
                       {/* Arrow */}
                       <IconArrowRight size={18} className="text-slate-400 flex-shrink-0" />
                     </button>
+                    )
                   ))}
 
                   {normalizeForMatch(searchQuery).length >= 2 && (
