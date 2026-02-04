@@ -10,6 +10,9 @@ Notable changes, high level.
 - **Biometrics tests**: Updated component/screen tests to drive simulation via Dev Mode context/panel triggers; disable-modal tests updated for disabled destructive CTA.
 - **Typecheck/build hygiene (docliQ-mobile)**: Add local module declaration for `@meda/tokens/tailwind` used by `tailwind.config.ts`; ignore TypeScript `*.tsbuildinfo`.
 - **Docs (docliQ)**: Add biometrics QA audit report and UI/design system audit report.
+- **Unified inputs (@meda/ui)**: Add input primitives (InputBase, Label, HelperText, ErrorText), composed form controls (Field, PasswordField, Select, DateInput, TextareaField, SearchInput, RadioGroup, PhoneInput), and shared input tokens; add vitest config + ~120 tests around input behavior.
+- **Input migration (docliQ-mobile)**: Migrate auth + ChangePassword screens to use `Field`/`PasswordField` from `@meda/ui`; mark legacy `components/forms` Field/PasswordField as deprecated (dev console warning + plan link).
+- **Docs (inputs + cleanup)**: Add unified-inputs plan + migration-status tracker; trim older QA/biometrics/IndexedDB docs from main docliQ docs folder.
 
 ## 2026-02-03
 
