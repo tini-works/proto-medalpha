@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Header, Page, ProgressIndicator, ReasonTextarea, StickyActionBar } from '../../components'
+import { Header, Page, ReasonTextarea, StickyActionBar } from '../../components'
 import { Button } from '../../components/ui'
 import { useBooking } from '../../state'
 import { PATHS } from '../../routes'
-import { resolveBookingProgress } from './bookingProgress'
 
 export default function SymptomsScreen() {
   const navigate = useNavigate()
@@ -45,29 +44,7 @@ export default function SymptomsScreen() {
     <Page safeBottom={false}>
       <Header title={t('describeSymptoms')} showBack onBack={handleBack} />
 
-      {/* Progress indicator - Step 3 of 5 (after Booking Type) */}
-      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
-        {(() => {
-          const progress = resolveBookingProgress({ bookingFlow, fallbackFlow: 'by_doctor', currentStep: 3 })
-          return (
-            <>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold tracking-wide text-slate-600">{t(progress.stepLabelKey)}</span>
-                <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-              </div>
-              <ProgressIndicator
-                currentStep={progress.currentStep}
-                totalSteps={progress.totalSteps}
-                variant="bar"
-                showLabel={false}
-                showPercentage={false}
-              />
-            </>
-          )
-        })()}
-      </div>
-
-      <div className="px-4 pb-28 space-y-6">
+      <div className="px-4 py-6 pb-28 space-y-6">
         {/* Doctor info banner */}
         <div className="bg-cream-100 rounded-xl p-4 flex items-center gap-3">
           <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">

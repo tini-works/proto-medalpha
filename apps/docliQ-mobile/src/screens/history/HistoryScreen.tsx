@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconClock, IconFilter, IconSearch, IconX, IconPlus, IconArchive } from '@tabler/icons-react'
+import { IconClock, IconFilter, IconSearch, IconX, IconPlus, IconArchive, IconRefresh } from '@tabler/icons-react'
 import { Page, TabBar, AppointmentListCard, EmptyState, SwipeableAppointmentStack } from '../../components'
 import { OfflineBookingSheet } from '../../components/sheets'
 import { PendingDeletionBanner } from '../../components/account'
@@ -106,7 +106,7 @@ export default function HistoryScreen() {
     {
       value: 'modified_by_practice',
       labelKey: 'filterDoctorRescheduled',
-      icon: IconClock,
+      icon: IconRefresh,
     },
     {
       value: 'cancelled_doctor',

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
-import { Header, Page, ProgressIndicator, StickyActionBar } from '../../components'
+import { Header, Page, StickyActionBar } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
 import { SpecialtySearchInput } from '../../components/forms/SpecialtySearchInput'
@@ -11,7 +11,6 @@ import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
 import { specialties } from '../../data/symptoms'
 import type { InsuranceType } from '../../types'
-import { getStepLabelKey } from './bookingProgress'
 
 type InsuranceChoice = InsuranceType | ''
 
@@ -82,24 +81,7 @@ export default function SearchScreen() {
     <Page safeBottom={false}>
       <Header title={t('selectSpecialty')} showBack />
 
-      {/* Progress indicator - Step 2 of 3 (after Booking Type) */}
-      <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wide text-slate-600">
-            {t(getStepLabelKey(2, 3))}
-          </span>
-          <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-        </div>
-        <ProgressIndicator
-          currentStep={2}
-          totalSteps={3}
-          variant="bar"
-          showLabel={false}
-          showPercentage={false}
-        />
-      </div>
-
-      <div className="px-4 pb-32 space-y-6">
+      <div className="px-4 py-6 pb-32 space-y-6">
         {/* Search Input */}
         <section>
           <SpecialtySearchInput

@@ -2,14 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconChevronDown, IconX, IconSearch, IconArrowRight } from '@tabler/icons-react'
-import { Page, TabBar, DoctorCard, EmptyState, ProgressIndicator, DoctorDetailSheet, StickyActionBar, Header } from '../../components'
+import { Page, TabBar, DoctorCard, EmptyState, DoctorDetailSheet, StickyActionBar, Header } from '../../components'
 import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { apiSearchDoctors, getTimeSlots } from '../../data'
 import { PATHS } from '../../routes'
 import type { Doctor, TimeSlot } from '../../types'
 import { translateSpecialty } from '../../utils'
-import { resolveBookingProgress } from './bookingProgress'
 
 type SortOption = 'earliest' | 'rating' | 'distance'
 
@@ -199,30 +198,6 @@ export default function ResultsScreen() {
   return (
     <Page>
       <Header title={isDoctorFirstFlow ? t('selectDoctor') : t('searchResults')} showBack />
-
-      {/* Progress indicator for doctor-first flow */}
-      {isDoctorFirstFlow && (
-        <div className="px-4 py-4 space-y-3 bg-white border-b border-cream-300">
-          {(() => {
-            const progress = resolveBookingProgress({ bookingFlow, fallbackFlow: 'by_doctor', currentStep: 2 })
-            return (
-              <>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold tracking-wide text-slate-600">{t(progress.stepLabelKey)}</span>
-                  <span className="text-xs text-slate-500">{t('yourRequest')}</span>
-                </div>
-                <ProgressIndicator
-                  currentStep={progress.currentStep}
-                  totalSteps={progress.totalSteps}
-                  variant="bar"
-                  showLabel={false}
-                  showPercentage={false}
-                />
-              </>
-            )
-          })()}
-        </div>
-      )}
 
       {/* Specialty filter chips for doctor-first flow */}
       {isDoctorFirstFlow && availableSpecialties.length > 1 && (
