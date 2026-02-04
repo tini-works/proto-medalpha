@@ -19,7 +19,7 @@ import { Button, ConfirmModal } from '../../components/ui'
 import { DeleteWarningModal, PendingDeletionBanner } from '../../components/account'
 import { useAppState } from '../../state'
 import { PATHS } from '../../routes'
-import { resetCookiePreferences } from '../../components/legal'
+import { CookiePreferencesModal } from '../../components/legal'
 
 /**
  * Privacy & Data screen - GDPR compliance hub.
@@ -33,6 +33,7 @@ export default function PrivacyDataScreen() {
   const { pendingDeletion, cancelDeletion, completeDeletion } = useAppState()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
+  const [showCookieModal, setShowCookieModal] = useState(false)
 
   const handleDeleteAccount = () => {
     setShowDeleteModal(true)
@@ -58,9 +59,8 @@ export default function PrivacyDataScreen() {
   }
 
   const handleCookiePreferences = () => {
-    // Reset to trigger banner
-    resetCookiePreferences()
-    window.location.reload()
+    // Open modal for in-place editing (GDPR Art. 7 compliance)
+    setShowCookieModal(true)
   }
 
   return (
@@ -250,6 +250,12 @@ export default function PrivacyDataScreen() {
         cancelLabel={t('deleteCancel.continueButton')}
         onConfirm={confirmCancelDeletion}
         onCancel={() => setShowCancelModal(false)}
+      />
+
+      {/* Cookie Preferences Modal - GDPR Art. 7 compliant in-place editing */}
+      <CookiePreferencesModal
+        open={showCookieModal}
+        onClose={() => setShowCookieModal(false)}
       />
     </Page>
   )

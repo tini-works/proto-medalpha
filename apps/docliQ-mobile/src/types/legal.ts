@@ -1,15 +1,16 @@
 /**
  * Legal and GDPR compliance types for DocliQ
- * Supports GDPR Art. 12-22, German TMG §5, and TTDSG §25
+ * Supports GDPR Art. 12-22, German TMG SS5, and TTDSG SS25
  */
 
 export interface CookieConsent {
   essential: boolean // Always true, required for app function
   functional: boolean // Remember preferences (language, etc.)
   analytics: boolean // Usage tracking
-  marketing: boolean // Ad tracking
+  marketingEmails: boolean // Email communications (news, tips, offers)
   consentDate: string | null
   lastUpdated: string | null
+  policyVersion: string | null // Track which policy version was consented to
 }
 
 export type ConsentType =
@@ -56,7 +57,7 @@ export type ThirdPartyType = 'clinic' | 'insurance' | 'pharmacy' | 'lab'
 
 export interface ThirdPartyAccess {
   id: string
-  name: string // e.g., "Charité Berlin", "TK Insurance"
+  name: string // e.g., "Charite Berlin", "TK Insurance"
   type: ThirdPartyType
   accessGranted: boolean
   grantedAt?: string // ISO date

@@ -5,23 +5,35 @@ import { IconCookie, IconSquare, IconSquareCheckFilled } from '@tabler/icons-rea
 import { Button, Sheet } from '../ui'
 import { PATHS } from '../../routes'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
+import type { CookieConsent } from '../../types/legal'
+import { CURRENT_POLICY_VERSION } from '../../types/legal'
 
 const COOKIE_CONSENT_KEY = 'docliq_cookie_consent'
 
-interface CookiePreferences {
-  essential: boolean
-  functional: boolean
-  analytics: boolean
-  marketing: boolean
-  consentDate: string | null
-}
-
-const DEFAULT_PREFERENCES: CookiePreferences = {
+const DEFAULT_PREFERENCES: CookieConsent = {
   essential: true, // Always required
   functional: false,
   analytics: false,
-  marketing: false,
+  marketingEmails: false,
   consentDate: null,
+  lastUpdated: null,
+  policyVersion: null,
+}
+
+/**
+ * Mock API call to store consent on server.
+ * In production, this would POST to /api/consents
+ */
+async function saveCookieConsentToApi(consent: CookieConsent): Promise<void> {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 300))
+
+  // In production: POST /api/consents with userId, consent data, timestamp, IP, userAgent
+  console.log('[Mock API] Consent stored:', {
+    consent,
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+  })
 }
 
 /**
@@ -34,7 +46,7 @@ export default function CookieConsentBanner() {
   const { showToast } = useNotificationToast()
   const [isVisible, setIsVisible] = useState(false)
   const [showCustomize, setShowCustomize] = useState(false)
-  const [preferences, setPreferences] = useState<CookiePreferences>(DEFAULT_PREFERENCES)
+  const [preferences, setPreferences] = useState<CookieConsent>(DEFAULT_PREFERENCES)
 
   useEffect(() => {
     // Check if user has already made a choice
@@ -44,9 +56,21 @@ export default function CookieConsentBanner() {
     }
   }, [])
 
-  const savePreferences = (prefs: CookiePreferences) => {
-    const toSave = { ...prefs, consentDate: new Date().toISOString() }
+  const savePreferences = async (prefs: CookieConsent) => {
+    const now = new Date().toISOString()
+    const toSave: CookieConsent = {
+      ...prefs,
+      consentDate: now,
+      lastUpdated: now,
+      policyVersion: CURRENT_POLICY_VERSION,
+    }
+
+    // Save to localStorage as cache
     localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(toSave))
+
+    // Mock API call for server-side proof storage
+    await saveCookieConsentToApi(toSave)
+
     setIsVisible(false)
   }
 
@@ -55,8 +79,10 @@ export default function CookieConsentBanner() {
       essential: true,
       functional: true,
       analytics: true,
-      marketing: true,
+      marketingEmails: true,
       consentDate: null,
+      lastUpdated: null,
+      policyVersion: null,
     })
   }
 
@@ -65,8 +91,10 @@ export default function CookieConsentBanner() {
       essential: true,
       functional: false,
       analytics: false,
-      marketing: false,
+      marketingEmails: false,
       consentDate: null,
+      lastUpdated: null,
+      policyVersion: null,
     })
   }
 
@@ -78,7 +106,7 @@ export default function CookieConsentBanner() {
     })
   }
 
-  const togglePreference = (key: keyof Omit<CookiePreferences, 'essential' | 'consentDate'>) => {
+  const togglePreference = (key: keyof Omit<CookieConsent, 'essential' | 'consentDate' | 'lastUpdated' | 'policyVersion'>) => {
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }))
   }
 
@@ -195,22 +223,22 @@ export default function CookieConsentBanner() {
               )}
             </button>
 
-            {/* Marketing */}
+            {/* Marketing Emails */}
             <button
               type="button"
-              onClick={() => togglePreference('marketing')}
+              onClick={() => togglePreference('marketingEmails')}
               className="flex items-center justify-between w-full text-left"
-              aria-pressed={preferences.marketing}
+              aria-pressed={preferences.marketingEmails}
             >
               <div>
                 <span className="text-sm font-medium text-charcoal-500">
-                  {t('cookies.categories.marketing.title')}
+                  {t('cookies.categories.marketingEmails.title')}
                 </span>
                 <p className="text-xs text-slate-500">
-                  {t('cookies.categories.marketing.description')}
+                  {t('cookies.categories.marketingEmails.description')}
                 </p>
               </div>
-              {preferences.marketing ? (
+              {preferences.marketingEmails ? (
                 <IconSquareCheckFilled size={24} className="text-teal-600 flex-shrink-0" />
               ) : (
                 <IconSquare size={24} className="text-slate-300 flex-shrink-0" />
@@ -240,7 +268,7 @@ export function hasCookieConsent(): boolean {
 /**
  * Helper to get current cookie preferences
  */
-export function getCookiePreferences(): CookiePreferences | null {
+export function getCookiePreferences(): CookieConsent | null {
   const stored = localStorage.getItem(COOKIE_CONSENT_KEY)
   return stored ? JSON.parse(stored) : null
 }
@@ -250,4 +278,21 @@ export function getCookiePreferences(): CookiePreferences | null {
  */
 export function resetCookiePreferences(): void {
   localStorage.removeItem(COOKIE_CONSENT_KEY)
+}
+
+/**
+ * Helper to update cookie preferences in-place (for settings modal)
+ */
+export async function updateCookiePreferences(prefs: Partial<CookieConsent>): Promise<void> {
+  const current = getCookiePreferences() || DEFAULT_PREFERENCES
+  const now = new Date().toISOString()
+  const updated: CookieConsent = {
+    ...current,
+    ...prefs,
+    lastUpdated: now,
+    policyVersion: CURRENT_POLICY_VERSION,
+  }
+
+  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(updated))
+  await saveCookieConsentToApi(updated)
 }

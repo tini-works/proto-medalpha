@@ -32,9 +32,11 @@ vi.mock('../../../state', () => ({
   }),
 }))
 
-// Mock resetCookiePreferences
+// Mock legal components
 vi.mock('../../../components/legal', () => ({
   resetCookiePreferences: vi.fn(),
+  CookiePreferencesModal: ({ open, onClose }: { open: boolean; onClose: () => void }) =>
+    open ? <div data-testid="cookie-preferences-modal"><button onClick={onClose}>Close</button></div> : null,
 }))
 
 // Mock i18n

@@ -185,5 +185,36 @@
     "disableMessage": "Sie müssen Ihr Passwort zum Anmelden verwenden.",
     "disableConfirm": "Deaktivieren"
   },
-  "signInWithFingerprint": "Mit Fingerabdruck anmelden"
+  "signInWithFingerprint": "Mit Fingerabdruck anmelden",
+  "biometricSettings": {
+    "title": "Biometrie-Einstellungen",
+    "enableTitle": "Face ID / Touch ID aktivieren",
+    "enableSubtitle": "Schützen Sie Ihre Patientenakten mit biometrischer Authentifizierung.",
+    "securityDisclaimer": "DocliQ nutzt die Secure Enclave Ihres Geräts zur Speicherung biometrischer Daten. Wir speichern Ihre Fingerabdrücke oder Gesichtsscans nie auf unseren Servern. Biometrische Daten bleiben verschlüsselt und privat."
+  },
+  "biometricAllow": {
+    "title": "DocliQ Biometrie erlauben?",
+    "description": "So können Sie Ihre Patientenakten sicher abrufen, ohne Ihr Passwort einzugeben.",
+    "allowButton": "Biometrie erlauben",
+    "denyButton": "Nicht erlauben",
+    "secureEncryption": "SICHERE VERSCHLÜSSELUNG",
+    "scanning": "Wird gescannt...",
+    "success": "Erfolgreich",
+    "failed": "Authentifizierung fehlgeschlagen",
+    "tryAgain": "Erneut versuchen",
+    "a11y": {
+      "scanning": "Biometrie wird gescannt...",
+      "success": "Biometrische Authentifizierung erfolgreich",
+      "failed": "Biometrische Authentifizierung fehlgeschlagen. Erneut versuchen oder abbrechen."
+    }
+  },
+  "biometricDisable": {
+    "title": "Biometrische Anmeldung deaktivieren?",
+    "description": "Zu Ihrer Sicherheit müssen Sie Ihr Passwort eingeben, um diese Änderung zu bestätigen. Dies betrifft Schnellanmeldung und Zugriff auf sensible Daten.",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "keepEnabled": "Aktiviert lassen",
+    "disableButton": "Biometrie deaktivieren",
+    "passwordRequired": "Passwort ist erforderlich"
+  }
 }

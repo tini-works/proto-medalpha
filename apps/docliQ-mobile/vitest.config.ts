@@ -11,22 +11,17 @@ export default defineConfig({
     // CSS disabled - tests use toHaveClass() not computed styles
     css: false,
 
-    // Use forked processes to reduce long-lived heap growth in large suites
-    pool: 'forks',
-    poolOptions: {
-      forks: {
-        execArgv: ['--max-old-space-size=4096'],
-      },
-    },
+    // Thread-based execution for better parallelism
+    pool: 'threads',
 
     // Test isolation: each test file runs in fresh context
     // Pros: prevents state leakage, more reliable
     // Cons: slight overhead per file (~50-100ms)
     isolate: true,
 
-    // Resource optimization
-    maxConcurrency: 1,
-    maxWorkers: 1,
+    // Resource optimization: cap parallel tests to avoid overloading local dev machines.
+    maxConcurrency: 3,
+    maxWorkers: 3,
     minWorkers: 1,
 
     sequence: {

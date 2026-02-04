@@ -159,10 +159,10 @@
         "description": "Helfen uns zu verstehen, wie Sie DocliQ nutzen, um unsere Dienste zu verbessern.",
         "examples": "Seitenaufrufe, Feature-Nutzung, Fehlerverfolgung"
       },
-      "marketing": {
-        "title": "Marketing-Cookies",
-        "description": "Werden verwendet, um relevante Informationen bereitzustellen und die Kampagneneffektivität zu messen.",
-        "examples": "Kampagnen-Tracking, personalisierte Inhalte"
+      "marketingEmails": {
+        "title": "Marketing-E-Mails",
+        "description": "Erhalten Sie Neuigkeiten, Gesundheitstipps und Angebote per E-Mail.",
+        "examples": "Newsletter, Gesundheitstipps, Sonderangebote"
       }
     },
     "ttdsg": {

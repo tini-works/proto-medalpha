@@ -1,49 +1,123 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react'
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { IconLoader2 } from '@tabler/icons-react'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'destructive' | 'destructive-filled'
+  // Design system variant: primary (teal filled), secondary (teal outline),
+  // tertiary/ghost (ghost), accent (coral), destructive (red outline),
+  // destructive-filled (red filled), icon (circular), link (text-only)
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'ghost'
+    | 'accent'
+    | 'destructive'
+    | 'destructive-filled'
+    | 'icon'
+    | 'link'
+  // Button size for touch targets and visual hierarchy
   size?: 'sm' | 'md' | 'lg'
+  // Full-width button (replaces btn-block utility)
   fullWidth?: boolean
+  // Loading state: shows spinner, disables interaction
   loading?: boolean
+  // Icon element before button text
+  leftIcon?: ReactNode
+  // Icon element after button text
+  rightIcon?: ReactNode
+  // Test ID for testing-library queries
+  testId?: string
 }
 
+// Tailwind class sets for each variant
 const variantStyles = {
-  // Business intent: align "primary" actions with MedAlpha brand tokens (brand-blue-*).
-  // This avoids invisible buttons when an app doesn't define generic `primary-*` colors.
-  primary: 'bg-brand-blue-600 text-white hover:bg-brand-blue-700 focus:ring-brand-blue-500',
-  secondary: 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300 focus:ring-neutral-500',
-  ghost: 'bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-500',
-  destructive: 'border border-red-300 text-red-600 hover:bg-red-50 focus:ring-red-500',
-  'destructive-filled': 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+  // Primary: Teal filled for main CTAs (brand primary action)
+  primary:
+    'bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-700 active:scale-[0.98] disabled:bg-teal-200 disabled:text-teal-800',
+  // Secondary: Teal outline for alternative actions
+  secondary:
+    'bg-transparent text-teal-700 border border-teal-500 hover:bg-teal-50 active:bg-teal-100 active:scale-[0.98]',
+  // Tertiary: Ghost style for low-emphasis actions
+  tertiary:
+    'bg-transparent text-charcoal-500 hover:bg-cream-200 active:bg-cream-300 active:scale-[0.98]',
+  // Ghost: Alias for tertiary (backwards compat for admin app)
+  ghost: 'bg-transparent text-charcoal-500 hover:bg-cream-200 active:bg-cream-300 active:scale-[0.98]',
+  // Accent: Coral for highlight/urgent actions (secondary brand color)
+  accent:
+    'bg-coral-500 text-charcoal-500 hover:bg-coral-600 active:bg-coral-700 active:scale-[0.98] focus-visible:ring-coral-500',
+  // Destructive: Red outline for dangerous actions (cancel, delete, remove)
+  destructive:
+    'border border-red-300 text-red-600 hover:bg-red-50 active:scale-[0.98] disabled:opacity-50',
+  // Destructive filled: Red filled for confirming destructive actions
+  'destructive-filled':
+    'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98] disabled:opacity-50',
+  // Icon: Circular transparent button for icon-only use (back, close, favorite)
+  icon: 'flex items-center justify-center rounded-full hover:bg-neutral-100 transition-colors',
+  // Link: Text-only button for secondary actions
+  link: 'bg-transparent text-teal-700 hover:underline',
 }
 
+// Size classes for consistent button heights and padding
 const sizeStyles = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  // Small: 40px compact for tight UI (icon variant handles its own sizing)
+  sm: 'h-10 px-3 py-2 text-sm',
+  // Medium: 44px minimum (WCAG touch target), standard button size
+  md: 'h-11 px-4 py-3 text-base',
+  // Large: 48-56px for primary CTAs (calls-to-action)
+  lg: 'h-14 px-4 py-3.5 text-base',
 }
+
+// Size classes specifically for icon variant (square buttons)
+const iconSizeStyles = {
+  sm: 'h-10 w-10',
+  md: 'h-11 w-11',
+  lg: 'h-14 w-14',
+}
+
+// Base styles applied to all button variants
+const baseStyles =
+  'inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-normal ease-out-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed'
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', className = '', fullWidth = false, loading = false, disabled, children, ...props }, ref) => {
-    const baseStyles =
-      'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none'
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      fullWidth = false,
+      loading = false,
+      leftIcon,
+      rightIcon,
+      className = '',
+      disabled,
+      children,
+      testId,
+      ...props
+    },
+    ref
+  ) => {
+    // Use icon-specific sizing for icon variant, standard sizing otherwise
+    const currentSizeStyles = variant === 'icon' ? iconSizeStyles[size] : sizeStyles[size]
 
-    const widthStyle = fullWidth ? 'w-full' : ''
+    // Combine all classes: base + variant + size + fullWidth + custom
+    const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${currentSizeStyles} ${fullWidth ? 'w-full' : ''} ${disabled || loading ? 'opacity-50 disabled:cursor-not-allowed' : ''} ${className}`
 
     return (
       <button
         ref={ref}
-        className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyle} ${className}`}
+        className={combinedClassName}
         disabled={disabled || loading}
+        data-testid={testId}
         {...props}
       >
+        {/* Icon + text layout: left icon, then text, then right icon */}
         {loading ? (
-          <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-          </svg>
+          <IconLoader2 size={20} stroke={2} className="animate-spin" />
         ) : (
-          children
+          <>
+            {leftIcon && <span className="mr-2 flex items-center justify-center">{leftIcon}</span>}
+            {children}
+            {rightIcon && <span className="ml-2 flex items-center justify-center">{rightIcon}</span>}
+          </>
         )}
       </button>
     )

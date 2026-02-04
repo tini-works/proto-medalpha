@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Header, Page } from '../../components'
-import { Field } from '../../components/forms'
+import { Field } from '@meda/ui'
 import { Button } from '../../components/ui'
 import { PATHS } from '../../routes'
 

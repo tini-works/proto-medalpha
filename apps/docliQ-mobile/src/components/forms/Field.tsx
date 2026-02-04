@@ -9,6 +9,14 @@ interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
 export function Field({ label, error, hint, className = '', id, ...props }: FieldProps) {
   const inputId = id || label.toLowerCase().replace(/\s+/g, '-')
 
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(
+      '[Deprecated] Field from components/forms is deprecated. ' +
+      'Use Field from @meda/ui instead. ' +
+      'See: docs/docliQ/unified-inputs-plan.md'
+    )
+  }
+
   return (
     <div className="space-y-1">
       <label htmlFor={inputId} className="block text-label-md text-slate-700">

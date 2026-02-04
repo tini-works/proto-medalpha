@@ -2,6 +2,18 @@
 
 Notable changes, high level.
 
+## 2026-02-04
+
+- **Biometrics settings UI (docliQ-mobile)**: Enable flow via AllowBiometricsModal (centered modal with loading → success/fail simulation); disable flow via DisableBiometricsModal (password required; destructive CTA disabled until password; Disable above Keep Enabled w/ secondary style); BiometricsScreen redesigned (toggle uses shared Switch, opens modals; tappable fingerprint area for scan simulation; security disclaimer); BiometricPromptSheet sign-in flow with phases (idle/loading/success/failed), haptics and aria-live.
+- **Biometrics utilities**: `utils/haptics.ts` (Vibration API, Android-only), `utils/a11y.ts` (announceToScreenReader); Tailwind animations (modal-enter/exit, pulse-scan, success-spring, shake-error); i18n keys for biometricSettings, biometricAllow, biometricDisable (en/de).
+- **Biometrics dev mode**: Move success/fail simulation controls into the Dev Mode Specs panel (targeted to settings/allow-modal/sign-in prompt); remove inline DEV-only buttons from biometric UI.
+- **Biometrics tests**: Updated component/screen tests to drive simulation via Dev Mode context/panel triggers; disable-modal tests updated for disabled destructive CTA.
+- **Typecheck/build hygiene (docliQ-mobile)**: Add local module declaration for `@meda/tokens/tailwind` used by `tailwind.config.ts`; ignore TypeScript `*.tsbuildinfo`.
+- **Docs (docliQ)**: Add biometrics QA audit report and UI/design system audit report.
+- **Unified inputs (@meda/ui)**: Add input primitives (InputBase, Label, HelperText, ErrorText), composed form controls (Field, PasswordField, Select, DateInput, TextareaField, SearchInput, RadioGroup, PhoneInput), and shared input tokens; add vitest config + ~120 tests around input behavior.
+- **Input migration (docliQ-mobile)**: Migrate auth + ChangePassword screens to use `Field`/`PasswordField` from `@meda/ui`; mark legacy `components/forms` Field/PasswordField as deprecated (dev console warning + plan link).
+- **Docs (inputs + cleanup)**: Add unified-inputs plan + migration-status tracker; trim older QA/biometrics/IndexedDB docs from main docliQ docs folder.
+
 ## 2026-02-03
 
 - **docliQ-mobile (build fix)**: Add missing `OfflineBookingSheet` component and `useOnlineStatus` hook — fix Vite import-resolution errors.

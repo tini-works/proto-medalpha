@@ -1,2 +1,6 @@
 export { BiometricPromptSheet } from './BiometricPromptSheet'
 export type { BiometricPromptSheetProps } from './BiometricPromptSheet'
+export { AllowBiometricsModal } from './AllowBiometricsModal'
+export type { AllowBiometricsModalProps } from './AllowBiometricsModal'
+export { DisableBiometricsModal } from './DisableBiometricsModal'
+export type { DisableBiometricsModalProps } from './DisableBiometricsModal'

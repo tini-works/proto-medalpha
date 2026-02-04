@@ -1,4 +1,4 @@
-export * from './Button'
+export { Button, type ButtonProps } from '@meda/ui'
 export * from './Chip'
 export * from './ConfirmModal'
 export * from './DestructiveOutlineButton'

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { IconLock } from '@tabler/icons-react'
-import { Header, Page } from '../../components'
-import { PasswordField } from '../../components/forms'
+import { Header, Page, StickyActionBar } from '../../components'
+import { PasswordField } from '@meda/ui'
 import { Button } from '../../components/ui'
+import { PasswordStrengthIndicator } from '../../components/forms/PasswordStrengthIndicator'
 import { useNotificationToast } from '../../contexts/NotificationToastContext'
 import { validatePassword } from '../../utils/passwordValidation'
 import { PATHS } from '../../routes'
@@ -74,68 +74,60 @@ export default function ChangePasswordScreen() {
   }
 
   return (
-    <Page safeBottom={false}>
+    <Page safeBottom>
       <Header title={t('changePassword')} showBack />
 
-      <div className="flex-1 flex flex-col px-4 py-6">
-        {/* Info banner */}
-        <div className="flex items-start gap-3 p-4 bg-teal-50 rounded-xl border border-teal-100 mb-6">
-          <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-            <IconLock size={20} className="text-teal-600" />
-          </div>
-          <div>
-            <p className="text-sm text-slate-600">
-              {t('changePasswordInfo')}
-            </p>
-          </div>
+      {/* Scrollable form content; pb-32 reserves space for sticky button */}
+      <div className="px-4 py-6 pb-32 space-y-4">
+        {/* Current Password Field */}
+        <div>
+          <PasswordField
+            label={t('currentPassword')}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            placeholder="********"
+          />
+          <button
+            type="button"
+            onClick={handleForgotPassword}
+            className="mt-2 text-sm text-teal-600 hover:text-teal-700 hover:underline"
+          >
+            {t('forgotCurrentPassword')}
+          </button>
         </div>
 
-        <div className="space-y-4">
-          {/* Current Password Field */}
-          <div>
-            <PasswordField
-              label={t('currentPassword')}
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              placeholder="********"
-            />
-            {/* Forgot password link */}
-            <button
-              type="button"
-              onClick={handleForgotPassword}
-              className="mt-2 text-sm text-teal-600 hover:text-teal-700 hover:underline"
-            >
-              {t('forgotCurrentPassword')}
-            </button>
-          </div>
-
-          {/* New Password Field with strength indicator */}
+        {/* New Password: OWASP validation via validatePassword; strength indicator below */}
+        <div>
           <PasswordField
             label={t('newPassword')}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="********"
-            showStrengthIndicator
-            showRequirements
             error={getNewPasswordError()}
           />
-
-          {/* Confirm Password Field */}
-          <PasswordField
-            label={t('confirmPassword')}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="********"
-            error={getConfirmError()}
-          />
+          {newPassword.length > 0 && (
+            <PasswordStrengthIndicator
+              validation={validation}
+              showRequirements
+            />
+          )}
         </div>
 
-        <div className="flex-1" />
+        {/* Confirm Password Field */}
+        <PasswordField
+          label={t('confirmPassword')}
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="********"
+          error={getConfirmError()}
+        />
+      </div>
 
+      <StickyActionBar>
         <Button onClick={handleSubmit} disabled={!isValid} fullWidth>
           {t('updatePassword')}
         </Button>
-      </div>
+      </StickyActionBar>
     </Page>
   )
 }
