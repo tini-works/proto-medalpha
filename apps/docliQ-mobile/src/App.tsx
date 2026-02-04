@@ -35,7 +35,6 @@ import { ArticleDetailScreen } from './screens/newsfeed'
 import {
   IntentCaptureScreen,
   SearchScreen as BookingSearchScreen,
-  SymptomsScreen as BookingSymptomsScreen,
   AvailabilityScreen as BookingAvailabilityScreen,
   LocationScreen as BookingLocationScreen,
   InsuranceScreen as BookingInsuranceScreen,
@@ -443,16 +442,6 @@ function AppContent() {
           <Route
             path={PATHS.BOOKING_CONSTRAINTS}
             element={<Navigate to={PATHS.BOOKING_SPECIALTY} replace />}
-          />
-          <Route
-            path={PATHS.BOOKING_SYMPTOMS}
-            element={
-              <RequireAuth>
-                <RequireProfileComplete>
-                  <BookingSymptomsScreen />
-                </RequireProfileComplete>
-              </RequireAuth>
-            }
           />
           <Route
             path={PATHS.BOOKING_AVAILABILITY}
