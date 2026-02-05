@@ -46,9 +46,9 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           aria-label={ariaLabel}
           disabled={disabled}
           className={`
-            w-full h-14 pl-12 pr-4 rounded-xl bg-white
+            w-full h-[42px] pl-12 pr-4 rounded-xl bg-white
             border border-cream-400
-            focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 focus:outline-none
+            focus:outline-none focus-visible:border-teal-500 focus-visible:ring-2 focus-visible:ring-teal-500/20
             text-charcoal-500 placeholder:text-slate-400
             disabled:bg-cream-200 disabled:cursor-not-allowed disabled:opacity-60
             transition-all duration-normal ease-out-brand

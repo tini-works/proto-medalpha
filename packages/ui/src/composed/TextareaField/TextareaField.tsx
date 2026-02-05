@@ -68,12 +68,12 @@ export function TextareaField({
   }
 
   const baseClasses = [
-    'w-full bg-cream-200 rounded-xl p-4 resize-none text-charcoal-500',
+    'w-full bg-white border border-cream-400 rounded-xl p-4 resize-none text-charcoal-500',
     'placeholder:text-slate-400',
-    'focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white',
+    'focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500',
     'transition-colors duration-normal ease-out-brand',
     'disabled:opacity-50 disabled:cursor-not-allowed',
-    error ? 'border border-coral-600' : '',
+    error ? 'border-coral-600 focus-visible:ring-coral-500' : '',
     className,
   ]
     .filter(Boolean)

@@ -143,7 +143,7 @@ describe('Select', () => {
 
     const select = screen.getByRole('combobox')
     expect(select.className).toContain('border-coral-600')
-    expect(select.className).toContain('focus:ring-coral-500')
+    expect(select.className).toContain('focus-visible:ring-coral-500')
   })
 
   it('applies normal styling classes when no error', () => {
@@ -151,7 +151,7 @@ describe('Select', () => {
 
     const select = screen.getByRole('combobox')
     expect(select.className).toContain('border-cream-400')
-    expect(select.className).toContain('focus:ring-teal-500')
+    expect(select.className).toContain('focus-visible:ring-teal-500')
   })
 
   it('applies disabled styling when disabled', () => {

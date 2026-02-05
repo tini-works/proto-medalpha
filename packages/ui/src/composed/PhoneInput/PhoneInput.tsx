@@ -111,11 +111,12 @@ export function PhoneInput({
             value={countryCode}
             onChange={(e) => onCountryCodeChange(e.target.value)}
             disabled={disabled}
+            aria-disabled={disabled || undefined}
             aria-label="Country code"
             className={`
               h-full px-3 py-2.5 text-sm rounded-lg border appearance-none bg-white
               ${error ? 'border-coral-600' : 'border-cream-400'}
-              focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:border-transparent
               disabled:bg-cream-200 disabled:text-slate-500
               pr-8
             `}
@@ -146,10 +147,11 @@ export function PhoneInput({
             aria-describedby={describedBy}
             aria-required={required || undefined}
             aria-invalid={error ? true : undefined}
+            aria-disabled={disabled || undefined}
             className={`
               w-full px-3 py-2.5 text-sm rounded-lg border bg-white
-              ${error ? 'border-coral-600 focus:ring-coral-500' : 'border-cream-400 focus:ring-teal-500'}
-              focus:outline-none focus:ring-2 focus:border-transparent
+              ${error ? 'border-coral-600 focus-visible:ring-coral-500' : 'border-cream-400 focus-visible:ring-teal-500'}
+              focus:outline-none focus-visible:ring-2 focus-visible:border-transparent
               disabled:bg-cream-200 disabled:text-slate-500
               placeholder:text-slate-400
               ${verificationStatus !== 'none' ? 'pr-10' : ''}

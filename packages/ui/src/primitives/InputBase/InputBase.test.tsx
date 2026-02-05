@@ -62,14 +62,14 @@ describe('InputBase', () => {
     render(<InputBase hasError data-testid="input" />)
     const input = screen.getByTestId('input')
     expect(input.className).toContain('border-coral-600')
-    expect(input.className).toContain('focus:ring-coral-500')
+    expect(input.className).toContain('focus-visible:ring-coral-500')
   })
 
   it('applies default styling classes when no error', () => {
     render(<InputBase data-testid="input" />)
     const input = screen.getByTestId('input')
     expect(input.className).toContain('border-cream-400')
-    expect(input.className).toContain('focus:ring-teal-500')
+    expect(input.className).toContain('focus-visible:ring-teal-500')
   })
 
   it('applies disabled styling classes', () => {

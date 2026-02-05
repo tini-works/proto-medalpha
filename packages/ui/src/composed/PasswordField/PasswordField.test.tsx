@@ -113,13 +113,12 @@ describe('PasswordField', () => {
     expect(screen.getByRole('button', { name: 'Show password' })).toBeInTheDocument()
   })
 
-  it('toggle button has tabIndex -1', () => {
+  it('toggle button is keyboard accessible', () => {
     render(<PasswordField label="Password" />)
 
-    expect(screen.getByRole('button', { name: 'Show password' })).toHaveAttribute(
-      'tabIndex',
-      '-1'
-    )
+    const button = screen.getByRole('button', { name: 'Show password' })
+    // Button should NOT have tabIndex=-1, making it keyboard accessible
+    expect(button).not.toHaveAttribute('tabIndex', '-1')
   })
 
   it('toggle button has type button', () => {

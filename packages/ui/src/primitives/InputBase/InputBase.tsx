@@ -31,12 +31,12 @@ export const InputBase = forwardRef<HTMLInputElement, InputBaseProps>(
       rounded-lg border bg-white
       placeholder:text-slate-400
       transition-colors duration-150
-      focus:outline-none focus:ring-2 focus:border-transparent
+      focus:outline-none focus-visible:ring-2 focus-visible:border-transparent
     `
 
     const stateStyles = hasError
-      ? 'border-coral-600 focus:ring-coral-500'
-      : 'border-cream-400 focus:ring-teal-500'
+      ? 'border-coral-600 focus-visible:ring-coral-500'
+      : 'border-cream-400 focus-visible:ring-teal-500'
 
     const disabledStyles = disabled
       ? 'bg-cream-200 text-slate-500 cursor-not-allowed'

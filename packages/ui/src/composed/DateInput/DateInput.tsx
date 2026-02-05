@@ -85,12 +85,13 @@ export function DateInput({
         min={min}
         aria-invalid={error ? true : undefined}
         aria-required={required}
+        aria-disabled={disabled || undefined}
         aria-describedby={describedBy}
         className={`
           w-full px-3 py-2.5 text-base rounded-lg border bg-white
-          focus:outline-none focus:ring-2 focus:border-transparent
+          focus:outline-none focus-visible:ring-2 focus-visible:border-transparent
           disabled:bg-cream-200 disabled:text-slate-500 disabled:cursor-not-allowed
-          ${error ? 'border-coral-600 focus:ring-coral-500' : 'border-cream-400 focus:ring-teal-500'}
+          ${error ? 'border-coral-600 focus-visible:ring-coral-500' : 'border-cream-400 focus-visible:ring-teal-500'}
           ${!value ? 'text-slate-400' : 'text-charcoal-500'}
         `}
       />

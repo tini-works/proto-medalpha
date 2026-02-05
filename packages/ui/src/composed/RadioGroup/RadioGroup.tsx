@@ -39,8 +39,14 @@ export function RadioGroup({
   disabled,
   className = '',
 }: RadioGroupProps) {
+  const errorId = `${name}-error`
+
   return (
-    <fieldset className={`space-y-2 ${className}`.trim()} disabled={disabled}>
+    <fieldset
+      className={`space-y-2 ${className}`.trim()}
+      disabled={disabled}
+      aria-describedby={error ? errorId : undefined}
+    >
       <legend className="block text-sm font-medium text-slate-700">
         {label}
         {required && <span className="text-coral-600 ml-0.5">*</span>}
@@ -87,7 +93,7 @@ export function RadioGroup({
         })}
       </div>
 
-      {error && <ErrorText>{error}</ErrorText>}
+      {error && <ErrorText id={errorId}>{error}</ErrorText>}
     </fieldset>
   )
 }
