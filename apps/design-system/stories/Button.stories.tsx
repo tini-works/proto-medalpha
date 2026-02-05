@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '@meda/ui'
 import { IconPlus, IconArrowRight, IconTrash, IconX } from '@tabler/icons-react'
