@@ -92,12 +92,3 @@ graph LR
 | Appointment | scheduled during | Working Hours | M:1 |
 | Working Hours | applies to | Clinic | M:1 |
 | Appointment Type | defines | Appointment | 1:M |
-
-## Color Legend
-
-- **Purple (#E6D5F5)** - Doctor
-- **Blue (#D4E6F1)** - Patient
-- **Green (#D5F4E6)** - Working Hours
-- **Yellow (#FFF4D4)** - Appointment Type
-- **Orange (#FFE4CC)** - Appointment
-- **Gray (#F0F0F0)** - Supporting objects (Clinic)
