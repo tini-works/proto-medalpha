@@ -1,10 +1,19 @@
 import { IconSettings, IconWifi, IconWifiOff } from '@tabler/icons-react'
 import { useDevMode } from '../../contexts/DevModeContext'
 import { useOnlineStatus } from '../../hooks/useOnlineStatus'
+import { useViewportWidth } from '../../hooks/useViewportWidth'
+
+const MIN_VIEWPORT_WIDTH = 500
 
 export function DevToggleButton() {
+  const viewportWidth = useViewportWidth()
   const { isDevMode, toggleDevMode, openDrawer } = useDevMode()
   const { isOnline } = useOnlineStatus()
+
+  // Hide on small viewports (mobile)
+  if (viewportWidth < MIN_VIEWPORT_WIDTH) {
+    return null
+  }
 
   const handleClick = () => {
     if (isDevMode) {
@@ -60,7 +69,7 @@ export function DevToggleButton() {
       <style>{`
         .dev-toggle-container {
           position: fixed;
-          bottom: 20px;
+          bottom: 100px;
           left: 20px;
           z-index: 9999;
           display: flex;
