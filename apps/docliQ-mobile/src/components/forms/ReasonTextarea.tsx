@@ -1,5 +1,9 @@
 import { useId } from 'react'
 
+/**
+ * @deprecated Use `TextareaField` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 interface ReasonTextareaProps {
   value: string
   onChange: (value: string) => void
@@ -8,6 +12,10 @@ interface ReasonTextareaProps {
   label?: string
 }
 
+/**
+ * @deprecated Use `TextareaField` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 export function ReasonTextarea({
   value,
   onChange,

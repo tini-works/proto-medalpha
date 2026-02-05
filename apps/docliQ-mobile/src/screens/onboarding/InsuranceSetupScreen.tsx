@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconChevronLeft, IconInfoCircle } from '@tabler/icons-react'
 import { Page, ProgressIndicator } from '../../components'
+import { Field } from '../../components/forms'
 import { InsuranceCard } from '../../components/cards'
 import { Button } from '../../components/ui'
 import { useProfile } from '../../state'
@@ -15,19 +16,31 @@ export default function InsuranceSetupScreen() {
   const { profile, updateProfile } = useProfile()
 
   const [insuranceType, setInsuranceType] = useState<InsuranceType | ''>(profile.insuranceType || '')
+  const [egkNumber, setEgkNumber] = useState(profile.egkNumber || '')
+  const [egkError, setEgkError] = useState('')
 
   const canContinue = insuranceType !== ''
+
+  // Validate eGK format if provided
+  const validateEgk = (value: string): boolean => {
+    if (!value) return true // Optional field
+    return /^[A-Za-z]\d{9}$/.test(value)
+  }
 
   const handleContinue = () => {
     if (!canContinue) return
 
-    updateProfile({ insuranceType })
+    // Validate eGK if provided
+    if (egkNumber && !validateEgk(egkNumber)) {
+      setEgkError(t('onboarding.insurance.egkInvalidFormat'))
+      return
+    }
 
-    navigate(PATHS.ONBOARDING_VERIFY)
+    updateProfile({ insuranceType, egkNumber: egkNumber.toUpperCase() })
+    navigate(PATHS.HOME)
   }
 
   const handleSkip = () => {
-    // Skip without setting insurance - go to home
     navigate(PATHS.HOME)
   }
 
@@ -39,18 +52,9 @@ export default function InsuranceSetupScreen() {
     <Page safeBottom={false}>
       {/* Header */}
       <div className="px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center">
-          <button
-            onClick={handleBack}
-            className="p-2 -ml-2 rounded-lg hover:bg-cream-200 transition-colors"
-            aria-label="Go back"
-          >
-            <IconChevronLeft size={24} className="text-charcoal-500" />
-          </button>
-          <h1 className="ml-2 text-lg font-semibold text-charcoal-500">
-            {t('onboarding.insurance.title')}
-          </h1>
-        </div>
+        <h1 className="text-lg font-semibold text-charcoal-500">
+          {t('onboarding.insurance.title')}
+        </h1>
         <button
           onClick={handleSkip}
           className="text-sm text-teal-600 font-medium hover:text-teal-700 transition-colors"
@@ -63,7 +67,7 @@ export default function InsuranceSetupScreen() {
       <div className="px-4 pb-4">
         <ProgressIndicator
           currentStep={2}
-          totalSteps={3}
+          totalSteps={2}
           variant="segments"
           labelFormat="default"
         />
@@ -101,6 +105,19 @@ export default function InsuranceSetupScreen() {
           />
         </div>
 
+        {/* eGK Number (optional) */}
+        <Field
+          label={t('onboarding.insurance.egkNumberLabel')}
+          value={egkNumber}
+          onChange={(e) => {
+            setEgkNumber(e.target.value.toUpperCase())
+            setEgkError('')
+          }}
+          placeholder={t('onboarding.insurance.egkNumberPlaceholder')}
+          hint={t('onboarding.insurance.egkNumberHint')}
+          error={egkError}
+        />
+
         {/* Info note */}
         <div className="flex items-start gap-3 p-4 bg-cream-100 rounded-xl">
           <IconInfoCircle size={20} className="text-slate-500 flex-shrink-0 mt-0.5" />
@@ -111,10 +128,14 @@ export default function InsuranceSetupScreen() {
       </div>
 
       {/* Footer */}
-      <div className="px-4 pb-6">
+      <div className="px-4 pb-6 flex gap-3">
+        <Button variant="tertiary" onClick={handleBack}>
+          <IconChevronLeft size={20} className="-ml-1" />
+          {t('onboarding.insurance.back')}
+        </Button>
         <Button
           variant="primary"
-          fullWidth
+          className="flex-1"
           disabled={!canContinue}
           onClick={handleContinue}
         >

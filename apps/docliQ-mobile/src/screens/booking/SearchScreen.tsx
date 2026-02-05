@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconX, IconArrowRight } from '@tabler/icons-react'
+import { SearchInput } from '@meda/ui'
 import { Header, Page, StickyActionBar } from '../../components'
 import { LocationSelector } from '../../components/forms/LocationSelector'
 import type { LocationValue } from '../../components/forms/LocationSelector'
-import { SpecialtySearchInput } from '../../components/forms/SpecialtySearchInput'
 import { Button, Chip } from '../../components/ui'
 import { useBooking, useProfile } from '../../state'
 import { PATHS } from '../../routes'
@@ -84,11 +84,12 @@ export default function SearchScreen() {
       <div className="px-4 py-6 pb-32 space-y-6">
         {/* Search Input */}
         <section>
-          <SpecialtySearchInput
+          <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
             onKeyDown={handleKeyDown}
             placeholder={t('searchPlaceholder')}
+            aria-label={t('searchPlaceholder')}
           />
         </section>
 

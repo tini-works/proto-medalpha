@@ -1,6 +1,6 @@
 # Input Migration Status
 
-Last updated: 2026-02-04
+Last updated: 2026-02-05
 
 ## Component Availability in @meda/ui
 
@@ -65,39 +65,42 @@ Last updated: 2026-02-04
 | AddFamilyMemberSheet | Field | ✅ | Complete |
 | EditFamilyMemberSheet | Field, Select, TextareaField | ✅ | Complete |
 
-### Booking Screens (Out of Scope)
-
-> **Note:** Booking screens are explicitly excluded from this migration phase per project decision. Will be addressed in a future iteration.
+### Booking Screens
 
 | Screen | Components Used | Migrated | Status |
 |--------|-----------------|----------|--------|
-| SearchScreen | SearchInput | ❌ | Out of scope |
-| DoctorSearchScreen | SearchInput | ❌ | Out of scope |
-| ConstraintsScreen | Select, DateInput | ❌ | Out of scope |
-| CareRequestScreen | TextareaField | ❌ | Out of scope |
-
-### Onboarding Screens
-
-| Screen | Components Used | Migrated | Status |
-|--------|-----------------|----------|--------|
-| ProfileSetupScreen | Field, DateInput, Select | ⏳ | Pending |
-| InsuranceSetupScreen | Field, Select | ⏳ | Pending |
+| SearchScreen | SearchInput | ✅ | Complete |
+| DoctorSearchScreen | - | N/A | Uses vanilla HTML (no form components) |
+| ConstraintsScreen | - | N/A | Uses LocationSelector (custom composite) |
+| CareRequestScreen | SearchInput, TextareaField | ✅ | Complete |
 
 ## Deprecation Warnings
 
 Added to old components in `docliQ-mobile/src/components/forms/`:
 - ✅ Field.tsx
 - ✅ PasswordField.tsx
+- ✅ Select.tsx
+- ✅ DateInput.tsx
+- ✅ PhoneInput.tsx
+- ✅ RadioGroup.tsx
+- ✅ SpecialtySearchInput.tsx
+- ✅ ReasonTextarea.tsx
 
 ## Summary
 
-- **Migrated screens:** 12+
+- **Migrated screens:** 14+
 - **Migrated form sheets:** 2
-- **Components with deprecation warnings:** 2
-- **Booking screens:** Explicitly out of scope
+- **Components with deprecation warnings:** 8
+- **Booking screens:** Now in scope and migrated
+
+## Custom Components (Not Migrating)
+
+These components are application-specific composites, not generic form inputs:
+- `LocationSelector` - Complex location picker with GPS, address search, saved locations
+- `GenderSelect` - Visual grid selector with icons (not a standard dropdown)
 
 ## Next Steps
 
-1. Add deprecation warnings to remaining form components (Select, DateInput, PhoneInput, RadioGroup)
-2. Once all screens migrated, remove old components
-3. When booking screens are back in scope, complete their migration
+1. ~~Add deprecation warnings to remaining form components~~ ✅ Done
+2. Once all consumers are migrated, remove deprecated components
+3. Consider creating `LocationSelector` as a @meda/ui component if needed across apps

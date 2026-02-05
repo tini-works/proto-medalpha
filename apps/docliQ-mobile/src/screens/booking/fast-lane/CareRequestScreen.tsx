@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconMapPin, IconShieldCheck, IconCheck, IconX } from '@tabler/icons-react'
-import { Header, Page, ReasonTextarea, StickyActionBar, ProgressIndicator } from '../../../components'
+import { SearchInput, TextareaField } from '@meda/ui'
+import { Header, Page, StickyActionBar, ProgressIndicator } from '../../../components'
 import { LocationSelector } from '../../../components/forms/LocationSelector'
 import type { LocationValue } from '../../../components/forms/LocationSelector'
-import { SpecialtySearchInput } from '../../../components/forms/SpecialtySearchInput'
 import { useProfile } from '../../../state'
 import { symptoms, specialties, getSpecialtyForSymptom } from '../../../data/symptoms'
 import { useBookingSubmission } from '../../../hooks/useBookingSubmission'
@@ -193,7 +193,7 @@ export default function CareRequestScreen() {
 
               {selectedSymptom === OTHER_ID && (
                 <div className="mt-4">
-                  <ReasonTextarea
+                  <TextareaField
                     value={otherSymptomText}
                     onChange={setOtherSymptomText}
                     label={t('otherSymptomLabel')}
@@ -209,10 +209,11 @@ export default function CareRequestScreen() {
           {activeTab === 'specialty' && (
             <>
               <div className="mb-4">
-                <SpecialtySearchInput
+                <SearchInput
                   value={specialtyQuery}
                   onChange={setSpecialtyQuery}
                   placeholder={t('specialtySearchPlaceholder')}
+                  aria-label={t('specialtySearchPlaceholder')}
                 />
               </div>
 

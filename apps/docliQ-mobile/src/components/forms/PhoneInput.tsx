@@ -1,5 +1,9 @@
 import { AlertCircle, CircleCheck } from 'tabler-icons-react'
 
+/**
+ * @deprecated Use `PhoneInput` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 interface PhoneInputProps {
   label: string
   countryCode: string
@@ -30,6 +34,10 @@ const COUNTRY_CODES = [
   { code: '+1', country: 'US', flag: '🇺🇸' },
 ]
 
+/**
+ * @deprecated Use `PhoneInput` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 export function PhoneInput({
   label,
   countryCode,

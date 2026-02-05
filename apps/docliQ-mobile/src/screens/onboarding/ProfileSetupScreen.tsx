@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { IconChevronLeft } from '@tabler/icons-react'
 import { Page, ProgressIndicator } from '../../components'
 import { PhoneInput, DateInput } from '@meda/ui'
 import { GenderSelect } from '../../components/forms'
@@ -70,10 +69,6 @@ export default function ProfileSetupScreen() {
     navigate(PATHS.ONBOARDING_INSURANCE)
   }
 
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   const handleSkip = () => {
     navigate(PATHS.HOME)
   }
@@ -95,18 +90,9 @@ export default function ProfileSetupScreen() {
     <Page safeBottom={false}>
       {/* Header */}
       <div className="px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center">
-          <button
-            onClick={handleBack}
-            className="p-2 -ml-2 rounded-lg hover:bg-cream-200 transition-colors"
-            aria-label="Go back"
-          >
-            <IconChevronLeft size={24} className="text-charcoal-500" />
-          </button>
-          <h1 className="ml-2 text-lg font-semibold text-charcoal-500">
-            {t('onboarding.profile.title')}
-          </h1>
-        </div>
+        <h1 className="text-lg font-semibold text-charcoal-500">
+          {t('onboarding.profile.title')}
+        </h1>
         <button
           onClick={handleSkip}
           className="text-sm text-teal-600 font-medium hover:text-teal-700 transition-colors"
@@ -119,7 +105,7 @@ export default function ProfileSetupScreen() {
       <div className="px-4 pb-4">
         <ProgressIndicator
           currentStep={1}
-          totalSteps={3}
+          totalSteps={2}
           variant="segments"
           labelFormat="uppercase"
         />

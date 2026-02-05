@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `RadioGroup` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 interface RadioOption {
   value: string
   label: string
@@ -14,6 +18,10 @@ interface RadioGroupProps {
   required?: boolean
 }
 
+/**
+ * @deprecated Use `RadioGroup` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 export function RadioGroup({ label, name, options, value, onChange, error, required }: RadioGroupProps) {
   return (
     <fieldset className="space-y-2">

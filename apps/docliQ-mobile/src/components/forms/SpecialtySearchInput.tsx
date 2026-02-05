@@ -1,5 +1,9 @@
 import { IconSearch } from '@tabler/icons-react'
 
+/**
+ * @deprecated Use `SearchInput` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 interface SpecialtySearchInputProps {
   value: string
   onChange: (value: string) => void
@@ -7,6 +11,10 @@ interface SpecialtySearchInputProps {
   placeholder: string
 }
 
+/**
+ * @deprecated Use `SearchInput` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 export function SpecialtySearchInput({ value, onChange, onKeyDown, placeholder }: SpecialtySearchInputProps) {
   return (
     <div className="relative">

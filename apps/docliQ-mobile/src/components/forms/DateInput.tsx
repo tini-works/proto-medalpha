@@ -1,3 +1,7 @@
+/**
+ * @deprecated Use `DateInput` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 interface DateInputProps {
   label: string
   value: string // ISO format YYYY-MM-DD
@@ -11,6 +15,10 @@ interface DateInputProps {
   min?: string // Min date (ISO)
 }
 
+/**
+ * @deprecated Use `DateInput` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 export function DateInput({
   label,
   value,

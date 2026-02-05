@@ -1,5 +1,9 @@
 import type { SelectHTMLAttributes } from 'react'
 
+/**
+ * @deprecated Use `Select` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 interface SelectOption {
   value: string
   label: string
@@ -13,6 +17,10 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   placeholder?: string
 }
 
+/**
+ * @deprecated Use `Select` from `@meda/ui` instead.
+ * This component will be removed in a future release.
+ */
 export function Select({ label, options, error, hint, placeholder, className = '', id, ...props }: SelectProps) {
   const selectId = id || label.toLowerCase().replace(/\s+/g, '-')
 
